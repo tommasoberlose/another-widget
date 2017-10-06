@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Another Widget</string>
+    <string name="add_widget">Add Another Widget</string>
+    <string name="main_pre_title">Just</string>
+    <string name="button_request_permission">Grant Permission</string>
+    <string name="title_permission_calendar">See your Events</string>
+    <string name="title_permission_location">Control the Weather</string>
+    <string name="description_permission_calendar">Grant access to your calendar\nto view events in your widget.</string>
+    <string name="description_permission_location">Grant access to your location\nto view weather in your widget.</string>
+    <string name="notification_title">Get more from your widget</string>
+    <string name="notification_subtitle">View your events and the weather in another widget.</string>
+    <string name="divider">|</string>
+    <string name="action_share">Share</string>
+    <string name="action_rate">Rate</string>
+    <string name="action_support">Support</string>
+    <string name="all_set_title">Good Job!</string>
+    <string name="all_set_subtitle">You have completed the configuration.\nWatch out for updates.</string>
+    <string name="all_set_btn">Stay up to date</string>
+</resources>
