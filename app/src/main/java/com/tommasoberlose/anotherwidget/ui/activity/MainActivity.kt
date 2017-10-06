@@ -44,6 +44,14 @@ class MainActivity : AppCompatActivity() {
                 Util.share(this@MainActivity)
             }
         })
+
+        action_github.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                Util.openURI(this@MainActivity, "https://github.com/tommasoberlose/another-widget")
+            }
+        })
+
+
     }
 
     override fun onResume() {
@@ -71,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     fun updateUI() {
         no_calendar_permission_container.visibility= View.GONE
         no_location_permission_container.visibility= View.GONE
+        all_set_container.visibility = View.GONE
 
         if (!Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)) {
             no_calendar_permission_container.visibility = View.VISIBLE
@@ -87,6 +96,8 @@ class MainActivity : AppCompatActivity() {
                         ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), Constants.LOCATION_REQUEST_CODE)
                     }
                 })
+            } else {
+                all_set_container.visibility = View.VISIBLE
             }
         }
     }
