@@ -5,10 +5,11 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.WallpaperManager
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.PackageManager
-import android.database.Cursor
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -16,26 +17,23 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.CalendarContract
+import android.support.annotation.DrawableRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.survivingwithandroid.weather.lib.WeatherClient
 import com.survivingwithandroid.weather.lib.WeatherConfig
-import com.survivingwithandroid.weather.lib.exception.LocationProviderNotFoundException
 import com.survivingwithandroid.weather.lib.exception.WeatherLibException
-import com.survivingwithandroid.weather.lib.model.City
 import com.survivingwithandroid.weather.lib.model.CurrentWeather
-import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOProviderType
-import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOWeatherProvider
 import com.survivingwithandroid.weather.lib.provider.openweathermap.OpenweathermapProviderType
-import com.survivingwithandroid.weather.lib.provider.yahooweather.YahooProviderType
 import com.survivingwithandroid.weather.lib.request.WeatherRequest
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.`object`.Constants
 
 import com.tommasoberlose.anotherwidget.`object`.Event
 import com.tommasoberlose.anotherwidget.ui.activity.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activity.SplashActivity
 import com.tommasoberlose.anotherwidget.ui.widget.TheWidget
 
 import java.util.ArrayList
@@ -80,7 +78,7 @@ object Util {
 
             for (j in 0 until eventCursor.count) {
                 val e = Event(eventCursor, instanceCursor)
-                if (e.endDate - now.timeInMillis > 1000 * 60 * 60) {
+                if (e.endDate - now.timeInMillis > 1000 * 60 * 30) {
                     eventList.add(e)
                 }
                 eventCursor.moveToNext()
@@ -147,7 +145,7 @@ object Util {
 
         try {
             val config = WeatherConfig()
-            config.unitSystem = WeatherConfig.UNIT_SYSTEM.M
+            config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
             config.lang = "en" // If you want to use english
             config.maxResult = 1 // Max number of cities retrieved
             config.numDays = 1 // Max num of days in the forecast
@@ -162,7 +160,6 @@ object Util {
             client.getCurrentCondition(WeatherRequest(location.longitude, location.latitude), object : WeatherClient.WeatherEventListener {
                 @SuppressLint("ApplySharedPref")
                 override fun onWeatherRetrieved(currentWeather: CurrentWeather) {
-                    Log.d("AW", "TEMP:" + currentWeather.weather.currentCondition.icon);
                     SP.edit()
                             .putFloat(Constants.PREF_WEATHER_TEMP, currentWeather.weather.temperature.temp)
                             .putString(Constants.PREF_WEATHER_ICON, currentWeather.weather.currentCondition.icon)
@@ -234,5 +231,80 @@ object Util {
                 "Yep, just another cool widget: https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget");
         sendIntent.setType("text/plain");
         context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.action_share)));
+    }
+
+    fun showIntro(context: Context) {
+        val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val firstTime: Boolean = SP.getBoolean(Constants.PREF_FIRST_STEP, true)
+        // TODO SP.edit().putBoolean(Constants.PREF_FIRST_STEP, false).apply()
+        if (firstTime) {
+            context.startActivity(Intent(context, SplashActivity::class.java))
+        }
+    }
+
+    fun getWeatherIconResource(icon: String): Int {
+        when (icon) {
+            "01d" -> {
+                return R.drawable.clear_day
+            }
+            "02d" -> {
+                return R.drawable.partly_cloudy
+            }
+            "03d" -> {
+                return R.drawable.mostly_cloudy
+            }
+            "04d" -> {
+                return R.drawable.cloudy_weather
+            }
+            "09d" -> {
+                return R.drawable.storm_weather_day
+            }
+            "10d" -> {
+                return R.drawable.rainy_day
+            }
+            "11d" -> {
+                return R.drawable.thunder_day
+            }
+            "13d" -> {
+                return R.drawable.snow_day
+            }
+            "50d" -> {
+                return R.drawable.haze_day
+            }
+            "01n" -> {
+                return R.drawable.clear_night
+            }
+            "02n" -> {
+                return R.drawable.partly_cloudy_night
+            }
+            "03n" -> {
+                return R.drawable.mostly_cloudy_night
+            }
+            "04n" -> {
+                return R.drawable.cloudy_weather
+            }
+            "09n" -> {
+                return R.drawable.storm_weather_night
+            }
+            "10n" -> {
+                return R.drawable.rainy_night
+            }
+            "11n" -> {
+                return R.drawable.thunder_night
+            }
+            "13n" -> {
+                return R.drawable.snow_night
+            }
+            "50n" -> {
+                return R.drawable.haze_night
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+
+    fun getCurrentWallpaper(context: Context): Drawable {
+        return WallpaperManager.getInstance(context).getDrawable();
     }
 }

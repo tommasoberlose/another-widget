@@ -9,4 +9,6 @@
     <color name="black_30">#48000000</color>
     <color name="black_10">#1A000000</color>
     <color name="white_80">#CCFFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
+    <color name="midnight_blue">#204A85</color>
 </resources>

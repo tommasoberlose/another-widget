@@ -68,156 +68,86 @@ class TheWidget : AppWidgetProvider() {
         }
 
         fun updateCalendarView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
-            val now = Calendar.getInstance()
-            val calendarLayout = Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)
+                val now = Calendar.getInstance()
+                val calendarLayout = Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)
 
-            views.setViewVisibility(R.id.empty_layout, View.VISIBLE)
-            views.setViewVisibility(R.id.calendar_layout, View.GONE)
-            views.setTextViewText(R.id.empty_date, Constants.dateFormat.format(now.time))
+                views.setViewVisibility(R.id.empty_layout, View.VISIBLE)
+                views.setViewVisibility(R.id.calendar_layout, View.GONE)
+                views.setTextViewText(R.id.empty_date, Constants.dateFormat.format(now.time))
 
-            val calIntent = Intent(Intent.ACTION_MAIN)
-            calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
-            val calPIntent = PendingIntent.getActivity(context, widgetID, calIntent, 0)
-            views.setOnClickPendingIntent(R.id.main_layout, calPIntent)
+                val calIntent = Intent(Intent.ACTION_MAIN)
+                calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
+                val calPIntent = PendingIntent.getActivity(context, widgetID, calIntent, 0)
+                views.setOnClickPendingIntent(R.id.main_layout, calPIntent)
 
 
-            if (calendarLayout) {
-                val eventList = Util.getNextEvent(context)
+                if (calendarLayout) {
+                    val eventList = Util.getNextEvent(context)
 
-                if (eventList.isNotEmpty()) {
-                    val difference = eventList[0].startDate - now.timeInMillis
+                    if (eventList.isNotEmpty()) {
+                        val difference = eventList[0].startDate - now.timeInMillis
 
-                    if (difference > 1000 * 60) {
-                        var time = ""
-                        val hour = TimeUnit.MILLISECONDS.toHours(difference)
-                        if (hour > 0) {
-                            time = hour.toString() + "h"
+                        if (difference > 1000 * 60) {
+                            var time = ""
+                            val hour = TimeUnit.MILLISECONDS.toHours(difference)
+                            if (hour > 0) {
+                                time = hour.toString() + context.getString(R.string.h_code)
+                            }
+                            val minutes = TimeUnit.MILLISECONDS.toMinutes(difference - hour * 3600 * 1000)
+                            if (minutes > 0) {
+                                time += " " + minutes + context.getString(R.string.min_code)
+                            }
+
+                            views.setTextViewText(R.id.next_event, String.format("%s %s %s", eventList[0].title, context.getString(R.string.in_code), time))
+                        } else {
+                            views.setTextViewText(R.id.next_event, String.format("%s", eventList[0].title))
                         }
-                        val minutes = TimeUnit.MILLISECONDS.toMinutes(difference - hour * 3600 * 1000)
-                        if (minutes > 0) {
-                            time += " " + minutes + "min"
-                        }
+                        views.setTextViewText(R.id.next_event_date, String.format("%s - %s", Constants.hourFormat.format(eventList[0].startDate), Constants.hourFormat.format(eventList[0].endDate)))
 
-                        views.setTextViewText(R.id.next_event, String.format("%s in %s", eventList[0].title, time))
-                    } else {
-                        views.setTextViewText(R.id.next_event, String.format("%s", eventList[0].title))
+                        views.setViewVisibility(R.id.empty_layout, View.GONE)
+                        views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
+
+                        val builder = CalendarContract.CONTENT_URI.buildUpon()
+                        builder.appendPath("time")
+                        ContentUris.appendId(builder, eventList[0].startDate)
+                        val intent = Intent(Intent.ACTION_VIEW)
+                                .setData(builder.build())
+                        val pIntent = PendingIntent.getActivity(context, widgetID, intent, 0)
+                        views.setOnClickPendingIntent(R.id.main_layout, pIntent)
                     }
-                    views.setTextViewText(R.id.next_event_date, String.format("%s - %s", Constants.hourFormat.format(eventList[0].startDate), Constants.hourFormat.format(eventList[0].endDate)))
-
-                    views.setViewVisibility(R.id.empty_layout, View.GONE)
-                    views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
-
-                    val builder = CalendarContract.CONTENT_URI.buildUpon()
-                    builder.appendPath("time")
-                    ContentUris.appendId(builder, eventList[0].startDate)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                            .setData(builder.build())
-                    val pIntent = PendingIntent.getActivity(context, widgetID, intent, 0)
-                    views.setOnClickPendingIntent(R.id.main_layout, pIntent)
                 }
+
+                return views
             }
 
-            return views
-        }
+            fun updateLocationView(context: Context, views: RemoteViews): RemoteViews {
+                val locationLayout = Util.checkGrantedPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
 
-        fun updateLocationView(context: Context, views: RemoteViews): RemoteViews {
-            val locationLayout = Util.checkGrantedPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-
-            val SP = PreferenceManager.getDefaultSharedPreferences(context)
-            if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
-                views.setViewVisibility(R.id.weather, View.VISIBLE)
-                views.setViewVisibility(R.id.calendar_weather, View.VISIBLE)
-                val temp = String.format(Locale.getDefault(), "%.0f °C", SP.getFloat(Constants.PREF_WEATHER_TEMP, 0f))
+                val SP = PreferenceManager.getDefaultSharedPreferences(context)
+                if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
+                    views.setViewVisibility(R.id.weather, View.VISIBLE)
+                    views.setViewVisibility(R.id.calendar_weather, View.VISIBLE)
+                    val temp = String.format(Locale.getDefault(), "%.0f °%s", SP.getFloat(Constants.PREF_WEATHER_TEMP, 0f), SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
 
 
-                views.setViewVisibility(R.id.weather_icon, View.VISIBLE)
-                views.setViewVisibility(R.id.empty_weather_icon, View.VISIBLE)
-                when (SP.getString(Constants.PREF_WEATHER_ICON, "")) {
-                    "01d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.clear_day)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.clear_day)
-                    }
-                    "02d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.partly_cloudy)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.partly_cloudy)
-                    }
-                    "03d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.mostly_cloudy)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.mostly_cloudy)
-                    }
-                    "04d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.cloudy_weather)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.cloudy_weather)
-                    }
-                    "09d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.storm_weather_day)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.storm_weather_day)
-                    }
-                    "10d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.rainy_day)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.rainy_day)
-                    }
-                    "11d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.thunder_day)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.thunder_day)
-                    }
-                    "13d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.snow_day)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.snow_day)
-                    }
-                    "50d" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.haze_day)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.haze_day)
-                    }
-                    "01n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.clear_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.clear_night)
-                    }
-                    "02n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.partly_cloudy_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.partly_cloudy_night)
-                    }
-                    "03n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.mostly_cloudy_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.mostly_cloudy_night)
-                    }
-                    "04n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.cloudy_weather)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.cloudy_weather)
-                    }
-                    "09n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.storm_weather_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.storm_weather_night)
-                    }
-                    "10n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.rainy_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.rainy_night)
-                    }
-                    "11n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.thunder_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.thunder_night)
-                    }
-                    "13n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.snow_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.snow_night)
-                    }
-                    "50n" -> {
-                        views.setImageViewResource(R.id.weather_icon, R.drawable.haze_night)
-                        views.setImageViewResource(R.id.empty_weather_icon, R.drawable.haze_night)
-                    }
-                    else -> {
+                    views.setViewVisibility(R.id.weather_icon, View.VISIBLE)
+                    views.setViewVisibility(R.id.empty_weather_icon, View.VISIBLE)
+                    val icon: String = SP.getString(Constants.PREF_WEATHER_ICON, "")
+                    if (icon.equals("")) {
                         views.setViewVisibility(R.id.weather_icon, View.GONE)
                         views.setViewVisibility(R.id.empty_weather_icon, View.GONE)
+                    } else {
+                        views.setImageViewResource(R.id.weather_icon, Util.getWeatherIconResource(icon))
+                        views.setImageViewResource(R.id.empty_weather_icon, Util.getWeatherIconResource(icon))
                     }
-                }
 
-                views.setTextViewText(R.id.temp, temp)
-                views.setTextViewText(R.id.calendar_temp, temp)
-            } else {
-                views.setViewVisibility(R.id.weather, View.GONE)
-                views.setViewVisibility(R.id.calendar_weather, View.GONE)
-            }
-            return views
+                    views.setTextViewText(R.id.temp, temp)
+                    views.setTextViewText(R.id.calendar_temp, temp)
+                } else {
+                    views.setViewVisibility(R.id.weather, View.GONE)
+                    views.setViewVisibility(R.id.calendar_weather, View.GONE)
+                }
+                return views
         }
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Another Widget</string>
+    <string name="add_widget">Aggiungi Another Widget</string>
+    <string name="main_pre_title">Just</string>
+    <string name="button_request_permission">Concedi Accesso</string>
+    <string name="all_set_btn">Rimani Aggiornato</string>
+    <string name="all_set_title">Molto bene!</string>
+    <string name="action_support">Supporta</string>
+    <string name="action_rate">Valuta</string>
+    <string name="action_share">Condividi</string>
+    <string name="divider">|</string>
+    <string name="notification_title">Ottieni di più dal tuo widget</string>
+    <string name="title_permission_location">Controlla il Meteo</string>
+    <string name="title_permission_calendar">Controlla i tuoi Impegni</string>
+    <string name="notification_subtitle">Aggiungi gli eventi e il meteo al tuo widget.</string>
+    <string name="description_permission_calendar">Concedi l\'accesso al tuo calendario per vedere gli eventi.</string>
+    <string name="description_permission_location">Concedi l\'accesso alla tua posizione per vedere il meteo.</string>
+    <string name="all_set_subtitle">Hai completato la configurazione! Rimani aggiornato.</string>
+    <string name="action_about">Info</string>
+    <string name="h_code">ore</string>
+    <string name="min_code">min</string>
+    <string name="in_code">tra</string>
+    <string name="action_project">Progetto</string>
+    <string name="settings_unit_title">Unità di Misura</string>
+    <string name="settings_unit_subtitle">Modifica l\'unità di misura della temperatura</string>
+</resources>

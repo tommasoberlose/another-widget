@@ -16,4 +16,13 @@
     <string name="all_set_title">Good Job!</string>
     <string name="all_set_subtitle">You have completed the configuration.\nWatch out for updates.</string>
     <string name="all_set_btn">Stay up to date</string>
+    <string name="action_about">About</string>
+    <string name="h_code">h</string>
+    <string name="min_code">min</string>
+    <string name="in_code">in</string>
+    <string name="action_project">Project</string>
+    <string name="settings_unit_title">Unit of Measure</string>
+    <string name="settings_unit_subtitle">Choose the unit of temperature measurement</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
 </resources>

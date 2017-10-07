@@ -11,8 +11,10 @@ object Constants {
     val CALENDAR_REQUEST_CODE = 1
     val LOCATION_REQUEST_CODE = 2
 
+    val PREF_FIRST_STEP = "PREF_FIRST_STEP"
     val PREF_WEATHER_ICON = "PREF_WEATHER_ICON"
     val PREF_WEATHER_TEMP = "PREF_WEATHER_TEMP"
+    val PREF_WEATHER_TEMP_UNIT = "PREF_WEATHER_TEMP_UNIT"
 
     val dateFormat = SimpleDateFormat("EEEE, MMM d", Locale.getDefault())
     val hourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
