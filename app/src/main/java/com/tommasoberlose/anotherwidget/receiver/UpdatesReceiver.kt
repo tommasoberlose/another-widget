@@ -1,14 +1,13 @@
-package com.tommasoberlose.anotherwidget.util
+package com.tommasoberlose.anotherwidget.receiver
 
 import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.R.string.cancel
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.util.Log
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import com.tommasoberlose.anotherwidget.util.Util
 
 
 class UpdatesReceiver : BroadcastReceiver() {

@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.util
+package com.tommasoberlose.anotherwidget.receiver
 
 import android.Manifest
 import android.app.AlarmManager
@@ -7,12 +7,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import com.tommasoberlose.anotherwidget.util.Util
+import com.tommasoberlose.anotherwidget.util.WeatherUtil
 
 class WeatherReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_INSTALL_PACKAGE) || intent.action.equals(Constants.ACTION_WEATHER_UPDATE)) {
-            Util.getWeather(context)
+            WeatherUtil.getWeather(context)
         }
     }
 
@@ -20,7 +22,7 @@ class WeatherReceiver : BroadcastReceiver() {
         removeUpdates(context)
 
         if (Util.checkGrantedPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            Util.getWeather(context)
+            WeatherUtil.getWeather(context)
 
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val i = Intent(context, WeatherReceiver::class.java)

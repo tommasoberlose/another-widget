@@ -36,7 +36,7 @@
                 android:resource="@xml/the_widget_info" />
         </receiver>
         <receiver
-            android:name=".util.NewCalendarEventReceiver"
+            android:name=".receiver.NewCalendarEventReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -47,7 +47,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".util.UpdatesReceiver"
+            android:name=".receiver.UpdatesReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -55,7 +55,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".util.WeatherReceiver"
+            android:name=".receiver.WeatherReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

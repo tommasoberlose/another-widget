@@ -2,7 +2,6 @@ package com.tommasoberlose.anotherwidget.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,25 +9,20 @@ import android.support.v4.app.ActivityCompat
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.preference.PreferenceManager
-import android.provider.CalendarContract
-import android.support.v4.content.ContextCompat
 import android.view.View
-import android.widget.RemoteViews
-import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.util.Util
-import com.tommasoberlose.anotherwidget.ui.widget.TheWidget
-import com.tommasoberlose.anotherwidget.util.UpdatesReceiver
-import com.tommasoberlose.anotherwidget.util.WeatherReceiver
+import com.tommasoberlose.anotherwidget.receiver.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.receiver.WeatherReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.the_widget.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 import android.content.Intent
 import android.content.BroadcastReceiver
-
-
+import com.tommasoberlose.anotherwidget.util.CalendarUtil
+import com.tommasoberlose.anotherwidget.util.WeatherUtil
 
 
 class MainActivity : AppCompatActivity() {
@@ -121,7 +115,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         updateAppWidget()
-        Util.updateWidget(this)
     }
 
 
@@ -140,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         empty_date.text = String.format("%s%s", Constants.dateFormat.format(now.time)[0].toUpperCase(), Constants.dateFormat.format(now.time).substring(1))
 
         if (calendarLayout) {
-            val eventList = Util.getNextEvent(this)
+            val eventList = CalendarUtil.getNextEvent(this)
 
             if (eventList.isNotEmpty()) {
                 val difference = eventList[0].startDate - now.timeInMillis
@@ -185,8 +178,8 @@ class MainActivity : AppCompatActivity() {
                 weather_icon.visibility = View.GONE
                 empty_weather_icon.visibility = View.GONE
             } else {
-                weather_icon.setImageResource(Util.getWeatherIconResource(icon))
-                empty_weather_icon.setImageResource(Util.getWeatherIconResource(icon))
+                weather_icon.setImageResource(WeatherUtil.getWeatherIconResource(icon))
+                empty_weather_icon.setImageResource(WeatherUtil.getWeatherIconResource(icon))
             }
 
             temp.text = currentTemp
@@ -197,17 +190,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ApplySharedPref")
     fun updateSettings() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
         temp_unit.text = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) getString(R.string.fahrenheit) else getString(R.string.celsius)
-        action_change_unit.setOnClickListener(object: View.OnClickListener {
-            @SuppressLint("ApplySharedPref")
-            override fun onClick(p0: View?) {
-                SP.edit().putString(Constants.PREF_WEATHER_TEMP_UNIT, if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) "C" else "F").commit()
-                Util.getWeather(this@MainActivity)
-                updateSettings()
-            }
-        })
+        action_change_unit.setOnClickListener {
+            SP.edit().putString(Constants.PREF_WEATHER_TEMP_UNIT, if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) "C" else "F").commit()
+            WeatherUtil.getWeather(this)
+            updateSettings()
+        }
+
+        all_day_label.text = if (SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false)) getString(R.string.settings_all_day_subtitle_visible) else getString(R.string.settings_all_day_subtitle_gone)
+        action_show_all_day.setOnClickListener {
+            SP.edit().putBoolean(Constants.PREF_CALENDAR_ALL_DAY, !SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false)).commit()
+            updateUI()
+            Util.updateWidget(this)
+        }
     }
 
 }

@@ -85,6 +85,55 @@
                         android:id="@+id/temp_unit"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:id="@+id/action_filter_calendar"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_filter_calendar_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_filter_calendar_subtitle"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:id="@+id/action_show_all_day"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_all_day_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/all_day_label"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>

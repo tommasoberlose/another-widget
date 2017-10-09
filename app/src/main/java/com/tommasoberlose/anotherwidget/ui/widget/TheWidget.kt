@@ -5,30 +5,25 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 
 import com.tommasoberlose.anotherwidget.`object`.Constants
-import com.tommasoberlose.anotherwidget.`object`.Event
 import com.tommasoberlose.anotherwidget.R
-import com.tommasoberlose.anotherwidget.ui.activity.MainActivity
-import com.tommasoberlose.anotherwidget.util.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.receiver.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.util.Util
-import com.tommasoberlose.anotherwidget.util.WeatherReceiver
+import com.tommasoberlose.anotherwidget.receiver.WeatherReceiver
 
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import android.app.PendingIntent
-import android.net.Uri
 import android.provider.CalendarContract
 import android.content.ContentUris
-
-
+import android.util.Log
+import com.tommasoberlose.anotherwidget.util.CalendarUtil
+import com.tommasoberlose.anotherwidget.util.WeatherUtil
 
 
 /**
@@ -62,7 +57,7 @@ class TheWidget : AppWidgetProvider() {
 
             views = updateCalendarView(context, views, appWidgetId)
 
-            views = updateLocationView(context, views)
+            views = updateLocationView(context, views, appWidgetId)
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
@@ -73,7 +68,7 @@ class TheWidget : AppWidgetProvider() {
 
                 views.setViewVisibility(R.id.empty_layout, View.VISIBLE)
                 views.setViewVisibility(R.id.calendar_layout, View.GONE)
-                views.setTextViewText(R.id.empty_date, Constants.dateFormat.format(now.time))
+                views.setTextViewText(R.id.empty_date, Constants.dateFormat.format(now.time)[0].toUpperCase() + Constants.dateFormat.format(now.time).substring(1))
 
                 val calIntent = Intent(Intent.ACTION_MAIN)
                 calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
@@ -82,7 +77,7 @@ class TheWidget : AppWidgetProvider() {
 
 
                 if (calendarLayout) {
-                    val eventList = Util.getNextEvent(context)
+                    val eventList = CalendarUtil.getNextEvent(context)
 
                     if (eventList.isNotEmpty()) {
                         val difference = eventList[0].startDate - now.timeInMillis
@@ -120,7 +115,7 @@ class TheWidget : AppWidgetProvider() {
                 return views
             }
 
-            fun updateLocationView(context: Context, views: RemoteViews): RemoteViews {
+            fun updateLocationView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
                 val locationLayout = Util.checkGrantedPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
 
                 val SP = PreferenceManager.getDefaultSharedPreferences(context)
@@ -137,12 +132,21 @@ class TheWidget : AppWidgetProvider() {
                         views.setViewVisibility(R.id.weather_icon, View.GONE)
                         views.setViewVisibility(R.id.empty_weather_icon, View.GONE)
                     } else {
-                        views.setImageViewResource(R.id.weather_icon, Util.getWeatherIconResource(icon))
-                        views.setImageViewResource(R.id.empty_weather_icon, Util.getWeatherIconResource(icon))
+                        views.setImageViewResource(R.id.weather_icon, WeatherUtil.getWeatherIconResource(icon))
+                        views.setImageViewResource(R.id.empty_weather_icon, WeatherUtil.getWeatherIconResource(icon))
                     }
 
                     views.setTextViewText(R.id.temp, temp)
                     views.setTextViewText(R.id.calendar_temp, temp)
+
+                    val weatherIntent = Intent("com.google.android.googlequicksearchbox.GOOGLE_SEARCH")
+                    weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
+                    weatherIntent.putExtra("type", "string")
+                    weatherIntent.putExtra("query", "weather")
+                    val weatherPIntent = PendingIntent.getActivity(context, widgetID, weatherIntent, 0)
+
+                    views.setOnClickPendingIntent(R.id.weather, weatherPIntent)
+                    views.setOnClickPendingIntent(R.id.calendar_weather, weatherPIntent)
                 } else {
                     views.setViewVisibility(R.id.weather, View.GONE)
                     views.setViewVisibility(R.id.calendar_weather, View.GONE)

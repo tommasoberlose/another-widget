@@ -25,4 +25,9 @@
     <string name="settings_unit_subtitle">Choose the unit of temperature measurement</string>
     <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
     <string name="celsius" translatable="false">°C - Celsius</string>
+    <string name="settings_filter_calendar_title">Filter Events</string>
+    <string name="settings_filter_calendar_subtitle">Change calendar visibility</string>
+    <string name="settings_all_day_title">All Day Events</string>
+    <string name="settings_all_day_subtitle_visible">Visible</string>
+    <string name="settings_all_day_subtitle_gone">Not Visible</string>
 </resources>
