@@ -61,35 +61,17 @@
                 android:orientation="vertical"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/settings_calendar_title"
+                    style="@style/AnotherWidget.Settings.Header"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_change_unit"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_unit_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/temp_unit"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:paddingLeft="32dp"
                     android:paddingRight="32dp"
                     android:clickable="true"
@@ -97,7 +79,6 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:id="@+id/action_filter_calendar"
-                    android:visibility="gone"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
@@ -113,8 +94,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:paddingLeft="32dp"
                     android:paddingRight="32dp"
                     android:clickable="true"
@@ -132,6 +113,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/all_day_label"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_weather_title"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    style="@style/AnotherWidget.Settings.Header"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:id="@+id/action_change_unit"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_unit_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/temp_unit"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>
@@ -236,18 +248,18 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:id="@+id/action_share"
+            android:id="@+id/action_rate"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:padding="2dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_action_sms"/>
+                android:src="@drawable/ic_action_rate"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_share"
+                android:text="@string/action_rate"
                 style="@style/AnotherWidget.Main.Button.TabBar"
                 android:background="@android:color/transparent"/>
         </LinearLayout>
@@ -261,18 +273,18 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:id="@+id/action_project"
+            android:id="@+id/action_share"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:padding="2dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_action_code"/>
+                android:src="@drawable/ic_action_sms"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_project"
+                android:text="@string/action_share"
                 style="@style/AnotherWidget.Main.Button.TabBar"
                 android:background="@android:color/transparent"/>
         </LinearLayout>

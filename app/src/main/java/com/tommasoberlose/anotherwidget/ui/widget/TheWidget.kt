@@ -77,10 +77,10 @@ class TheWidget : AppWidgetProvider() {
 
 
                 if (calendarLayout) {
-                    val eventList = CalendarUtil.getNextEvent(context)
+                    val e = CalendarUtil.getNextEvent(context)
 
-                    if (eventList.isNotEmpty()) {
-                        val difference = eventList[0].startDate - now.timeInMillis
+                    if (e.id != 0) {
+                        val difference = e.startDate - now.timeInMillis
 
                         if (difference > 1000 * 60) {
                             var time = ""
@@ -93,18 +93,18 @@ class TheWidget : AppWidgetProvider() {
                                 time += " " + minutes + context.getString(R.string.min_code)
                             }
 
-                            views.setTextViewText(R.id.next_event, String.format("%s %s %s", eventList[0].title, context.getString(R.string.in_code), time))
+                            views.setTextViewText(R.id.next_event, String.format("%s %s %s", e.title, context.getString(R.string.in_code), time))
                         } else {
-                            views.setTextViewText(R.id.next_event, String.format("%s", eventList[0].title))
+                            views.setTextViewText(R.id.next_event, String.format("%s", e.title))
                         }
-                        views.setTextViewText(R.id.next_event_date, String.format("%s - %s", Constants.hourFormat.format(eventList[0].startDate), Constants.hourFormat.format(eventList[0].endDate)))
+                        views.setTextViewText(R.id.next_event_date, String.format("%s - %s", Constants.hourFormat.format(e.startDate), Constants.hourFormat.format(e.endDate)))
 
                         views.setViewVisibility(R.id.empty_layout, View.GONE)
                         views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
 
                         val builder = CalendarContract.CONTENT_URI.buildUpon()
                         builder.appendPath("time")
-                        ContentUris.appendId(builder, eventList[0].startDate)
+                        ContentUris.appendId(builder, e.startDate)
                         val intent = Intent(Intent.ACTION_VIEW)
                                 .setData(builder.build())
                         val pIntent = PendingIntent.getActivity(context, widgetID, intent, 0)

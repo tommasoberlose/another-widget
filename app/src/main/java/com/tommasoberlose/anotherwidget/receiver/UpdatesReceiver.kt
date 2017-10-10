@@ -7,6 +7,7 @@ import android.content.Intent
 import android.app.AlarmManager
 import android.app.PendingIntent
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.Util
 
 
@@ -22,7 +23,7 @@ class UpdatesReceiver : BroadcastReceiver() {
         removeUpdates(context)
 
         if (Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
-            Util.updateWidget(context)
+            CalendarUtil.updateEventList(context)
 
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val i = Intent(context, UpdatesReceiver::class.java)

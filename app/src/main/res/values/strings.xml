@@ -30,4 +30,8 @@
     <string name="settings_all_day_title">All Day Events</string>
     <string name="settings_all_day_subtitle_visible">Visible</string>
     <string name="settings_all_day_subtitle_gone">Not Visible</string>
+    <string name="main_calendar">Account Calendar</string>
+    <string name="settings_calendar_title">Calendar Settings</string>
+    <string name="settings_weather_title">Weather Settings</string>
+    <string name="settings_general_title">General Settings</string>
 </resources>

@@ -2,6 +2,7 @@ package com.tommasoberlose.anotherwidget.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,9 @@ import android.content.Intent
 import android.content.BroadcastReceiver
 import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
+import android.content.DialogInterface
+import android.util.Log
+import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,9 +57,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        action_project.setOnClickListener(object: View.OnClickListener {
+        action_rate.setOnClickListener(object: View.OnClickListener {
             override fun onClick(p0: View?) {
-                Util.openURI(this@MainActivity, "https://github.com/tommasoberlose/another-widget")
+                Util.openURI(this@MainActivity, "https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget")
             }
         })
     }
@@ -133,10 +137,12 @@ class MainActivity : AppCompatActivity() {
         empty_date.text = String.format("%s%s", Constants.dateFormat.format(now.time)[0].toUpperCase(), Constants.dateFormat.format(now.time).substring(1))
 
         if (calendarLayout) {
-            val eventList = CalendarUtil.getNextEvent(this)
+            val e = CalendarUtil.getNextEvent(this)
 
-            if (eventList.isNotEmpty()) {
-                val difference = eventList[0].startDate - now.timeInMillis
+            if (e.id != 0) {
+                val difference = e.startDate - now.timeInMillis
+
+
 
                 if (difference > 1000 * 60) {
                     var time = ""
@@ -149,11 +155,11 @@ class MainActivity : AppCompatActivity() {
                         time += " " + minutes + getString(R.string.min_code)
                     }
 
-                    next_event.text = String.format("%s %s %s", eventList[0].title, getString(R.string.in_code), time)
+                    next_event.text = String.format("%s %s %s", e.title, getString(R.string.in_code), time)
                 } else {
-                    next_event.text = String.format("%s", eventList[0].title)
+                    next_event.text = String.format("%s", e.title)
                 }
-                next_event_date.text = String.format("%s - %s", Constants.hourFormat.format(eventList[0].startDate), Constants.hourFormat.format(eventList[0].endDate))
+                next_event_date.text = String.format("%s - %s", Constants.hourFormat.format(e.startDate), Constants.hourFormat.format(e.endDate))
 
                 empty_layout.visibility = View.GONE
                 calendar_layout.visibility = View.VISIBLE
@@ -204,7 +210,32 @@ class MainActivity : AppCompatActivity() {
         action_show_all_day.setOnClickListener {
             SP.edit().putBoolean(Constants.PREF_CALENDAR_ALL_DAY, !SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false)).commit()
             updateUI()
-            Util.updateWidget(this)
+            CalendarUtil.updateEventList(this)
+        }
+
+        action_filter_calendar.setOnClickListener {
+            val calendarSelectorList: List<CalendarSelector> = CalendarUtil.getCalendarList(this)
+            var calFiltered = SP.getString(Constants.PREF_CALENDAR_FILTER, "")
+
+
+            val calNames = calendarSelectorList.map { if (it.name.equals(it.account_name)) String.format("%s: %s", getString(R.string.main_calendar), it.name) else it.name }.toTypedArray()
+            val calSelected = calendarSelectorList.map { !calFiltered.contains(" " + Integer.toString(it.id)+",") }.toBooleanArray()
+
+            AlertDialog.Builder(this).setTitle(getString(R.string.settings_filter_calendar_subtitle))
+                    .setMultiChoiceItems(calNames, calSelected,
+                            DialogInterface.OnMultiChoiceClickListener { dialog, item, isChecked ->
+                                val dialogItem: String = String.format(" %s%s", calendarSelectorList.get(item).id, ",")
+                                calFiltered = calFiltered.replace(dialogItem, "");
+                                if (!isChecked) {
+                                    calFiltered += dialogItem
+                                }
+                            })
+                    .setPositiveButton(android.R.string.ok, { dialog: DialogInterface, _: Int ->
+                        SP.edit().putString(Constants.PREF_CALENDAR_FILTER, calFiltered).commit()
+                        CalendarUtil.updateEventList(this)
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
         }
     }
 

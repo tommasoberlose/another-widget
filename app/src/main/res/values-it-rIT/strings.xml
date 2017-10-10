@@ -29,4 +29,8 @@
     <string name="settings_all_day_title">Eventi Giornalieri</string>
     <string name="settings_all_day_subtitle_visible">Visibili</string>
     <string name="settings_all_day_subtitle_gone">Non Visibili</string>
+    <string name="main_calendar">Calendario Account</string>
+    <string name="settings_calendar_title">Impostazioni Calendario</string>
+    <string name="settings_weather_title">Impostazioni Meteo</string>
+    <string name="settings_general_title">Impostazioni Generali</string>
 </resources>

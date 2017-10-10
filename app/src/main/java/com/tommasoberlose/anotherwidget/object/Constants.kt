@@ -18,6 +18,12 @@ object Constants {
     val PREF_CALENDAR_ALL_DAY = "PREF_CALENDAR_ALL_DAY"
     val PREF_CALENDAR_FILTER = "PREF_CALENDAR_FILTER"
 
+    val PREF_NEXT_EVENT_ID = "PREF_NEXT_EVENT_ID"
+    val PREF_NEXT_EVENT_NAME = "PREF_NEXT_EVENT_NAME"
+    val PREF_NEXT_EVENT_START_DATE = "PREF_NEXT_EVENT_START_DATE"
+    val PREF_NEXT_EVENT_END_DATE = "PREF_NEXT_EVENT_END_DATE"
+    val PREF_NEXT_EVENT_CALENDAR_ID = "PREF_NEXT_EVENT_CALENDAR_ID"
+
     val dateFormat = SimpleDateFormat("EEEE, MMM d", Locale.getDefault())
     val hourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
