@@ -9,7 +9,6 @@
     <style name="AnotherWidget.Main.Title" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">28sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -17,7 +16,6 @@
     <style name="AnotherWidget.Main.Subtitle" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">sans-serif</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -25,7 +23,6 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:alpha">0.6</item>
     </style>
 
@@ -70,7 +67,6 @@
 
     <style name="AnotherWidget.Settings.Title" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -83,12 +79,10 @@
     <style name="AnotherWidget.Title" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">4dp</item>
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:shadowColor">@color/black_50</item>
         <item name="android:shadowRadius">5</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:gravity">center</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AnotherWidget.Subtitle" parent="TextAppearance.AppCompat.Small">
@@ -96,19 +90,14 @@
         <item name="android:textSize">16sp</item>
         <item name="android:shadowColor">@color/black_50</item>
         <item name="android:shadowRadius">5</item>
-        <item name="android:gravity">center</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="AnotherWidget.Date" parent="AnotherWidget.Subtitle">
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AnotherWidget.Date.Big" parent="AnotherWidget.Title">
-        <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
 </resources>

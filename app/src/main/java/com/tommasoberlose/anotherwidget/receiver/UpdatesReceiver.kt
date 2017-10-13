@@ -6,31 +6,42 @@ import android.content.Context
 import android.content.Intent
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.icu.text.LocaleDisplayNames
+import android.preference.PreferenceManager
+import android.util.Log
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import com.tommasoberlose.anotherwidget.`object`.Event
 import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.Util
+import java.util.*
 
 
 class UpdatesReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_INSTALL_PACKAGE) || intent.action.equals(Constants.ACTION_TIME_UPDATE)) {
-            Util.updateWidget(context)
+        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
+            setUpdates(context)
+        } else if (intent.action.equals(Constants.ACTION_TIME_UPDATE)) {
+            val e: Event = CalendarUtil.getNextEvent(context)
+            if (e.id == 0 || e.endDate < Calendar.getInstance().timeInMillis) {
+                CalendarUtil.updateEventList(context)
+            } else {
+                Util.updateWidget(context)
+            }
+        } else if (intent.action.equals(Constants.ACTION_CALENDAR_UPDATE)) {
+            CalendarUtil.updateEventList(context)
         }
     }
 
     fun setUpdates(context: Context) {
         removeUpdates(context)
+        CalendarUtil.updateEventList(context)
 
-        if (Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
-            CalendarUtil.updateEventList(context)
-
-            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val i = Intent(context, UpdatesReceiver::class.java)
-            i.action = Constants.ACTION_TIME_UPDATE
-            val pi = PendingIntent.getBroadcast(context, 0, i, 0)
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (1000 * 60).toLong(), pi)
-        }
+        val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val i = Intent(context, UpdatesReceiver::class.java)
+        i.action = Constants.ACTION_TIME_UPDATE
+        val pi = PendingIntent.getBroadcast(context, 0, i, 0)
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (1000 * 60).toLong(), pi)
     }
 
     fun removeUpdates(context: Context) {

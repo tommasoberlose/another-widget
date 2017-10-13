@@ -14,13 +14,15 @@ class Event {
     var startDate: Long = 0
     var endDate: Long = 0
     var calendarID: Int = 0
+    var allDay: Boolean = false
 
-    constructor(id:Int, title:String, startDate:Long, endDate:Long, calendarID: Int) {
+    constructor(id:Int, title:String, startDate:Long, endDate:Long, calendarID: Int, allDay: Boolean) {
         this.id = id
         this.title = title
         this.startDate = startDate
         this.endDate = endDate
         this.calendarID = calendarID
+        this.allDay = allDay
     }
 
     constructor(eventCursor: Cursor, instanceCursor: Cursor) {
@@ -29,6 +31,7 @@ class Event {
         endDate = instanceCursor.getLong(2)
 
         title = eventCursor.getString(0)
+        allDay = !eventCursor.getString(1).equals("0")
         calendarID = eventCursor.getInt(2)
     }
 

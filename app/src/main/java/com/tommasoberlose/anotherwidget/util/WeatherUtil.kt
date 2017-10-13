@@ -4,9 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.location.*
 import android.os.Bundle
 import android.preference.PreferenceManager
 import com.survivingwithandroid.weather.lib.WeatherClient
@@ -18,81 +16,106 @@ import com.survivingwithandroid.weather.lib.request.WeatherRequest
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.`object`.Constants
 
+
 /**
  * Created by tommaso on 08/10/17.
  */
 
 object WeatherUtil {
+    val API_KEY_1 = "43e744ad8ff91b09ea62dbc7d0e7c1dd"
+    val API_KEY_2 = "61cde158f4bcc2e5cd18de7b9d000702"
 
-
-    fun getWeather(context: Context) {
-        if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            return
-        }
+    fun updateWeather(context: Context) {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").equals("")) {
 
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
-
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, object: LocationListener {
-            override fun onLocationChanged(location: Location) {
-                locationManager.removeUpdates(this)
-                getCurrentWeather(context, location)
+            if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                return
             }
 
-            @SuppressLint("ApplySharedPref")
-            override fun onProviderDisabled(p0: String?) {
-            }
+            val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
+            getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
 
-            @SuppressLint("ApplySharedPref")
-            override fun onProviderEnabled(p0: String?) {
-            }
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, object : LocationListener {
+                override fun onLocationChanged(location: Location) {
+                    locationManager.removeUpdates(this)
+                    getCurrentWeather(context, location)
+                }
 
-            override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-            }
-        })
+                @SuppressLint("ApplySharedPref")
+                override fun onProviderDisabled(p0: String?) {
+                }
+
+                @SuppressLint("ApplySharedPref")
+                override fun onProviderEnabled(p0: String?) {
+                }
+
+                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
+                }
+            })
+        } else {
+            weatherNetworkRequest(context, SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").toDouble(), SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").toDouble())
+
+        }
     }
 
     @SuppressLint("ApplySharedPref")
     fun getCurrentWeather(context: Context, location: Location?) {
         if (location != null) {
-            val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-            try {
-                val config = WeatherConfig()
-                config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
-                config.lang = "en" // If you want to use english
-                config.maxResult = 1 // Max number of cities retrieved
-                config.numDays = 1 // Max num of days in the forecast
-                config.ApiKey = "43e744ad8ff91b09ea62dbc7d0e7c1dd";
-
-                val client = WeatherClient.ClientBuilder().attach(context)
-                        .httpClient(com.survivingwithandroid.weather.lib.client.volley.WeatherClientDefault::class.java)
-                        .provider(OpenweathermapProviderType())
-                        .config(config)
-                        .build()
-
-                client.getCurrentCondition(WeatherRequest(location.longitude, location.latitude), object : WeatherClient.WeatherEventListener {
-                    @SuppressLint("ApplySharedPref")
-                    override fun onWeatherRetrieved(currentWeather: CurrentWeather) {
-                        SP.edit()
-                                .putFloat(Constants.PREF_WEATHER_TEMP, currentWeather.weather.temperature.temp)
-                                .putString(Constants.PREF_WEATHER_ICON, currentWeather.weather.currentCondition.icon)
-                                .commit()
-                        Util.updateWidget(context)
-                    }
-
-                    @SuppressLint("ApplySharedPref")
-                    override fun onWeatherError(e: WeatherLibException?) {
-                    }
-
-                    @SuppressLint("ApplySharedPref")
-                    override fun onConnectionError(throwable: Throwable?) {
-                    }
-                })
-            } catch (t: Exception) {
-            }
+            weatherNetworkRequest(context, location.latitude, location.longitude)
         }
+    }
+
+    fun weatherNetworkRequest(context: Context, latitude: Double, longitude: Double) {
+        val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+        try {
+            val config = WeatherConfig()
+            config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
+            config.lang = "en" // If you want to use english
+            config.maxResult = 1 // Max number of cities retrieved
+            config.numDays = 1 // Max num of days in the forecast
+            config.ApiKey = API_KEY_2
+
+            val client = WeatherClient.ClientBuilder().attach(context)
+                    .httpClient(com.survivingwithandroid.weather.lib.client.volley.WeatherClientDefault::class.java)
+                    .provider(OpenweathermapProviderType())
+                    .config(config)
+                    .build()
+
+            client.getCurrentCondition(WeatherRequest(longitude, latitude), object : WeatherClient.WeatherEventListener {
+                @SuppressLint("ApplySharedPref")
+                override fun onWeatherRetrieved(currentWeather: CurrentWeather) {
+                    SP.edit()
+                            .putFloat(Constants.PREF_WEATHER_TEMP, currentWeather.weather.temperature.temp)
+                            .putString(Constants.PREF_WEATHER_ICON, currentWeather.weather.currentCondition.icon)
+                            .commit()
+                    Util.updateWidget(context)
+                }
+
+                @SuppressLint("ApplySharedPref")
+                override fun onWeatherError(e: WeatherLibException?) {
+                    removeWeather(context, SP)
+                }
+
+                @SuppressLint("ApplySharedPref")
+                override fun onConnectionError(throwable: Throwable?) {
+                    removeWeather(context, SP)
+                }
+            })
+        } catch (t: Exception) {
+            removeWeather(context, SP)
+        }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    fun removeWeather(context: Context, SP: SharedPreferences) {
+        SP.edit().
+                remove(Constants.PREF_WEATHER_TEMP)
+                .remove(Constants.PREF_WEATHER_ICON)
+                .commit()
+        Util.updateWidget(context)
     }
 
     fun getWeatherIconResource(icon: String): Int {

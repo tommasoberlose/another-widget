@@ -6,8 +6,8 @@
     <string name="button_request_permission">Concedi Accesso</string>
     <string name="all_set_btn">Rimani Aggiornato</string>
     <string name="all_set_title">Molto bene!</string>
-    <string name="action_support">Supporta</string>
-    <string name="action_rate">Valuta</string>
+    <string name="action_support">Supportami</string>
+    <string name="action_rate">Valuta App</string>
     <string name="action_share">Condividi</string>
     <string name="divider">|</string>
     <string name="notification_title">Ottieni di più dal tuo widget</string>
@@ -18,8 +18,8 @@
     <string name="description_permission_location">Concedi l\'accesso alla tua posizione per vedere il meteo.</string>
     <string name="all_set_subtitle">Hai completato la configurazione! Rimani aggiornato.</string>
     <string name="action_about">Info</string>
-    <string name="h_code">ore</string>
-    <string name="min_code">min</string>
+    <string name="h_code">" ore"</string>
+    <string name="min_code">" min"</string>
     <string name="in_code">tra</string>
     <string name="action_project">Progetto</string>
     <string name="settings_unit_title">Unità di Misura</string>
@@ -33,4 +33,19 @@
     <string name="settings_calendar_title">Impostazioni Calendario</string>
     <string name="settings_weather_title">Impostazioni Meteo</string>
     <string name="settings_general_title">Impostazioni Generali</string>
+    <string name="calendar_settings_list_error">Errore nel caricamento della lista dei calendari</string>
+    <string name="settings_hour_format_title">Formato Ora</string>
+    <string name="settings_hour_format_subtitle_12">12 ore AM/PM</string>
+    <string name="settings_hour_format_subtitle_24">24 ore</string>
+    <string name="all_day">Tutto il giorno</string>
+    <string name="settings_date_format_title">Formato Data</string>
+    <string name="settings_weather_refresh_period_title">Intervallo Aggiornamento</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30 Minuti</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1 Ora</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3 Ore</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6 Ore</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12 Ore</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24 Ore</string>
+    <string name="settings_custom_location_title">Località Meteo</string>
+    <string name="custom_location_gps">Geolocalizzazione</string>
 </resources>

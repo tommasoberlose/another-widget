@@ -11,14 +11,14 @@
     <string name="notification_subtitle">View your events and the weather in another widget.</string>
     <string name="divider">|</string>
     <string name="action_share">Share</string>
-    <string name="action_rate">Rate</string>
-    <string name="action_support">Support</string>
+    <string name="action_rate">Rate App</string>
+    <string name="action_support">Support Me</string>
     <string name="all_set_title">Good Job!</string>
     <string name="all_set_subtitle">You have completed the configuration.\nWatch out for updates.</string>
     <string name="all_set_btn">Stay up to date</string>
     <string name="action_about">About</string>
     <string name="h_code">h</string>
-    <string name="min_code">min</string>
+    <string name="min_code">" min"</string>
     <string name="in_code">in</string>
     <string name="action_project">Project</string>
     <string name="settings_unit_title">Unit of Measure</string>
@@ -34,4 +34,19 @@
     <string name="settings_calendar_title">Calendar Settings</string>
     <string name="settings_weather_title">Weather Settings</string>
     <string name="settings_general_title">General Settings</string>
+    <string name="calendar_settings_list_error">Error loading the calendar list</string>
+    <string name="settings_hour_format_title">Hour Format</string>
+    <string name="settings_hour_format_subtitle_12">12 Hour AM/PM</string>
+    <string name="settings_hour_format_subtitle_24">24 Hour</string>
+    <string name="all_day">All Day Event</string>
+    <string name="settings_date_format_title">Date Format</string>
+    <string name="settings_weather_refresh_period_title">Refresh Period</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30 Minutes</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1 Hour</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3 Hours</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6 Hours</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12 Hours</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24 Hours</string>
+    <string name="settings_custom_location_title">Custom Location</string>
+    <string name="custom_location_gps">Geolocation</string>
 </resources>
