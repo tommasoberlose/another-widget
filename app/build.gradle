@@ -15,7 +15,7 @@ android {
         applicationId "com.tommasoberlose.anotherwidget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 12
+        versionCode 14
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

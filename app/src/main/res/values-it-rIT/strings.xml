@@ -92,4 +92,6 @@
     <string name="api_key_title_3">Configura l\'App</string>
     <string name="api_key_info_start">Ciao a tutti.</string>
     <string name="api_key_info_text"><![CDATA[Another widget è e rimarrà gratuita e senza banner pubblicitari.<BR /><BR />Però a causa del successo dell\'applicazione, sicuramente oltre ogni mia aspettativa, il provider del meteo non riesce a supportare il numero di richieste che arrivano (a causa dell\'utilizzo di un account gratuito).<BR /><BR />Sono costretto a chiedervi di registrarvi su OpenWeather.com; l\'operazione richiederà solo alcuni minuti e dopo non avrete più problemi con la fruizione delle informazioni sul meteo!<BR /><BR />Mi dispiace per l\'inconveniente ma continuate a supportarmi!!]]></string>
+    <string name="well_done">Ben Fatto!</string>
+    <string name="api_key_info_all_set"><![CDATA[Posso essere necessari fino a <b>dieci minuti</b> prima che la tua chiave sia attivata.<BR /><BR />Quindi <i>rilassati</i>! Il meteo verrà aggiornato non appena sarà disponibile!]]></string>
 </resources>

@@ -24,13 +24,16 @@ import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.design.widget.BottomSheetDialog
+import android.text.Html
 import android.util.Log
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.key_time_wait_layout.view.*
 import kotlinx.android.synthetic.main.main_menu_layout.view.*
 import kotlinx.android.synthetic.main.the_widget.*
 
@@ -196,8 +199,23 @@ class MainActivity : AppCompatActivity() {
             Util.updateWidget(this)
             updateSettings()
         } else if (requestCode == Constants.WEATHER_PROVIDER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            WeatherReceiver().setOneTimeUpdate(this)
             sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
             updateSettings()
+
+            val mBottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this)
+            val provView: View = layoutInflater.inflate(R.layout.key_time_wait_layout, null)
+            provView.title.text = String.format("%s %s", Util.getEmojiByUnicode(0x1F389), getString(R.string.well_done))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                provView.text.text = Html.fromHtml(getString(R.string.api_key_info_all_set), Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                provView.text.text = Html.fromHtml(getString(R.string.api_key_info_all_set))
+            }
+            provView.action_close.setOnClickListener {
+                mBottomSheetDialog.dismiss()
+            }
+            mBottomSheetDialog.setContentView(provView)
+            mBottomSheetDialog.show();
         }
     }
 

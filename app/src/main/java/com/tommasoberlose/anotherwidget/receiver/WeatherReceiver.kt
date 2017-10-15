@@ -48,6 +48,16 @@ class WeatherReceiver : BroadcastReceiver() {
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * refresh, pi)
     }
 
+    fun setOneTimeUpdate(context: Context) {
+        val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val i = Intent(context, WeatherReceiver::class.java)
+        i.action = Constants.ACTION_WEATHER_UPDATE
+        val pi = PendingIntent.getBroadcast(context, 1, i, 0)
+        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 10, pi)
+        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 15, pi)
+        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 20, pi)
+    }
+
     fun removeUpdates(context: Context) {
         val intent = Intent(context, WeatherReceiver::class.java)
         val sender = PendingIntent.getBroadcast(context, 1, intent, 0)

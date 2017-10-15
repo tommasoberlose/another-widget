@@ -356,4 +356,8 @@ object Util {
             v.startAnimation(a)
         }
     }
+
+    fun getEmojiByUnicode(unicode: Int): String {
+        return String(Character.toChars(unicode))
+    }
 }
