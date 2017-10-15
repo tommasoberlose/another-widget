@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget.ui.adapter
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.support.v7.widget.RecyclerView
+import android.util.EventLog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.`object`.AppInfoSavedEvent
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 /**
@@ -26,10 +29,15 @@ class ApplicationInfoAdapter (private val context: Context, private var mDataset
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pm = context.packageManager
-        holder.text.text = pm.getApplicationLabel(mDataset[position]).toString()
+        val app = mDataset[position]
+        holder.text.text = pm.getApplicationLabel(app).toString()
         try {
-            holder.icon.setImageDrawable(mDataset[position].loadIcon(pm))
+            holder.icon.setImageDrawable(app.loadIcon(pm))
         } catch (ignore: Exception) {
+        }
+
+        holder.view.setOnClickListener {
+            EventBus.getDefault().post(AppInfoSavedEvent(app))
         }
     }
 

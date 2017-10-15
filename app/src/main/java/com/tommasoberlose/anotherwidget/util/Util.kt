@@ -29,6 +29,10 @@ import android.content.ComponentName
 import android.preference.PreferenceManager
 import android.provider.Settings
 import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.Transformation
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
 
@@ -51,6 +55,7 @@ object Util {
         update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
         update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         context.sendBroadcast(update)
+        context.sendBroadcast(Intent(Constants.ACTION_SOMETHING_APPENED))
     }
 
     fun showNotification(context: Context) {
@@ -246,8 +251,6 @@ object Util {
         }
     }
 
-
-
     fun showLocationNotification(context: Context, show: Boolean) {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
@@ -270,6 +273,28 @@ object Util {
 
     }
 
+    fun showWeatherNotification(context: Context, show: Boolean) {
+        val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
+
+        if (show) {
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+                    .setSmallIcon(R.drawable.ic_stat_name)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setContentTitle(context.getString(R.string.settings_weather_provider_api_key_title))
+                    .setContentText(context.getString(R.string.settings_weather_provider_api_key_subtitle_not_set))
+                    .setAutoCancel(true);
+
+            val intent: Intent = Intent(context, MainActivity::class.java);
+            intent.putExtra(Constants.ACTION_EXTRA_OPEN_WEATHER_PROVIDER, true)
+            val pi: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pi);
+            mNotificationManager.notify(2, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(2);
+        }
+
+    }
+
     fun sendEmail(context: Context) {
         val i:Intent = Intent(Intent.ACTION_SEND)
         i.type = "message/rfc822"
@@ -282,4 +307,53 @@ object Util {
         }
     }
 
+    fun expand(v: View) {
+        if (v.visibility != View.VISIBLE) {
+            v.measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            val targetHeight = v.getMeasuredHeight()
+
+            v.layoutParams.height = 0
+            v.visibility = View.VISIBLE
+            val a = object : Animation() {
+                protected override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+                    v.layoutParams.height = if (interpolatedTime == 1f)
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    else
+                        (targetHeight * interpolatedTime).toInt()
+                    v.requestLayout()
+                }
+
+                override fun willChangeBounds(): Boolean {
+                    return true
+                }
+            }
+
+            a.duration = (targetHeight / v.context.resources.displayMetrics.density).toLong()
+            v.startAnimation(a)
+        }
+    }
+
+    fun collapse(v: View) {
+        if (v.visibility != View.GONE) {
+            val initialHeight = v.getMeasuredHeight()
+
+            val a = object : Animation() {
+                protected override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+                    if (interpolatedTime == 1f) {
+                        v.visibility = View.GONE
+                    } else {
+                        v.layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
+                        v.requestLayout()
+                    }
+                }
+
+                override fun willChangeBounds(): Boolean {
+                    return true
+                }
+            }
+
+            a.duration = (initialHeight / v.context.resources.displayMetrics.density).toLong()
+            v.startAnimation(a)
+        }
+    }
 }

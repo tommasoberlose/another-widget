@@ -19,7 +19,7 @@ import java.util.*
 class UpdatesReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
+        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.action.equals("android.intent.action.PACKAGE_REPLACED") || intent.action.equals("android.intent.action.PACKAGE_ADDED")) {
             setUpdates(context)
         } else if (intent.action.equals(Constants.ACTION_TIME_UPDATE)) {
             val e: Event = CalendarUtil.getNextEvent(context)

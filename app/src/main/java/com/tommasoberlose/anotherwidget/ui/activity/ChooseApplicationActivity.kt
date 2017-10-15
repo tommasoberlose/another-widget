@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import com.tommasoberlose.anotherwidget.`object`.AppInfoSavedEvent
 import com.tommasoberlose.anotherwidget.ui.adapter.ApplicationInfoAdapter
 
 
@@ -47,14 +48,6 @@ class ChooseApplicationActivity : AppCompatActivity() {
         adapter = ApplicationInfoAdapter(this, appListFiltered);
         list_view.setAdapter(adapter);
 
-        /*list_view.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val resultIntent = Intent()
-            resultIntent.putExtra(Constants.RESULT_APP_NAME, pm.getApplicationLabel(appListFiltered[position]).toString())
-            resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, appListFiltered[position].packageName)
-            setResult(Activity.RESULT_OK, resultIntent)
-            finish()
-        }*/
-
         location.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(text: Editable?) {
                 Thread().run {
@@ -77,6 +70,16 @@ class ChooseApplicationActivity : AppCompatActivity() {
         resultIntent.putExtra(Constants.RESULT_APP_NAME, getString(R.string.default_name))
         resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, "")
         setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun saveApp(e: AppInfoSavedEvent) {
+        val pm = packageManager
+        val resultIntent = Intent()
+        resultIntent.putExtra(Constants.RESULT_APP_NAME, pm.getApplicationLabel(e.app).toString())
+        resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, e.app.packageName)
+        setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }
 

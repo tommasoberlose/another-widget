@@ -20,8 +20,7 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.content.Intent
 import android.location.LocationManager
-
-
+import android.util.Log
 
 
 /**
@@ -73,7 +72,9 @@ object WeatherUtil {
                         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
                         }
                     })
-                } else {
+                }
+
+                if (networkEnabled) {
                     getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, object : LocationListener {
                         override fun onLocationChanged(location: Location) {
@@ -129,6 +130,7 @@ object WeatherUtil {
                         SP.edit()
                                 .putFloat(Constants.PREF_WEATHER_TEMP, currentWeather.weather.temperature.temp)
                                 .putString(Constants.PREF_WEATHER_ICON, currentWeather.weather.currentCondition.icon)
+                                .putString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
                                 .commit()
                         Util.updateWidget(context)
                     }
