@@ -48,4 +48,24 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 Ore</string>
     <string name="settings_custom_location_title">Località Meteo</string>
     <string name="custom_location_gps">Geolocalizzazione</string>
+    <string name="action_refresh_widget">Aggiorna</string>
+    <string name="show_events_visible">Eventi Visibili</string>
+    <string name="show_events_not_visible">Eventi non Visibili</string>
+    <string name="show_weather_visible">Meteo Visibile</string>
+    <string name="show_weather_not_visible">Meteo non Visibile</string>
+    <string name="settings_show_until_subtitle_0">3 Ore dopo</string>
+    <string name="settings_show_until_subtitle_1">6 Ore dopo</string>
+    <string name="settings_show_until_subtitle_2">12 Ore dopo</string>
+    <string name="settings_show_until_subtitle_3">24 Ore dopo</string>
+    <string name="settings_show_until_subtitle_4">3 Giorni dopo</string>
+    <string name="settings_show_until_subtitle_5">7 Giorni dopo</string>
+    <string name="settings_show_until_title">Vedi eventi al massimo fino a</string>
+    <string name="day_char">g</string>
+    <string name="error_opening_uri">Errore apertura URL: Link copiato negli appunti.</string>
+    <string name="loading_text">Caricamento...</string>
+    <string name="error_opening_app">Errore apertura App.</string>
+    <string name="settings_calendar_app_title">La data apre</string>
+    <string name="settings_weather_app_title">Il meteo apre</string>
+    <string name="default_name">App Predefinita</string>
+    <string name="action_choose_application">Scegli Applicazione</string>
 </resources>

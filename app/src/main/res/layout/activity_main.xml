@@ -54,7 +54,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/all_set_container">
+            android:id="@+id/all_set_container"
+            tools:ignore="UselessParent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,90 +80,169 @@
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:id="@+id/action_date_format"
+                    android:id="@+id/action_show_events"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_date_format_title"/>
+                        android:text="@string/title_permission_calendar"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/date_format_label"
+                        android:id="@+id/show_events_label"
+                        android:text="@string/description_permission_calendar"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_hour_format"
+                    android:id="@+id/calendar_settings"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_hour_format_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_date_format"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_date_format_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/date_format_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/hour_format_label"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_filter_calendar"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_hour_format"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_hour_format_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/hour_format_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_filter_calendar_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_filter_calendar"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_filter_calendar_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_filter_calendar_subtitle"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_filter_calendar_subtitle"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_show_all_day"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_show_all_day"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_all_day_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/all_day_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_all_day_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_show_until"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_show_until_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/show_until_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/all_day_label"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_calendar_app"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_calendar_app_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/calendar_app_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,150 +270,124 @@
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:id="@+id/action_custom_location"
-                    android:visibility="gone"
+                    android:id="@+id/action_show_weather"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_custom_location_title"/>
+                        android:text="@string/title_permission_location"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/label_custom_location"
+                        android:id="@+id/show_weather_label"
+                        android:text="@string/description_permission_location"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_change_unit"
+                    android:id="@+id/weather_settings"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_unit_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_custom_location"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_custom_location_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/label_custom_location"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/temp_unit"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_weather_refresh_period"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_change_unit"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_unit_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/temp_unit"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_weather_refresh_period_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_weather_refresh_period"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_weather_refresh_period_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/label_weather_refresh_period"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/label_weather_refresh_period"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_weather_app"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_weather_app_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/weather_app_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </ScrollView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:id="@+id/no_calendar_permission_container"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="14dp"
-                android:visibility="gone"
-                android:tint="@android:color/white"
-                android:background="@drawable/circle_background"
-                android:src="@drawable/ic_action_calendar"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Main.Title"
-                android:paddingTop="16dp"
-                android:paddingRight="32dp"
-                android:paddingLeft="32dp"
-                android:text="@string/title_permission_calendar"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Main.Description"
-                android:paddingBottom="32dp"
-                android:paddingRight="32dp"
-                android:paddingLeft="32dp"
-                android:text="@string/description_permission_calendar"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Main.Button"
-                android:id="@+id/request_calendar"
-                android:text="@string/button_request_permission"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/no_location_permission_container"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="14dp"
-                android:visibility="gone"
-                android:tint="@android:color/white"
-                android:background="@drawable/circle_background"
-                android:src="@drawable/ic_action_location"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Main.Title"
-                android:paddingTop="16dp"
-                android:paddingRight="32dp"
-                android:paddingLeft="32dp"
-                android:text="@string/title_permission_location"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Main.Description"
-                android:paddingBottom="32dp"
-                android:paddingRight="32dp"
-                android:paddingLeft="32dp"
-                android:text="@string/description_permission_location"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Main.Button"
-                android:id="@+id/request_location"
-                android:text="@string/button_request_permission"/>
-        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -342,8 +396,18 @@
         android:gravity="center"
         android:baselineAligned="false"
         android:id="@+id/menu_container"
+        android:orientation="horizontal"
         android:background="@color/midnight_blue"
         android:layout_gravity="bottom">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/add_widget"
+            android:visibility="gone"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/action_add_widget"
+            style="@style/AnotherWidget.Main.Button"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -354,18 +418,18 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:id="@+id/action_rate"
+            android:id="@+id/action_refresh"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:padding="2dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_action_rate"/>
+                android:src="@drawable/ic_action_refresh"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_rate"
+                android:text="@string/action_refresh_widget"
                 style="@style/AnotherWidget.Main.Button.TabBar"
                 android:background="@android:color/transparent"/>
         </LinearLayout>

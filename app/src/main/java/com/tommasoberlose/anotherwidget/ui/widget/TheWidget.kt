@@ -29,6 +29,10 @@ import android.net.Uri
 import android.widget.TextClock
 import android.widget.TextView
 import android.content.ComponentName
+import android.support.v4.content.ContextCompat.startActivity
+import android.provider.CalendarContract.Events
+
+
 
 
 
@@ -72,7 +76,7 @@ class TheWidget : AppWidgetProvider() {
         fun updateCalendarView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
             val now = Calendar.getInstance()
-            val calendarLayout = Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)
+            val calendarLayout = SP.getBoolean(Constants.PREF_SHOW_EVENTS, true) && Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)
 
             views.setViewVisibility(R.id.empty_layout, View.VISIBLE)
             views.setViewVisibility(R.id.calendar_layout, View.GONE)
@@ -83,9 +87,8 @@ class TheWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.empty_date, dateStringValue)
             //views.setImageViewBitmap(R.id.empty_date, Util.buildUpdate(context, Constants.dateFormat.format(now.time)[0].toUpperCase() + Constants.dateFormat.format(now.time).substring(1), "fonts/product_sans_regular.ttf"))
 
-            val calIntent = Intent(Intent.ACTION_MAIN)
-            calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
-            val calPIntent = PendingIntent.getActivity(context, widgetID, calIntent, 0)
+
+            val calPIntent = PendingIntent.getActivity(context, widgetID, Util.getCalendarIntent(context), 0)
             views.setOnClickPendingIntent(R.id.main_layout, calPIntent)
 
 
@@ -114,7 +117,24 @@ class TheWidget : AppWidgetProvider() {
                     if (!e.allDay) {
                         val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
                         val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
-                        views.setTextViewText(R.id.next_event_date, String.format("%s - %s", startHour, endHour))
+                        var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
+
+                        val startCal = Calendar.getInstance()
+                        startCal.timeInMillis = e.startDate
+
+                        val endCal = Calendar.getInstance()
+                        endCal.timeInMillis = e.endDate
+
+                        if (startCal.get(Calendar.HOUR_OF_DAY) >= endCal.get(Calendar.HOUR_OF_DAY)) {
+                            dayDiff++
+                        }
+
+                        var multipleDay: String = ""
+                        if (dayDiff > 0) {
+                            multipleDay = String.format(" (+%s%s)", dayDiff, context.getString(R.string.day_char))
+                        }
+
+                        views.setTextViewText(R.id.next_event_date, String.format("%s - %s%s", startHour, endHour, multipleDay))
                     } else {
                         views.setTextViewText(R.id.next_event_date, dateStringValue)
                     }
@@ -122,11 +142,12 @@ class TheWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.empty_layout, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
 
-                    val builder = CalendarContract.CONTENT_URI.buildUpon()
-                    builder.appendPath("time")
-                    ContentUris.appendId(builder, e.startDate)
+
+                    val uri = ContentUris.withAppendedId(Events.CONTENT_URI, e.id.toLong())
                     val intent = Intent(Intent.ACTION_VIEW)
-                            .setData(builder.build())
+                            .setData(uri)
+                    intent.putExtra("beginTime", e.startDate);
+                    intent.putExtra("endTime", e.endDate);
                     val pIntent = PendingIntent.getActivity(context, widgetID, intent, 0)
                     views.setOnClickPendingIntent(R.id.main_layout, pIntent)
                 }
@@ -136,9 +157,9 @@ class TheWidget : AppWidgetProvider() {
         }
 
         fun updateLocationView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
-            val locationLayout = Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true) && Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+
             if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
                 views.setViewVisibility(R.id.weather, View.VISIBLE)
                 views.setViewVisibility(R.id.calendar_weather, View.VISIBLE)
@@ -159,12 +180,8 @@ class TheWidget : AppWidgetProvider() {
                 views.setTextViewText(R.id.temp, temp)
                 views.setTextViewText(R.id.calendar_temp, temp)
 
-                val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
-                weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
-                weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
-                weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
 
-                val weatherPIntent = PendingIntent.getActivity(context, widgetID, weatherIntent, 0)
+                val weatherPIntent = PendingIntent.getActivity(context, widgetID, Util.getWeatherIntent(context), 0)
 
                 views.setOnClickPendingIntent(R.id.weather, weatherPIntent)
                 views.setOnClickPendingIntent(R.id.calendar_weather, weatherPIntent)

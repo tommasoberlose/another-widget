@@ -25,12 +25,21 @@ object CalendarUtil {
         val eventList = ArrayList<Event>()
 
         val now = Calendar.getInstance()
-        val hourLimit = Calendar.getInstance()
-        hourLimit.add(Calendar.HOUR, 8)
+        val limit = Calendar.getInstance()
+        when (SP.getInt(Constants.PREF_SHOW_UNTIL, 1)) {
+            0 -> limit.add(Calendar.HOUR, 3)
+            1 -> limit.add(Calendar.HOUR, 6)
+            2 -> limit.add(Calendar.HOUR, 12)
+            3 -> limit.add(Calendar.DAY_OF_MONTH, 1)
+            4 -> limit.add(Calendar.DAY_OF_MONTH, 3)
+            5 -> limit.add(Calendar.DAY_OF_MONTH, 7)
+            else -> limit.add(Calendar.HOUR, 6)
+        }
+
 
         val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
         ContentUris.appendId(builder, now.timeInMillis)
-        ContentUris.appendId(builder, hourLimit.timeInMillis)
+        ContentUris.appendId(builder, limit.timeInMillis)
 
         if (!Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
             resetNextEventData(context)
@@ -107,10 +116,13 @@ object CalendarUtil {
                     calendarList.add(CalendarSelector(calendarCursor.getInt(0), calendarCursor.getString(1), calendarCursor.getString(2)))
                     calendarCursor.moveToNext()
                 }
+            } else {
+                Log.d("AW", "No calendar")
             }
 
             calendarCursor.close()
         } catch (ignored: Exception) {
+            ignored.printStackTrace()
             try {
                 val calendarCursor = context.contentResolver.query(CalendarContract.Calendars.CONTENT_URI,
                         arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME, CalendarContract.Calendars.ACCOUNT_NAME),
@@ -130,7 +142,7 @@ object CalendarUtil {
 
                 calendarCursor.close()
             } catch (ignore: Exception) {
-
+                ignore.printStackTrace()
             } finally {
                 return calendarList
             }

@@ -4,6 +4,7 @@
     android:initialLayout="@layout/the_widget"
     android:minHeight="128dp"
     android:minWidth="300dp"
+    android:configure="com.tommasoberlose.anotherwidget.ui.activity.MainActivity"
     android:minResizeHeight="40dp"
     android:minResizeWidth="250dp"
     android:previewImage="@drawable/widget_preview"

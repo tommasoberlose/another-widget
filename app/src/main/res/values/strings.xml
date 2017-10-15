@@ -49,4 +49,25 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 Hours</string>
     <string name="settings_custom_location_title">Custom Location</string>
     <string name="custom_location_gps">Geolocation</string>
+    <string name="action_refresh_widget">Refresh</string>
+    <string name="show_events_visible">Events are Visible</string>
+    <string name="show_events_not_visible">Events are not Visible</string>
+    <string name="show_weather_visible">Weather Info are Visible</string>
+    <string name="show_weather_not_visible">Weather Info are not Visible</string>
+    <string name="settings_show_until_subtitle_0">3 Hours later</string>
+    <string name="settings_show_until_subtitle_1">6 Hours later</string>
+    <string name="settings_show_until_subtitle_2">12 Hours later</string>
+    <string name="settings_show_until_subtitle_3">24 Hours later</string>
+    <string name="settings_show_until_subtitle_4">3 Days later</string>
+    <string name="settings_show_until_subtitle_5">7 Days later</string>
+    <string name="settings_show_until_title">See events at most until</string>
+    <string name="day_char">d</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
+    <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
+    <string name="loading_text">Loading Data...</string>
+    <string name="error_opening_app">Error opening App.</string>
+    <string name="settings_calendar_app_title">Tap on date opens</string>
+    <string name="settings_weather_app_title">Tap on weather opens</string>
+    <string name="default_name">Default App</string>
+    <string name="action_choose_application">Choose Application</string>
 </resources>

@@ -24,8 +24,12 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.support.annotation.StringRes
 import android.util.TypedValue
-
-
+import android.content.Intent
+import android.content.ComponentName
+import android.preference.PreferenceManager
+import android.util.Log
+import android.widget.Toast
+import com.tommasoberlose.anotherwidget.`object`.Constants
 
 
 /**
@@ -33,7 +37,6 @@ import android.util.TypedValue
  */
 
 object Util {
-
 
     fun checkGrantedPermission(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
@@ -43,7 +46,7 @@ object Util {
         val widgetManager = AppWidgetManager.getInstance(context)
         val widgetComponent = ComponentName(context, TheWidget::class.java)
         val widgetIds = widgetManager.getAppWidgetIds(widgetComponent)
-        val update = Intent()
+        val update = Intent(context, TheWidget::class.java)
         update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
         update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         context.sendBroadcast(update)
@@ -78,9 +81,20 @@ object Util {
             val customTabsIntent: CustomTabsIntent = builder.build();
             customTabsIntent.launchUrl(context, Uri.parse(url));
         } catch (e: Exception) {
-            val legalIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(legalIntent);
+            try {
+                val openIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                context.startActivity(openIntent);
+            } catch (ignored: Exception) {
+                val clipboard:ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText(context.getString(R.string.app_name), url);
+                clipboard.primaryClip = clip;
+                Toast.makeText(context, R.string.error_opening_uri, Toast.LENGTH_LONG).show()
+            }
         }
+        val clipboard:ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(context.getString(R.string.app_name), url);
+        clipboard.primaryClip = clip;
+        Toast.makeText(context, R.string.error_opening_uri, Toast.LENGTH_LONG).show()
     }
 
     fun share(context: Context) {
@@ -157,4 +171,62 @@ object Util {
             else -> R.string.settings_weather_refresh_period_subtitle_0
         }
     }
+
+    fun getShowUntilString(period: Int): Int {
+        return when (period) {
+            0 -> R.string.settings_show_until_subtitle_0
+            1 -> R.string.settings_show_until_subtitle_1
+            2 -> R.string.settings_show_until_subtitle_2
+            3 -> R.string.settings_show_until_subtitle_3
+            4 -> R.string.settings_show_until_subtitle_4
+            5 -> R.string.settings_show_until_subtitle_5
+            else -> R.string.settings_show_until_subtitle_1
+        }
+    }
+
+    fun getCalendarIntent(context: Context): Intent {
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+        if (SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, "").equals("")) {
+            val calIntent = Intent(Intent.ACTION_MAIN)
+            calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
+            return calIntent
+        } else {
+            val pm: PackageManager = context.packageManager
+            return try {
+                val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, ""))
+                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent
+            } catch (e: Exception) {
+                e.printStackTrace()
+                val calIntent = Intent(Intent.ACTION_MAIN)
+                calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
+                calIntent
+            }
+        }
+    }
+
+    fun getWeatherIntent(context: Context): Intent {
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+        if (SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, "").equals("")) {
+            val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
+            weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
+            weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
+            weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
+            return weatherIntent
+        } else {
+            val pm: PackageManager = context.packageManager
+            return try {
+                val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, ""))
+                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent
+            } catch (e: Exception) {
+                val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
+                weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
+                weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
+                weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
+                weatherIntent
+            }
+        }
+    }
+
 }

@@ -12,10 +12,16 @@ import java.util.*
 object Constants {
     val CALENDAR_REQUEST_CODE = 1
     val LOCATION_REQUEST_CODE = 2
+    val CALENDAR_APP_REQUEST_CODE = 3
+    val WEATHER_APP_REQUEST_CODE = 4
+
 
     val RESULT_CODE_CUSTOM_LOCATION = 45
+    val RESULT_APP_NAME = "RESULT_APP_NAME"
+    val RESULT_APP_PACKAGE = "RESULT_APP_PACKAGE"
 
-    val PREF_FIRST_STEP = "PREF_FIRST_STEP"
+    val PREF_SHOW_EVENTS = "PREF_SHOW_EVENTS"
+    val PREF_SHOW_WEATHER = "PREF_SHOW_WEATHER"
     val PREF_WEATHER_ICON = "PREF_WEATHER_ICON"
     val PREF_WEATHER_TEMP = "PREF_WEATHER_TEMP"
     val PREF_WEATHER_TEMP_UNIT = "PREF_WEATHER_TEMP_UNIT"
@@ -34,11 +40,16 @@ object Constants {
     val PREF_HOUR_FORMAT = "PREF_HOUR_FORMAT"
     val PREF_ITA_FORMAT_DATE = "PREF_ITA_FORMAT_DATE"
     val PREF_WEATHER_REFRESH_PERIOD = "PREF_WEATHER_REFRESH_PERIOD"
+    val PREF_SHOW_UNTIL = "PREF_SHOW_UNTIL"
+    val PREF_CALENDAR_APP_NAME = "PREF_CALENDAR_APP_NAME"
+    val PREF_CALENDAR_APP_PACKAGE = "PREF_CALENDAR_APP_PACKAGE"
+    val PREF_WEATHER_APP_NAME = "PREF_WEATHER_APP_NAME"
+    val PREF_WEATHER_APP_PACKAGE = "PREF_WEATHER_APP_PACKAGE"
 
     val itDateFormat = SimpleDateFormat("EEEE, d MMM")
     val engDateFormat = SimpleDateFormat("EEEE, MMM d")
     val goodHourFormat = SimpleDateFormat("HH:mm")
-    val badHourFormat = SimpleDateFormat("KK:mm aa")
+    val badHourFormat = SimpleDateFormat("hh:mm a")
 
     val ACTION_TIME_UPDATE = "com.tommasoberlose.anotherwidget.action.ACTION_TIME_UPDATE"
     val ACTION_CALENDAR_UPDATE = "com.tommasoberlose.anotherwidget.action.ACTION_CALENDAR_UPDATE"

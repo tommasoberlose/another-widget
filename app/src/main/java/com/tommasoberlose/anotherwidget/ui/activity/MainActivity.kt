@@ -15,7 +15,6 @@ import android.view.View
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.util.Util
-import com.tommasoberlose.anotherwidget.receiver.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.receiver.WeatherReceiver
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -25,13 +24,9 @@ import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.MenuItem
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,17 +35,37 @@ import kotlinx.android.synthetic.main.the_widget.*
 
 class MainActivity : AppCompatActivity() {
 
+    var mAppWidgetId: Int = -1
+
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             updateUI()
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Fabric.with(this, Crashlytics())
+
+        val extras = intent.extras
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID)
+
+            if (mAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+
+                action_refresh.visibility = View.GONE
+                action_support.visibility = View.GONE
+                action_share.visibility = View.GONE
+                action_add_widget.visibility = View.VISIBLE
+
+                action_add_widget.setOnClickListener {
+                    addNewWidget()
+                }
+            }
+        }
 
         action_support.setOnClickListener(object: View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -64,11 +79,28 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        action_rate.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(p0: View?) {
-                Util.openURI(this@MainActivity, "https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget")
-            }
-        })
+        action_refresh.setOnClickListener {
+            WeatherUtil.updateWeather(this)
+            CalendarUtil.updateEventList(this)
+            Util.updateWidget(this)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (mAppWidgetId > 0) {
+            addNewWidget()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    fun addNewWidget() {
+        val resultValue = Intent()
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
+        setResult(Activity.RESULT_OK, resultValue)
+        finish()
+        sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
+        sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
     }
 
     override fun onResume() {
@@ -89,38 +121,19 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             Constants.CALENDAR_REQUEST_CODE -> if (!(permissions.size != 1 || grantResults.size != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
                 CalendarUtil.updateEventList(this)
+                updateAppWidget()
+                updateSettings()
             }
             Constants.LOCATION_REQUEST_CODE -> if (!(permissions.size != 1 || grantResults.size != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
                 WeatherUtil.updateWeather(this)
+                updateAppWidget()
+                updateSettings()
             }
         }
     }
 
     fun updateUI() {
-        no_calendar_permission_container.visibility= View.GONE
-        no_location_permission_container.visibility= View.GONE
-        all_set_container.visibility = View.GONE
         updateSettings()
-
-        if (!Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)) {
-            no_calendar_permission_container.visibility = View.VISIBLE
-            request_calendar.setOnClickListener(object: View.OnClickListener {
-                override fun onClick(view: View?) {
-                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_CALENDAR), Constants.CALENDAR_REQUEST_CODE)
-                }
-            })
-        } else {
-            if (!Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                no_location_permission_container.visibility = View.VISIBLE
-                request_location.setOnClickListener(object: View.OnClickListener {
-                    override fun onClick(view: View?) {
-                        ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE)
-                    }
-                })
-            } else {
-                all_set_container.visibility = View.VISIBLE
-            }
-        }
         updateAppWidget()
     }
 
@@ -134,19 +147,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ApplySharedPref")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Constants.RESULT_CODE_CUSTOM_LOCATION) {
-            if (resultCode == Activity.RESULT_OK) {
+        val SP = PreferenceManager.getDefaultSharedPreferences(this)
+        if (requestCode == Constants.RESULT_CODE_CUSTOM_LOCATION && resultCode == Activity.RESULT_OK) {
                 updateSettings()
                 WeatherUtil.updateWeather(this)
-            }
+        } else if (requestCode == Constants.CALENDAR_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            SP.edit()
+                    .putString(Constants.PREF_CALENDAR_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_CALENDAR_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
+                    .commit()
+            Util.updateWidget(this)
+            updateSettings()
+            updateAppWidget()
+        } else if (requestCode == Constants.WEATHER_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            SP.edit()
+                    .putString(Constants.PREF_WEATHER_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_WEATHER_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
+                    .commit()
+            Util.updateWidget(this)
+            updateSettings()
+            updateAppWidget()
         }
     }
 
     fun updateCalendarView() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
         val now = Calendar.getInstance()
-        val calendarLayout = Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)
+        val calendarLayout = SP.getBoolean(Constants.PREF_SHOW_EVENTS, true) && Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)
 
         empty_layout.visibility = View.VISIBLE
         calendar_layout.visibility = View.GONE
@@ -184,7 +213,22 @@ class MainActivity : AppCompatActivity() {
                 if (!e.allDay) {
                     val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
                     val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
-                    next_event_date.text = String.format("%s - %s", startHour, endHour)
+                    var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
+
+                    val startCal = Calendar.getInstance()
+                    startCal.timeInMillis = e.startDate
+
+                    val endCal = Calendar.getInstance()
+                    endCal.timeInMillis = e.endDate
+
+                    if (startCal.get(Calendar.HOUR_OF_DAY) >= endCal.get(Calendar.HOUR_OF_DAY)) {
+                        dayDiff++
+                    }
+                    var multipleDay: String = ""
+                    if (dayDiff > 0) {
+                        multipleDay = String.format(" (+%s%s)", dayDiff, getString(R.string.day_char))
+                    }
+                    next_event_date.text = String.format("%s - %s%s", startHour, endHour, multipleDay)
                 } else {
                     next_event_date.text = dateStringValue
                 }
@@ -196,9 +240,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateLocationView() {
-        val locationLayout = Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
+        val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true) && Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+
         if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
             weather.visibility = View.VISIBLE
             calendar_weather.visibility = View.VISIBLE
@@ -227,6 +271,63 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ApplySharedPref")
     fun updateSettings() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
+
+        if (SP.getBoolean(Constants.PREF_SHOW_EVENTS, true) && Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)) {
+            calendar_settings.visibility = View.VISIBLE
+            action_show_events.setOnClickListener {
+                SP.edit()
+                        .putBoolean(Constants.PREF_SHOW_EVENTS, false)
+                        .commit()
+                updateSettings()
+                updateAppWidget()
+                Util.updateWidget(this)
+            }
+            show_events_label.text = getString(R.string.show_events_visible)
+        } else {
+            calendar_settings.visibility= View.GONE
+            action_show_events.setOnClickListener {
+                if (Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)) {
+                    SP.edit()
+                            .putBoolean(Constants.PREF_SHOW_EVENTS, true)
+                            .commit()
+                    updateSettings()
+                    updateAppWidget()
+                    Util.updateWidget(this)
+                } else {
+                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_CALENDAR), Constants.CALENDAR_REQUEST_CODE)
+                }
+            }
+            show_events_label.text = if (Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)) getString(R.string.show_events_not_visible) else getString(R.string.description_permission_calendar)
+        }
+
+        if (SP.getBoolean(Constants.PREF_SHOW_WEATHER, true) && Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            weather_settings.visibility = View.VISIBLE
+            action_show_weather.setOnClickListener {
+                SP.edit()
+                        .putBoolean(Constants.PREF_SHOW_WEATHER, false)
+                        .commit()
+                updateSettings()
+                updateAppWidget()
+                Util.updateWidget(this)
+            }
+            show_weather_label.text = getString(R.string.show_weather_visible)
+        } else {
+            weather_settings.visibility= View.GONE
+            action_show_weather.setOnClickListener {
+                if (Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    SP.edit()
+                            .putBoolean(Constants.PREF_SHOW_WEATHER, true)
+                            .commit()
+                    updateSettings()
+                    updateAppWidget()
+                    Util.updateWidget(this)
+                } else {
+                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_REQUEST_CODE)
+                }
+            }
+            show_weather_label.text = if (Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) getString(R.string.show_weather_not_visible) else getString(R.string.description_permission_location)
+        }
+
         temp_unit.text = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) getString(R.string.fahrenheit) else getString(R.string.celsius)
         action_change_unit.setOnClickListener {
             SP.edit().putString(Constants.PREF_WEATHER_TEMP_UNIT, if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) "C" else "F").commit()
@@ -244,8 +345,9 @@ class MainActivity : AppCompatActivity() {
         hour_format_label.text = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) getString(R.string.settings_hour_format_subtitle_12) else getString(R.string.settings_hour_format_subtitle_24)
         action_hour_format.setOnClickListener {
             SP.edit().putString(Constants.PREF_HOUR_FORMAT, if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) "24" else "12").commit()
-            sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
             updateSettings()
+            updateAppWidget()
+            Util.updateWidget(this)
         }
 
         val now = Calendar.getInstance()
@@ -257,36 +359,53 @@ class MainActivity : AppCompatActivity() {
         action_date_format.setOnClickListener {
             SP.edit().putBoolean(Constants.PREF_ITA_FORMAT_DATE, !SP.getBoolean(Constants.PREF_ITA_FORMAT_DATE, false)).commit()
             updateSettings()
+            updateAppWidget()
             Util.updateWidget(this)
         }
 
         label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
         action_weather_refresh_period.setOnClickListener {
-            val dialog: BottomSheetMenuDialog = BottomSheetBuilder(this, R.style.Theme_Design_Light_BottomSheetDialog)
-                    .setMode(BottomSheetBuilder.MODE_LIST)
-                    .setMenu(R.menu.weather_refresh_period_menu)
-                    .setIconTintColor(ContextCompat.getColor(this, R.color.black_50))
-                    .delayDismissOnItemClick(false)
-                    .setItemClickListener({ item: MenuItem ->
-                        SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (item.itemId) {
-                            R.id.refresh_1 -> 1
-                            R.id.refresh_2 -> 2
-                            R.id.refresh_3 -> 3
-                            R.id.refresh_4 -> 4
-                            R.id.refresh_5 -> 5
-                            else -> 1
-                        }).commit()
-                        updateSettings()
-                        WeatherReceiver().setUpdates(this@MainActivity)
-                    })
-                    .createDialog()
+            SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
+                0 -> 1
+                1 -> 2
+                2 -> 3
+                3 -> 4
+                4 -> 5
+                5 -> 0
+                else -> 1
+            }).commit()
+            updateSettings()
+            WeatherReceiver().setUpdates(this@MainActivity)
+        }
 
-            dialog.show()
+        show_until_label.text = getString(Util.getShowUntilString(SP.getInt(Constants.PREF_SHOW_UNTIL, 1)))
+        action_show_until.setOnClickListener {
+            SP.edit().putInt(Constants.PREF_SHOW_UNTIL, when (SP.getInt(Constants.PREF_SHOW_UNTIL, 1)) {
+                0 -> 1
+                1 -> 2
+                2 -> 3
+                3 -> 4
+                4 -> 5
+                5 -> 0
+                else -> 1
+            }).commit()
+            updateSettings()
+            sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
         }
 
         label_custom_location.text = SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, getString(R.string.custom_location_gps))
         action_custom_location.setOnClickListener {
             startActivityForResult(Intent(this, CustomLocationActivity::class.java), Constants.RESULT_CODE_CUSTOM_LOCATION)
+        }
+
+        calendar_app_label.text = SP.getString(Constants.PREF_CALENDAR_APP_NAME, getString(R.string.default_name))
+        action_calendar_app.setOnClickListener {
+            startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.CALENDAR_APP_REQUEST_CODE)
+        }
+
+        weather_app_label.text = SP.getString(Constants.PREF_WEATHER_APP_NAME, getString(R.string.default_name))
+        action_weather_app.setOnClickListener {
+            startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.WEATHER_APP_REQUEST_CODE)
         }
 
         action_filter_calendar.setOnClickListener {

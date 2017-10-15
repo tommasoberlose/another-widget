@@ -21,6 +21,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -72,7 +73,12 @@
             android:name="io.fabric.ApiKey"
             android:value="5232fd734b08a20a984c2de02b37df19269608ef" />
 
-        <activity android:name=".ui.activity.CustomLocationActivity"></activity>
+        <activity
+            android:name=".ui.activity.CustomLocationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ChooseApplicationActivity"></activity>
     </application>
 
 </manifest>
