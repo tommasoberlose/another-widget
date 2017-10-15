@@ -163,7 +163,7 @@ class TheWidget : AppWidgetProvider() {
             if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
                 views.setViewVisibility(R.id.weather, View.VISIBLE)
                 views.setViewVisibility(R.id.calendar_weather, View.VISIBLE)
-                val temp = String.format(Locale.getDefault(), "%.0f °%s", SP.getFloat(Constants.PREF_WEATHER_TEMP, 0f), SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
+                val temp = String.format(Locale.getDefault(), "%.0f °%s", SP.getFloat(Constants.PREF_WEATHER_TEMP, 0f), SP.getString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, "F"))
 
 
                 views.setViewVisibility(R.id.weather_icon, View.VISIBLE)

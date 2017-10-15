@@ -62,7 +62,7 @@
     <string name="settings_show_until_title">Vedi eventi al massimo fino a</string>
     <string name="day_char">g</string>
     <string name="error_opening_uri">Errore apertura URL: Link copiato negli appunti.</string>
-    <string name="loading_text">Caricamento...</string>
+    <string name="loading_text">Caricamento…</string>
     <string name="error_opening_app">Errore apertura App.</string>
     <string name="settings_calendar_app_title">La data apre</string>
     <string name="settings_weather_app_title">Il meteo apre</string>
@@ -75,9 +75,21 @@
     <string name="notification_gps_subtitle">Riaccendi la localizzazione per avere il meteo aggiornato.</string>
     <string name="action_feedback">Feedback</string>
     <string name="feedback_title">AW Feedback</string>
-    <string name="feedback_chooser_title">Invia email...</string>
+    <string name="feedback_chooser_title">Invia email…</string>
     <string name="feedback_error">Errore invio mail.</string>
     <string name="api_key_hint">Chiave API OpenWeather</string>
     <string name="error_weather_api_key">Il provider non è configurato correttamente, vuoi comunque uscire?</string>
     <string name="action_save">Salva</string>
+    <string name="error_no_calendar">Nessun calendario trovato.</string>
+    <string name="api_key_info_title">Cosa fare</string>
+    <string name="signature">Toms</string>
+    <string name="api_key_title_1">Registrati su OpenWeather</string>
+    <string name="action_open_provider">Apri OpenWeather.com</string>
+    <string name="api_key_subtitle_1">Registra un account gratuito su OpenWeather.com in pochi minuti.</string>
+    <string name="api_key_subtitle_2">Accedi alle chiavi API nelle impostazioni e copia la chiave di default.</string>
+    <string name="api_key_subtitle_3">Aggiungi la chiave all\'applicazione in questa sezione e, una volta che la chiave sarà attivata, apparirà il meteo.</string>
+    <string name="api_key_title_2">Copia la chiave API</string>
+    <string name="api_key_title_3">Configura l\'App</string>
+    <string name="api_key_info_start">Ciao a tutti.</string>
+    <string name="api_key_info_text"><![CDATA[Another widget è e rimarrà gratuita e senza banner pubblicitari.<BR /><BR />Però a causa del successo dell\'applicazione, sicuramente oltre ogni mia aspettativa, il provider del meteo non riesce a supportare il numero di richieste che arrivano (a causa dell\'utilizzo di un account gratuito).<BR /><BR />Sono costretto a chiedervi di registrarvi su OpenWeather.com; l\'operazione richiederà solo alcuni minuti e dopo non avrete più problemi con la fruizione delle informazioni sul meteo!<BR /><BR />Mi dispiace per l\'inconveniente ma continuate a supportarmi!!]]></string>
 </resources>

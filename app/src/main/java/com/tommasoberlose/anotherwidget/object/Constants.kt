@@ -26,6 +26,7 @@ object Constants {
     val PREF_WEATHER_ICON = "PREF_WEATHER_ICON"
     val PREF_WEATHER_TEMP = "PREF_WEATHER_TEMP"
     val PREF_WEATHER_TEMP_UNIT = "PREF_WEATHER_TEMP_UNIT"
+    val PREF_WEATHER_REAL_TEMP_UNIT = "PREF_WEATHER_REAL_TEMP_UNIT"
     val PREF_CALENDAR_ALL_DAY = "PREF_CALENDAR_ALL_DAY"
     val PREF_CALENDAR_FILTER = "PREF_CALENDAR_FILTER"
 
@@ -48,6 +49,8 @@ object Constants {
     val PREF_WEATHER_APP_PACKAGE = "PREF_WEATHER_APP_PACKAGE"
     val PREF_WEATHER_PROVIDER_API_KEY = "PREF_WEATHER_PROVIDER_API_KEY"
 
+    val ACTION_EXTRA_OPEN_WEATHER_PROVIDER = "ACTION_EXTRA_OPEN_WEATHER_PROVIDER"
+
     val itDateFormat = SimpleDateFormat("EEEE, d MMM")
     val engDateFormat = SimpleDateFormat("EEEE, MMM d")
     val goodHourFormat = SimpleDateFormat("HH:mm")
@@ -56,4 +59,5 @@ object Constants {
     val ACTION_TIME_UPDATE = "com.tommasoberlose.anotherwidget.action.ACTION_TIME_UPDATE"
     val ACTION_CALENDAR_UPDATE = "com.tommasoberlose.anotherwidget.action.ACTION_CALENDAR_UPDATE"
     val ACTION_WEATHER_UPDATE = "com.tommasoberlose.anotherwidget.action.ACTION_WEATHER_UPDATE"
+    val ACTION_SOMETHING_APPENED = "com.tommasoberlose.anotherwidget.action.ACTION_SOMETHING_APPENED"
 }

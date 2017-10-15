@@ -64,7 +64,7 @@
     <string name="day_char">d</string>
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
-    <string name="loading_text">Loading Data...</string>
+    <string name="loading_text">Loading Data…</string>
     <string name="error_opening_app">Error opening App.</string>
     <string name="settings_calendar_app_title">Tap on date opens</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
@@ -77,9 +77,21 @@
     <string name="notification_gps_subtitle">Turn on the localization to get the updated weather.</string>
     <string name="action_feedback">Feedback</string>
     <string name="feedback_title">AW Feedback</string>
-    <string name="feedback_chooser_title">Send email...</string>
+    <string name="feedback_chooser_title">Send email…</string>
     <string name="feedback_error">Error sending email.</string>
     <string name="api_key_hint">OpenWeather API Key</string>
     <string name="error_weather_api_key">The provider is not configured correctly, do you still want to go back?</string>
     <string name="action_save">Save</string>
+    <string name="error_no_calendar">No calendars found.</string>
+    <string name="api_key_info_title">What to Do</string>
+    <string name="signature">Toms</string>
+    <string name="api_key_info_text"><![CDATA[Another Widget is a free application and will remain without banner ads.<BR /><BR />Due to its great success, surely beyond all my expectations, the weather provider fails to support all the requests that arrive (simply because it is free and therefore limited).<BR /><BR />I have to ask each of you to personally register an account on OpenWeather; the operation will take only a few minutes, and when your key has been activated, you will not have any problems with the weather.<BR /><BR />I\'m sorry for the inconvenience, keep supporting me!]]></string>
+    <string name="api_key_title_1">Register an OpenWeather Account</string>
+    <string name="api_key_subtitle_1">Register a free account on OpenWeather. It will take just a few minutes.</string>
+    <string name="api_key_title_2">Copy your API Key</string>
+    <string name="api_key_subtitle_2">Access the API keys menu from your account settings and copy the default key.</string>
+    <string name="api_key_title_3">Add the key to the app</string>
+    <string name="api_key_subtitle_3">Enter the key in this section and save it. Once the key is activated the weather will be visible.</string>
+    <string name="api_key_info_start">Hi Everyone!</string>
+    <string name="action_open_provider">Go to OpenWeather.com</string>
 </resources>

@@ -50,6 +50,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:orientation="horizontal"
+                android:descendantFocusability="beforeDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center_vertical">
                 <EditText
                     android:layout_width="0dp"
@@ -60,6 +63,8 @@
                     android:inputType="textCapWords"
                     android:id="@+id/api_key"
                     android:textStyle="bold"
+                    android:nextFocusUp="@id/api_key"
+                    android:nextFocusLeft="@id/api_key"
                     android:gravity="center_vertical"
                     android:hint="@string/api_key_hint"/>
                 <ImageView
@@ -70,16 +75,117 @@
                     android:src="@drawable/ic_action_paste"
                     android:tint="@android:color/primary_text_light"/>
             </LinearLayout>
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:text="@string/action_save"
-                android:gravity="center"
-                android:visibility="gone"
-                android:background="@color/colorAccent"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:id="@+id/action_save"
-                style="@style/AnotherWidget.Main.Button"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/button_container">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:text="@string/action_save"
+                    android:gravity="center"
+                    android:background="@color/colorAccent"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:id="@+id/action_save"
+                    style="@style/AnotherWidget.Main.Button"/>
+            </LinearLayout>
         </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/api_key_info_title"
+                        android:gravity="start"
+                        style="@style/AnotherWidget.Main.Title"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/primary_text_light"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:id="@+id/action_open_info_text"
+                        android:tint="@android:color/primary_text_light"
+                        android:src="@drawable/ic_action_info"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    style="@style/AnotherWidget.Settings.Title"
+                    android:layout_marginTop="12dp"
+                    android:textAllCaps="true"
+                    android:text="@string/api_key_title_1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/primary_text_light"
+                    style="@style/AnotherWidget.Main.Subtitle"
+                    android:textSize="16sp"
+                    android:gravity="start"
+                    android:text="@string/api_key_subtitle_1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    style="@style/AnotherWidget.Main.Button"
+                    android:layout_marginTop="12dp"
+                    android:id="@+id/action_open_provider"
+                    android:text="@string/action_open_provider"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    style="@style/AnotherWidget.Settings.Title"
+                    android:layout_marginTop="12dp"
+                    android:textAllCaps="true"
+                    android:text="@string/api_key_title_2"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/primary_text_light"
+                    style="@style/AnotherWidget.Main.Subtitle"
+                    android:textSize="16sp"
+                    android:gravity="start"
+                    android:text="@string/api_key_subtitle_2"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    style="@style/AnotherWidget.Settings.Title"
+                    android:layout_marginTop="12dp"
+                    android:textAllCaps="true"
+                    android:text="@string/api_key_title_3"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/primary_text_light"
+                    style="@style/AnotherWidget.Main.Subtitle"
+                    android:textSize="16sp"
+                    android:gravity="start"
+                    android:text="@string/api_key_subtitle_3"/>
+            </LinearLayout>
+        </ScrollView>
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -16,7 +16,7 @@ import com.tommasoberlose.anotherwidget.util.WeatherUtil
 class WeatherReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
+        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.action.equals("android.intent.action.PACKAGE_REPLACED") || intent.action.equals("android.intent.action.PACKAGE_ADDED")) {
             setUpdates(context)
         } else if (intent.action.equals(Constants.ACTION_WEATHER_UPDATE) || intent.action.equals("android.location.PROVIDERS_CHANGED")) {
             WeatherUtil.updateWeather(context)
@@ -27,6 +27,10 @@ class WeatherReceiver : BroadcastReceiver() {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         removeUpdates(context)
         WeatherUtil.updateWeather(context)
+
+        if (SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)) {
+            Util.showWeatherNotification(context, SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals(""))
+        }
 
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val i = Intent(context, WeatherReceiver::class.java)

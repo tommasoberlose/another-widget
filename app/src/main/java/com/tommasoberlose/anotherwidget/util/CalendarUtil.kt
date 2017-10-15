@@ -9,6 +9,8 @@ import android.net.Uri
 import android.preference.PreferenceManager
 import android.provider.CalendarContract
 import android.util.Log
+import android.widget.Toast
+import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
@@ -121,7 +123,7 @@ object CalendarUtil {
                     calendarCursor.moveToNext()
                 }
             } else {
-                Log.d("AW", "No calendar")
+                Toast.makeText(context, R.string.error_no_calendar, Toast.LENGTH_SHORT).show()
             }
 
             calendarCursor.close()
