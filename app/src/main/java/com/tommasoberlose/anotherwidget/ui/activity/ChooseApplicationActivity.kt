@@ -19,13 +19,15 @@ import android.widget.ArrayAdapter
 import com.tommasoberlose.anotherwidget.`object`.ApplicationListEvent
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import com.tommasoberlose.anotherwidget.ui.adapter.ApplicationInfoAdapter
 
 
 class ChooseApplicationActivity : AppCompatActivity() {
-    lateinit var adapter: ArrayAdapter<String>
+    lateinit var adapter: ApplicationInfoAdapter
     val appList = ArrayList<ApplicationInfo>()
     val appListFiltered = ArrayList<ApplicationInfo>()
 
@@ -38,16 +40,20 @@ class ChooseApplicationActivity : AppCompatActivity() {
             selectDefaultApp()
         }
 
-        adapter = ArrayAdapter(this, R.layout.custom_location_item, appList.map { it.name })
-        list_view.adapter = adapter
+        list_view.setHasFixedSize(true);
+        val mLayoutManager = LinearLayoutManager(this);
+        list_view.layoutManager = mLayoutManager;
 
-        list_view.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        adapter = ApplicationInfoAdapter(this, appListFiltered);
+        list_view.setAdapter(adapter);
+
+        /*list_view.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val resultIntent = Intent()
             resultIntent.putExtra(Constants.RESULT_APP_NAME, pm.getApplicationLabel(appListFiltered[position]).toString())
             resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, appListFiltered[position].packageName)
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
-        }
+        }*/
 
         location.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(text: Editable?) {
@@ -95,20 +101,12 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onMessageEvent(event: ApplicationListEvent) {
-        val pm = packageManager
-        adapter.clear()
         if (!event.filtered) {
             appList.clear()
             event.apps.mapTo(appList, {it})
-            for (a:ApplicationInfo in appList) {
-                adapter.add(pm.getApplicationLabel(a).toString())
-            }
         }
         appListFiltered.clear()
         event.apps.mapTo(appListFiltered, {it})
-        for (a:ApplicationInfo in appListFiltered) {
-            adapter.add(pm.getApplicationLabel(a).toString())
-        }
-        adapter.notifyDataSetChanged()
+        adapter.changeData(appListFiltered)
     }
 }

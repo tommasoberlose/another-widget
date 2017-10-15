@@ -24,12 +24,14 @@ import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
+import android.support.design.widget.BottomSheetDialog
 import android.util.Log
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_menu_layout.view.*
 import kotlinx.android.synthetic.main.the_widget.*
 
 
@@ -55,10 +57,6 @@ class MainActivity : AppCompatActivity() {
                     AppWidgetManager.INVALID_APPWIDGET_ID)
 
             if (mAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-
-                action_refresh.visibility = View.GONE
-                action_support.visibility = View.GONE
-                action_share.visibility = View.GONE
                 action_add_widget.visibility = View.VISIBLE
 
                 action_add_widget.setOnClickListener {
@@ -67,22 +65,47 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        action_support.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(p0: View?) {
-                Util.openURI(this@MainActivity, "https://paypal.me/tommasoberlose")
-            }
-        })
 
-        action_share.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(p0: View?) {
-                Util.share(this@MainActivity)
-            }
-        })
 
-        action_refresh.setOnClickListener {
-            WeatherUtil.updateWeather(this)
-            CalendarUtil.updateEventList(this)
-            Util.updateWidget(this)
+        action_menu.setOnClickListener {
+            val mBottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this)
+            val menuView: View = getLayoutInflater().inflate(R.layout.main_menu_layout, null)
+            menuView.action_support.setOnClickListener(object: View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    Util.openURI(this@MainActivity, "https://paypal.me/tommasoberlose")
+                    mBottomSheetDialog.dismiss()
+                }
+            })
+
+            menuView.action_share.setOnClickListener(object: View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    Util.share(this@MainActivity)
+                    mBottomSheetDialog.dismiss()
+                }
+            })
+
+            menuView.action_rate.setOnClickListener(object: View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    Util.rateApp(this@MainActivity, "https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget")
+                    mBottomSheetDialog.dismiss()
+                }
+            })
+
+            menuView.action_feedback.setOnClickListener(object: View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    Util.sendEmail(this@MainActivity)
+                    mBottomSheetDialog.dismiss()
+                }
+            })
+
+            menuView.action_refresh.setOnClickListener {
+                WeatherUtil.updateWeather(this)
+                CalendarUtil.updateEventList(this)
+                Util.updateWidget(this)
+                mBottomSheetDialog.dismiss()
+            }
+            mBottomSheetDialog.setContentView(menuView)
+            mBottomSheetDialog.show();
         }
     }
 
@@ -125,8 +148,13 @@ class MainActivity : AppCompatActivity() {
                 updateSettings()
             }
             Constants.LOCATION_REQUEST_CODE -> if (!(permissions.size != 1 || grantResults.size != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
-                WeatherUtil.updateWeather(this)
-                updateAppWidget()
+                val SP = PreferenceManager.getDefaultSharedPreferences(this)
+                if (SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
+                    startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
+                } else {
+                    WeatherUtil.updateWeather(this)
+                    updateAppWidget()
+                }
                 updateSettings()
             }
         }
@@ -169,6 +197,9 @@ class MainActivity : AppCompatActivity() {
             Util.updateWidget(this)
             updateSettings()
             updateAppWidget()
+        } else if (requestCode == Constants.WEATHER_PROVIDER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
+            updateSettings()
         }
     }
 
@@ -179,9 +210,9 @@ class MainActivity : AppCompatActivity() {
 
         empty_layout.visibility = View.VISIBLE
         calendar_layout.visibility = View.GONE
-        var dateStringValue: String = String.format("%s%s", Constants.engDateFormat.format(now.time)[0].toUpperCase(), Constants.engDateFormat.format(now.time).substring(1))
+        var dateStringValue: String = Util.getCapWordString(Constants.engDateFormat.format(now.time))
         if (SP.getBoolean(Constants.PREF_ITA_FORMAT_DATE, false)) {
-            dateStringValue = String.format("%s%s", Constants.itDateFormat.format(now.time)[0].toUpperCase(), Constants.itDateFormat.format(now.time).substring(1))
+            dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
         }
         empty_date.text = dateStringValue
         //empty_date.setImageBitmap(Util.buildUpdate(this,  String.format("%s%s", Constants.dateFormat.format(now.time)[0].toUpperCase(), Constants.dateFormat.format(now.time).substring(1)), "fonts/product_sans_regular.ttf"))
@@ -241,7 +272,7 @@ class MainActivity : AppCompatActivity() {
 
     fun updateLocationView() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
-        val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true) && Util.checkGrantedPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)
 
         if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
             weather.visibility = View.VISIBLE
@@ -406,6 +437,17 @@ class MainActivity : AppCompatActivity() {
         weather_app_label.text = SP.getString(Constants.PREF_WEATHER_APP_NAME, getString(R.string.default_name))
         action_weather_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.WEATHER_APP_REQUEST_CODE)
+        }
+
+        if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
+            label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_all_set)
+            alert_icon.visibility = View.GONE
+        } else {
+            label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
+            alert_icon.visibility = View.VISIBLE
+        }
+        action_weather_provider_api_key.setOnClickListener {
+            startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
         }
 
         action_filter_calendar.setOnClickListener {

@@ -18,7 +18,7 @@ class WeatherReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
             setUpdates(context)
-        } else if (intent.action.equals(Constants.ACTION_WEATHER_UPDATE)) {
+        } else if (intent.action.equals(Constants.ACTION_WEATHER_UPDATE) || intent.action.equals("android.location.PROVIDERS_CHANGED")) {
             WeatherUtil.updateWeather(context)
         }
     }

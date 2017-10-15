@@ -80,9 +80,9 @@ class TheWidget : AppWidgetProvider() {
 
             views.setViewVisibility(R.id.empty_layout, View.VISIBLE)
             views.setViewVisibility(R.id.calendar_layout, View.GONE)
-            var dateStringValue: String = String.format("%s%s", Constants.engDateFormat.format(now.time)[0].toUpperCase(), Constants.engDateFormat.format(now.time).substring(1))
+            var dateStringValue: String = Util.getCapWordString(Constants.engDateFormat.format(now.time))
             if (SP.getBoolean(Constants.PREF_ITA_FORMAT_DATE, false)) {
-                dateStringValue = String.format("%s%s", Constants.itDateFormat.format(now.time)[0].toUpperCase(), Constants.itDateFormat.format(now.time).substring(1))
+                dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
             }
             views.setTextViewText(R.id.empty_date, dateStringValue)
             //views.setImageViewBitmap(R.id.empty_date, Util.buildUpdate(context, Constants.dateFormat.format(now.time)[0].toUpperCase() + Constants.dateFormat.format(now.time).substring(1), "fonts/product_sans_regular.ttf"))
@@ -158,7 +158,7 @@ class TheWidget : AppWidgetProvider() {
 
         fun updateLocationView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
-            val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true) && Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+            val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)
 
             if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
                 views.setViewVisibility(R.id.weather, View.VISIBLE)

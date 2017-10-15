@@ -27,6 +27,7 @@ import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
@@ -76,10 +77,10 @@ object Util {
 
     fun openURI(context: Context, url: String) {
         try {
-            val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-            val customTabsIntent: CustomTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context, Uri.parse(url));
+            val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+            builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            val customTabsIntent: CustomTabsIntent = builder.build()
+            customTabsIntent.launchUrl(context, Uri.parse(url))
         } catch (e: Exception) {
             try {
                 val openIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -91,10 +92,11 @@ object Util {
                 Toast.makeText(context, R.string.error_opening_uri, Toast.LENGTH_LONG).show()
             }
         }
-        val clipboard:ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(context.getString(R.string.app_name), url);
-        clipboard.primaryClip = clip;
-        Toast.makeText(context, R.string.error_opening_uri, Toast.LENGTH_LONG).show()
+    }
+
+    fun rateApp(context: Context, url: String) {
+        val openIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(openIntent)
     }
 
     fun share(context: Context) {
@@ -226,6 +228,57 @@ object Util {
                 weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
                 weatherIntent
             }
+        }
+    }
+
+    fun getCapWordString(text: String): String {
+        return try {
+            val ar = text.split(" ")
+            var newText = ""
+            for (t: String in ar) {
+                newText += " "
+                newText += t.substring(0, 1).toUpperCase()
+                newText += t.substring(1)
+            }
+            newText.substring(1)
+        } catch (e: Exception) {
+            text
+        }
+    }
+
+
+
+    fun showLocationNotification(context: Context, show: Boolean) {
+        val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
+
+        if (show) {
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+                    .setSmallIcon(R.drawable.ic_stat_name)
+                    .setPriority(Notification.PRIORITY_MIN)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setContentTitle(context.getString(R.string.notification_gps_title))
+                    .setContentText(context.getString(R.string.notification_gps_subtitle))
+                    .setAutoCancel(true);
+
+            val intent: Intent = Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            val pi: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pi);
+            mNotificationManager.notify(1, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(1);
+        }
+
+    }
+
+    fun sendEmail(context: Context) {
+        val i:Intent = Intent(Intent.ACTION_SEND)
+        i.type = "message/rfc822"
+        i.putExtra(Intent.EXTRA_EMAIL, arrayOf("tommaso.berlose@gmail.com"))
+        i.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback_title))
+        try {
+            context.startActivity(Intent.createChooser(i, context.getString(R.string.feedback_chooser_title)))
+        } catch (ex: Exception) {
+            Toast.makeText(context, R.string.feedback_error, Toast.LENGTH_SHORT).show();
         }
     }
 

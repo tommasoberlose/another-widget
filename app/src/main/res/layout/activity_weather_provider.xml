@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context="com.tommasoberlose.anotherwidget.ui.activity.CustomLocationActivity">
+    tools:context="com.tommasoberlose.anotherwidget.ui.activity.WeatherProviderActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +37,9 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         app:cardCornerRadius="3dp"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@android:color/white"
         app:cardBackgroundColor="@android:color/white">
         <LinearLayout
@@ -56,27 +58,28 @@
                     android:background="@android:color/white"
                     android:padding="16dp"
                     android:inputType="textCapWords"
-                    android:id="@+id/location"
+                    android:id="@+id/api_key"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:hint="@string/settings_custom_location_title"/>
+                    android:hint="@string/api_key_hint"/>
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:contentDescription="@string/custom_location_gps"
-                    android:id="@+id/action_geolocation"
-                    android:src="@drawable/ic_action_gps"
+                    android:id="@+id/action_paste"
+                    android:src="@drawable/ic_action_paste"
                     android:tint="@android:color/primary_text_light"/>
             </LinearLayout>
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_10"/>
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/list_view" />
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="@string/action_save"
+                android:gravity="center"
+                android:visibility="gone"
+                android:background="@color/colorAccent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/action_save"
+                style="@style/AnotherWidget.Main.Button"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

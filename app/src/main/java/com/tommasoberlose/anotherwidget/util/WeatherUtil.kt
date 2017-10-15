@@ -15,6 +15,13 @@ import com.survivingwithandroid.weather.lib.provider.openweathermap.Openweatherm
 import com.survivingwithandroid.weather.lib.request.WeatherRequest
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import android.content.DialogInterface
+import android.support.v4.content.ContextCompat.startActivity
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
+import android.content.Intent
+import android.location.LocationManager
+
+
 
 
 /**
@@ -22,41 +29,73 @@ import com.tommasoberlose.anotherwidget.`object`.Constants
  */
 
 object WeatherUtil {
-    val API_KEY_1 = "43e744ad8ff91b09ea62dbc7d0e7c1dd"
-    val API_KEY_2 = "61cde158f4bcc2e5cd18de7b9d000702"
 
     fun updateWeather(context: Context) {
+        Util.showLocationNotification(context, false)
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         if (SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").equals("")) {
 
             if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 return
             }
-
+            var gpsEnabled = false
+            var networkEnabled = false
             val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
-            getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
+            try {
+                gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            } catch (ex: Exception) {
+            }
 
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, object : LocationListener {
-                override fun onLocationChanged(location: Location) {
-                    locationManager.removeUpdates(this)
-                    getCurrentWeather(context, location)
-                }
+            try {
+                networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            } catch (ex: Exception) {
+            }
 
-                @SuppressLint("ApplySharedPref")
-                override fun onProviderDisabled(p0: String?) {
-                }
+            if (!gpsEnabled && !networkEnabled) {
+                Util.showLocationNotification(context, true)
+            } else {
+                if (gpsEnabled) {
+                    getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
+                        override fun onLocationChanged(location: Location) {
+                            locationManager.removeUpdates(this)
+                            getCurrentWeather(context, location)
+                        }
 
-                @SuppressLint("ApplySharedPref")
-                override fun onProviderEnabled(p0: String?) {
-                }
+                        @SuppressLint("ApplySharedPref")
+                        override fun onProviderDisabled(p0: String?) {
+                        }
 
-                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
+                        @SuppressLint("ApplySharedPref")
+                        override fun onProviderEnabled(p0: String?) {
+                        }
+
+                        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
+                        }
+                    })
+                } else {
+                    getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, object : LocationListener {
+                        override fun onLocationChanged(location: Location) {
+                            locationManager.removeUpdates(this)
+                            getCurrentWeather(context, location)
+                        }
+
+                        @SuppressLint("ApplySharedPref")
+                        override fun onProviderDisabled(p0: String?) {
+                        }
+
+                        @SuppressLint("ApplySharedPref")
+                        override fun onProviderEnabled(p0: String?) {
+                        }
+
+                        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
+                        }
+                    })
                 }
-            })
+            }
         } else {
             weatherNetworkRequest(context, SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").toDouble(), SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").toDouble())
-
         }
     }
 
@@ -69,42 +108,45 @@ object WeatherUtil {
 
     fun weatherNetworkRequest(context: Context, latitude: Double, longitude: Double) {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
+            try {
+                val config = WeatherConfig()
+                config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
+                config.lang = "en"
+                config.maxResult = 1
+                config.numDays = 1
+                config.ApiKey = SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "")
 
-        try {
-            val config = WeatherConfig()
-            config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
-            config.lang = "en" // If you want to use english
-            config.maxResult = 1 // Max number of cities retrieved
-            config.numDays = 1 // Max num of days in the forecast
-            config.ApiKey = API_KEY_2
+                val client = WeatherClient.ClientBuilder().attach(context)
+                        .httpClient(com.survivingwithandroid.weather.lib.client.volley.WeatherClientDefault::class.java)
+                        .provider(OpenweathermapProviderType())
+                        .config(config)
+                        .build()
 
-            val client = WeatherClient.ClientBuilder().attach(context)
-                    .httpClient(com.survivingwithandroid.weather.lib.client.volley.WeatherClientDefault::class.java)
-                    .provider(OpenweathermapProviderType())
-                    .config(config)
-                    .build()
+                client.getCurrentCondition(WeatherRequest(longitude, latitude), object : WeatherClient.WeatherEventListener {
+                    @SuppressLint("ApplySharedPref")
+                    override fun onWeatherRetrieved(currentWeather: CurrentWeather) {
+                        SP.edit()
+                                .putFloat(Constants.PREF_WEATHER_TEMP, currentWeather.weather.temperature.temp)
+                                .putString(Constants.PREF_WEATHER_ICON, currentWeather.weather.currentCondition.icon)
+                                .commit()
+                        Util.updateWidget(context)
+                    }
 
-            client.getCurrentCondition(WeatherRequest(longitude, latitude), object : WeatherClient.WeatherEventListener {
-                @SuppressLint("ApplySharedPref")
-                override fun onWeatherRetrieved(currentWeather: CurrentWeather) {
-                    SP.edit()
-                            .putFloat(Constants.PREF_WEATHER_TEMP, currentWeather.weather.temperature.temp)
-                            .putString(Constants.PREF_WEATHER_ICON, currentWeather.weather.currentCondition.icon)
-                            .commit()
-                    Util.updateWidget(context)
-                }
+                    @SuppressLint("ApplySharedPref")
+                    override fun onWeatherError(e: WeatherLibException?) {
+                        // removeWeather(context, SP)
+                    }
 
-                @SuppressLint("ApplySharedPref")
-                override fun onWeatherError(e: WeatherLibException?) {
-                    removeWeather(context, SP)
-                }
-
-                @SuppressLint("ApplySharedPref")
-                override fun onConnectionError(throwable: Throwable?) {
-                    removeWeather(context, SP)
-                }
-            })
-        } catch (t: Exception) {
+                    @SuppressLint("ApplySharedPref")
+                    override fun onConnectionError(throwable: Throwable?) {
+                        // removeWeather(context, SP)
+                    }
+                })
+            } catch (t: Exception) {
+                // removeWeather(context, SP)
+            }
+        } else {
             removeWeather(context, SP)
         }
     }

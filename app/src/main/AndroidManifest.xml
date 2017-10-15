@@ -66,6 +66,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_WEATHER_UPDATE" />
+                <action android:name="android.location.PROVIDERS_CHANGED" />
             </intent-filter>
         </receiver>
 
@@ -78,7 +79,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ChooseApplicationActivity"></activity>
+        <activity android:name=".ui.activity.ChooseApplicationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.WeatherProviderActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

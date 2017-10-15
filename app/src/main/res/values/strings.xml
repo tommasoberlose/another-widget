@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Another Widget</string>
-    <string name="add_widget">Add Another Widget</string>
+    <string name="add_widget">Add Widget</string>
     <string name="main_pre_title">Just</string>
     <string name="button_request_permission">Grant Permission</string>
     <string name="title_permission_calendar">See your Events</string>
@@ -49,7 +49,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 Hours</string>
     <string name="settings_custom_location_title">Custom Location</string>
     <string name="custom_location_gps">Geolocation</string>
-    <string name="action_refresh_widget">Refresh</string>
+    <string name="action_refresh_widget">Refresh Widget</string>
     <string name="show_events_visible">Events are Visible</string>
     <string name="show_events_not_visible">Events are not Visible</string>
     <string name="show_weather_visible">Weather Info are Visible</string>
@@ -70,4 +70,16 @@
     <string name="settings_weather_app_title">Tap on weather opens</string>
     <string name="default_name">Default App</string>
     <string name="action_choose_application">Choose Application</string>
+    <string name="settings_weather_provider_api_key_title">Weather Provider</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured</string>
+    <string name="notification_gps_title">Location is turned off</string>
+    <string name="notification_gps_subtitle">Turn on the localization to get the updated weather.</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="feedback_title">AW Feedback</string>
+    <string name="feedback_chooser_title">Send email...</string>
+    <string name="feedback_error">Error sending email.</string>
+    <string name="api_key_hint">OpenWeather API Key</string>
+    <string name="error_weather_api_key">The provider is not configured correctly, do you still want to go back?</string>
+    <string name="action_save">Save</string>
 </resources>

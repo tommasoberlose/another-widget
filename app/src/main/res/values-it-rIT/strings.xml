@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Another Widget</string>
-    <string name="add_widget">Aggiungi Another Widget</string>
+    <string name="add_widget">Aggiungi Widget</string>
     <string name="main_pre_title">Just</string>
     <string name="button_request_permission">Concedi Accesso</string>
     <string name="all_set_btn">Rimani Aggiornato</string>
@@ -48,7 +48,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 Ore</string>
     <string name="settings_custom_location_title">Località Meteo</string>
     <string name="custom_location_gps">Geolocalizzazione</string>
-    <string name="action_refresh_widget">Aggiorna</string>
+    <string name="action_refresh_widget">Aggiorna Widget</string>
     <string name="show_events_visible">Eventi Visibili</string>
     <string name="show_events_not_visible">Eventi non Visibili</string>
     <string name="show_weather_visible">Meteo Visibile</string>
@@ -68,4 +68,16 @@
     <string name="settings_weather_app_title">Il meteo apre</string>
     <string name="default_name">App Predefinita</string>
     <string name="action_choose_application">Scegli Applicazione</string>
+    <string name="settings_weather_provider_api_key_title">"Provider del Meteo "</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Il provider meteo è configurato correttamente</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Il provider meteo deve essere configurato</string>
+    <string name="notification_gps_title">Localizzazione disattivata</string>
+    <string name="notification_gps_subtitle">Riaccendi la localizzazione per avere il meteo aggiornato.</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="feedback_title">AW Feedback</string>
+    <string name="feedback_chooser_title">Invia email...</string>
+    <string name="feedback_error">Errore invio mail.</string>
+    <string name="api_key_hint">Chiave API OpenWeather</string>
+    <string name="error_weather_api_key">Il provider non è configurato correttamente, vuoi comunque uscire?</string>
+    <string name="action_save">Salva</string>
 </resources>

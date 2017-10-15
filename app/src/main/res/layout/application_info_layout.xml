@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@mipmap/ic_generic_app"
+        android:id="@+id/icon"/>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/primary_text_light"
+        style="@style/AnotherWidget.Settings.Title"/>
+</LinearLayout>

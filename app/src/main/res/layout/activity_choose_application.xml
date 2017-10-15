@@ -66,7 +66,6 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="@string/custom_location_gps"
                     android:id="@+id/action_default"
                     android:src="@drawable/ic_action_reset"
@@ -76,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black_10"/>
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/list_view" />

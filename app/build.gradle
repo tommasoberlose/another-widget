@@ -46,7 +46,6 @@ dependencies {
         transitive = true;
     }
     compile 'com.android.support:design:26.1.0'
-    compile 'com.github.rubensousa:bottomsheetbuilder:1.6.0'
-    compile 'com.github.johnhiott:DarkSkyApi:v0.1.5'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
 }

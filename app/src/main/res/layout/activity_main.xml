@@ -1,73 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context="com.tommasoberlose.anotherwidget.ui.activity.MainActivity"
-    android:background="@drawable/gradient_background"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="32dp"
-        android:id="@+id/toolbar"
-        android:gravity="center_vertical">
-        <TextView
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/main_pre_title"
-            android:alpha="0.6"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:gravity="center_vertical"
-            style="@style/AnotherWidget.Main.Subtitle"
-            android:textAllCaps="true"/>
+            android:orientation="vertical"
+            android:layout_margin="32dp"
+            android:id="@+id/toolbar"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_pre_title"
+                android:alpha="0.6"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:gravity="center_vertical"
+                style="@style/AnotherWidget.Main.Subtitle"
+                android:textAllCaps="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:gravity="center_vertical"
+                style="@style/AnotherWidget.Main.Title"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:id="@+id/widget">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:id="@+id/widget_bg"/>
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/the_widget"/>
+        </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:gravity="center_vertical"
-            style="@style/AnotherWidget.Main.Title"
-            android:textAllCaps="true"/>
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:id="@+id/widget">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:id="@+id/widget_bg"/>
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/the_widget"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
+            android:layout_height="60dp"
+            android:text="@string/add_widget"
+            android:visibility="gone"
+            android:gravity="center"
+            android:background="@color/black_30"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/action_add_widget"
+            style="@style/AnotherWidget.Main.Button"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/all_set_container"
-            tools:ignore="UselessParent">
+            android:id="@+id/all_set_container">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="@string/settings_calendar_title"
-                    android:visibility="gone"
                     style="@style/AnotherWidget.Settings.Header"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -255,7 +261,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_weather_title"
-                    android:visibility="gone"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     style="@style/AnotherWidget.Settings.Header"/>
@@ -289,6 +294,42 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/weather_settings"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:id="@+id/action_weather_provider_api_key"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/AnotherWidget.Settings.Title"
+                                android:text="@string/settings_weather_provider_api_key_title"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/label_weather_provider_api_key"
+                                style="@style/AnotherWidget.Settings.Subtitle"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:id="@+id/alert_icon"
+                            android:visibility="gone"
+                            android:src="@drawable/ic_action_alert"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -388,101 +429,14 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:baselineAligned="false"
-        android:id="@+id/menu_container"
-        android:orientation="horizontal"
-        android:background="@color/midnight_blue"
-        android:layout_gravity="bottom">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:text="@string/add_widget"
-            android:visibility="gone"
-            android:gravity="center"
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/action_add_widget"
-            style="@style/AnotherWidget.Main.Button"/>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/action_refresh"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:padding="2dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_action_refresh"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/action_refresh_widget"
-                style="@style/AnotherWidget.Main.Button.TabBar"
-                android:background="@android:color/transparent"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/action_share"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:padding="2dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_action_sms"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/action_share"
-                style="@style/AnotherWidget.Main.Button.TabBar"
-                android:background="@android:color/transparent"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/action_support"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:padding="2dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_action_gift"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/action_support"
-                style="@style/AnotherWidget.Main.Button.TabBar"
-                android:background="@android:color/transparent"/>
-        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="4dp"
+        android:id="@+id/action_menu"
+        android:layout_marginTop="28dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_menu"/>
+</RelativeLayout>
