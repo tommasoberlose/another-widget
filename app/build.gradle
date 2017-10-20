@@ -15,8 +15,8 @@ android {
         applicationId "com.tommasoberlose.anotherwidget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 15
-        versionName "1.1"
+        versionCode 16
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -50,4 +50,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.google.android.gms:play-services-awareness:11.4.2'
     compile 'joda-time:joda-time:2.9.9'
+    compile 'com.pes.materialcolorpicker:library:1.0.4'
 }

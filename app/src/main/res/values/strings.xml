@@ -97,7 +97,13 @@
     <string name="api_key_info_all_set"><![CDATA[It may take up to <b>ten minutes</b> before your API key is activated.<BR /><BR />So <i>relax</i>! The weather will be updated as soon as it is available!!]]></string>
     <string name="well_done">Well Done!</string>
     <string name="hs_code">h</string>
-    <string name="tomorrow">tomorrow</string>
-    <string name="today">oggi</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="today">Today</string>
     <string name="settings_event_app_title">Tap on event opens</string>
+    <string name="settings_show_location_title">Second Row Information</string>
+    <string name="settings_show_location_subtitle_true">Show event address instead of time</string>
+    <string name="settings_show_location_subtitle_false">Show event time</string>
+    <string name="settings_font_color_title">Text Color</string>
+    <string name="title_main_text_size">First Row Text Size</string>
+    <string name="title_second_text_size">Second Row Text Size</string>
 </resources>

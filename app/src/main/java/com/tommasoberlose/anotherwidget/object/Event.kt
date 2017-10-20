@@ -15,14 +15,16 @@ class Event {
     var endDate: Long = 0
     var calendarID: Int = 0
     var allDay: Boolean = false
+    var address: String = ""
 
-    constructor(id:Int, title:String, startDate:Long, endDate:Long, calendarID: Int, allDay: Boolean) {
+    constructor(id:Int, title:String, startDate:Long, endDate:Long, calendarID: Int, allDay: Boolean, address: String) {
         this.id = id
         this.title = title
         this.startDate = startDate
         this.endDate = endDate
         this.calendarID = calendarID
         this.allDay = allDay
+        this.address = address
     }
 
     constructor(eventCursor: Cursor, instanceCursor: Cursor) {
@@ -33,6 +35,7 @@ class Event {
         title = eventCursor.getString(0)
         allDay = !eventCursor.getString(1).equals("0")
         calendarID = eventCursor.getInt(2)
+        address = eventCursor.getString(3)
     }
 
     override fun toString(): String {

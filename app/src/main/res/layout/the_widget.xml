@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_layout">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
@@ -12,25 +12,28 @@
         android:id="@+id/empty_layout">
         <TextView
             android:id="@+id/empty_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:lines="1"
             android:maxLines="1"
+            android:gravity="right"
+            android:ellipsize="end"
             android:text="@string/loading_text"
             style="@style/AnotherWidget.Title" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/weather"
-            android:minWidth="110dp"
             android:visibility="gone">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:id="@+id/divider1"
                 android:text="@string/divider"
                 style="@style/AnotherWidget.Subtitle"/>
             <ImageView
@@ -43,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Date.Big"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:id="@+id/temp"/>
         </LinearLayout>
     </LinearLayout>
@@ -55,31 +60,58 @@
         android:visibility="gone"
         android:id="@+id/calendar_layout"
         android:gravity="center">
-        <TextView
-            android:id="@+id/next_event"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/AnotherWidget.Title" />
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/next_event"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:maxLines="1"
+                android:lines="1"
+                android:gravity="end"
+                android:ellipsize="end"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Title" />
+            <TextView
+                android:id="@+id/next_event_difference_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                style="@style/AnotherWidget.Title" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_action_calendar"/>
-            <TextView
-                android:id="@+id/next_event_date"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Subtitle" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/second_row_icon"
+                    android:src="@drawable/ic_action_calendar"/>
+                <TextView
+                    android:id="@+id/next_event_date"
+                    android:layout_width="wrap_content"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content"
+                    style="@style/AnotherWidget.Subtitle" />
+            </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:id="@+id/calendar_weather">
@@ -89,11 +121,12 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="2dp"
+                    android:id="@+id/divider2"
                     android:text="@string/divider"
                     style="@style/AnotherWidget.Subtitle"/>
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:id="@+id/weather_icon"
                     android:src="@drawable/clear_night"/>
                 <TextView
@@ -101,6 +134,7 @@
                     android:layout_height="wrap_content"
                     style="@style/AnotherWidget.Date"
                     android:layout_marginStart="4dp"
+                    android:ellipsize="marquee"
                     android:layout_marginEnd="4dp"
                     android:id="@+id/calendar_temp"/>
             </LinearLayout>

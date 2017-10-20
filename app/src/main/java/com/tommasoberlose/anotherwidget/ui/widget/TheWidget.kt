@@ -29,12 +29,12 @@ import android.net.Uri
 import android.widget.TextClock
 import android.widget.TextView
 import android.content.ComponentName
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat.startActivity
 import android.provider.CalendarContract.Events
-
-
-
-
+import android.util.TypedValue
 
 
 /**
@@ -70,6 +70,25 @@ class TheWidget : AppWidgetProvider() {
 
             views = updateLocationView(context, views, appWidgetId)
 
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            views.setTextColor(R.id.empty_date, Util.getFontColor(SP))
+            views.setTextColor(R.id.divider1, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            views.setTextColor(R.id.temp, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            views.setTextColor(R.id.next_event, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            views.setTextColor(R.id.next_event_difference_time, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            views.setTextColor(R.id.next_event_date, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            views.setTextColor(R.id.divider2, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            views.setTextColor(R.id.calendar_temp, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+
+            views.setTextViewTextSize(R.id.empty_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            views.setTextViewTextSize(R.id.divider1, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            views.setTextViewTextSize(R.id.temp, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            views.setTextViewTextSize(R.id.next_event, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            views.setTextViewTextSize(R.id.next_event_difference_time, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            views.setTextViewTextSize(R.id.next_event_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            views.setTextViewTextSize(R.id.divider2, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            views.setTextViewTextSize(R.id.calendar_temp, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
@@ -96,39 +115,54 @@ class TheWidget : AppWidgetProvider() {
                 val e = CalendarUtil.getNextEvent(context)
 
                 if (e.id != 0) {
-                    views.setTextViewText(R.id.next_event, Util.getDifferenceText(context, e.title, now.timeInMillis, e.startDate))
+                    views.setTextViewText(R.id.next_event, e.title)
+                    views.setTextViewText(R.id.next_event_difference_time, Util.getDifferenceText(context, now.timeInMillis, e.startDate))
 
-                    if (!e.allDay) {
-                        val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
-                        val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
-                        var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
+                    if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
 
-                        val startCal = Calendar.getInstance()
-                        startCal.timeInMillis = e.startDate
+                        val source = BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_location);
+                        val result = Util.changeBitmapColor(source, Util.getFontColor(SP))
+                        views.setImageViewBitmap(R.id.second_row_icon, result)
 
-                        val endCal = Calendar.getInstance()
-                        endCal.timeInMillis = e.endDate
+                        views.setTextViewText(R.id.next_event_date, e.address)
 
-                        if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
-                            dayDiff++
-                        } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
-                            dayDiff++
-                        }
-
-                        var multipleDay: String = ""
-                        if (dayDiff > 0) {
-                            multipleDay = String.format(" (+%s%s)", dayDiff, context.getString(R.string.day_char))
-                        }
-
-                        views.setTextViewText(R.id.next_event_date, String.format("%s - %s%s", startHour, endHour, multipleDay))
+                        val mapIntent = PendingIntent.getActivity(context, widgetID, Util.getGoogleMapsIntentFromAddress(context, e.address), 0)
+                        views.setOnClickPendingIntent(R.id.next_event_date, mapIntent)
                     } else {
-                        views.setTextViewText(R.id.next_event_date, dateStringValue)
+                        val source = BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_calendar);
+                        val result = Util.changeBitmapColor(source, Util.getFontColor(SP))
+                        views.setImageViewBitmap(R.id.second_row_icon, result)
+
+                        if (!e.allDay) {
+                            val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
+                            val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
+                            var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
+
+                            val startCal = Calendar.getInstance()
+                            startCal.timeInMillis = e.startDate
+
+                            val endCal = Calendar.getInstance()
+                            endCal.timeInMillis = e.endDate
+
+                            if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
+                                dayDiff++
+                            } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
+                                dayDiff++
+                            }
+
+                            var multipleDay = ""
+                            if (dayDiff > 0) {
+                                multipleDay = String.format(" (+%s%s)", dayDiff, context.getString(R.string.day_char))
+                            }
+
+                            views.setTextViewText(R.id.next_event_date, String.format("%s - %s%s", startHour, endHour, multipleDay))
+                        } else {
+                            views.setTextViewText(R.id.next_event_date, dateStringValue)
+                        }
                     }
 
                     views.setViewVisibility(R.id.empty_layout, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
-
-
 
                     val pIntent = PendingIntent.getActivity(context, widgetID, Util.getEventIntent(context, e), 0)
                     views.setOnClickPendingIntent(R.id.main_layout, pIntent)

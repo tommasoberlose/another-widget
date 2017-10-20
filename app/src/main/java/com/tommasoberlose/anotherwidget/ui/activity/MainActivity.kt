@@ -23,13 +23,18 @@ import android.content.BroadcastReceiver
 import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import android.content.DialogInterface
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.support.annotation.ColorInt
 import android.support.design.widget.BottomSheetDialog
+import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.util.Log
+import android.util.TypedValue
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
@@ -244,37 +249,64 @@ class MainActivity : AppCompatActivity() {
             val e = CalendarUtil.getNextEvent(this)
 
             if (e.id != 0) {
-                next_event.text = Util.getDifferenceText(this, e.title, now.timeInMillis, e.startDate)
+                next_event.text = e.title
+                next_event_difference_time.text = Util.getDifferenceText(this, now.timeInMillis, e.startDate)
 
-                if (!e.allDay) {
-                    val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
-                    val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
-                    var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
-
-                    val startCal = Calendar.getInstance()
-                    startCal.timeInMillis = e.startDate
-
-                    val endCal = Calendar.getInstance()
-                    endCal.timeInMillis = e.endDate
-
-                    if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
-                        dayDiff++
-                    } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
-                        dayDiff++
-                    }
-                    var multipleDay: String = ""
-                    if (dayDiff > 0) {
-                        multipleDay = String.format(" (+%s%s)", dayDiff, getString(R.string.day_char))
-                    }
-                    next_event_date.text = String.format("%s - %s%s", startHour, endHour, multipleDay)
+                if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
+                    second_row_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_location))
+                    next_event_date.text = e.address
                 } else {
-                    next_event_date.text = dateStringValue
+                    second_row_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_calendar))
+                    if (!e.allDay) {
+                        val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
+                        val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
+                        var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
+
+                        val startCal = Calendar.getInstance()
+                        startCal.timeInMillis = e.startDate
+
+                        val endCal = Calendar.getInstance()
+                        endCal.timeInMillis = e.endDate
+
+                        if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
+                            dayDiff++
+                        } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
+                            dayDiff++
+                        }
+                        var multipleDay: String = ""
+                        if (dayDiff > 0) {
+                            multipleDay = String.format(" (+%s%s)", dayDiff, getString(R.string.day_char))
+                        }
+                        next_event_date.text = String.format("%s - %s%s", startHour, endHour, multipleDay)
+                    } else {
+                        next_event_date.text = dateStringValue
+                    }
                 }
 
                 empty_layout.visibility = View.GONE
                 calendar_layout.visibility = View.VISIBLE
             }
         }
+
+        empty_date.setTextColor(Util.getFontColor(SP))
+        divider1.setTextColor(Util.getFontColor(SP))
+        temp.setTextColor(Util.getFontColor(SP))
+        next_event.setTextColor(Util.getFontColor(SP))
+        next_event_difference_time.setTextColor(Util.getFontColor(SP))
+        next_event_date.setTextColor(Util.getFontColor(SP))
+        divider2.setTextColor(Util.getFontColor(SP))
+        calendar_temp.setTextColor(Util.getFontColor(SP))
+        second_row_icon.setColorFilter(Util.getFontColor(SP))
+
+
+        empty_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+        divider1.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+        temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+        next_event.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+        next_event_difference_time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+        next_event_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+        divider2.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+        calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
     }
 
     fun updateLocationView() {
@@ -388,6 +420,59 @@ class MainActivity : AppCompatActivity() {
             updateAppWidget()
         }
 
+        show_location_label.text = if (SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) getString(R.string.settings_show_location_subtitle_true) else getString(R.string.settings_show_location_subtitle_false)
+        action_show_location.setOnClickListener {
+            SP.edit().putBoolean(Constants.PREF_SHOW_EVENT_LOCATION, !SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)).commit()
+            Util.updateWidget(this)
+            updateSettings()
+            updateAppWidget()
+        }
+
+        main_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f), "sp")
+        action_main_text_size.setOnClickListener {
+            var fontSize = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + 1
+            if (fontSize > 30) {
+                fontSize = 20f
+            }
+            SP.edit().putFloat(Constants.PREF_TEXT_MAIN_SIZE, fontSize).commit()
+            Util.updateWidget(this)
+            updateSettings()
+            updateAppWidget()
+        }
+
+        second_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f), "sp")
+        action_second_text_size.setOnClickListener {
+            var fontSize = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) + 1
+            if (fontSize > 20) {
+                fontSize = 12f
+            }
+            SP.edit().putFloat(Constants.PREF_TEXT_SECOND_SIZE, fontSize).commit()
+            Util.updateWidget(this)
+            updateSettings()
+            updateAppWidget()
+        }
+
+
+        val textColor = try {
+            Color.parseColor(SP.getString(Constants.PREF_TEXT_COLOR, "#FFFFFF"))
+        } catch (e: Exception) {
+            SP.edit().remove(Constants.PREF_TEXT_COLOR).commit()
+            Color.parseColor(SP.getString(Constants.PREF_TEXT_COLOR, "#FFFFFF"))
+        }
+        text_color_icon.setCardBackgroundColor(textColor)
+        font_color_label.text = SP.getString(Constants.PREF_TEXT_COLOR, "#FFFFFF").toUpperCase()
+        action_font_color.setOnClickListener {
+            val cp: ColorPicker = ColorPicker(this@MainActivity, Color.red(textColor), Color.green(textColor), Color.blue(textColor))
+            cp.setOnColorSelected { color ->
+                SP.edit().putString(Constants.PREF_TEXT_COLOR, "#" + Integer.toHexString(color)).commit()
+                Util.updateWidget(this)
+                updateSettings()
+                updateAppWidget()
+                cp.dismiss()
+            }
+            cp.show()
+        }
+
         val now = Calendar.getInstance()
         var dateStringValue: String = String.format("%s%s", Constants.engDateFormat.format(now.time)[0].toUpperCase(), Constants.engDateFormat.format(now.time).substring(1))
         if (SP.getBoolean(Constants.PREF_ITA_FORMAT_DATE, false)) {
@@ -436,6 +521,22 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, CustomLocationActivity::class.java), Constants.RESULT_CODE_CUSTOM_LOCATION)
         }
 
+        if (SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, getString(R.string.custom_location_gps)) == getString(R.string.custom_location_gps)) {
+            action_weather_provider_api_key.visibility= View.GONE
+        } else {
+            action_weather_provider_api_key.visibility= View.VISIBLE
+            if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
+                label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_all_set)
+                alert_icon.visibility = View.GONE
+            } else {
+                label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
+                alert_icon.visibility = View.VISIBLE
+            }
+            action_weather_provider_api_key.setOnClickListener {
+                startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
+            }
+        }
+
         calendar_app_label.text = SP.getString(Constants.PREF_CALENDAR_APP_NAME, getString(R.string.default_name))
         action_calendar_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.CALENDAR_APP_REQUEST_CODE)
@@ -449,17 +550,6 @@ class MainActivity : AppCompatActivity() {
         event_app_label.text = SP.getString(Constants.PREF_EVENT_APP_NAME, getString(R.string.default_name))
         action_event_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.EVENT_APP_REQUEST_CODE)
-        }
-
-        if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
-            label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_all_set)
-            alert_icon.visibility = View.GONE
-        } else {
-            label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
-            alert_icon.visibility = View.VISIBLE
-        }
-        action_weather_provider_api_key.setOnClickListener {
-            startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
         }
 
         action_filter_calendar.setOnClickListener {

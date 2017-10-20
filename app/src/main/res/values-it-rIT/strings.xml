@@ -95,5 +95,13 @@
     <string name="well_done">Ben Fatto!</string>
     <string name="api_key_info_all_set"><![CDATA[Posso essere necessari fino a <b>dieci minuti</b> prima che la tua chiave sia attivata.<BR /><BR />Quindi <i>rilassati</i>! Il meteo verrà aggiornato non appena sarà disponibile!]]></string>
     <string name="hs_code">" ore"</string>
-    <string name="tomorrow">domani</string>
+    <string name="tomorrow">Domani</string>
+    <string name="today">Oggi</string>
+    <string name="settings_event_app_title">Gli eventi aprono</string>
+    <string name="settings_show_location_title">Informazione Seconda Riga</string>
+    <string name="settings_show_location_subtitle_false">Mostra orario evento</string>
+    <string name="settings_show_location_subtitle_true">Mostra indirizzo evento invece dell\'orario</string>
+    <string name="settings_font_color_title">Colore Testo</string>
+    <string name="title_main_text_size">Dimensione Testo Prima Riga</string>
+    <string name="title_second_text_size">Dimensione Testo Seconda Riga</string>
 </resources>

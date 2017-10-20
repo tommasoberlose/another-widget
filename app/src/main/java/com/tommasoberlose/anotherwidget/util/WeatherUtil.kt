@@ -26,6 +26,7 @@ import com.google.android.gms.awareness.snapshot.WeatherResponse
 import com.google.android.gms.awareness.state.Weather
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import java.util.*
 
 
 /**
@@ -89,7 +90,7 @@ object WeatherUtil {
                     val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
                     SP.edit()
                             .putFloat(Constants.PREF_WEATHER_TEMP, weather.getTemperature(if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) Weather.FAHRENHEIT else Weather.CELSIUS))
-                            .putString(Constants.PREF_WEATHER_ICON, weather.conditions[0].toString())
+                            .putString(Constants.PREF_WEATHER_ICON, getIconCodeFromAwareness(weather.conditions))
                             .putString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
                             .commit()
                     Util.updateWidget(context)
@@ -159,6 +160,39 @@ object WeatherUtil {
         Util.updateWidget(context)
     }
 
+    fun getIconCodeFromAwareness(conditions: IntArray): String {
+        var icon = ""
+        return if (conditions.contains(Weather.CONDITION_UNKNOWN)) {
+            ""
+        } else {
+            if (conditions.contains(Weather.CONDITION_CLEAR)) {
+                icon = "01"
+            } else if (conditions.contains(Weather.CONDITION_CLOUDY)) {
+                icon = "02"
+            } else if (conditions.contains(Weather.CONDITION_RAINY)) {
+                icon = "10"
+            } else if (conditions.contains(Weather.CONDITION_STORMY)) {
+                icon = "09"
+            } else if (conditions.contains(Weather.CONDITION_SNOWY)) {
+                icon = "13"
+            } else if (conditions.contains(Weather.CONDITION_WINDY)) {
+                icon = "80"
+            } else if (conditions.contains(Weather.CONDITION_HAZY)) {
+                icon = "50"
+            } else if (conditions.contains(Weather.CONDITION_ICY)) {
+                icon = "81"
+            } else if (conditions.contains(Weather.CONDITION_FOGGY)) {
+                icon = "82"
+            }
+
+            return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
+                icon + "n"
+            } else {
+                icon + "d"
+            }
+        }
+    }
+
     fun getWeatherIconResource(icon: String): Int {
         when (icon) {
             "01d" -> {
@@ -188,6 +222,18 @@ object WeatherUtil {
             "50d" -> {
                 return R.drawable.haze_day
             }
+            "80d" -> {
+                return R.drawable.windy_day
+            }
+            "81d" -> {
+                return R.drawable.rain_snow_day
+            }
+            "82d" -> {
+                return R.drawable.haze_weather
+            }
+
+
+
             "01n" -> {
                 return R.drawable.clear_night
             }
@@ -215,8 +261,17 @@ object WeatherUtil {
             "50n" -> {
                 return R.drawable.haze_night
             }
+            "80n" -> {
+                return R.drawable.windy_night
+            }
+            "81n" -> {
+                return R.drawable.rain_snow_night
+            }
+            "82n" -> {
+                return R.drawable.haze_weather
+            }
             else -> {
-                return -1
+                return R.drawable.unknown
             }
         }
     }

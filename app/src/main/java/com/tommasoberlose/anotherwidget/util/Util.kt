@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.util
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -29,6 +30,7 @@ import android.content.ComponentName
 import android.preference.PreferenceManager
 import android.provider.CalendarContract
 import android.provider.Settings
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -114,6 +116,20 @@ object Util {
                 "Yep, just another cool widget: https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget");
         sendIntent.setType("text/plain");
         context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.action_share)));
+    }
+
+    fun getGoogleMapsIntentFromAddress(context: Context, address:String): Intent {
+        val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=" + address);
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.`package` = "com.google.android.apps.maps";
+
+        return if (mapIntent.resolveActivity(context.packageManager) != null) {
+            mapIntent
+        } else {
+            val map = "http://maps.google.co.in/maps?q=" + address
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(map));
+            i
+        }
     }
 
     fun getCurrentWallpaper(context: Context): Drawable? {
@@ -252,7 +268,7 @@ object Util {
         } else {
             val pm: PackageManager = context.packageManager
             return try {
-                val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, ""))
+                val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_EVENT_APP_PACKAGE, ""))
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
                 intent
             } catch (ex: Exception) {
@@ -391,14 +407,14 @@ object Util {
         return String(Character.toChars(unicode))
     }
 
-    fun getDifferenceText(context: Context, title: String, now: Long, start: Long): String {
+    fun getDifferenceText(context: Context, now: Long, start: Long): String {
         val nowDate = DateTime(now)
         val eventDate = DateTime(start)
 
         val difference = start - now
 
         if (difference < 0) {
-            return String.format("%s", title)
+            return ""
         } else if (difference < 1000 * 60) {
             val minutes = TimeUnit.MILLISECONDS.toMinutes(difference)
             var time = ""
@@ -406,7 +422,7 @@ object Util {
                 time += "" + minutes + context.getString(R.string.min_code)
             }
 
-            return String.format("%s %s %s", title, context.getString(R.string.in_code), time)
+            return String.format("%s %s", context.getString(R.string.in_code), time)
         } else if (difference < 1000 * 60 * 6) {
             val hour = TimeUnit.MILLISECONDS.toHours(difference)
             var time = ""
@@ -422,16 +438,45 @@ object Util {
                 time += "" + minutes + context.getString(R.string.min_code)
             }
 
-            return String.format("%s %s %s", title, context.getString(R.string.in_code), time)
+            return String.format("%s %s", context.getString(R.string.in_code), time)
         } else if (eventDate.dayOfYear == nowDate.plusDays(1).dayOfYear) {
-            return String.format("%s %s", title, context.getString(R.string.tomorrow))
+            return String.format("%s", context.getString(R.string.tomorrow))
         } else if (eventDate.dayOfYear == nowDate.dayOfYear) {
-            return String.format("%s %s", title, context.getString(R.string.today))
+            return String.format("%s", context.getString(R.string.today))
         } else {
             val days = TimeUnit.MILLISECONDS.toDays(difference)
-            return String.format("%s %s %s%s", title, context.getString(R.string.in_code), days, context.getString(R.string.day_char))
+            return String.format("%s %s%s", context.getString(R.string.in_code), days, context.getString(R.string.day_char))
         }
 
     }
 
+    @SuppressLint("ApplySharedPref")
+    fun getFontColor(SP: SharedPreferences): Int {
+        return try {
+            Color.parseColor(SP.getString(Constants.PREF_TEXT_COLOR, "#FFFFFF"))
+        } catch (e: Exception) {
+            SP.edit().remove(Constants.PREF_TEXT_COLOR).commit()
+            Color.parseColor(SP.getString(Constants.PREF_TEXT_COLOR, "#FFFFFF"))
+        }
+    }
+
+    fun getTintedDrawable(context: Context, inputDrawable: Int, color: Int): Drawable {
+        val wrapDrawable = ContextCompat.getDrawable(context, inputDrawable);
+        DrawableCompat.setTint(wrapDrawable, color);
+        DrawableCompat.setTintMode(wrapDrawable, PorterDuff.Mode.SRC_IN);
+        return wrapDrawable;
+    }
+
+    fun changeBitmapColor(sourceBitmap: Bitmap, color: Int): Bitmap {
+        val resultBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0,
+                sourceBitmap.getWidth() - 1, sourceBitmap.getHeight() - 1);
+        val p = Paint()
+        val filter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
+        p.colorFilter = filter;
+
+        val canvas = Canvas(resultBitmap);
+        canvas.drawBitmap(resultBitmap, 0f, 0f, p);
+
+        return resultBitmap;
+    }
 }

@@ -55,7 +55,7 @@ object CalendarUtil {
                     for (i in 0 until instanceCursor.count) {
                         val ID = instanceCursor.getInt(0)
 
-                        val eventCursor = context.contentResolver.query(CalendarContract.Events.CONTENT_URI, arrayOf(CalendarContract.Events.TITLE, CalendarContract.Events.ALL_DAY, CalendarContract.Events.CALENDAR_ID),
+                        val eventCursor = context.contentResolver.query(CalendarContract.Events.CONTENT_URI, arrayOf(CalendarContract.Events.TITLE, CalendarContract.Events.ALL_DAY, CalendarContract.Events.CALENDAR_ID, CalendarContract.Events.EVENT_LOCATION),
                                 CalendarContract.Events._ID + " is ?",
                                 arrayOf(Integer.toString(ID)), null)
 
@@ -109,7 +109,7 @@ object CalendarUtil {
 
         try {
             val calendarCursor = context.contentResolver.query(Uri.parse("content://com.android.calendar/calendars"),
-                    arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME, CalendarContract.Calendars.ACCOUNT_NAME),
+                    arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CalendarContract.Calendars.ACCOUNT_NAME),
                     null,
                     null,
                     null)
@@ -119,7 +119,10 @@ object CalendarUtil {
                 calendarCursor.moveToFirst()
 
                 for (j in 0 until calendarCursor.count) {
-                    calendarList.add(CalendarSelector(calendarCursor.getInt(0), calendarCursor.getString(1), calendarCursor.getString(2)))
+                    val id = calendarCursor.getInt(0)
+                    val name = calendarCursor.getString(1)
+                    val account = calendarCursor.getString(2)
+                    calendarList.add(CalendarSelector(id, name, account))
                     calendarCursor.moveToNext()
                 }
             } else {
@@ -131,7 +134,7 @@ object CalendarUtil {
             ignored.printStackTrace()
             try {
                 val calendarCursor = context.contentResolver.query(CalendarContract.Calendars.CONTENT_URI,
-                        arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME, CalendarContract.Calendars.ACCOUNT_NAME),
+                        arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CalendarContract.Calendars.ACCOUNT_NAME),
                         null,
                         null,
                         null)
@@ -167,6 +170,7 @@ object CalendarUtil {
                 .remove(Constants.PREF_NEXT_EVENT_END_DATE)
                 .remove(Constants.PREF_NEXT_EVENT_ALL_DAY)
                 .remove(Constants.PREF_NEXT_EVENT_CALENDAR_ID)
+                .remove(Constants.PREF_NEXT_EVENT_LOCATION)
                 .commit()
         Util.updateWidget(context)
     }
@@ -181,12 +185,13 @@ object CalendarUtil {
                 .putLong(Constants.PREF_NEXT_EVENT_END_DATE, event.endDate)
                 .putBoolean(Constants.PREF_NEXT_EVENT_ALL_DAY, event.allDay)
                 .putInt(Constants.PREF_NEXT_EVENT_CALENDAR_ID, event.calendarID)
+                .putString(Constants.PREF_NEXT_EVENT_LOCATION, event.address)
                 .commit()
         Util.updateWidget(context)
     }
 
     fun getNextEvent(context: Context): Event {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return Event(SP.getInt(Constants.PREF_NEXT_EVENT_ID, 0), SP.getString(Constants.PREF_NEXT_EVENT_NAME, ""), SP.getLong(Constants.PREF_NEXT_EVENT_START_DATE, 0), SP.getLong(Constants.PREF_NEXT_EVENT_END_DATE, 0), SP.getInt(Constants.PREF_NEXT_EVENT_CALENDAR_ID, 0), SP.getBoolean(Constants.PREF_NEXT_EVENT_ALL_DAY, false))
+        return Event(SP.getInt(Constants.PREF_NEXT_EVENT_ID, 0), SP.getString(Constants.PREF_NEXT_EVENT_NAME, ""), SP.getLong(Constants.PREF_NEXT_EVENT_START_DATE, 0), SP.getLong(Constants.PREF_NEXT_EVENT_END_DATE, 0), SP.getInt(Constants.PREF_NEXT_EVENT_CALENDAR_ID, 0), SP.getBoolean(Constants.PREF_NEXT_EVENT_ALL_DAY, false), SP.getString(Constants.PREF_NEXT_EVENT_LOCATION, ""))
     }
 }
