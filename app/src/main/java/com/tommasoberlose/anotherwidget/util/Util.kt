@@ -415,7 +415,7 @@ object Util {
 
         if (difference < 0) {
             return ""
-        } else if (difference < 1000 * 60) {
+        } else if (TimeUnit.MILLISECONDS.toHours(difference) < 1) {
             val minutes = TimeUnit.MILLISECONDS.toMinutes(difference)
             var time = ""
             if (minutes > 0) {
@@ -423,7 +423,7 @@ object Util {
             }
 
             return String.format("%s %s", context.getString(R.string.in_code), time)
-        } else if (difference < 1000 * 60 * 6) {
+        } else if (TimeUnit.MILLISECONDS.toHours(difference) < 12) {
             val hour = TimeUnit.MILLISECONDS.toHours(difference)
             var time = ""
             if (hour > 0) {
