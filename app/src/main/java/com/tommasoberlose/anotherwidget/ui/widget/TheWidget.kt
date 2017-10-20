@@ -96,23 +96,7 @@ class TheWidget : AppWidgetProvider() {
                 val e = CalendarUtil.getNextEvent(context)
 
                 if (e.id != 0) {
-                    val difference = e.startDate - now.timeInMillis
-
-                    if (difference > 1000 * 60) {
-                        var time = ""
-                        val hour = TimeUnit.MILLISECONDS.toHours(difference)
-                        if (hour > 0) {
-                            time = hour.toString() + context.getString(R.string.h_code) + " "
-                        }
-                        val minutes = TimeUnit.MILLISECONDS.toMinutes(difference - hour * 3600 * 1000)
-                        if (minutes > 0) {
-                            time += "" + minutes + context.getString(R.string.min_code)
-                        }
-
-                        views.setTextViewText(R.id.next_event, String.format("%s %s %s", e.title, context.getString(R.string.in_code), time))
-                    } else {
-                        views.setTextViewText(R.id.next_event, String.format("%s", e.title))
-                    }
+                    views.setTextViewText(R.id.next_event, Util.getDifferenceText(context, e.title, now.timeInMillis, e.startDate))
 
                     if (!e.allDay) {
                         val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
@@ -125,7 +109,9 @@ class TheWidget : AppWidgetProvider() {
                         val endCal = Calendar.getInstance()
                         endCal.timeInMillis = e.endDate
 
-                        if (startCal.get(Calendar.HOUR_OF_DAY) >= endCal.get(Calendar.HOUR_OF_DAY)) {
+                        if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
+                            dayDiff++
+                        } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
                             dayDiff++
                         }
 
@@ -143,12 +129,8 @@ class TheWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
 
 
-                    val uri = ContentUris.withAppendedId(Events.CONTENT_URI, e.id.toLong())
-                    val intent = Intent(Intent.ACTION_VIEW)
-                            .setData(uri)
-                    intent.putExtra("beginTime", e.startDate);
-                    intent.putExtra("endTime", e.endDate);
-                    val pIntent = PendingIntent.getActivity(context, widgetID, intent, 0)
+
+                    val pIntent = PendingIntent.getActivity(context, widgetID, Util.getEventIntent(context, e), 0)
                     views.setOnClickPendingIntent(R.id.main_layout, pIntent)
                 }
             }

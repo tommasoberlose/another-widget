@@ -96,4 +96,8 @@
     <string name="action_open_provider">Go to OpenWeather.com</string>
     <string name="api_key_info_all_set"><![CDATA[It may take up to <b>ten minutes</b> before your API key is activated.<BR /><BR />So <i>relax</i>! The weather will be updated as soon as it is available!!]]></string>
     <string name="well_done">Well Done!</string>
+    <string name="hs_code">h</string>
+    <string name="tomorrow">tomorrow</string>
+    <string name="today">oggi</string>
+    <string name="settings_event_app_title">Tap on event opens</string>
 </resources>

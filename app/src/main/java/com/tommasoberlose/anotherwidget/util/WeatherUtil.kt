@@ -21,6 +21,11 @@ import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.content.Intent
 import android.location.LocationManager
 import android.util.Log
+import com.google.android.gms.awareness.Awareness
+import com.google.android.gms.awareness.snapshot.WeatherResponse
+import com.google.android.gms.awareness.state.Weather
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 
 
 /**
@@ -32,8 +37,12 @@ object WeatherUtil {
     fun updateWeather(context: Context) {
         Util.showLocationNotification(context, false)
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
         if (SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").equals("")) {
 
+            newWeatherProvider(context)
+            return
+/*
             if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 return
             }
@@ -50,54 +59,42 @@ object WeatherUtil {
             } catch (ex: Exception) {
             }
 
-            if (!gpsEnabled && !networkEnabled) {
+            if (!gpsEnabled && !networkEnabled && SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)) {
                 Util.showLocationNotification(context, true)
             } else {
                 if (gpsEnabled) {
-                    getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
-                        override fun onLocationChanged(location: Location) {
-                            locationManager.removeUpdates(this)
-                            getCurrentWeather(context, location)
-                        }
-
-                        @SuppressLint("ApplySharedPref")
-                        override fun onProviderDisabled(p0: String?) {
-                        }
-
-                        @SuppressLint("ApplySharedPref")
-                        override fun onProviderEnabled(p0: String?) {
-                        }
-
-                        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-                        }
-                    })
+                    val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    if (gpsLocation != null) {
+                        getCurrentWeather(context, gpsLocation)
+                        return
+                    }
                 }
-
                 if (networkEnabled) {
                     getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, object : LocationListener {
-                        override fun onLocationChanged(location: Location) {
-                            locationManager.removeUpdates(this)
-                            getCurrentWeather(context, location)
-                        }
-
-                        @SuppressLint("ApplySharedPref")
-                        override fun onProviderDisabled(p0: String?) {
-                        }
-
-                        @SuppressLint("ApplySharedPref")
-                        override fun onProviderEnabled(p0: String?) {
-                        }
-
-                        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-                        }
-                    })
                 }
-            }
+            }*/
         } else {
             weatherNetworkRequest(context, SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").toDouble(), SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").toDouble())
         }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    fun newWeatherProvider(context: Context) {
+        if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            return
+        }
+        Awareness.getSnapshotClient(context).weather
+                .addOnSuccessListener { weatherResponse ->
+                    val weather = weatherResponse.weather
+                    val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+                    SP.edit()
+                            .putFloat(Constants.PREF_WEATHER_TEMP, weather.getTemperature(if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) Weather.FAHRENHEIT else Weather.CELSIUS))
+                            .putString(Constants.PREF_WEATHER_ICON, weather.conditions[0].toString())
+                            .putString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
+                            .commit()
+                    Util.updateWidget(context)
+                }
+
     }
 
     @SuppressLint("ApplySharedPref")

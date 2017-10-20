@@ -28,10 +28,6 @@ class WeatherReceiver : BroadcastReceiver() {
         removeUpdates(context)
         WeatherUtil.updateWeather(context)
 
-        if (SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)) {
-            Util.showWeatherNotification(context, SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals(""))
-        }
-
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val i = Intent(context, WeatherReceiver::class.java)
         i.action = Constants.ACTION_WEATHER_UPDATE

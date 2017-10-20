@@ -34,7 +34,9 @@ class WeatherProviderActivity : AppCompatActivity() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
         action_paste.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            api_key.setText(clipboard.primaryClip.getItemAt(0).text)
+            if (clipboard.primaryClip != null && clipboard.primaryClip.itemCount > 0) {
+                api_key.setText(clipboard.primaryClip.getItemAt(0).text)
+            }
         }
 
         Util.collapse(button_container)

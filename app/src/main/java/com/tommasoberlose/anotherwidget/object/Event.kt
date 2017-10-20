@@ -10,7 +10,7 @@ import java.util.Date
 
 class Event {
     var id: Int = 0
-    var title: String? = null
+    var title: String = ""
     var startDate: Long = 0
     var endDate: Long = 0
     var calendarID: Int = 0

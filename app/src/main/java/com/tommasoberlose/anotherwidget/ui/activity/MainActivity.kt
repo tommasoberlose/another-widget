@@ -198,6 +198,13 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             Util.updateWidget(this)
             updateSettings()
+        } else if (requestCode == Constants.EVENT_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            SP.edit()
+                    .putString(Constants.PREF_EVENT_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_EVENT_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
+                    .commit()
+            Util.updateWidget(this)
+            updateSettings()
         } else if (requestCode == Constants.WEATHER_PROVIDER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             WeatherReceiver().setOneTimeUpdate(this)
             sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
@@ -237,25 +244,7 @@ class MainActivity : AppCompatActivity() {
             val e = CalendarUtil.getNextEvent(this)
 
             if (e.id != 0) {
-                val difference = e.startDate - now.timeInMillis
-
-
-
-                if (difference > 1000 * 60) {
-                    var time = ""
-                    val hour = TimeUnit.MILLISECONDS.toHours(difference)
-                    if (hour > 0) {
-                        time = hour.toString() + getString(R.string.h_code) + " "
-                    }
-                    val minutes = TimeUnit.MILLISECONDS.toMinutes(difference - hour * 3600 * 1000)
-                    if (minutes > 0) {
-                        time += "" + minutes + getString(R.string.min_code)
-                    }
-
-                    next_event.text = String.format("%s %s %s", e.title, getString(R.string.in_code), time)
-                } else {
-                    next_event.text = String.format("%s", e.title)
-                }
+                next_event.text = Util.getDifferenceText(this, e.title, now.timeInMillis, e.startDate)
 
                 if (!e.allDay) {
                     val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
@@ -268,7 +257,9 @@ class MainActivity : AppCompatActivity() {
                     val endCal = Calendar.getInstance()
                     endCal.timeInMillis = e.endDate
 
-                    if (startCal.get(Calendar.HOUR_OF_DAY) >= endCal.get(Calendar.HOUR_OF_DAY)) {
+                    if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
+                        dayDiff++
+                    } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
                         dayDiff++
                     }
                     var multipleDay: String = ""
@@ -453,6 +444,11 @@ class MainActivity : AppCompatActivity() {
         weather_app_label.text = SP.getString(Constants.PREF_WEATHER_APP_NAME, getString(R.string.default_name))
         action_weather_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.WEATHER_APP_REQUEST_CODE)
+        }
+
+        event_app_label.text = SP.getString(Constants.PREF_EVENT_APP_NAME, getString(R.string.default_name))
+        action_event_app.setOnClickListener {
+            startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.EVENT_APP_REQUEST_CODE)
         }
 
         if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {

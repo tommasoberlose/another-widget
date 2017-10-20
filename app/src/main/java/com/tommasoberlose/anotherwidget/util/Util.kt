@@ -27,6 +27,7 @@ import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
 import android.preference.PreferenceManager
+import android.provider.CalendarContract
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -35,6 +36,9 @@ import android.view.animation.Transformation
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import com.tommasoberlose.anotherwidget.`object`.Event
+import org.joda.time.DateTime
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -236,6 +240,32 @@ object Util {
         }
     }
 
+    fun getEventIntent(context: Context, e: Event): Intent {
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+        if (SP.getString(Constants.PREF_EVENT_APP_PACKAGE, "").equals("")) {
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.id.toLong())
+            val intent = Intent(Intent.ACTION_VIEW)
+                    .setData(uri)
+            intent.putExtra("beginTime", e.startDate);
+            intent.putExtra("endTime", e.endDate);
+            return intent
+        } else {
+            val pm: PackageManager = context.packageManager
+            return try {
+                val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, ""))
+                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent
+            } catch (ex: Exception) {
+                val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.id.toLong())
+                val intent = Intent(Intent.ACTION_VIEW)
+                        .setData(uri)
+                intent.putExtra("beginTime", e.startDate);
+                intent.putExtra("endTime", e.endDate);
+                intent
+            }
+        }
+    }
+
     fun getCapWordString(text: String): String {
         return try {
             val ar = text.split(" ")
@@ -360,4 +390,48 @@ object Util {
     fun getEmojiByUnicode(unicode: Int): String {
         return String(Character.toChars(unicode))
     }
+
+    fun getDifferenceText(context: Context, title: String, now: Long, start: Long): String {
+        val nowDate = DateTime(now)
+        val eventDate = DateTime(start)
+
+        val difference = start - now
+
+        if (difference < 0) {
+            return String.format("%s", title)
+        } else if (difference < 1000 * 60) {
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(difference)
+            var time = ""
+            if (minutes > 0) {
+                time += "" + minutes + context.getString(R.string.min_code)
+            }
+
+            return String.format("%s %s %s", title, context.getString(R.string.in_code), time)
+        } else if (difference < 1000 * 60 * 6) {
+            val hour = TimeUnit.MILLISECONDS.toHours(difference)
+            var time = ""
+            if (hour > 0) {
+                time = if (hour > 1) {
+                    hour.toString() + context.getString(R.string.hs_code) + " "
+                } else {
+                    hour.toString() + context.getString(R.string.h_code) + " "
+                }
+            }
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(difference - hour * 3600 * 1000)
+            if (minutes > 0) {
+                time += "" + minutes + context.getString(R.string.min_code)
+            }
+
+            return String.format("%s %s %s", title, context.getString(R.string.in_code), time)
+        } else if (eventDate.dayOfYear == nowDate.plusDays(1).dayOfYear) {
+            return String.format("%s %s", title, context.getString(R.string.tomorrow))
+        } else if (eventDate.dayOfYear == nowDate.dayOfYear) {
+            return String.format("%s %s", title, context.getString(R.string.today))
+        } else {
+            val days = TimeUnit.MILLISECONDS.toDays(difference)
+            return String.format("%s %s %s%s", title, context.getString(R.string.in_code), days, context.getString(R.string.day_char))
+        }
+
+    }
+
 }

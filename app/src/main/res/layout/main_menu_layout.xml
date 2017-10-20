@@ -24,7 +24,7 @@
             android:layout_height="20dp"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:tint="@android:color/primary_text_light"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_action_refresh"/>
         <TextView
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:background="@android:color/transparent"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@android:color/primary_text_light" />
+            android:textColor="@android:color/black" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_height="20dp"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:tint="@android:color/primary_text_light"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_action_rate"/>
         <TextView
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             style="@style/AnotherWidget.Settings.Title"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@android:color/primary_text_light"/>
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
             android:layout_height="20dp"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:tint="@android:color/primary_text_light"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_action_sms"/>
         <TextView
             android:layout_width="match_parent"
@@ -87,7 +87,7 @@
             style="@style/AnotherWidget.Settings.Title"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@android:color/primary_text_light"/>
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,7 +104,7 @@
             android:layout_height="20dp"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:tint="@android:color/primary_text_light"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_action_share"/>
         <TextView
             android:layout_width="match_parent"
@@ -113,7 +113,7 @@
             style="@style/AnotherWidget.Settings.Title"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@android:color/primary_text_light"/>
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

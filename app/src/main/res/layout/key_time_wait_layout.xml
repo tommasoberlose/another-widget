@@ -11,11 +11,11 @@
         android:id="@+id/title"
         style="@style/AnotherWidget.Main.Title"
         android:textSize="20sp"
-        android:textColor="@android:color/primary_text_light"/>
+        android:textColor="@android:color/black"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/primary_text_light"
+        android:textColor="@android:color/black"
         style="@style/AnotherWidget.Main.Subtitle"
         android:textSize="18sp"
         android:layout_marginTop="16dp"

@@ -5,5 +5,5 @@
     android:layout_height="?android:attr/actionBarSize"
     android:gravity="center_vertical"
     android:padding="16dp"
-    android:textColor="@android:color/primary_text_light"
+    android:textColor="@android:color/black"
     style="@style/AnotherWidget.Settings.Title"/>
