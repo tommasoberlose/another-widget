@@ -51,7 +51,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
         location.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(text: Editable?) {
                 Thread().run {
-                    val appsFiltered = appList.filter { pm.getApplicationLabel(it).toString().contains(text.toString(), true) }
+                    val appsFiltered = if (text == null || text.equals("")) appList else appList.filter { pm.getApplicationLabel(it).toString().contains(text.toString(), true) }
                     EventBus.getDefault().post(ApplicationListEvent(appsFiltered, true))
                 }
             }

@@ -32,10 +32,10 @@ class Event {
         startDate = instanceCursor.getLong(1)
         endDate = instanceCursor.getLong(2)
 
-        title = eventCursor.getString(0)
+        title = eventCursor.getString(0)?: ""
         allDay = !eventCursor.getString(1).equals("0")
         calendarID = eventCursor.getInt(2)
-        address = eventCursor.getString(3)
+        address = eventCursor.getString(3)?: ""
     }
 
     override fun toString(): String {

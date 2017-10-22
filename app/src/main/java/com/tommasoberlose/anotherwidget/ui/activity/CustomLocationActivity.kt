@@ -70,14 +70,18 @@ class CustomLocationActivity : AppCompatActivity() {
 
         location.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(text: Editable?) {
-                Thread().run {
-                    val coder = Geocoder(this@CustomLocationActivity)
-                    try {
-                        val addresses = coder.getFromLocationName(text.toString(), 10) as ArrayList<Address>
-                        EventBus.getDefault().post(CustomLocationEvent(addresses))
-                    } catch (ignored: Exception) {
-                        EventBus.getDefault().post(CustomLocationEvent(ArrayList<Address>()))
+                if (text != null && !text.equals("")) {
+                    Thread().run {
+                        val coder = Geocoder(this@CustomLocationActivity)
+                        try {
+                            val addresses = coder.getFromLocationName(text.toString(), 10) as ArrayList<Address>
+                            EventBus.getDefault().post(CustomLocationEvent(addresses))
+                        } catch (ignored: Exception) {
+                            EventBus.getDefault().post(CustomLocationEvent(ArrayList<Address>()))
+                        }
                     }
+                } else {
+                    EventBus.getDefault().post(CustomLocationEvent(ArrayList<Address>()))
                 }
             }
 

@@ -86,7 +86,7 @@ object WeatherUtil {
         }
         Awareness.getSnapshotClient(context).weather
                 .addOnSuccessListener { weatherResponse ->
-                    val weather = weatherResponse.weather
+                    val weather: Weather = weatherResponse.weather
                     val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
                     SP.edit()
                             .putFloat(Constants.PREF_WEATHER_TEMP, weather.getTemperature(if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) Weather.FAHRENHEIT else Weather.CELSIUS))

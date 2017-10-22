@@ -56,7 +56,7 @@ object CalendarUtil {
                         val ID = instanceCursor.getInt(0)
 
                         val eventCursor = context.contentResolver.query(CalendarContract.Events.CONTENT_URI, arrayOf(CalendarContract.Events.TITLE, CalendarContract.Events.ALL_DAY, CalendarContract.Events.CALENDAR_ID, CalendarContract.Events.EVENT_LOCATION),
-                                CalendarContract.Events._ID + " is ?",
+                                CalendarContract.Events._ID + " = ?",
                                 arrayOf(Integer.toString(ID)), null)
 
                         if (eventCursor != null && eventCursor.count > 0) {
@@ -70,15 +70,15 @@ object CalendarUtil {
                                 }
                                 eventCursor.moveToNext()
                             }
-                        }
 
-                        eventCursor.close()
+                            eventCursor.close()
+                        }
 
                         instanceCursor.moveToNext()
                     }
-                }
 
-                instanceCursor.close()
+                    instanceCursor.close()
+                }
 
                 if (eventList.isEmpty()) {
                     resetNextEventData(context)
@@ -125,11 +125,11 @@ object CalendarUtil {
                     calendarList.add(CalendarSelector(id, name, account))
                     calendarCursor.moveToNext()
                 }
+
+                calendarCursor.close()
             } else {
                 Toast.makeText(context, R.string.error_no_calendar, Toast.LENGTH_SHORT).show()
             }
-
-            calendarCursor.close()
         } catch (ignored: Exception) {
             ignored.printStackTrace()
             try {
@@ -147,9 +147,9 @@ object CalendarUtil {
                         calendarList.add(CalendarSelector(calendarCursor.getInt(0), calendarCursor.getString(1), calendarCursor.getString(2)))
                         calendarCursor.moveToNext()
                     }
-                }
 
-                calendarCursor.close()
+                    calendarCursor.close()
+                }
             } catch (ignore: Exception) {
                 ignore.printStackTrace()
             } finally {
