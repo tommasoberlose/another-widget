@@ -104,4 +104,10 @@
     <string name="settings_font_color_title">Colore Testo</string>
     <string name="title_main_text_size">Dimensione Testo Prima Riga</string>
     <string name="title_second_text_size">Dimensione Testo Seconda Riga</string>
+    <string name="settings_clock_title">Impostazioni Orologio</string>
+    <string name="settings_clock_app_title">L\'orologio apre</string>
+    <string name="title_show_clock">Mostra Orologio</string>
+    <string name="description_show_clock">Mostra l\'ora sopra eventi e meteo</string>
+    <string name="show_clock_visible">Orologio visibile</string>
+    <string name="show_clock_not_visible">Orologio non visibile</string>
 </resources>

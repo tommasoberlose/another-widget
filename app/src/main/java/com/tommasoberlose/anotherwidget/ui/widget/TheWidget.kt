@@ -34,7 +34,10 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat.startActivity
 import android.provider.CalendarContract.Events
+import android.support.v4.content.ContextCompat
 import android.util.TypedValue
+import kotlinx.android.synthetic.main.the_widget.*
+import kotlinx.android.synthetic.main.the_widget.view.*
 
 
 /**
@@ -64,8 +67,13 @@ class TheWidget : AppWidgetProvider() {
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
 
-            var views = RemoteViews(context.packageName, R.layout.the_widget)
-
+            val views = RemoteViews(context.packageName, R.layout.the_widget_sans)
+            var v = View.inflate(context, R.layout.the_widget, null)
+            v = updateCalendarViewByLayout(context, v)
+            v = updateLocationViewByLayout(context, v)
+            v = updateClockViewByLayout(context, v)
+            views.setImageViewBitmap(R.id.bitmap_container, Util.getBitmapFromView(v))
+            /*
             views = updateCalendarView(context, views, appWidgetId)
 
             views = updateLocationView(context, views, appWidgetId)
@@ -88,7 +96,7 @@ class TheWidget : AppWidgetProvider() {
             views.setTextViewTextSize(R.id.next_event_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.divider2, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.calendar_temp, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
-
+            */
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
@@ -206,6 +214,150 @@ class TheWidget : AppWidgetProvider() {
                 views.setViewVisibility(R.id.calendar_weather, View.GONE)
             }
             return views
+        }
+
+        fun updateClockView(context: Context, views: RemoteViews, widgetID: Int) {
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
+                views.setViewVisibility(R.id.time, View.GONE)
+            } else {
+                views.setViewVisibility(R.id.time, View.VISIBLE)
+            }
+            val now = Calendar.getInstance()
+            views.setTextViewText(R.id.time, if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(now.timeInMillis) else Constants.goodHourFormat.format(now.timeInMillis))
+        }
+
+        fun updateCalendarViewByLayout(context: Context, v: View): View {
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            val now = Calendar.getInstance()
+            val calendarLayout = SP.getBoolean(Constants.PREF_SHOW_EVENTS, true) && Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)
+
+            v.empty_layout.visibility = View.VISIBLE
+            v.calendar_layout.visibility = View.GONE
+            var dateStringValue: String = Util.getCapWordString(Constants.engDateFormat.format(now.time))
+            if (SP.getBoolean(Constants.PREF_ITA_FORMAT_DATE, false)) {
+                dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
+            }
+            v.empty_date.text = dateStringValue
+            //empty_date.setImageBitmap(Util.buildUpdate(this,  String.format("%s%s", Constants.dateFormat.format(now.time)[0].toUpperCase(), Constants.dateFormat.format(now.time).substring(1)), "fonts/product_sans_regular.ttf"))
+
+            if (calendarLayout) {
+                val e = CalendarUtil.getNextEvent(context)
+
+                if (e.id != 0) {
+                    v.next_event.text = e.title
+                    v.next_event_difference_time.text = Util.getDifferenceText(context, now.timeInMillis, e.startDate)
+
+                    if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
+                        v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_action_location))
+                        v.next_event_date.text = e.address
+                    } else {
+                        v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_action_calendar))
+                        if (!e.allDay) {
+                            val startHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.startDate) else Constants.goodHourFormat.format(e.startDate)
+                            val endHour: String = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(e.endDate) else Constants.goodHourFormat.format(e.endDate)
+                            var dayDiff = TimeUnit.MILLISECONDS.toDays(e.endDate - e.startDate)
+
+                            val startCal = Calendar.getInstance()
+                            startCal.timeInMillis = e.startDate
+
+                            val endCal = Calendar.getInstance()
+                            endCal.timeInMillis = e.endDate
+
+                            if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
+                                dayDiff++
+                            } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
+                                dayDiff++
+                            }
+                            var multipleDay: String = ""
+                            if (dayDiff > 0) {
+                                multipleDay = String.format(" (+%s%s)", dayDiff, context.getString(R.string.day_char))
+                            }
+                            v.next_event_date.text = String.format("%s - %s%s", startHour, endHour, multipleDay)
+                        } else {
+                            v.next_event_date.text = dateStringValue
+                        }
+                    }
+
+                    v.empty_layout.visibility = View.GONE
+                    v.calendar_layout.visibility = View.VISIBLE
+                }
+            }
+
+            v.empty_date.setTextColor(Util.getFontColor(SP))
+            v.divider1.setTextColor(Util.getFontColor(SP))
+            v.temp.setTextColor(Util.getFontColor(SP))
+            v.next_event.setTextColor(Util.getFontColor(SP))
+            v.next_event_difference_time.setTextColor(Util.getFontColor(SP))
+            v.next_event_date.setTextColor(Util.getFontColor(SP))
+            v.divider2.setTextColor(Util.getFontColor(SP))
+            v.calendar_temp.setTextColor(Util.getFontColor(SP))
+            v.second_row_icon.setColorFilter(Util.getFontColor(SP))
+
+
+            v.empty_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            v.divider1.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            v.temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            v.next_event.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            v.next_event_difference_time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
+            v.next_event_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            v.divider2.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            v.calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+
+
+            val product_sans: Typeface = Typeface.createFromAsset(context.assets, "fonts/product_sans_regular.ttf")
+            v.empty_date.typeface = product_sans
+            v.divider1.typeface = product_sans
+            v.temp.typeface = product_sans
+            v.next_event.typeface = product_sans
+            v.next_event_difference_time.typeface = product_sans
+            v.next_event_date.typeface = product_sans
+            v.divider2.typeface = product_sans
+            v.calendar_temp.typeface = product_sans
+
+            return v
+        }
+
+        fun updateLocationViewByLayout(context: Context, v: View): View {
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)
+
+            if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
+                v.weather.visibility = View.VISIBLE
+                v.calendar_weather.visibility = View.VISIBLE
+                val currentTemp = String.format(Locale.getDefault(), "%.0f °%s", SP.getFloat(Constants.PREF_WEATHER_TEMP, 0f), SP.getString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, "F"))
+
+
+                v.weather_icon.visibility = View.VISIBLE
+                v.empty_weather_icon.visibility = View.VISIBLE
+                val icon: String = SP.getString(Constants.PREF_WEATHER_ICON, "")
+                if (icon.equals("")) {
+                    v.weather_icon.visibility = View.GONE
+                    v.empty_weather_icon.visibility = View.GONE
+                } else {
+                    v.weather_icon.setImageResource(WeatherUtil.getWeatherIconResource(icon))
+                    v.empty_weather_icon.setImageResource(WeatherUtil.getWeatherIconResource(icon))
+                }
+
+                v.temp.text = currentTemp
+                v.calendar_temp.text = currentTemp
+            } else {
+                v.weather.visibility = View.GONE
+                v.calendar_weather.visibility = View.GONE
+            }
+            return v
+        }
+
+        fun updateClockViewByLayout(context: Context, v: View): View {
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
+                v.time.visibility = View.GONE
+            } else {
+                v.time.visibility = View.VISIBLE
+            }
+            val now = Calendar.getInstance()
+            v.time.text = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(now.timeInMillis) else Constants.goodHourFormat.format(now.timeInMillis)
+            return v
         }
     }
 }

@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -26,12 +27,14 @@ import kotlinx.android.synthetic.main.provider_info_layout.view.*
 
 class WeatherProviderActivity : AppCompatActivity() {
 
+    lateinit var SP: SharedPreferences
+
     @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_provider)
 
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
+        SP = PreferenceManager.getDefaultSharedPreferences(this)
         action_paste.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             if (clipboard.primaryClip != null && clipboard.primaryClip.itemCount > 0) {
@@ -39,8 +42,7 @@ class WeatherProviderActivity : AppCompatActivity() {
             }
         }
 
-        Util.collapse(button_container)
-        api_key.setText(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, ""))
+        updateUI()
 
         action_save.setOnClickListener {
             SP.edit()
@@ -83,9 +85,34 @@ class WeatherProviderActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ApplySharedPref")
+    fun updateUI() {
+        val currentProvider = SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)
+        if (currentProvider == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            api_key.visibility = View.GONE
+        } else {
+            api_key.visibility = View.VISIBLE
+        }
+        label_weather_provider.text = when (currentProvider) {
+            Constants.WEATHER_PROVIDER_OPEN_WEATHER -> getString(R.string.provider_open_weather)
+            else -> getString(R.string.provider_google_awareness)
+        }
+        action_change_provider.setOnClickListener {
+            SP.edit()
+                    .putInt(Constants.PREF_WEATHER_PROVIDER, when (currentProvider) {
+                        Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS -> Constants.WEATHER_PROVIDER_OPEN_WEATHER
+                        else -> Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS
+                    }).commit()
+            updateUI()
+        }
+
+        Util.collapse(button_container)
+        api_key.setText(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, ""))
+    }
+
     override fun onBackPressed() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
-        if (api_key.text.toString().equals("") || !api_key.text.toString().equals(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, ""))) {
+        if (!SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS).equals(Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) && (api_key.text.toString().equals("") || !api_key.text.toString().equals(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "")))) {
             AlertDialog.Builder(this)
                     .setMessage(getString(R.string.error_weather_api_key))
                     .setNegativeButton(android.R.string.cancel, null)

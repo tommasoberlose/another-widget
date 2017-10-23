@@ -23,7 +23,7 @@ class UpdatesReceiver : BroadcastReceiver() {
             setUpdates(context)
         } else if (intent.action.equals(Constants.ACTION_TIME_UPDATE)) {
             val e: Event = CalendarUtil.getNextEvent(context)
-            if (e.id == 0 || e.endDate < Calendar.getInstance().timeInMillis) {
+            if (e.id == 0 || e.endDate <= Calendar.getInstance().timeInMillis) {
                 CalendarUtil.updateEventList(context)
             } else {
                 Util.updateWidget(context)
@@ -36,12 +36,15 @@ class UpdatesReceiver : BroadcastReceiver() {
     fun setUpdates(context: Context) {
         removeUpdates(context)
         CalendarUtil.updateEventList(context)
+        val now = Calendar.getInstance()
+        now.set(Calendar.MILLISECOND, 0)
+        now.set(Calendar.SECOND, 0)
 
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val i = Intent(context, UpdatesReceiver::class.java)
         i.action = Constants.ACTION_TIME_UPDATE
         val pi = PendingIntent.getBroadcast(context, 0, i, 0)
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (1000 * 60).toLong(), pi)
+        am.setRepeating(AlarmManager.RTC_WAKEUP, now.timeInMillis, (1000 * 60).toLong(), pi)
     }
 
     fun removeUpdates(context: Context) {

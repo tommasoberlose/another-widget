@@ -52,8 +52,8 @@
     <string name="action_refresh_widget">Refresh Widget</string>
     <string name="show_events_visible">Events are Visible</string>
     <string name="show_events_not_visible">Events are not Visible</string>
-    <string name="show_weather_visible">Weather Info are Visible</string>
-    <string name="show_weather_not_visible">Weather Info are not Visible</string>
+    <string name="show_weather_visible">Weather Info is Visible</string>
+    <string name="show_weather_not_visible">Weather Info is not Visible</string>
     <string name="settings_show_until_subtitle_0">3 Hours later</string>
     <string name="settings_show_until_subtitle_1">6 Hours later</string>
     <string name="settings_show_until_subtitle_2">12 Hours later</string>
@@ -106,4 +106,12 @@
     <string name="settings_font_color_title">Text Color</string>
     <string name="title_main_text_size">First Row Text Size</string>
     <string name="title_second_text_size">Second Row Text Size</string>
+    <string name="provider_open_weather" translatable="false">OpenWeather</string>
+    <string name="provider_google_awareness" translatable="false">Google Awareness</string>
+    <string name="settings_clock_title">Clock Settings</string>
+    <string name="settings_clock_app_title">Tap on clock opens</string>
+    <string name="title_show_clock">Show Clock</string>
+    <string name="description_show_clock">View the time over events and weather</string>
+    <string name="show_clock_visible">Clock is visible</string>
+    <string name="show_clock_not_visible">Clock is not visible</string>
 </resources>

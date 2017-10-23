@@ -49,6 +49,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
+                android:orientation="vertical"
+                android:descendantFocusability="beforeDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/action_change_provider"
+                android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AnotherWidget.Settings.Title"
+                    android:text="@string/settings_weather_provider_api_key_title"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_weather_provider"
+                    style="@style/AnotherWidget.Settings.Subtitle"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
                 android:orientation="horizontal"
                 android:descendantFocusability="beforeDescendants"
                 android:focusable="true"

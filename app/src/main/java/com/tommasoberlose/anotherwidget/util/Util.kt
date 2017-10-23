@@ -36,6 +36,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.LinearLayout
+import android.widget.RemoteViews
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
@@ -158,6 +159,21 @@ object Util {
         paint.setShadowLayer(5f,0f, 0f, R.color.black_50)
         myCanvas.drawText("Ultra Pixel Meeting Ciao Ciao", convertDpToPixel(150f, context), convertDpToPixel(20f, context), paint)
         return myBitmap;
+    }
+
+    fun getBitmapFromView(view: View): Bitmap {
+        //Define a bitmap with the same size as the view
+        val measuredWidth = View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.UNSPECIFIED)
+        val measuredHeight = View.MeasureSpec.makeMeasureSpec(view.height, View.MeasureSpec.UNSPECIFIED)
+        view.measure(measuredWidth, measuredHeight)
+        view.layout(0,0, measuredWidth, measuredHeight)
+        val returnedBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        //Bind a canvas to it
+        val canvas = Canvas(returnedBitmap)
+        // draw the view on the canvas
+        view.draw(canvas)
+        //return the bitmap
+        return returnedBitmap
     }
 
     fun convertDpToPixel(dp: Float, context: Context): Float {

@@ -10,8 +10,10 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.util.Log
 import com.tommasoberlose.anotherwidget.`object`.Constants
+import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.Util
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
+import java.util.*
 
 class WeatherReceiver : BroadcastReceiver() {
 
@@ -41,7 +43,10 @@ class WeatherReceiver : BroadcastReceiver() {
             5 -> 60 * 24
             else -> 60
         }
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * refresh, pi)
+        val now = Calendar.getInstance()
+        now.set(Calendar.MILLISECOND, 0)
+        now.set(Calendar.SECOND, 0)
+        am.setRepeating(AlarmManager.RTC_WAKEUP, now.timeInMillis, 1000 * 60 * refresh, pi)
     }
 
     fun setOneTimeUpdate(context: Context) {
@@ -49,9 +54,13 @@ class WeatherReceiver : BroadcastReceiver() {
         val i = Intent(context, WeatherReceiver::class.java)
         i.action = Constants.ACTION_WEATHER_UPDATE
         val pi = PendingIntent.getBroadcast(context, 1, i, 0)
-        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 10, pi)
-        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 15, pi)
-        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 20, pi)
+
+        val now = Calendar.getInstance()
+        now.set(Calendar.MILLISECOND, 0)
+        now.set(Calendar.SECOND, 0)
+        am.setExact(AlarmManager.RTC_WAKEUP, now.timeInMillis + 1000 * 60 * 10, pi)
+        am.setExact(AlarmManager.RTC_WAKEUP, now.timeInMillis + 1000 * 60 * 15, pi)
+        am.setExact(AlarmManager.RTC_WAKEUP, now.timeInMillis + 1000 * 60 * 20, pi)
     }
 
     fun removeUpdates(context: Context) {
