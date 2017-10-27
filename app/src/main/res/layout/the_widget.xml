@@ -7,20 +7,21 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="20:16"
+        android:layout_marginTop="-16dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:lineSpacingMultiplier="1"
         android:lineSpacingExtra="0dp"
+        android:visibility="gone"
         android:includeFontPadding="false"
         android:padding="0dp"
-        android:visibility="gone"
         style="@style/AnotherWidget.Title"
         android:textSize="90sp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="-8dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/time"
         android:orientation="horizontal"
@@ -35,7 +36,7 @@
             android:gravity="right"
             android:ellipsize="end"
             android:text="@string/loading_text"
-            style="@style/AnotherWidget.Title" />
+            style="@style/AnotherWidget.Title"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -71,6 +72,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
+        android:layout_marginTop="-8dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/time"
         android:id="@+id/calendar_layout"

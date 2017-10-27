@@ -22,6 +22,7 @@ import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.Util
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import kotlinx.android.synthetic.main.activity_weather_provider.*
+import kotlinx.android.synthetic.main.key_time_wait_layout.view.*
 import kotlinx.android.synthetic.main.main_menu_layout.view.*
 import kotlinx.android.synthetic.main.provider_info_layout.view.*
 
@@ -35,12 +36,6 @@ class WeatherProviderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_weather_provider)
 
         SP = PreferenceManager.getDefaultSharedPreferences(this)
-        action_paste.setOnClickListener {
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            if (clipboard.primaryClip != null && clipboard.primaryClip.itemCount > 0) {
-                api_key.setText(clipboard.primaryClip.getItemAt(0).text)
-            }
-        }
 
         updateUI()
 
@@ -71,27 +66,23 @@ class WeatherProviderActivity : AppCompatActivity() {
         action_open_provider.setOnClickListener {
             Util.openURI(this, "https://home.openweathermap.org/users/sign_up")
         }
-
-        action_open_info_text.setOnClickListener {
-            val mBottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this)
-            val provView: View = layoutInflater.inflate(R.layout.provider_info_layout, null)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                provView.text.text = Html.fromHtml(getString(R.string.api_key_info_text), Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                provView.text.text = Html.fromHtml(getString(R.string.api_key_info_text))
-            }
-            mBottomSheetDialog.setContentView(provView)
-            mBottomSheetDialog.show();
-        }
     }
 
     @SuppressLint("ApplySharedPref")
-    fun updateUI() {
+    private fun updateUI() {
         val currentProvider = SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)
         if (currentProvider == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
-            api_key.visibility = View.GONE
+            api_key_container.visibility = View.GONE
+            content_info.visibility = View.GONE
         } else {
-            api_key.visibility = View.VISIBLE
+            api_key_container.visibility = View.VISIBLE
+            content_info.visibility = View.VISIBLE
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                last_info.text = Html.fromHtml(getString(R.string.api_key_info_all_set), Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                last_info.text = Html.fromHtml(getString(R.string.api_key_info_all_set))
+            }
         }
         label_weather_provider.text = when (currentProvider) {
             Constants.WEATHER_PROVIDER_OPEN_WEATHER -> getString(R.string.provider_open_weather)

@@ -31,7 +31,9 @@ import android.widget.TextView
 import android.content.ComponentName
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.os.Bundle
 import android.support.v4.content.ContextCompat.startActivity
 import android.provider.CalendarContract.Events
 import android.support.v4.content.ContextCompat
@@ -51,6 +53,11 @@ class TheWidget : AppWidgetProvider() {
         }
     }
 
+    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle?) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
+        updateAppWidget(context, appWidgetManager, appWidgetId)
+    }
+
     override fun onEnabled(context: Context) {
         UpdatesReceiver().setUpdates(context)
         WeatherReceiver().setUpdates(context)
@@ -67,16 +74,16 @@ class TheWidget : AppWidgetProvider() {
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
 
-            val views = RemoteViews(context.packageName, R.layout.the_widget_sans)
+            var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
             var v = View.inflate(context, R.layout.the_widget, null)
             v = updateCalendarViewByLayout(context, v)
             v = updateLocationViewByLayout(context, v)
             v = updateClockViewByLayout(context, v)
             views.setImageViewBitmap(R.id.bitmap_container, Util.getBitmapFromView(v))
-            /*
-            views = updateCalendarView(context, views, appWidgetId)
 
+            views = updateCalendarView(context, views, appWidgetId)
             views = updateLocationView(context, views, appWidgetId)
+            views = updateClockView(context, views, appWidgetId)
 
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
             views.setTextColor(R.id.empty_date, Util.getFontColor(SP))
@@ -96,7 +103,8 @@ class TheWidget : AppWidgetProvider() {
             views.setTextViewTextSize(R.id.next_event_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.divider2, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.calendar_temp, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
-            */
+
+
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
@@ -112,11 +120,10 @@ class TheWidget : AppWidgetProvider() {
                 dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
             }
             views.setTextViewText(R.id.empty_date, dateStringValue)
-            //views.setImageViewBitmap(R.id.empty_date, Util.buildUpdate(context, Constants.dateFormat.format(now.time)[0].toUpperCase() + Constants.dateFormat.format(now.time).substring(1), "fonts/product_sans_regular.ttf"))
 
 
             val calPIntent = PendingIntent.getActivity(context, widgetID, Util.getCalendarIntent(context), 0)
-            views.setOnClickPendingIntent(R.id.main_layout, calPIntent)
+            views.setOnClickPendingIntent(R.id.empty_date, calPIntent)
 
 
             if (calendarLayout) {
@@ -124,7 +131,12 @@ class TheWidget : AppWidgetProvider() {
 
                 if (e.id != 0) {
                     views.setTextViewText(R.id.next_event, e.title)
-                    views.setTextViewText(R.id.next_event_difference_time, Util.getDifferenceText(context, now.timeInMillis, e.startDate))
+                    if (SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)) {
+                        views.setTextViewText(R.id.next_event_difference_time, Util.getDifferenceText(context, now.timeInMillis, e.startDate))
+                        views.setViewVisibility(R.id.next_event_difference_time, View.VISIBLE)
+                    } else {
+                        views.setViewVisibility(R.id.next_event_difference_time, View.GONE)
+                    }
 
                     if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
 
@@ -173,7 +185,9 @@ class TheWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.calendar_layout, View.VISIBLE)
 
                     val pIntent = PendingIntent.getActivity(context, widgetID, Util.getEventIntent(context, e), 0)
-                    views.setOnClickPendingIntent(R.id.main_layout, pIntent)
+                    views.setOnClickPendingIntent(R.id.next_event, pIntent)
+                    views.setOnClickPendingIntent(R.id.next_event_difference_time, pIntent)
+                    views.setOnClickPendingIntent(R.id.next_event_date, pIntent)
                 }
             }
 
@@ -205,7 +219,7 @@ class TheWidget : AppWidgetProvider() {
                 views.setTextViewText(R.id.calendar_temp, temp)
 
 
-                val weatherPIntent = PendingIntent.getActivity(context, widgetID, Util.getWeatherIntent(context), 0)
+                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, Intent(Constants.ACTION_OPEN_WEATHER_INTENT), 0)
 
                 views.setOnClickPendingIntent(R.id.weather, weatherPIntent)
                 views.setOnClickPendingIntent(R.id.calendar_weather, weatherPIntent)
@@ -216,7 +230,7 @@ class TheWidget : AppWidgetProvider() {
             return views
         }
 
-        fun updateClockView(context: Context, views: RemoteViews, widgetID: Int) {
+        fun updateClockView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
             if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
                 views.setViewVisibility(R.id.time, View.GONE)
@@ -225,6 +239,11 @@ class TheWidget : AppWidgetProvider() {
             }
             val now = Calendar.getInstance()
             views.setTextViewText(R.id.time, if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(now.timeInMillis) else Constants.goodHourFormat.format(now.timeInMillis))
+
+            val clockPIntent = PendingIntent.getActivity(context, widgetID, Util.getClockIntent(context), 0)
+            views.setOnClickPendingIntent(R.id.time, clockPIntent)
+
+            return views
         }
 
         fun updateCalendarViewByLayout(context: Context, v: View): View {
@@ -239,14 +258,18 @@ class TheWidget : AppWidgetProvider() {
                 dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
             }
             v.empty_date.text = dateStringValue
-            //empty_date.setImageBitmap(Util.buildUpdate(this,  String.format("%s%s", Constants.dateFormat.format(now.time)[0].toUpperCase(), Constants.dateFormat.format(now.time).substring(1)), "fonts/product_sans_regular.ttf"))
 
             if (calendarLayout) {
                 val e = CalendarUtil.getNextEvent(context)
 
                 if (e.id != 0) {
                     v.next_event.text = e.title
-                    v.next_event_difference_time.text = Util.getDifferenceText(context, now.timeInMillis, e.startDate)
+                    if (SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)) {
+                        v.next_event_difference_time.text = Util.getDifferenceText(context, now.timeInMillis, e.startDate)
+                        v.next_event_difference_time.visibility = View.VISIBLE
+                    } else {
+                        v.next_event_difference_time.visibility = View.GONE
+                    }
 
                     if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
                         v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_action_location))
@@ -293,6 +316,7 @@ class TheWidget : AppWidgetProvider() {
             v.divider2.setTextColor(Util.getFontColor(SP))
             v.calendar_temp.setTextColor(Util.getFontColor(SP))
             v.second_row_icon.setColorFilter(Util.getFontColor(SP))
+            v.time.setTextColor(Util.getFontColor(SP))
 
 
             v.empty_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
@@ -303,6 +327,35 @@ class TheWidget : AppWidgetProvider() {
             v.next_event_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             v.divider2.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             v.calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+            v.time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
+
+            val shadowRadius = when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+                0 -> 0f
+                1 -> 5f
+                2 -> 5f
+                else -> 5f
+            }
+            val shadowColor =  when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+                0 -> Color.TRANSPARENT
+                1 -> R.color.black_50
+                2 -> Color.BLACK
+                else -> R.color.black_50
+            }
+            val shadowDy =  when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+                0 -> 0f
+                1 -> 0f
+                2 -> 1f
+                else -> 0f
+            }
+            v.empty_date.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.divider1.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.temp.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.next_event.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.next_event_difference_time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.next_event_date.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.divider2.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+            v.calendar_temp.setShadowLayer(shadowRadius, 0f, 0f, shadowColor)
+            v.time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
 
 
             val product_sans: Typeface = Typeface.createFromAsset(context.assets, "fonts/product_sans_regular.ttf")
@@ -314,6 +367,7 @@ class TheWidget : AppWidgetProvider() {
             v.next_event_date.typeface = product_sans
             v.divider2.typeface = product_sans
             v.calendar_temp.typeface = product_sans
+            v.time.typeface = product_sans
 
             return v
         }

@@ -28,6 +28,7 @@ import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
 import android.preference.PreferenceManager
+import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.Settings
 import android.support.v4.graphics.drawable.DrawableCompat
@@ -62,7 +63,7 @@ object Util {
         update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
         update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         context.sendBroadcast(update)
-        context.sendBroadcast(Intent(Constants.ACTION_SOMETHING_APPENED))
+        context.sendBroadcast(Intent(Constants.ACTION_SOMETHING_HAPPENED))
     }
 
     fun showNotification(context: Context) {
@@ -144,23 +145,6 @@ object Util {
         }
     }
 
-    fun buildUpdate(context: Context, time: String, fontPath: String): Bitmap {
-        val myBitmap:Bitmap = Bitmap.createBitmap(convertDpToPixel(300f, context).toInt(), convertDpToPixel(40f, context).toInt(), Bitmap.Config.ARGB_8888)
-        val myCanvas: Canvas = Canvas(myBitmap)
-        val paint: Paint = Paint()
-        val clock: Typeface = Typeface.createFromAsset(context.assets, fontPath)
-        paint.isAntiAlias = true
-        paint.isSubpixelText = true
-        paint.typeface = clock
-        paint.style = Paint.Style.FILL
-        paint.color = Color.WHITE
-        paint.textSize = convertSpToPixels(14f, context)
-        paint.textAlign = Paint.Align.CENTER
-        paint.setShadowLayer(5f,0f, 0f, R.color.black_50)
-        myCanvas.drawText("Ultra Pixel Meeting Ciao Ciao", convertDpToPixel(150f, context), convertDpToPixel(20f, context), paint)
-        return myBitmap;
-    }
-
     fun getBitmapFromView(view: View): Bitmap {
         //Define a bitmap with the same size as the view
         val measuredWidth = View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.UNSPECIFIED)
@@ -223,7 +207,17 @@ object Util {
             3 -> R.string.settings_show_until_subtitle_3
             4 -> R.string.settings_show_until_subtitle_4
             5 -> R.string.settings_show_until_subtitle_5
+            6 -> R.string.settings_show_until_subtitle_6
             else -> R.string.settings_show_until_subtitle_1
+        }
+    }
+
+    fun getTextshadowString(shadow: Int): Int {
+        return when (shadow) {
+            0 -> R.string.settings_text_shadow_subtitle_none
+            1 -> R.string.settings_text_shadow_subtitle_low
+            2 -> R.string.settings_text_shadow_subtitle_high
+            else -> R.string.settings_text_shadow_subtitle_low
         }
     }
 
@@ -294,6 +288,26 @@ object Util {
                 intent.putExtra("beginTime", e.startDate);
                 intent.putExtra("endTime", e.endDate);
                 intent
+            }
+        }
+    }
+
+    fun getClockIntent(context: Context): Intent {
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+        if (SP.getString(Constants.PREF_CLOCK_APP_PACKAGE, "").equals("")) {
+            val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+            clockIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            return clockIntent
+        } else {
+            val pm: PackageManager = context.packageManager
+            return try {
+                val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_CLOCK_APP_PACKAGE, ""))
+                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent
+            } catch (e: Exception) {
+                val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                clockIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                return clockIntent
             }
         }
     }
@@ -427,9 +441,10 @@ object Util {
         val nowDate = DateTime(now)
         val eventDate = DateTime(start)
 
-        val difference = start - now
+        var difference = start - now
+        difference += 60 * 1000 - (difference % (60 * 1000))
 
-        if (difference < 0) {
+        if (difference <= 0) {
             return ""
         } else if (TimeUnit.MILLISECONDS.toHours(difference) < 1) {
             val minutes = TimeUnit.MILLISECONDS.toMinutes(difference)

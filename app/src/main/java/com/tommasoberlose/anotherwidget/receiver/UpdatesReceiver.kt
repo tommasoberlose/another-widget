@@ -13,7 +13,9 @@ import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
 import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.Util
+import java.sql.Time
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class UpdatesReceiver : BroadcastReceiver() {
@@ -21,7 +23,7 @@ class UpdatesReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED) || intent.action.equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.action.equals("android.intent.action.PACKAGE_REPLACED") || intent.action.equals("android.intent.action.PACKAGE_ADDED")) {
             setUpdates(context)
-        } else if (intent.action.equals(Constants.ACTION_TIME_UPDATE)) {
+        } else if (intent.action.equals(Constants.ACTION_TIME_UPDATE) || intent.action.equals("com.sec.android.widgetapp.APPWIDGET_RESIZE") || intent.action == "android.intent.action.USER_PRESENT") {
             val e: Event = CalendarUtil.getNextEvent(context)
             if (e.id == 0 || e.endDate <= Calendar.getInstance().timeInMillis) {
                 CalendarUtil.updateEventList(context)

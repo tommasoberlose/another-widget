@@ -20,10 +20,14 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.content.Intent
 import android.location.LocationManager
+import android.support.annotation.NonNull
 import android.util.Log
 import com.google.android.gms.awareness.Awareness
 import com.google.android.gms.awareness.snapshot.WeatherResponse
+import com.google.android.gms.awareness.snapshot.WeatherResult
 import com.google.android.gms.awareness.state.Weather
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import java.util.*
@@ -40,40 +44,53 @@ object WeatherUtil {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
         if (SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").equals("")) {
-
-            newWeatherProvider(context)
-            return
-/*
-            if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                return
-            }
-            var gpsEnabled = false
-            var networkEnabled = false
-            val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            try {
-                gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            } catch (ex: Exception) {
-            }
-
-            try {
-                networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-            } catch (ex: Exception) {
-            }
-
-            if (!gpsEnabled && !networkEnabled && SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)) {
-                Util.showLocationNotification(context, true)
+            if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+                newWeatherProvider(context)
             } else {
-                if (gpsEnabled) {
-                    val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    if (gpsLocation != null) {
-                        getCurrentWeather(context, gpsLocation)
-                        return
+                if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    return
+                }
+                val mGoogleApiClient = GoogleApiClient.Builder(context)
+                        .addApi(Awareness.API)
+                        .build()
+                mGoogleApiClient.connect()
+                Awareness.SnapshotApi.getLocation(mGoogleApiClient)
+                        .setResultCallback({ locationResult ->
+                            if (locationResult.status.isSuccess) {
+                                getCurrentWeather(context, locationResult.location)
+                            }
+                        })
+
+                /*
+                var gpsEnabled = false
+                var networkEnabled = false
+                val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                try {
+                    gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                } catch (ex: Exception) {
+                }
+
+                try {
+                    networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                } catch (ex: Exception) {
+                }
+
+                if (!gpsEnabled && !networkEnabled && SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)) {
+                    Util.showLocationNotification(context, true)
+                } else {
+                    if (gpsEnabled) {
+                        val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                        if (gpsLocation != null) {
+                            getCurrentWeather(context, gpsLocation)
+                            return
+                        }
+                    }
+                    if (networkEnabled) {
+                        getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
                     }
                 }
-                if (networkEnabled) {
-                    getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
-                }
-            }*/
+                */
+            }
         } else {
             weatherNetworkRequest(context, SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").toDouble(), SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").toDouble())
         }
@@ -84,17 +101,25 @@ object WeatherUtil {
         if (!Util.checkGrantedPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
             return
         }
-        Awareness.getSnapshotClient(context).weather
-                .addOnSuccessListener { weatherResponse ->
-                    val weather: Weather = weatherResponse.weather
-                    val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                    SP.edit()
-                            .putFloat(Constants.PREF_WEATHER_TEMP, weather.getTemperature(if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) Weather.FAHRENHEIT else Weather.CELSIUS))
-                            .putString(Constants.PREF_WEATHER_ICON, getIconCodeFromAwareness(weather.conditions))
-                            .putString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
-                            .commit()
-                    Util.updateWidget(context)
-                }
+        val mGoogleApiClient = GoogleApiClient.Builder(context)
+                .addApi(Awareness.API)
+                .build();
+        mGoogleApiClient.connect()
+
+        Awareness.SnapshotApi.getWeather(mGoogleApiClient)
+                    .setResultCallback({ weatherResult ->
+                        if (weatherResult.status.isSuccess) {
+                            val weather: Weather = weatherResult.weather
+                            val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+                            SP.edit()
+                                    .putFloat(Constants.PREF_WEATHER_TEMP, weather.getTemperature(if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) Weather.FAHRENHEIT else Weather.CELSIUS))
+                                    .putString(Constants.PREF_WEATHER_ICON, getIconCodeFromAwareness(weather.conditions))
+                                    .putString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
+                                    .commit()
+                            Util.updateWidget(context)
+                        }
+                        mGoogleApiClient.disconnect()
+                    })
 
     }
 

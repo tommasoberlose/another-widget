@@ -27,27 +27,25 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.ColorInt
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
 import android.text.Html
-import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
+import com.tommasoberlose.anotherwidget.receiver.UpdatesReceiver
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.key_time_wait_layout.view.*
 import kotlinx.android.synthetic.main.main_menu_layout.view.*
 import kotlinx.android.synthetic.main.the_widget.*
-import kotlinx.android.synthetic.main.the_widget.view.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    var mAppWidgetId: Int = -1
+    private var mAppWidgetId: Int = -1
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -59,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Fabric.with(this, Crashlytics())
+        sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
+        sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
 
         if (intent.extras?.containsKey(Constants.ACTION_EXTRA_OPEN_WEATHER_PROVIDER) == true) {
             startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
@@ -84,12 +84,6 @@ class MainActivity : AppCompatActivity() {
         action_menu.setOnClickListener {
             val mBottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this)
             val menuView: View = getLayoutInflater().inflate(R.layout.main_menu_layout, null)
-            menuView.action_support.setOnClickListener(object: View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    Util.openURI(this@MainActivity, "https://paypal.me/tommasoberlose")
-                    mBottomSheetDialog.dismiss()
-                }
-            })
 
             menuView.action_share.setOnClickListener(object: View.OnClickListener {
                 override fun onClick(p0: View?) {
@@ -143,7 +137,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val filter = IntentFilter()
-        filter.addAction(Constants.ACTION_SOMETHING_APPENED);
+        filter.addAction(Constants.ACTION_SOMETHING_HAPPENED);
         registerReceiver(receiver, filter);
         updateUI()
     }
@@ -182,10 +176,11 @@ class MainActivity : AppCompatActivity() {
         val wallpaper: Drawable? = Util.getCurrentWallpaper(this)
         if (wallpaper != null) {
             widget_bg.setImageDrawable(wallpaper)
-            updateCalendarView()
-            updateLocationView()
-            updateClockView()
         }
+        widget_bg.setBackgroundColor(Color.WHITE)
+        updateCalendarView()
+        updateLocationView()
+        updateClockView()
     }
 
     @SuppressLint("ApplySharedPref")
@@ -226,20 +221,6 @@ class MainActivity : AppCompatActivity() {
             WeatherReceiver().setOneTimeUpdate(this)
             sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
             updateSettings()
-
-            val mBottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this)
-            val provView: View = layoutInflater.inflate(R.layout.key_time_wait_layout, null)
-            provView.title.text = String.format("%s %s", Util.getEmojiByUnicode(0x1F389), getString(R.string.well_done))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                provView.text.text = Html.fromHtml(getString(R.string.api_key_info_all_set), Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                provView.text.text = Html.fromHtml(getString(R.string.api_key_info_all_set))
-            }
-            provView.action_close.setOnClickListener {
-                mBottomSheetDialog.dismiss()
-            }
-            mBottomSheetDialog.setContentView(provView)
-            mBottomSheetDialog.show();
         }
     }
 
@@ -266,14 +247,18 @@ class MainActivity : AppCompatActivity() {
             dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
         }
         empty_date.text = dateStringValue
-        //empty_date.setImageBitmap(Util.buildUpdate(this,  String.format("%s%s", Constants.dateFormat.format(now.time)[0].toUpperCase(), Constants.dateFormat.format(now.time).substring(1)), "fonts/product_sans_regular.ttf"))
 
         if (calendarLayout) {
             val e = CalendarUtil.getNextEvent(this)
 
             if (e.id != 0) {
                 next_event.text = e.title
-                next_event_difference_time.text = Util.getDifferenceText(this, now.timeInMillis, e.startDate)
+                if (SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)) {
+                    next_event_difference_time.text = Util.getDifferenceText(this, now.timeInMillis, e.startDate)
+                    next_event_difference_time.visibility = View.VISIBLE
+                } else {
+                    next_event_difference_time.visibility = View.GONE
+                }
 
                 if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
                     second_row_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_location))
@@ -320,6 +305,7 @@ class MainActivity : AppCompatActivity() {
         divider2.setTextColor(Util.getFontColor(SP))
         calendar_temp.setTextColor(Util.getFontColor(SP))
         second_row_icon.setColorFilter(Util.getFontColor(SP))
+        time.setTextColor(Util.getFontColor(SP))
 
 
         empty_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
@@ -330,6 +316,35 @@ class MainActivity : AppCompatActivity() {
         next_event_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
         divider2.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
         calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
+        time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
+
+        val shadowRadius = when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+            0 -> 0f
+            1 -> 5f
+            2 -> 4f
+            else -> 5f
+        }
+        val shadowColor =  when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+            0 -> Color.TRANSPARENT
+            1 -> R.color.black_50
+            2 -> Color.BLACK
+            else -> R.color.black_50
+        }
+        val shadowDy =  when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+            0 -> 0f
+            1 -> 0f
+            2 -> 1f
+            else -> 0f
+        }
+        empty_date.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        divider1.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        temp.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        next_event.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        next_event_difference_time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        next_event_date.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        divider2.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        calendar_temp.setShadowLayer(shadowRadius, 0f, 0f, shadowColor)
+        time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
 
 
         val product_sans: Typeface = Typeface.createFromAsset(assets, "fonts/product_sans_regular.ttf")
@@ -341,6 +356,7 @@ class MainActivity : AppCompatActivity() {
         next_event_date.typeface = product_sans
         divider2.typeface = product_sans
         calendar_temp.typeface = product_sans
+        time.typeface = product_sans
     }
 
     fun updateLocationView() {
@@ -383,8 +399,6 @@ class MainActivity : AppCompatActivity() {
                         .putBoolean(Constants.PREF_SHOW_CLOCK, false)
                         .commit()
                 sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
-                updateSettings()
-                updateAppWidget()
             }
             show_clock_label.text = getString(R.string.show_clock_visible)
         } else {
@@ -394,8 +408,6 @@ class MainActivity : AppCompatActivity() {
                         .putBoolean(Constants.PREF_SHOW_CLOCK, true)
                         .commit()
                 sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
-                updateSettings()
-                updateAppWidget()
             }
             show_clock_label.text = getString(R.string.show_clock_not_visible)
         }
@@ -411,7 +423,7 @@ class MainActivity : AppCompatActivity() {
                 updateSettings()
                 updateAppWidget()
             }
-            show_clock_label.text = getString(R.string.show_events_visible)
+            show_events_label.text = getString(R.string.show_events_visible)
         } else {
             calendar_settings.visibility= View.GONE
             action_show_events.setOnClickListener {
@@ -471,6 +483,20 @@ class MainActivity : AppCompatActivity() {
             updateSettings()
         }
 
+        show_diff_time_label.text = if (SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        action_show_diff_time.setOnClickListener {
+            SP.edit().putBoolean(Constants.PREF_SHOW_DIFF_TIME, !SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)).commit()
+            sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
+            updateSettings()
+        }
+
+        show_declined_events_label.text = if (SP.getBoolean(Constants.PREF_SHOW_DECLINED_EVENTS, true)) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        action_show_declined_events.setOnClickListener {
+            SP.edit().putBoolean(Constants.PREF_SHOW_DECLINED_EVENTS, !SP.getBoolean(Constants.PREF_SHOW_DECLINED_EVENTS, true)).commit()
+            sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
+            updateSettings()
+        }
+
         hour_format_label.text = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) getString(R.string.settings_hour_format_subtitle_12) else getString(R.string.settings_hour_format_subtitle_24)
         action_hour_format.setOnClickListener {
             SP.edit().putString(Constants.PREF_HOUR_FORMAT, if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) "24" else "12").commit()
@@ -511,6 +537,17 @@ class MainActivity : AppCompatActivity() {
             updateAppWidget()
         }
 
+        clock_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), "sp")
+        action_clock_text_size.setOnClickListener {
+            var fontSize = SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f) + 5
+            if (fontSize > 110) {
+                fontSize = 70f
+            }
+            SP.edit().putFloat(Constants.PREF_TEXT_CLOCK_SIZE, fontSize).commit()
+            Util.updateWidget(this)
+            updateSettings()
+            updateAppWidget()
+        }
 
         val textColor = try {
             Color.parseColor(SP.getString(Constants.PREF_TEXT_COLOR, "#FFFFFF"))
@@ -544,19 +581,25 @@ class MainActivity : AppCompatActivity() {
             updateSettings()
         }
 
-        label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
-        action_weather_refresh_period.setOnClickListener {
-            SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
-                0 -> 1
-                1 -> 2
-                2 -> 3
-                3 -> 4
-                4 -> 5
-                5 -> 0
-                else -> 1
-            }).commit()
-            updateSettings()
-            WeatherReceiver().setUpdates(this@MainActivity)
+
+        if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            action_weather_refresh_period.visibility = View.GONE
+        } else {
+            label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
+            action_weather_refresh_period.setOnClickListener {
+                SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
+                    0 -> 1
+                    1 -> 2
+                    2 -> 3
+                    3 -> 4
+                    4 -> 5
+                    5 -> 0
+                    else -> 1
+                }).commit()
+                updateSettings()
+                WeatherReceiver().setUpdates(this@MainActivity)
+            }
+            action_weather_refresh_period.visibility = View.VISIBLE
         }
 
         show_until_label.text = getString(Util.getShowUntilString(SP.getInt(Constants.PREF_SHOW_UNTIL, 1)))
@@ -567,51 +610,78 @@ class MainActivity : AppCompatActivity() {
                 2 -> 3
                 3 -> 4
                 4 -> 5
-                5 -> 0
+                5 -> 6
+                6 -> 0
                 else -> 1
             }).commit()
             updateSettings()
             sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
         }
 
-        label_custom_location.text = SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, getString(R.string.custom_location_gps))
-        action_custom_location.setOnClickListener {
-            startActivityForResult(Intent(this, CustomLocationActivity::class.java), Constants.RESULT_CODE_CUSTOM_LOCATION)
+        text_shadow_label.text = getString(Util.getTextshadowString(SP.getInt(Constants.PREF_TEXT_SHADOW, 1)))
+        action_text_shadow.setOnClickListener {
+            SP.edit().putInt(Constants.PREF_TEXT_SHADOW, when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
+                0 -> 1
+                1 -> 2
+                2 -> 0
+                else -> 1
+            }).commit()
+            sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
+            updateSettings()
+            updateAppWidget()
         }
 
-        if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
-            label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_all_set)
+        if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            action_custom_location.visibility = View.GONE
+        } else {
+            label_custom_location.text = SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, getString(R.string.custom_location_gps))
+            action_custom_location.setOnClickListener {
+                startActivityForResult(Intent(this, CustomLocationActivity::class.java), Constants.RESULT_CODE_CUSTOM_LOCATION)
+            }
+            action_custom_location.visibility = View.VISIBLE
+        }
+
+        if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            label_weather_provider_api_key.text = getString(R.string.provider_google_awareness)
             alert_icon.visibility = View.GONE
         } else {
-            label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
-            alert_icon.visibility = View.VISIBLE
+            if (SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "") == ("")) {
+                label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
+                alert_icon.visibility = View.VISIBLE
+            } else {
+                label_weather_provider_api_key.text = getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+                    Constants.WEATHER_PROVIDER_OPEN_WEATHER -> R.string.provider_open_weather
+                    else -> R.string.settings_weather_provider_api_key_subtitle_all_set
+                })
+                alert_icon.visibility = View.GONE
+            }
         }
         action_weather_provider_api_key.setOnClickListener {
             startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
         }
 
-        calendar_app_label.text = SP.getString(Constants.PREF_CALENDAR_APP_NAME, getString(R.string.default_name))
+        calendar_app_label.text = SP.getString(Constants.PREF_CALENDAR_APP_NAME, getString(R.string.default_calendar_app))
         action_calendar_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.CALENDAR_APP_REQUEST_CODE)
         }
 
-        weather_app_label.text = SP.getString(Constants.PREF_WEATHER_APP_NAME, getString(R.string.default_name))
+        weather_app_label.text = SP.getString(Constants.PREF_WEATHER_APP_NAME, getString(R.string.default_weather_app))
         action_weather_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.WEATHER_APP_REQUEST_CODE)
         }
 
-        clock_app_label.text = SP.getString(Constants.PREF_CLOCK_APP_NAME, getString(R.string.default_name))
+        clock_app_label.text = SP.getString(Constants.PREF_CLOCK_APP_NAME, getString(R.string.default_clock_app))
         action_clock_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.CLOCK_APP_REQUEST_CODE)
         }
 
-        event_app_label.text = SP.getString(Constants.PREF_EVENT_APP_NAME, getString(R.string.default_name))
+        event_app_label.text = SP.getString(Constants.PREF_EVENT_APP_NAME, getString(R.string.default_event_app))
         action_event_app.setOnClickListener {
             startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.EVENT_APP_REQUEST_CODE)
         }
 
         action_filter_calendar.setOnClickListener {
-            val calendarSelectorList: List<CalendarSelector> = CalendarUtil.getCalendarList(this)
+            val calendarSelectorList: List<CalendarSelector> = CalendarUtil.getCalendarList(this).map { CalendarSelector(it.id.toInt(), it.displayName, it.accountName) }
             var calFiltered = SP.getString(Constants.PREF_CALENDAR_FILTER, "")
 
             if (!calendarSelectorList.isEmpty()) {

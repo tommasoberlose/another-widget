@@ -9,12 +9,17 @@ import android.net.Uri
 import android.preference.PreferenceManager
 import android.provider.CalendarContract
 import android.util.Log
+import android.util.TimeUtils
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.`object`.CalendarSelector
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
+import me.everything.providers.android.calendar.CalendarProvider
+import me.everything.providers.android.contacts.ContactsProvider
 import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.Comparator
 
 /**
  * Created by tommaso on 08/10/17.
@@ -36,6 +41,7 @@ object CalendarUtil {
                 3 -> limit.add(Calendar.DAY_OF_MONTH, 1)
                 4 -> limit.add(Calendar.DAY_OF_MONTH, 3)
                 5 -> limit.add(Calendar.DAY_OF_MONTH, 7)
+                6 -> limit.add(Calendar.HOUR, 1)
                 else -> limit.add(Calendar.HOUR, 6)
             }
 
@@ -47,49 +53,45 @@ object CalendarUtil {
             if (!Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
                 resetNextEventData(context)
             } else {
-
-                val instanceCursor = context.contentResolver.query(builder.build(), arrayOf(CalendarContract.Instances.EVENT_ID, CalendarContract.Instances.BEGIN, CalendarContract.Instances.END), null, null, null)
-                if (instanceCursor != null && instanceCursor.count > 0) {
-                    instanceCursor.moveToFirst()
-
-                    for (i in 0 until instanceCursor.count) {
-                        val ID = instanceCursor.getInt(0)
-
-                        val eventCursor = context.contentResolver.query(CalendarContract.Events.CONTENT_URI, arrayOf(CalendarContract.Events.TITLE, CalendarContract.Events.ALL_DAY, CalendarContract.Events.CALENDAR_ID, CalendarContract.Events.EVENT_LOCATION),
-                                CalendarContract.Events._ID + " = ?",
-                                arrayOf(Integer.toString(ID)), null)
-
-                        if (eventCursor != null && eventCursor.count > 0) {
-                            eventCursor.moveToFirst()
-
-                            for (j in 0 until eventCursor.count) {
-                                val e = Event(eventCursor, instanceCursor)
-                                val allDay: Boolean = !eventCursor.getString(1).equals("0")
-                                if ((SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false) || !allDay) && !(SP.getString(Constants.PREF_CALENDAR_FILTER, "").contains(" " + e.calendarID + ","))) {
-                                    eventList.add(e)
-                                }
-                                eventCursor.moveToNext()
-                            }
-
-                            eventCursor.close()
-                        }
-
-                        instanceCursor.moveToNext()
+                val provider = CalendarProvider(context)
+                val instances = provider.getInstances(now.timeInMillis, limit.timeInMillis).list
+                for (instance in instances) {
+                    val e = provider.getEvent(instance.eventId)
+                    if (e != null && (SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false) || !e.allDay) && !(SP.getString(Constants.PREF_CALENDAR_FILTER, "").contains(" " + e.calendarId + ",")) && (SP.getBoolean(Constants.PREF_SHOW_DECLINED_EVENTS, true) || !e.selfAttendeeStatus.equals(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED))) {
+                        eventList.add(Event(e.id.toInt(), e.title, e.dTStart, e.dTend, e.calendarId.toInt(), e.allDay, e.eventLocation))
                     }
-
-                    instanceCursor.close()
                 }
 
                 if (eventList.isEmpty()) {
                     resetNextEventData(context)
                 } else {
-                    Collections.sort(eventList, { event: Event, event1: Event ->
-                        if (event.startDate > event1.startDate) {
-                            return@sort 1
-                        } else if (event.startDate < event1.startDate) {
-                            return@sort -1
+                    eventList.sortWith(Comparator { event: Event, event1: Event ->
+                        if (event.allDay && event1.allDay) {
+                            0
+                        } else {
+                            if (event.allDay) {
+                                Log.d("AW1", event.title + " " + event.startDate + " - " + event1.title + " " + event1.startDate)
+                                if (TimeUnit.MILLISECONDS.toMinutes(event1.startDate - now.timeInMillis) > 31 || now.timeInMillis > event1.endDate) {
+                                    1
+                                } else {
+                                    -1
+                                }
+                            } else if (event1.allDay) {
+                                Log.d("AW2", event.title + " " + event.startDate + " - " + event1.title + " " + event1.startDate)
+                                if (TimeUnit.MILLISECONDS.toMinutes(event.startDate - now.timeInMillis) > 31 || now.timeInMillis > event.endDate) {
+                                    -1
+                                } else {
+                                    1
+                                }
+                            } else {
+                                if (event.startDate > event1.startDate) {
+                                    1
+                                } else if (event.startDate < event1.startDate) {
+                                    -1
+                                }
+                                0
+                            }
                         }
-                        return@sort 0
                     })
                     saveNextEventData(context, eventList.get(0))
                 }
@@ -100,13 +102,16 @@ object CalendarUtil {
 
     }
 
-    fun getCalendarList(context: Context): List<CalendarSelector> {
-        val calendarList = ArrayList<CalendarSelector>()
+    fun getCalendarList(context: Context): List<me.everything.providers.android.calendar.Calendar> {
+        val calendarList = ArrayList<me.everything.providers.android.calendar.Calendar>()
 
         if (!Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
             return calendarList
         }
+        val provider = CalendarProvider(context)
+        return provider.calendars.list
 
+/*
         try {
             val calendarCursor = context.contentResolver.query(Uri.parse("content://com.android.calendar/calendars"),
                     arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CalendarContract.Calendars.ACCOUNT_NAME),
@@ -157,7 +162,7 @@ object CalendarUtil {
             }
         } finally {
             return calendarList
-        }
+        }*/
     }
 
     @SuppressLint("ApplySharedPref")

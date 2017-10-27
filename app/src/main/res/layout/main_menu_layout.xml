@@ -123,6 +123,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="16dp"
+        android:visibility="gone"
         android:id="@+id/action_support"
         android:orientation="horizontal">
         <ImageView

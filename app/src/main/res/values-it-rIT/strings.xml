@@ -93,7 +93,7 @@
     <string name="api_key_info_start">Ciao a tutti.</string>
     <string name="api_key_info_text"><![CDATA[Another widget è e rimarrà gratuita e senza banner pubblicitari.<BR /><BR />Però a causa del successo dell\'applicazione, sicuramente oltre ogni mia aspettativa, il provider del meteo non riesce a supportare il numero di richieste che arrivano (a causa dell\'utilizzo di un account gratuito).<BR /><BR />Sono costretto a chiedervi di registrarvi su OpenWeather.com; l\'operazione richiederà solo alcuni minuti e dopo non avrete più problemi con la fruizione delle informazioni sul meteo!<BR /><BR />Mi dispiace per l\'inconveniente ma continuate a supportarmi!!]]></string>
     <string name="well_done">Ben Fatto!</string>
-    <string name="api_key_info_all_set"><![CDATA[Posso essere necessari fino a <b>dieci minuti</b> prima che la tua chiave sia attivata.<BR /><BR />Quindi <i>rilassati</i>! Il meteo verrà aggiornato non appena sarà disponibile!]]></string>
+    <string name="api_key_info_all_set"><![CDATA[Posso essere necessari fino a <b>dieci minuti</b> prima che la tua chiave sia attivata.<BR />Quindi <i>rilassati</i>! Il meteo verrà aggiornato non appena sarà disponibile!]]></string>
     <string name="hs_code">" ore"</string>
     <string name="tomorrow">Domani</string>
     <string name="today">Oggi</string>
@@ -110,4 +110,22 @@
     <string name="description_show_clock">Mostra l\'ora sopra eventi e meteo</string>
     <string name="show_clock_visible">Orologio visibile</string>
     <string name="show_clock_not_visible">Orologio non visibile</string>
+    <string name="settings_clock_text_size_title">Dimensione Testo Orologio</string>
+    <string name="title_text_shadow">Ombra Testo</string>
+    <string name="settings_text_shadow_subtitle_none">Nessuna</string>
+    <string name="settings_text_shadow_subtitle_low">Bassa</string>
+    <string name="settings_text_shadow_subtitle_high">Alta</string>
+    <string name="advanced_settings_title">Impostazioni Avanzate</string>
+    <string name="beta">Beta</string>
+    <string name="settings_product_sans_font_title">Font Product Sans</string>
+    <string name="settings_product_sans_font_subtitle">L\'utilizzo del Product Sans disabilita i tap sugli elementi del widget. Ci sto attualmente lavorando.</string>
+    <string name="settings_show_until_subtitle_6">1 Ora dopo</string>
+    <string name="settings_show_diff_time_title">Tempo rimanente all\'evento</string>
+    <string name="settings_show_declined_events_title">Event Rifiutati</string>
+    <string name="settings_visible">Visibile</string>
+    <string name="settings_not_visible">Non Visibile</string>
+    <string name="default_event_app">Dettagli Evento Google Calendar</string>
+    <string name="default_calendar_app">App Calendario di Default</string>
+    <string name="default_weather_app">Meteo Google</string>
+    <string name="default_clock_app">App Orologio di Default</string>
 </resources>
