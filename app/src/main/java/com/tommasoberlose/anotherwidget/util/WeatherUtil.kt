@@ -60,36 +60,6 @@ object WeatherUtil {
                                 getCurrentWeather(context, locationResult.location)
                             }
                         })
-
-                /*
-                var gpsEnabled = false
-                var networkEnabled = false
-                val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                try {
-                    gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                } catch (ex: Exception) {
-                }
-
-                try {
-                    networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-                } catch (ex: Exception) {
-                }
-
-                if (!gpsEnabled && !networkEnabled && SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)) {
-                    Util.showLocationNotification(context, true)
-                } else {
-                    if (gpsEnabled) {
-                        val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                        if (gpsLocation != null) {
-                            getCurrentWeather(context, gpsLocation)
-                            return
-                        }
-                    }
-                    if (networkEnabled) {
-                        getCurrentWeather(context, locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
-                    }
-                }
-                */
             }
         } else {
             weatherNetworkRequest(context, SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").toDouble(), SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").toDouble())
@@ -132,14 +102,20 @@ object WeatherUtil {
 
     fun weatherNetworkRequest(context: Context, latitude: Double, longitude: Double) {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        if (!SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "").equals("")) {
+        if (!SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+            Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+            else -> Constants.PREF_OPEN_WEATHER_API_KEY
+        }, "").equals("")) {
             try {
                 val config = WeatherConfig()
                 config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
                 config.lang = "en"
                 config.maxResult = 1
                 config.numDays = 1
-                config.ApiKey = SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "")
+                config.ApiKey = SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+                    Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+                    else -> Constants.PREF_OPEN_WEATHER_API_KEY
+                }, "")
 
                 val client = WeatherClient.ClientBuilder().attach(context)
                         .httpClient(com.survivingwithandroid.weather.lib.client.volley.WeatherClientDefault::class.java)

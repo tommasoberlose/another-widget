@@ -2,10 +2,7 @@ package com.tommasoberlose.anotherwidget.util
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.WallpaperManager
+import android.app.*
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.PackageManager
@@ -27,6 +24,7 @@ import android.support.annotation.StringRes
 import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
+import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
@@ -151,6 +149,22 @@ object Util {
         val measuredHeight = View.MeasureSpec.makeMeasureSpec(view.height, View.MeasureSpec.UNSPECIFIED)
         view.measure(measuredWidth, measuredHeight)
         view.layout(0,0, measuredWidth, measuredHeight)
+        Log.d("AW", "W: " + view.measuredWidth +" - H: " + view.measuredHeight)
+        val returnedBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        //Bind a canvas to it
+        val canvas = Canvas(returnedBitmap)
+        // draw the view on the canvas
+        view.draw(canvas)
+        //return the bitmap
+        return returnedBitmap
+    }
+
+    fun getBitmapFromView(view: View, w: Int, h: Int): Bitmap {
+        //Define a bitmap with the same size as the view
+        val measuredWidth = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY)
+        val measuredHeight = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY)
+        view.measure(measuredWidth, measuredHeight)
+        view.layout(0,0, measuredWidth, measuredHeight)
         val returnedBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
         //Bind a canvas to it
         val canvas = Canvas(returnedBitmap)
@@ -209,6 +223,15 @@ object Util {
             5 -> R.string.settings_show_until_subtitle_5
             6 -> R.string.settings_show_until_subtitle_6
             else -> R.string.settings_show_until_subtitle_1
+        }
+    }
+
+    fun getSecondRowInfoString(info: Int): Int {
+        return when (info) {
+            0 -> R.string.settings_second_row_info_subtitle_0
+            1 -> R.string.settings_second_row_info_subtitle_1
+            2 -> R.string.settings_second_row_info_subtitle_2
+            else -> R.string.settings_second_row_info_subtitle_0
         }
     }
 
@@ -509,5 +532,42 @@ object Util {
         canvas.drawBitmap(resultBitmap, 0f, 0f, p);
 
         return resultBitmap;
+    }
+
+    @SuppressLint("ApplySharedPref")
+    fun updateSettingsByDefault(context: Context) {
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = SP.edit()
+        if (SP.contains(Constants.PREF_SHOW_EVENT_LOCATION)) {
+            editor.putInt(Constants.PREF_SECOND_ROW_INFORMATION, 1)
+            editor.remove(Constants.PREF_SHOW_EVENT_LOCATION)
+        }
+        if (SP.contains(Constants.PREF_WEATHER_PROVIDER_API_KEY)) {
+            editor.putString(Constants.PREF_OPEN_WEATHER_API_KEY, SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, ""))
+            editor.remove(Constants.PREF_WEATHER_PROVIDER_API_KEY)
+        }
+        editor.commit()
+    }
+
+    fun getNextAlarm(context: Context): String? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarm = am.nextAlarmClock
+            if (alarm != null) {
+                val time = am.nextAlarmClock.triggerTime
+                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") Constants.badHourFormat.format(time) else Constants.goodHourFormat.format(time)
+            } else {
+                null
+            }
+        } else {
+            val time = Settings.System.getString(context.contentResolver,
+                    Settings.System.NEXT_ALARM_FORMATTED)
+            return if (time != "") {
+               time
+            } else {
+                null
+            }
+        }
     }
 }

@@ -41,7 +41,10 @@ class WeatherProviderActivity : AppCompatActivity() {
 
         action_save.setOnClickListener {
             SP.edit()
-                    .putString(Constants.PREF_WEATHER_PROVIDER_API_KEY, api_key.text.toString())
+                    .putString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+                        Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+                        else -> Constants.PREF_OPEN_WEATHER_API_KEY
+                    }, api_key.text.toString())
                     .commit()
             setResult(Activity.RESULT_OK)
             finish()
@@ -49,7 +52,11 @@ class WeatherProviderActivity : AppCompatActivity() {
 
         api_key.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(text: Editable?) {
-                if (text.toString().equals("") || text.toString().equals(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, ""))) {
+                if (text.toString().equals("") || text.toString().equals(
+                        SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+                    Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+                    else -> Constants.PREF_OPEN_WEATHER_API_KEY
+                }, ""))) {
                     Util.collapse(button_container)
                 } else {
                     Util.expand(button_container)
@@ -98,12 +105,18 @@ class WeatherProviderActivity : AppCompatActivity() {
         }
 
         Util.collapse(button_container)
-        api_key.setText(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, ""))
+        api_key.setText(SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+            Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+            else -> Constants.PREF_OPEN_WEATHER_API_KEY
+        }, ""))
     }
 
     override fun onBackPressed() {
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
-        if (!SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS).equals(Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) && (api_key.text.toString().equals("") || !api_key.text.toString().equals(SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "")))) {
+        if (!SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS).equals(Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) && (api_key.text.toString().equals("") || !api_key.text.toString().equals(SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+            Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+            else -> Constants.PREF_OPEN_WEATHER_API_KEY
+        }, "")))) {
             AlertDialog.Builder(this)
                     .setMessage(getString(R.string.error_weather_api_key))
                     .setNegativeButton(android.R.string.cancel, null)

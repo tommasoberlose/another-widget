@@ -30,6 +30,7 @@ import android.os.Build
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
 import android.text.Html
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
@@ -121,7 +122,8 @@ class MainActivity : AppCompatActivity() {
         if (mAppWidgetId > 0) {
             addNewWidget()
         } else {
-            super.onBackPressed()
+            setResult(Activity.RESULT_OK)
+            finish()
         }
     }
 
@@ -260,7 +262,11 @@ class MainActivity : AppCompatActivity() {
                     next_event_difference_time.visibility = View.GONE
                 }
 
-                if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
+
+                if (SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0) == 2 && Util.getNextAlarm(this) != null) {
+                    second_row_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_alarm))
+                    next_event_date.text = Util.getNextAlarm(this)
+                } else if (!e.address.equals("") && SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0) == 1) {
                     second_row_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_location))
                     next_event_date.text = e.address
                 } else {
@@ -505,12 +511,16 @@ class MainActivity : AppCompatActivity() {
             updateAppWidget()
         }
 
-        show_location_label.text = if (SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) getString(R.string.settings_show_location_subtitle_true) else getString(R.string.settings_show_location_subtitle_false)
-        action_show_location.setOnClickListener {
-            SP.edit().putBoolean(Constants.PREF_SHOW_EVENT_LOCATION, !SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)).commit()
-            Util.updateWidget(this)
+        second_row_info_label.text = getString(Util.getSecondRowInfoString(SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0)))
+        action_second_row_info.setOnClickListener {
+            SP.edit().putInt(Constants.PREF_SECOND_ROW_INFORMATION, when (SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0)) {
+                0 -> 1
+                1 -> 2
+                2 -> 0
+                else -> 0
+            }).commit()
             updateSettings()
-            updateAppWidget()
+            sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
         }
 
         main_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f), "sp")
@@ -645,7 +655,10 @@ class MainActivity : AppCompatActivity() {
             label_weather_provider_api_key.text = getString(R.string.provider_google_awareness)
             alert_icon.visibility = View.GONE
         } else {
-            if (SP.getString(Constants.PREF_WEATHER_PROVIDER_API_KEY, "") == ("")) {
+            if (SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+                Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+                else -> Constants.PREF_OPEN_WEATHER_API_KEY
+            }, "") == ("")) {
                 label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
                 alert_icon.visibility = View.VISIBLE
             } else {

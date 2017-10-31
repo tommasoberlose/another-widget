@@ -29,6 +29,7 @@ import android.net.Uri
 import android.widget.TextClock
 import android.widget.TextView
 import android.content.ComponentName
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -37,6 +38,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat.startActivity
 import android.provider.CalendarContract.Events
 import android.support.v4.content.ContextCompat
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import kotlinx.android.synthetic.main.the_widget.*
 import kotlinx.android.synthetic.main.the_widget.view.*
@@ -48,6 +50,8 @@ import kotlinx.android.synthetic.main.the_widget.view.*
 class TheWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        Util.updateSettingsByDefault(context)
+
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
@@ -73,13 +77,21 @@ class TheWidget : AppWidgetProvider() {
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
+            val displayMetrics = Resources.getSystem().getDisplayMetrics()
+            val height = displayMetrics.heightPixels
+            val width = displayMetrics.widthPixels
 
+            val widgetInfo = appWidgetManager.getAppWidgetInfo(appWidgetId)
+            generateWidgetView(context, appWidgetId, appWidgetManager, width - Util.convertDpToPixel(32f, context).toInt(), widgetInfo.minHeight)
+        }
+
+        fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int, h: Int) {
             var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
             var v = View.inflate(context, R.layout.the_widget, null)
             v = updateCalendarViewByLayout(context, v)
             v = updateLocationViewByLayout(context, v)
             v = updateClockViewByLayout(context, v)
-            views.setImageViewBitmap(R.id.bitmap_container, Util.getBitmapFromView(v))
+            views.setImageViewBitmap(R.id.bitmap_container, Util.getBitmapFromView(v, w, h))
 
             views = updateCalendarView(context, views, appWidgetId)
             views = updateLocationView(context, views, appWidgetId)
@@ -103,7 +115,6 @@ class TheWidget : AppWidgetProvider() {
             views.setTextViewTextSize(R.id.next_event_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.divider2, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.calendar_temp, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
-
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
@@ -138,7 +149,16 @@ class TheWidget : AppWidgetProvider() {
                         views.setViewVisibility(R.id.next_event_difference_time, View.GONE)
                     }
 
-                    if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
+                    if (SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0) == 2 && Util.getNextAlarm(context) != null) {
+                        val source = BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_alarm);
+                        val result = Util.changeBitmapColor(source, Util.getFontColor(SP))
+                        views.setImageViewBitmap(R.id.second_row_icon, result)
+
+                        views.setTextViewText(R.id.next_event_date, Util.getNextAlarm(context))
+
+                        val clockIntent = PendingIntent.getActivity(context, widgetID, Util.getClockIntent(context), 0)
+                        views.setOnClickPendingIntent(R.id.next_event_date, clockIntent)
+                    } else if (e.address != "" && SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0) == 1) {
 
                         val source = BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_location);
                         val result = Util.changeBitmapColor(source, Util.getFontColor(SP))
@@ -257,6 +277,7 @@ class TheWidget : AppWidgetProvider() {
             if (SP.getBoolean(Constants.PREF_ITA_FORMAT_DATE, false)) {
                 dateStringValue = Util.getCapWordString(Constants.itDateFormat.format(now.time))
             }
+
             v.empty_date.text = dateStringValue
 
             if (calendarLayout) {
@@ -271,7 +292,10 @@ class TheWidget : AppWidgetProvider() {
                         v.next_event_difference_time.visibility = View.GONE
                     }
 
-                    if (!e.address.equals("") && SP.getBoolean(Constants.PREF_SHOW_EVENT_LOCATION, false)) {
+                    if (SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0) == 2 && Util.getNextAlarm(context) != null) {
+                        v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_action_alarm))
+                        v.next_event_date.text = Util.getNextAlarm(context)
+                    } else if (!e.address.equals("") && SP.getInt(Constants.PREF_SECOND_ROW_INFORMATION, 0) == 1) {
                         v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_action_location))
                         v.next_event_date.text = e.address
                     } else {
