@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
     tools:context="com.tommasoberlose.anotherwidget.ui.activity.ChooseApplicationActivity">
     <LinearLayout
@@ -37,6 +36,8 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         app:cardCornerRadius="3dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/bottom_buttons"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
@@ -66,9 +67,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:contentDescription="@string/custom_location_gps"
-                    android:id="@+id/action_default"
-                    android:src="@drawable/ic_action_reset"
+                    android:id="@+id/action_back"
+                    android:src="@drawable/ic_action_close"
                     android:tint="@android:color/black"/>
             </LinearLayout>
             <LinearLayout
@@ -81,4 +81,37 @@
                 android:id="@+id/list_view" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="3dp"
+        android:id="@+id/bottom_buttons"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:cardBackgroundColor="@android:color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="@string/action_default"
+                android:id="@+id/action_default"
+                android:textColor="@android:color/black"
+                style="@style/AnotherWidget.Main.Button"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="?android:attr/actionBarSize"
+                android:text="@string/action_none"
+                android:id="@+id/action_none"
+                android:textColor="@android:color/black"
+                style="@style/AnotherWidget.Main.Button"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

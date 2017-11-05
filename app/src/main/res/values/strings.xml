@@ -124,7 +124,6 @@
     <string name="beta">Beta</string>
     <string name="settings_product_sans_font_title">Product Sans Font</string>
     <string name="settings_product_sans_font_subtitle">Using Product Sans disabled the possibilty to tap widget elements. I\'m working on it.</string>
-    <string name="settings_show_until_subtitle_6">1 hour later</string>
     <string name="settings_show_diff_time_title">Time left for the event</string>
     <string name="settings_visible">Visible</string>
     <string name="settings_not_visible">Not Visible</string>
@@ -133,4 +132,26 @@
     <string name="default_event_app">Google Calendar Event Details</string>
     <string name="default_calendar_app">Default Calendar App</string>
     <string name="default_clock_app">Default Clock App</string>
+    <string name="settings_show_until_subtitle_7">1 hour later</string>
+    <string name="settings_show_until_subtitle_6">30 Minutes later</string>
+    <string name="action_default">Default</string>
+    <string name="action_none">Disabled</string>
+    <string name="settings_custom_font_title">Widget Font</string>
+    <string name="custom_font_subtitle_0">Device Font</string>
+    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="action_go_to_next_event">Show Next\nEvent</string>
+    <string name="settings_show_multiple_events_title">Multiple Events Counter</string>
+    <string name="support_custom_app_name" translatable="false">Another Developer</string>
+    <string name="support_main_title">Support the Developer with</string>
+    <string name="support_translations_title">Help with translations</string>
+    <string name="support_translations_subtitle">Open a pull request on GitHub</string>
+    <string name="support_website_title">Find out my projects</string>
+    <string name="support_website_subtitle">Same developer, more possibilities</string>
+    <string name="error">Ops, something went wrong!</string>
+    <string name="thanks">Thanks for support me!</string>
+    <string name="donation_coffee">An Italian Coffee</string>
+    <string name="donation_donuts">Some Glazed Donuts</string>
+    <string name="donation_dinner">An Expensive Dinner</string>
+    <string name="donation_breakfast">An English Breakfast</string>
+    <string name="donation_lunch">A Quick Lunch</string>
 </resources>

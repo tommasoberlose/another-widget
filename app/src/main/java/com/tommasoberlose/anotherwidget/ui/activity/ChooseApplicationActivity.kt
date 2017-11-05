@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import com.tommasoberlose.anotherwidget.`object`.AppInfoSavedEvent
 import com.tommasoberlose.anotherwidget.ui.adapter.ApplicationInfoAdapter
 
@@ -39,6 +40,14 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
         action_default.setOnClickListener {
             selectDefaultApp()
+        }
+
+        action_back.setOnClickListener {
+            onBackPressed()
+        }
+
+        action_none.setOnClickListener {
+            removeClickAction()
         }
 
         list_view.setHasFixedSize(true);
@@ -67,9 +76,25 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     fun selectDefaultApp() {
         val resultIntent = Intent()
-        resultIntent.putExtra(Constants.RESULT_APP_NAME, getString(R.string.default_name))
+        resultIntent.putExtra(Constants.RESULT_APP_NAME, "")
         resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, "")
-        setResult(Activity.RESULT_OK, intent)
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
+
+    fun removeClickAction() {
+        val resultIntent = Intent()
+        resultIntent.putExtra(Constants.RESULT_APP_NAME, getString(R.string.action_none))
+        resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, "_")
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
+
+    fun multiEventAction() {
+        val resultIntent = Intent()
+        resultIntent.putExtra(Constants.RESULT_APP_NAME, getString(R.string.action_go_to_next_event))
+        resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, Constants.PREF_SHOW_NEXT_EVENT)
+        setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }
 

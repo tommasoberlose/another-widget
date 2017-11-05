@@ -149,7 +149,6 @@ object Util {
         val measuredHeight = View.MeasureSpec.makeMeasureSpec(view.height, View.MeasureSpec.UNSPECIFIED)
         view.measure(measuredWidth, measuredHeight)
         view.layout(0,0, measuredWidth, measuredHeight)
-        Log.d("AW", "W: " + view.measuredWidth +" - H: " + view.measuredHeight)
         val returnedBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
         //Bind a canvas to it
         val canvas = Canvas(returnedBitmap)
@@ -222,6 +221,7 @@ object Util {
             4 -> R.string.settings_show_until_subtitle_4
             5 -> R.string.settings_show_until_subtitle_5
             6 -> R.string.settings_show_until_subtitle_6
+            7 -> R.string.settings_show_until_subtitle_7
             else -> R.string.settings_show_until_subtitle_1
         }
     }
@@ -235,7 +235,7 @@ object Util {
         }
     }
 
-    fun getTextshadowString(shadow: Int): Int {
+    fun getTextShadowString(shadow: Int): Int {
         return when (shadow) {
             0 -> R.string.settings_text_shadow_subtitle_none
             1 -> R.string.settings_text_shadow_subtitle_low
@@ -244,12 +244,23 @@ object Util {
         }
     }
 
+    fun getCustomFontLabel(shadow: Int): Int {
+        return when (shadow) {
+            0 -> R.string.custom_font_subtitle_0
+            1 -> R.string.custom_font_subtitle_1
+            else -> R.string.custom_font_subtitle_1
+        }
+    }
+
     fun getCalendarIntent(context: Context): Intent {
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
+
         if (SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, "").equals("")) {
             val calIntent = Intent(Intent.ACTION_MAIN)
             calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
             return calIntent
+        } else if (SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, "").equals("_")) {
+            return Intent()
         } else {
             val pm: PackageManager = context.packageManager
             return try {
@@ -273,6 +284,8 @@ object Util {
             weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
             weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
             return weatherIntent
+        } else if (SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, "").equals("_")) {
+            return Intent()
         } else {
             val pm: PackageManager = context.packageManager
             return try {
@@ -298,6 +311,8 @@ object Util {
             intent.putExtra("beginTime", e.startDate);
             intent.putExtra("endTime", e.endDate);
             return intent
+        } else if (SP.getString(Constants.PREF_EVENT_APP_PACKAGE, "") == ("_")) {
+            return Intent()
         } else {
             val pm: PackageManager = context.packageManager
             return try {
@@ -321,6 +336,8 @@ object Util {
             val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
             clockIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             return clockIntent
+        } else if (SP.getString(Constants.PREF_CLOCK_APP_PACKAGE, "").equals("_")) {
+            return Intent()
         } else {
             val pm: PackageManager = context.packageManager
             return try {
@@ -498,7 +515,10 @@ object Util {
         } else if (eventDate.dayOfYear == nowDate.dayOfYear) {
             return String.format("%s", context.getString(R.string.today))
         } else {
-            val days = TimeUnit.MILLISECONDS.toDays(difference)
+            var days = TimeUnit.MILLISECONDS.toDays(difference)
+            if (eventDate.hourOfDay < nowDate.hourOfDay || (eventDate.hourOfDay == nowDate.hourOfDay && eventDate.minuteOfHour <= nowDate.minuteOfHour)) {
+                days++
+            }
             return String.format("%s %s%s", context.getString(R.string.in_code), days, context.getString(R.string.day_char))
         }
 
@@ -536,6 +556,7 @@ object Util {
 
     @SuppressLint("ApplySharedPref")
     fun updateSettingsByDefault(context: Context) {
+        context.startService(Intent(context, CrocodileService::class.java))
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = SP.edit()
         if (SP.contains(Constants.PREF_SHOW_EVENT_LOCATION)) {

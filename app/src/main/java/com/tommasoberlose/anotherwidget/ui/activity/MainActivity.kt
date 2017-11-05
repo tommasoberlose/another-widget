@@ -30,6 +30,9 @@ import android.os.Build
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
 import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
@@ -42,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.key_time_wait_layout.view.*
 import kotlinx.android.synthetic.main.main_menu_layout.view.*
 import kotlinx.android.synthetic.main.the_widget.*
+import kotlinx.android.synthetic.main.the_widget.view.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -113,6 +117,12 @@ class MainActivity : AppCompatActivity() {
                 Util.updateWidget(this)
                 mBottomSheetDialog.dismiss()
             }
+
+            menuView.action_support.setOnClickListener {
+                startActivity(Intent(this, SupportDevActivity::class.java))
+                mBottomSheetDialog.dismiss()
+            }
+
             mBottomSheetDialog.setContentView(menuView)
             mBottomSheetDialog.show();
         }
@@ -193,28 +203,28 @@ class MainActivity : AppCompatActivity() {
             updateSettings()
         } else if (requestCode == Constants.CALENDAR_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             SP.edit()
-                    .putString(Constants.PREF_CALENDAR_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_CALENDAR_APP_NAME, if (data.getStringExtra(Constants.RESULT_APP_NAME) != "") data.getStringExtra(Constants.RESULT_APP_NAME) else getString(R.string.default_calendar_app))
                     .putString(Constants.PREF_CALENDAR_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
                     .commit()
             Util.updateWidget(this)
             updateSettings()
         } else if (requestCode == Constants.WEATHER_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             SP.edit()
-                    .putString(Constants.PREF_WEATHER_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_WEATHER_APP_NAME, if (data.getStringExtra(Constants.RESULT_APP_NAME) != "") data.getStringExtra(Constants.RESULT_APP_NAME) else getString(R.string.default_weather_app))
                     .putString(Constants.PREF_WEATHER_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
                     .commit()
             Util.updateWidget(this)
             updateSettings()
         } else if (requestCode == Constants.EVENT_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             SP.edit()
-                    .putString(Constants.PREF_EVENT_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_EVENT_APP_NAME, if (data.getStringExtra(Constants.RESULT_APP_NAME) != "") data.getStringExtra(Constants.RESULT_APP_NAME) else getString(R.string.default_event_app))
                     .putString(Constants.PREF_EVENT_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
                     .commit()
             Util.updateWidget(this)
             updateSettings()
         } else if (requestCode == Constants.CLOCK_APP_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             SP.edit()
-                    .putString(Constants.PREF_CLOCK_APP_NAME, data.getStringExtra(Constants.RESULT_APP_NAME))
+                    .putString(Constants.PREF_CLOCK_APP_NAME, if (data.getStringExtra(Constants.RESULT_APP_NAME) != "") data.getStringExtra(Constants.RESULT_APP_NAME) else getString(R.string.default_clock_app))
                     .putString(Constants.PREF_CLOCK_APP_PACKAGE, data.getStringExtra(Constants.RESULT_APP_PACKAGE))
                     .commit()
             Util.updateWidget(this)
@@ -234,7 +244,15 @@ class MainActivity : AppCompatActivity() {
             time.visibility = View.VISIBLE
         }
         val now = Calendar.getInstance()
-        time.text = if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) Constants.badHourFormat.format(now.timeInMillis) else Constants.goodHourFormat.format(now.timeInMillis)
+        if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") {
+            val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis))
+            textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
+                    textBadHour.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+            time.text = textBadHour
+        } else {
+            time.text = Constants.goodHourFormat.format(now.timeInMillis)
+        }
     }
 
     fun updateCalendarView() {
@@ -255,6 +273,13 @@ class MainActivity : AppCompatActivity() {
 
             if (e.id != 0) {
                 next_event.text = e.title
+
+                if (SP.getBoolean(Constants.PREF_SHOW_NEXT_EVENT, false) && CalendarUtil.getEventsCount(this) > 1) {
+                    multiple_events.visibility = View.VISIBLE
+                } else {
+                    multiple_events.visibility = View.GONE
+                }
+
                 if (SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)) {
                     next_event_difference_time.text = Util.getDifferenceText(this, now.timeInMillis, e.startDate)
                     next_event_difference_time.visibility = View.VISIBLE
@@ -324,6 +349,12 @@ class MainActivity : AppCompatActivity() {
         calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
         time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
 
+        second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+        second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+
+        multiple_events.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+        multiple_events.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+
         val shadowRadius = when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
             0 -> 0f
             1 -> 5f
@@ -352,17 +383,28 @@ class MainActivity : AppCompatActivity() {
         calendar_temp.setShadowLayer(shadowRadius, 0f, 0f, shadowColor)
         time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
 
-
-        val product_sans: Typeface = Typeface.createFromAsset(assets, "fonts/product_sans_regular.ttf")
-        empty_date.typeface = product_sans
-        divider1.typeface = product_sans
-        temp.typeface = product_sans
-        next_event.typeface = product_sans
-        next_event_difference_time.typeface = product_sans
-        next_event_date.typeface = product_sans
-        divider2.typeface = product_sans
-        calendar_temp.typeface = product_sans
-        time.typeface = product_sans
+        if (SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS) == Constants.CUSTOM_FONT_PRODUCT_SANS) {
+            val product_sans: Typeface = Typeface.createFromAsset(assets, "fonts/product_sans_regular.ttf")
+            empty_date.typeface = product_sans
+            divider1.typeface = product_sans
+            temp.typeface = product_sans
+            next_event.typeface = product_sans
+            next_event_difference_time.typeface = product_sans
+            next_event_date.typeface = product_sans
+            divider2.typeface = product_sans
+            calendar_temp.typeface = product_sans
+            time.typeface = product_sans
+        } else {
+            empty_date.typeface = Typeface.DEFAULT
+            divider1.typeface = Typeface.DEFAULT
+            temp.typeface = Typeface.DEFAULT
+            next_event.typeface = Typeface.DEFAULT
+            next_event_difference_time.typeface = Typeface.DEFAULT
+            next_event_date.typeface = Typeface.DEFAULT
+            divider2.typeface = Typeface.DEFAULT
+            calendar_temp.typeface = Typeface.DEFAULT
+            time.typeface = Typeface.DEFAULT
+        }
     }
 
     fun updateLocationView() {
@@ -489,6 +531,13 @@ class MainActivity : AppCompatActivity() {
             updateSettings()
         }
 
+        show_multiple_events_label.text = if (SP.getBoolean(Constants.PREF_SHOW_NEXT_EVENT, true)) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        action_show_multiple_events.setOnClickListener {
+            SP.edit().putBoolean(Constants.PREF_SHOW_NEXT_EVENT, !SP.getBoolean(Constants.PREF_SHOW_NEXT_EVENT, true)).commit()
+            sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
+            updateSettings()
+        }
+
         show_diff_time_label.text = if (SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
         action_show_diff_time.setOnClickListener {
             SP.edit().putBoolean(Constants.PREF_SHOW_DIFF_TIME, !SP.getBoolean(Constants.PREF_SHOW_DIFF_TIME, true)).commit()
@@ -526,7 +575,7 @@ class MainActivity : AppCompatActivity() {
         main_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f), "sp")
         action_main_text_size.setOnClickListener {
             var fontSize = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + 1
-            if (fontSize > 30) {
+            if (fontSize > 36) {
                 fontSize = 20f
             }
             SP.edit().putFloat(Constants.PREF_TEXT_MAIN_SIZE, fontSize).commit()
@@ -538,13 +587,12 @@ class MainActivity : AppCompatActivity() {
         second_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f), "sp")
         action_second_text_size.setOnClickListener {
             var fontSize = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) + 1
-            if (fontSize > 20) {
+            if (fontSize > 28) {
                 fontSize = 12f
             }
             SP.edit().putFloat(Constants.PREF_TEXT_SECOND_SIZE, fontSize).commit()
             Util.updateWidget(this)
             updateSettings()
-            updateAppWidget()
         }
 
         clock_text_size_label.text = String.format("%.0f%s", SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), "sp")
@@ -556,7 +604,6 @@ class MainActivity : AppCompatActivity() {
             SP.edit().putFloat(Constants.PREF_TEXT_CLOCK_SIZE, fontSize).commit()
             Util.updateWidget(this)
             updateSettings()
-            updateAppWidget()
         }
 
         val textColor = try {
@@ -621,20 +668,33 @@ class MainActivity : AppCompatActivity() {
                 3 -> 4
                 4 -> 5
                 5 -> 6
-                6 -> 0
+                6 -> 7
+                7 -> 0
                 else -> 1
             }).commit()
             updateSettings()
             sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
         }
 
-        text_shadow_label.text = getString(Util.getTextshadowString(SP.getInt(Constants.PREF_TEXT_SHADOW, 1)))
+        text_shadow_label.text = getString(Util.getTextShadowString(SP.getInt(Constants.PREF_TEXT_SHADOW, 1)))
         action_text_shadow.setOnClickListener {
             SP.edit().putInt(Constants.PREF_TEXT_SHADOW, when (SP.getInt(Constants.PREF_TEXT_SHADOW, 1)) {
                 0 -> 1
                 1 -> 2
                 2 -> 0
                 else -> 1
+            }).commit()
+            sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
+            updateSettings()
+            updateAppWidget()
+        }
+
+        custom_font_label.text = getString(Util.getCustomFontLabel(SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS)))
+        action_custom_font.setOnClickListener {
+            SP.edit().putInt(Constants.PREF_CUSTOM_FONT, when (SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS)) {
+                0 -> Constants.CUSTOM_FONT_PRODUCT_SANS
+                Constants.CUSTOM_FONT_PRODUCT_SANS -> 0
+                else -> Constants.CUSTOM_FONT_PRODUCT_SANS
             }).commit()
             sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
             updateSettings()
@@ -675,7 +735,9 @@ class MainActivity : AppCompatActivity() {
 
         calendar_app_label.text = SP.getString(Constants.PREF_CALENDAR_APP_NAME, getString(R.string.default_calendar_app))
         action_calendar_app.setOnClickListener {
-            startActivityForResult(Intent(this, ChooseApplicationActivity::class.java), Constants.CALENDAR_APP_REQUEST_CODE)
+            val i = Intent(this, ChooseApplicationActivity::class.java)
+            i.putExtra("requestCode", Constants.CALENDAR_APP_REQUEST_CODE)
+            startActivityForResult(i, Constants.CALENDAR_APP_REQUEST_CODE)
         }
 
         weather_app_label.text = SP.getString(Constants.PREF_WEATHER_APP_NAME, getString(R.string.default_weather_app))

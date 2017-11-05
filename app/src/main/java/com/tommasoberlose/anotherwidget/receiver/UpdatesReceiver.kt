@@ -12,6 +12,7 @@ import android.util.Log
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
 import com.tommasoberlose.anotherwidget.util.CalendarUtil
+import com.tommasoberlose.anotherwidget.util.CrocodileService
 import com.tommasoberlose.anotherwidget.util.Util
 import java.sql.Time
 import java.util.*
@@ -36,8 +37,10 @@ class UpdatesReceiver : BroadcastReceiver() {
     }
 
     fun setUpdates(context: Context) {
-        removeUpdates(context)
         CalendarUtil.updateEventList(context)
+        removeUpdates(context)
+        context.startService(Intent(context, CrocodileService::class.java))
+        /*
         val now = Calendar.getInstance()
         now.set(Calendar.MILLISECOND, 0)
         now.set(Calendar.SECOND, 0)
@@ -46,7 +49,7 @@ class UpdatesReceiver : BroadcastReceiver() {
         val i = Intent(context, UpdatesReceiver::class.java)
         i.action = Constants.ACTION_TIME_UPDATE
         val pi = PendingIntent.getBroadcast(context, 0, i, 0)
-        am.setRepeating(AlarmManager.RTC_WAKEUP, now.timeInMillis, (1000 * 60).toLong(), pi)
+        am.setRepeating(AlarmManager.RTC_WAKEUP, now.timeInMillis, (1000 * 60).toLong(), pi) */
     }
 
     fun removeUpdates(context: Context) {

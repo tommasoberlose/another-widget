@@ -2,6 +2,7 @@ package com.tommasoberlose.anotherwidget.util
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.UiModeManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.location.*
@@ -21,6 +22,7 @@ import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.content.Intent
 import android.location.LocationManager
 import android.support.annotation.NonNull
+import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.google.android.gms.awareness.Awareness
 import com.google.android.gms.awareness.snapshot.WeatherResponse
@@ -83,7 +85,7 @@ object WeatherUtil {
                             val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
                             SP.edit()
                                     .putFloat(Constants.PREF_WEATHER_TEMP, weather.getTemperature(if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("F")) Weather.FAHRENHEIT else Weather.CELSIUS))
-                                    .putString(Constants.PREF_WEATHER_ICON, getIconCodeFromAwareness(weather.conditions))
+                                    .putString(Constants.PREF_WEATHER_ICON, getIconCodeFromAwareness(context, weather.conditions))
                                     .putString(Constants.PREF_WEATHER_REAL_TEMP_UNIT, SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F"))
                                     .commit()
                             Util.updateWidget(context)
@@ -161,7 +163,7 @@ object WeatherUtil {
         Util.updateWidget(context)
     }
 
-    fun getIconCodeFromAwareness(conditions: IntArray): String {
+    fun getIconCodeFromAwareness(context: Context, conditions: IntArray): String {
         var icon = ""
         return if (conditions.contains(Weather.CONDITION_UNKNOWN)) {
             ""
@@ -186,10 +188,15 @@ object WeatherUtil {
                 icon = "82"
             }
 
-            return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
-                icon + "n"
-            } else {
-                icon + "d"
+            val uiManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+            return when {
+                uiManager.nightMode == UiModeManager.MODE_NIGHT_YES -> icon + "n"
+                uiManager.nightMode == UiModeManager.MODE_NIGHT_NO -> icon + "d"
+                else -> return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
+                    icon + "n"
+                } else {
+                    icon + "d"
+                }
             }
         }
     }

@@ -120,7 +120,6 @@
     <string name="beta">Beta</string>
     <string name="settings_product_sans_font_title">Font Product Sans</string>
     <string name="settings_product_sans_font_subtitle">L\'utilizzo del Product Sans disabilita i tap sugli elementi del widget. Ci sto attualmente lavorando.</string>
-    <string name="settings_show_until_subtitle_6">1 Ora dopo</string>
     <string name="settings_show_diff_time_title">Tempo rimanente all\'evento</string>
     <string name="settings_show_declined_events_title">Event Rifiutati</string>
     <string name="settings_visible">Visibile</string>
@@ -129,4 +128,25 @@
     <string name="default_calendar_app">App Calendario di Default</string>
     <string name="default_weather_app">Meteo Google</string>
     <string name="default_clock_app">App Orologio di Default</string>
+    <string name="settings_show_until_subtitle_7">1 Ora dopo</string>
+    <string name="settings_show_until_subtitle_6">30 Minuti dopo</string>
+    <string name="action_default">Predefinita</string>
+    <string name="action_none">Disabilita</string>
+    <string name="custom_font_subtitle_0">Font Dispositivo</string>
+    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="settings_custom_font_title">Font Widget</string>
+    <string name="action_go_to_next_event">Mostra Evento\nSuccessivo</string>
+    <string name="settings_show_multiple_events_title">Contatore Eventi Multipli</string>
+    <string name="support_main_title">Supporta lo Sviluppatore con</string>
+    <string name="support_translations_title">Aiuta con le Traduzioni</string>
+    <string name="support_translations_subtitle">Apri una pull request su GitHub</string>
+    <string name="support_website_title">Scopri i miei progetti</string>
+    <string name="support_website_subtitle">Stesso sviluppatore, più possibilità</string>
+    <string name="error">Ops, sembra che qualcosa non abbia funzionato!</string>
+    <string name="thanks">Grazie per il supporto!</string>
+    <string name="donation_coffee">Un Caffè Italiano</string>
+    <string name="donation_donuts">Qualche Ciambella</string>
+    <string name="donation_dinner">Una Cena Costosa</string>
+    <string name="donation_breakfast">Una Colazione Inglese</string>
+    <string name="donation_lunch">Una Pranzo Veloce</string>
 </resources>

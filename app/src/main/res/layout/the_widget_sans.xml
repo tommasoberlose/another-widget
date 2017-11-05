@@ -6,15 +6,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
         android:id="@+id/bitmap_container"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:alpha="0">
-    <include layout="@layout/the_widget"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/intent_container" />
+        android:alpha="0"
+        android:layout_centerInParent="true">
+        <include layout="@layout/the_widget"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/intent_container" />
     </LinearLayout>
 </RelativeLayout>
