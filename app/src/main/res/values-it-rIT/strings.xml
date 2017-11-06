@@ -149,4 +149,6 @@
     <string name="donation_dinner">Una Cena Costosa</string>
     <string name="donation_breakfast">Una Colazione Inglese</string>
     <string name="donation_lunch">Una Pranzo Veloce</string>
+    <string name="background_service_title">Another Widget è attivo</string>
+    <string name="background_service_subtitle">AW è attivo in background</string>
 </resources>

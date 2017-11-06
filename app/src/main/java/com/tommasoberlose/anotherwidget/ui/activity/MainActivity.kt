@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver
 import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import android.content.DialogInterface
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -180,7 +181,18 @@ class MainActivity : AppCompatActivity() {
         updateSettings()
         updateAppWidget()
         updateClockView()
-        widget_bitmap.setImageBitmap(Util.getBitmapFromView(main_layout))
+
+        val SP = PreferenceManager.getDefaultSharedPreferences(this)
+        val displayMetrics = Resources.getSystem().displayMetrics
+        var height = Util.convertDpToPixel(120f, this).toInt()
+        if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
+            height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), this).toInt() + Util.convertDpToPixel(8f, this).toInt()
+        }
+        if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 50) {
+            height += Util.convertDpToPixel(24f, this).toInt()
+        }
+        widget_bitmap.setImageBitmap(Util.getBitmapFromView(main_layout, displayMetrics.widthPixels, height - Util.convertDpToPixel(32f, this).toInt()))
+        widget.layoutParams.height = height + Util.convertDpToPixel(16f, this).toInt()
     }
 
 
@@ -349,8 +361,14 @@ class MainActivity : AppCompatActivity() {
         calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
         time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
 
-        second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
-        second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+        second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
+        second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
+
+        weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 20f
+        weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 20f
+
+        empty_weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
+        empty_weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
 
         multiple_events.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
         multiple_events.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f

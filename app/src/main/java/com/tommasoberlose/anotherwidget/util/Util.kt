@@ -257,6 +257,7 @@ object Util {
 
         if (SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, "").equals("")) {
             val calIntent = Intent(Intent.ACTION_MAIN)
+            calIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
             return calIntent
         } else if (SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, "").equals("_")) {
@@ -266,10 +267,12 @@ object Util {
             return try {
                 val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_CALENDAR_APP_PACKAGE, ""))
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent
             } catch (e: Exception) {
                 e.printStackTrace()
                 val calIntent = Intent(Intent.ACTION_MAIN)
+                calIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
                 calIntent
             }
@@ -281,6 +284,7 @@ object Util {
         if (SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, "").equals("")) {
             val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
             weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
+            weatherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
             weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
             return weatherIntent
@@ -291,10 +295,12 @@ object Util {
             return try {
                 val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, ""))
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent
             } catch (e: Exception) {
                 val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
                 weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
+                weatherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
                 weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
                 weatherIntent
@@ -308,6 +314,7 @@ object Util {
             val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.id.toLong())
             val intent = Intent(Intent.ACTION_VIEW)
                     .setData(uri)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("beginTime", e.startDate);
             intent.putExtra("endTime", e.endDate);
             return intent
@@ -318,11 +325,13 @@ object Util {
             return try {
                 val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_EVENT_APP_PACKAGE, ""))
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent
             } catch (ex: Exception) {
                 val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.id.toLong())
                 val intent = Intent(Intent.ACTION_VIEW)
                         .setData(uri)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.putExtra("beginTime", e.startDate);
                 intent.putExtra("endTime", e.endDate);
                 intent
@@ -334,7 +343,7 @@ object Util {
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
         if (SP.getString(Constants.PREF_CLOCK_APP_PACKAGE, "").equals("")) {
             val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-            clockIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            clockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             return clockIntent
         } else if (SP.getString(Constants.PREF_CLOCK_APP_PACKAGE, "").equals("_")) {
             return Intent()
@@ -556,7 +565,12 @@ object Util {
 
     @SuppressLint("ApplySharedPref")
     fun updateSettingsByDefault(context: Context) {
-        context.startService(Intent(context, CrocodileService::class.java))
+        try {
+            context.startService(Intent(context, CrocodileService::class.java))
+        } catch (e: Exception) {
+
+        }
+
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = SP.edit()
         if (SP.contains(Constants.PREF_SHOW_EVENT_LOCATION)) {

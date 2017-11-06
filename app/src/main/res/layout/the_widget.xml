@@ -34,6 +34,7 @@
             android:gravity="right"
             android:ellipsize="end"
             android:text="@string/loading_text"
+            android:includeFontPadding="false"
             style="@style/AnotherWidget.Title"/>
         <LinearLayout
             android:orientation="horizontal"
@@ -49,6 +50,7 @@
                 android:layout_marginEnd="8dp"
                 android:id="@+id/divider1"
                 android:text="@string/divider"
+                android:includeFontPadding="false"
                 style="@style/AnotherWidget.Subtitle"/>
             <ImageView
                 android:layout_width="20dp"
@@ -61,6 +63,7 @@
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Date.Big"
                 android:ellipsize="marquee"
+                android:includeFontPadding="false"
                 android:id="@+id/temp"/>
         </LinearLayout>
     </LinearLayout>
@@ -86,6 +89,7 @@
                 android:lines="1"
                 android:gravity="right"
                 android:ellipsize="end"
+                android:includeFontPadding="false"
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Title" />
             <LinearLayout
@@ -97,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
+                    android:includeFontPadding="false"
                     style="@style/AnotherWidget.Title" />
             </LinearLayout>
         </LinearLayout>
@@ -112,8 +117,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:id="@+id/second_row_icon"
@@ -124,6 +129,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:ellipsize="end"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     style="@style/AnotherWidget.Subtitle" />
             </LinearLayout>
@@ -146,6 +152,7 @@
                     android:layout_marginEnd="8dp"
                     android:id="@+id/divider2"
                     android:text="@string/divider"
+                    android:includeFontPadding="false"
                     style="@style/AnotherWidget.Subtitle"/>
                 <ImageView
                     android:layout_width="18dp"
@@ -159,6 +166,7 @@
                     android:layout_marginStart="4dp"
                     android:ellipsize="marquee"
                     android:layout_marginEnd="4dp"
+                    android:includeFontPadding="false"
                     android:id="@+id/calendar_temp"/>
             </LinearLayout>
         </LinearLayout>

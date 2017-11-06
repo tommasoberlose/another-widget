@@ -11,11 +11,18 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:alpha="0"
         android:layout_centerInParent="true">
         <include layout="@layout/the_widget"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/intent_container" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:visibility="gone"
+            android:id="@+id/bottom_divider"
+            android:orientation="vertical" />
     </LinearLayout>
 </RelativeLayout>

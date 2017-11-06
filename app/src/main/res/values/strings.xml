@@ -154,4 +154,6 @@
     <string name="donation_dinner">An Expensive Dinner</string>
     <string name="donation_breakfast">An English Breakfast</string>
     <string name="donation_lunch">A Quick Lunch</string>
+    <string name="background_service_title">Another Widget is Running</string>
+    <string name="background_service_subtitle">AW is running in the background</string>
 </resources>

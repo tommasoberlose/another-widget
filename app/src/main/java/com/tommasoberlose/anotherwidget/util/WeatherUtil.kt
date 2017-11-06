@@ -80,7 +80,7 @@ object WeatherUtil {
 
         Awareness.SnapshotApi.getWeather(mGoogleApiClient)
                     .setResultCallback({ weatherResult ->
-                        if (weatherResult.status.isSuccess) {
+                        if (weatherResult.status.isSuccess && weatherResult.weather != null) {
                             val weather: Weather = weatherResult.weather
                             val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
                             SP.edit()

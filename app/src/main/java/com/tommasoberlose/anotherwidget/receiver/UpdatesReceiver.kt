@@ -7,6 +7,7 @@ import android.content.Intent
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.icu.text.LocaleDisplayNames
+import android.os.Build
 import android.preference.PreferenceManager
 import android.util.Log
 import com.tommasoberlose.anotherwidget.`object`.Constants
@@ -39,8 +40,12 @@ class UpdatesReceiver : BroadcastReceiver() {
     fun setUpdates(context: Context) {
         CalendarUtil.updateEventList(context)
         removeUpdates(context)
-        context.startService(Intent(context, CrocodileService::class.java))
-        /*
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(Intent(context, CrocodileService::class.java))
+        } else {
+            context.startService(Intent(context, CrocodileService::class.java))
+        }*/
+
         val now = Calendar.getInstance()
         now.set(Calendar.MILLISECOND, 0)
         now.set(Calendar.SECOND, 0)
@@ -49,7 +54,7 @@ class UpdatesReceiver : BroadcastReceiver() {
         val i = Intent(context, UpdatesReceiver::class.java)
         i.action = Constants.ACTION_TIME_UPDATE
         val pi = PendingIntent.getBroadcast(context, 0, i, 0)
-        am.setRepeating(AlarmManager.RTC_WAKEUP, now.timeInMillis, (1000 * 60).toLong(), pi) */
+        am.setRepeating(AlarmManager.RTC_WAKEUP, now.timeInMillis, (1000 * 60).toLong(), pi)
     }
 
     fun removeUpdates(context: Context) {

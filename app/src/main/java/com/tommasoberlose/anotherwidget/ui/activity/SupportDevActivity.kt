@@ -41,29 +41,49 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
             val lunch = bp!!.getPurchaseListingDetails("donation_lunch")
             val dinner = bp!!.getPurchaseListingDetails("donation_dinner")
 
-            import_donation_coffee.text = coffee.priceText
-            action_donation_coffee.setOnClickListener {
-                bp!!.purchase(this, "donation_coffee")
+            if (coffee != null) {
+                import_donation_coffee.text = coffee.priceText
+                action_donation_coffee.setOnClickListener {
+                    bp!!.purchase(this, "donation_coffee")
+                }
+            } else {
+                action_donation_coffee.visibility = View.GONE
             }
 
-            import_donation_donuts.text = donuts.priceText
-            action_donation_donuts.setOnClickListener {
-                bp!!.purchase(this, "donation_donuts")
+            if (donuts != null) {
+                import_donation_donuts.text = donuts.priceText
+                action_donation_donuts.setOnClickListener {
+                    bp!!.purchase(this, "donation_donuts")
+                }
+            } else {
+                action_donation_donuts.visibility = View.GONE
             }
 
-            import_donation_breakfast.text = breakfast.priceText
-            action_donation_breakfast.setOnClickListener {
-                bp!!.purchase(this, "donation_breakfast")
+            if (breakfast != null) {
+                import_donation_breakfast.text = breakfast.priceText
+                action_donation_breakfast.setOnClickListener {
+                    bp!!.purchase(this, "donation_breakfast")
+                }
+            } else {
+                action_donation_breakfast.visibility = View.GONE
             }
 
-            import_donation_lunch.text = lunch.priceText
-            action_donation_lunch.setOnClickListener {
-                bp!!.purchase(this, "donation_lunch")
+            if (lunch != null) {
+                import_donation_lunch.text = lunch.priceText
+                action_donation_lunch.setOnClickListener {
+                    bp!!.purchase(this, "donation_lunch")
+                }
+            } else {
+                action_donation_lunch.visibility = View.GONE
             }
 
-            import_donation_dinner.text = dinner.priceText
-            action_donation_dinner.setOnClickListener {
-                bp!!.purchase(this, "donation_dinner")
+            if (dinner != null) {
+                import_donation_dinner.text = dinner.priceText
+                action_donation_dinner.setOnClickListener {
+                    bp!!.purchase(this, "donation_dinner")
+                }
+            } else {
+                action_donation_dinner.visibility = View.GONE
             }
 
             products_list.visibility = View.VISIBLE
