@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:maxLines="1"
-            android:gravity="right"
             android:ellipsize="end"
             android:text="@string/loading_text"
             android:includeFontPadding="false"

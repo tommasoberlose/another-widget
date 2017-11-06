@@ -156,4 +156,6 @@
     <string name="donation_lunch">A Quick Lunch</string>
     <string name="background_service_title">Another Widget is Running</string>
     <string name="background_service_subtitle">AW is running in the background</string>
+    <string name="action_show_widget_preview">Show Widget Preview</string>
+    <string name="action_hide_widget_preview">Hide Widget Preview</string>
 </resources>

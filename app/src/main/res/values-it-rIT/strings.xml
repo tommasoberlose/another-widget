@@ -151,4 +151,6 @@
     <string name="donation_lunch">Una Pranzo Veloce</string>
     <string name="background_service_title">Another Widget è attivo</string>
     <string name="background_service_subtitle">AW è attivo in background</string>
+    <string name="action_show_widget_preview">Mostra Anteprima Widget</string>
+    <string name="action_hide_widget_preview">Nascondi Anteprima Widget</string>
 </resources>

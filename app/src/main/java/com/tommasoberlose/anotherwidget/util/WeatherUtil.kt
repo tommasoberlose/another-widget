@@ -188,15 +188,10 @@ object WeatherUtil {
                 icon = "82"
             }
 
-            val uiManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-            return when {
-                uiManager.nightMode == UiModeManager.MODE_NIGHT_YES -> icon + "n"
-                uiManager.nightMode == UiModeManager.MODE_NIGHT_NO -> icon + "d"
-                else -> return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
-                    icon + "n"
-                } else {
-                    icon + "d"
-                }
+            return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
+                icon + "n"
+            } else {
+                icon + "d"
             }
         }
     }

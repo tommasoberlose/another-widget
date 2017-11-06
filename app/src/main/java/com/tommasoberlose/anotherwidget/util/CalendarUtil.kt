@@ -72,7 +72,7 @@ object CalendarUtil {
                                 instance.begin = start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
                                 instance.end = end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
                             }
-                            eventList.add(Event(e.id.toInt(), e.title, instance.begin, instance.end, e.calendarId.toInt(), e.allDay, e.eventLocation ?: ""))
+                            eventList.add(Event(instance.id, e.id, e.title, instance.begin, instance.end, e.calendarId.toInt(), e.allDay, e.eventLocation ?: ""))
                         }
                     }
                 }
@@ -118,8 +118,7 @@ object CalendarUtil {
     }
 
     fun saveEvents(context: Context, eventList: ArrayList<Event>) {
-        Realm.init(context)
-        val db = Realm.getDefaultInstance()
+        val db = Util.getRealInstance(context)
         db.executeTransaction { realm ->
             realm.where(Event::class.java).findAll().deleteAllFromRealm()
             realm.copyToRealm(eventList)
@@ -128,13 +127,13 @@ object CalendarUtil {
 
     @SuppressLint("ApplySharedPref")
     fun resetNextEventData(context: Context) {
-        Realm.init(context)
-        val db = Realm.getDefaultInstance()
+        val db = Util.getRealInstance(context)
         db.executeTransaction {
             db.where(Event::class.java).findAll().deleteAllFromRealm()
         }
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         SP.edit()
+                .remove(Constants.PREF_EVENT_ID)
                 .remove(Constants.PREF_NEXT_EVENT_ID)
                 .remove(Constants.PREF_NEXT_EVENT_NAME)
                 .remove(Constants.PREF_NEXT_EVENT_START_DATE)
@@ -150,34 +149,20 @@ object CalendarUtil {
     fun saveNextEventData(context: Context, event: Event) {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         SP.edit()
-                .putInt(Constants.PREF_NEXT_EVENT_ID, event.id)
+                .putLong(Constants.PREF_EVENT_ID, event.id)
                 .commit()
         Util.updateWidget(context)
     }
 
     fun getNextEvent(context: Context): Event {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        Realm.init(context)
-        val db = Realm.getDefaultInstance()
-        val nextEvent = db.where(Event::class.java).equalTo("id", SP.getInt(Constants.PREF_NEXT_EVENT_ID, 0)).findFirst()
+        val db = Util.getRealInstance(context)
+        val nextEvent = db.where(Event::class.java).equalTo("id", SP.getLong(Constants.PREF_EVENT_ID, 0)).findFirst()
         return if (nextEvent != null) {
             nextEvent
         } else {
             val eventList = db.where(Event::class.java).findAll()
-
             if (eventList.isNotEmpty()) {
-                eventList.sortWith(Comparator { event: Event, event1: Event ->
-                    if (event.allDay && event1.allDay) {
-                        event.startDate.compareTo(event1.startDate)
-                    } else if (event.allDay) {
-                        1
-                    } else if (event1.allDay) {
-                        -1
-                    } else {
-                        event1.startDate.compareTo(event.startDate)
-                    }
-                })
-                eventList.reverse()
                 eventList[0] ?: Event()
             } else {
                 Event()
@@ -187,36 +172,21 @@ object CalendarUtil {
 
     @SuppressLint("ApplySharedPref")
     fun goToNextEvent(context: Context) {
-        Realm.init(context)
-        val db = Realm.getDefaultInstance()
+        val db = Util.getRealInstance(context)
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val eventList = db.where(Event::class.java).findAll()
 
         if (eventList.isNotEmpty()) {
-            /*
-            eventList.sortWith(Comparator { event: Event, event1: Event ->
-                if (event.allDay && event1.allDay) {
-                    event.startDate.compareTo(event1.startDate)
-                } else if (event.allDay) {
-                    1
-                } else if (event1.allDay) {
-                    -1
-                } else {
-                    event1.startDate.compareTo(event.startDate)
-                }
-            })
-            eventList.reverse()*/
-
             var found = false
             for (e in eventList) {
-                if (e.id == SP.getInt(Constants.PREF_NEXT_EVENT_ID, 0)) {
+                if (e.id == SP.getLong(Constants.PREF_EVENT_ID, 0)) {
                     if (eventList.indexOf(e) < eventList.size - 1) {
                         SP.edit()
-                                .putInt(Constants.PREF_NEXT_EVENT_ID, eventList[eventList.indexOf(e) + 1]?.id ?: 0)
+                                .putLong(Constants.PREF_EVENT_ID, eventList[eventList.indexOf(e) + 1]?.id ?: 0)
                                 .commit()
                     } else {
                         SP.edit()
-                                .putInt(Constants.PREF_NEXT_EVENT_ID, eventList[0]?.id ?: 0)
+                                .putLong(Constants.PREF_EVENT_ID, eventList[0]?.id ?: 0)
                                 .commit()
                     }
                     found = true
@@ -226,7 +196,7 @@ object CalendarUtil {
 
             if (!found) {
                 SP.edit()
-                        .putInt(Constants.PREF_NEXT_EVENT_ID, eventList[0]?.id ?: 0)
+                        .putLong(Constants.PREF_EVENT_ID, eventList[0]?.id ?: 0)
                         .commit()
             }
         } else {
@@ -237,8 +207,7 @@ object CalendarUtil {
     }
 
     fun getEventsCount(context: Context): Int {
-        Realm.init(context)
-        val db = Realm.getDefaultInstance()
+        val db = Util.getRealInstance(context)
         return db.where(Event::class.java).findAll().size
     }
 }

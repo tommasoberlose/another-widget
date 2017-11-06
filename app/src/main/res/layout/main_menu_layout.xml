@@ -45,6 +45,35 @@
         android:focusable="true"
         android:padding="16dp"
         android:textSize="14sp"
+        android:id="@+id/action_toggle_widget_preview"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/widget_preview_icon"
+            android:tint="@android:color/black"
+            android:src="@drawable/ic_action_rate"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action_hide_widget_preview"
+            style="@style/AnotherWidget.Settings.Title"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:id="@+id/widget_preview_label"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp"
+        android:textSize="14sp"
         android:id="@+id/action_rate"
         android:orientation="horizontal">
         <ImageView

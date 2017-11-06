@@ -27,7 +27,7 @@ class UpdatesReceiver : BroadcastReceiver() {
             setUpdates(context)
         } else if (intent.action.equals(Constants.ACTION_TIME_UPDATE) || intent.action.equals("com.sec.android.widgetapp.APPWIDGET_RESIZE") || intent.action == "android.intent.action.USER_PRESENT") {
             val e: Event = CalendarUtil.getNextEvent(context)
-            if (e.id == 0 || e.endDate <= Calendar.getInstance().timeInMillis) {
+            if (e.id == 0.toLong() || e.endDate <= Calendar.getInstance().timeInMillis) {
                 CalendarUtil.updateEventList(context)
             } else {
                 Util.updateWidget(context)

@@ -39,6 +39,8 @@ import android.widget.RemoteViews
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import org.joda.time.DateTime
 import java.util.concurrent.TimeUnit
 
@@ -68,7 +70,7 @@ object Util {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
         if (!Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setPriority(Notification.PRIORITY_MIN)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -284,7 +286,7 @@ object Util {
         if (SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, "").equals("")) {
             val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
             weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
-            weatherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            weatherIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
             weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
             return weatherIntent
@@ -295,12 +297,12 @@ object Util {
             return try {
                 val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, ""))
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 intent
             } catch (e: Exception) {
                 val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
                 weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
-                weatherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                weatherIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
                 weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
                 weatherIntent
@@ -311,7 +313,7 @@ object Util {
     fun getEventIntent(context: Context, e: Event): Intent {
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
         if (SP.getString(Constants.PREF_EVENT_APP_PACKAGE, "").equals("")) {
-            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.id.toLong())
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.eventID)
             val intent = Intent(Intent.ACTION_VIEW)
                     .setData(uri)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -380,7 +382,7 @@ object Util {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
         if (show) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setPriority(Notification.PRIORITY_MIN)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -402,7 +404,7 @@ object Util {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
         if (show) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setContentTitle(context.getString(R.string.settings_weather_provider_api_key_title))
@@ -566,7 +568,7 @@ object Util {
     @SuppressLint("ApplySharedPref")
     fun updateSettingsByDefault(context: Context) {
         try {
-            context.startService(Intent(context, CrocodileService::class.java))
+            // context.startService(Intent(context, CrocodileService::class.java))
         } catch (e: Exception) {
 
         }
@@ -582,6 +584,10 @@ object Util {
             editor.remove(Constants.PREF_WEATHER_PROVIDER_API_KEY)
         }
         editor.commit()
+    }
+
+    fun getRealInstance(context: Context): Realm {
+        return Realm.getDefaultInstance()
     }
 
     fun getNextAlarm(context: Context): String? {
