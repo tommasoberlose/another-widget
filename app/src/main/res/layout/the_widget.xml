@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:layout_marginTop="-8dp"
         android:lineSpacingMultiplier="1"
         android:lineSpacingExtra="0dp"
         android:visibility="gone"

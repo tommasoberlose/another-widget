@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
             }
             var height = Util.convertDpToPixel(120f, this).toInt()
             if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
-                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), this).toInt() + Util.convertDpToPixel(8f, this).toInt()
+                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), this).toInt() + Util.convertDpToPixel(16f, this).toInt()
             }
             if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 50) {
                 height += Util.convertDpToPixel(24f, this).toInt()

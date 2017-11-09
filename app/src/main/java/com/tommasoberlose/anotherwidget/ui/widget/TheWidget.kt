@@ -93,7 +93,7 @@ class TheWidget : AppWidgetProvider() {
                 height = widgetInfo.minHeight
             }
             if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
-                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), context).toInt() + Util.convertDpToPixel(8f, context).toInt()
+                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), context).toInt() + Util.convertDpToPixel(16f, context).toInt()
             }
             if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) > 30 && SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 22) {
                 height += Util.convertDpToPixel(24f, context).toInt()
