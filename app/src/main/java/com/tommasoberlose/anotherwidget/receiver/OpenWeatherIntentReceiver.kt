@@ -12,7 +12,11 @@ class OpenWeatherIntentReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Constants.ACTION_OPEN_WEATHER_INTENT) {
             context.sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
-            context.startActivity(Util.getWeatherIntent(context))
+            try {
+                context.startActivity(Util.getWeatherIntent(context))
+            } catch (e: Exception) {
+                context.applicationContext.startActivity(Util.getWeatherIntent(context.applicationContext))
+            }
         }
     }
 }

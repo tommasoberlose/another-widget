@@ -211,6 +211,10 @@ class MainActivity : AppCompatActivity() {
 
         if (SP.getBoolean(Constants.PREF_SHOW_WIDGET_PREVIEW, true)) {
             val displayMetrics = Resources.getSystem().displayMetrics
+            var width = displayMetrics.widthPixels
+            if (width <= 0) {
+                width = Util.convertDpToPixel(300f, this).toInt()
+            }
             var height = Util.convertDpToPixel(120f, this).toInt()
             if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
                 height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), this).toInt() + Util.convertDpToPixel(8f, this).toInt()
@@ -218,7 +222,7 @@ class MainActivity : AppCompatActivity() {
             if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 50) {
                 height += Util.convertDpToPixel(24f, this).toInt()
             }
-            widget_bitmap.setImageBitmap(Util.getBitmapFromView(main_layout, displayMetrics.widthPixels, height - Util.convertDpToPixel(32f, this).toInt()))
+            widget_bitmap.setImageBitmap(Util.getBitmapFromView(main_layout, width, height - Util.convertDpToPixel(32f, this).toInt()))
             widget.layoutParams.height = height + Util.convertDpToPixel(16f, this).toInt()
 
             widget.visibility = View.VISIBLE
@@ -649,7 +653,7 @@ class MainActivity : AppCompatActivity() {
         action_clock_text_size.setOnClickListener {
             var fontSize = SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f) + 5
             if (fontSize > 110) {
-                fontSize = 70f
+                fontSize = 50f
             }
             SP.edit().putFloat(Constants.PREF_TEXT_CLOCK_SIZE, fontSize).commit()
             Util.updateWidget(this)
@@ -688,25 +692,19 @@ class MainActivity : AppCompatActivity() {
             updateSettings()
         }
 
-
-        if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
-            action_weather_refresh_period.visibility = View.GONE
-        } else {
-            label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
-            action_weather_refresh_period.setOnClickListener {
-                SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
-                    0 -> 1
-                    1 -> 2
-                    2 -> 3
-                    3 -> 4
-                    4 -> 5
-                    5 -> 0
-                    else -> 1
-                }).commit()
-                updateSettings()
-                WeatherReceiver().setUpdates(this@MainActivity)
-            }
-            action_weather_refresh_period.visibility = View.VISIBLE
+        label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
+        action_weather_refresh_period.setOnClickListener {
+            SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
+                0 -> 1
+                1 -> 2
+                2 -> 3
+                3 -> 4
+                4 -> 5
+                5 -> 0
+                else -> 1
+            }).commit()
+            updateSettings()
+            WeatherReceiver().setUpdates(this@MainActivity)
         }
 
         show_until_label.text = getString(Util.getShowUntilString(SP.getInt(Constants.PREF_SHOW_UNTIL, 1)))

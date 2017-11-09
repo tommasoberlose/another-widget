@@ -83,6 +83,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_WEATHER_UPDATE" />
                 <action android:name="android.location.PROVIDERS_CHANGED" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />

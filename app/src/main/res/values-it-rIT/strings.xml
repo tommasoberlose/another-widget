@@ -71,8 +71,8 @@
     <string name="settings_weather_provider_api_key_title">"Provider del Meteo "</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">Il provider meteo è configurato correttamente</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">Il provider meteo deve essere configurato</string>
-    <string name="notification_gps_title">Localizzazione disattivata</string>
-    <string name="notification_gps_subtitle">Riaccendi la localizzazione per avere il meteo aggiornato.</string>
+    <string name="notification_gps_title">Riattiva la localizzazione</string>
+    <string name="notification_gps_subtitle">Google Awareness ha bisogno del GPS attivo per funzionare.</string>
     <string name="action_feedback">Feedback</string>
     <string name="feedback_title">AW Feedback</string>
     <string name="feedback_chooser_title">Invia email…</string>
@@ -153,4 +153,6 @@
     <string name="background_service_subtitle">AW è attivo in background</string>
     <string name="action_show_widget_preview">Mostra Anteprima Widget</string>
     <string name="action_hide_widget_preview">Nascondi Anteprima Widget</string>
+    <string name="error_widget_notification_title">GPS Disattivato</string>
+    <string name="error_widget_notification_subtitle">Riattiva il GPS così che Another Widget possa aggiornare il meteo con le API di Google Awareness.</string>
 </resources>

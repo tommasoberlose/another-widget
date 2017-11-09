@@ -24,6 +24,7 @@ import android.support.annotation.StringRes
 import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
+import android.location.LocationManager
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.AlarmClock
@@ -86,6 +87,28 @@ object Util {
             mNotificationManager.cancel(0);
         }
 
+    }
+
+    fun showWeatherErrorNotification(context: Context) {
+        val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Error")
+                    .setSmallIcon(R.drawable.ic_stat_name)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setContentTitle(context.getString(R.string.notification_gps_title))
+                    .setContentText(context.getString(R.string.notification_gps_subtitle))
+
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            val pi: PendingIntent = PendingIntent.getActivity(context, 50, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pi);
+            mNotificationManager.notify(10, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(10)
+        }
     }
 
     fun openURI(context: Context, url: String) {
@@ -587,28 +610,33 @@ object Util {
     }
 
     fun getRealInstance(context: Context): Realm {
+        Realm.init(context)
         return Realm.getDefaultInstance()
     }
 
     fun getNextAlarm(context: Context): String? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val SP = PreferenceManager.getDefaultSharedPreferences(context)
-            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val alarm = am.nextAlarmClock
-            if (alarm != null) {
-                val time = am.nextAlarmClock.triggerTime
-                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") Constants.badHourFormat.format(time) else Constants.goodHourFormat.format(time)
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val SP = PreferenceManager.getDefaultSharedPreferences(context)
+                val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarm = am.nextAlarmClock
+                if (alarm != null) {
+                    val time = am.nextAlarmClock.triggerTime
+                    if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") Constants.badHourFormat.format(time) else Constants.goodHourFormat.format(time)
+                } else {
+                    null
+                }
             } else {
-                null
+                val time = Settings.System.getString(context.contentResolver,
+                        Settings.System.NEXT_ALARM_FORMATTED)
+                return if (time != "") {
+                    time
+                } else {
+                    null
+                }
             }
-        } else {
-            val time = Settings.System.getString(context.contentResolver,
-                    Settings.System.NEXT_ALARM_FORMATTED)
-            return if (time != "") {
-               time
-            } else {
-                null
-            }
+        } catch (ignored: Exception) {
+            return null
         }
     }
 }

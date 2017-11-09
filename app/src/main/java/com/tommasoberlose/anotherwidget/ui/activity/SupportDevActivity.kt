@@ -12,7 +12,7 @@ import com.tommasoberlose.anotherwidget.util.Util
 import kotlinx.android.synthetic.main.activity_support_dev.*
 
 class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler {
-    internal var bp: BillingProcessor? = null
+    internal lateinit var bp: BillingProcessor
 
     internal val BILLING_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAox5CcxuoLJ6CmNS7s6lVQzJ253njKKGF8MoQ/gQ5gEw2Fr03fBvtHpiVMpnjhNLw5NMeIpzRvkVqeQ7BfkC7c0BLCJUqf/fFA11ArQe8na6QKt5O4d+v4sbHtP7mm3GQNPOBaqRzcpFZaiAbfk6mnalo+tzM47GXrQFt5bNSrMctCs7bbChqJfH2cyMW0F8DHWEEeO5xElBmH3lh4FVpwIUTPYJIV3n0yhE3qqRA0WXkDej66g/uAt/rebmMZLmwNwIive5cObU4o41YyKRv2wSAicrv3W40LftzXAOOordIbmzDFN8ksh3VrnESqwCDGG97nZVbPG/+3LD0xHWiRwIDAQAB"
 
@@ -34,18 +34,18 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
         loader.visibility = View.GONE
         try {
             val isAvailable = BillingProcessor.isIabServiceAvailable(this)
-            val isOneTimePurchaseSupported = bp!!.isOneTimePurchaseSupported
+            val isOneTimePurchaseSupported = bp.isOneTimePurchaseSupported
             if (isAvailable && isOneTimePurchaseSupported) {
-                val coffee = bp!!.getPurchaseListingDetails("donation_coffee")
-                val donuts = bp!!.getPurchaseListingDetails("donation_donuts")
-                val breakfast = bp!!.getPurchaseListingDetails("donation_breakfast")
-                val lunch = bp!!.getPurchaseListingDetails("donation_lunch")
-                val dinner = bp!!.getPurchaseListingDetails("donation_dinner")
+                val coffee = bp.getPurchaseListingDetails("donation_coffee")
+                val donuts = bp.getPurchaseListingDetails("donation_donuts")
+                val breakfast = bp.getPurchaseListingDetails("donation_breakfast")
+                val lunch = bp.getPurchaseListingDetails("donation_lunch")
+                val dinner = bp.getPurchaseListingDetails("donation_dinner")
 
                 if (coffee != null) {
                     import_donation_coffee.text = coffee.priceText
                     action_donation_coffee.setOnClickListener {
-                        bp!!.purchase(this, "donation_coffee")
+                        bp.purchase(this, "donation_coffee")
                     }
                 } else {
                     action_donation_coffee.visibility = View.GONE
@@ -54,7 +54,7 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
                 if (donuts != null) {
                     import_donation_donuts.text = donuts.priceText
                     action_donation_donuts.setOnClickListener {
-                        bp!!.purchase(this, "donation_donuts")
+                        bp.purchase(this, "donation_donuts")
                     }
                 } else {
                     action_donation_donuts.visibility = View.GONE
@@ -63,7 +63,7 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
                 if (breakfast != null) {
                     import_donation_breakfast.text = breakfast.priceText
                     action_donation_breakfast.setOnClickListener {
-                        bp!!.purchase(this, "donation_breakfast")
+                        bp.purchase(this, "donation_breakfast")
                     }
                 } else {
                     action_donation_breakfast.visibility = View.GONE
@@ -72,7 +72,7 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
                 if (lunch != null) {
                     import_donation_lunch.text = lunch.priceText
                     action_donation_lunch.setOnClickListener {
-                        bp!!.purchase(this, "donation_lunch")
+                        bp.purchase(this, "donation_lunch")
                     }
                 } else {
                     action_donation_lunch.visibility = View.GONE
@@ -81,7 +81,7 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
                 if (dinner != null) {
                     import_donation_dinner.text = dinner.priceText
                     action_donation_dinner.setOnClickListener {
-                        bp!!.purchase(this, "donation_dinner")
+                        bp.purchase(this, "donation_dinner")
                     }
                 } else {
                     action_donation_dinner.visibility = View.GONE
@@ -101,7 +101,7 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
 
     override fun onProductPurchased(productId: String, details: TransactionDetails?) {
         Toast.makeText(this, R.string.thanks, Toast.LENGTH_SHORT).show()
-        bp!!.consumePurchase(productId)
+        bp.consumePurchase(productId)
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
@@ -109,15 +109,13 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        if (!bp!!.handleActivityResult(requestCode, resultCode, data)) {
+        if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
     public override fun onDestroy() {
-        if (bp != null) {
-            bp!!.release()
-        }
+        bp.release()
         super.onDestroy()
     }
 }

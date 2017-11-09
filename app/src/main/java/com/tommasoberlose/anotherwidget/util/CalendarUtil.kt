@@ -62,18 +62,20 @@ object CalendarUtil {
                 if (data != null) {
                     val instances = data.list
                     for (instance in instances) {
-                        val e = provider.getEvent(instance.eventId)
-                        if (e != null && instance.begin <= limit.timeInMillis && (SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false) || !e.allDay) && !(SP.getString(Constants.PREF_CALENDAR_FILTER, "").contains(" " + e.calendarId + ",")) && (SP.getBoolean(Constants.PREF_SHOW_DECLINED_EVENTS, true) || !e.selfAttendeeStatus.equals(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED))) {
-                            if (e.allDay) {
-                                val start = Calendar.getInstance()
-                                start.timeInMillis = instance.begin
-                                val end = Calendar.getInstance()
-                                end.timeInMillis = instance.end
-                                instance.begin = start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
-                                instance.end = end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
+                        try {
+                            val e = provider.getEvent(instance.eventId)
+                            if (e != null && instance.begin <= limit.timeInMillis && (SP.getBoolean(Constants.PREF_CALENDAR_ALL_DAY, false) || !e.allDay) && !(SP.getString(Constants.PREF_CALENDAR_FILTER, "").contains(" " + e.calendarId + ",")) && (SP.getBoolean(Constants.PREF_SHOW_DECLINED_EVENTS, true) || !e.selfAttendeeStatus.equals(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED))) {
+                                if (e.allDay) {
+                                    val start = Calendar.getInstance()
+                                    start.timeInMillis = instance.begin
+                                    val end = Calendar.getInstance()
+                                    end.timeInMillis = instance.end
+                                    instance.begin = start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
+                                    instance.end = end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
+                                }
+                                eventList.add(Event(instance.id, e.id, e.title ?: "", instance.begin, instance.end, e.calendarId.toInt(), e.allDay, e.eventLocation ?: ""))
                             }
-                            eventList.add(Event(instance.id, e.id, e.title, instance.begin, instance.end, e.calendarId.toInt(), e.allDay, e.eventLocation ?: ""))
-                        }
+                        } catch (ignored: Exception) {}
                     }
                 }
 

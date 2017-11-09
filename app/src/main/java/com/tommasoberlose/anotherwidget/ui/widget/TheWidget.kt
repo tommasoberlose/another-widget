@@ -73,7 +73,6 @@ class TheWidget : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         UpdatesReceiver().setUpdates(context)
         WeatherReceiver().setUpdates(context)
-        Util.showNotification(context)
     }
 
     override fun onDisabled(context: Context) {
