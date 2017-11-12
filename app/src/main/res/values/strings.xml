@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Another Widget</string>
+    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Add Widget</string>
-    <string name="main_pre_title">Just</string>
+    <string name="main_pre_title" translatable="false">Just</string>
     <string name="button_request_permission">Grant Permission</string>
     <string name="title_permission_calendar">See your Events</string>
     <string name="title_permission_location">Control the Weather</string>
-    <string name="description_permission_calendar">Grant access to your calendar\nto view events in your widget.</string>
+    <string name="description_permission_calendar">Grant access to your calendar to view events in your widget.</string>
     <string name="description_permission_location">Grant access to your location\nto view weather in your widget.</string>
     <string name="notification_title">Get more from your widget</string>
     <string name="notification_subtitle">View your events and the weather in another widget.</string>
@@ -14,7 +14,7 @@
     <string name="action_rate">Rate App</string>
     <string name="action_support">Support Me</string>
     <string name="all_set_title">Good Job!</string>
-    <string name="all_set_subtitle">You have completed the configuration.\nWatch out for updates.</string>
+    <string name="all_set_subtitle">You have completed the configuration. Watch out for updates.</string>
     <string name="all_set_btn">Stay up to date</string>
     <string name="action_about">About</string>
     <string name="h_code">h</string>
@@ -84,7 +84,7 @@
     <string name="action_save">Save</string>
     <string name="error_no_calendar">No calendars found.</string>
     <string name="api_key_info_title">What to Do</string>
-    <string name="signature">Toms</string>
+    <string name="signature" translatable="false">Toms</string>
     <string name="api_key_info_text"><![CDATA[Another Widget is a free application and will remain without banner ads.<BR /><BR />Due to its great success, surely beyond all my expectations, the weather provider fails to support all the requests that arrive (simply because it is free and therefore limited).<BR /><BR />I have to ask each of you to personally register an account on OpenWeather; the operation will take only a few minutes, and when your key has been activated, you will not have any problems with the weather.<BR /><BR />I\'m sorry for the inconvenience, keep supporting me!]]></string>
     <string name="api_key_title_1">Register an OpenWeather Account</string>
     <string name="api_key_subtitle_1">Register a free account on OpenWeather. It will take just a few minutes.</string>
@@ -121,7 +121,7 @@
     <string name="settings_text_shadow_subtitle_low">Low</string>
     <string name="settings_text_shadow_subtitle_high">High</string>
     <string name="advanced_settings_title">Advanced Settings</string>
-    <string name="beta">Beta</string>
+    <string name="beta" translatable="false">Beta</string>
     <string name="settings_product_sans_font_title">Product Sans Font</string>
     <string name="settings_product_sans_font_subtitle">Using Product Sans disabled the possibilty to tap widget elements. I\'m working on it.</string>
     <string name="settings_show_diff_time_title">Time left for the event</string>
@@ -141,7 +141,7 @@
     <string name="custom_font_subtitle_1">Product Sans</string>
     <string name="action_go_to_next_event">Show Next\nEvent</string>
     <string name="settings_show_multiple_events_title">Multiple Events Counter</string>
-    <string name="support_custom_app_name" translatable="false">Another Developer</string>
+    <string name="support_custom_app_name">Another Developer</string>
     <string name="support_main_title">Support the Developer with</string>
     <string name="support_translations_title">Help with translations</string>
     <string name="support_translations_subtitle">Open a pull request on GitHub</string>

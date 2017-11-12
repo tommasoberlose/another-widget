@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Another Widget</string>
     <string name="add_widget">Aggiungi Widget</string>
-    <string name="main_pre_title">Just</string>
     <string name="button_request_permission">Concedi Accesso</string>
     <string name="all_set_btn">Rimani Aggiornato</string>
     <string name="all_set_title">Molto bene!</string>
     <string name="action_support">Supportami</string>
     <string name="action_rate">Valuta App</string>
     <string name="action_share">Condividi</string>
-    <string name="divider">|</string>
-    <string name="notification_title">Ottieni di più dal tuo widget</string>
+	<string name="notification_title">Ottieni di più dal tuo widget</string>
     <string name="title_permission_location">Controlla il Meteo</string>
     <string name="title_permission_calendar">Controlla i tuoi Impegni</string>
     <string name="notification_subtitle">Aggiungi gli eventi e il meteo al tuo widget.</string>
@@ -82,7 +79,6 @@
     <string name="action_save">Salva</string>
     <string name="error_no_calendar">Nessun calendario trovato.</string>
     <string name="api_key_info_title">Cosa fare</string>
-    <string name="signature">Toms</string>
     <string name="api_key_title_1">Registrati su OpenWeather</string>
     <string name="action_open_provider">Apri OpenWeather.com</string>
     <string name="api_key_subtitle_1">Registra un account gratuito su OpenWeather.com in pochi minuti.</string>
@@ -117,7 +113,6 @@
     <string name="settings_text_shadow_subtitle_low">Bassa</string>
     <string name="settings_text_shadow_subtitle_high">Alta</string>
     <string name="advanced_settings_title">Impostazioni Avanzate</string>
-    <string name="beta">Beta</string>
     <string name="settings_product_sans_font_title">Font Product Sans</string>
     <string name="settings_product_sans_font_subtitle">L\'utilizzo del Product Sans disabilita i tap sugli elementi del widget. Ci sto attualmente lavorando.</string>
     <string name="settings_show_diff_time_title">Tempo rimanente all\'evento</string>
@@ -155,4 +150,5 @@
     <string name="action_hide_widget_preview">Nascondi Anteprima Widget</string>
     <string name="error_widget_notification_title">GPS Disattivato</string>
     <string name="error_widget_notification_subtitle">Riattiva il GPS così che Another Widget possa aggiornare il meteo con le API di Google Awareness.</string>
+    <string name="support_custom_app_name">Un altro sviluppatore</string>
 </resources>
