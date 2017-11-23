@@ -51,7 +51,7 @@ class CrocodileService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setPriority(Notification.PRIORITY_MIN)
                     .setColor(ContextCompat.getColor(this, R.color.colorPrimary))

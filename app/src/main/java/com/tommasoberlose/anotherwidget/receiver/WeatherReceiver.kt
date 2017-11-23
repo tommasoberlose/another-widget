@@ -14,6 +14,9 @@ import com.tommasoberlose.anotherwidget.util.CalendarUtil
 import com.tommasoberlose.anotherwidget.util.Util
 import com.tommasoberlose.anotherwidget.util.WeatherUtil
 import java.util.*
+import android.widget.Toast
+
+
 
 class WeatherReceiver : BroadcastReceiver() {
 
@@ -22,6 +25,8 @@ class WeatherReceiver : BroadcastReceiver() {
             setUpdates(context)
         } else if (intent.action.equals(Constants.ACTION_WEATHER_UPDATE) || intent.action.equals("android.location.PROVIDERS_CHANGED")) {
             WeatherUtil.updateWeather(context)
+        } else if (intent.action == "android.location.PROVIDERS_CHANGED") {
+            Util.showWeatherErrorNotification(context)
         }
     }
 

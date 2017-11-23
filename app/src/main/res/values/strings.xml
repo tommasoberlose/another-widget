@@ -74,7 +74,7 @@
     <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured</string>
     <string name="notification_gps_title">Location is turned off</string>
-    <string name="notification_gps_subtitle">Turn on the localization to get the updated weather</string>
+    <string name="notification_gps_subtitle">Turn on localization to get updated weather</string>
     <string name="action_feedback">Feedback</string>
     <string name="feedback_title">AW Feedback</string>
     <string name="feedback_chooser_title">Send email…</string>
@@ -156,4 +156,8 @@
     <string name="donation_lunch">A Quick Lunch</string>
     <string name="background_service_title">Another Widget is running</string>
     <string name="background_service_subtitle">AW is running in the background</string>
+    <string name="action_show_widget_preview">Show Widget Preview</string>
+    <string name="action_hide_widget_preview">Hide Widget Preview</string>
+    <string name="error_widget_notification_title">Location is turned off</string>
+    <string name="error_widget_notification_subtitle">Turn Location back on so Another Widget can update weather informations with Google Awareness API.</string>
 </resources>

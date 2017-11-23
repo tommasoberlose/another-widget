@@ -59,12 +59,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Fabric.with(this, Crashlytics())
         sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
         sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
+
+        val SP = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (intent.extras?.containsKey(Constants.ACTION_EXTRA_OPEN_WEATHER_PROVIDER) == true) {
             startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
@@ -97,6 +100,28 @@ class MainActivity : AppCompatActivity() {
                     mBottomSheetDialog.dismiss()
                 }
             })
+
+            if (SP.getBoolean(Constants.PREF_SHOW_WIDGET_PREVIEW, true)) {
+                menuView.widget_preview_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_hide_preview))
+                menuView.widget_preview_label.text = getString(R.string.action_hide_widget_preview)
+                menuView.action_toggle_widget_preview.setOnClickListener {
+                    SP.edit()
+                            .putBoolean(Constants.PREF_SHOW_WIDGET_PREVIEW, false)
+                            .commit()
+                    updateUI()
+                    mBottomSheetDialog.dismiss()
+                }
+            } else {
+                menuView.widget_preview_icon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_show_preview))
+                menuView.widget_preview_label.text = getString(R.string.action_show_widget_preview)
+                menuView.action_toggle_widget_preview.setOnClickListener {
+                    SP.edit()
+                            .putBoolean(Constants.PREF_SHOW_WIDGET_PREVIEW, true)
+                            .commit()
+                    updateUI()
+                    mBottomSheetDialog.dismiss()
+                }
+            }
 
             menuView.action_rate.setOnClickListener(object: View.OnClickListener {
                 override fun onClick(p0: View?) {
@@ -183,16 +208,27 @@ class MainActivity : AppCompatActivity() {
         updateClockView()
 
         val SP = PreferenceManager.getDefaultSharedPreferences(this)
-        val displayMetrics = Resources.getSystem().displayMetrics
-        var height = Util.convertDpToPixel(120f, this).toInt()
-        if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
-            height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), this).toInt() + Util.convertDpToPixel(8f, this).toInt()
+
+        if (SP.getBoolean(Constants.PREF_SHOW_WIDGET_PREVIEW, true)) {
+            val displayMetrics = Resources.getSystem().displayMetrics
+            var width = displayMetrics.widthPixels
+            if (width <= 0) {
+                width = Util.convertDpToPixel(300f, this).toInt()
+            }
+            var height = Util.convertDpToPixel(120f, this).toInt()
+            if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
+                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), this).toInt() + Util.convertDpToPixel(16f, this).toInt()
+            }
+            if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 50) {
+                height += Util.convertDpToPixel(24f, this).toInt()
+            }
+            widget_bitmap.setImageBitmap(Util.getBitmapFromView(main_layout, width, height - Util.convertDpToPixel(32f, this).toInt()))
+            widget.layoutParams.height = height + Util.convertDpToPixel(16f, this).toInt()
+
+            widget.visibility = View.VISIBLE
+        } else {
+            widget.visibility = View.GONE
         }
-        if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) + SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 50) {
-            height += Util.convertDpToPixel(24f, this).toInt()
-        }
-        widget_bitmap.setImageBitmap(Util.getBitmapFromView(main_layout, displayMetrics.widthPixels, height - Util.convertDpToPixel(32f, this).toInt()))
-        widget.layoutParams.height = height + Util.convertDpToPixel(16f, this).toInt()
     }
 
 
@@ -283,7 +319,7 @@ class MainActivity : AppCompatActivity() {
         if (calendarLayout) {
             val e = CalendarUtil.getNextEvent(this)
 
-            if (e.id != 0) {
+            if (e.id != 0.toLong()) {
                 next_event.text = e.title
 
                 if (SP.getBoolean(Constants.PREF_SHOW_NEXT_EVENT, false) && CalendarUtil.getEventsCount(this) > 1) {
@@ -364,8 +400,8 @@ class MainActivity : AppCompatActivity() {
         second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
         second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
 
-        weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 20f
-        weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 20f
+        weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
+        weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
 
         empty_weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
         empty_weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
@@ -617,7 +653,7 @@ class MainActivity : AppCompatActivity() {
         action_clock_text_size.setOnClickListener {
             var fontSize = SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f) + 5
             if (fontSize > 110) {
-                fontSize = 70f
+                fontSize = 50f
             }
             SP.edit().putFloat(Constants.PREF_TEXT_CLOCK_SIZE, fontSize).commit()
             Util.updateWidget(this)
@@ -656,25 +692,19 @@ class MainActivity : AppCompatActivity() {
             updateSettings()
         }
 
-
-        if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
-            action_weather_refresh_period.visibility = View.GONE
-        } else {
-            label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
-            action_weather_refresh_period.setOnClickListener {
-                SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
-                    0 -> 1
-                    1 -> 2
-                    2 -> 3
-                    3 -> 4
-                    4 -> 5
-                    5 -> 0
-                    else -> 1
-                }).commit()
-                updateSettings()
-                WeatherReceiver().setUpdates(this@MainActivity)
-            }
-            action_weather_refresh_period.visibility = View.VISIBLE
+        label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)))
+        action_weather_refresh_period.setOnClickListener {
+            SP.edit().putInt(Constants.PREF_WEATHER_REFRESH_PERIOD, when (SP.getInt(Constants.PREF_WEATHER_REFRESH_PERIOD, 1)) {
+                0 -> 1
+                1 -> 2
+                2 -> 3
+                3 -> 4
+                4 -> 5
+                5 -> 0
+                else -> 1
+            }).commit()
+            updateSettings()
+            WeatherReceiver().setUpdates(this@MainActivity)
         }
 
         show_until_label.text = getString(Util.getShowUntilString(SP.getInt(Constants.PREF_SHOW_UNTIL, 1)))

@@ -24,6 +24,7 @@ import android.support.annotation.StringRes
 import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
+import android.location.LocationManager
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.AlarmClock
@@ -39,6 +40,8 @@ import android.widget.RemoteViews
 import android.widget.Toast
 import com.tommasoberlose.anotherwidget.`object`.Constants
 import com.tommasoberlose.anotherwidget.`object`.Event
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import org.joda.time.DateTime
 import java.util.concurrent.TimeUnit
 
@@ -68,7 +71,7 @@ object Util {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
         if (!Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setPriority(Notification.PRIORITY_MIN)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -84,6 +87,28 @@ object Util {
             mNotificationManager.cancel(0);
         }
 
+    }
+
+    fun showWeatherErrorNotification(context: Context) {
+        val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val SP = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Error")
+                    .setSmallIcon(R.drawable.ic_stat_name)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
+                    .setContentTitle(context.getString(R.string.notification_gps_title))
+                    .setContentText(context.getString(R.string.notification_gps_subtitle))
+
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            val pi: PendingIntent = PendingIntent.getActivity(context, 50, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pi);
+            mNotificationManager.notify(10, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(10)
+        }
     }
 
     fun openURI(context: Context, url: String) {
@@ -284,7 +309,7 @@ object Util {
         if (SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, "").equals("")) {
             val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
             weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
-            weatherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            weatherIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
             weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
             return weatherIntent
@@ -295,12 +320,12 @@ object Util {
             return try {
                 val intent: Intent = pm.getLaunchIntentForPackage(SP.getString(Constants.PREF_WEATHER_APP_PACKAGE, ""))
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 intent
             } catch (e: Exception) {
                 val weatherIntent: Intent = Intent(Intent.ACTION_VIEW)
                 weatherIntent.addCategory(Intent.CATEGORY_DEFAULT)
-                weatherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                weatherIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 weatherIntent.data = Uri.parse("dynact://velour/weather/ProxyActivity")
                 weatherIntent.component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
                 weatherIntent
@@ -311,7 +336,7 @@ object Util {
     fun getEventIntent(context: Context, e: Event): Intent {
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
         if (SP.getString(Constants.PREF_EVENT_APP_PACKAGE, "").equals("")) {
-            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.id.toLong())
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.eventID)
             val intent = Intent(Intent.ACTION_VIEW)
                     .setData(uri)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -380,7 +405,7 @@ object Util {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
         if (show) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setPriority(Notification.PRIORITY_MIN)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -402,7 +427,7 @@ object Util {
         val mNotificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
         if (show) {
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Settings")
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Config")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setContentTitle(context.getString(R.string.settings_weather_provider_api_key_title))
@@ -566,7 +591,7 @@ object Util {
     @SuppressLint("ApplySharedPref")
     fun updateSettingsByDefault(context: Context) {
         try {
-            context.startService(Intent(context, CrocodileService::class.java))
+            // context.startService(Intent(context, CrocodileService::class.java))
         } catch (e: Exception) {
 
         }
@@ -584,25 +609,34 @@ object Util {
         editor.commit()
     }
 
+    fun getRealInstance(context: Context): Realm {
+        Realm.init(context)
+        return Realm.getDefaultInstance()
+    }
+
     fun getNextAlarm(context: Context): String? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val SP = PreferenceManager.getDefaultSharedPreferences(context)
-            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val alarm = am.nextAlarmClock
-            if (alarm != null) {
-                val time = am.nextAlarmClock.triggerTime
-                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") Constants.badHourFormat.format(time) else Constants.goodHourFormat.format(time)
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val SP = PreferenceManager.getDefaultSharedPreferences(context)
+                val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarm = am.nextAlarmClock
+                if (alarm != null) {
+                    val time = am.nextAlarmClock.triggerTime
+                    if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") Constants.badHourFormat.format(time) else Constants.goodHourFormat.format(time)
+                } else {
+                    null
+                }
             } else {
-                null
+                val time = Settings.System.getString(context.contentResolver,
+                        Settings.System.NEXT_ALARM_FORMATTED)
+                return if (time != "") {
+                    time
+                } else {
+                    null
+                }
             }
-        } else {
-            val time = Settings.System.getString(context.contentResolver,
-                    Settings.System.NEXT_ALARM_FORMATTED)
-            return if (time != "") {
-               time
-            } else {
-                null
-            }
+        } catch (ignored: Exception) {
+            return null
         }
     }
 }

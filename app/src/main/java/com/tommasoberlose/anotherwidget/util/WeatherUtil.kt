@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.UiModeManager
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.SharedPreferences
 import android.location.*
 import android.os.Bundle
@@ -44,6 +45,7 @@ object WeatherUtil {
     fun updateWeather(context: Context) {
         Util.showLocationNotification(context, false)
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        Util.showWeatherErrorNotification(context)
 
         if (SP.getString(Constants.PREF_CUSTOM_LOCATION_ADD, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").equals("") || SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").equals("")) {
             if (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
@@ -60,6 +62,25 @@ object WeatherUtil {
                         .setResultCallback({ locationResult ->
                             if (locationResult.status.isSuccess) {
                                 getCurrentWeather(context, locationResult.location)
+                            } else {
+                                val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
+                                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                    val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                                    if (gpsLocation != null) {
+                                        getCurrentWeather(context, gpsLocation)
+                                    } else {
+                                       if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                                           val networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                                           if (networkLocation != null) {
+                                               getCurrentWeather(context, networkLocation)
+                                           } else {
+                                               getWeatherByDefaultLocation(context)
+                                           }
+                                       } else {
+                                           getWeatherByDefaultLocation(context)
+                                       }
+                                    }
+                                }
                             }
                         })
             }
@@ -75,7 +96,7 @@ object WeatherUtil {
         }
         val mGoogleApiClient = GoogleApiClient.Builder(context)
                 .addApi(Awareness.API)
-                .build();
+                .build()
         mGoogleApiClient.connect()
 
         Awareness.SnapshotApi.getWeather(mGoogleApiClient)
@@ -95,6 +116,13 @@ object WeatherUtil {
 
     }
 
+    fun getWeatherByDefaultLocation(context: Context) {
+        val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").equals("") && !SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").equals("")) {
+            weatherNetworkRequest(context, SP.getString(Constants.PREF_CUSTOM_LOCATION_LAT, "").toDouble(), SP.getString(Constants.PREF_CUSTOM_LOCATION_LON, "").toDouble())
+        }
+    }
+
     @SuppressLint("ApplySharedPref")
     fun getCurrentWeather(context: Context, location: Location?) {
         if (location != null) {
@@ -104,6 +132,11 @@ object WeatherUtil {
 
     fun weatherNetworkRequest(context: Context, latitude: Double, longitude: Double) {
         val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        SP.edit()
+                .putString(Constants.PREF_CUSTOM_LOCATION_LAT, latitude.toString())
+                .putString(Constants.PREF_CUSTOM_LOCATION_LON, longitude.toString())
+                .apply()
+
         if (!SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
             Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
             else -> Constants.PREF_OPEN_WEATHER_API_KEY
@@ -188,15 +221,10 @@ object WeatherUtil {
                 icon = "82"
             }
 
-            val uiManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-            return when {
-                uiManager.nightMode == UiModeManager.MODE_NIGHT_YES -> icon + "n"
-                uiManager.nightMode == UiModeManager.MODE_NIGHT_NO -> icon + "d"
-                else -> return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
-                    icon + "n"
-                } else {
-                    icon + "d"
-                }
+            return if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 19 || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 7) {
+                icon + "n"
+            } else {
+                icon + "d"
             }
         }
     }

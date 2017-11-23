@@ -45,6 +45,7 @@ import android.text.style.StyleSpan
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.widget.LinearLayout
+import com.tommasoberlose.anotherwidget.receiver.OpenWeatherIntentReceiver
 import com.tommasoberlose.anotherwidget.ui.view.CustomTypefaceSpan
 import kotlinx.android.synthetic.main.the_widget.*
 import kotlinx.android.synthetic.main.the_widget.view.*
@@ -72,7 +73,6 @@ class TheWidget : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         UpdatesReceiver().setUpdates(context)
         WeatherReceiver().setUpdates(context)
-        Util.showNotification(context)
     }
 
     override fun onDisabled(context: Context) {
@@ -93,7 +93,7 @@ class TheWidget : AppWidgetProvider() {
                 height = widgetInfo.minHeight
             }
             if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
-                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), context).toInt() + Util.convertDpToPixel(8f, context).toInt()
+                height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), context).toInt() + Util.convertDpToPixel(16f, context).toInt()
             }
             if (SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) > 30 && SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) > 22) {
                 height += Util.convertDpToPixel(24f, context).toInt()
@@ -136,6 +136,8 @@ class TheWidget : AppWidgetProvider() {
             views = updateLocationView(context, views, appWidgetId)
             views = updateClockView(context, views, appWidgetId)
 
+            views = fixViewsMargin(context, views)
+
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
@@ -160,7 +162,7 @@ class TheWidget : AppWidgetProvider() {
             if (calendarLayout) {
                 val e = CalendarUtil.getNextEvent(context)
 
-                if (e.id != 0) {
+                if (e.id != 0.toLong()) {
                     views.setTextViewText(R.id.next_event, e.title)
 
                     if (SP.getBoolean(Constants.PREF_SHOW_NEXT_EVENT, false) && CalendarUtil.getEventsCount(context) > 1) {
@@ -277,8 +279,9 @@ class TheWidget : AppWidgetProvider() {
                 views.setTextViewText(R.id.temp, temp)
                 views.setTextViewText(R.id.calendar_temp, temp)
 
-
-                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, Intent(Constants.ACTION_OPEN_WEATHER_INTENT), 0)
+                val i = Intent(context, OpenWeatherIntentReceiver::class.java)
+                i.action = Constants.ACTION_OPEN_WEATHER_INTENT
+                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
 
                 views.setOnClickPendingIntent(R.id.weather, weatherPIntent)
                 views.setOnClickPendingIntent(R.id.calendar_weather, weatherPIntent)
@@ -293,9 +296,7 @@ class TheWidget : AppWidgetProvider() {
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
             if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
                 views.setViewVisibility(R.id.time, View.GONE)
-                views.setViewVisibility(R.id.bottom_divider, View.VISIBLE)
             } else {
-                views.setViewVisibility(R.id.bottom_divider, View.GONE)
                 val now = Calendar.getInstance()
                 if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) {
                     val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis).replace(" ", ""))
@@ -312,6 +313,26 @@ class TheWidget : AppWidgetProvider() {
                 views.setViewVisibility(R.id.time, View.VISIBLE)
             }
 
+            return views
+        }
+
+        fun fixViewsMargin(context: Context, views: RemoteViews): RemoteViews {
+            val SP = PreferenceManager.getDefaultSharedPreferences(context)
+            views.setViewVisibility(R.id.bottom_divider_24, View.GONE)
+            views.setViewVisibility(R.id.bottom_divider_16, View.GONE)
+            views.setViewVisibility(R.id.bottom_divider_8, View.GONE)
+            val eVisible = SP.getBoolean(Constants.PREF_SHOW_EVENTS, true) && Util.checkGrantedPermission(context, Manifest.permission.READ_CALENDAR)
+            if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
+                if (eVisible) {
+                    views.setViewVisibility(R.id.bottom_divider_8, View.VISIBLE)
+                } else {
+                    views.setViewVisibility(R.id.bottom_divider_24, View.VISIBLE)
+                }
+            } else {
+                if (eVisible) {
+                    views.setViewVisibility(R.id.bottom_divider_8, View.VISIBLE)
+                }
+            }
             return views
         }
 
@@ -332,7 +353,7 @@ class TheWidget : AppWidgetProvider() {
             if (calendarLayout) {
                 val e = CalendarUtil.getNextEvent(context)
 
-                if (e.id != 0) {
+                if (e.id != 0.toLong()) {
                     v.next_event.text = e.title
 
                     if (SP.getBoolean(Constants.PREF_SHOW_NEXT_EVENT, false) && CalendarUtil.getEventsCount(context) > 1) {
@@ -418,8 +439,8 @@ class TheWidget : AppWidgetProvider() {
             v.second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
             v.second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
 
-            v.weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 20f
-            v.weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 20f
+            v.weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+            v.weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
 
             v.empty_weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
             v.empty_weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
