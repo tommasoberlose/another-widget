@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Another Widget</string>
-    <string name="add_widget">Add Widget</string>
+    <string name="add_widget">Tilføj widget</string>
     <string name="main_pre_title">Just</string>
-    <string name="button_request_permission">Grant Permission</string>
-    <string name="title_permission_calendar">See your Events</string>
-    <string name="title_permission_location">Control the Weather</string>
+    <string name="button_request_permission">Giv tilladelse</string>
+    <string name="title_permission_calendar">Se dine begivenheder</string>
+    <string name="title_permission_location'>Kontrollér vejret</string>
     <string name="description_permission_calendar">Grant access to your calendar\nto view events in your widget.</string>
     <string name="description_permission_location">Grant access to your location\nto view weather in your widget.</string>
     <string name="notification_title">Get more from your widget</string>
@@ -17,9 +17,9 @@
     <string name="all_set_subtitle">You have completed the configuration.\nWatch out for updates.</string>
     <string name="all_set_btn">Stay up to date</string>
     <string name="action_about">About</string>
-    <string name="h_code">h</string>
+    <string name="h_code">t</string>
     <string name="min_code">" min"</string>
-    <string name="in_code">in</string>
+    <string name="in_code">i</string>
     <string name="action_project">Project</string>
     <string name="settings_unit_title">Unit of Measure</string>
     <string name="settings_unit_subtitle">Choose the unit of temperature measurement</string>
