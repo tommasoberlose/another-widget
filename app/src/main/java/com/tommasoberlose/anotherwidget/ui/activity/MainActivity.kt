@@ -27,6 +27,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
@@ -47,11 +48,13 @@ import kotlinx.android.synthetic.main.key_time_wait_layout.view.*
 import kotlinx.android.synthetic.main.main_menu_layout.view.*
 import kotlinx.android.synthetic.main.the_widget.*
 import kotlinx.android.synthetic.main.the_widget.view.*
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
 
     private var mAppWidgetId: Int = -1
+    private lateinit var SP: SharedPreferences
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -67,31 +70,12 @@ class MainActivity : AppCompatActivity() {
         sendBroadcast(Intent(Constants.ACTION_CALENDAR_UPDATE))
         sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
 
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
+        SP = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (intent.extras?.containsKey(Constants.ACTION_EXTRA_OPEN_WEATHER_PROVIDER) == true) {
-            startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
-        }
-
-        val extras = intent.extras
-        if (extras != null) {
-            mAppWidgetId = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID)
-
-            if (mAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-                action_add_widget.visibility = View.VISIBLE
-
-                action_add_widget.setOnClickListener {
-                    addNewWidget()
-                }
-            }
-        }
-
-
+        controlExtras(intent)
 
         action_menu.setOnClickListener {
-            val mBottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this)
+            val mBottomSheetDialog = BottomSheetDialog(this)
             val menuView: View = getLayoutInflater().inflate(R.layout.main_menu_layout, null)
 
             menuView.action_share.setOnClickListener(object: View.OnClickListener {
@@ -150,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             mBottomSheetDialog.setContentView(menuView)
-            mBottomSheetDialog.show();
+            mBottomSheetDialog.show()
         }
     }
 
@@ -160,6 +144,43 @@ class MainActivity : AppCompatActivity() {
         } else {
             setResult(Activity.RESULT_OK)
             finish()
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent != null) {
+            controlExtras(intent)
+        }
+    }
+
+    fun controlExtras(intent: Intent) {
+        val extras = intent.extras
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID)
+
+            if (mAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                action_add_widget.visibility = View.VISIBLE
+
+                action_add_widget.setOnClickListener {
+                    addNewWidget()
+                }
+            }
+
+
+            if (extras.containsKey(Constants.ACTION_EXTRA_OPEN_WEATHER_PROVIDER)) {
+                startActivityForResult(Intent(this, WeatherProviderActivity::class.java), Constants.WEATHER_PROVIDER_REQUEST_CODE)
+            }
+            if (extras.containsKey(Constants.ACTION_EXTRA_DISABLE_GPS_NOTIFICATION)) {
+                SP.edit()
+                        .putBoolean(Constants.PREF_SHOW_GPS_NOTIFICATION, false)
+                        .apply()
+                sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
+                finish()
+            }
         }
     }
 
@@ -207,8 +228,6 @@ class MainActivity : AppCompatActivity() {
         updateAppWidget()
         updateClockView()
 
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
-
         if (SP.getBoolean(Constants.PREF_SHOW_WIDGET_PREVIEW, true)) {
             val displayMetrics = Resources.getSystem().displayMetrics
             var width = displayMetrics.widthPixels
@@ -245,7 +264,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ApplySharedPref")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
         if (requestCode == Constants.RESULT_CODE_CUSTOM_LOCATION && resultCode == Activity.RESULT_OK) {
             sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
             updateSettings()
@@ -281,11 +299,20 @@ class MainActivity : AppCompatActivity() {
             WeatherReceiver().setOneTimeUpdate(this)
             sendBroadcast(Intent(Constants.ACTION_WEATHER_UPDATE))
             updateSettings()
+        } else if (requestCode == Constants.CUSTOM_FONT_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            /*val uri = data.data
+            Log.d("AW", "File Uri: " + uri.toString())
+            val path = Util.getPath(this, uri)
+            Log.d("AW", "File Path: " + path)
+            SP.edit()
+                    .putString(Constants.PREF_CUSTOM_FONT_FILE, path)
+                    .commit()
+            sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
+            updateSettings()*/
         }
     }
 
     fun updateClockView() {
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
         if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
             time.visibility = View.GONE
         } else {
@@ -293,18 +320,19 @@ class MainActivity : AppCompatActivity() {
         }
         val now = Calendar.getInstance()
         if (SP.getString(Constants.PREF_HOUR_FORMAT, "12") == "12") {
-            val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis))
-            textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
-                    textBadHour.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-
-            time.text = textBadHour
+            // time.format12Hour = "hh:mm a"
+//            val textBadHour = SpannableString(Constants.badHourFormat.format(time.))
+//            textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
+//                    textBadHour.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//
+//            time.text = textBadHour
         } else {
-            time.text = Constants.goodHourFormat.format(now.timeInMillis)
+          // time.format24Hour = "HH:mm"
+//            time.text = Constants.goodHourFormat.format(now.timeInMillis)
         }
     }
 
     fun updateCalendarView() {
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
         val now = Calendar.getInstance()
         val calendarLayout = SP.getBoolean(Constants.PREF_SHOW_EVENTS, true) && Util.checkGrantedPermission(this, Manifest.permission.READ_CALENDAR)
 
@@ -384,7 +412,7 @@ class MainActivity : AppCompatActivity() {
         divider2.setTextColor(Util.getFontColor(SP))
         calendar_temp.setTextColor(Util.getFontColor(SP))
         second_row_icon.setColorFilter(Util.getFontColor(SP))
-        time.setTextColor(Util.getFontColor(SP))
+        // time.setTextColor(Util.getFontColor(SP))
 
 
         empty_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
@@ -395,7 +423,7 @@ class MainActivity : AppCompatActivity() {
         next_event_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
         divider2.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
         calendar_temp.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
-        time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
+        // time.setTextSize(TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
 
         second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
         second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
@@ -435,10 +463,20 @@ class MainActivity : AppCompatActivity() {
         next_event_date.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
         divider2.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
         calendar_temp.setShadowLayer(shadowRadius, 0f, 0f, shadowColor)
-        time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+        // time.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
 
         if (SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS) == Constants.CUSTOM_FONT_PRODUCT_SANS) {
             val product_sans: Typeface = Typeface.createFromAsset(assets, "fonts/product_sans_regular.ttf")
+            val product_sans_light: Typeface = Typeface.createFromAsset(assets, "fonts/product_sans_light.ttf")
+
+
+            /*if (SP.getString(Constants.PREF_CUSTOM_FONT_FILE, "") != "") {
+                val file = File(SP.getString(Constants.PREF_CUSTOM_FONT_FILE, ""))
+                if (file.exists()) {
+                    Log.d("AW", "OK")
+                }
+                // product_sans = Typeface.createFromFile("")
+            }*/
             empty_date.typeface = product_sans
             divider1.typeface = product_sans
             temp.typeface = product_sans
@@ -447,7 +485,7 @@ class MainActivity : AppCompatActivity() {
             next_event_date.typeface = product_sans
             divider2.typeface = product_sans
             calendar_temp.typeface = product_sans
-            time.typeface = product_sans
+            //time.typeface = product_sans_light
         } else {
             empty_date.typeface = Typeface.DEFAULT
             divider1.typeface = Typeface.DEFAULT
@@ -457,12 +495,11 @@ class MainActivity : AppCompatActivity() {
             next_event_date.typeface = Typeface.DEFAULT
             divider2.typeface = Typeface.DEFAULT
             calendar_temp.typeface = Typeface.DEFAULT
-            time.typeface = Typeface.DEFAULT
+            //time.typeface = Typeface.DEFAULT
         }
     }
 
     fun updateLocationView() {
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
         val locationLayout = SP.getBoolean(Constants.PREF_SHOW_WEATHER, true)
 
         if (locationLayout && SP.contains(Constants.PREF_WEATHER_TEMP) && SP.contains(Constants.PREF_WEATHER_ICON)) {
@@ -492,7 +529,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ApplySharedPref")
     fun updateSettings() {
-        val SP = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
             clock_settings.visibility = View.VISIBLE
@@ -739,11 +775,24 @@ class MainActivity : AppCompatActivity() {
 
         custom_font_label.text = getString(Util.getCustomFontLabel(SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS)))
         action_custom_font.setOnClickListener {
+
             SP.edit().putInt(Constants.PREF_CUSTOM_FONT, when (SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS)) {
                 0 -> Constants.CUSTOM_FONT_PRODUCT_SANS
                 Constants.CUSTOM_FONT_PRODUCT_SANS -> 0
                 else -> Constants.CUSTOM_FONT_PRODUCT_SANS
             }).commit()
+/*
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "* / *" TO FIX WITHOUT SPACE
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+            try {
+                startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), Constants.CUSTOM_FONT_CHOOSER_REQUEST_CODE)
+            } catch (ex: android.content.ActivityNotFoundException) {
+                Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
+            }
+*/
+
             sendBroadcast(Intent(Constants.ACTION_TIME_UPDATE))
             updateSettings()
             updateAppWidget()
@@ -763,10 +812,7 @@ class MainActivity : AppCompatActivity() {
             label_weather_provider_api_key.text = getString(R.string.provider_google_awareness)
             alert_icon.visibility = View.GONE
         } else {
-            if (SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
-                Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
-                else -> Constants.PREF_OPEN_WEATHER_API_KEY
-            }, "") == ("")) {
+            if (WeatherUtil.getWeatherProviderKey(this, SP) == ("")) {
                 label_weather_provider_api_key.text = getString(R.string.settings_weather_provider_api_key_subtitle_not_set)
                 alert_icon.visibility = View.VISIBLE
             } else {

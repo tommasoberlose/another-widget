@@ -86,12 +86,8 @@ class TheWidget : AppWidgetProvider() {
                                      appWidgetId: Int) {
             val SP = PreferenceManager.getDefaultSharedPreferences(context)
             val displayMetrics = Resources.getSystem().displayMetrics
-            val widgetInfo = appWidgetManager.getAppWidgetInfo(appWidgetId)
-            var height = Util.convertDpToPixel(80f, context).toInt()
+            var height = Util.convertDpToPixel(110f, context).toInt()
             val width = displayMetrics.widthPixels
-            if (widgetInfo != null) {
-                height = widgetInfo.minHeight
-            }
             if (SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
                 height += Util.convertSpToPixels(SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f), context).toInt() + Util.convertDpToPixel(16f, context).toInt()
             }
@@ -115,7 +111,7 @@ class TheWidget : AppWidgetProvider() {
             views.setTextColor(R.id.next_event_date, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
             views.setTextColor(R.id.divider2, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
             views.setTextColor(R.id.calendar_temp, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
-            views.setTextColor(R.id.time, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
+            //views.setTextColor(R.id.time, Util.getFontColor(PreferenceManager.getDefaultSharedPreferences(context)))
 
             views.setTextViewTextSize(R.id.empty_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f))
             views.setTextViewTextSize(R.id.divider1, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
@@ -125,7 +121,7 @@ class TheWidget : AppWidgetProvider() {
             views.setTextViewTextSize(R.id.next_event_date, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.divider2, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
             views.setTextViewTextSize(R.id.calendar_temp, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f))
-            views.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
+            //views.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_SP, SP.getFloat(Constants.PREF_TEXT_CLOCK_SIZE, 90f))
 
             v = updateCalendarViewByLayout(context, v)
             v = updateLocationViewByLayout(context, v)
@@ -297,16 +293,16 @@ class TheWidget : AppWidgetProvider() {
             if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
                 views.setViewVisibility(R.id.time, View.GONE)
             } else {
-                val now = Calendar.getInstance()
-                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) {
-                    val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis).replace(" ", ""))
-                    textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
-                            textBadHour.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-
-                    views.setTextViewText(R.id.time, textBadHour)
-                } else {
-                    views.setTextViewText(R.id.time,  Constants.goodHourFormat.format(now.timeInMillis))
-                }
+//                val now = Calendar.getInstance()
+//                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) {
+//                    val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis).replace(" ", ""))
+//                    textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
+//                            textBadHour.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//
+//                    views.setTextViewText(R.id.time, textBadHour)
+//                } else {
+//                    views.setTextViewText(R.id.time,  Constants.goodHourFormat.format(now.timeInMillis))
+//                }
 
                 val clockPIntent = PendingIntent.getActivity(context, widgetID, Util.getClockIntent(context), 0)
                 views.setOnClickPendingIntent(R.id.time, clockPIntent)
@@ -439,8 +435,8 @@ class TheWidget : AppWidgetProvider() {
             v.second_row_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
             v.second_row_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
 
-            v.weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
-            v.weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 16f
+            v.weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
+            v.weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_SECOND_SIZE, 16f) / 18f
 
             v.empty_weather_icon.scaleX = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
             v.empty_weather_icon.scaleY = SP.getFloat(Constants.PREF_TEXT_MAIN_SIZE, 24f) / 24f
@@ -478,6 +474,7 @@ class TheWidget : AppWidgetProvider() {
 
             if (SP.getInt(Constants.PREF_CUSTOM_FONT, Constants.CUSTOM_FONT_PRODUCT_SANS) == Constants.CUSTOM_FONT_PRODUCT_SANS) {
                 val product_sans: Typeface = Typeface.createFromAsset(context.assets, "fonts/product_sans_regular.ttf")
+                val product_sans_light: Typeface = Typeface.createFromAsset(context.assets, "fonts/product_sans_light.ttf")
                 v.empty_date.typeface = product_sans
                 v.divider1.typeface = product_sans
                 v.temp.typeface = product_sans
@@ -486,7 +483,7 @@ class TheWidget : AppWidgetProvider() {
                 v.next_event_date.typeface = product_sans
                 v.divider2.typeface = product_sans
                 v.calendar_temp.typeface = product_sans
-                v.time.typeface = product_sans
+                v.time.typeface = product_sans_light
             }
 
             return v
@@ -527,16 +524,16 @@ class TheWidget : AppWidgetProvider() {
             if (!SP.getBoolean(Constants.PREF_SHOW_CLOCK, false)) {
                 v.time.visibility = View.GONE
             } else {
-                val now = Calendar.getInstance()
-                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) {
-                    val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis).replace(" ", ""))
-                    textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
-                            textBadHour.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
-                    v.time.text = textBadHour
-                } else {
-                    v.time.text = Constants.goodHourFormat.format(now.timeInMillis)
-                }
+//                val now = Calendar.getInstance()
+//                if (SP.getString(Constants.PREF_HOUR_FORMAT, "12").equals("12")) {
+//                    val textBadHour = SpannableString(Constants.badHourFormat.format(now.timeInMillis).replace(" ", ""))
+//                    textBadHour.setSpan(RelativeSizeSpan(0.4f), textBadHour.length - 2,
+//                            textBadHour.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+//
+//                    v.time.text = textBadHour
+//                } else {
+//                    v.time.text = Constants.goodHourFormat.format(now.timeInMillis)
+//                }
                 v.time.visibility = View.VISIBLE
             }
             return v

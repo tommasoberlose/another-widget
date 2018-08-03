@@ -155,4 +155,7 @@
     <string name="action_hide_widget_preview">Nascondi Anteprima Widget</string>
     <string name="error_widget_notification_title">GPS Disattivato</string>
     <string name="error_widget_notification_subtitle">Riattiva il GPS così che Another Widget possa aggiornare il meteo con le API di Google Awareness.</string>
+    <string name="open_location_settings">Impostazioni GPS</string>
+    <string name="change_provider">Cambia Provider</string>
+    <string name="disable_notification">Disabilita Notifica</string>
 </resources>

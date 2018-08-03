@@ -137,20 +137,14 @@ object WeatherUtil {
                 .putString(Constants.PREF_CUSTOM_LOCATION_LON, longitude.toString())
                 .apply()
 
-        if (!SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
-            Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
-            else -> Constants.PREF_OPEN_WEATHER_API_KEY
-        }, "").equals("")) {
+        if (!getWeatherProviderKey(context, SP).equals("")) {
             try {
                 val config = WeatherConfig()
                 config.unitSystem = if (SP.getString(Constants.PREF_WEATHER_TEMP_UNIT, "F").equals("C")) WeatherConfig.UNIT_SYSTEM.M else WeatherConfig.UNIT_SYSTEM.I
                 config.lang = "en"
                 config.maxResult = 1
                 config.numDays = 1
-                config.ApiKey = SP.getString(when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
-                    Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
-                    else -> Constants.PREF_OPEN_WEATHER_API_KEY
-                }, "")
+                config.ApiKey = WeatherUtil.getWeatherProviderKey(context, SP)
 
                 val client = WeatherClient.ClientBuilder().attach(context)
                         .httpClient(com.survivingwithandroid.weather.lib.client.volley.WeatherClientDefault::class.java)
@@ -185,6 +179,19 @@ object WeatherUtil {
         } else {
             removeWeather(context, SP)
         }
+    }
+
+    fun getWeatherProviderKeyConstant(context: Context, SP: SharedPreferences): String {
+        return when (SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS)) {
+            Constants.WEATHER_PROVIDER_OPEN_WEATHER -> Constants.PREF_OPEN_WEATHER_API_KEY
+            Constants.WEATHER_PROVIDER_DARK_SKY -> Constants.PREF_DARK_SKY_API_KEY
+            Constants.WEATHER_PROVIDER_WU -> Constants.PREF_WU_API_KEY
+            else -> Constants.PREF_OPEN_WEATHER_API_KEY
+        }
+    }
+
+    fun getWeatherProviderKey(context: Context, SP: SharedPreferences): String {
+        return SP.getString(getWeatherProviderKeyConstant(context, SP), "")
     }
 
     @SuppressLint("ApplySharedPref")

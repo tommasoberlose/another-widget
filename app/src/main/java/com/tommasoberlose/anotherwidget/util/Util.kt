@@ -24,6 +24,7 @@ import android.support.annotation.StringRes
 import android.util.TypedValue
 import android.content.Intent
 import android.content.ComponentName
+import android.database.Cursor
 import android.location.LocationManager
 import android.os.Build
 import android.preference.PreferenceManager
@@ -43,6 +44,7 @@ import com.tommasoberlose.anotherwidget.`object`.Event
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.joda.time.DateTime
+import java.net.URISyntaxException
 import java.util.concurrent.TimeUnit
 
 
@@ -94,17 +96,29 @@ object Util {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val SP = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+        if (SP.getBoolean(Constants.PREF_SHOW_GPS_NOTIFICATION, true) && !locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && SP.getInt(Constants.PREF_WEATHER_PROVIDER, Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) == Constants.WEATHER_PROVIDER_GOOGLE_AWARENESS) {
+            val settingsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            val pi: PendingIntent = PendingIntent.getActivity(context, 50, settingsIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val providerIntent2 = Intent(context, MainActivity::class.java)
+            providerIntent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            providerIntent2.putExtra(Constants.ACTION_EXTRA_OPEN_WEATHER_PROVIDER, true)
+            val pi2: PendingIntent = PendingIntent.getActivity(context, 51, providerIntent2, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val providerIntentDisable = Intent(context, MainActivity::class.java)
+            providerIntentDisable.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            providerIntentDisable.putExtra(Constants.ACTION_EXTRA_DISABLE_GPS_NOTIFICATION, true)
+            val piDisable: PendingIntent = PendingIntent.getActivity(context, 52, providerIntentDisable, PendingIntent.FLAG_UPDATE_CURRENT)
+
             val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context, "Error")
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round))
                     .setContentTitle(context.getString(R.string.notification_gps_title))
                     .setContentText(context.getString(R.string.notification_gps_subtitle))
+                    .addAction(R.drawable.ic_action_sync, context.getString(R.string.change_provider), pi2)
+                    .addAction(R.drawable.ic_action_settings, context.getString(R.string.disable_notification), piDisable)
+                    .setContentIntent(pi)
 
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            val pi: PendingIntent = PendingIntent.getActivity(context, 50, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.setContentIntent(pi);
             mNotificationManager.notify(10, mBuilder.build());
         } else {
             mNotificationManager.cancel(10)
@@ -638,5 +652,29 @@ object Util {
         } catch (ignored: Exception) {
             return null
         }
+    }
+
+    @Throws(Exception::class)
+    fun getPath(context: Context, uri: Uri): String? {
+        if ("content".equals(uri.scheme, ignoreCase = true)) {
+            val projection = arrayOf(android.provider.MediaStore.Files.FileColumns.DATA)
+            var cursor: Cursor? = null
+
+            try {
+                cursor = context.contentResolver.query(uri, projection, null, null, null)
+                val column_index = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Files.FileColumns.DATA)
+                if (cursor.moveToFirst()) {
+                    Log.d("AW", "4: " + cursor.getString(0))
+                    return cursor.getString(0)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
+        }
+
+        return null
     }
 }

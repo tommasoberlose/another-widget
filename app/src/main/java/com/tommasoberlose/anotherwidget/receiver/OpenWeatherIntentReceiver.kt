@@ -23,10 +23,12 @@ class OpenWeatherIntentReceiver : BroadcastReceiver() {
                     context.applicationContext.startActivity(Util.getWeatherIntent(context.applicationContext))
                 } catch (e: Exception) {
                     val uri = Uri.parse("http://www.google.com/#q=weather")
+                    val i = Intent(Intent.ACTION_VIEW, uri)
+                    i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     try {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+                        context.startActivity(i)
                     } catch (e: Exception) {
-                        context.applicationContext.startActivity(Intent(Intent.ACTION_VIEW, uri))
+                        context.applicationContext.startActivity(i)
                     }
                 }
             }

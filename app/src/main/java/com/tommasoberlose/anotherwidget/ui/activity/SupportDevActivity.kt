@@ -108,7 +108,7 @@ class SupportDevActivity : AppCompatActivity(), BillingProcessor.IBillingHandler
         Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
