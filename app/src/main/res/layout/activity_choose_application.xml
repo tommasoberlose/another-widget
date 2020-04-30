@@ -1,117 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
-    tools:context="com.tommasoberlose.anotherwidget.ui.activity.ChooseApplicationActivity">
-    <LinearLayout
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="32dp"
-        android:id="@+id/toolbar"
-        android:gravity="center_vertical">
-        <TextView
+        android:background="@color/colorPrimaryDark"
+        tools:context="com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity">
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/main_pre_title"
-            android:alpha="0.6"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:gravity="center_vertical"
-            style="@style/AnotherWidget.Main.Subtitle"
-            android:textAllCaps="true"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:gravity="center_vertical"
-            style="@style/AnotherWidget.Main.Title"
-            android:textAllCaps="true"/>
-    </LinearLayout>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:cardCornerRadius="3dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/bottom_buttons"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/white"
-        app:cardBackgroundColor="@android:color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
+            app:cardElevation="2dp"
+            app:cardCornerRadius="0dp"
+            android:id="@+id/toolbar"
+            app:cardBackgroundColor="@color/colorPrimary">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/white"
-                    android:padding="16dp"
-                    android:inputType="textCapWords"
-                    android:id="@+id/location"
-                    android:textStyle="bold"
-                    android:gravity="center_vertical"
-                    android:hint="@string/action_choose_application"/>
-                <ImageView
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="12dp"
+                    android:padding="10dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_centerVertical="true"
                     android:id="@+id/action_back"
-                    android:src="@drawable/ic_action_close"
-                    android:tint="@android:color/black"/>
-            </LinearLayout>
-            <LinearLayout
+                    android:tint="@color/colorPrimaryText"
+                    android:src="@drawable/round_arrow_back" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="@string/action_choose_application"
+                    android:gravity="center"
+                    style="@style/AnotherWidget.Main.Title"/>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="0dp"
+            app:cardBackgroundColor="@color/colorPrimary">
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_10"/>
-            <android.support.v7.widget.RecyclerView
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorPrimaryDark"
+                app:cardCornerRadius="9dp"
+                app:cardElevation="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:inputType="textCapWords"
+                    android:id="@+id/search"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search"
+                    android:text="@={viewModel.searchInput}"
+                    android:autofillHints="" />
+            </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorAccent"
+                android:layout_marginTop="-7dp"
+                android:id="@+id/loader"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/list_view" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="3dp"
-        android:id="@+id/bottom_buttons"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
-        app:cardBackgroundColor="@android:color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="?android:attr/actionBarSize"
-                android:text="@string/action_default"
-                android:id="@+id/action_default"
-                android:textColor="@android:color/black"
-                style="@style/AnotherWidget.Main.Button"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="?android:attr/actionBarSize"
-                android:text="@string/action_none"
-                android:id="@+id/action_none"
-                android:textColor="@android:color/black"
-                style="@style/AnotherWidget.Main.Button"/>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-</RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</layout>

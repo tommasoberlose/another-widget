@@ -1,28 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:id="@+id/main_layout">
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginTop="-8dp"
-        android:lineSpacingMultiplier="1"
-        android:lineSpacingExtra="0dp"
-        android:visibility="gone"
-        android:includeFontPadding="false"
-        android:padding="0dp"
-        style="@style/AnotherWidget.Title"
-        android:textSize="90sp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/time"
         android:orientation="horizontal"
         android:id="@+id/empty_layout">
         <TextView
@@ -30,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
+            android:textColor="@color/colorPrimary"
             android:maxLines="1"
             android:ellipsize="end"
             android:text="@string/loading_text"
@@ -40,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:id="@+id/weather"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:id="@+id/weather">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,15 +56,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/time"
         android:id="@+id/calendar_layout"
+        android:visibility="gone"
         android:gravity="center">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/action_previous"
+                android:src="@drawable/round_chevron_left" />
             <TextView
                 android:id="@+id/next_event"
                 android:layout_width="0dp"
@@ -103,6 +93,12 @@
                     android:includeFontPadding="false"
                     style="@style/AnotherWidget.Title" />
             </LinearLayout>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/action_next"
+                android:src="@drawable/round_chevron_right" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -114,6 +110,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:id="@+id/second_row"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="16dp"
@@ -121,7 +118,7 @@
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:id="@+id/second_row_icon"
-                    android:src="@drawable/ic_action_calendar"/>
+                    android:src="@drawable/round_today"/>
                 <TextView
                     android:id="@+id/next_event_date"
                     android:layout_width="wrap_content"
@@ -132,17 +129,12 @@
                     android:layout_height="wrap_content"
                     style="@style/AnotherWidget.Subtitle" />
             </LinearLayout>
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="6dp"
-                android:id="@+id/multiple_events"
-                android:src="@drawable/ic_action_next"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:visibility="gone"
                 android:id="@+id/calendar_weather">
                 <TextView
                     android:layout_width="wrap_content"

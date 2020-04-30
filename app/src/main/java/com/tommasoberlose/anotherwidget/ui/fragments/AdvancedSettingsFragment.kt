@@ -1,0 +1,175 @@
+package com.tommasoberlose.anotherwidget.ui.fragments
+
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
+import com.tommasoberlose.anotherwidget.databinding.FragmentAdvancedSettingsBinding
+import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
+import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
+import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.CalendarUtil
+import com.tommasoberlose.anotherwidget.utils.Util
+import com.tommasoberlose.anotherwidget.utils.openURI
+import kotlinx.android.synthetic.main.fragment_advanced_settings.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+
+class AdvancedSettingsFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = AdvancedSettingsFragment()
+    }
+
+    private lateinit var viewModel: MainViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
+        val binding = DataBindingUtil.inflate<FragmentAdvancedSettingsBinding>(inflater, R.layout.fragment_advanced_settings, container, false)
+
+        subscribeUi(binding, viewModel)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        setupListener()
+    }
+
+    private fun subscribeUi(
+        binding: FragmentAdvancedSettingsBinding,
+        viewModel: MainViewModel
+    ) {
+        viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
+            AppCompatDelegate.setDefaultNightMode(it)
+            theme.text = when (it) {
+                AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.settings_subtitle_dark_theme_light)
+                AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.settings_subtitle_dark_theme_dark)
+                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> getString(R.string.settings_subtitle_dark_theme_by_battery_saver)
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> getString(R.string.settings_subtitle_dark_theme_follow_system)
+                else -> ""
+            }
+        })
+
+        viewModel.showWallpaper.observe(viewLifecycleOwner, Observer {
+            show_wallpaper_label.text = if (it && requireActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        })
+    }
+
+    private fun setupListener() {
+        action_change_theme.setOnClickListener {
+            maintainScrollPosition {
+                BottomSheetMenu<Int>(requireContext())
+                    .selectResource(Preferences.darkThemePreference)
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_light),
+                        AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_dark),
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    )
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_default),
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                    )
+                    .addOnSelectItemListener { value ->
+                        Preferences.darkThemePreference = value
+                    }.show()
+            }
+        }
+
+        action_show_wallpaper.setOnClickListener {
+            maintainScrollPosition {
+                if (Preferences.showWallpaper) {
+                    Preferences.showWallpaper = false
+                } else {
+                    requirePermission()
+                }
+            }
+        }
+
+        action_translate.setOnClickListener {
+            activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
+        }
+
+        action_website.setOnClickListener {
+            activity?.openURI("http://tommasoberlose.com/")
+        }
+
+        action_help_dev.setOnClickListener {
+            startActivity(Intent(requireContext(), SupportDevActivity::class.java))
+        }
+
+        action_refresh_widget.setOnClickListener {
+            Util.updateWidget(requireContext())
+            CalendarUtil.updateEventList(requireContext())
+        }
+    }
+
+    private fun maintainScrollPosition(callback: () -> Unit) {
+        val scrollPosition = scrollView.scrollY
+        callback.invoke()
+        lifecycleScope.launch {
+            delay(200)
+            scrollView.smoothScrollTo(0, scrollPosition)
+        }
+    }
+
+    private fun requirePermission() {
+        Dexter.withContext(requireContext())
+            .withPermissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ).withListener(object: MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    report?.let {
+                        Preferences.showWallpaper = report.areAllPermissionsGranted()
+                    }
+                }
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    // Remember to invoke this method when the custom rationale is closed
+                    // or just by default if you don't want to use any custom rationale.
+                    token?.continuePermissionRequest()
+                }
+            })
+            .check()
+    }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="grey">
+        <item name="grey_0">#FFFFFF</item>
+        <item name="grey_50">#FAFAFA</item>
+        <item name="grey_100">#F5F5F5</item>
+        <item name="grey_200">#EEEEEE</item>
+        <item name="grey_300">#E0E0E0</item>
+        <item name="grey_400">#BDBDBD</item>
+        <item name="grey_500">#9E9E9E</item>
+        <item name="grey_600">#757575</item>
+        <item name="grey_700">#616161</item>
+        <item name="grey_800">#424242</item>
+        <item name="grey_900">#212121</item>
+        <item name="grey_1000">#000000</item>
+    </array>
+</resources>

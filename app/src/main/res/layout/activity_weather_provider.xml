@@ -5,206 +5,154 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/gradient_background"
-    tools:context="com.tommasoberlose.anotherwidget.ui.activity.WeatherProviderActivity">
-    <LinearLayout
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.tommasoberlose.anotherwidget.ui.activities.WeatherProviderActivity">
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="32dp"
-        android:id="@+id/toolbar"
-        android:gravity="center_vertical">
-        <TextView
+        app:cardElevation="2dp"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/colorPrimary">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_pre_title"
-            android:alpha="0.6"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_height="56dp"
             android:gravity="center_vertical"
-            style="@style/AnotherWidget.Main.Subtitle"
-            android:textAllCaps="true"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:gravity="center_vertical"
-            style="@style/AnotherWidget.Main.Title"
-            android:textAllCaps="true"/>
-    </LinearLayout>
-    <android.support.v7.widget.CardView
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="10dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/action_back"
+                android:tint="@color/colorPrimaryText"
+                android:src="@drawable/round_arrow_back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text="@string/settings_weather_provider_api_key_title"
+                android:gravity="center"
+                style="@style/AnotherWidget.Main.Title"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_save"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:padding="16dp"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/action_save"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:cardCornerRadius="3dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/white"
-        app:cardBackgroundColor="@android:color/white">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="24dp">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:orientation="vertical"
-                android:descendantFocusability="beforeDescendants"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:id="@+id/action_change_provider"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Settings.Title"
-                    android:text="@string/settings_weather_provider_api_key_title"
-                    android:textColor="@android:color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/label_weather_provider"
-                    style="@style/AnotherWidget.Settings.Subtitle"
-                    android:textColor="@android:color/black"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_10"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:descendantFocusability="beforeDescendants"
                 android:focusable="true"
                 android:id="@+id/api_key_container"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    android:padding="16dp"
-                    android:inputType="textCapWords"
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/api_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
                     android:textStyle="bold"
                     android:nextFocusUp="@id/api_key"
                     android:nextFocusLeft="@id/api_key"
                     android:gravity="center_vertical"
-                    android:hint="@string/api_key_hint"/>
+                    android:textColor="@color/colorPrimaryText"
+                    app:boxBackgroundColor="@color/colorPrimaryDark"
+                    app:boxStrokeColor="@color/colorAccent"
+                    app:hintTextColor="@color/colorAccent"
+                    android:hint="@string/api_key_hint"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:background="@color/disabledButtonBackground" />
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/button_container">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="?android:attr/actionBarSize"
-                    android:text="@string/action_save"
-                    android:gravity="center"
-                    android:background="@color/colorAccent"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:id="@+id/action_save"
-                    style="@style/AnotherWidget.Main.Button"/>
-            </LinearLayout>
+                style="@style/AnotherWidget.Settings.Title"
+                android:text="@string/api_key_title_1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Main.Subtitle"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:text="@string/api_key_subtitle_1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Settings.Title"
+                android:layout_marginTop="12dp"
+                android:text="@string/api_key_title_2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Main.Subtitle"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:text="@string/api_key_subtitle_2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Settings.Title"
+                android:layout_marginTop="12dp"
+                android:text="@string/api_key_title_3"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Main.Subtitle"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:text="@string/api_key_subtitle_3"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AnotherWidget.Main.Subtitle"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:id="@+id/last_info"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:letterSpacing="0"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:layout_marginStart="-8dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textAllCaps="false"
+                android:id="@+id/action_open_provider"
+                android:text="@string/action_open_provider"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:id="@+id/content_info"
-        android:focusableInTouchMode="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/api_key_info_title"
-                    android:gravity="start"
-                    style="@style/AnotherWidget.Main.Title"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/black"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    style="@style/AnotherWidget.Settings.Title"
-                    android:layout_marginTop="12dp"
-                    android:textAllCaps="true"
-                    android:text="@string/api_key_title_1"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    style="@style/AnotherWidget.Main.Subtitle"
-                    android:textSize="16sp"
-                    android:gravity="start"
-                    android:text="@string/api_key_subtitle_1"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    style="@style/AnotherWidget.Main.Button"
-                    android:layout_marginTop="12dp"
-                    android:id="@+id/action_open_provider"
-                    android:text="@string/action_open_provider"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    style="@style/AnotherWidget.Settings.Title"
-                    android:layout_marginTop="12dp"
-                    android:textAllCaps="true"
-                    android:text="@string/api_key_title_2"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    style="@style/AnotherWidget.Main.Subtitle"
-                    android:textSize="16sp"
-                    android:gravity="start"
-                    android:text="@string/api_key_subtitle_2"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    style="@style/AnotherWidget.Settings.Title"
-                    android:layout_marginTop="12dp"
-                    android:textAllCaps="true"
-                    android:text="@string/api_key_title_3"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    style="@style/AnotherWidget.Main.Subtitle"
-                    android:textSize="16sp"
-                    android:gravity="start"
-                    android:text="@string/api_key_subtitle_3"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    style="@style/AnotherWidget.Main.Subtitle"
-                    android:textSize="16sp"
-                    android:gravity="start"
-                    android:id="@+id/last_info"/>
-            </LinearLayout>
-        </ScrollView>
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 </LinearLayout>

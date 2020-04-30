@@ -1,40 +1,110 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:id="@+id/main_layout">
-    <ImageView
+    <TextClock
+        android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        android:id="@+id/bitmap_container"/>
-    <LinearLayout
+        android:gravity="center"
+        android:lineSpacingMultiplier="1"
+        android:lineSpacingExtra="0dp"
+        android:includeFontPadding="false"
+        android:format12Hour="hh:mm"
+        android:padding="0dp"
+        android:visibility="gone"
+        android:lines="1"
+        android:maxLines="1"
+        android:layout_marginBottom="16dp"
+        style="@style/AnotherWidget.Title"/>
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:alpha="0"
-        android:layout_centerInParent="true">
-        <include layout="@layout/the_widget"
-            android:layout_height="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:id="@+id/intent_container" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:alpha="0"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:id="@+id/empty_layout_rect">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/empty_date_rect"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/weather_rect" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:visibility="gone"
-            android:id="@+id/bottom_divider_8"
-            android:orientation="vertical" />
-        <LinearLayout
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/calendar_layout_rect"
+            android:alpha="0"
+            android:gravity="center">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/action_previous_rect" />
+                <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/next_event_rect" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/next_event_difference_time_rect" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/action_next_rect" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/second_row_rect" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/calendar_weather_rect" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:visibility="gone"
-            android:id="@+id/bottom_divider_16"
-            android:orientation="vertical" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:visibility="gone"
-            android:id="@+id/bottom_divider_24"
-            android:orientation="vertical" />
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:id="@+id/bitmap_container"/>
+
+    </RelativeLayout>
+</LinearLayout>

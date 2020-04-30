@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="@string/settings_weather_refresh_period_subtitle_1"
-        android:icon="@drawable/ic_action_refresh_0"
+        android:icon="@drawable/ic_launcher_foreground"
         android:id="@+id/refresh_1" />
     <item
         android:title="@string/settings_weather_refresh_period_subtitle_2"
-        android:icon="@drawable/ic_action_refresh_1"
+        android:icon="@drawable/ic_launcher_foreground"
         android:id="@+id/refresh_2" />
     <item
         android:title="@string/settings_weather_refresh_period_subtitle_3"
-        android:icon="@drawable/ic_action_refresh_2"
+        android:icon="@drawable/ic_launcher_foreground"
         android:id="@+id/refresh_3" />
     <item
         android:title="@string/settings_weather_refresh_period_subtitle_4"
-        android:icon="@drawable/ic_action_refresh_3"
+        android:icon="@drawable/ic_launcher_foreground"
         android:id="@+id/refresh_4" />
     <item
         android:title="@string/settings_weather_refresh_period_subtitle_5"
-        android:icon="@drawable/ic_action_refresh_5"
+        android:icon="@drawable/ic_launcher_foreground"
         android:id="@+id/refresh_5" />
 </menu>

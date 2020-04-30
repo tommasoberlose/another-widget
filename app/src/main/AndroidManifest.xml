@@ -7,33 +7,30 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".ui.AWApplication"
+        android:name=".components.AWApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.awareness.API_KEY"
-            android:value="AIzaSyAMkqiQHTdZGOUxRd0ZEvvrIE1qN_3pJb4" />
-
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait">
+        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.ChooseApplicationActivity" android:launchMode="singleInstance" />
+        <activity android:name=".ui.activities.CustomLocationActivity" android:launchMode="singleInstance" />
+        <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" />
+        <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" />
 
-        <receiver android:name=".ui.widget.TheWidget">
+
+        <receiver android:name=".ui.widgets.TheWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -43,77 +40,47 @@
                 android:resource="@xml/the_widget_info" />
         </receiver>
         <receiver
-            android:name=".receiver.NewCalendarEventReceiver"
+            android:name=".receivers.NewCalendarEventReceiver"
             android:enabled="true"
+            android:exported="true"
             android:priority="1000">
             <intent-filter>
                 <action android:name="android.intent.action.PROVIDER_CHANGED" />
-
-                <data android:scheme="content" />
-                <data android:host="com.android.calendar" />
+                <data android:scheme="content"/>
+                <data android:host="com.android.calendar"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="com.tommasoberlose.anotherwidget.action.GO_TO_NEXT_EVENT" />
+                <action android:name="com.tommasoberlose.anotherwidget.action.GO_TO_PREVIOUS_EVENT" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.UpdatesReceiver"
+            android:name=".receivers.UpdatesReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_TIME_UPDATE" />
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_CALENDAR_UPDATE" />
-                <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="com.sec.android.widgetapp.APPWIDGET_RESIZE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-
-                <data android:scheme="package" />
+                <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.WeatherReceiver"
+            android:name=".receivers.WeatherReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_WEATHER_UPDATE" />
-                <action android:name="android.location.PROVIDERS_CHANGED" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-
-                <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="5232fd734b08a20a984c2de02b37df19269608ef" />
-
-        <activity
-            android:name=".ui.activity.CustomLocationActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.ChooseApplicationActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.WeatherProviderActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
-
         <receiver
-            android:name=".receiver.OpenWeatherIntentReceiver"
+            android:name=".receivers.WidgetClickListenerReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -121,14 +88,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name=".util.CrocodileService"
-            android:enabled="true"/>
-
-        <activity android:name=".ui.activity.SupportDevActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
