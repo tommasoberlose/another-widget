@@ -1,0 +1,53 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+	package
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:3:5-50
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+	xmlns:dist
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:2:5-61
+	android:versionCode
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:1-13:12
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:1:11-69
+dist:module
+ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:5:5-12:19
+	dist:instant
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:6:9-29
+	dist:title
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:7:9-52
+dist:delivery
+ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:8:9-10:25
+dist:on-demand
+ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:9:13-31
+dist:fusing
+ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:11:9-44
+	dist:include
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml:11:22-41
+uses-sdk
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		ADDED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml
+		INJECTED from /Users/tommaso/Documents/MyCode/another-widget/tasksintegration/src/main/AndroidManifest.xml

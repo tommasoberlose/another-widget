@@ -176,7 +176,7 @@ class CalendarSettingsFragment : Fragment() {
                     cal1.accountName == cal1.name -> {
                         -1
                     }
-                    cal2.accountName == cal2.accountName -> {
+                    cal2.accountName == cal2.name -> {
                         1
                     }
                     else -> {
