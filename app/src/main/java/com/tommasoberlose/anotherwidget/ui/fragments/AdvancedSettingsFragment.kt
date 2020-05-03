@@ -136,11 +136,15 @@ class AdvancedSettingsFragment : Fragment() {
         }
 
         action_translate.setOnClickListener {
-            activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
+            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
         }
 
         action_website.setOnClickListener {
-            activity?.openURI("http://tommasoberlose.com/")
+            requireActivity().openURI("http://tommasoberlose.com/")
+        }
+
+        action_feedback.setOnClickListener {
+            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/issues")
         }
 
         action_help_dev.setOnClickListener {

@@ -143,7 +143,7 @@
     <string name="action_go_to_next_event">Show next\nevent</string>
     <string name="settings_show_multiple_events_title">Multiple events switcher</string>
     <string name="support_custom_app_name" translatable="false">\"Another\" Developer</string>
-    <string name="support_main_title">Support the Developer</string>
+    <string name="support_main_title">Support the developer</string>
     <string name="support_translations_title">Help with translations</string>
     <string name="support_translations_subtitle">Open a pull request on GitHub</string>
     <string name="support_website_title">Check my other projects</string>
@@ -165,7 +165,7 @@
     <string name="change_provider">Change provider</string>
     <string name="disable_notification">Disable notification</string>
     <string name="settings_theme_title">Theme</string>
-    <string name="support_main_subtitle">I always need a lot of coffee</string>
+    <string name="support_main_subtitle">Devs always need a lot of coffee</string>
     <string name="settings_subtitle_dark_theme_light">Light</string>
     <string name="settings_subtitle_dark_theme_dark">Dark</string>
     <string name="settings_subtitle_dark_theme_by_battery_saver">Set by Battery Saver</string>
@@ -180,4 +180,6 @@
     <string name="custom_date_format">Custom date format</string>
     <string name="settings_app_version_title">App version</string>
     <string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
+    <string name="settings_feedback_subtitle">This is an open-source project, feel free to help.</string>
+    <string name="settings_feedback_title">Feedback and feature requests</string>
 </resources>

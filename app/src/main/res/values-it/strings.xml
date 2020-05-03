@@ -175,4 +175,6 @@
     <string name="custom_date_format">Formato data personalizzato</string>
     <string name="settings_app_version_title">Versione app</string>
     <string name="support_dev_subtitle">Grazie per supportare il progetto!</string>
+    <string name="settings_feedback_subtitle">Contribuisci a questo progetto open source.</string>
+    <string name="settings_feedback_title">Feedback</string>
 </resources>

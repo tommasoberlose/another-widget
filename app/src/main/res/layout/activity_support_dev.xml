@@ -36,7 +36,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="10dp"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/action_back"

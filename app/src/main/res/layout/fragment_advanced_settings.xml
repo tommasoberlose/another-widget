@@ -142,6 +142,44 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
+                android:id="@+id/action_feedback"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_group_work"
+                    android:tint="@color/colorPrimaryText"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_feedback_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_feedback_subtitle"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
                 android:id="@+id/action_website"
                 android:orientation="horizontal">
                 <ImageView
@@ -186,8 +224,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_cafe"
-                    android:tint="@color/colorPrimaryText"/>
+                    android:src="@drawable/round_favorite"
+                    android:tint="@color/errorColorText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
