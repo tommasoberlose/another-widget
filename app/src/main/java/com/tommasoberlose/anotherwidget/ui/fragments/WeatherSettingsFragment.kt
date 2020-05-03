@@ -132,7 +132,7 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (activity?.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) == true) {
             location_permission_alert_icon.isVisible = false
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
@@ -228,7 +228,7 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun requirePermission() {
-        Dexter.withContext(requireActivity())
+        Dexter.withContext(requireContext())
             .withPermissions(
                 Manifest.permission.ACCESS_FINE_LOCATION
             ).withListener(object: MultiplePermissionsListener {

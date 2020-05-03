@@ -49,13 +49,14 @@ class SupportDevViewModel : ViewModel() {
     fun handlePurchase(purchase: Purchase) {
         if (!purchase.isAcknowledged) {
             viewModelScope.launch(Dispatchers.IO) {
+                val token = purchase.purchaseToken
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                    .setPurchaseToken(purchase.purchaseToken)
+                    .setPurchaseToken(token)
                 billingClient.acknowledgePurchase(acknowledgePurchaseParams.build())
 
                 val consumeParams =
                     ConsumeParams.newBuilder()
-                        .setPurchaseToken(purchase.purchaseToken)
+                        .setPurchaseToken(token)
                         .build()
                 billingClient.consumePurchase(consumeParams)
             }

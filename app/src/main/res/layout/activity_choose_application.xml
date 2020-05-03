@@ -69,6 +69,8 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:inputType="textCapWords"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textColorHint="@color/colorSecondaryText"
                     android:textAlignment="viewStart"
                     android:id="@+id/search"
                     android:gravity="center_vertical|start"

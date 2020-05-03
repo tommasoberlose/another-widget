@@ -208,7 +208,7 @@ class CalendarSettingsFragment : Fragment() {
                     checkReadEventsPermission()
                 }.show()
             } else {
-                requireActivity().toast(getString(R.string.calendar_settings_list_error))
+                activity?.toast(getString(R.string.calendar_settings_list_error))
             }
         }
 
@@ -293,7 +293,7 @@ class CalendarSettingsFragment : Fragment() {
 
                 dialog.addOnSelectItemListener { value ->
                         if (value == "-") {
-                            startActivity(Intent(requireActivity(), CustomDateActivity::class.java))
+                            startActivity(Intent(requireContext(), CustomDateActivity::class.java))
                         } else {
                             Preferences.dateFormat = value
                         }
@@ -311,7 +311,7 @@ class CalendarSettingsFragment : Fragment() {
     }
 
     private fun checkReadEventsPermission(showEvents: Boolean = Preferences.showEvents) {
-        if (requireActivity().checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
+        if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
             show_events_label.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
             read_calendar_permission_alert_icon.isVisible = false
             CalendarHelper.updateEventList(requireContext())
@@ -325,7 +325,7 @@ class CalendarSettingsFragment : Fragment() {
     }
 
     private fun requirePermission() {
-        Dexter.withContext(requireActivity())
+        Dexter.withContext(requireContext())
             .withPermissions(
                 Manifest.permission.READ_CALENDAR
             ).withListener(object: MultiplePermissionsListener {

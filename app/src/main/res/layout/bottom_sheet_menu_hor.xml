@@ -30,10 +30,27 @@
             android:layout_marginTop="16dp"
             android:background="@color/disabledButtonBackground" />
     </LinearLayout>
-    <GridLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/menu"
-        android:layout_margin="16dp"
-        android:columnCount="6"/>
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/menu"
+                android:visibility="gone"
+                android:layout_margin="16dp"
+                android:columnCount="6"/>
+            <ProgressBar
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:indeterminateTint="@color/colorPrimaryText"
+                android:indeterminate="true"
+                android:layout_margin="32dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/color_loader" />
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

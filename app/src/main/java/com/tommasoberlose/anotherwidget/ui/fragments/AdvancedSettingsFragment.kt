@@ -29,6 +29,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
 import kotlinx.android.synthetic.main.fragment_advanced_settings.*
 import kotlinx.coroutines.delay
@@ -86,7 +87,7 @@ class AdvancedSettingsFragment : Fragment() {
         })
 
         viewModel.showWallpaper.observe(viewLifecycleOwner, Observer {
-            show_wallpaper_label.text = if (it && requireActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            show_wallpaper_label.text = if (it && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
         })
     }
 
@@ -136,15 +137,15 @@ class AdvancedSettingsFragment : Fragment() {
         }
 
         action_translate.setOnClickListener {
-            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
+            activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
         }
 
         action_website.setOnClickListener {
-            requireActivity().openURI("http://tommasoberlose.com/")
+            activity?.openURI("http://tommasoberlose.com/")
         }
 
         action_feedback.setOnClickListener {
-            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/issues")
+            activity?.openURI("https://github.com/tommasoberlose/another-widget/issues")
         }
 
         action_help_dev.setOnClickListener {

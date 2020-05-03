@@ -22,8 +22,10 @@ import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_general_settings.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class GeneralSettingsFragment : Fragment() {
@@ -33,6 +35,7 @@ class GeneralSettingsFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var colors: IntArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,12 @@ class GeneralSettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupListener()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val lazyColors = requireContext().resources.getIntArray(R.array.material_colors)
+            withContext(Dispatchers.Main) {
+                colors = lazyColors
+            }
+        }
     }
 
 
@@ -140,7 +149,7 @@ class GeneralSettingsFragment : Fragment() {
                 Color.parseColor(Preferences.textGlobalColor)
             }
             BottomSheetColorPicker(requireContext(),
-                colors = requireActivity().resources.getIntArray(R.array.grey),
+                colors = colors,
                 header = getString(R.string.settings_font_color_title),
                 selected = textColor,
                 onColorSelected = { color: Int ->

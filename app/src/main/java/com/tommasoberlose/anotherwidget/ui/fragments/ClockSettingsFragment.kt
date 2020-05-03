@@ -127,7 +127,7 @@ class ClockSettingsFragment : Fragment() {
 
         action_clock_app.setOnClickListener {
             if (Preferences.showClock) {
-                startActivityForResult(Intent(requireActivity(), ChooseApplicationActivity::class.java),
+                startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java),
                     RequestCode.CLOCK_APP_REQUEST_CODE.code
                 )
             }
