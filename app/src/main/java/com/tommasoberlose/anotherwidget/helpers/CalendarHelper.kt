@@ -54,61 +54,71 @@ object CalendarHelper {
             ) {
                 eventRepository.resetNextEventData()
             } else {
-                val provider = CalendarProvider(context)
-                val data = provider.getInstances(now.timeInMillis, limit.timeInMillis)
-                if (data != null) {
-                    val instances = data.list
-                    for (instance in instances) {
-                        try {
-                            val e = provider.getEvent(instance.eventId)
-                            if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && (Preferences.calendarAllDay || !e.allDay) && !getFilteredCalendarIdList().contains(e.calendarId) && (Preferences.showDeclinedEvents || e.selfAttendeeStatus.toInt() != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)) {
-                                if (e.allDay) {
-                                    val start = Calendar.getInstance()
-                                    start.timeInMillis = instance.begin
-                                    val end = Calendar.getInstance()
-                                    end.timeInMillis = instance.end
-                                    instance.begin = start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
-                                    instance.end = end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
-                                }
-                                eventList.add(
-                                    Event(
-                                        instance.id,
-                                        e.id,
-                                        e.title ?: "",
-                                        instance.begin,
-                                        instance.end,
-                                        e.calendarId.toInt(),
-                                        e.allDay,
-                                        e.eventLocation ?: ""
+                try {
+                    val provider = CalendarProvider(context)
+                    val data = provider.getInstances(now.timeInMillis, limit.timeInMillis)
+                    if (data != null) {
+                        val instances = data.list
+                        for (instance in instances) {
+                            try {
+                                val e = provider.getEvent(instance.eventId)
+                                if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && (Preferences.calendarAllDay || !e.allDay) && !getFilteredCalendarIdList().contains(
+                                        e.calendarId
+                                    ) && (Preferences.showDeclinedEvents || e.selfAttendeeStatus.toInt() != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
+                                ) {
+                                    if (e.allDay) {
+                                        val start = Calendar.getInstance()
+                                        start.timeInMillis = instance.begin
+                                        val end = Calendar.getInstance()
+                                        end.timeInMillis = instance.end
+                                        instance.begin =
+                                            start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
+                                        instance.end =
+                                            end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
+                                    }
+                                    eventList.add(
+                                        Event(
+                                            instance.id,
+                                            e.id,
+                                            e.title ?: "",
+                                            instance.begin,
+                                            instance.end,
+                                            e.calendarId.toInt(),
+                                            e.allDay,
+                                            e.eventLocation ?: ""
+                                        )
                                     )
-                                )
+                                }
+                            } catch (ignored: Exception) {
                             }
-                        } catch (ignored: Exception) {}
-                    }
-                }
-
-                if (eventList.isEmpty()) {
-                    eventRepository.resetNextEventData()
-                } else {
-                    eventList.sortWith(Comparator { event: Event, event1: Event ->
-                        if (event.allDay && event1.allDay) {
-                            event.startDate.compareTo(event1.startDate)
-                        } else if (event.allDay) {
-                            1
-                        } else if (event1.allDay) {
-                            -1
-                        } else {
-                            event1.startDate.compareTo(event.startDate)
                         }
-                    })
-                    eventList.reverse()
-                    Log.d("ciao", "list: $eventList")
-                    eventRepository.saveEvents(
-                        eventList
-                    )
-                    eventRepository.saveNextEventData(
-                        eventList[0]
-                    )
+                    }
+
+                    if (eventList.isEmpty()) {
+                        eventRepository.resetNextEventData()
+                    } else {
+                        eventList.sortWith(Comparator { event: Event, event1: Event ->
+                            if (event.allDay && event1.allDay) {
+                                event.startDate.compareTo(event1.startDate)
+                            } else if (event.allDay) {
+                                1
+                            } else if (event1.allDay) {
+                                -1
+                            } else {
+                                event1.startDate.compareTo(event.startDate)
+                            }
+                        })
+                        eventList.reverse()
+                        Log.d("ciao", "list: $eventList")
+                        eventRepository.saveEvents(
+                            eventList
+                        )
+                        eventRepository.saveNextEventData(
+                            eventList[0]
+                        )
+                    }
+                } catch (ignored: java.lang.Exception) {
+
                 }
             }
         } else {
