@@ -10,18 +10,33 @@
     android:clickable="true"
     android:focusable="true"
     android:layout_height="wrap_content">
-    <androidx.appcompat.widget.AppCompatTextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:duplicateParentState="true"
-        android:id="@+id/label"
-        android:textSize="15sp"
-        android:textColor="@drawable/menu_text_color"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        app:textAllCaps="false" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:duplicateParentState="true"
+            android:id="@+id/label"
+            android:textSize="15sp"
+            android:textColor="@drawable/menu_text_color"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            app:textAllCaps="false" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:src="@drawable/round_check"
+            app:tint="@color/colorPrimaryText"
+            android:id="@+id/icon_check" />
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

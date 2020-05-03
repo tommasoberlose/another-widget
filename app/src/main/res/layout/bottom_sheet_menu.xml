@@ -23,18 +23,22 @@
             android:textSize="16sp"
             android:id="@+id/header_text"
             android:text=""
-            android:textColor="@color/colorSecondaryText"/>
+            android:textColor="@color/colorPrimaryText"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="12dp"
             android:background="@color/disabledButtonBackground" />
     </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:id="@+id/menu"
-        android:background="@color/colorPrimary" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/menu"
+            android:weightSum="1"
+            android:background="@color/colorPrimary" />
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

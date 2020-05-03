@@ -30,7 +30,7 @@ object Preferences : KotprefModel() {
     var customLocationLon by stringPref(key = "PREF_CUSTOM_LOCATION_LON", default = "")
     var customLocationAdd by stringPref(key = "PREF_CUSTOM_LOCATION_ADD", default = "")
     var hourFormat by stringPref(key = "PREF_HOUR_FORMAT", default = "12")
-    var dateFormat by booleanPref(key = "PREF_ITA_FORMAT_DATE", default = false)
+    var dateFormat by stringPref(default = "")
     var weatherRefreshPeriod by intPref(key = "PREF_WEATHER_REFRESH_PERIOD", default = 1)
     var showUntil by intPref(key = "PREF_SHOW_UNTIL", default = 1)
     var calendarAppName by stringPref(key = "PREF_CALENDAR_APP_NAME", default = "")
@@ -62,4 +62,6 @@ object Preferences : KotprefModel() {
     var showGpsInformation by booleanPref(key = "PREF_SHOW_GPS_NOTIFICATION", default = true)
 
     var showWallpaper by booleanPref(default = false)
+    var showBigClockWarning by booleanPref(default = true)
+    var showWeatherWarning by booleanPref(default = true)
 }

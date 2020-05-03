@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".components.AWApplication"
+        android:name=".AWApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -28,9 +28,10 @@
         <activity android:name=".ui.activities.CustomLocationActivity" android:launchMode="singleInstance" />
         <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" />
         <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" />
+        <activity android:name=".ui.activities.CustomDateActivity" android:launchMode="singleInstance" />
 
 
-        <receiver android:name=".ui.widgets.TheWidget">
+        <receiver android:name=".ui.widgets.MainWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -65,6 +66,7 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
                 <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
         <receiver
@@ -76,6 +78,7 @@
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_WEATHER_UPDATE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
 
@@ -87,6 +90,8 @@
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_OPEN_WEATHER_INTENT" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".services.EventListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
 

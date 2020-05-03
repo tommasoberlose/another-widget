@@ -3,10 +3,10 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentCalendarSettingsBinding
 import com.tommasoberlose.anotherwidget.databinding.FragmentClockSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -23,8 +22,6 @@ import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.Util
-import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_clock_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -67,6 +64,11 @@ class ClockSettingsFragment : Fragment() {
         binding: FragmentClockSettingsBinding,
         viewModel: MainViewModel
     ) {
+        viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
+            large_clock_warning.isVisible = it
+            small_clock_warning.isVisible = !it
+        })
+
         viewModel.showClock.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_clock_label.text =
@@ -96,12 +98,16 @@ class ClockSettingsFragment : Fragment() {
     }
 
     private fun setupListener() {
+        action_hide_large_clock_warning.setOnClickListener {
+            Preferences.showBigClockWarning = false
+        }
+
         action_show_clock.setOnClickListener {
             Preferences.showClock = !Preferences.showClock
         }
 
         action_clock_text_size.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(requireContext()).selectResource(Preferences.clockTextSize)
+            val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.settings_clock_text_size_title)).setSelectedValue(Preferences.clockTextSize)
             (46 downTo 28).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
@@ -111,7 +117,7 @@ class ClockSettingsFragment : Fragment() {
         }
 
         action_show_next_alarm.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext()).selectResource(Preferences.showNextAlarm)
+            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.showNextAlarm)
                 .addItem(getString(R.string.settings_visible), true)
                 .addItem(getString(R.string.settings_not_visible), false)
                 .addOnSelectItemListener { value ->

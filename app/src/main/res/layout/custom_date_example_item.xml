@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:orientation="horizontal">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        app:textAllCaps="false"
+        android:gravity="start"
+        android:textSize="18sp"
+        android:textAlignment="viewStart"
+        android:id="@+id/custom_date_example_format"
+        android:letterSpacing="0"
+        android:text="EEEE" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="@color/colorSecondaryText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        app:textAllCaps="false"
+        android:textSize="18sp"
+        android:textAlignment="viewStart"
+        android:id="@+id/custom_date_example_value"
+        android:letterSpacing="0"
+        android:text="EEEE" />
+</LinearLayout>

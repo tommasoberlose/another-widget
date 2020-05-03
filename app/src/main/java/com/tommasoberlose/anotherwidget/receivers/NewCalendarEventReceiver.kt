@@ -4,22 +4,25 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
-import com.tommasoberlose.anotherwidget.global.Constants
-import com.tommasoberlose.anotherwidget.utils.CalendarUtil
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 
 class NewCalendarEventReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        when {
-            intent.action.equals(Intent.ACTION_PROVIDER_CHANGED) -> {
-                CalendarUtil.updateEventList(context)
+        val eventRepository = EventRepository(context)
+        Log.d("ciao", "nuovo evento")
+        when (intent.action) {
+            Intent.ACTION_PROVIDER_CHANGED,
+            Intent.ACTION_TIME_CHANGED -> {
+                CalendarHelper.updateEventList(context)
             }
-            intent.action == Actions.ACTION_GO_TO_NEXT_EVENT -> {
-                CalendarUtil.goToNextEvent(context)
+            Actions.ACTION_GO_TO_NEXT_EVENT -> {
+                eventRepository.goToNextEvent()
             }
-            intent.action == Actions.ACTION_GO_TO_PREVIOUS_EVENT -> {
-                CalendarUtil.goToPreviousEvent(context)
+            Actions.ACTION_GO_TO_PREVIOUS_EVENT -> {
+                eventRepository.goToPreviousEvent()
             }
         }
     }

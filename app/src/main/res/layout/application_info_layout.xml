@@ -7,9 +7,13 @@
     android:background="?attr/selectableItemBackground"
     android:focusable="true"
     android:clickable="true"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
     android:orientation="horizontal"
     android:id="@+id/item"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical|start">
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -22,10 +26,14 @@
         tools:ignore="HardcodedText" />
     <TextView
         android:id="@+id/text"
-        android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|start"
+        android:paddingEnd="24dp"
+        android:lines="1"
+        android:textAlignment="viewStart"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/colorPrimaryText"
         style="@style/AnotherWidget.Settings.Title"/>
 </LinearLayout>

@@ -26,7 +26,6 @@ class MainViewModel : ViewModel() {
 
     val eventAppName = Preferences.asLiveData(Preferences::eventAppName)
 
-
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
     val clockTextSize = Preferences.asLiveData(Preferences::clockTextSize)
@@ -34,6 +33,8 @@ class MainViewModel : ViewModel() {
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
     val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
     val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
+
+    val showBigClockWarning = Preferences.asLiveData(Preferences::showBigClockWarning)
 
     // Weather Settings
     val showWeather = Preferences.asLiveData(Preferences::showWeather)
@@ -44,6 +45,8 @@ class MainViewModel : ViewModel() {
     val weatherProviderApi = Preferences.asLiveData(Preferences::weatherProviderApi)
 
     val customLocationAdd = Preferences.asLiveData(Preferences::customLocationAdd)
+
+    val showWeatherWarning = Preferences.asLiveData(Preferences::showWeatherWarning)
 
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)

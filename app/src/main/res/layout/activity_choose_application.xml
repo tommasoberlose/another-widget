@@ -34,6 +34,7 @@
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:layout_centerVertical="true"
                     android:id="@+id/action_back"
+                    android:layout_alignParentLeft="true"
                     android:tint="@color/colorPrimaryText"
                     android:src="@drawable/round_arrow_back" />
                 <TextView
@@ -68,8 +69,9 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:inputType="textCapWords"
+                    android:textAlignment="viewStart"
                     android:id="@+id/search"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|start"
                     android:hint="@string/search"
                     android:text="@={viewModel.searchInput}"
                     android:autofillHints="" />

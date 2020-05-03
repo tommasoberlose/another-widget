@@ -3,7 +3,6 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,13 +25,15 @@ import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBindi
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
+import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.Util
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.android.synthetic.main.fragment_weather_settings.*
 import kotlinx.android.synthetic.main.fragment_weather_settings.scrollView
 import kotlinx.coroutines.delay
@@ -76,6 +77,10 @@ class WeatherSettingsFragment : Fragment() {
         binding: FragmentWeatherSettingsBinding,
         viewModel: MainViewModel
     ) {
+        viewModel.showWeatherWarning.observe(viewLifecycleOwner, Observer {
+            weather_warning.isVisible = it
+        })
+
         viewModel.showWeather.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_weather_label.text =
@@ -113,7 +118,7 @@ class WeatherSettingsFragment : Fragment() {
 
         viewModel.weatherRefreshPeriod.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                label_weather_refresh_period.text = getString(Util.getRefreshPeriodString(it))
+                label_weather_refresh_period.text = getString(SettingsStringHelper.getRefreshPeriodString(it))
             }
             checkLocationPermission()
         })
@@ -127,7 +132,7 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (requireActivity().checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             location_permission_alert_icon.isVisible = false
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
@@ -139,6 +144,9 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun setupListener() {
+        action_hide_weather_warning.setOnClickListener {
+            Preferences.showWeatherWarning = false
+        }
 
         action_show_weather.setOnClickListener {
             Preferences.showWeather = !Preferences.showWeather
@@ -164,7 +172,7 @@ class WeatherSettingsFragment : Fragment() {
 
         action_change_unit.setOnClickListener {
             if (Preferences.showWeather) {
-                BottomSheetMenu<String>(requireContext()).selectResource(Preferences.weatherTempUnit)
+                BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_unit_title)).setSelectedValue(Preferences.weatherTempUnit)
                     .addItem(getString(R.string.fahrenheit), "F")
                     .addItem(getString(R.string.celsius), "C")
                     .addOnSelectItemListener { value ->
@@ -176,9 +184,9 @@ class WeatherSettingsFragment : Fragment() {
         action_weather_refresh_period.setOnClickListener {
             if (Preferences.showWeather) {
                 val dialog =
-                    BottomSheetMenu<Int>(requireContext()).selectResource(Preferences.weatherRefreshPeriod)
+                    BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_refresh_period_title)).setSelectedValue(Preferences.weatherRefreshPeriod)
                 (5 downTo 0).forEach {
-                    dialog.addItem(getString(Util.getRefreshPeriodString(it)), it)
+                    dialog.addItem(getString(SettingsStringHelper.getRefreshPeriodString(it)), it)
                 }
                 dialog
                     .addOnSelectItemListener { value ->
@@ -202,13 +210,14 @@ class WeatherSettingsFragment : Fragment() {
             when (requestCode) {
                 Constants.RESULT_CODE_CUSTOM_LOCATION -> {
                     WeatherReceiver.setUpdates(requireContext())
+                    checkLocationPermission()
                 }
                 RequestCode.WEATHER_APP_REQUEST_CODE.code -> {
                     Preferences.bulk {
                         weatherAppName = data?.getStringExtra(Constants.RESULT_APP_NAME) ?: getString(R.string.default_weather_app)
                         weatherAppPackage = data?.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: ""
                     }
-                    Util.updateWidget(requireContext())
+                    MainWidget.updateWidget(requireContext())
                 }
                 RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
                     WeatherReceiver.setOneTimeUpdate(requireContext())

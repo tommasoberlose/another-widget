@@ -7,18 +7,19 @@ import android.content.Context
 import android.content.Intent
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.utils.Util
-import com.tommasoberlose.anotherwidget.utils.WeatherUtil
+import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import java.util.*
 
 
 class WeatherReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == Intent.ACTION_BOOT_COMPLETED || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) {
-            setUpdates(context)
-        } else if (intent.action == Actions.ACTION_WEATHER_UPDATE) {
-            WeatherUtil.updateWeather(context)
+        when (intent.action) {
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_MY_PACKAGE_REPLACED,
+            Intent.ACTION_TIME_CHANGED -> setUpdates(context)
+
+            Actions.ACTION_WEATHER_UPDATE -> WeatherHelper.updateWeather(context)
         }
     }
 
@@ -27,7 +28,7 @@ class WeatherReceiver : BroadcastReceiver() {
             removeUpdates(context)
 
             if (Preferences.showWeather && Preferences.weatherProviderApi != "") {
-                WeatherUtil.updateWeather(context)
+                WeatherHelper.updateWeather(context)
 
                 with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
                     val pi = PendingIntent.getBroadcast(

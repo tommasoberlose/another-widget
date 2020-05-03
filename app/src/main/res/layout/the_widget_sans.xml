@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:padding="8dp"
     android:id="@+id/main_layout">
     <TextClock
         android:id="@+id/time"
@@ -29,6 +30,7 @@
             android:alpha="0"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
+            android:layoutDirection="locale"
             android:id="@+id/empty_layout_rect">
             <ImageView
                 android:layout_width="wrap_content"
@@ -50,6 +52,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layoutDirection="locale"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -75,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layoutDirection="locale"
                 android:gravity="center">
                 <LinearLayout
                     android:layout_width="0dp"

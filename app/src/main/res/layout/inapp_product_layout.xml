@@ -22,6 +22,7 @@
         android:paddingRight="8dp"
         android:paddingLeft="8dp"
         android:textAllCaps="false"
+        android:textAlignment="viewStart"
         android:textSize="16sp"
         android:textColor="@color/colorPrimaryText"
         android:letterSpacing="0"

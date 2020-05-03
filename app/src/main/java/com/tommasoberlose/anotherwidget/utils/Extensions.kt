@@ -8,6 +8,7 @@ import android.widget.Toast
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.app.WallpaperManager
 import android.content.*
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
@@ -18,8 +19,15 @@ import android.util.Patterns
 import java.security.NoSuchAlgorithmException
 import kotlin.math.max
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
+import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.animation.Animation
+import android.view.animation.Transformation
+import android.widget.LinearLayout
 import com.tommasoberlose.anotherwidget.R
+import java.util.*
 
 
 fun PackageManager.missingSystemFeature(name: String): Boolean = !hasSystemFeature(name)
@@ -33,10 +41,11 @@ fun Context.toast(message: String) {
 fun Int.toPixel(context: Context): Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics).toInt()
 fun Float.toPixel(context: Context): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics)
 
-fun View.reveal(initialX: Int, initialY: Int) {
+fun View.reveal(initialX: Int? = null, initialY: Int? = null) {
+
     when (visibility) {
         View.VISIBLE -> {
-            val anim = ViewAnimationUtils.createCircularReveal(this, initialX, initialY, max(width.toFloat(), height.toFloat()), 0f)
+            val anim = ViewAnimationUtils.createCircularReveal(this, initialX ?: this.measuredWidth / 2, initialY ?: this.measuredHeight / 2, max(width.toFloat(), height.toFloat()), 0f)
                 .apply {
                     duration = 200
                 }
@@ -48,13 +57,65 @@ fun View.reveal(initialX: Int, initialY: Int) {
             })
             anim.start()
         } else -> {
-            val anim = ViewAnimationUtils.createCircularReveal(this, initialX, initialY, 0f, max(width.toFloat(), height.toFloat()))
+            val anim = ViewAnimationUtils.createCircularReveal(this, initialX ?: this.measuredWidth / 2, initialY ?: this.measuredHeight / 2, 0f, max(width.toFloat(), height.toFloat()))
                 .apply {
                     duration = 200
                 }
             visibility = View.VISIBLE
             anim.start()
         }
+    }
+}
+
+
+fun View.expand() {
+    if (visibility != View.VISIBLE) {
+        measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        val targetHeight = measuredHeight
+
+        layoutParams.height = 0
+        visibility = View.VISIBLE
+        val a = object : Animation() {
+            protected override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+                layoutParams.height = if (interpolatedTime == 1f)
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                else
+                    (targetHeight * interpolatedTime).toInt()
+                translationY = 0f
+                requestLayout()
+            }
+
+            override fun willChangeBounds(): Boolean {
+                return true
+            }
+        }
+
+        a.duration = 500L
+        startAnimation(a)
+    }
+}
+
+fun View.collapse() {
+    if (visibility != View.GONE) {
+        val initialHeight = measuredHeight
+
+        val a = object : Animation() {
+            protected override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+                if (interpolatedTime == 1f) {
+                    visibility = View.GONE
+                } else {
+                    layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
+                    requestLayout()
+                }
+            }
+
+            override fun willChangeBounds(): Boolean {
+                return true
+            }
+        }
+
+        a.duration = 500L //(initialHeight / v.context.resources.displayMetrics.density).toLong()
+        startAnimation(a)
     }
 }
 
@@ -117,14 +178,38 @@ fun Activity.isDarkTheme(): Boolean {
 
 fun Activity.isNotificationAccessGranted(): Boolean = Settings.Secure.getString(this.contentResolver,"enabled_notification_listeners").contains(this.packageName)
 
-//fun Activity.sendEmailTo(email: String) {
-//    val i = Intent(Intent.ACTION_VIEW).apply {
-//        data = Uri.parse("mailto:$email")
-//    }
-//    try {
-//        startActivity(Intent.createChooser(i, getString(R.string.settings_title_feedback)))
-//    } catch (ex: java.lang.Exception) {
-//        toast(getString(R.string.generic_error))
-//    }
-//
-//}
+fun Float.convertDpToPixel(context: Context): Float {
+    val resources: Resources = context.resources
+    val metrics: DisplayMetrics = resources.displayMetrics
+    val px: Float = this * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+    return px
+}
+
+fun Float.convertSpToPixels(context: Context): Float {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this, context.resources.displayMetrics)
+}
+
+fun Context.checkGrantedPermission(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.getCurrentWallpaper(): Drawable? = try {
+    WallpaperManager.getInstance(this).drawable
+} catch (e: Exception) {
+    null
+}
+
+fun String.getCapWordString(): String {
+    return try {
+        val ar = this.split(" ")
+        var newText = ""
+        for (t: String in ar) {
+            newText += " "
+            newText += t.substring(0, 1).toUpperCase(Locale.getDefault())
+            newText += t.substring(1)
+        }
+        newText.substring(1)
+    } catch (e: Exception) {
+        this
+    }
+}

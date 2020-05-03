@@ -4,12 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SimpleAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -25,7 +24,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.components.CalendarSelector
+import com.tommasoberlose.anotherwidget.models.CalendarSelector
 import com.tommasoberlose.anotherwidget.databinding.FragmentCalendarSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -33,16 +32,19 @@ import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.CalendarUtil
-import com.tommasoberlose.anotherwidget.utils.Util
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.DateHelper
+import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
+import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_calendar_settings.scrollView
-import kotlinx.android.synthetic.main.fragment_weather_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Comparator
 
 class CalendarSettingsFragment : Fragment() {
 
@@ -85,6 +87,12 @@ class CalendarSettingsFragment : Fragment() {
         viewModel.showEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 binding.isCalendarEnabled = it
+
+                if (it) {
+                    CalendarHelper.setEventUpdatesAndroidN(requireContext())
+                } else {
+                    CalendarHelper.removeEventUpdatesAndroidN(requireContext())
+                }
             }
             checkReadEventsPermission()
         })
@@ -106,7 +114,7 @@ class CalendarSettingsFragment : Fragment() {
 
         viewModel.secondRowInformation.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                second_row_info_label.text = getString(Util.getSecondRowInfoString(it))
+                second_row_info_label.text = getString(SettingsStringHelper.getSecondRowInfoString(it))
             }
         })
 
@@ -118,23 +126,18 @@ class CalendarSettingsFragment : Fragment() {
 
         viewModel.showUntil.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_until_label.text = getString(Util.getShowUntilString(it))
+                show_until_label.text = getString(SettingsStringHelper.getShowUntilString(it))
             }
             checkReadEventsPermission()
         })
 
         viewModel.showNextEvent.observe(viewLifecycleOwner, Observer {
-            show_multiple_events_label.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            show_multiple_events_label.setTextKeepState(if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
         })
 
         viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                val now = Calendar.getInstance()
-                var dateStringValue: String = String.format("%s%s", SimpleDateFormat(Constants.engDateFormat, Locale.getDefault()).format(now.time)[0].toUpperCase(), SimpleDateFormat(Constants.engDateFormat, Locale.getDefault()).format(now.time).substring(1))
-                if (it) {
-                    dateStringValue = String.format("%s%s", SimpleDateFormat(Constants.itDateFormat, Locale.getDefault()).format(now.time)[0].toUpperCase(), SimpleDateFormat(Constants.itDateFormat, Locale.getDefault()).format(now.time).substring(1))
-                }
-                date_format_label.text = dateStringValue
+                date_format_label.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
             }
         })
 
@@ -159,26 +162,51 @@ class CalendarSettingsFragment : Fragment() {
         }
 
         action_filter_calendar.setOnClickListener {
-            val calendarSelectorList: List<CalendarSelector> = CalendarUtil.getCalendarList(requireContext()).map { CalendarSelector(it.id.toInt(), it.displayName, it.accountName) }
-            var calFiltered = Preferences.calendarFilter
+            val calendarSelectorList: List<CalendarSelector> = CalendarHelper.getCalendarList(requireContext()).map {
+                CalendarSelector(
+                    it.id,
+                    it.displayName,
+                    it.accountName
+                )
+            }.sortedWith(Comparator { cal1, cal2 ->
+                when {
+                    cal1.accountName != cal2.accountName -> {
+                        cal1.accountName.compareTo(cal2.accountName)
+                    }
+                    cal1.accountName == cal1.name -> {
+                        -1
+                    }
+                    cal2.accountName == cal2.accountName -> {
+                        1
+                    }
+                    else -> {
+                        cal1.name.compareTo(cal2.name)
+                    }
+                }
+            })
 
             if (calendarSelectorList.isNotEmpty()) {
-                val calNames = calendarSelectorList.map { if (it.name == it.account_name) String.format("%s: %s", getString(R.string.main_calendar), it.name) else it.name }.toTypedArray()
-                val calSelected = calendarSelectorList.map { !calFiltered.contains(" " + it.id.toString() + ",") }.toBooleanArray()
+                val filteredCalendarIds = CalendarHelper.getFilteredCalendarIdList()
+                val visibleCalendarIds = calendarSelectorList.map { it.id }.filter { id: Long -> !filteredCalendarIds.contains(id) }
 
-                AlertDialog.Builder(requireContext()).setTitle(getString(R.string.settings_filter_calendar_subtitle))
-                    .setMultiChoiceItems(calNames, calSelected) { _, item, isChecked ->
-                        val dialogItem: String = String.format(" %s%s", calendarSelectorList.get(item).id, ",")
-                        calFiltered = calFiltered.replace(dialogItem, "");
-                        if (!isChecked) {
-                            calFiltered += dialogItem
-                        }
+                val dialog = BottomSheetMenu<Long>(requireContext(), header = getString(R.string.settings_filter_calendar_subtitle), isMultiSelection = true)
+                    .setSelectedValues(visibleCalendarIds)
+
+                calendarSelectorList.indices.forEach { index ->
+                    if (index == 0 || calendarSelectorList[index].accountName != calendarSelectorList[index - 1].accountName) {
+                        dialog.addItem(calendarSelectorList[index].accountName)
                     }
-                    .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int ->
-                        Preferences.calendarFilter = calFiltered
-                    }
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show()
+                    
+                    dialog.addItem(
+                        if (calendarSelectorList[index].name == calendarSelectorList[index].accountName) getString(R.string.account_events) else calendarSelectorList[index].name,
+                        calendarSelectorList[index].id
+                    )
+                }
+
+                dialog.addOnMultipleSelectItemListener { values ->
+                    CalendarHelper.filterCalendar(calendarSelectorList.map { it.id }.filter { !values.contains(it) })
+                    checkReadEventsPermission()
+                }.show()
             } else {
                 requireActivity().toast(getString(R.string.calendar_settings_list_error))
             }
@@ -186,7 +214,7 @@ class CalendarSettingsFragment : Fragment() {
 
         action_show_all_day.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext()).selectResource(Preferences.calendarAllDay)
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_all_day_title)).setSelectedValue(Preferences.calendarAllDay)
                     .addItem(getString(R.string.settings_all_day_subtitle_visible), true)
                     .addItem(getString(R.string.settings_all_day_subtitle_gone), false)
                     .addOnSelectItemListener { value ->
@@ -197,7 +225,7 @@ class CalendarSettingsFragment : Fragment() {
 
         action_show_declined_events.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext()).selectResource(Preferences.showDeclinedEvents)
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_declined_events_title)).setSelectedValue(Preferences.showDeclinedEvents)
                     .addItem(getString(R.string.settings_visible), true)
                     .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
@@ -208,7 +236,7 @@ class CalendarSettingsFragment : Fragment() {
 
         action_show_multiple_events.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext()).selectResource(Preferences.showNextEvent)
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_multiple_events_title)).setSelectedValue(Preferences.showNextEvent)
                     .addItem(getString(R.string.settings_visible), true)
                     .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
@@ -219,7 +247,7 @@ class CalendarSettingsFragment : Fragment() {
 
         action_show_diff_time.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext()).selectResource(Preferences.showDiffTime)
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_diff_time_title)).setSelectedValue(Preferences.showDiffTime)
                     .addItem(getString(R.string.settings_visible), true)
                     .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
@@ -230,9 +258,9 @@ class CalendarSettingsFragment : Fragment() {
 
         action_second_row_info.setOnClickListener {
             if (Preferences.showEvents) {
-                val dialog = BottomSheetMenu<Int>(requireContext()).selectResource(Preferences.secondRowInformation)
+                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_second_row_info_title)).setSelectedValue(Preferences.secondRowInformation)
                 (0 .. 1).forEach {
-                    dialog.addItem(getString(Util.getSecondRowInfoString(it)), it)
+                    dialog.addItem(getString(SettingsStringHelper.getSecondRowInfoString(it)), it)
                 }
                 dialog.addOnSelectItemListener { value ->
                         Preferences.secondRowInformation = value
@@ -242,13 +270,34 @@ class CalendarSettingsFragment : Fragment() {
 
         action_show_until.setOnClickListener {
             if (Preferences.showEvents) {
-                val dialog = BottomSheetMenu<Int>(requireContext()).selectResource(Preferences.showUntil)
+                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_until_title)).setSelectedValue(Preferences.showUntil)
                 intArrayOf(6,7,0,1,2,3,4,5).forEach {
-                    dialog.addItem(getString(Util.getShowUntilString(it)), it)
+                    dialog.addItem(getString(SettingsStringHelper.getShowUntilString(it)), it)
                 }
                 dialog.addOnSelectItemListener { value ->
                         Preferences.showUntil = value
                     }.show()
+            }
+        }
+
+        action_date_format.setOnClickListener {
+            if (Preferences.showEvents) {
+                val now = Calendar.getInstance()
+                val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
+
+                dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
+                if (Preferences.dateFormat != "") {
+                    dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
+                }
+                dialog.addItem(getString(R.string.custom_date_format), "-")
+
+                dialog.addOnSelectItemListener { value ->
+                        if (value == "-") {
+                            startActivity(Intent(requireActivity(), CustomDateActivity::class.java))
+                        } else {
+                            Preferences.dateFormat = value
+                        }
+                }.show()
             }
         }
 
@@ -262,10 +311,10 @@ class CalendarSettingsFragment : Fragment() {
     }
 
     private fun checkReadEventsPermission(showEvents: Boolean = Preferences.showEvents) {
-        if (requireActivity().checkCallingOrSelfPermission(Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
             show_events_label.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
             read_calendar_permission_alert_icon.isVisible = false
-            CalendarUtil.updateEventList(requireContext())
+            CalendarHelper.updateEventList(requireContext())
         } else {
             show_events_label.text = if (showEvents) getString(R.string.description_permission_calendar) else getString(R.string.show_events_not_visible)
             read_calendar_permission_alert_icon.isVisible = showEvents

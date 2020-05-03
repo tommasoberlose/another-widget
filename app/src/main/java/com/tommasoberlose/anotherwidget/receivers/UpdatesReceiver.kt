@@ -5,12 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.app.AlarmManager
 import android.app.PendingIntent
-import com.tommasoberlose.anotherwidget.components.events.Event
+import android.util.Log
+import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
-import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.utils.CalendarUtil
-import com.tommasoberlose.anotherwidget.utils.Util
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import org.joda.time.Period
+import java.text.DateFormat
 import java.util.*
 
 
@@ -20,11 +21,11 @@ class UpdatesReceiver : BroadcastReceiver() {
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED,
-            Actions.ACTION_CALENDAR_UPDATE -> CalendarUtil.updateEventList(context)
+            Actions.ACTION_CALENDAR_UPDATE -> CalendarHelper.updateEventList(context)
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",
             Intent.ACTION_DATE_CHANGED,
-            AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> Util.updateWidget(context)
+            AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> MainWidget.updateWidget(context)
         }
     }
 
@@ -32,8 +33,9 @@ class UpdatesReceiver : BroadcastReceiver() {
         fun setUpdates(context: Context) {
             removeUpdates(context)
 
+            val eventRepository = EventRepository(context)
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                CalendarUtil.getEvents().forEach { event ->
+                eventRepository.getEvents().forEach { event ->
                     val hoursDiff = Period(Calendar.getInstance().timeInMillis, event.startDate).hours
 
                     // Update the widget every hour till the event

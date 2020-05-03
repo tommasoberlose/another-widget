@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.tommasoberlose.anotherwidget.global.Actions
-import com.tommasoberlose.anotherwidget.utils.Util
-import com.tommasoberlose.anotherwidget.global.Constants
+import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 
 
 class WidgetClickListenerReceiver : BroadcastReceiver() {
@@ -15,10 +14,10 @@ class WidgetClickListenerReceiver : BroadcastReceiver() {
         if (intent.action == Actions.ACTION_OPEN_WEATHER_INTENT) {
             context.sendBroadcast(Intent(Actions.ACTION_WEATHER_UPDATE))
             try {
-                context.startActivity(Util.getWeatherIntent(context))
+                context.startActivity(IntentHelper.getWeatherIntent(context))
             } catch (e: Exception) {
                 try {
-                    context.applicationContext.startActivity(Util.getWeatherIntent(context.applicationContext))
+                    context.applicationContext.startActivity(IntentHelper.getWeatherIntent(context.applicationContext))
                 } catch (e: Exception) {
                     val uri = Uri.parse("http://www.google.com/#q=weather")
                     val i = Intent(Intent.ACTION_VIEW, uri)

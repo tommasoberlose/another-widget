@@ -25,13 +25,26 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp">
-                <TextView
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_splash_logo"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="3dp"
+                    android:id="@+id/logo"/>
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:text="@string/app_name"
-                    android:gravity="center"
-                    style="@style/AnotherWidget.Main.Title"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/app_name"
+                        android:gravity="center"
+                        android:layout_marginBottom="1dp"
+                        style="@style/AnotherWidget.Main.Title"/>
+                </LinearLayout>
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView
@@ -40,8 +53,6 @@
                 android:id="@+id/preview"
                 android:animateLayoutChanges="true"
                 app:cardBackgroundColor="@color/colorPrimary"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
                 app:cardCornerRadius="9dp"
@@ -61,6 +72,7 @@
                         android:layout_gravity="center"
                         android:orientation="vertical"
                         android:id="@+id/widget"
+                        android:alpha="0"
                         android:gravity="center">
                         <TextClock
                             android:id="@+id/clock"
@@ -79,6 +91,13 @@
                             android:id="@+id/widget_bitmap"
                             tools:ignore="ContentDescription" />
                     </LinearLayout>
+                    <ProgressBar
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="true"
+                        android:indeterminateTint="@android:color/white"
+                        android:id="@+id/widget_loader" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -126,14 +145,19 @@
             android:visibility="gone"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardCornerRadius="0dp"
+            android:id="@+id/action_add_widget"
+            android:clickable="true"
+            android:focusable="true"
             app:cardElevation="4dp">
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="72dp"
                 android:text="@string/add_widget"
+                android:layout_marginTop="-8dp"
+                android:clickable="false"
+                android:focusable="false"
                 android:gravity="center"
                 android:textColor="@android:color/white"
-                android:id="@+id/action_add_widget"
                 app:cornerRadius="0dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"/>
         </com.google.android.material.card.MaterialCardView>

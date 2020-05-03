@@ -137,7 +137,7 @@
     <string name="custom_font_subtitle_1">Product Sans</string>
     <string name="settings_custom_font_title">Font Widget</string>
     <string name="action_go_to_next_event">Mostra Evento\nSuccessivo</string>
-    <string name="settings_show_multiple_events_title">Contatore Eventi Multipli</string>
+    <string name="settings_show_multiple_events_title">Scorrimento Eventi Multipli</string>
     <string name="support_main_title">Supporta lo Sviluppatore</string>
     <string name="support_translations_title">Aiuta con le Traduzioni</string>
     <string name="support_translations_subtitle">Apri una pull request su GitHub</string>
@@ -169,4 +169,10 @@
     <string name="search">Cerca</string>
     <string name="settings_title_show_wallpaper">Mostra wallpaper</string>
     <string name="support_refresh_widget_subtitle">Ricarica tutti i servizi</string>
+    <string name="account_events">Eventi account</string>
+    <string name="clock_warning">A causa di limitazioni tecnologiche l\'orologio non rispetterà l\'ombra del test e il font custom selezionati nella sezione tipografia.</string>
+    <string name="weather_warning">Il meteo di Google Awareness è stato deprecato. È ora necessaria una chiave API di OpenWeather per visualizzare il meteo.</string>
+    <string name="custom_date_format">Formato data personalizzato</string>
+    <string name="settings_app_version_title">Versione app</string>
+    <string name="support_dev_subtitle">Grazie per supportare il progetto!</string>
 </resources>

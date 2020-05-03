@@ -33,6 +33,7 @@
                     android:padding="10dp"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
                     android:id="@+id/action_back"
                     android:tint="@color/colorPrimaryText"
                     android:src="@drawable/round_arrow_back" />
@@ -69,8 +70,10 @@
                     android:paddingRight="16dp"
                     android:inputType="textCapWords"
                     android:id="@+id/location"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|start"
                     android:hint="@string/search"
+                    android:textAlignment="viewStart"
+                    android:textDirection="locale"
                     android:text="@={viewModel.locationInput}"
                     android:autofillHints="" />
             </com.google.android.material.card.MaterialCardView>

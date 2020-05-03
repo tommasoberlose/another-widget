@@ -27,7 +27,6 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.tommasoberlose.anotherwidget.components.events.CustomLocationEvent
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomLocationBinding
 import com.tommasoberlose.anotherwidget.global.Preferences

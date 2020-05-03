@@ -38,6 +38,7 @@
                         android:padding="10dp"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
                         android:id="@+id/action_back"
                         android:tint="@color/colorPrimaryText"
                         android:src="@drawable/round_arrow_back" />
@@ -57,7 +58,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textSize="16sp"
                     android:gravity="center"
-                    android:text="This is a single developer project,\nso thank you for the support!" />
+                    android:text="@string/support_dev_subtitle" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

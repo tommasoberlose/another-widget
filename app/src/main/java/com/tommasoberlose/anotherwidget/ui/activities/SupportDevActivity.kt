@@ -5,6 +5,7 @@ import android.content.Intent
 import android.location.Address
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -26,7 +27,6 @@ import net.idik.lib.slimadapter.SlimAdapter
 
 class SupportDevActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
-    private val BILLING_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAox5CcxuoLJ6CmNS7s6lVQzJ253njKKGF8MoQ/gQ5gEw2Fr03fBvtHpiVMpnjhNLw5NMeIpzRvkVqeQ7BfkC7c0BLCJUqf/fFA11ArQe8na6QKt5O4d+v4sbHtP7mm3GQNPOBaqRzcpFZaiAbfk6mnalo+tzM47GXrQFt5bNSrMctCs7bbChqJfH2cyMW0F8DHWEEeO5xElBmH3lh4FVpwIUTPYJIV3n0yhE3qqRA0WXkDej66g/uAt/rebmMZLmwNwIive5cObU4o41YyKRv2wSAicrv3W40LftzXAOOordIbmzDFN8ksh3VrnESqwCDGG97nZVbPG/+3LD0xHWiRwIDAQAB"
     private lateinit var viewModel: SupportDevViewModel
     private lateinit var adapter: SlimAdapter
 
@@ -35,7 +35,7 @@ class SupportDevActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
         viewModel = ViewModelProvider(this).get(SupportDevViewModel::class.java)
         viewModel.billingClient = BillingClient.newBuilder(this).enablePendingPurchases().setListener(this).build()
-        val binding = DataBindingUtil.setContentView<ActivitySupportDevBinding>(this, R.layout.activity_support_dev)
+        DataBindingUtil.setContentView<ActivitySupportDevBinding>(this, R.layout.activity_support_dev)
 
 
         list_view.setHasFixedSize(true)

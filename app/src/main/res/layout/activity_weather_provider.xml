@@ -25,7 +25,7 @@
                 android:padding="10dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:id="@+id/action_back"
                 android:tint="@color/colorPrimaryText"
                 android:src="@drawable/round_arrow_back" />
@@ -42,7 +42,7 @@
                 android:text="@string/action_save"
                 android:gravity="center"
                 android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:padding="16dp"
                 android:textColor="@color/colorAccent"
                 android:id="@+id/action_save"
@@ -74,17 +74,21 @@
                     android:textStyle="bold"
                     android:nextFocusUp="@id/api_key"
                     android:nextFocusLeft="@id/api_key"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|start"
                     android:textColor="@color/colorPrimaryText"
                     app:boxBackgroundColor="@color/colorPrimaryDark"
                     app:boxStrokeColor="@color/colorAccent"
                     app:hintTextColor="@color/colorAccent"
                     android:hint="@string/api_key_hint"
+                    android:textAlignment="viewStart"
+                    android:textDirection="locale"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:textAlignment="viewStart"
+                        android:textDirection="locale"
+                        android:gravity="center_vertical|start" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -99,6 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Settings.Title"
+                android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="@string/api_key_title_1"/>
             <TextView
                 android:layout_width="match_parent"
@@ -106,12 +112,15 @@
                 style="@style/AnotherWidget.Main.Subtitle"
                 android:textSize="16sp"
                 android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="@string/api_key_subtitle_1"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Settings.Title"
                 android:layout_marginTop="12dp"
+                android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="@string/api_key_title_2"/>
             <TextView
                 android:layout_width="match_parent"
@@ -119,12 +128,15 @@
                 style="@style/AnotherWidget.Main.Subtitle"
                 android:textSize="16sp"
                 android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="@string/api_key_subtitle_2"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Settings.Title"
                 android:layout_marginTop="12dp"
+                android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="@string/api_key_title_3"/>
             <TextView
                 android:layout_width="match_parent"
@@ -132,6 +144,7 @@
                 style="@style/AnotherWidget.Main.Subtitle"
                 android:textSize="16sp"
                 android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="@string/api_key_subtitle_3"/>
             <TextView
                 android:layout_width="match_parent"
@@ -139,6 +152,7 @@
                 style="@style/AnotherWidget.Main.Subtitle"
                 android:textSize="16sp"
                 android:gravity="start"
+                android:textAlignment="viewStart"
                 android:id="@+id/last_info"/>
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
@@ -148,6 +162,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="start|center_vertical"
+                android:textAlignment="viewStart"
                 android:layout_marginStart="-8dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textAllCaps="false"

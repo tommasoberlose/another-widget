@@ -14,23 +14,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.tommasoberlose.anotherwidget.BuildConfig
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentAdvancedSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
-import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.CalendarUtil
-import com.tommasoberlose.anotherwidget.utils.Util
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.openURI
 import kotlinx.android.synthetic.main.fragment_advanced_settings.*
 import kotlinx.coroutines.delay
@@ -57,7 +55,7 @@ class AdvancedSettingsFragment : Fragment() {
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
         val binding = DataBindingUtil.inflate<FragmentAdvancedSettingsBinding>(inflater, R.layout.fragment_advanced_settings, container, false)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -69,10 +67,11 @@ class AdvancedSettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupListener()
+
+        app_version.text = "v%s".format(BuildConfig.VERSION_NAME)
     }
 
     private fun subscribeUi(
-        binding: FragmentAdvancedSettingsBinding,
         viewModel: MainViewModel
     ) {
         viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
@@ -94,8 +93,8 @@ class AdvancedSettingsFragment : Fragment() {
     private fun setupListener() {
         action_change_theme.setOnClickListener {
             maintainScrollPosition {
-                BottomSheetMenu<Int>(requireContext())
-                    .selectResource(Preferences.darkThemePreference)
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_theme_title))
+                    .setSelectedValue(Preferences.darkThemePreference)
                     .addItem(
                         getString(R.string.settings_subtitle_dark_theme_light),
                         AppCompatDelegate.MODE_NIGHT_NO
@@ -116,11 +115,23 @@ class AdvancedSettingsFragment : Fragment() {
 
         action_show_wallpaper.setOnClickListener {
             maintainScrollPosition {
-                if (Preferences.showWallpaper) {
-                    Preferences.showWallpaper = false
-                } else {
-                    requirePermission()
-                }
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_title_show_wallpaper))
+                    .setSelectedValue(Preferences.showWallpaper)
+                    .addItem(
+                        getString(R.string.settings_visible),
+                        true
+                    )
+                    .addItem(
+                        getString(R.string.settings_not_visible),
+                        false
+                    )
+                    .addOnSelectItemListener { value ->
+                        if (value) {
+                            requirePermission()
+                        } else {
+                            Preferences.showWallpaper = value
+                        }
+                    }.show()
             }
         }
 
@@ -137,8 +148,8 @@ class AdvancedSettingsFragment : Fragment() {
         }
 
         action_refresh_widget.setOnClickListener {
-            Util.updateWidget(requireContext())
-            CalendarUtil.updateEventList(requireContext())
+            MainWidget.updateWidget(requireContext())
+            CalendarHelper.updateEventList(requireContext())
         }
     }
 

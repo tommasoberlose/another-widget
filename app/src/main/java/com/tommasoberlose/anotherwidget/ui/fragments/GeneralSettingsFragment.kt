@@ -13,20 +13,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentGeneralSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
+import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.Util
-import com.tommasoberlose.anotherwidget.utils.toPixel
-import com.tommasoberlose.anotherwidget.utils.toast
-import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.fragment_general_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 class GeneralSettingsFragment : Fragment() {
@@ -50,7 +47,7 @@ class GeneralSettingsFragment : Fragment() {
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
         val binding = DataBindingUtil.inflate<FragmentGeneralSettingsBinding>(inflater, R.layout.fragment_general_settings, container, false)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -66,7 +63,6 @@ class GeneralSettingsFragment : Fragment() {
 
 
     private fun subscribeUi(
-        binding: FragmentGeneralSettingsBinding,
         viewModel: MainViewModel
     ) {
 
@@ -95,13 +91,13 @@ class GeneralSettingsFragment : Fragment() {
 
         viewModel.textShadow.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                text_shadow_label.text = getString(Util.getTextShadowString(it))
+                text_shadow_label.text = getString(SettingsStringHelper.getTextShadowString(it))
             }
         })
 
         viewModel.customFont.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                custom_font_label.text = getString(Util.getCustomFontLabel(it))
+                custom_font_label.text = getString(SettingsStringHelper.getCustomFontLabel(it))
             }
         })
     }
@@ -117,7 +113,7 @@ class GeneralSettingsFragment : Fragment() {
 
     private fun setupListener() {
         action_main_text_size.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(requireContext()).selectResource(Preferences.textMainSize)
+            val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_main_text_size)).setSelectedValue(Preferences.textMainSize)
             (32 downTo 20).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
@@ -127,7 +123,7 @@ class GeneralSettingsFragment : Fragment() {
         }
 
         action_second_text_size.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(requireContext()).selectResource(Preferences.textSecondSize)
+            val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_second_text_size)).setSelectedValue(Preferences.textSecondSize)
             (24 downTo 12).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
@@ -143,21 +139,21 @@ class GeneralSettingsFragment : Fragment() {
                 Preferences.textGlobalColor = "#FFFFFF"
                 Color.parseColor(Preferences.textGlobalColor)
             }
-            ColorSheet()
-                .cornerRadius(16.toPixel(requireContext()))
-                .colorPicker(
+            BottomSheetColorPicker(requireContext(),
                 colors = requireActivity().resources.getIntArray(R.array.grey),
-                selectedColor = textColor,
-                listener = { color ->
-                    Preferences.textGlobalColor = "#" + Integer.toHexString(color)
-                })
-                .show(requireActivity().supportFragmentManager)
+                header = getString(R.string.settings_font_color_title),
+                selected = textColor,
+                onColorSelected = { color: Int ->
+                    val colorString = Integer.toHexString(color)
+                    Preferences.textGlobalColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                }
+            ).show()
         }
 
         action_text_shadow.setOnClickListener {
-            val dialog = BottomSheetMenu<Int>(requireContext()).selectResource(Preferences.textShadow)
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.title_text_shadow)).setSelectedValue(Preferences.textShadow)
             (2 downTo 0).forEach {
-                dialog.addItem(getString(Util.getTextShadowString(it)), it)
+                dialog.addItem(getString(SettingsStringHelper.getTextShadowString(it)), it)
             }
             dialog.addOnSelectItemListener { value ->
                 Preferences.textShadow = value
@@ -165,9 +161,9 @@ class GeneralSettingsFragment : Fragment() {
         }
 
         action_custom_font.setOnClickListener {
-            val dialog = BottomSheetMenu<Int>(requireContext()).selectResource(Preferences.customFont)
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_custom_font_title)).setSelectedValue(Preferences.customFont)
             (0..1).forEach {
-                dialog.addItem(getString(Util.getCustomFontLabel(it)), it)
+                dialog.addItem(getString(SettingsStringHelper.getCustomFontLabel(it)), it)
             }
             dialog.addOnSelectItemListener { value ->
                 Preferences.customFont = value
