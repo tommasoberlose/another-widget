@@ -48,7 +48,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 Ore</string>
     <string name="settings_custom_location_title">Località</string>
     <string name="custom_location_gps">Usa la geolocalizzazione</string>
-    <string name="action_refresh_widget">Aggiorna Widget</string>
+    <string name="action_refresh_widget">Riavvia Widget</string>
     <string name="show_events_visible">Eventi visibili</string>
     <string name="show_events_not_visible">Eventi non visibili</string>
     <string name="show_weather_visible">Meteo visibile</string>
@@ -168,7 +168,7 @@
     <string name="settings_subtitle_dark_theme_default">Default</string>
     <string name="search">Cerca</string>
     <string name="settings_title_show_wallpaper">Mostra wallpaper</string>
-    <string name="support_refresh_widget_subtitle">Ricarica tutti i servizi</string>
+    <string name="support_refresh_widget_subtitle">Forza il riavvio di tutti i servizi</string>
     <string name="account_events">Eventi account</string>
     <string name="clock_warning">A causa di limitazioni tecnologiche l\'orologio non rispetterà l\'ombra del test e il font custom selezionati nella sezione tipografia.</string>
     <string name="weather_warning">Il meteo di Google Awareness è stato deprecato. È ora necessaria una chiave API di OpenWeather per visualizzare il meteo.</string>

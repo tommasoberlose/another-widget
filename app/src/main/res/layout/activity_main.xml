@@ -31,8 +31,8 @@
                     android:src="@drawable/ic_splash_logo"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="3dp"
-                    android:layout_alignParentLeft="true"
                     android:visibility="gone"
+                    android:layout_alignParentLeft="true"
                     android:id="@+id/logo"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -47,21 +47,6 @@
                         android:layout_marginBottom="1dp"
                         style="@style/AnotherWidget.Main.Title"/>
                 </LinearLayout>
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="2dp"
-                    android:rotation="90"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:id="@+id/action_more"
-                    android:src="@drawable/round_more_vert_white_36"
-                    app:tint="@color/colorPrimaryText" />
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView

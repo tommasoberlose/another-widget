@@ -49,7 +49,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
     <string name="settings_custom_location_title">Location</string>
     <string name="custom_location_gps">Use geolocation</string>
-    <string name="action_refresh_widget">Refresh widget</string>
+    <string name="action_refresh_widget">Hard refresh</string>
     <string name="show_events_visible">Events are visible</string>
     <string name="show_events_not_visible">Events are not visible</string>
     <string name="show_weather_visible">Weather info is visible</string>
@@ -173,7 +173,7 @@
     <string name="settings_subtitle_dark_theme_default">Default</string>
     <string name="search">Search</string>
     <string name="settings_title_show_wallpaper">Show wallpaper</string>
-    <string name="support_refresh_widget_subtitle">Restart the widget service</string>
+    <string name="support_refresh_widget_subtitle">Force the restart of the widget service</string>
     <string name="account_events">Account events</string>
     <string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the typography section.</string>
     <string name="weather_warning">Google Awareness weather has been deprecated. It\'s now required an OpenWeather API key to show the weather in the widget.</string>
