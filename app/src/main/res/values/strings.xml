@@ -182,4 +182,5 @@
     <string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
     <string name="settings_feedback_subtitle">This is an open-source project, feel free to help.</string>
     <string name="settings_feedback_title">Feedback and feature requests</string>
+    <string name="title_tasksintegration">Tasks Integration</string>
 </resources>

@@ -52,6 +52,7 @@ android {
 
     viewBinding.enabled = true
 
+    dynamicFeatures = [":tasksintegration"]
 }
 
 dependencies {

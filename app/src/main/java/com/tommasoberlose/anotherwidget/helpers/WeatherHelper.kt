@@ -1,5 +1,6 @@
 package com.tommasoberlose.anotherwidget.helpers
 
+import android.Manifest
 import android.content.Context
 import com.google.android.gms.location.LocationServices
 import com.kwabenaberko.openweathermaplib.constants.Units
@@ -10,6 +11,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 
 
 /**
@@ -22,12 +24,14 @@ object WeatherHelper {
         val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
-        } else {
+        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             LocationServices.getFusedLocationProviderClient(context).lastLocation.addOnSuccessListener {
-                Preferences.customLocationLat = it.latitude.toString()
-                Preferences.customLocationLon = it.longitude.toString()
+                if (it != null) {
+                    Preferences.customLocationLat = it.latitude.toString()
+                    Preferences.customLocationLon = it.longitude.toString()
 
-                networkApi.updateWeather()
+                    networkApi.updateWeather()
+                }
             }
         }
     }
