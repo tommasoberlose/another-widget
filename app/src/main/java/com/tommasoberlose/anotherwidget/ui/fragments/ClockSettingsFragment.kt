@@ -83,6 +83,17 @@ class ClockSettingsFragment : Fragment() {
             }
         })
 
+        viewModel.clockBottomMargin.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                clock_bottom_margin_label.text = when (it) {
+                    Constants.ClockBottomMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
+                    Constants.ClockBottomMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
+                    Constants.ClockBottomMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
+                    else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
+                }
+            }
+        })
+
         viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_next_alarm_label.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
@@ -114,6 +125,17 @@ class ClockSettingsFragment : Fragment() {
             dialog.addOnSelectItemListener { value ->
                 Preferences.clockTextSize = value
             }.show()
+        }
+
+        action_clock_bottom_margin_size.setOnClickListener {
+            BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.clockBottomMargin)
+                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_none), Constants.ClockBottomMargin.NONE.value)
+                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_small), Constants.ClockBottomMargin.SMALL.value)
+                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_medium), Constants.ClockBottomMargin.MEDIUM.value)
+                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_large), Constants.ClockBottomMargin.LARGE.value)
+                .addOnSelectItemListener { value ->
+                    Preferences.clockBottomMargin = value
+                }.show()
         }
 
         action_clock_app.setOnClickListener {

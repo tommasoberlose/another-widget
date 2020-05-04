@@ -45,6 +45,7 @@ object Preferences : KotprefModel() {
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
     var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)
     var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 90f)
+    var clockBottomMargin by intPref(default = Constants.ClockBottomMargin.MEDIUM.value)
     var showClock by booleanPref(key = "PREF_SHOW_CLOCK", default = false)
     var clockAppName by stringPref(key = "PREF_CLOCK_APP_NAME", default = "")
     var clockAppPackage by stringPref(key = "PREF_CLOCK_APP_PACKAGE", default = "")

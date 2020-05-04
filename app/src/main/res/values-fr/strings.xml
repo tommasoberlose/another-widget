@@ -171,4 +171,9 @@
     <string name="support_dev_subtitle">Ceci est un projet de développeur unique,\ndonc merci pour le soutien!</string>
     <string name="settings_feedback_subtitle">Ceci est un projet open-source, n\'hésitez pas à aider.</string>
     <string name="settings_feedback_title">Commentaires et suggestions</string>
+    <string name="settings_clock_bottom_margin_title">Marge inférieure de l\'horloge</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Aucun</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Petit</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Moyen</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Grand</string>
 </resources>

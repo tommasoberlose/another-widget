@@ -208,12 +208,21 @@ class MainWidget : AppWidgetProvider() {
         private fun updateClockView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
             if (!Preferences.showClock) {
                 views.setViewVisibility(R.id.time, View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_none, View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_small, View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
             } else {
                 views.setTextColor(R.id.time, ColorHelper.getFontColor())
                 views.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(context))
                 val clockPIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getClockIntent(context), 0)
                 views.setOnClickPendingIntent(R.id.time, clockPIntent)
                 views.setViewVisibility(R.id.time, View.VISIBLE)
+
+                views.setViewVisibility(R.id.clock_bottom_margin_none, if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value)  View.VISIBLE else View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_small, if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value)  View.VISIBLE else View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_medium, if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value)  View.VISIBLE else View.GONE)
+                views.setViewVisibility(R.id.clock_bottom_margin_large,  if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value)  View.VISIBLE else View.GONE)
             }
 
             return views

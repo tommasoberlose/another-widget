@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Actions
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
@@ -32,6 +33,7 @@ import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.the_widget_sans.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -69,10 +71,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }.attach()
 
         // Init clock
-        clock.setTextColor(ColorHelper.getFontColor())
-        clock.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(this@MainActivity))
-        clock.format12Hour = "hh:mm"
-        clock.isVisible = Preferences.showClock
+        time.setTextColor(ColorHelper.getFontColor())
+        time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(this@MainActivity))
+        time.isVisible = Preferences.showClock
 
         preview.layoutParams = preview.layoutParams.apply {
             height = 160.toPixel(this@MainActivity) + if (Preferences.showClock) 100.toPixel(this@MainActivity) else 0
@@ -99,18 +100,24 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             val bitmap = BitmapHelper.getBitmapFromView(generatedView, if (preview.width > 0) preview.width else generatedView.measuredWidth, generatedView.measuredHeight)
             withContext(Dispatchers.Main) {
                 // Clock
-                clock.setTextColor(ColorHelper.getFontColor())
-                clock.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(this@MainActivity))
-                clock.format12Hour = "hh:mm"
+                time.setTextColor(ColorHelper.getFontColor())
+                time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(this@MainActivity))
+                time.format12Hour = "hh:mm"
 
-                if ((Preferences.showClock && !clock.isVisible) || (!Preferences.showClock && clock.isVisible)) {
+                // Clock bottom margin
+                clock_bottom_margin_none.isVisible = Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
+                clock_bottom_margin_small.isVisible = Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
+                clock_bottom_margin_medium.isVisible = Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
+                clock_bottom_margin_large.isVisible = Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
+
+                if ((Preferences.showClock && !time.isVisible) || (!Preferences.showClock && time.isVisible)) {
                     if (Preferences.showClock) {
-                        clock.layoutParams = clock.layoutParams.apply {
+                        time.layoutParams = time.layoutParams.apply {
                             height = RelativeLayout.LayoutParams.WRAP_CONTENT
                         }
-                        clock.measure(0, 0)
+                        time.measure(0, 0)
                     }
-                    val initialHeight = clock.measuredHeight
+                    val initialHeight = time.measuredHeight
                     ValueAnimator.ofFloat(
                         if (Preferences.showClock) 0f else 1f,
                         if (Preferences.showClock) 1f else 0f
@@ -118,19 +125,19 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                         duration = 500L
                         addUpdateListener {
                             val animatedValue = animatedValue as Float
-                            clock.layoutParams = clock.layoutParams.apply {
+                            time.layoutParams = time.layoutParams.apply {
                                 height = (initialHeight * animatedValue).toInt()
                             }
                         }
                         addListener(
                             onStart = {
                                 if (Preferences.showClock) {
-                                    clock.isVisible = true
+                                    time.isVisible = true
                                 }
                             },
                             onEnd = {
                                 if (!Preferences.showClock) {
-                                    clock.isVisible = false
+                                    time.isVisible = false
                                 }
                             }
                         )
@@ -149,13 +156,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                         }
                     }.start()
                 } else {
-                    clock.layoutParams = clock.layoutParams.apply {
+                    time.layoutParams = time.layoutParams.apply {
                         height = RelativeLayout.LayoutParams.WRAP_CONTENT
                     }
-                    clock.measure(0, 0)
+                    time.measure(0, 0)
                 }
 
-                widget_bitmap.setImageBitmap(bitmap)
+                bitmap_container.setImageBitmap(bitmap)
                 widget_loader.animate().scaleX(0f).scaleY(0f).start()
                 widget.animate().alpha(1f).start()
             }

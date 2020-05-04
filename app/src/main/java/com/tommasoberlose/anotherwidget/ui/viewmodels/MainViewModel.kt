@@ -33,6 +33,7 @@ class MainViewModel : ViewModel() {
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
     val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
     val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
+    val clockBottomMargin = Preferences.asLiveData(Preferences::clockBottomMargin)
 
     val showBigClockWarning = Preferences.asLiveData(Preferences::showBigClockWarning)
 
