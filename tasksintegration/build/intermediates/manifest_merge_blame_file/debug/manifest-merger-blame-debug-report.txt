@@ -4,7 +4,7 @@
 4    featureSplit="tasksintegration"
 5    package="com.tommasoberlose.anotherwidget"
 6    android:versionCode="59"
-7    android:versionName="2.0.4" >
+7    android:versionName="2.0.5" >
 8
 9    <uses-sdk
 10        android:minSdkVersion="23"

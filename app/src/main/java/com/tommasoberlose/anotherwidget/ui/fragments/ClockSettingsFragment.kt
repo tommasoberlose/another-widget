@@ -116,6 +116,14 @@ class ClockSettingsFragment : Fragment() {
             }.show()
         }
 
+        action_clock_app.setOnClickListener {
+            if (Preferences.showClock) {
+                startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java),
+                    RequestCode.CLOCK_APP_REQUEST_CODE.code
+                )
+            }
+        }
+
         action_show_next_alarm.setOnClickListener {
             BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.showNextAlarm)
                 .addItem(getString(R.string.settings_visible), true)
@@ -123,14 +131,6 @@ class ClockSettingsFragment : Fragment() {
                 .addOnSelectItemListener { value ->
                     Preferences.showNextAlarm = value
                 }.show()
-        }
-
-        action_clock_app.setOnClickListener {
-            if (Preferences.showClock) {
-                startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java),
-                    RequestCode.CLOCK_APP_REQUEST_CODE.code
-                )
-            }
         }
     }
 
