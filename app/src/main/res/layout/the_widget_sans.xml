@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:id="@+id/main_layout">
     <TextClock
         android:id="@+id/time"

@@ -30,7 +30,6 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: ChooseApplicationViewModel
-    private val pm by lazy { packageManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,11 +62,11 @@ class ChooseApplicationActivity : AppCompatActivity() {
             }
             .register<ResolveInfo>(R.layout.application_info_layout) { item, injector ->
                 injector
-                    .text(R.id.text, item.loadLabel(pm))
+                    .text(R.id.text, item.loadLabel(viewModel.pm))
                     .with<ImageView>(R.id.icon) {
                         Glide
                             .with(this)
-                            .load(item.loadIcon(pm))
+                            .load(item.loadIcon(viewModel.pm))
                             .centerCrop()
                             .into(it)
                     }
@@ -88,49 +87,47 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     private fun subscribeUi(binding: ActivityChooseApplicationBinding, viewModel: ChooseApplicationViewModel) {
         binding.viewModel = viewModel
+
         viewModel.appList.observe(this, Observer {
-            adapter.updateData(listOf("Default") + it)
+            updateList(list = it)
             loader.visibility = View.INVISIBLE
         })
 
         viewModel.searchInput.observe(this, Observer { search ->
-            loader.visibility = View.VISIBLE
-            filterJob?.cancel()
-            filterJob = lifecycleScope.launch(Dispatchers.IO) {
+            updateList(search = search)
+        })
+    }
+
+    private fun updateList(list: List<ResolveInfo>? = viewModel.appList.value, search: String? = viewModel.searchInput.value) {
+        loader.visibility = View.VISIBLE
+        filterJob?.cancel()
+        filterJob = lifecycleScope.launch(Dispatchers.IO) {
+            if (list != null && list.isNotEmpty()) {
                 delay(200)
-                val list = if (search == null || search == "") {
-                    viewModel.appList.value!!
+                val filteredList: List<ResolveInfo> = if (search == null || search == "") {
+                    list
                 } else {
-                    viewModel.appList.value!!.filter {
-                        it.loadLabel(pm).contains(search, true)
+                    list.filter {
+                        it.loadLabel(viewModel.pm).contains(search, true)
                     }
                 }
                 withContext(Dispatchers.Main) {
-                    adapter.updateData(listOf("Default") + list)
+                    adapter.updateData(listOf("Default") + filteredList)
                     loader.visibility = View.INVISIBLE
                 }
-
             }
-        })
-
-//        viewModel.filterSettingsApp.observe(this, Observer {
-//            action_filter.alpha = if (it) 1f else 0.5f
-//        })
+        }
     }
 
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
         }
-
-//        action_filter.setOnClickListener {
-//            viewModel.toggleFilter()
-//        }
     }
 
     private fun saveApp(app: ResolveInfo) {
         val resultIntent = Intent()
-        resultIntent.putExtra(Constants.RESULT_APP_NAME, app.loadLabel(pm))
+        resultIntent.putExtra(Constants.RESULT_APP_NAME, app.loadLabel(viewModel.pm))
         resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, app.activityInfo.packageName)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()

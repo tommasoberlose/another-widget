@@ -109,7 +109,6 @@ object CalendarHelper {
                             }
                         })
                         eventList.reverse()
-                        Log.d("ciao", "list: $eventList")
                         eventRepository.saveEvents(
                             eventList
                         )

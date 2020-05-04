@@ -336,7 +336,7 @@ class MainWidget : AppWidgetProvider() {
             // Text Size
             listOf<Pair<TextView, Float>>(
                 v.empty_date to Preferences.textMainSize,
-                v.divider1 to Preferences.textSecondSize,
+                v.divider1 to Preferences.textMainSize,
                 v.temp to Preferences.textMainSize,
                 v.next_event to Preferences.textMainSize,
                 v.next_event_difference_time to Preferences.textMainSize,
