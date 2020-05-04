@@ -6,6 +6,7 @@ import com.tommasoberlose.anotherwidget.R
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.ResolveInfo
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -111,18 +112,26 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
             }
         })
+
+//        viewModel.filterSettingsApp.observe(this, Observer {
+//            action_filter.alpha = if (it) 1f else 0.5f
+//        })
     }
 
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
         }
+
+//        action_filter.setOnClickListener {
+//            viewModel.toggleFilter()
+//        }
     }
 
     private fun saveApp(app: ResolveInfo) {
         val resultIntent = Intent()
         resultIntent.putExtra(Constants.RESULT_APP_NAME, app.loadLabel(pm))
-        resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, app.resolvePackageName)
+        resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, app.activityInfo.packageName)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }

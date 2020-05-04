@@ -108,7 +108,7 @@ class ClockSettingsFragment : Fragment() {
 
         action_clock_text_size.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.settings_clock_text_size_title)).setSelectedValue(Preferences.clockTextSize)
-            (46 downTo 28).filter { it % 2 == 0 }.forEach {
+            (46 downTo 12).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
             dialog.addOnSelectItemListener { value ->

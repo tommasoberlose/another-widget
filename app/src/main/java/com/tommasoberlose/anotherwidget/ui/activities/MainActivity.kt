@@ -148,6 +148,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                             preview.layoutParams = layoutParams
                         }
                     }.start()
+                } else {
+                    clock.layoutParams = clock.layoutParams.apply {
+                        height = RelativeLayout.LayoutParams.WRAP_CONTENT
+                    }
+                    clock.measure(0, 0)
                 }
 
                 widget_bitmap.setImageBitmap(bitmap)

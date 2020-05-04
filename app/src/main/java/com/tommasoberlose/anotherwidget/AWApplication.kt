@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.chibatching.kotpref.Kotpref
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.global.Preferences
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -10,6 +11,9 @@ import io.realm.RealmConfiguration
 class AWApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        // Firebase crashlitycs
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
 
         // Preferences
         Kotpref.init(this)
