@@ -163,7 +163,7 @@ class MainWidget : AppWidgetProvider() {
                     val mapIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address), 0)
                     views.setOnClickPendingIntent(R.id.second_row_rect, mapIntent)
                 } else {
-                    views.setOnClickPendingIntent(R.id.next_event_rect, pIntent)
+                    views.setOnClickPendingIntent(R.id.second_row_rect, pIntent)
                 }
 
                 v.next_event.measure(0, 0)

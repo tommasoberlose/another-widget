@@ -113,9 +113,9 @@ object IntentHelper {
                         action = Intent.ACTION_VIEW
                         data = uri
                         addCategory(Intent.CATEGORY_LAUNCHER)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
-                        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+//                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
+//                        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
                     }
                 } catch (ex: Exception) {
                     Intent(Intent.ACTION_VIEW).apply {

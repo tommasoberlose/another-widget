@@ -148,7 +148,6 @@
 	<string name="custom_font_subtitle_1">Produkt Schriftart</string>
 	<string name="action_go_to_next_event">Zeige nächste Veranstaltung</string>
 	<string name="settings_show_multiple_events_title">Zähler für mehrere Ereignisse</string>
-	<string name="support_custom_app_name">Weitere Entwickler</string>
 	<string name="support_main_title">Unterstütze den Entwickler mit</string>
 	<string name="support_translations_title">Bei der Übersetzung helfen</string>
 	<string name="support_translations_subtitle">Öffne einen pull request auf GitHub</string>
