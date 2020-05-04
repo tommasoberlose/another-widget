@@ -66,7 +66,7 @@
 	<string name="error_opening_uri">Fehler beim Öffnen der URL: Link in die Zwischenablage kopiert.</string>
 	<string name="loading_text">Daten werden geladen...</string>
 	<string name="error_opening_app">Fehler beim Öffnen der App.</string>
-	<string name="settings_calendar_app_title">Beim Klick auf\'s Datum öffnet sich</string>
+	<string name="settings_calendar_app_title">Standard Kalender-App</string>
 	<string name="settings_weather_app_title">Beim Klick auf\'s Wetter öffnet sich</string>
 	<string name="default_name">Standardapp</string>
 	<string name="action_choose_application">App wählen</string>
@@ -136,7 +136,7 @@
 	<string name="settings_not_visible">Nicht sichtbar</string>
 	<string name="settings_show_declined_events_title">Abgelehnte Ereignisse</string>
 	<string name="default_weather_app">Google Wetter</string>
-	<string name="default_event_app">Google Kalender Veranstalungsdetails</string>
+	<string name="default_event_app">Veranstalungsdetails</string>
 	<string name="default_calendar_app">Standard Kalender-App</string>
 	<string name="default_clock_app">Standard Uhr-App</string>
 	<string name="settings_show_until_subtitle_7">1 Stunde später</string>

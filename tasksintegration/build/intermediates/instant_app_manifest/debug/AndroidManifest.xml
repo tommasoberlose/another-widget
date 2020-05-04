@@ -4,7 +4,7 @@
     featureSplit="tasksintegration"
     package="com.tommasoberlose.anotherwidget"
     android:targetSandboxVersion="2"
-    android:versionCode="59"
+    android:versionCode="60"
     android:versionName="2.0.5" >
 
     <uses-sdk

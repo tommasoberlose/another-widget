@@ -3,7 +3,7 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     featureSplit="tasksintegration"
     package="com.tommasoberlose.anotherwidget"
-    android:versionCode="59"
+    android:versionCode="60"
     android:versionName="2.0.5" >
 
     <uses-sdk android:targetSdkVersion="29" />

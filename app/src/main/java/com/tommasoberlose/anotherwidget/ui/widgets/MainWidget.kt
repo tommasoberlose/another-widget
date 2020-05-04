@@ -156,7 +156,8 @@ class MainWidget : AppWidgetProvider() {
                     val mapIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address), 0)
                     views.setOnClickPendingIntent(R.id.second_row_rect, mapIntent)
                 } else {
-                    views.setOnClickPendingIntent(R.id.second_row_rect, pIntent)
+                    val pIntentDetail = PendingIntent.getActivity(context, widgetID, IntentHelper.getEventIntent(context, nextEvent, forceEventDetails = true), 0)
+                    views.setOnClickPendingIntent(R.id.second_row_rect, pIntentDetail)
                 }
 
                 views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event, draw = false))

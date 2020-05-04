@@ -61,7 +61,7 @@
     <string name="error_opening_uri">Errore apertura URL: Link copiato negli appunti.</string>
     <string name="loading_text">Caricamento…</string>
     <string name="error_opening_app">Errore apertura App.</string>
-    <string name="settings_calendar_app_title">La data apre</string>
+    <string name="settings_calendar_app_title">Applicazione predefinita calendario</string>
     <string name="settings_weather_app_title">Il meteo apre</string>
     <string name="default_name">App Predefinita</string>
     <string name="action_choose_application">Scegli Applicazione</string>
@@ -120,7 +120,7 @@
     <string name="settings_show_declined_events_title">Event Rifiutati</string>
     <string name="settings_visible">Visibile</string>
     <string name="settings_not_visible">Non Visibile</string>
-    <string name="default_event_app">Dettagli Evento Google Calendar</string>
+    <string name="default_event_app">Dettagli evento</string>
     <string name="default_calendar_app">App Calendario di Default</string>
     <string name="default_weather_app">Meteo Google</string>
     <string name="default_clock_app">App Orologio di Default</string>

@@ -60,7 +60,7 @@
     <string name="error_opening_uri">Erreur lors de l\'ouverture de l\'URL : Lien copié dans le presse-papiers.</string>
     <string name="loading_text">Chargement des données…</string>
     <string name="error_opening_app">Erreur lors de l\'ouverture de l\'app.</string>
-    <string name="settings_calendar_app_title">Taper sur la date ouvre</string>
+    <string name="settings_calendar_app_title">App calendrier par défaut</string>
     <string name="settings_weather_app_title">Taper sur la météo ouvre</string>
     <string name="default_name">App par défaut</string>
     <string name="action_choose_application">Choisir une application</string>
@@ -120,7 +120,7 @@
     <string name="settings_not_visible">Non visible</string>
     <string name="settings_show_declined_events_title">Événements refusés</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="default_event_app">Détails de l\'événement dans Google Agenda</string>
+    <string name="default_event_app">Détails de l\'événement</string>
     <string name="default_calendar_app">App calendrier par défaut</string>
     <string name="default_clock_app">App horloge par défaut</string>
     <string name="settings_show_until_subtitle_7">1 heure après</string>

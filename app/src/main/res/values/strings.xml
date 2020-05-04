@@ -66,7 +66,7 @@
     <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
     <string name="loading_text">Loading Data…</string>
     <string name="error_opening_app">Error opening app.</string>
-    <string name="settings_calendar_app_title">Tap on date opens</string>
+    <string name="settings_calendar_app_title">Calendar default application</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
     <string name="default_name">Default app</string>
     <string name="action_choose_application">Choose application</string>
@@ -130,7 +130,7 @@
     <string name="settings_not_visible">Hidden</string>
     <string name="settings_show_declined_events_title">Declined events</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="default_event_app">Google Calendar event details</string>
+    <string name="default_event_app">Event details</string>
     <string name="default_calendar_app">Default calendar app</string>
     <string name="default_clock_app">Default clock app</string>
     <string name="settings_show_until_subtitle_7">1 hour later</string>

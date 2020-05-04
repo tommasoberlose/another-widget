@@ -21,10 +21,9 @@ class MainViewModel : ViewModel() {
     val showDiffTime = Preferences.asLiveData(Preferences::showDiffTime)
     val showDeclinedEvents = Preferences.asLiveData(Preferences::showDeclinedEvents)
     val showNextEvent = Preferences.asLiveData(Preferences::showNextEvent)
-
+    val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
 
-    val eventAppName = Preferences.asLiveData(Preferences::eventAppName)
 
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
