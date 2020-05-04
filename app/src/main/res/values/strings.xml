@@ -49,7 +49,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
     <string name="settings_custom_location_title">Location</string>
     <string name="custom_location_gps">Use geolocation</string>
-    <string name="action_refresh_widget">Hard refresh</string>
+    <string name="action_refresh_widget">Refresh widget</string>
     <string name="show_events_visible">Events are visible</string>
     <string name="show_events_not_visible">Events are not visible</string>
     <string name="show_weather_visible">Weather info is visible</string>
@@ -101,8 +101,8 @@
     <string name="today">today</string>
     <string name="settings_event_app_title">Tap on event opens</string>
     <string name="settings_second_row_info_title">Second row information</string>
-    <string name="settings_second_row_info_subtitle_1">Show event address instead of time</string>
-    <string name="settings_second_row_info_subtitle_0">Show event time</string>
+    <string name="settings_second_row_info_subtitle_1">Event address</string>
+    <string name="settings_second_row_info_subtitle_0">Event time</string>
     <string name="settings_second_row_info_subtitle_2">Show next alarm time</string>
     <string name="settings_font_color_title">Text color</string>
     <string name="title_main_text_size">First row text size</string>

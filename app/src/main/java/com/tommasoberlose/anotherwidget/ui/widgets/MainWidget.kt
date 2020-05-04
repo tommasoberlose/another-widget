@@ -16,7 +16,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -39,7 +38,6 @@ import kotlinx.android.synthetic.main.the_widget.view.*
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.math.min
 
 
 class MainWidget : AppWidgetProvider() {
@@ -102,8 +100,7 @@ class MainWidget : AppWidgetProvider() {
             var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
 
             val generatedView = generateWidgetView(context)
-            generatedView.measure(0, 0)
-            views.setImageViewBitmap(R.id.bitmap_container, BitmapHelper.getBitmapFromView(generatedView, w - 32.toPixel(context), generatedView.measuredHeight))
+            views.setImageViewBitmap(R.id.bitmap_container, BitmapHelper.getBitmapFromView(generatedView, width = w - 32.toPixel(context)))
 
             // Clock
             views = updateClockView(context, views, appWidgetId)
@@ -118,8 +115,7 @@ class MainWidget : AppWidgetProvider() {
         private fun updateCalendarView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
             val eventRepository = EventRepository(context)
 
-            v.empty_date.measure(0, 0)
-            views.setImageViewBitmap(R.id.empty_date_rect, BitmapHelper.getBitmapFromView(v.empty_date))
+            views.setImageViewBitmap(R.id.empty_date_rect, BitmapHelper.getBitmapFromView(v.empty_date, draw = false))
 
             views.setViewVisibility(R.id.empty_layout_rect, View.VISIBLE)
             views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
@@ -133,13 +129,11 @@ class MainWidget : AppWidgetProvider() {
 
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
                 if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
-                    v.action_next.measure(0, 0)
-                    views.setImageViewBitmap(R.id.action_next_rect, BitmapHelper.getBitmapFromView(v.action_next))
+                    views.setImageViewBitmap(R.id.action_next_rect, BitmapHelper.getBitmapFromView(v.action_next, draw = false))
                     views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
                     views.setOnClickPendingIntent(R.id.action_next_rect, PendingIntent.getBroadcast(context, widgetID, Intent(context, NewCalendarEventReceiver::class.java).apply { action = Actions.ACTION_GO_TO_NEXT_EVENT }, 0))
 
-                    v.action_previous.measure(0, 0)
-                    views.setImageViewBitmap(R.id.action_previous_rect, BitmapHelper.getBitmapFromView(v.action_previous))
+                    views.setImageViewBitmap(R.id.action_previous_rect, BitmapHelper.getBitmapFromView(v.action_previous, draw = false))
                     views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
                     views.setOnClickPendingIntent(R.id.action_previous_rect, PendingIntent.getBroadcast(context, widgetID, Intent(context, NewCalendarEventReceiver::class.java).apply { action = Actions.ACTION_GO_TO_PREVIOUS_EVENT }, 0))
                 } else {
@@ -152,8 +146,7 @@ class MainWidget : AppWidgetProvider() {
                 views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, pIntent)
 
                 if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < (nextEvent.startDate - 1000 * 60 * 60)) {
-                    v.next_event_difference_time.measure(0, 0)
-                    views.setImageViewBitmap(R.id.next_event_difference_time_rect, BitmapHelper.getBitmapFromView(v.next_event_difference_time))
+                    views.setImageViewBitmap(R.id.next_event_difference_time_rect, BitmapHelper.getBitmapFromView(v.next_event_difference_time, draw = false))
                     views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
                 } else {
                     views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
@@ -166,12 +159,9 @@ class MainWidget : AppWidgetProvider() {
                     views.setOnClickPendingIntent(R.id.second_row_rect, pIntent)
                 }
 
-                v.next_event.measure(0, 0)
-                views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event))
+                views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event, draw = false))
 
-
-                v.second_row.measure(0, 0)
-                views.setImageViewBitmap(R.id.second_row_rect, BitmapHelper.getBitmapFromView(v.second_row))
+                views.setImageViewBitmap(R.id.second_row_rect, BitmapHelper.getBitmapFromView(v.second_row, draw = false))
                 views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
 
                 views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
@@ -180,11 +170,9 @@ class MainWidget : AppWidgetProvider() {
                 val clockIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getClockIntent(context), 0)
                 views.setOnClickPendingIntent(R.id.second_row_rect, clockIntent)
 
-                v.next_event.measure(0, 0)
-                views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event))
+                views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event, draw = false))
 
-                v.second_row.measure(0, 0)
-                views.setImageViewBitmap(R.id.second_row_rect, BitmapHelper.getBitmapFromView(v.second_row))
+                views.setImageViewBitmap(R.id.second_row_rect, BitmapHelper.getBitmapFromView(v.second_row, draw = false))
                 views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
 
                 views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
@@ -207,11 +195,9 @@ class MainWidget : AppWidgetProvider() {
                 views.setOnClickPendingIntent(R.id.weather_rect, weatherPIntent)
                 views.setOnClickPendingIntent(R.id.calendar_weather_rect, weatherPIntent)
 
-                v.weather.measure(0, 0)
-                views.setImageViewBitmap(R.id.weather_rect, BitmapHelper.getBitmapFromView(v.weather))
+                views.setImageViewBitmap(R.id.weather_rect, BitmapHelper.getBitmapFromView(v.weather, draw = false))
 
-                v.calendar_weather.measure(0, 0)
-                views.setImageViewBitmap(R.id.calendar_weather_rect, BitmapHelper.getBitmapFromView(v.calendar_weather))
+                views.setImageViewBitmap(R.id.calendar_weather_rect, BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false))
             } else {
                 views.setViewVisibility(R.id.weather_rect, View.GONE)
                 views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)

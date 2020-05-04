@@ -95,8 +95,8 @@
     <string name="today">Oggi</string>
     <string name="settings_event_app_title">Gli eventi aprono</string>
     <string name="settings_second_row_info_title">Informazione Seconda Riga</string>
-    <string name="settings_second_row_info_subtitle_0">Mostra orario evento</string>
-    <string name="settings_second_row_info_subtitle_1">Mostra indirizzo evento invece dell\'orario</string>
+    <string name="settings_second_row_info_subtitle_0">Orario evento</string>
+    <string name="settings_second_row_info_subtitle_1">Location evento</string>
     <string name="settings_second_row_info_subtitle_2">Mostra orario prossimo allarme</string>
     <string name="settings_font_color_title">Colore Testo</string>
     <string name="title_main_text_size">Dimensione Testo Prima Riga</string>
