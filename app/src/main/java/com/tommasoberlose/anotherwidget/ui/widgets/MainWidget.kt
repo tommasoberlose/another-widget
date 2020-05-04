@@ -65,8 +65,10 @@ class MainWidget : AppWidgetProvider() {
     }
 
     override fun onDisabled(context: Context) {
-        UpdatesReceiver.removeUpdates(context)
-        WeatherReceiver.removeUpdates(context)
+        if (getWidgetCount(context) == 0) {
+            UpdatesReceiver.removeUpdates(context)
+            WeatherReceiver.removeUpdates(context)
+        }
     }
 
     companion object {
@@ -81,26 +83,26 @@ class MainWidget : AppWidgetProvider() {
             context.sendBroadcast(update)
         }
 
+        fun getWidgetCount(context: Context): Int {
+            val widgetManager = AppWidgetManager.getInstance(context)
+            val widgetComponent = ComponentName(context, MainWidget::class.java)
+            return widgetManager.getAppWidgetIds(widgetComponent).size
+        }
+
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
             val displayMetrics = Resources.getSystem().displayMetrics
-            var height = 110.toPixel(context)
             val width = displayMetrics.widthPixels
-            if (Preferences.showClock) {
-                height += Preferences.clockTextSize.convertSpToPixels(context).toInt() + 16.toPixel(context)
-            }
-            if (Preferences.textMainSize > 30 && Preferences.textSecondSize > 22) {
-                height += 24.toPixel(context)
-            }
 
-            generateWidgetView(context, appWidgetId, appWidgetManager, width - 16.toPixel(context))
+            val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
+            generateWidgetView(context, appWidgetId, appWidgetManager, dimensions.first - 8.toPixel(context) /*width - 16.toPixel(context)*/)
         }
 
         private fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int) {
             var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
 
             val generatedView = generateWidgetView(context)
-            views.setImageViewBitmap(R.id.bitmap_container, BitmapHelper.getBitmapFromView(generatedView, width = w - 32.toPixel(context)))
+            views.setImageViewBitmap(R.id.bitmap_container, BitmapHelper.getBitmapFromView(generatedView, width = w))
 
             // Clock
             views = updateClockView(context, views, appWidgetId)
