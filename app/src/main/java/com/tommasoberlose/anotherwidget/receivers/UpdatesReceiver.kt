@@ -21,6 +21,9 @@ class UpdatesReceiver : BroadcastReceiver() {
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED,
+            Intent.ACTION_TIME_CHANGED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            Intent.ACTION_LOCALE_CHANGED,
             Actions.ACTION_CALENDAR_UPDATE -> CalendarHelper.updateEventList(context)
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",

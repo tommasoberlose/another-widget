@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.drawToBitmap
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.lang.Exception
 
@@ -19,10 +20,11 @@ object BitmapHelper {
         view.measure(measuredWidth, measuredHeight)
 
         return try {
+            Log.d("ciao", "bitmap ${view.measuredWidth}, ${view.measuredHeight} - draw = ${draw}")
             val btm = Bitmap.createBitmap(
                 view.measuredWidth,
                 view.measuredHeight,
-                Bitmap.Config.ARGB_8888
+                if (draw) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
             )
             if (draw) {
                 //Bind a canvas to it
@@ -35,7 +37,7 @@ object BitmapHelper {
             btm
         } catch (ex: Exception) {
             FirebaseCrashlytics.getInstance().recordException(ex)
-            Bitmap.createBitmap(5, 5, Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(5, 5, Bitmap.Config.ALPHA_8)
         }
     }
 

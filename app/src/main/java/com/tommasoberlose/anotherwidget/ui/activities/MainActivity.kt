@@ -34,10 +34,7 @@ import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.the_widget_sans.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -91,12 +88,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun updateUI() {
         preview.setCardBackgroundColor(getColor(if (ColorHelper.getFontColor().isColorDark()) android.R.color.white else R.color.colorAccent))
-        val generatedView = MainWidget.generateWidgetView(this@MainActivity)
-        generatedView.measure(0, 0)
-        preview.measure(0, 0)
 
         uiJob?.cancel()
         uiJob = lifecycleScope.launch(Dispatchers.IO) {
+            delay(200)
+            val generatedView = MainWidget.generateWidgetView(this@MainActivity)
+            generatedView.measure(0, 0)
+            preview.measure(0, 0)
             val bitmap = BitmapHelper.getBitmapFromView(generatedView, if (preview.width > 0) preview.width else generatedView.measuredWidth, generatedView.measuredHeight)
             withContext(Dispatchers.Main) {
                 // Clock

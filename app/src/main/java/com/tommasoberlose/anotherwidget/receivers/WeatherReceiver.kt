@@ -17,6 +17,8 @@ class WeatherReceiver : BroadcastReceiver() {
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            Intent.ACTION_LOCALE_CHANGED,
             Intent.ACTION_TIME_CHANGED -> setUpdates(context)
 
             Actions.ACTION_WEATHER_UPDATE -> WeatherHelper.updateWeather(context)

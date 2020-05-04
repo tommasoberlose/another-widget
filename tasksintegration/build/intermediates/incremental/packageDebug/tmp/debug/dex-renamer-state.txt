@@ -1,4 +1,4 @@
-#Mon May 04 20:03:44 CEST 2020
+#Tue May 05 00:25:41 CEST 2020
 base.0=/Users/tommaso/Documents/MyCode/another-widget/tasksintegration/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

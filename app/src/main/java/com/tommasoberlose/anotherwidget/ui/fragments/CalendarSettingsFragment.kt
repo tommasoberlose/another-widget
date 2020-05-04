@@ -89,6 +89,7 @@ class CalendarSettingsFragment : Fragment() {
                 binding.isCalendarEnabled = it
 
                 if (it) {
+                    requirePermission()
                     CalendarHelper.setEventUpdatesAndroidN(requireContext())
                 } else {
                     CalendarHelper.removeEventUpdatesAndroidN(requireContext())

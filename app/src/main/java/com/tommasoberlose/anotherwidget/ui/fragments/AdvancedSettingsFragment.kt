@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +71,7 @@ class AdvancedSettingsFragment : Fragment() {
         setupListener()
 
         app_version.text = "v%s".format(BuildConfig.VERSION_NAME)
+        requirePermission()
     }
 
     private fun subscribeUi(
@@ -117,7 +119,7 @@ class AdvancedSettingsFragment : Fragment() {
         action_show_wallpaper.setOnClickListener {
             maintainScrollPosition {
                 BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_title_show_wallpaper))
-                    .setSelectedValue(Preferences.showWallpaper)
+                    .setSelectedValue(Preferences.showWallpaper && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true)
                     .addItem(
                         getString(R.string.settings_visible),
                         true
@@ -174,6 +176,7 @@ class AdvancedSettingsFragment : Fragment() {
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
+                        Preferences.showWallpaper = false
                         Preferences.showWallpaper = report.areAllPermissionsGranted()
                     }
                 }

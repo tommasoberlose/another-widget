@@ -125,7 +125,7 @@
     <string name="beta" translatable="false">Beta</string>
     <string name="settings_product_sans_font_title">Product Sans Font</string>
     <string name="settings_product_sans_font_subtitle">Using Product Sans disabled the possibility to tap widget elements. I\'m working on it.</string>
-    <string name="settings_show_diff_time_title">Time left in the event</string>
+    <string name="settings_show_diff_time_title">Time left to the event</string>
     <string name="settings_visible">Visible</string>
     <string name="settings_not_visible">Hidden</string>
     <string name="settings_show_declined_events_title">Declined events</string>
