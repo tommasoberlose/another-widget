@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tommasoberlose.anotherwidget">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,19 +17,20 @@
         android:name=".AWApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main">
+        android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity">
+        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.ChooseApplicationActivity" android:launchMode="singleInstance" />
-        <activity android:name=".ui.activities.CustomLocationActivity" android:launchMode="singleInstance" />
-        <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" />
-        <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" />
-        <activity android:name=".ui.activities.CustomDateActivity" android:launchMode="singleInstance" />
+        <activity android:name=".ui.activities.ChooseApplicationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.CustomLocationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.CustomDateActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
 
 
         <receiver android:name=".ui.widgets.MainWidget">
@@ -67,6 +69,8 @@
                 <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
         </receiver>
         <receiver
@@ -79,6 +83,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
         </receiver>
 

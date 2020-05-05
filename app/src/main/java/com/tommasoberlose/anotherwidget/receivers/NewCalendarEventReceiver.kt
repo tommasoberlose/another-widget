@@ -12,7 +12,6 @@ class NewCalendarEventReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val eventRepository = EventRepository(context)
-        Log.d("ciao", "nuovo evento")
         when (intent.action) {
             Intent.ACTION_PROVIDER_CHANGED,
             Intent.ACTION_TIME_CHANGED -> {

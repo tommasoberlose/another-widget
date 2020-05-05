@@ -49,7 +49,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
     <string name="settings_custom_location_title">Location</string>
     <string name="custom_location_gps">Use geolocation</string>
-    <string name="action_refresh_widget">Hard refresh</string>
+    <string name="action_refresh_widget">Refresh widget</string>
     <string name="show_events_visible">Events are visible</string>
     <string name="show_events_not_visible">Events are not visible</string>
     <string name="show_weather_visible">Weather info is visible</string>
@@ -66,7 +66,7 @@
     <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
     <string name="loading_text">Loading Data…</string>
     <string name="error_opening_app">Error opening app.</string>
-    <string name="settings_calendar_app_title">Tap on date opens</string>
+    <string name="settings_calendar_app_title">Calendar default application</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
     <string name="default_name">Default app</string>
     <string name="action_choose_application">Choose application</string>
@@ -101,8 +101,8 @@
     <string name="today">today</string>
     <string name="settings_event_app_title">Tap on event opens</string>
     <string name="settings_second_row_info_title">Second row information</string>
-    <string name="settings_second_row_info_subtitle_1">Show event address instead of time</string>
-    <string name="settings_second_row_info_subtitle_0">Show event time</string>
+    <string name="settings_second_row_info_subtitle_1">Event address</string>
+    <string name="settings_second_row_info_subtitle_0">Event time</string>
     <string name="settings_second_row_info_subtitle_2">Show next alarm time</string>
     <string name="settings_font_color_title">Text color</string>
     <string name="title_main_text_size">First row text size</string>
@@ -125,12 +125,12 @@
     <string name="beta" translatable="false">Beta</string>
     <string name="settings_product_sans_font_title">Product Sans Font</string>
     <string name="settings_product_sans_font_subtitle">Using Product Sans disabled the possibility to tap widget elements. I\'m working on it.</string>
-    <string name="settings_show_diff_time_title">Time left in the event</string>
+    <string name="settings_show_diff_time_title">Time left to the event</string>
     <string name="settings_visible">Visible</string>
     <string name="settings_not_visible">Hidden</string>
     <string name="settings_show_declined_events_title">Declined events</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="default_event_app">Google Calendar event details</string>
+    <string name="default_event_app">Event details</string>
     <string name="default_calendar_app">Default calendar app</string>
     <string name="default_clock_app">Default clock app</string>
     <string name="settings_show_until_subtitle_7">1 hour later</string>
@@ -183,4 +183,9 @@
     <string name="settings_feedback_subtitle">This is an open-source project, feel free to help.</string>
     <string name="settings_feedback_title">Feedback and feature requests</string>
     <string name="title_tasksintegration" translatable="false">Google Tasks</string>
+    <string name="settings_clock_bottom_margin_title">Clock bottom margin</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">None</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Small</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Medium</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Large</string>
 </resources>

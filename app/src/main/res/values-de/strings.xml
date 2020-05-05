@@ -66,7 +66,7 @@
 	<string name="error_opening_uri">Fehler beim Öffnen der URL: Link in die Zwischenablage kopiert.</string>
 	<string name="loading_text">Daten werden geladen...</string>
 	<string name="error_opening_app">Fehler beim Öffnen der App.</string>
-	<string name="settings_calendar_app_title">Beim Klick auf\'s Datum öffnet sich</string>
+	<string name="settings_calendar_app_title">Standard Kalender-App</string>
 	<string name="settings_weather_app_title">Beim Klick auf\'s Wetter öffnet sich</string>
 	<string name="default_name">Standardapp</string>
 	<string name="action_choose_application">App wählen</string>
@@ -136,7 +136,7 @@
 	<string name="settings_not_visible">Nicht sichtbar</string>
 	<string name="settings_show_declined_events_title">Abgelehnte Ereignisse</string>
 	<string name="default_weather_app">Google Wetter</string>
-	<string name="default_event_app">Google Kalender Veranstalungsdetails</string>
+	<string name="default_event_app">Veranstalungsdetails</string>
 	<string name="default_calendar_app">Standard Kalender-App</string>
 	<string name="default_clock_app">Standard Uhr-App</string>
 	<string name="settings_show_until_subtitle_7">1 Stunde später</string>
@@ -168,4 +168,34 @@
 	<string name="error_widget_notification_subtitle">GPS wieder aktivieren, damit ein Another Widget
 		Wetterinformationen mit der Google Awareness API aktualisieren kann.
 	</string>
+
+	<!-- TODO -->
+	<string name="error_weather_api_key">The provider is not configured correctly, do you still want to go back?</string>
+	<string name="settings_show_next_alarm_title">Show next alarm when possible</string>
+	<string name="open_location_settings">Location settings</string>
+	<string name="change_provider">Change provider</string>
+	<string name="disable_notification">Disable notification</string>
+	<string name="settings_theme_title">Theme</string>
+	<string name="support_main_subtitle">Devs always need a lot of coffee</string>
+	<string name="settings_subtitle_dark_theme_light">Light</string>
+	<string name="settings_subtitle_dark_theme_dark">Dark</string>
+	<string name="settings_subtitle_dark_theme_by_battery_saver">Set by Battery Saver</string>
+	<string name="settings_subtitle_dark_theme_follow_system">Follow the system theme</string>
+	<string name="settings_subtitle_dark_theme_default">Default</string>
+	<string name="search">Search</string>
+	<string name="settings_title_show_wallpaper">Show wallpaper</string>
+	<string name="support_refresh_widget_subtitle">Force the restart of the widget service</string>
+	<string name="account_events">Account events</string>
+	<string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the typography section.</string>
+	<string name="weather_warning">Google Awareness weather has been deprecated. It\'s now required an OpenWeather API key to show the weather in the widget.</string>
+	<string name="custom_date_format">Custom date format</string>
+	<string name="settings_app_version_title">App version</string>
+	<string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
+	<string name="settings_feedback_subtitle">This is an open-source project, feel free to help.</string>
+	<string name="settings_feedback_title">Feedback and feature requests</string>
+	<string name="settings_clock_bottom_margin_title">Clock bottom margin</string>
+	<string name="settings_clock_bottom_margin_subtitle_none">None</string>
+	<string name="settings_clock_bottom_margin_subtitle_small">Small</string>
+	<string name="settings_clock_bottom_margin_subtitle_medium">Medium</string>
+	<string name="settings_clock_bottom_margin_subtitle_large">Large</string>
 </resources>

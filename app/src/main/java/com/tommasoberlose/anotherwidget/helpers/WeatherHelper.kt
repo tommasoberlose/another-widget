@@ -24,7 +24,7 @@ object WeatherHelper {
         val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
-        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
             LocationServices.getFusedLocationProviderClient(context).lastLocation.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val location = task.result

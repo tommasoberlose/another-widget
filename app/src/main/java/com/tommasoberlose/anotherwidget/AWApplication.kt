@@ -34,7 +34,7 @@ class AWApplication : Application() {
     private fun calibrateVersions() {
         // 2.0 Tolerance
         if (Preferences.clockTextSize > 50f) {
-            Preferences.clockTextSize = 46f
+            Preferences.clockTextSize = 32f
         }
 
         if (Preferences.textMainSize > 36f) {

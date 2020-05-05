@@ -115,6 +115,7 @@ class WeatherSettingsFragment : Fragment() {
                 temp_unit.text =
                     if (it == "F") getString(R.string.fahrenheit) else getString(R.string.celsius)
             }
+            checkLocationPermission()
         })
 
         viewModel.weatherRefreshPeriod.observe(viewLifecycleOwner, Observer {
@@ -133,7 +134,7 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (activity?.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) == true) {
+        if (activity?.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == true) {
             location_permission_alert_icon.isVisible = false
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
@@ -231,7 +232,7 @@ class WeatherSettingsFragment : Fragment() {
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {

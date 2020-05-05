@@ -61,7 +61,7 @@
     <string name="error_opening_uri">Errore apertura URL: Link copiato negli appunti.</string>
     <string name="loading_text">Caricamento…</string>
     <string name="error_opening_app">Errore apertura App.</string>
-    <string name="settings_calendar_app_title">La data apre</string>
+    <string name="settings_calendar_app_title">Applicazione predefinita calendario</string>
     <string name="settings_weather_app_title">Il meteo apre</string>
     <string name="default_name">App Predefinita</string>
     <string name="action_choose_application">Scegli Applicazione</string>
@@ -95,8 +95,8 @@
     <string name="today">Oggi</string>
     <string name="settings_event_app_title">Gli eventi aprono</string>
     <string name="settings_second_row_info_title">Informazione Seconda Riga</string>
-    <string name="settings_second_row_info_subtitle_0">Mostra orario evento</string>
-    <string name="settings_second_row_info_subtitle_1">Mostra indirizzo evento invece dell\'orario</string>
+    <string name="settings_second_row_info_subtitle_0">Orario evento</string>
+    <string name="settings_second_row_info_subtitle_1">Location evento</string>
     <string name="settings_second_row_info_subtitle_2">Mostra orario prossimo allarme</string>
     <string name="settings_font_color_title">Colore Testo</string>
     <string name="title_main_text_size">Dimensione Testo Prima Riga</string>
@@ -120,7 +120,7 @@
     <string name="settings_show_declined_events_title">Event Rifiutati</string>
     <string name="settings_visible">Visibile</string>
     <string name="settings_not_visible">Non Visibile</string>
-    <string name="default_event_app">Dettagli Evento Google Calendar</string>
+    <string name="default_event_app">Dettagli evento</string>
     <string name="default_calendar_app">App Calendario di Default</string>
     <string name="default_weather_app">Meteo Google</string>
     <string name="default_clock_app">App Orologio di Default</string>
@@ -172,4 +172,9 @@
     <string name="support_dev_subtitle">Grazie per supportare il progetto!</string>
     <string name="settings_feedback_subtitle">Contribuisci a questo progetto open source.</string>
     <string name="settings_feedback_title">Feedback</string>
+    <string name="settings_clock_bottom_margin_title">Margine inferiore orologio</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Nessuno</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Piccolo</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Medio</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Grande</string>
 </resources>

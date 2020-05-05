@@ -89,6 +89,7 @@ class CalendarSettingsFragment : Fragment() {
                 binding.isCalendarEnabled = it
 
                 if (it) {
+                    requirePermission()
                     CalendarHelper.setEventUpdatesAndroidN(requireContext())
                 } else {
                     CalendarHelper.removeEventUpdatesAndroidN(requireContext())
@@ -147,9 +148,9 @@ class CalendarSettingsFragment : Fragment() {
             }
         })
 
-        viewModel.eventAppName.observe(viewLifecycleOwner, Observer {
+        viewModel.openEventDetails.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                event_app_label.text = if (it != "") it else getString(R.string.default_calendar_app)
+                open_event_details_label.text = if (it) getString(R.string.default_event_app) else getString(R.string.default_calendar_app)
             }
         })
 
@@ -301,8 +302,15 @@ class CalendarSettingsFragment : Fragment() {
             }
         }
 
-        action_event_app.setOnClickListener {
-            startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java), RequestCode.EVENT_APP_REQUEST_CODE.code)
+        action_open_event_details.setOnClickListener {
+            if (Preferences.showEvents) {
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_event_app_title)).setSelectedValue(Preferences.openEventDetails)
+                    .addItem(getString(R.string.default_event_app), true)
+                    .addItem(getString(R.string.default_calendar_app), false)
+                    .addOnSelectItemListener { value ->
+                        Preferences.openEventDetails = value
+                    }.show()
+            }
         }
 
         action_calendar_app.setOnClickListener {

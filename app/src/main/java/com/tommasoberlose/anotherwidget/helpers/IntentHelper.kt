@@ -30,35 +30,6 @@ object IntentHelper {
         }
     }
 
-    fun getCalendarIntent(context: Context): Intent {
-        return when (Preferences.calendarAppPackage) {
-            "" -> {
-                Intent(Intent.ACTION_MAIN).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    addCategory(Intent.CATEGORY_APP_CALENDAR)
-                }
-            }
-            "_" -> {
-                Intent()
-            }
-            else -> {
-                val pm: PackageManager = context.packageManager
-                try {
-                    pm.getLaunchIntentForPackage(Preferences.calendarAppPackage)!!.apply {
-                        addCategory(Intent.CATEGORY_LAUNCHER)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Intent(Intent.ACTION_MAIN).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        addCategory(Intent.CATEGORY_APP_CALENDAR)
-                    }
-                }
-            }
-        }
-    }
-
     fun getWeatherIntent(context: Context): Intent {
         return when (Preferences.weatherAppPackage) {
             "" -> {
@@ -91,15 +62,12 @@ object IntentHelper {
         }
     }
 
-    fun getEventIntent(context: Context, e: Event): Intent {
-        return when (Preferences.eventAppPackage) {
+    fun getCalendarIntent(context: Context): Intent {
+        return when (Preferences.calendarAppPackage) {
             "" -> {
-                val uri = ContentUris.withAppendedId(Events.CONTENT_URI, e.eventID)
-                Intent(Intent.ACTION_VIEW).apply {
-                    data = uri
+                Intent(Intent.ACTION_MAIN).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
-                    putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                    addCategory(Intent.CATEGORY_APP_CALENDAR)
                 }
             }
             "_" -> {
@@ -107,24 +75,45 @@ object IntentHelper {
             }
             else -> {
                 val pm: PackageManager = context.packageManager
-                val uri = ContentUris.withAppendedId(Events.CONTENT_URI, e.eventID)
                 try {
-                    pm.getLaunchIntentForPackage(Preferences.eventAppPackage)!!.apply {
-                        action = Intent.ACTION_VIEW
-                        data = uri
+                    pm.getLaunchIntentForPackage(Preferences.calendarAppPackage)!!.apply {
                         addCategory(Intent.CATEGORY_LAUNCHER)
-//                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
-//                        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
-                } catch (ex: Exception) {
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Intent(Intent.ACTION_MAIN).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        addCategory(Intent.CATEGORY_APP_CALENDAR)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getEventIntent(context: Context, e: Event, forceEventDetails: Boolean = false): Intent {
+        return when (Preferences.openEventDetails || forceEventDetails) {
+            true -> {
+                val uri = ContentUris.withAppendedId(Events.CONTENT_URI, e.eventID)
+
+                if (Preferences.calendarAppPackage == "") {
                     Intent(Intent.ACTION_VIEW).apply {
                         data = uri
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
                     }
+                } else {
+                    getCalendarIntent(context).apply {
+                        action = Intent.ACTION_VIEW
+                        data = uri
+                        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
+                        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                    }
                 }
+            }
+            false -> {
+                getCalendarIntent(context)
             }
         }
     }

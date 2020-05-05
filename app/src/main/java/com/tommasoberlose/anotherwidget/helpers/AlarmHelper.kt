@@ -11,7 +11,7 @@ object AlarmHelper {
         val alarm = nextAlarmClock
         return if (
             alarm != null
-            && alarm.triggerTime - Calendar.getInstance().timeInMillis > 2 * 60 * 1000
+            && alarm.triggerTime - Calendar.getInstance().timeInMillis > 10 * 60 * 1000
             && alarm.triggerTime - Calendar.getInstance().timeInMillis < 12 * 60 * 60 * 1000
         ) {
             "%s %s".format(

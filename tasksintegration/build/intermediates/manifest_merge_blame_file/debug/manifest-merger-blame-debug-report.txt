@@ -3,8 +3,8 @@
 3    xmlns:dist="http://schemas.android.com/apk/distribution"
 4    featureSplit="tasksintegration"
 5    package="com.tommasoberlose.anotherwidget"
-6    android:versionCode="58"
-7    android:versionName="2.0.4" >
+6    android:versionCode="61"
+7    android:versionName="2.0.5" >
 8
 9    <uses-sdk
 10        android:minSdkVersion="23"

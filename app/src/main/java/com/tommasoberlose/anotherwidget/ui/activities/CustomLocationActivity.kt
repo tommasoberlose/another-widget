@@ -125,7 +125,7 @@ class CustomLocationActivity : AppCompatActivity() {
     private fun requirePermission() {
         Dexter.withContext(this)
             .withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {

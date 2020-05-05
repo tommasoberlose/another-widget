@@ -19,8 +19,32 @@
         android:visibility="gone"
         android:lines="1"
         android:maxLines="1"
-        android:layout_marginBottom="16dp"
         style="@style/AnotherWidget.Title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="-16dp"
+        android:orientation="horizontal"
+        android:id="@+id/clock_bottom_margin_none" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="-8dp"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/clock_bottom_margin_small" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/clock_bottom_margin_medium" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/clock_bottom_margin_large" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
