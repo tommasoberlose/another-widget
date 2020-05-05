@@ -20,21 +20,25 @@ import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
+import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWithMaxWidth
 import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
+import com.tommasoberlose.anotherwidget.services.UpdatesWorker
+import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.convertSpToPixels
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.the_widget.view.*
+import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -55,7 +59,7 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         CalendarHelper.updateEventList(context)
-        WeatherReceiver.setUpdates(context)
+        WeatherWorker.setUpdates(context)
 
         if (Preferences.showEvents) {
             CalendarHelper.setEventUpdatesAndroidN(context)
@@ -66,8 +70,8 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
-            UpdatesReceiver.removeUpdates(context)
-            WeatherReceiver.removeUpdates(context)
+            UpdatesWorker.removeUpdates(context)
+            WeatherWorker.removeUpdates(context)
         }
     }
 
@@ -94,7 +98,7 @@ class MainWidget : AppWidgetProvider() {
             val displayMetrics = Resources.getSystem().displayMetrics
             val width = displayMetrics.widthPixels
 
-            val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
+            val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId).reduceDimensionWithMaxWidth(1200)
             generateWidgetView(context, appWidgetId, appWidgetManager, dimensions.first - 8.toPixel(context) /*width - 16.toPixel(context)*/)
         }
 
@@ -115,117 +119,233 @@ class MainWidget : AppWidgetProvider() {
         }
 
         private fun updateCalendarView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
-            val eventRepository = EventRepository(context)
+            try {
+                val eventRepository = EventRepository(context)
 
-            views.setImageViewBitmap(R.id.empty_date_rect, BitmapHelper.getBitmapFromView(v.empty_date, draw = false))
+                views.setImageViewBitmap(
+                    R.id.empty_date_rect,
+                    BitmapHelper.getBitmapFromView(v.empty_date, draw = false)
+                )
 
-            views.setViewVisibility(R.id.empty_layout_rect, View.VISIBLE)
-            views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
-            views.setViewVisibility(R.id.second_row_rect, View.GONE)
+                views.setViewVisibility(R.id.empty_layout_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
+                views.setViewVisibility(R.id.second_row_rect, View.GONE)
 
-            val calPIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getCalendarIntent(context), 0)
-            views.setOnClickPendingIntent(R.id.empty_date_rect, calPIntent)
+                val calPIntent = PendingIntent.getActivity(
+                    context,
+                    widgetID,
+                    IntentHelper.getCalendarIntent(context),
+                    0
+                )
+                views.setOnClickPendingIntent(R.id.empty_date_rect, calPIntent)
 
-            val nextEvent = eventRepository.getNextEvent()
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
+                val nextEvent = eventRepository.getNextEvent()
+                val nextAlarm = AlarmHelper.getNextAlarm(context)
 
-            if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
-                if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
-                    views.setImageViewBitmap(R.id.action_next_rect, BitmapHelper.getBitmapFromView(v.action_next, draw = false))
-                    views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
-                    views.setOnClickPendingIntent(R.id.action_next_rect, PendingIntent.getBroadcast(context, widgetID, Intent(context, NewCalendarEventReceiver::class.java).apply { action = Actions.ACTION_GO_TO_NEXT_EVENT }, 0))
+                if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
+                    if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
+                        views.setImageViewBitmap(
+                            R.id.action_next_rect,
+                            BitmapHelper.getBitmapFromView(v.action_next, draw = false)
+                        )
+                        views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
+                        views.setOnClickPendingIntent(
+                            R.id.action_next_rect,
+                            PendingIntent.getBroadcast(
+                                context,
+                                widgetID,
+                                Intent(
+                                    context,
+                                    NewCalendarEventReceiver::class.java
+                                ).apply { action = Actions.ACTION_GO_TO_NEXT_EVENT },
+                                0
+                            )
+                        )
 
-                    views.setImageViewBitmap(R.id.action_previous_rect, BitmapHelper.getBitmapFromView(v.action_previous, draw = false))
-                    views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
-                    views.setOnClickPendingIntent(R.id.action_previous_rect, PendingIntent.getBroadcast(context, widgetID, Intent(context, NewCalendarEventReceiver::class.java).apply { action = Actions.ACTION_GO_TO_PREVIOUS_EVENT }, 0))
-                } else {
-                    views.setViewVisibility(R.id.action_next_rect, View.GONE)
-                    views.setViewVisibility(R.id.action_previous_rect, View.GONE)
+                        views.setImageViewBitmap(
+                            R.id.action_previous_rect,
+                            BitmapHelper.getBitmapFromView(v.action_previous, draw = false)
+                        )
+                        views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
+                        views.setOnClickPendingIntent(
+                            R.id.action_previous_rect,
+                            PendingIntent.getBroadcast(
+                                context,
+                                widgetID,
+                                Intent(
+                                    context,
+                                    NewCalendarEventReceiver::class.java
+                                ).apply { action = Actions.ACTION_GO_TO_PREVIOUS_EVENT },
+                                0
+                            )
+                        )
+                    } else {
+                        views.setViewVisibility(R.id.action_next_rect, View.GONE)
+                        views.setViewVisibility(R.id.action_previous_rect, View.GONE)
+                    }
+
+                    val pIntent = PendingIntent.getActivity(
+                        context,
+                        widgetID,
+                        IntentHelper.getEventIntent(context, nextEvent),
+                        0
+                    )
+                    views.setOnClickPendingIntent(R.id.next_event_rect, pIntent)
+                    views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, pIntent)
+
+                    if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < (nextEvent.startDate - 1000 * 60 * 60)) {
+                        views.setImageViewBitmap(
+                            R.id.next_event_difference_time_rect,
+                            BitmapHelper.getBitmapFromView(
+                                v.next_event_difference_time,
+                                draw = false
+                            )
+                        )
+                        views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+                    } else {
+                        views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
+                    }
+
+                    if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
+                        val mapIntent = PendingIntent.getActivity(
+                            context,
+                            widgetID,
+                            IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
+                            0
+                        )
+                        views.setOnClickPendingIntent(R.id.second_row_rect, mapIntent)
+                    } else {
+                        val pIntentDetail = PendingIntent.getActivity(
+                            context,
+                            widgetID,
+                            IntentHelper.getEventIntent(
+                                context,
+                                nextEvent,
+                                forceEventDetails = true
+                            ),
+                            0
+                        )
+                        views.setOnClickPendingIntent(R.id.second_row_rect, pIntentDetail)
+                    }
+
+                    views.setImageViewBitmap(
+                        R.id.next_event_rect,
+                        BitmapHelper.getBitmapFromView(v.next_event, draw = false)
+                    )
+
+                    views.setImageViewBitmap(
+                        R.id.second_row_rect,
+                        BitmapHelper.getBitmapFromView(v.second_row, draw = false)
+                    )
+                    views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
+
+                    views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
+                    views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+                } else if (Preferences.showNextAlarm && nextAlarm != "") {
+                    val clockIntent = PendingIntent.getActivity(
+                        context,
+                        widgetID,
+                        IntentHelper.getClockIntent(context),
+                        0
+                    )
+                    views.setOnClickPendingIntent(R.id.second_row_rect, clockIntent)
+
+                    views.setImageViewBitmap(
+                        R.id.next_event_rect,
+                        BitmapHelper.getBitmapFromView(v.next_event, draw = false)
+                    )
+
+                    views.setImageViewBitmap(
+                        R.id.second_row_rect,
+                        BitmapHelper.getBitmapFromView(v.second_row, draw = false)
+                    )
+                    views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
+
+                    views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
+                    views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 }
-
-                val pIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getEventIntent(context, nextEvent), 0)
-                views.setOnClickPendingIntent(R.id.next_event_rect, pIntent)
-                views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, pIntent)
-
-                if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < (nextEvent.startDate - 1000 * 60 * 60)) {
-                    views.setImageViewBitmap(R.id.next_event_difference_time_rect, BitmapHelper.getBitmapFromView(v.next_event_difference_time, draw = false))
-                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
-                } else {
-                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
-                }
-
-                if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    val mapIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address), 0)
-                    views.setOnClickPendingIntent(R.id.second_row_rect, mapIntent)
-                } else {
-                    val pIntentDetail = PendingIntent.getActivity(context, widgetID, IntentHelper.getEventIntent(context, nextEvent, forceEventDetails = true), 0)
-                    views.setOnClickPendingIntent(R.id.second_row_rect, pIntentDetail)
-                }
-
-                views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event, draw = false))
-
-                views.setImageViewBitmap(R.id.second_row_rect, BitmapHelper.getBitmapFromView(v.second_row, draw = false))
-                views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
-
-                views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
-                views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-            } else if (Preferences.showNextAlarm && nextAlarm != "") {
-                val clockIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getClockIntent(context), 0)
-                views.setOnClickPendingIntent(R.id.second_row_rect, clockIntent)
-
-                views.setImageViewBitmap(R.id.next_event_rect, BitmapHelper.getBitmapFromView(v.next_event, draw = false))
-
-                views.setImageViewBitmap(R.id.second_row_rect, BitmapHelper.getBitmapFromView(v.second_row, draw = false))
-                views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
-
-                views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
-                views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+            } catch (ex: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(ex)
             }
 
             return views
         }
 
         private fun updateWeatherView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
+            try {
+                if (Preferences.showWeather && Preferences.weatherIcon != "") {
+                    views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
+                    views.setViewVisibility(R.id.calendar_weather_rect, View.VISIBLE)
 
-            if (Preferences.showWeather && Preferences.weatherIcon != "") {
-                views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.calendar_weather_rect, View.VISIBLE)
+                    val i = Intent(context, WidgetClickListenerReceiver::class.java)
+                    i.action = Actions.ACTION_OPEN_WEATHER_INTENT
+                    val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
 
-                val i = Intent(context, WidgetClickListenerReceiver::class.java)
-                i.action = Actions.ACTION_OPEN_WEATHER_INTENT
-                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
+                    views.setOnClickPendingIntent(R.id.weather_rect, weatherPIntent)
+                    views.setOnClickPendingIntent(R.id.calendar_weather_rect, weatherPIntent)
 
-                views.setOnClickPendingIntent(R.id.weather_rect, weatherPIntent)
-                views.setOnClickPendingIntent(R.id.calendar_weather_rect, weatherPIntent)
+                    views.setImageViewBitmap(
+                        R.id.weather_rect,
+                        BitmapHelper.getBitmapFromView(v.weather, draw = false)
+                    )
 
-                views.setImageViewBitmap(R.id.weather_rect, BitmapHelper.getBitmapFromView(v.weather, draw = false))
-
-                views.setImageViewBitmap(R.id.calendar_weather_rect, BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false))
-            } else {
-                views.setViewVisibility(R.id.weather_rect, View.GONE)
-                views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)
+                    views.setImageViewBitmap(
+                        R.id.calendar_weather_rect,
+                        BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false)
+                    )
+                } else {
+                    views.setViewVisibility(R.id.weather_rect, View.GONE)
+                    views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)
+                }
+            } catch (ex: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(ex)
             }
             return views
         }
 
         private fun updateClockView(context: Context, views: RemoteViews, widgetID: Int): RemoteViews {
-            if (!Preferences.showClock) {
-                views.setViewVisibility(R.id.time, View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_none, View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_small, View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
-            } else {
-                views.setTextColor(R.id.time, ColorHelper.getFontColor())
-                views.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(context))
-                val clockPIntent = PendingIntent.getActivity(context, widgetID, IntentHelper.getClockIntent(context), 0)
-                views.setOnClickPendingIntent(R.id.time, clockPIntent)
-                views.setViewVisibility(R.id.time, View.VISIBLE)
+            try {
+                if (!Preferences.showClock) {
+                    views.setViewVisibility(R.id.time, View.GONE)
+                    views.setViewVisibility(R.id.clock_bottom_margin_none, View.GONE)
+                    views.setViewVisibility(R.id.clock_bottom_margin_small, View.GONE)
+                    views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
+                    views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
+                } else {
+                    views.setTextColor(R.id.time, ColorHelper.getFontColor())
+                    views.setTextViewTextSize(
+                        R.id.time,
+                        TypedValue.COMPLEX_UNIT_SP,
+                        Preferences.clockTextSize.toPixel(context)
+                    )
+                    val clockPIntent = PendingIntent.getActivity(
+                        context,
+                        widgetID,
+                        IntentHelper.getClockIntent(context),
+                        0
+                    )
+                    views.setOnClickPendingIntent(R.id.time, clockPIntent)
+                    views.setViewVisibility(R.id.time, View.VISIBLE)
 
-                views.setViewVisibility(R.id.clock_bottom_margin_none, if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value)  View.VISIBLE else View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_small, if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value)  View.VISIBLE else View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_medium, if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value)  View.VISIBLE else View.GONE)
-                views.setViewVisibility(R.id.clock_bottom_margin_large,  if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value)  View.VISIBLE else View.GONE)
+                    views.setViewVisibility(
+                        R.id.clock_bottom_margin_none,
+                        if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value) View.VISIBLE else View.GONE
+                    )
+                    views.setViewVisibility(
+                        R.id.clock_bottom_margin_small,
+                        if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value) View.VISIBLE else View.GONE
+                    )
+                    views.setViewVisibility(
+                        R.id.clock_bottom_margin_medium,
+                        if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                    )
+                    views.setViewVisibility(
+                        R.id.clock_bottom_margin_large,
+                        if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value) View.VISIBLE else View.GONE
+                    )
+                }
+            } catch (ex: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(ex)
             }
 
             return views

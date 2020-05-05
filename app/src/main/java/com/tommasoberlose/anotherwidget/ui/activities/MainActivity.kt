@@ -5,6 +5,7 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -38,6 +39,7 @@ import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -80,7 +82,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         subscribeUi(viewModel)
         updateUI()
 
-        CalendarHelper.updateEventList(this)
         WeatherHelper.updateWeather(this)
     }
 
@@ -93,8 +94,16 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         uiJob = lifecycleScope.launch(Dispatchers.IO) {
             delay(200)
             val generatedView = MainWidget.generateWidgetView(this@MainActivity)
-            generatedView.measure(0, 0)
-            preview.measure(0, 0)
+
+            withContext(Dispatchers.Main) {
+                generatedView.measure(0, 0)
+                preview.measure(0, 0)
+                try {
+                    // Try to recycle old bitmaps
+                    (bitmap_container.drawable as BitmapDrawable).bitmap.recycle()
+                } catch (ignore: Exception) {}
+            }
+
             val bitmap = BitmapHelper.getBitmapFromView(generatedView, if (preview.width > 0) preview.width else generatedView.measuredWidth, generatedView.measuredHeight)
             withContext(Dispatchers.Main) {
                 // Clock

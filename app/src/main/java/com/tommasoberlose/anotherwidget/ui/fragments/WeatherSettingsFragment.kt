@@ -3,8 +3,8 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +28,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
+import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
@@ -134,9 +135,9 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (activity?.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == true) {
+        if (activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) == true) {
             location_permission_alert_icon.isVisible = false
-            WeatherReceiver.setUpdates(requireContext())
+            WeatherWorker.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             location_permission_alert_icon.isVisible = true
             location_permission_alert_icon.setOnClickListener {
@@ -211,7 +212,7 @@ class WeatherSettingsFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Constants.RESULT_CODE_CUSTOM_LOCATION -> {
-                    WeatherReceiver.setUpdates(requireContext())
+                    WeatherWorker.setUpdates(requireContext())
                     checkLocationPermission()
                 }
                 RequestCode.WEATHER_APP_REQUEST_CODE.code -> {
@@ -222,7 +223,7 @@ class WeatherSettingsFragment : Fragment() {
                     MainWidget.updateWidget(requireContext())
                 }
                 RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
-                    WeatherReceiver.setOneTimeUpdate(requireContext())
+                    WeatherWorker.setOneTimeUpdate(requireContext())
                 }
             }
         }
@@ -232,7 +233,7 @@ class WeatherSettingsFragment : Fragment() {
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {

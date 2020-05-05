@@ -100,7 +100,7 @@
 		Schlüssel aktiviert ist, ist das Wetter sichtbar.
 	</string>
 	<string name="api_key_info_start">Hi zusammen!</string>
-	<string name="action_open_provider">Öffnen von OpenWeather.com</string>
+	<string name="action_open_provider">Öffnen von OpenWeatherMap.com</string>
 	<string name="api_key_info_all_set">
 		<![CDATA[Es kann bis zu <b> zehn Minuten </b> dauern, bis der API-Schlüssel aktiviert wird.<BR /><i> Entspannen </ i> Sie! Das Wetter wird aktualisiert, sobald es verfügbar ist !!]]></string>
 	<string name="well_done">Gut gemacht!</string>

@@ -70,7 +70,7 @@ class AdvancedSettingsFragment : Fragment() {
 
         setupListener()
 
-        app_version.text = "v%s".format(BuildConfig.VERSION_NAME)
+        app_version.text = "v%s (%s)".format(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
         requirePermission()
     }
 

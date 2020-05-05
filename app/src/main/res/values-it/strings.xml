@@ -80,8 +80,8 @@
     <string name="error_no_calendar">Nessun calendario trovato.</string>
     <string name="api_key_info_title">Cosa fare</string>
     <string name="api_key_title_1">Registrati su OpenWeather</string>
-    <string name="action_open_provider">Apri OpenWeather.com</string>
-    <string name="api_key_subtitle_1">Registra un account gratuito su OpenWeather.com in pochi minuti.</string>
+    <string name="action_open_provider">Apri OpenWeatherMap.com</string>
+    <string name="api_key_subtitle_1">Registra un account gratuito su OpenWeatherMap.com in pochi minuti.</string>
     <string name="api_key_subtitle_2">Accedi alle chiavi API nelle impostazioni e copia la chiave di default.</string>
     <string name="api_key_subtitle_3">Aggiungi la chiave all\'applicazione in questa sezione e, una volta che la chiave sarà attivata, apparirà il meteo.</string>
     <string name="api_key_title_2">Copia la chiave API</string>

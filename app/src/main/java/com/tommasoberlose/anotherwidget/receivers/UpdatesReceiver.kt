@@ -28,41 +28,10 @@ class UpdatesReceiver : BroadcastReceiver() {
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",
             Intent.ACTION_DATE_CHANGED,
-            AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> MainWidget.updateWidget(context)
-        }
-    }
-
-    companion object {
-        fun setUpdates(context: Context) {
-            removeUpdates(context)
-
-            val eventRepository = EventRepository(context)
-            with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                eventRepository.getEvents().forEach { event ->
-                    val hoursDiff = Period(Calendar.getInstance().timeInMillis, event.startDate).hours
-
-                    // Update the widget every hour till the event
-                    (0 .. hoursDiff).forEach {
-                        setExact(
-                            AlarmManager.RTC_WAKEUP,
-                            (event.startDate + 1000) - it * 1000 * 60* 60,
-                            PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java).apply { action = Actions.ACTION_TIME_UPDATE }, 0)
-                        )
-                    }
-
-                    // Update the widget one second after the event is finished
-                    setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        event.endDate + 1000,
-                        PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java).apply { action = Actions.ACTION_TIME_UPDATE }, 0)
-                    )
-                }
-            }
-        }
-
-        fun removeUpdates(context: Context) {
-            with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                cancel(PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java), 0))
+            AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
+            Actions.ACTION_TIME_UPDATE -> {
+                Log.d("ciao", "force update? 4 - ${intent.action}")
+                MainWidget.updateWidget(context)
             }
         }
     }

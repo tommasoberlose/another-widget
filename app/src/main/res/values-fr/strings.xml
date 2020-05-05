@@ -86,7 +86,7 @@
     <string name="api_key_title_3">Saisissez la clé dans l\'app</string>
     <string name="api_key_subtitle_3">Collez la clé dans le champ ci-dessus et enregistrez-la. Une fois la clé activée, la météo deviendra visible.</string>
     <string name="api_key_info_start">Bonjour tout le monde !</string>
-    <string name="action_open_provider">Aller sur le site d\'OpenWeather</string>
+    <string name="action_open_provider">Aller sur le site d\'OpenWeatherMap</string>
     <string name="api_key_info_all_set"><![CDATA[Cela peut prendre jusqu\'à <b> 10 minutes </b> avant que votre clé API soit activée. La météo sera mise à jour dès qu\'elle sera disponible !]]></string>
     <string name="well_done">Bien joué !</string>
     <string name="hs_code">h</string>

@@ -39,4 +39,13 @@ object WidgetHelper {
         private fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     }
+
+    fun Pair<Int, Int>.reduceDimensionWithMaxWidth(width: Int): Pair<Int, Int> {
+        return if (first < width) {
+            this
+        } else {
+            val factor = width / first
+            width to second * factor
+        }
+    }
 }

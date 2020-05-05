@@ -1,10 +1,12 @@
 package com.tommasoberlose.anotherwidget.db
 
 import android.content.Context
+import android.util.Log
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.services.UpdatesWorker
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
 import io.realm.RealmResults
@@ -33,13 +35,10 @@ class EventRepository(val context: Context) {
             remove(Preferences::nextEventEndDate)
             remove(Preferences::nextEventCalendarId)
         }
-
-        MainWidget.updateWidget(context)
     }
 
     fun saveNextEventData(event: Event) {
         Preferences.nextEventId = event.id
-        MainWidget.updateWidget(context)
     }
 
     fun getNextEvent(): Event? = realm.where(Event::class.java).equalTo("id", Preferences.nextEventId).findFirst() ?: realm.where(Event::class.java).findFirst()
@@ -57,7 +56,7 @@ class EventRepository(val context: Context) {
         } else {
             resetNextEventData()
         }
-        UpdatesReceiver.setUpdates(context)
+        UpdatesWorker.setUpdates(context)
         MainWidget.updateWidget(context)
     }
 
@@ -74,7 +73,7 @@ class EventRepository(val context: Context) {
         } else {
             resetNextEventData()
         }
-        UpdatesReceiver.setUpdates(context)
+        UpdatesWorker.setUpdates(context)
         MainWidget.updateWidget(context)
     }
 

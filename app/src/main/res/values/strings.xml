@@ -93,7 +93,7 @@
     <string name="api_key_title_3">Enter the key to the app</string>
     <string name="api_key_subtitle_3">Paste the key into the field above and save it. Once the key is activated the weather will become visible.</string>
     <string name="api_key_info_start">Hi Everyone!</string>
-    <string name="action_open_provider">Go to OpenWeather.com</string>
+    <string name="action_open_provider">Go to OpenWeatherMap.com</string>
     <string name="api_key_info_all_set"><![CDATA[It may take up to <b>ten minutes</b> before your API key is activated. The weather will be updated as soon as it is available!]]></string>
     <string name="well_done">Well Done!</string>
     <string name="hs_code">h</string>

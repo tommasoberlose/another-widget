@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.network
 
 import android.content.Context
+import android.util.Log
 import com.kwabenaberko.openweathermaplib.constants.Units
 import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper
 import com.kwabenaberko.openweathermaplib.implementation.callbacks.CurrentWeatherCallback
@@ -23,9 +24,7 @@ class WeatherNetworkApi(val context: Context) {
                         Preferences.weatherTemp = currentWeather.main.temp.toFloat()
                         Preferences.weatherIcon = currentWeather.weather[0].icon
                         Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
-                        MainWidget.updateWidget(
-                            context
-                        )
+                        MainWidget.updateWidget(context)
 
                         EventBus.getDefault().post(MainActivity.UpdateUiMessageEvent())
                     }

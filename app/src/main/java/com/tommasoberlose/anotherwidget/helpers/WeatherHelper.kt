@@ -2,6 +2,8 @@ package com.tommasoberlose.anotherwidget.helpers
 
 import android.Manifest
 import android.content.Context
+import android.os.Build
+import android.util.Log
 import com.google.android.gms.location.LocationServices
 import com.kwabenaberko.openweathermaplib.constants.Units
 import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper
@@ -24,7 +26,7 @@ object WeatherHelper {
         val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
-        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+        } else if (context.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION)) {
             LocationServices.getFusedLocationProviderClient(context).lastLocation.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val location = task.result

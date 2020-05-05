@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.location.Address
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import com.tommasoberlose.anotherwidget.R
 import android.text.Editable
@@ -125,7 +126,7 @@ class CustomLocationActivity : AppCompatActivity() {
     private fun requirePermission() {
         Dexter.withContext(this)
             .withPermissions(
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
