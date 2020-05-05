@@ -77,13 +77,13 @@ class GeneralSettingsFragment : Fragment() {
 
         viewModel.textMainSize.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                main_text_size_label.text = String.format("%.0fsp", it)
+                main_text_size_label?.text = String.format("%.0fsp", it)
             }
         })
 
         viewModel.textSecondSize.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                second_text_size_label.text = String.format("%.0fsp", it)
+                second_text_size_label?.text = String.format("%.0fsp", it)
             }
         })
 
@@ -94,19 +94,19 @@ class GeneralSettingsFragment : Fragment() {
                 } catch (e: Exception) {
                     Preferences.textGlobalColor = "#FFFFFF"
                 }
-                font_color_label.text = it.toUpperCase()
+                font_color_label?.text = it.toUpperCase()
             }
         })
 
         viewModel.textShadow.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                text_shadow_label.text = getString(SettingsStringHelper.getTextShadowString(it))
+                text_shadow_label?.text = getString(SettingsStringHelper.getTextShadowString(it))
             }
         })
 
         viewModel.customFont.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                custom_font_label.text = getString(SettingsStringHelper.getCustomFontLabel(it))
+                custom_font_label?.text = getString(SettingsStringHelper.getCustomFontLabel(it))
             }
         })
     }

@@ -65,13 +65,13 @@ class ClockSettingsFragment : Fragment() {
         viewModel: MainViewModel
     ) {
         viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
-            large_clock_warning.isVisible = it
-            small_clock_warning.isVisible = !it
+            large_clock_warning?.isVisible = it
+            small_clock_warning?.isVisible = !it
         })
 
         viewModel.showClock.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_clock_label.text =
+                show_clock_label?.text =
                     if (it) getString(R.string.show_clock_visible) else getString(R.string.show_clock_not_visible)
                 binding.isClockVisible = it
             }
@@ -79,13 +79,13 @@ class ClockSettingsFragment : Fragment() {
 
         viewModel.clockTextSize.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                clock_text_size_label.text = String.format("%.0fsp", it)
+                clock_text_size_label?.text = String.format("%.0fsp", it)
             }
         })
 
         viewModel.clockBottomMargin.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                clock_bottom_margin_label.text = when (it) {
+                clock_bottom_margin_label?.text = when (it) {
                     Constants.ClockBottomMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
                     Constants.ClockBottomMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
                     Constants.ClockBottomMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
@@ -96,13 +96,13 @@ class ClockSettingsFragment : Fragment() {
 
         viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_next_alarm_label.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                show_next_alarm_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
         })
 
         viewModel.clockAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                clock_app_label.text =
+                clock_app_label?.text =
                     if (Preferences.clockAppName != "") Preferences.clockAppName else getString(R.string.default_clock_app)
             }
         })

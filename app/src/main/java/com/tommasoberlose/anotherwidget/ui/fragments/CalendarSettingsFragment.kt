@@ -100,7 +100,7 @@ class CalendarSettingsFragment : Fragment() {
 
         viewModel.calendarAllDay.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                all_day_label.text =
+                all_day_label?.text =
                     if (it) getString(R.string.settings_all_day_subtitle_visible) else getString(R.string.settings_all_day_subtitle_gone)
             }
             checkReadEventsPermission()
@@ -108,49 +108,49 @@ class CalendarSettingsFragment : Fragment() {
 
         viewModel.showDeclinedEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_declined_events_label.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                show_declined_events_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
             checkReadEventsPermission()
         })
 
         viewModel.secondRowInformation.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                second_row_info_label.text = getString(SettingsStringHelper.getSecondRowInfoString(it))
+                second_row_info_label?.text = getString(SettingsStringHelper.getSecondRowInfoString(it))
             }
         })
 
         viewModel.showDiffTime.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_diff_time_label.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                show_diff_time_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
         })
 
         viewModel.showUntil.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_until_label.text = getString(SettingsStringHelper.getShowUntilString(it))
+                show_until_label?.text = getString(SettingsStringHelper.getShowUntilString(it))
             }
             checkReadEventsPermission()
         })
 
         viewModel.showNextEvent.observe(viewLifecycleOwner, Observer {
-            show_multiple_events_label.setTextKeepState(if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
+            show_multiple_events_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
         })
 
         viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                date_format_label.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
+                date_format_label?.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
             }
         })
 
         viewModel.calendarAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                calendar_app_label.text = if (it != "") it else getString(R.string.default_calendar_app)
+                calendar_app_label?.text = if (it != "") it else getString(R.string.default_calendar_app)
             }
         })
 
         viewModel.openEventDetails.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                open_event_details_label.text = if (it) getString(R.string.default_event_app) else getString(R.string.default_calendar_app)
+                open_event_details_label?.text = if (it) getString(R.string.default_event_app) else getString(R.string.default_calendar_app)
             }
         })
 
@@ -320,13 +320,13 @@ class CalendarSettingsFragment : Fragment() {
 
     private fun checkReadEventsPermission(showEvents: Boolean = Preferences.showEvents) {
         if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
-            show_events_label.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
-            read_calendar_permission_alert_icon.isVisible = false
+            show_events_label?.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
+            read_calendar_permission_alert_icon?.isVisible = false
             CalendarHelper.updateEventList(requireContext())
         } else {
-            show_events_label.text = if (showEvents) getString(R.string.description_permission_calendar) else getString(R.string.show_events_not_visible)
-            read_calendar_permission_alert_icon.isVisible = showEvents
-            read_calendar_permission_alert_icon.setOnClickListener {
+            show_events_label?.text = if (showEvents) getString(R.string.description_permission_calendar) else getString(R.string.show_events_not_visible)
+            read_calendar_permission_alert_icon?.isVisible = showEvents
+            read_calendar_permission_alert_icon?.setOnClickListener {
                 requirePermission()
             }
         }

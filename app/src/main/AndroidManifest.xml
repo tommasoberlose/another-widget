@@ -65,6 +65,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_CALENDAR_UPDATE" />
+                <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_TIME_UPDATE" />
                 <action android:name="com.sec.android.widgetapp.APPWIDGET_RESIZE" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
                 <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />

@@ -21,6 +21,8 @@
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
             android:textSize="16sp"
+            android:gravity="start"
+            android:textAlignment="viewStart"
             android:id="@+id/header_text"
             android:text=""
             android:textColor="@color/colorPrimaryText"/>

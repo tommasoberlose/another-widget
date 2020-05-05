@@ -20,7 +20,9 @@ object BitmapHelper {
         view.measure(measuredWidth, measuredHeight)
 
         return try {
-            Log.d("ciao", "bitmap ${view.measuredWidth}, ${view.measuredHeight} - draw = ${draw}")
+            if (draw) {
+                Log.d("ciao", "bitmap ${view.measuredWidth}, ${view.measuredHeight}")
+            }
             val btm = Bitmap.createBitmap(
                 view.measuredWidth,
                 view.measuredHeight,

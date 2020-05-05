@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.work.*
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -27,27 +28,31 @@ class WeatherWorker(appContext: Context, workerParams: WorkerParameters) : Worke
 
             if (Preferences.showWeather && Preferences.weatherProviderApi != "") {
                 WeatherHelper.updateWeather(context)
-
-                WorkManager.getInstance(context).enqueue(PeriodicWorkRequestBuilder<WeatherWorker>(
-                    when (Preferences.weatherRefreshPeriod) {
-                        0 -> 30
-                        1 -> 60
-                        2 -> 60L * 3
-                        3 -> 60L * 6
-                        4 -> 60L * 12
-                        5 -> 60L * 24
-                        else -> 60
-                    }
-                , TimeUnit.MINUTES)
+                WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                    "WEATHER_JOB_PERIODIC",
+                    ExistingPeriodicWorkPolicy.KEEP,
+                    PeriodicWorkRequestBuilder<WeatherWorker>(
+                        when (Preferences.weatherRefreshPeriod) {
+                            0 -> 30
+                            1 -> 60
+                            2 -> 60L * 3
+                            3 -> 60L * 6
+                            4 -> 60L * 12
+                            5 -> 60L * 24
+                            else -> 60
+                        }
+                        , TimeUnit.MINUTES
+                    )
                     .addTag(JOB_TAG)
-                    .build())
+                    .build()
+                )
             }
         }
 
         fun setOneTimeUpdate(context: Context) {
             val workManager = WorkManager.getInstance(context)
-            listOf(10L, 15L, 20L).forEach {
-                workManager.enqueue(OneTimeWorkRequestBuilder<WeatherWorker>().setInitialDelay(it, TimeUnit.MINUTES).addTag(JOB_TAG).build())
+            listOf(10L, 20L, 30L).forEach {
+                workManager.enqueueUniqueWork("WEATHER_JOB_ONE_TIME_$it", ExistingWorkPolicy.KEEP, OneTimeWorkRequestBuilder<WeatherWorker>().setInitialDelay(it, TimeUnit.MINUTES).addTag(JOB_TAG).build())
             }
         }
 

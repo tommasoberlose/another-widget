@@ -79,7 +79,7 @@ class AdvancedSettingsFragment : Fragment() {
     ) {
         viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
             AppCompatDelegate.setDefaultNightMode(it)
-            theme.text = when (it) {
+            theme?.text = when (it) {
                 AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.settings_subtitle_dark_theme_light)
                 AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.settings_subtitle_dark_theme_dark)
                 AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> getString(R.string.settings_subtitle_dark_theme_by_battery_saver)
@@ -88,8 +88,12 @@ class AdvancedSettingsFragment : Fragment() {
             }
         })
 
+        viewModel.showPreview.observe(viewLifecycleOwner, Observer {
+            show_widget_preview_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        })
+
         viewModel.showWallpaper.observe(viewLifecycleOwner, Observer {
-            show_wallpaper_label.text = if (it && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            show_wallpaper_label?.text = if (it && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
         })
     }
 
@@ -112,6 +116,24 @@ class AdvancedSettingsFragment : Fragment() {
                     )
                     .addOnSelectItemListener { value ->
                         Preferences.darkThemePreference = value
+                    }.show()
+            }
+        }
+
+        action_show_widget_preview.setOnClickListener {
+            maintainScrollPosition {
+                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.action_show_widget_preview))
+                    .setSelectedValue(Preferences.showPreview)
+                    .addItem(
+                        getString(R.string.settings_visible),
+                        true
+                    )
+                    .addItem(
+                        getString(R.string.settings_not_visible),
+                        false
+                    )
+                    .addOnSelectItemListener { value ->
+                        Preferences.showPreview = value
                     }.show()
             }
         }

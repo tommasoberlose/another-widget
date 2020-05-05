@@ -95,7 +95,6 @@ object IntentHelper {
         return when (Preferences.openEventDetails || forceEventDetails) {
             true -> {
                 val uri = ContentUris.withAppendedId(Events.CONTENT_URI, e.eventID)
-
                 if (Preferences.calendarAppPackage == "") {
                     Intent(Intent.ACTION_VIEW).apply {
                         data = uri

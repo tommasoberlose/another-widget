@@ -12,7 +12,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.format.DateUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -30,9 +29,7 @@ import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWithMaxWidth
 import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
-import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
-import com.tommasoberlose.anotherwidget.services.UpdatesWorker
 import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
@@ -70,7 +67,7 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
-            UpdatesWorker.removeUpdates(context)
+            UpdatesReceiver.removeUpdates(context)
             WeatherWorker.removeUpdates(context)
         }
     }

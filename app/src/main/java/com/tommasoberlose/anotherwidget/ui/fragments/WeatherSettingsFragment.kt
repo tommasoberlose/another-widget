@@ -80,12 +80,12 @@ class WeatherSettingsFragment : Fragment() {
         viewModel: MainViewModel
     ) {
         viewModel.showWeatherWarning.observe(viewLifecycleOwner, Observer {
-            weather_warning.isVisible = it
+            weather_warning?.isVisible = it
         })
 
         viewModel.showWeather.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_weather_label.text =
+                show_weather_label?.text =
                     if (it) getString(R.string.show_weather_visible) else getString(R.string.show_weather_not_visible)
                 binding.isWeatherVisible = it
             }
@@ -94,18 +94,18 @@ class WeatherSettingsFragment : Fragment() {
 
         viewModel.weatherProviderApi.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                label_weather_provider_api_key.text =
+                label_weather_provider_api_key?.text =
                     if (it == "") getString(R.string.settings_weather_provider_api_key_subtitle_not_set) else getString(
                         R.string.settings_weather_provider_api_key_subtitle_all_set
                     )
-                api_key_alert_icon.isVisible = it == ""
+                api_key_alert_icon?.isVisible = it == ""
             }
             checkLocationPermission()
         })
 
         viewModel.customLocationAdd.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                label_custom_location.text =
+                label_custom_location?.text =
                     if (it == "") getString(R.string.custom_location_gps) else it
             }
             checkLocationPermission()
@@ -113,7 +113,7 @@ class WeatherSettingsFragment : Fragment() {
 
         viewModel.weatherTempUnit.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                temp_unit.text =
+                temp_unit?.text =
                     if (it == "F") getString(R.string.fahrenheit) else getString(R.string.celsius)
             }
             checkLocationPermission()
@@ -121,14 +121,14 @@ class WeatherSettingsFragment : Fragment() {
 
         viewModel.weatherRefreshPeriod.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                label_weather_refresh_period.text = getString(SettingsStringHelper.getRefreshPeriodString(it))
+                label_weather_refresh_period?.text = getString(SettingsStringHelper.getRefreshPeriodString(it))
             }
             checkLocationPermission()
         })
 
         viewModel.weatherAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                weather_app_label.text =
+                weather_app_label?.text =
                     if (it != "") it else getString(R.string.default_weather_app)
             }
         })
@@ -136,11 +136,11 @@ class WeatherSettingsFragment : Fragment() {
 
     private fun checkLocationPermission() {
         if (activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) == true) {
-            location_permission_alert_icon.isVisible = false
+            location_permission_alert_icon?.isVisible = false
             WeatherWorker.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
-            location_permission_alert_icon.isVisible = true
-            location_permission_alert_icon.setOnClickListener {
+            location_permission_alert_icon?.isVisible = true
+            location_permission_alert_icon?.setOnClickListener {
                 requirePermission()
             }
         }

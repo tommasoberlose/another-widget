@@ -51,4 +51,5 @@ class MainViewModel : ViewModel() {
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)
     val showWallpaper = Preferences.asLiveData(Preferences::showWallpaper)
+    val showPreview = Preferences.asLiveData(Preferences::showPreview)
 }
