@@ -18,7 +18,7 @@ android {
         applicationId "com.tommasoberlose.anotherwidget"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 68
+        versionCode 69
         versionName "2.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -90,6 +90,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'joda-time:joda-time:2.9.9'
     implementation 'me.everything:providers-android:1.0.1'
+    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'

@@ -202,4 +202,7 @@
 	<string name="xiaomi_warning_message">Enable the permission to display pop-up windows when running in the background inside the "Other permission" section of the app settings. Otherwise, you will not able to open any applications tapping on the widget.</string>
 	<string name="action_ignore">Ignore</string>
 	<string name="action_grant_permission">Grant permission</string>
+	<string name="alpha">Alpha</string>
+	<string name="settings_background_color_title">Background color</string>
+	<string name="transparent">Transparent</string>
 </resources>

@@ -43,7 +43,7 @@ object WeatherHelper {
 
     fun removeWeather(context: Context) {
         Preferences.remove(Preferences::weatherTemp)
-        Preferences.remove(Preferences::weatherTempUnit)
+        Preferences.remove(Preferences::weatherRealTempUnit)
         MainWidget.updateWidget(context)
     }
 

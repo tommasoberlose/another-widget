@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/AnotherWidget.Date.Big"
-                android:ellipsize="marquee"
+                android:maxLines="1"
                 android:includeFontPadding="false"
                 android:id="@+id/temp"/>
         </LinearLayout>

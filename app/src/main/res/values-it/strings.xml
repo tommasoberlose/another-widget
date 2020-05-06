@@ -181,4 +181,7 @@
     <string name="xiaomi_warning_message">Concedi il permesso per mostrare finstre pop-up quando l\'applicazione è in background. Puoi trovare l\'impostazione nella sezione Altri permessi nei dettagli dell\'app. Nel caso non fosse attivata non sarà possibile aprire applicazioni cliccando sul widget.</string>
     <string name="action_ignore">Ignora</string>
     <string name="action_grant_permission">Concedi permesso</string>
+    <string name="alpha">Trasparenza</string>
+    <string name="settings_background_color_title">Colore background</string>
+    <string name="transparent">Trasparente</string>
 </resources>

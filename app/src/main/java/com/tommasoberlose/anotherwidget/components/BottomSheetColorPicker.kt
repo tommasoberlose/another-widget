@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.GridLayout
+import android.widget.SeekBar
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -19,6 +20,9 @@ import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.utils.expand
 import com.tommasoberlose.anotherwidget.utils.reveal
+import com.warkiz.widget.IndicatorSeekBar
+import com.warkiz.widget.OnSeekChangeListener
+import com.warkiz.widget.SeekParams
 import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.*
 import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.view.*
 import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.view.color_loader
@@ -32,7 +36,10 @@ class BottomSheetColorPicker(
     private val colors: IntArray = intArrayOf(),
     private val selected: Int? = null,
     private val header: String? = null,
-    private val onColorSelected: ((selectedValue: Int) -> Unit)? = null
+    private val onColorSelected: ((selectedValue: Int) -> Unit)? = null,
+    private val showAlphaSelector: Boolean = false,
+    private val alpha: Int = 0,
+    private val onAlphaChangeListener: ((alpha: Int) -> Unit)? = null
 ) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
     private val loadingJob: Job? = null
@@ -43,6 +50,22 @@ class BottomSheetColorPicker(
         // Header
         view.header.isVisible = header != null
         view.header_text.text = header ?: ""
+
+        view.alpha_selector_container.isVisible = showAlphaSelector
+        view.alpha_selector.setProgress(alpha.toFloat())
+        view.text_alpha.text = "%s: %s%%".format(context.getString(R.string.alpha), alpha)
+        view.alpha_selector.onSeekChangeListener = object : OnSeekChangeListener {
+            override fun onSeeking(seekParams: SeekParams?) {
+                seekParams?.let {
+                    view.text_alpha.text = "%s: %s%%".format(context.getString(R.string.alpha), it.progress)
+                    onAlphaChangeListener?.invoke(it.progress)
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: IndicatorSeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: IndicatorSeekBar?) {
+            }
+        }
 
         val itemViews: ArrayList<View> = ArrayList()
 

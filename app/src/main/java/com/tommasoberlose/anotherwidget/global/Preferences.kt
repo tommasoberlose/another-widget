@@ -40,6 +40,11 @@ object Preferences : KotprefModel() {
     var eventAppPackage by stringPref(key = "PREF_EVENT_APP_PACKAGE", default = "")
     var openEventDetails by booleanPref(default = true)
     var textGlobalColor by stringPref(key = "PREF_TEXT_COLOR", default = "#FFFFFF")
+    var textGlobalAlpha by stringPref(default = "FF")
+
+    var backgroundCardColor by stringPref(default = "#000000")
+    var backgroundCardAlpha by stringPref(default = "00")
+
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
     var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)
     var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 90f)

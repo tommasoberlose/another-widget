@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -35,6 +36,7 @@ import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.the_widget.view.*
+import kotlinx.android.synthetic.main.the_widget_sans.*
 import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
@@ -95,7 +97,7 @@ class MainWidget : AppWidgetProvider() {
             val displayMetrics = Resources.getSystem().displayMetrics
             val width = displayMetrics.widthPixels
 
-            val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId).reduceDimensionWithMaxWidth(1200)
+            val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
             generateWidgetView(context, appWidgetId, appWidgetManager, dimensions.first - 8.toPixel(context) /*width - 16.toPixel(context)*/)
         }
 
@@ -104,6 +106,10 @@ class MainWidget : AppWidgetProvider() {
 
             val generatedView = generateWidgetView(context)
             views.setImageViewBitmap(R.id.bitmap_container, BitmapHelper.getBitmapFromView(generatedView, width = w))
+
+            // Background
+            views.setInt(R.id.widget_shape_background, "setColorFilter", ColorHelper.getBackgroundColorRgb())
+            views.setInt(R.id.widget_shape_background, "setImageAlpha", ColorHelper.getBackgroundAlpha())
 
             // Clock
             views = updateClockView(context, views, appWidgetId)
@@ -262,6 +268,7 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 }
             } catch (ex: Exception) {
+                ex.printStackTrace()
                 FirebaseCrashlytics.getInstance().recordException(ex)
             }
 
@@ -295,6 +302,7 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)
                 }
             } catch (ex: Exception) {
+                ex.printStackTrace()
                 FirebaseCrashlytics.getInstance().recordException(ex)
             }
             return views
@@ -304,16 +312,23 @@ class MainWidget : AppWidgetProvider() {
             try {
                 if (!Preferences.showClock) {
                     views.setViewVisibility(R.id.time, View.GONE)
+                    views.setViewVisibility(R.id.time_am_pm, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_none, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_small, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
                 } else {
                     views.setTextColor(R.id.time, ColorHelper.getFontColor())
+                    views.setTextColor(R.id.time_am_pm, ColorHelper.getFontColor())
                     views.setTextViewTextSize(
                         R.id.time,
                         TypedValue.COMPLEX_UNIT_SP,
                         Preferences.clockTextSize.toPixel(context)
+                    )
+                    views.setTextViewTextSize(
+                        R.id.time_am_pm,
+                        TypedValue.COMPLEX_UNIT_SP,
+                        Preferences.clockTextSize.toPixel(context) / 5 * 2
                     )
                     val clockPIntent = PendingIntent.getActivity(
                         context,
@@ -322,7 +337,9 @@ class MainWidget : AppWidgetProvider() {
                         0
                     )
                     views.setOnClickPendingIntent(R.id.time, clockPIntent)
+                    views.setOnClickPendingIntent(R.id.time_am_pm, clockPIntent)
                     views.setViewVisibility(R.id.time, View.VISIBLE)
+                    views.setViewVisibility(R.id.time_am_pm, View.VISIBLE)
 
                     views.setViewVisibility(
                         R.id.clock_bottom_margin_none,
@@ -342,6 +359,7 @@ class MainWidget : AppWidgetProvider() {
                     )
                 }
             } catch (ex: Exception) {
+                ex.printStackTrace()
                 FirebaseCrashlytics.getInstance().recordException(ex)
             }
 

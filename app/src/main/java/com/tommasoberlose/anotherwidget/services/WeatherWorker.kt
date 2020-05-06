@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit
 
 class WeatherWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
     override fun doWork(): Result {
+        Log.d("ciao1", "weather ok")
         WeatherHelper.updateWeather(applicationContext)
         return Result.success()
     }

@@ -1,139 +1,171 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:id="@+id/main_layout">
-    <TextClock
-        android:id="@+id/time"
+    android:layout_height="match_parent">
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:scaleType="fitXY"
+        android:id="@+id/widget_shape_background"
+        android:src="@drawable/card_background" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:lineSpacingMultiplier="1"
-        android:lineSpacingExtra="0dp"
-        android:includeFontPadding="false"
-        android:format12Hour="hh:mm"
-        android:padding="0dp"
-        android:visibility="gone"
-        android:lines="1"
-        android:maxLines="1"
-        style="@style/AnotherWidget.Title"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="-16dp"
-        android:orientation="horizontal"
-        android:id="@+id/clock_bottom_margin_none" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="-8dp"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:id="@+id/clock_bottom_margin_small" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:id="@+id/clock_bottom_margin_medium" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:id="@+id/clock_bottom_margin_large" />
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:id="@+id/main_layout">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:alpha="0"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
+            android:id="@+id/time_container"
+            android:gravity="center_horizontal"
             android:layoutDirection="locale"
-            android:id="@+id/empty_layout_rect">
-            <ImageView
+            android:orientation="horizontal">
+            <TextClock
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/empty_date_rect"/>
-            <ImageView
+                android:gravity="center"
+                android:lineSpacingMultiplier="1"
+                android:lineSpacingExtra="0dp"
+                android:includeFontPadding="false"
+                android:format12Hour="h:mm"
+                android:padding="0dp"
+                android:lines="1"
+                android:maxLines="1"
+                style="@style/AnotherWidget.Title"/>
+            <TextClock
+                android:id="@+id/time_am_pm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/weather_rect" />
+                android:gravity="center"
+                android:lineSpacingMultiplier="1"
+                android:lineSpacingExtra="0dp"
+                android:includeFontPadding="false"
+                android:format12Hour="a"
+                android:format24Hour=""
+                android:padding="0dp"
+                android:lines="1"
+                android:maxLines="1"
+                style="@style/AnotherWidget.Title"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/calendar_layout_rect"
-            android:alpha="0"
-            android:gravity="center">
+            android:layout_height="2dp"
+            android:layout_marginTop="-16dp"
+            android:orientation="horizontal"
+            android:id="@+id/clock_bottom_margin_none" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="-8dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/clock_bottom_margin_small" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/clock_bottom_margin_medium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/clock_bottom_margin_large" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layoutDirection="locale"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/action_previous_rect" />
-                <ImageView
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:id="@+id/next_event_rect" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/next_event_difference_time_rect" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/action_next_rect" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:alpha="0"
+                android:layout_centerHorizontal="true"
                 android:orientation="horizontal"
                 android:layoutDirection="locale"
+                android:id="@+id/empty_layout_rect">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/empty_date_rect"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/weather_rect" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/calendar_layout_rect"
+                android:alpha="0"
                 android:gravity="center">
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layoutDirection="locale"
                     android:orientation="horizontal">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/second_row_rect" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/action_previous_rect" />
+                    <ImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:id="@+id/next_event_rect" />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/calendar_weather_rect" />
+                        android:id="@+id/next_event_difference_time_rect" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/action_next_rect" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layoutDirection="locale"
+                    android:gravity="center">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/second_row_rect" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/calendar_weather_rect" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:id="@+id/bitmap_container"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:id="@+id/bitmap_container"/>
 
-    </RelativeLayout>
-</LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

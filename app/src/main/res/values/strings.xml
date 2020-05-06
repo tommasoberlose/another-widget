@@ -51,7 +51,7 @@
     <string name="custom_location_gps">Use geolocation</string>
     <string name="action_refresh_widget">Refresh widget</string>
     <string name="show_events_visible">Events are visible</string>
-    <string name="show_events_not_visible">Events are not visible</string>
+    <string name="show_events_not_visible">Events are hidden</string>
     <string name="show_weather_visible">Weather info is visible</string>
     <string name="show_weather_not_visible">Weather info is hidden</string>
     <string name="settings_show_until_subtitle_0">3 hours later</string>
@@ -105,6 +105,7 @@
     <string name="settings_second_row_info_subtitle_0">Event time</string>
     <string name="settings_second_row_info_subtitle_2">Show next alarm time</string>
     <string name="settings_font_color_title">Text color</string>
+    <string name="settings_background_color_title">Background color</string>
     <string name="title_main_text_size">First row text size</string>
     <string name="title_second_text_size">Second row text size</string>
     <string name="provider_open_weather" translatable="false">OpenWeather</string>
@@ -193,4 +194,6 @@
     <string name="xiaomi_warning_message">Enable the permission to display pop-up windows when running in the background inside the "Other permission" section of the app settings. Otherwise, you will not able to open any applications tapping on the widget.</string>
     <string name="action_ignore">Ignore</string>
     <string name="action_grant_permission">Grant permission</string>
+    <string name="alpha">Alpha</string>
+    <string name="transparent">Transparent</string>
 </resources>

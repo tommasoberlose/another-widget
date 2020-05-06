@@ -8,6 +8,9 @@ class MainViewModel : ViewModel() {
 
     // General Settings
     val textGlobalColor = Preferences.asLiveData(Preferences::textGlobalColor)
+    val textGlobalAlpha = Preferences.asLiveData(Preferences::textGlobalAlpha)
+    val backgroundCardColor = Preferences.asLiveData(Preferences::backgroundCardColor)
+    val backgroundCardAlpha = Preferences.asLiveData(Preferences::backgroundCardAlpha)
     val textMainSize = Preferences.asLiveData(Preferences::textMainSize)
     val textSecondSize = Preferences.asLiveData(Preferences::textSecondSize)
     val textShadow = Preferences.asLiveData(Preferences::textShadow)

@@ -1,9 +1,11 @@
 package com.tommasoberlose.anotherwidget.ui.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,9 @@ import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentGeneralSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -71,6 +76,7 @@ class GeneralSettingsFragment : Fragment() {
     }
 
 
+    @SuppressLint("DefaultLocale")
     private fun subscribeUi(
         viewModel: MainViewModel
     ) {
@@ -89,12 +95,45 @@ class GeneralSettingsFragment : Fragment() {
 
         viewModel.textGlobalColor.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                try {
-                    Color.parseColor(it)
-                } catch (e: Exception) {
-                    Preferences.textGlobalColor = "#FFFFFF"
+                if (Preferences.textGlobalAlpha == "00") {
+                    font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor())).toUpperCase()
                 }
-                font_color_label?.text = it.toUpperCase()
+            }
+        })
+
+        viewModel.textGlobalAlpha.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textGlobalAlpha == "00") {
+                    font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor())).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.backgroundCardColor.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.backgroundCardAlpha == "00") {
+                    background_color_label?.text = getString(R.string.transparent)
+                } else {
+                    background_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor())).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.backgroundCardAlpha.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.backgroundCardAlpha == "00") {
+                    background_color_label?.text = getString(R.string.transparent)
+                } else {
+                    background_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor())).toUpperCase()
+                }
             }
         })
 
@@ -142,19 +181,35 @@ class GeneralSettingsFragment : Fragment() {
         }
 
         action_font_color.setOnClickListener {
-            val textColor = try {
-                Color.parseColor(Preferences.textGlobalColor)
-            } catch (e: Exception) {
-                Preferences.textGlobalColor = "#FFFFFF"
-                Color.parseColor(Preferences.textGlobalColor)
-            }
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_font_color_title),
-                selected = textColor,
+                selected = ColorHelper.getFontColor(),
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
                     Preferences.textGlobalColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                },
+                showAlphaSelector = true,
+                alpha = Preferences.textGlobalAlpha.toIntValue(),
+                onAlphaChangeListener = { alpha ->
+                    Preferences.textGlobalAlpha = alpha.toHexValue()
+                }
+            ).show()
+        }
+
+        action_background_color.setOnClickListener {
+            BottomSheetColorPicker(requireContext(),
+                colors = colors,
+                header = getString(R.string.settings_background_color_title),
+                selected = ColorHelper.getBackgroundColor(),
+                onColorSelected = { color: Int ->
+                    val colorString = Integer.toHexString(color)
+                    Preferences.backgroundCardColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                },
+                showAlphaSelector = true,
+                alpha = Preferences.backgroundCardAlpha.toIntValue(),
+                onAlphaChangeListener = { alpha ->
+                    Preferences.backgroundCardAlpha = alpha.toHexValue()
                 }
             ).show()
         }

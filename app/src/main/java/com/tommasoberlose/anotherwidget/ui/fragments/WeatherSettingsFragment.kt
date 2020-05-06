@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -98,7 +99,7 @@ class WeatherSettingsFragment : Fragment() {
                     if (it == "") getString(R.string.settings_weather_provider_api_key_subtitle_not_set) else getString(
                         R.string.settings_weather_provider_api_key_subtitle_all_set
                     )
-                api_key_alert_icon?.isVisible = it == ""
+                label_weather_provider_api_key?.setTextColor(ContextCompat.getColor(requireContext(), if (it == "") R.color.errorColorText else R.color.colorSecondaryText))
             }
             checkLocationPermission()
         })
@@ -135,12 +136,17 @@ class WeatherSettingsFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
+        // Background permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && activity?.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) == true) {
+            requirePermission()
+        }
+
         if (activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) == true) {
-            location_permission_alert_icon?.isVisible = false
+            location_permission_alert?.isVisible = false
             WeatherWorker.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
-            location_permission_alert_icon?.isVisible = true
-            location_permission_alert_icon?.setOnClickListener {
+            location_permission_alert?.isVisible = true
+            location_permission_alert?.setOnClickListener {
                 requirePermission()
             }
         }

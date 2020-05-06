@@ -2,14 +2,12 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 
 import android.Manifest
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -42,7 +40,6 @@ import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_calendar_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Comparator
 
@@ -89,7 +86,6 @@ class CalendarSettingsFragment : Fragment() {
                 binding.isCalendarEnabled = it
 
                 if (it) {
-                    requirePermission()
                     CalendarHelper.setEventUpdatesAndroidN(requireContext())
                 } else {
                     CalendarHelper.removeEventUpdatesAndroidN(requireContext())
@@ -321,12 +317,12 @@ class CalendarSettingsFragment : Fragment() {
     private fun checkReadEventsPermission(showEvents: Boolean = Preferences.showEvents) {
         if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
             show_events_label?.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
-            read_calendar_permission_alert_icon?.isVisible = false
+            read_calendar_permission_alert?.isVisible = false
             CalendarHelper.updateEventList(requireContext())
         } else {
             show_events_label?.text = if (showEvents) getString(R.string.description_permission_calendar) else getString(R.string.show_events_not_visible)
-            read_calendar_permission_alert_icon?.isVisible = showEvents
-            read_calendar_permission_alert_icon?.setOnClickListener {
+            read_calendar_permission_alert?.isVisible = showEvents
+            read_calendar_permission_alert?.setOnClickListener {
                 requirePermission()
             }
         }

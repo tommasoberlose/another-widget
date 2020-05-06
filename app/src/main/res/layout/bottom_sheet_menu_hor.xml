@@ -35,24 +35,77 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <GridLayout
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/menu"
-                android:visibility="gone"
-                android:layout_margin="16dp"
-                android:columnCount="6"/>
-            <ProgressBar
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:indeterminateTint="@color/colorPrimaryText"
-                android:indeterminate="true"
-                android:layout_margin="32dp"
-                android:layout_centerInParent="true"
-                android:id="@+id/color_loader" />
-        </RelativeLayout>
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
+                android:id="@+id/alpha_selector_container"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                    app:textAllCaps="false"
+                    android:letterSpacing="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textSize="15sp"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:id="@+id/text_alpha"
+                    android:text="Alpha : 20%"
+                    android:textColor="@color/colorSecondaryText"/>
+                <com.warkiz.widget.IndicatorSeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:isb_max="100"
+                    app:isb_min="0"
+                    app:isb_seek_smoothly="true"
+                    app:isb_show_thumb_text="false"
+                    app:isb_thumb_adjust_auto="true"
+                    app:isb_track_rounded_corners="true"
+                    app:isb_thumb_text_color="@color/colorAccent"
+                    app:isb_progress_value_float="false"
+                    app:isb_show_tick_texts="false"
+                    app:isb_show_indicator="none"
+                    app:isb_thumb_color="@color/colorAccent"
+                    app:isb_thumb_size="12dp"
+                    android:id="@+id/alpha_selector"
+                    app:isb_track_background_color="@color/disabledButtonBackground"
+                    app:isb_track_background_size="4dp"
+                    app:isb_track_progress_color="@color/disabledButtonBackground"
+                    app:isb_track_progress_size="4dp"
+                    app:isb_only_thumb_draggable="false"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/menu"
+                    android:visibility="gone"
+                    android:layout_margin="16dp"
+                    android:columnCount="6"/>
+                <ProgressBar
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:indeterminateTint="@color/colorPrimaryText"
+                    android:indeterminate="true"
+                    android:layout_margin="32dp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/color_loader" />
+            </RelativeLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

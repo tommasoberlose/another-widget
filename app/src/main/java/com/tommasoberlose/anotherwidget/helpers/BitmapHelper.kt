@@ -2,14 +2,14 @@ package com.tommasoberlose.anotherwidget.helpers
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.drawToBitmap
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import java.lang.Exception
+
 
 object BitmapHelper {
 
@@ -26,9 +26,9 @@ object BitmapHelper {
             val btm = Bitmap.createBitmap(
                 view.measuredWidth,
                 view.measuredHeight,
-                if (draw) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
+                if (true || draw) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
             )
-            if (draw) {
+            if (true || draw) {
                 //Bind a canvas to it
                 val canvas = Canvas(btm)
                 // draw the view on the canvas
@@ -75,5 +75,31 @@ object BitmapHelper {
         canvas.drawBitmap(resultBitmap, 0f, 0f, p)
 
         return resultBitmap
+    }
+
+    fun drawableToBitmap(drawable: Drawable): Bitmap? {
+        var bitmap: Bitmap? = null
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(
+                1,
+                1,
+                Bitmap.Config.ARGB_8888
+            ) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+        }
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 }

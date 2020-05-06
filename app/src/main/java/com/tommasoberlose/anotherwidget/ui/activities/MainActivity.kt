@@ -1,24 +1,27 @@
 package com.tommasoberlose.anotherwidget.ui.activities
 
+import android.Manifest
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
@@ -33,6 +36,7 @@ import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -73,7 +77,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         // Init clock
         time.setTextColor(ColorHelper.getFontColor())
         time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(this@MainActivity))
-        time.isVisible = Preferences.showClock
+        time_am_pm.setTextColor(ColorHelper.getFontColor())
+        time_am_pm.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(this@MainActivity) / 5 * 2)
+        time_container.isVisible = Preferences.showClock
 
         preview.layoutParams = preview.layoutParams.apply {
             height = 160.toPixel(this@MainActivity) + if (Preferences.showClock) 100.toPixel(this@MainActivity) else 0
@@ -85,6 +91,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         WeatherHelper.updateWeather(this)
 
+
+        // Warnings
         if (getString(R.string.xiaomi_manufacturer).equals(Build.MANUFACTURER, ignoreCase = true) && Preferences.showXiaomiWarning) {
             MaterialBottomSheetDialog(this, getString(R.string.xiaomi_warning_title), getString(R.string.xiaomi_warning_message))
                 .setNegativeButton(getString(R.string.action_ignore)) {
@@ -114,6 +122,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     ) android.R.color.white else R.color.colorAccent
                 )
             )
+            widget_shape_background.setImageDrawable(BitmapHelper.getTintedDrawable(this, R.drawable.card_background, ColorHelper.getBackgroundColor()))
             uiJob = lifecycleScope.launch(Dispatchers.IO) {
                 delay(200)
                 val generatedView = MainWidget.generateWidgetView(this@MainActivity)
@@ -131,11 +140,15 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 withContext(Dispatchers.Main) {
                     // Clock
                     time.setTextColor(ColorHelper.getFontColor())
+                    time_am_pm.setTextColor(ColorHelper.getFontColor())
                     time.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP,
                         Preferences.clockTextSize.toPixel(this@MainActivity)
                     )
-                    time.format12Hour = "hh:mm"
+                    time_am_pm.setTextSize(
+                        TypedValue.COMPLEX_UNIT_SP,
+                        Preferences.clockTextSize.toPixel(this@MainActivity) / 5 * 2
+                    )
 
                     // Clock bottom margin
                     clock_bottom_margin_none.isVisible =
@@ -147,14 +160,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     clock_bottom_margin_large.isVisible =
                         Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
 
-                    if ((Preferences.showClock && !time.isVisible) || (!Preferences.showClock && time.isVisible)) {
+                    if ((Preferences.showClock && !time_container.isVisible) || (!Preferences.showClock && time_container.isVisible)) {
                         if (Preferences.showClock) {
-                            time.layoutParams = time.layoutParams.apply {
+                            time_container.layoutParams = time_container.layoutParams.apply {
                                 height = RelativeLayout.LayoutParams.WRAP_CONTENT
                             }
-                            time.measure(0, 0)
+                            time_container.measure(0, 0)
                         }
-                        val initialHeight = time.measuredHeight
+                        val initialHeight = time_container.measuredHeight
                         ValueAnimator.ofFloat(
                             if (Preferences.showClock) 0f else 1f,
                             if (Preferences.showClock) 1f else 0f
@@ -162,19 +175,19 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                             duration = 500L
                             addUpdateListener {
                                 val animatedValue = animatedValue as Float
-                                time.layoutParams = time.layoutParams.apply {
+                                time_container.layoutParams = time_container.layoutParams.apply {
                                     height = (initialHeight * animatedValue).toInt()
                                 }
                             }
                             addListener(
                                 onStart = {
                                     if (Preferences.showClock) {
-                                        time.isVisible = true
+                                        time_container.isVisible = true
                                     }
                                 },
                                 onEnd = {
                                     if (!Preferences.showClock) {
-                                        time.isVisible = false
+                                        time_container.isVisible = false
                                     }
                                 }
                             )
@@ -195,10 +208,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                             }
                         }.start()
                     } else {
-                        time.layoutParams = time.layoutParams.apply {
+                        time_container.layoutParams = time_container.layoutParams.apply {
                             height = RelativeLayout.LayoutParams.WRAP_CONTENT
                         }
-                        time.measure(0, 0)
+                        time_container.measure(0, 0)
                     }
 
                     if (preview.height == 0) {
@@ -237,6 +250,19 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 }
             }.start()
         }
+
+
+        // Calendar error indicator
+        tabs.getTabAt(1)?.orCreateBadge?.apply {
+            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.errorColorText)
+            badgeGravity = BadgeDrawable.TOP_END
+        }?.isVisible = Preferences.showEvents && !checkGrantedPermission(Manifest.permission.READ_CALENDAR)
+
+        // Weather error indicator
+        tabs.getTabAt(2)?.orCreateBadge?.apply {
+            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.errorColorText)
+            badgeGravity = BadgeDrawable.TOP_END
+        }?.isVisible = Preferences.showWeather && (Preferences.weatherProviderApi == "" || (Preferences.customLocationAdd == "" && !checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION)))
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
