@@ -3,26 +3,36 @@ package com.tommasoberlose.anotherwidget.ui.activities
 import android.Manifest
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
+import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kwabenaberko.openweathermaplib.models.common.Weather
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.global.Actions
@@ -30,21 +40,27 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
+import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.services.UpdatesWorker
+import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
 import com.tommasoberlose.anotherwidget.utils.toPixel
+import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.the_widget_sans.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -263,6 +279,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
         }?.isVisible = Preferences.showWeather && (Preferences.weatherProviderApi == "" || (Preferences.customLocationAdd == "" && !checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION)))
+
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {

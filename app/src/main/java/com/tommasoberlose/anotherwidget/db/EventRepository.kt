@@ -57,7 +57,7 @@ class EventRepository(val context: Context) {
         } else {
             resetNextEventData()
         }
-        UpdatesWorker.setUpdates(context)
+        UpdatesReceiver.setUpdates(context)
         MainWidget.updateWidget(context)
     }
 
@@ -74,7 +74,7 @@ class EventRepository(val context: Context) {
         } else {
             resetNextEventData()
         }
-        UpdatesWorker.setUpdates(context)
+        UpdatesReceiver.setUpdates(context)
         MainWidget.updateWidget(context)
     }
 

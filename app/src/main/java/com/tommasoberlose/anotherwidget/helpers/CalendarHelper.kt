@@ -125,8 +125,7 @@ object CalendarHelper {
             eventRepository.resetNextEventData()
         }
 
-        UpdatesWorker.setUpdates(context)
-        Log.d("ciao", "force update? 7")
+        UpdatesReceiver.setUpdates(context)
         MainWidget.updateWidget(context)
 
         EventBus.getDefault().post(MainActivity.UpdateUiMessageEvent())

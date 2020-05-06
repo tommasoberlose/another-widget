@@ -70,7 +70,7 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
-            UpdatesWorker.removeUpdates(context)
+            UpdatesReceiver.removeUpdates(context)
             WeatherWorker.removeUpdates(context)
         }
     }
@@ -78,13 +78,7 @@ class MainWidget : AppWidgetProvider() {
     companion object {
 
         fun updateWidget(context: Context) {
-            val widgetManager = AppWidgetManager.getInstance(context)
-            val widgetComponent = ComponentName(context, MainWidget::class.java)
-            val widgetIds = widgetManager.getAppWidgetIds(widgetComponent)
-            val update = Intent(context, MainWidget::class.java)
-            update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
-            update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            context.sendBroadcast(update)
+            context.sendBroadcast(IntentHelper.getWidgetUpdateIntent(context))
         }
 
         fun getWidgetCount(context: Context): Int {
@@ -111,6 +105,13 @@ class MainWidget : AppWidgetProvider() {
             // Background
             views.setInt(R.id.widget_shape_background, "setColorFilter", ColorHelper.getBackgroundColorRgb())
             views.setInt(R.id.widget_shape_background, "setImageAlpha", ColorHelper.getBackgroundAlpha())
+            val refreshIntent = PendingIntent.getActivity(
+                context,
+                appWidgetId,
+                IntentHelper.getWidgetUpdateIntent(context),
+                0
+            )
+            views.setOnClickPendingIntent(R.id.widget_shape_background, refreshIntent)
 
             // Clock
             views = updateClockView(context, views, appWidgetId)

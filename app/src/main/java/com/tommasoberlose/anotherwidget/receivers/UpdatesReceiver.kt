@@ -55,13 +55,12 @@ class UpdatesReceiver : BroadcastReceiver() {
                     if (event.startDate > now.timeInMillis) {
                         // Update the widget every hour till the event
                         (0..diff.hours).forEach {
-                            AlarmManagerCompat.setExactAndAllowWhileIdle(
-                                this,
-                                AlarmManager.RTC_WAKEUP,
-                                if (event.startDate - it * 1000 * 60 * 60 > 60 * 1000) event.startDate - it * 1000 * 60 * 60 else 120000,
+                            setExactAndAllowWhileIdle(
+                                AlarmManager.RTC,
+                                if (event.startDate - it * 1000 * 60 * 60 > 60 * 1000) event.startDate - it * 1000 * 60 * 60 else now.timeInMillis + 120000,
                                 PendingIntent.getBroadcast(
                                     context,
-                                    0,
+                                    event.eventID.toInt() + it,
                                     Intent(context, UpdatesReceiver::class.java).apply {
                                         action = Actions.ACTION_TIME_UPDATE
                                     },
@@ -72,10 +71,10 @@ class UpdatesReceiver : BroadcastReceiver() {
                     }
 
                     // Update the widget one second after the event is finished
-                    AlarmManagerCompat.setExactAndAllowWhileIdle(this,
-                        AlarmManager.RTC_WAKEUP,
-                        if (event.endDate > 60 *1000) event.endDate else 120000,
-                        PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java).apply { action = Actions.ACTION_TIME_UPDATE }, 0)
+                    setExactAndAllowWhileIdle(
+                        AlarmManager.RTC,
+                        if (event.endDate > 60 *1000) event.endDate else now.timeInMillis + 120000,
+                        PendingIntent.getBroadcast(context, 1, Intent(context, UpdatesReceiver::class.java).apply { action = Actions.ACTION_TIME_UPDATE }, 0)
                     )
                 }
             }
@@ -83,7 +82,12 @@ class UpdatesReceiver : BroadcastReceiver() {
 
         fun removeUpdates(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                cancel(PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java), 0))
+                cancel(PendingIntent.getBroadcast(context, 1, Intent(context, UpdatesReceiver::class.java), 0))
+                EventRepository(context).getEvents().forEach {
+                    (0..24).forEach { hour ->
+                        cancel(PendingIntent.getBroadcast(context, it.eventID.toInt() * hour, Intent(context, UpdatesReceiver::class.java), 0))
+                    }
+                }
             }
         }
     }

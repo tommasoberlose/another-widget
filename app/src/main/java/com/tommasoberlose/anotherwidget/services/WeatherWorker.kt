@@ -26,6 +26,9 @@ class WeatherWorker(appContext: Context, workerParams: WorkerParameters) : Worke
 
         fun setUpdates(context: Context) {
             removeUpdates(context)
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
             if (Preferences.showWeather && Preferences.weatherProviderApi != "") {
                 WeatherHelper.updateWeather(context)
@@ -44,16 +47,26 @@ class WeatherWorker(appContext: Context, workerParams: WorkerParameters) : Worke
                         }
                         , TimeUnit.MINUTES
                     )
-                    .addTag(JOB_TAG)
-                    .build()
+                        .addTag(JOB_TAG)
+                        .setConstraints(constraints)
+                        .build()
                 )
             }
         }
 
         fun setOneTimeUpdate(context: Context) {
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
             val workManager = WorkManager.getInstance(context)
             listOf(10L, 20L, 30L).forEach {
-                workManager.enqueueUniqueWork("WEATHER_JOB_ONE_TIME_$it", ExistingWorkPolicy.KEEP, OneTimeWorkRequestBuilder<WeatherWorker>().setInitialDelay(it, TimeUnit.MINUTES).addTag(JOB_TAG).build())
+                workManager.enqueueUniqueWork("WEATHER_JOB_ONE_TIME_$it", ExistingWorkPolicy.KEEP,
+                    OneTimeWorkRequestBuilder<WeatherWorker>()
+                        .setInitialDelay(it, TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+                        .addTag(JOB_TAG)
+                        .build()
+                )
             }
         }
 

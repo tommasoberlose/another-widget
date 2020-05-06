@@ -1,5 +1,6 @@
 package com.tommasoberlose.anotherwidget.helpers
 
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.ContentUris
 import android.content.Context
@@ -11,12 +12,23 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import java.util.*
 
 
 object IntentHelper {
 
-    fun getGoogleMapsIntentFromAddress(context: Context, address:String): Intent {
+    fun getWidgetUpdateIntent(context: Context): Intent {
+        val widgetManager = AppWidgetManager.getInstance(context)
+        val widgetComponent = ComponentName(context, MainWidget::class.java)
+        val widgetIds = widgetManager.getAppWidgetIds(widgetComponent)
+        return Intent(context, MainWidget::class.java).apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        }
+    }
+
+    fun getGoogleMapsIntentFromAddress(context: Context, address: String): Intent {
         val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=$address")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.`package` = "com.google.android.apps.maps"

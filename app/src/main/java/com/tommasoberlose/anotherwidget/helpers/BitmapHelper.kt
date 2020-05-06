@@ -20,15 +20,12 @@ object BitmapHelper {
         view.measure(measuredWidth, measuredHeight)
 
         return try {
-            if (draw) {
-                Log.d("ciao", "bitmap ${view.measuredWidth}, ${view.measuredHeight}")
-            }
             val btm = Bitmap.createBitmap(
                 view.measuredWidth,
                 view.measuredHeight,
-                if (true || draw) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
+                if (draw) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
             )
-            if (true || draw) {
+            if (draw) {
                 //Bind a canvas to it
                 val canvas = Canvas(btm)
                 // draw the view on the canvas

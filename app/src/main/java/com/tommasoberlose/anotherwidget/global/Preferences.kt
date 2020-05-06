@@ -7,7 +7,7 @@ import com.chibatching.kotpref.KotprefModel
 object Preferences : KotprefModel() {
     override val commitAllPropertiesByDefault: Boolean = true
 
-    var darkThemePreference by intPref(default = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) MODE_NIGHT_FOLLOW_SYSTEM else MODE_NIGHT_AUTO_BATTERY)
+    var darkThemePreference by intPref(default = MODE_NIGHT_FOLLOW_SYSTEM)
 
     var showEvents by booleanPref(key = "PREF_SHOW_EVENTS", default = false)
     var showWeather by booleanPref(key = "PREF_SHOW_WEATHER", default = false)
