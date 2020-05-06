@@ -91,6 +91,33 @@
         </receiver>
 
         <receiver
+            android:name=".receivers.PlayerReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.music.metachanged" />
+                <action android:name="com.android.music.playstatechanged" />
+                <action android:name="com.android.music.playbackcomplete" />
+                <action android:name="com.android.music.queuechanged" />
+
+                <action android:name="com.htc.music.metachanged" />
+                <action android:name="fm.last.android.metachanged" />
+                <action android:name="com.sec.android.app.music.metachanged" />
+                <action android:name="com.nullsoft.winamp.metachanged" />
+                <action android:name="com.amazon.mp3.metachanged" />
+                <action android:name="com.miui.player.metachanged" />
+                <action android:name="com.real.IMP.metachanged" />
+                <action android:name="com.sonyericsson.music.metachanged" />
+                <action android:name="com.rdio.android.metachanged" />
+                <action android:name="com.samsung.sec.android.MusicPlayer.metachanged" />
+                <action android:name="com.andrew.apollo.metachanged" />
+                <action android:name="com.spotify.music.playbackstatechanged"/>
+                <action android:name="com.spotify.music.metadatachanged"/>
+                <action android:name="com.spotify.music.queuechanged"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".receivers.WidgetClickListenerReceiver"
             android:enabled="true"
             android:exported="false">

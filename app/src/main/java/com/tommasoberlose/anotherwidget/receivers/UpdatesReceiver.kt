@@ -19,7 +19,6 @@ import java.util.*
 class UpdatesReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("ciao", "che palle - ${intent.action}")
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED,
@@ -32,7 +31,6 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_DATE_CHANGED,
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
             Actions.ACTION_TIME_UPDATE -> {
-                Log.d("ciao", "force update? 4 - ${intent.action}")
                 MainWidget.updateWidget(context)
             }
         }
