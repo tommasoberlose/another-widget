@@ -4,13 +4,11 @@ import android.Manifest
 import android.content.ContentUris
 import android.content.Context
 import android.provider.CalendarContract
-import android.util.Log
 import com.tommasoberlose.anotherwidget.services.EventListenerJob
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
-import com.tommasoberlose.anotherwidget.services.UpdatesWorker
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission

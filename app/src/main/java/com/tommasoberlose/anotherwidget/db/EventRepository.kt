@@ -5,7 +5,6 @@ import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
-import com.tommasoberlose.anotherwidget.services.UpdatesWorker
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
 import io.realm.RealmResults

@@ -12,7 +12,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.format.DateUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -27,17 +26,14 @@ import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
-import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWithMaxWidth
 import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
-import com.tommasoberlose.anotherwidget.services.UpdatesWorker
-import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.the_widget.view.*
-import kotlinx.android.synthetic.main.the_widget_sans.*
 import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
@@ -59,7 +55,7 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         CalendarHelper.updateEventList(context)
-        WeatherWorker.setUpdates(context)
+        WeatherReceiver.setUpdates(context)
 
         if (Preferences.showEvents) {
             CalendarHelper.setEventUpdatesAndroidN(context)
@@ -71,7 +67,7 @@ class MainWidget : AppWidgetProvider() {
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
             UpdatesReceiver.removeUpdates(context)
-            WeatherWorker.removeUpdates(context)
+            WeatherReceiver.removeUpdates(context)
         }
     }
 

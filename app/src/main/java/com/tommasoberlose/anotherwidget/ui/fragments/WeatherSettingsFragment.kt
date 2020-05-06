@@ -29,7 +29,6 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
-import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
@@ -143,7 +142,7 @@ class WeatherSettingsFragment : Fragment() {
 
         if (activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) == true) {
             location_permission_alert?.isVisible = false
-            WeatherWorker.setUpdates(requireContext())
+            WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             location_permission_alert?.isVisible = true
             location_permission_alert?.setOnClickListener {
@@ -218,7 +217,7 @@ class WeatherSettingsFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Constants.RESULT_CODE_CUSTOM_LOCATION -> {
-                    WeatherWorker.setUpdates(requireContext())
+                    WeatherReceiver.setUpdates(requireContext())
                     checkLocationPermission()
                 }
                 RequestCode.WEATHER_APP_REQUEST_CODE.code -> {
@@ -229,7 +228,7 @@ class WeatherSettingsFragment : Fragment() {
                     MainWidget.updateWidget(requireContext())
                 }
                 RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
-                    WeatherWorker.setOneTimeUpdate(requireContext())
+                    WeatherReceiver.setOneTimeUpdate(requireContext())
                 }
             }
         }
