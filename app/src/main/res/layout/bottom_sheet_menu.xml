@@ -26,6 +26,22 @@
             android:id="@+id/header_text"
             android:text=""
             android:textColor="@color/colorPrimaryText"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            app:textAllCaps="false"
+            android:letterSpacing="0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:layout_marginTop="-8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:textSize="15sp"
+            android:id="@+id/warning_text"
+            android:text=""
+            android:textColor="@color/warningColorText"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"

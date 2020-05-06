@@ -137,7 +137,7 @@ class WeatherSettingsFragment : Fragment() {
 
     private fun checkLocationPermission() {
         // Background permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && activity?.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) == true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && activity?.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) == true && activity?.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != true) {
             requirePermission()
         }
 

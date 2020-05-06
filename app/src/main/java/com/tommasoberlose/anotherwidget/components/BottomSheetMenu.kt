@@ -1,17 +1,11 @@
 package com.tommasoberlose.anotherwidget.components
 
-import android.app.Dialog
 import android.content.Context
-import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.MenuRes
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.R
 import kotlinx.android.synthetic.main.bottom_sheet_menu.view.*
 import kotlinx.android.synthetic.main.bottom_sheet_menu_item.view.*
@@ -21,7 +15,7 @@ import kotlinx.android.synthetic.main.bottom_sheet_menu_item.view.*
  * theme which sets a rounded background to the dialog
  * and doesn't dim the navigation bar
  */
-open class BottomSheetMenu<T>(context: Context, private val header: String? = null, private val isMultiSelection: Boolean = false) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
+open class BottomSheetMenu<T>(context: Context, private val header: String? = null, private val message: String? = null, private val isMessageWarning: Boolean = false, private val isMultiSelection: Boolean = false) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
     private val items: ArrayList<MenuItem<T>> = ArrayList()
     private var selectedRes: ArrayList<T> = ArrayList()
@@ -59,6 +53,10 @@ open class BottomSheetMenu<T>(context: Context, private val header: String? = nu
         // Header
         view.header.isVisible = header != null
         view.header_text.text = header ?: ""
+
+        view.warning_text.isVisible = message != null
+        view.warning_text.text = message ?: ""
+        view.warning_text.setTextColor(ContextCompat.getColor(context, if (isMessageWarning) R.color.warningColorText else R.color.colorSecondaryText))
 
         // Menu
         for (item in items) {

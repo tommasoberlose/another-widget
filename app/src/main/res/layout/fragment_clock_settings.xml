@@ -251,6 +251,14 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/show_next_alarm_label"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:id="@+id/show_next_alarm_warning"
+                        android:textColor="@color/warningColorText" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout

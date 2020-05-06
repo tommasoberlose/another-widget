@@ -5,6 +5,7 @@ import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.services.UpdatesWorker
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
 import io.realm.RealmResults
@@ -41,7 +42,7 @@ class EventRepository(val context: Context) {
 
     fun getNextEvent(): Event? = realm.where(Event::class.java).equalTo("id", Preferences.nextEventId).findFirst() ?: realm.where(Event::class.java).findFirst()
 
-    fun getEventById(id: Long): Event? = realm.where(Event::class.java).equalTo("id", id).findFirst()
+    fun getEventByEventId(id: Long): Event? = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
 
     fun goToNextEvent() {
         val eventList = realm.where(Event::class.java).findAll()
@@ -56,7 +57,7 @@ class EventRepository(val context: Context) {
         } else {
             resetNextEventData()
         }
-        UpdatesReceiver.setUpdates(context)
+        UpdatesWorker.setUpdates(context)
         MainWidget.updateWidget(context)
     }
 
@@ -73,7 +74,7 @@ class EventRepository(val context: Context) {
         } else {
             resetNextEventData()
         }
-        UpdatesReceiver.setUpdates(context)
+        UpdatesWorker.setUpdates(context)
         MainWidget.updateWidget(context)
     }
 

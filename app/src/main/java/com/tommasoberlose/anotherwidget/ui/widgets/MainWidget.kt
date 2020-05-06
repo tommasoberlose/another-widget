@@ -31,6 +31,7 @@ import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWith
 import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
+import com.tommasoberlose.anotherwidget.services.UpdatesWorker
 import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
@@ -69,7 +70,7 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
-            UpdatesReceiver.removeUpdates(context)
+            UpdatesWorker.removeUpdates(context)
             WeatherWorker.removeUpdates(context)
         }
     }

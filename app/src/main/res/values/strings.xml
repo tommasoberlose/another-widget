@@ -196,4 +196,5 @@
     <string name="action_grant_permission">Grant permission</string>
     <string name="alpha">Alpha</string>
     <string name="transparent">Transparent</string>
+    <string name="next_alarm_warning">The next alarm clock seems to be wrong.\nIt has been set by %s.</string>
 </resources>

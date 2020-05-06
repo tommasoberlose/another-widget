@@ -9,9 +9,9 @@ import android.net.Uri
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
-import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
+import java.util.*
 
 
 object IntentHelper {
@@ -63,9 +63,15 @@ object IntentHelper {
     }
 
     fun getCalendarIntent(context: Context): Intent {
+        val calendarUri = CalendarContract.CONTENT_URI
+            .buildUpon()
+            .appendPath("time")
+            .appendPath(Date(Calendar.getInstance().timeInMillis).toString())
+            .build()
         return when (Preferences.calendarAppPackage) {
             "" -> {
                 Intent(Intent.ACTION_MAIN).apply {
+//                    data = calendarUri
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     addCategory(Intent.CATEGORY_APP_CALENDAR)
                 }
@@ -77,12 +83,14 @@ object IntentHelper {
                 val pm: PackageManager = context.packageManager
                 try {
                     pm.getLaunchIntentForPackage(Preferences.calendarAppPackage)!!.apply {
+//                        data = calendarUri
                         addCategory(Intent.CATEGORY_LAUNCHER)
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Intent(Intent.ACTION_MAIN).apply {
+//                        data = calendarUri
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         addCategory(Intent.CATEGORY_APP_CALENDAR)
                     }

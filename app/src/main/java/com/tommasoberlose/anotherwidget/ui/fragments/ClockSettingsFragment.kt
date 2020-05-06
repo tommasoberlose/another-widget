@@ -1,7 +1,13 @@
 package com.tommasoberlose.anotherwidget.ui.fragments
 
 import android.app.Activity
+import android.app.AlarmManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,12 +25,16 @@ import com.tommasoberlose.anotherwidget.databinding.FragmentClockSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
+import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_clock_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
+
 
 class ClockSettingsFragment : Fragment() {
 
@@ -58,6 +68,7 @@ class ClockSettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupListener()
+        updateNextAlarmWarningUi()
     }
 
     private fun subscribeUi(
@@ -154,6 +165,38 @@ class ClockSettingsFragment : Fragment() {
                     Preferences.showNextAlarm = value
                 }.show()
         }
+    }
+
+    private fun updateNextAlarmWarningUi() {
+        show_next_alarm_warning.isVisible = AlarmHelper.isAlarmProbablyWrong(requireContext())
+        with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+            val alarm = nextAlarmClock
+            if (alarm != null) {
+                val pm = requireContext().packageManager as PackageManager
+                val appNameOrPackage = try {
+                    pm.getApplicationLabel(pm.getApplicationInfo(nextAlarmClock.showIntent.creatorPackage ?: "", 0))
+                } catch (e: Exception) {
+                    nextAlarmClock.showIntent.creatorPackage
+                }
+                show_next_alarm_warning.text = getString(R.string.next_alarm_warning).format(appNameOrPackage)
+            }
+        }
+    }
+
+    private val nextAlarmChangeBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            updateNextAlarmWarningUi()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.registerReceiver(nextAlarmChangeBroadcastReceiver, IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED))
+    }
+
+    override fun onStop() {
+        activity?.unregisterReceiver(nextAlarmChangeBroadcastReceiver)
+        super.onStop()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

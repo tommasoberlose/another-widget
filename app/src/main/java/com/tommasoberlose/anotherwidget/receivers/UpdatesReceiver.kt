@@ -75,7 +75,8 @@ class UpdatesReceiver : BroadcastReceiver() {
                     AlarmManagerCompat.setExactAndAllowWhileIdle(this,
                         AlarmManager.RTC_WAKEUP,
                         if (event.endDate > 60 *1000) event.endDate else 120000,
-                        PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java).apply { action = Actions.ACTION_TIME_UPDATE }, 0))
+                        PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java).apply { action = Actions.ACTION_TIME_UPDATE }, 0)
+                    )
                 }
             }
         }

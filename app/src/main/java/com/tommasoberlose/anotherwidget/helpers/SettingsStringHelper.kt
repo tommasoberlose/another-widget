@@ -73,7 +73,7 @@ object SettingsStringHelper {
                 return ""
             }
             TimeUnit.MILLISECONDS.toHours(difference) < 12 -> {
-                return DateUtils.getRelativeTimeSpanString(start, now, DateUtils.HOUR_IN_MILLIS).toString()
+                return DateUtils.getRelativeTimeSpanString(start, now, DateUtils.HOUR_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
             }
             eventDate.dayOfYear == nowDate.plusDays(1).dayOfYear -> {
                 return String.format("%s", context.getString(R.string.tomorrow))
@@ -82,7 +82,7 @@ object SettingsStringHelper {
                 return String.format("%s", context.getString(R.string.today))
             }
             else -> {
-                return DateUtils.getRelativeTimeSpanString(start, now, DateUtils.DAY_IN_MILLIS).toString()
+                return DateUtils.getRelativeTimeSpanString(start, now, DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
             }
         }
 

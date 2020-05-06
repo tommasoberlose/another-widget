@@ -28,6 +28,7 @@
     <color name="colorSecondaryText">#99000000</color>
     <color name="errorColorBackground">#FBD8D8</color>
     <color name="errorColorText">#E93B3B</color>
+    <color name="warningColorText">#FB8C00</color>
     <color name="disabledButtonBackground">#efefef</color>
 
 </resources>
