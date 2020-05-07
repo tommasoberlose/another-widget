@@ -116,7 +116,7 @@ object IntentHelper {
                         data = uri
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
-                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
+//                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
 //                        type = "vnd.android.cursor.item/event"
                     }
                 } else {
@@ -125,7 +125,7 @@ object IntentHelper {
                         data = uri
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
-                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
+//                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
 //                        type = "vnd.android.cursor.item/event"
                     }
                 }

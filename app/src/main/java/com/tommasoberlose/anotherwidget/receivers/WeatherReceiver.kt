@@ -34,8 +34,6 @@ class WeatherReceiver : BroadcastReceiver() {
             removeUpdates(context)
 
             if (Preferences.showWeather && Preferences.weatherProviderApi != "") {
-                WeatherHelper.updateWeather(context)
-
                 val interval = MINUTE * when (Preferences.weatherRefreshPeriod) {
                     0 -> 30
                     1 -> 60
@@ -48,7 +46,7 @@ class WeatherReceiver : BroadcastReceiver() {
                 with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
                     setRepeating(
                         AlarmManager.RTC,
-                        Calendar.getInstance().timeInMillis + interval,
+                        Calendar.getInstance().timeInMillis,
                         interval,
                         PendingIntent.getBroadcast(context, 0, Intent(context, WeatherReceiver::class.java).apply { action = Actions.ACTION_WEATHER_UPDATE }, 0)
                     )
