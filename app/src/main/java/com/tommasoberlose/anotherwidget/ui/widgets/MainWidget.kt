@@ -26,6 +26,7 @@ import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
+import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWithMaxWidth
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString

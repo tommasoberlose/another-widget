@@ -15,11 +15,13 @@ object BitmapHelper {
 
     fun getBitmapFromView(view: View, width: Int? = null, height: Int? = null, draw: Boolean = true): Bitmap {
         //Define a bitmap with the same size as the view
-        val measuredWidth = View.MeasureSpec.makeMeasureSpec(width ?: view.width, if (width != null) View.MeasureSpec.EXACTLY else View.MeasureSpec.UNSPECIFIED)
+        val measuredWidth = View.MeasureSpec.makeMeasureSpec(width ?: view.width, if (width != null) View.MeasureSpec.EXACTLY else View.MeasureSpec.AT_MOST)
         val measuredHeight = View.MeasureSpec.makeMeasureSpec(height ?: view.height, if (height != null) View.MeasureSpec.EXACTLY else View.MeasureSpec.UNSPECIFIED)
         view.measure(measuredWidth, measuredHeight)
 
         if (draw) {
+            FirebaseCrashlytics.getInstance().setCustomKey("initialWidth", width ?: -1)
+            FirebaseCrashlytics.getInstance().setCustomKey("initialHeight", height ?: -1)
             FirebaseCrashlytics.getInstance().setCustomKey("measuredWidth", view.measuredWidth)
             FirebaseCrashlytics.getInstance().setCustomKey("measuredWidth_spec", measuredWidth)
             FirebaseCrashlytics.getInstance().setCustomKey("measuredHeight", view.measuredHeight)

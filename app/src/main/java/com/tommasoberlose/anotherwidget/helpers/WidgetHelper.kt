@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 object WidgetHelper {
     class WidgetSizeProvider(
@@ -16,6 +17,8 @@ object WidgetHelper {
             val height = getWidgetHeight(isPortrait, widgetId)
             val widthInPx = context.dip(width)
             val heightInPx = context.dip(height)
+            FirebaseCrashlytics.getInstance().setCustomKey("widthInPx", widthInPx)
+            FirebaseCrashlytics.getInstance().setCustomKey("heightInPx", heightInPx)
             return widthInPx to heightInPx
         }
 

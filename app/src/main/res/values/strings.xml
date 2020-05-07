@@ -33,7 +33,7 @@
     <string name="main_calendar">Account calendar</string>
     <string name="settings_calendar_title">Calendar</string>
     <string name="settings_weather_title">Weather</string>
-    <string name="settings_general_title">Typography</string>
+    <string name="settings_general_title">General</string>
     <string name="calendar_settings_list_error">Error loading the calendar list</string>
     <string name="settings_hour_format_title">Hour format</string>
     <string name="settings_hour_format_subtitle_12">12 hour</string>
