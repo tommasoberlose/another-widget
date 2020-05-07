@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/appMainFragment">
+    <fragment
+        android:id="@+id/appMainFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.AppMainFragment"
+        android:label="AppMainFragment" >
+        <action
+            android:id="@+id/action_appMainFragment_to_appSettingsFragment"
+            app:destination="@id/appSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appSettingsFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.SettingsFragment"
+        android:label="AppSettingsFragment" />
+</navigation>

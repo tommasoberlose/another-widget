@@ -185,4 +185,5 @@
     <string name="settings_background_color_title">Colore background</string>
     <string name="transparent">Trasparente</string>
     <string name="next_alarm_warning">La sveglia sembra impostata male.\nÈ stata impostata dall\'app %s.</string>
+    <string name="settings_title">Impostazioni</string>
 </resources>

@@ -14,6 +14,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.fragments.AppMainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import org.greenrobot.eventbus.EventBus
@@ -38,7 +39,7 @@ object WeatherHelper {
                         Preferences.customLocationLon = location.longitude.toString()
 
                         networkApi.updateWeather()
-                        EventBus.getDefault().post(MainActivity.UpdateUiMessageEvent())
+                        EventBus.getDefault().post(AppMainFragment.UpdateUiMessageEvent())
                     }
                 }
             }

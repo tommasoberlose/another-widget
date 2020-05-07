@@ -9,6 +9,7 @@ import com.kwabenaberko.openweathermaplib.models.currentweather.CurrentWeather
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.fragments.AppMainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import org.greenrobot.eventbus.EventBus
 
@@ -26,7 +27,7 @@ class WeatherNetworkApi(val context: Context) {
                         Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
                         MainWidget.updateWidget(context)
 
-                        EventBus.getDefault().post(MainActivity.UpdateUiMessageEvent())
+                        EventBus.getDefault().post(AppMainFragment.UpdateUiMessageEvent())
                     }
                 }
 

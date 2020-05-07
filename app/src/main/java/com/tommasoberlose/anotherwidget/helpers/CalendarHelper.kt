@@ -11,6 +11,7 @@ import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.fragments.AppMainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import me.everything.providers.android.calendar.CalendarProvider
@@ -127,7 +128,7 @@ object CalendarHelper {
         UpdatesReceiver.setUpdates(context)
         MainWidget.updateWidget(context)
 
-        EventBus.getDefault().post(MainActivity.UpdateUiMessageEvent())
+        EventBus.getDefault().post(AppMainFragment.UpdateUiMessageEvent())
     }
 
     fun getCalendarList(context: Context): List<me.everything.providers.android.calendar.Calendar> {
