@@ -81,12 +81,14 @@ class WeatherSettingsFragment : Fragment() {
     ) {
         viewModel.showWeatherWarning.observe(viewLifecycleOwner, Observer {
             weather_warning?.isVisible = it
+            checkLocationPermission()
         })
 
         viewModel.showWeather.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_weather_label?.text =
                     if (it) getString(R.string.show_weather_visible) else getString(R.string.show_weather_not_visible)
+                checkWeatherProviderConfig()
                 binding.isWeatherVisible = it
             }
             checkLocationPermission()
@@ -94,11 +96,7 @@ class WeatherSettingsFragment : Fragment() {
 
         viewModel.weatherProviderApi.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                label_weather_provider_api_key?.text =
-                    if (it == "") getString(R.string.settings_weather_provider_api_key_subtitle_not_set) else getString(
-                        R.string.settings_weather_provider_api_key_subtitle_all_set
-                    )
-                label_weather_provider_api_key?.setTextColor(ContextCompat.getColor(requireContext(), if (it == "") R.color.errorColorText else R.color.colorSecondaryText))
+                checkWeatherProviderConfig()
             }
             checkLocationPermission()
         })
@@ -148,7 +146,17 @@ class WeatherSettingsFragment : Fragment() {
             location_permission_alert?.setOnClickListener {
                 requirePermission()
             }
+        } else {
+            location_permission_alert?.isVisible = false
         }
+    }
+
+    private fun checkWeatherProviderConfig() {
+        label_weather_provider_api_key?.text =
+            if (Preferences.weatherProviderApi == "") getString(R.string.settings_weather_provider_api_key_subtitle_not_set) else getString(
+                R.string.settings_weather_provider_api_key_subtitle_all_set
+            )
+        label_weather_provider_api_key?.setTextColor(ContextCompat.getColor(requireContext(), if (Preferences.weatherProviderApi == "" && Preferences.showWeather) R.color.errorColorText else R.color.colorSecondaryText))
     }
 
     private fun setupListener() {

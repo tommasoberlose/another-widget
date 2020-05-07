@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
@@ -79,61 +80,51 @@ class BottomSheetColorPicker(
 
         // List
 
-        view.menu.setHasFixedSize(true)
-        val mLayoutManager = GridLayoutManager(context, 6)
-        view.menu.layoutManager = mLayoutManager
-
         adapter = SlimAdapter.create()
 
-        adapter
-            .register<Int>(R.layout.color_picker_menu_item) { item, injector ->
-                injector
-                    .with<MaterialCardView>(R.id.color) {
-                        loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
-                            val colorList = ColorStateList.valueOf(item)
-                            withContext(Dispatchers.Main) {
-                                it.setCardBackgroundColor(colorList)
-                            }
-                        })
-                    }
-                    .with<AppCompatImageView>(R.id.check) {
-                        if (getSelected?.invoke() == item) {
-                            loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
-                                val colorList = ContextCompat.getColor(
-                                    context,
-                                    if (item.isColorDark()) android.R.color.white else android.R.color.black
-                                )
-                                withContext(Dispatchers.Main) {
-                                    it.setColorFilter(
-                                        colorList,
-                                        android.graphics.PorterDuff.Mode.MULTIPLY
-                                    )
-                                    it.isVisible = true
-                                }
-                            })
-                        } else {
-                            it.isVisible = false
-                        }
-                    }
-                injector.clicked(R.id.color) {
-                    adapter.notifyItemChanged(adapter.data.indexOf(getSelected?.invoke()))
-                    onColorSelected?.invoke(item)
-                    val position = adapter.data.indexOf(item)
-                    adapter.notifyItemChanged(position)
-                    (view.menu.layoutManager as GridLayoutManager).scrollToPositionWithOffset(position,0)
-                }
-            }
-                .attachTo(view.menu)
-
         loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
+            val listView = View.inflate(context, R.layout.bottom_sheet_menu_list, null) as RecyclerView
+            listView.setHasFixedSize(true)
+            val mLayoutManager = GridLayoutManager(context, 6)
+            listView.layoutManager = mLayoutManager
+
+            adapter
+                .register<Int>(R.layout.color_picker_menu_item) { item, injector ->
+                    injector
+                        .with<MaterialCardView>(R.id.color) {
+                            it.setCardBackgroundColor(ColorStateList.valueOf(item))
+                        }
+                        .with<AppCompatImageView>(R.id.check) {
+                            if (getSelected?.invoke() == item) {
+                                it.setColorFilter(
+                                    ContextCompat.getColor(
+                                        context,
+                                        if (item.isColorDark()) android.R.color.white else android.R.color.black
+                                    ),
+                                    android.graphics.PorterDuff.Mode.MULTIPLY
+                                )
+                                it.isVisible = true
+                            } else {
+                                it.isVisible = false
+                            }
+                        }
+                        .clicked(R.id.color) {
+                            adapter.notifyItemChanged(adapter.data.indexOf(getSelected?.invoke()))
+                            onColorSelected?.invoke(item)
+                            val position = adapter.data.indexOf(item)
+                            adapter.notifyItemChanged(position)
+                            (listView.layoutManager as GridLayoutManager).scrollToPositionWithOffset(position,0)
+                        }
+                }
+                .attachTo(listView)
 
             adapter.updateData(colors.toList())
 
             withContext(Dispatchers.Main) {
                 view.color_loader.isVisible = false
+                view.list_container.addView(listView)
                 this@BottomSheetColorPicker.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                this@BottomSheetColorPicker.behavior.isFitToContents = false
-                view.menu.isVisible = true
+                view.list_container.isVisible = true
             }
         })
 

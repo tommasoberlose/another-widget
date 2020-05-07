@@ -29,6 +29,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
@@ -187,7 +188,7 @@ class AdvancedSettingsFragment : Fragment() {
         }
 
         action_refresh_widget.setOnClickListener {
-            MainWidget.updateWidget(requireContext())
+            WeatherHelper.updateWeather(requireContext())
             CalendarHelper.updateEventList(requireContext())
         }
     }

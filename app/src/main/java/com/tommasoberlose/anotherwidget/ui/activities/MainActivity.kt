@@ -92,9 +92,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         subscribeUi(viewModel)
         updateUI()
 
-        WeatherHelper.updateWeather(this)
-
-
         // Warnings
         if (getString(R.string.xiaomi_manufacturer).equals(Build.MANUFACTURER, ignoreCase = true) && Preferences.showXiaomiWarning) {
             MaterialBottomSheetDialog(this, getString(R.string.xiaomi_warning_title), getString(R.string.xiaomi_warning_message))

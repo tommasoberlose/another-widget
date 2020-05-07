@@ -79,7 +79,7 @@ object IntentHelper {
         val calendarUri = CalendarContract.CONTENT_URI
             .buildUpon()
             .appendPath("time")
-            .appendPath("0".toString())
+            .appendPath(Calendar.getInstance().timeInMillis.toString())
             .build()
         return when (Preferences.calendarAppPackage) {
             "" -> {
@@ -116,6 +116,8 @@ object IntentHelper {
                         data = uri
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
+//                        type = "vnd.android.cursor.item/event"
                     }
                 } else {
                     getCalendarIntent(context).apply {
@@ -123,6 +125,8 @@ object IntentHelper {
                         data = uri
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
+//                        type = "vnd.android.cursor.item/event"
                     }
                 }
             }

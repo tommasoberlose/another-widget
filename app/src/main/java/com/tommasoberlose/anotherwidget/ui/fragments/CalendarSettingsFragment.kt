@@ -156,6 +156,9 @@ class CalendarSettingsFragment : Fragment() {
 
         action_show_events.setOnClickListener {
             Preferences.showEvents = !Preferences.showEvents
+            if (Preferences.showEvents) {
+                requirePermission()
+            }
         }
 
         action_filter_calendar.setOnClickListener {

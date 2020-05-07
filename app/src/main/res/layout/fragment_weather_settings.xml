@@ -198,6 +198,7 @@
                             android:paddingBottom="0dp"
                             android:paddingTop="0dp"
                             android:focusable="true"
+                            android:visibility="gone"
                             android:id="@+id/location_permission_alert"
                             android:textColor="@color/errorColorText"
                             android:text="@string/action_grant_permission"/>
