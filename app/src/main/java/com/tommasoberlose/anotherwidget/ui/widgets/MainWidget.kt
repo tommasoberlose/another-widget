@@ -26,10 +26,7 @@ import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
-import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
-import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
-import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
-import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
+import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
 import com.tommasoberlose.anotherwidget.utils.toPixel
@@ -95,26 +92,46 @@ class MainWidget : AppWidgetProvider() {
         private fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int) {
             var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
 
-            val generatedView = generateWidgetView(context)
-            views.setImageViewBitmap(R.id.bitmap_container, BitmapHelper.getBitmapFromView(generatedView, width = w))
-
-            // Background
-            views.setInt(R.id.widget_shape_background, "setColorFilter", ColorHelper.getBackgroundColorRgb())
-            views.setInt(R.id.widget_shape_background, "setImageAlpha", ColorHelper.getBackgroundAlpha())
-            val refreshIntent = PendingIntent.getActivity(
-                context,
-                appWidgetId,
-                IntentHelper.getWidgetUpdateIntent(context),
-                0
-            )
-            views.setOnClickPendingIntent(R.id.widget_shape_background, refreshIntent)
+            try {
+                // Background
+                views.setInt(
+                    R.id.widget_shape_background,
+                    "setColorFilter",
+                    ColorHelper.getBackgroundColorRgb()
+                )
+                views.setInt(
+                    R.id.widget_shape_background,
+                    "setImageAlpha",
+                    ColorHelper.getBackgroundAlpha()
+                )
+                val refreshIntent = PendingIntent.getActivity(
+                    context,
+                    appWidgetId,
+                    IntentHelper.getWidgetUpdateIntent(context),
+                    0
+                )
+                views.setOnClickPendingIntent(R.id.widget_shape_background, refreshIntent)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                CrashlyticsReceiver.sendCrash(context, ex)
+            }
 
             // Clock
             views = updateClockView(context, views, appWidgetId)
 
             // Setup listener
-            views = updateCalendarView(context, generatedView, views, appWidgetId)
-            views = updateWeatherView(context, generatedView, views, appWidgetId)
+            try {
+                val generatedView = generateWidgetView(context)
+                views.setImageViewBitmap(
+                    R.id.bitmap_container,
+                    BitmapHelper.getBitmapFromView(generatedView, width = w)
+                )
+                views = updateCalendarView(context, generatedView, views, appWidgetId)
+                views = updateWeatherView(context, generatedView, views, appWidgetId)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                CrashlyticsReceiver.sendCrash(context, ex)
+            }
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
@@ -267,7 +284,7 @@ class MainWidget : AppWidgetProvider() {
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
-                FirebaseCrashlytics.getInstance().recordException(ex)
+                CrashlyticsReceiver.sendCrash(context, ex)
             }
 
             return views
@@ -301,7 +318,7 @@ class MainWidget : AppWidgetProvider() {
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
-                FirebaseCrashlytics.getInstance().recordException(ex)
+                CrashlyticsReceiver.sendCrash(context, ex)
             }
             return views
         }
@@ -358,7 +375,7 @@ class MainWidget : AppWidgetProvider() {
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
-                FirebaseCrashlytics.getInstance().recordException(ex)
+                CrashlyticsReceiver.sendCrash(context, ex)
             }
 
             return views

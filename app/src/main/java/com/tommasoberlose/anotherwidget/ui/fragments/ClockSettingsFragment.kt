@@ -106,9 +106,7 @@ class ClockSettingsFragment : Fragment() {
         })
 
         viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_next_alarm_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
+            updateNextAlarmWarningUi()
         })
 
         viewModel.clockAppName.observe(viewLifecycleOwner, Observer {
@@ -168,17 +166,20 @@ class ClockSettingsFragment : Fragment() {
     }
 
     private fun updateNextAlarmWarningUi() {
-        show_next_alarm_warning.isVisible = AlarmHelper.isAlarmProbablyWrong(requireContext())
         with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
             val alarm = nextAlarmClock
-            if (alarm != null) {
+            if (AlarmHelper.isAlarmProbablyWrong(requireContext()) && alarm != null && alarm.showIntent != null) {
                 val pm = requireContext().packageManager as PackageManager
                 val appNameOrPackage = try {
-                    pm.getApplicationLabel(pm.getApplicationInfo(nextAlarmClock.showIntent.creatorPackage ?: "", 0))
+                    pm.getApplicationLabel(pm.getApplicationInfo(alarm.showIntent?.creatorPackage ?: "", 0))
                 } catch (e: Exception) {
-                    nextAlarmClock.showIntent.creatorPackage
+                    alarm.showIntent?.creatorPackage ?: ""
                 }
                 show_next_alarm_warning.text = getString(R.string.next_alarm_warning).format(appNameOrPackage)
+            } else {
+                maintainScrollPosition {
+                    show_next_alarm_label?.text = if (Preferences.showNextAlarm) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                }
             }
         }
     }

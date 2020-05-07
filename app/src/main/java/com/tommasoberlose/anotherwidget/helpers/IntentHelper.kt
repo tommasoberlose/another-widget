@@ -10,6 +10,7 @@ import android.net.Uri
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
+import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -78,14 +79,12 @@ object IntentHelper {
         val calendarUri = CalendarContract.CONTENT_URI
             .buildUpon()
             .appendPath("time")
-            .appendPath(Date(Calendar.getInstance().timeInMillis).toString())
+            .appendPath("0".toString())
             .build()
         return when (Preferences.calendarAppPackage) {
             "" -> {
-                Intent(Intent.ACTION_MAIN).apply {
-//                    data = calendarUri
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    addCategory(Intent.CATEGORY_APP_CALENDAR)
+                Intent(Intent.ACTION_VIEW).apply {
+                    data = calendarUri
                 }
             }
             "_" -> {
@@ -95,16 +94,13 @@ object IntentHelper {
                 val pm: PackageManager = context.packageManager
                 try {
                     pm.getLaunchIntentForPackage(Preferences.calendarAppPackage)!!.apply {
-//                        data = calendarUri
-                        addCategory(Intent.CATEGORY_LAUNCHER)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        action = Intent.ACTION_VIEW
+                        data = calendarUri
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Intent(Intent.ACTION_MAIN).apply {
-//                        data = calendarUri
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        addCategory(Intent.CATEGORY_APP_CALENDAR)
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data = calendarUri
                     }
                 }
             }
@@ -118,7 +114,6 @@ object IntentHelper {
                 if (Preferences.calendarAppPackage == "") {
                     Intent(Intent.ACTION_VIEW).apply {
                         data = uri
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
                     }

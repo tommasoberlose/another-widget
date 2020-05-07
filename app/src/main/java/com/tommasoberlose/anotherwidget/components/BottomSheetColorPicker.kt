@@ -8,18 +8,23 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.GridLayout
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.utils.expand
 import com.tommasoberlose.anotherwidget.utils.reveal
+import com.tommasoberlose.anotherwidget.utils.toPixel
 import com.warkiz.widget.IndicatorSeekBar
 import com.warkiz.widget.OnSeekChangeListener
 import com.warkiz.widget.SeekParams
@@ -28,13 +33,14 @@ import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.view.*
 import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.view.color_loader
 import kotlinx.android.synthetic.main.color_picker_menu_item.view.*
 import kotlinx.coroutines.*
+import net.idik.lib.slimadapter.SlimAdapter
 import java.lang.Exception
 import java.util.prefs.Preferences
 
 class BottomSheetColorPicker(
     context: Context,
     private val colors: IntArray = intArrayOf(),
-    private val selected: Int? = null,
+    private val getSelected: (() -> Int)? = null,
     private val header: String? = null,
     private val onColorSelected: ((selectedValue: Int) -> Unit)? = null,
     private val showAlphaSelector: Boolean = false,
@@ -42,15 +48,19 @@ class BottomSheetColorPicker(
     private val onAlphaChangeListener: ((alpha: Int) -> Unit)? = null
 ) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
-    private val loadingJob: Job? = null
+    private var loadingJobs: ArrayList<Job> = ArrayList()
+    private lateinit var adapter: SlimAdapter
 
     override fun show() {
         val view = View.inflate(context, R.layout.bottom_sheet_menu_hor, null)
+
+        window?.setDimAmount(0f)
 
         // Header
         view.header.isVisible = header != null
         view.header_text.text = header ?: ""
 
+        // Alpha
         view.alpha_selector_container.isVisible = showAlphaSelector
         view.alpha_selector.setProgress(alpha.toFloat())
         view.text_alpha.text = "%s: %s%%".format(context.getString(R.string.alpha), alpha)
@@ -67,44 +77,72 @@ class BottomSheetColorPicker(
             }
         }
 
-        val itemViews: ArrayList<View> = ArrayList()
+        // List
 
-        GlobalScope.launch(Dispatchers.IO) {
-            for (@ColorInt color: Int in colors) {
-                val itemView = View.inflate(context, R.layout.color_picker_menu_item, null)
-                itemView.color.setCardBackgroundColor(ColorStateList.valueOf(color))
-                itemView.check.setColorFilter(ContextCompat.getColor(context,
-                    if (color.isColorDark()) android.R.color.white else android.R.color.black
-                ), android.graphics.PorterDuff.Mode.MULTIPLY)
-                itemView.check.isVisible = selected == color
-                itemView.color.setOnClickListener {
-                    onColorSelected?.invoke(color)
-                    this@BottomSheetColorPicker.dismiss()
+        view.menu.setHasFixedSize(true)
+        val mLayoutManager = GridLayoutManager(context, 6)
+        view.menu.layoutManager = mLayoutManager
+
+        adapter = SlimAdapter.create()
+
+        adapter
+            .register<Int>(R.layout.color_picker_menu_item) { item, injector ->
+                injector
+                    .with<MaterialCardView>(R.id.color) {
+                        loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
+                            val colorList = ColorStateList.valueOf(item)
+                            withContext(Dispatchers.Main) {
+                                it.setCardBackgroundColor(colorList)
+                            }
+                        })
+                    }
+                    .with<AppCompatImageView>(R.id.check) {
+                        if (getSelected?.invoke() == item) {
+                            loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
+                                val colorList = ContextCompat.getColor(
+                                    context,
+                                    if (item.isColorDark()) android.R.color.white else android.R.color.black
+                                )
+                                withContext(Dispatchers.Main) {
+                                    it.setColorFilter(
+                                        colorList,
+                                        android.graphics.PorterDuff.Mode.MULTIPLY
+                                    )
+                                    it.isVisible = true
+                                }
+                            })
+                        } else {
+                            it.isVisible = false
+                        }
+                    }
+                injector.clicked(R.id.color) {
+                    adapter.notifyItemChanged(adapter.data.indexOf(getSelected?.invoke()))
+                    onColorSelected?.invoke(item)
+                    val position = adapter.data.indexOf(item)
+                    adapter.notifyItemChanged(position)
+                    (view.menu.layoutManager as GridLayoutManager).scrollToPositionWithOffset(position,0)
                 }
-                itemViews.add(itemView)
             }
+                .attachTo(view.menu)
+
+        loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
+
+            adapter.updateData(colors.toList())
 
             withContext(Dispatchers.Main) {
-                itemViews.forEach {
-                    view.menu.addView(it, GridLayout.LayoutParams(
-                        GridLayout.spec(GridLayout.UNDEFINED, 1f),
-                        GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                    ))
-                }
-                color_loader.isVisible = false
-                view.menu.isVisible = true
+                view.color_loader.isVisible = false
                 this@BottomSheetColorPicker.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                this@BottomSheetColorPicker.behavior.isFitToContents = false
+                view.menu.isVisible = true
             }
-        }
-
-        // Menu
+        })
 
         setContentView(view)
         super.show()
     }
 
     override fun onStop() {
-        loadingJob?.cancel()
+        loadingJobs.forEach { it.cancel() }
         super.onStop()
     }
 

@@ -15,6 +15,22 @@ object ColorHelper {
         }
     }
 
+    fun getFontColorAlpha(): Int {
+        return try {
+            Preferences.textGlobalAlpha.toIntValue().toDouble() * 255 / 100
+        } catch (e: Exception) {
+            "FF".toIntValue().toDouble() * 255 / 100
+        }.roundToInt()
+    }
+
+    fun getFontColorRgb(): Int {
+        return try {
+            Color.parseColor(Preferences.textGlobalColor)
+        } catch (e: Exception) {
+            Color.parseColor("#000000")
+        }
+    }
+
     fun getBackgroundColor(): Int {
         return try {
             Color.parseColor("#%s%s".format(Preferences.backgroundCardAlpha, Preferences.backgroundCardColor.replace("#", "")))

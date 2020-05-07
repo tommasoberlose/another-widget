@@ -16,6 +16,6 @@ open class Event(var id: Long = 0,
             var allDay: Boolean = false,
             var address: String = "") : RealmObject() {
     override fun toString(): String {
-        return "Event:\nID: " + eventID + "\nTITLE: " + title + "\nSTART DATE: " + Date(startDate) + "\nEND DATE: " + Date(endDate) + "\nCAL ID: " + calendarID  + "\nADDRESS: " + address
+        return "Event:\nEVENT ID: " + eventID + "\nTITLE: " + title + "\nSTART DATE: " + Date(startDate) + "\nEND DATE: " + Date(endDate) + "\nCAL ID: " + calendarID  + "\nADDRESS: " + address
     }
 }

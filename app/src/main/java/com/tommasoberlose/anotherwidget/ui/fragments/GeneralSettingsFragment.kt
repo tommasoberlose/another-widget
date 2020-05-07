@@ -184,7 +184,7 @@ class GeneralSettingsFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_font_color_title),
-                selected = ColorHelper.getFontColor(),
+                getSelected = ColorHelper::getFontColorRgb,
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
                     Preferences.textGlobalColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
@@ -201,7 +201,7 @@ class GeneralSettingsFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_background_color_title),
-                selected = ColorHelper.getBackgroundColor(),
+                getSelected = { ColorHelper.getBackgroundColorRgb() },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
                     Preferences.backgroundCardColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString

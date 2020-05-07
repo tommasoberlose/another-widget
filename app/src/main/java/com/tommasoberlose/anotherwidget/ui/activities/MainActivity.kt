@@ -6,10 +6,14 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.DisplayMetrics
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.RelativeLayout
@@ -267,7 +271,16 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun subscribeUi(viewModel: MainViewModel) {
         viewModel.showWallpaper.observe(this, Observer {
-            widget_bg.setImageDrawable(if (it) getCurrentWallpaper() else null)
+            val wallpaper = getCurrentWallpaper()
+            widget_bg.setImageDrawable(if (it) wallpaper else null)
+            widget_bg.layoutParams = widget_bg.layoutParams.apply {
+
+                val metrics = DisplayMetrics()
+                windowManager.defaultDisplay.getMetrics(metrics)
+
+                height = metrics.heightPixels
+                width = (wallpaper?.intrinsicWidth ?: 1) * metrics.heightPixels / (wallpaper?.intrinsicWidth ?: 1)
+            }
         })
 
         logo.setOnClickListener {

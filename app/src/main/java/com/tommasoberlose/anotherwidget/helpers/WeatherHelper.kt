@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import android.util.EventLog
 import android.util.Log
 import com.google.android.gms.location.LocationServices
 import com.kwabenaberko.openweathermaplib.constants.Units
@@ -12,8 +13,10 @@ import com.kwabenaberko.openweathermaplib.models.currentweather.CurrentWeather
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
+import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import org.greenrobot.eventbus.EventBus
 
 
 /**
@@ -35,6 +38,7 @@ object WeatherHelper {
                         Preferences.customLocationLon = location.longitude.toString()
 
                         networkApi.updateWeather()
+                        EventBus.getDefault().post(MainActivity.UpdateUiMessageEvent())
                     }
                 }
             }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentUris
 import android.content.Context
 import android.provider.CalendarContract
+import android.util.Log
 import com.tommasoberlose.anotherwidget.services.EventListenerJob
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.models.Event
