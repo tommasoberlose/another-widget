@@ -17,22 +17,41 @@ object BitmapHelper {
         //Define a bitmap with the same size as the view
         val measuredWidth = View.MeasureSpec.makeMeasureSpec(width ?: view.width, if (width != null) View.MeasureSpec.EXACTLY else View.MeasureSpec.AT_MOST)
         val measuredHeight = View.MeasureSpec.makeMeasureSpec(height ?: view.height, if (height != null) View.MeasureSpec.EXACTLY else View.MeasureSpec.UNSPECIFIED)
-        view.measure(measuredWidth, measuredHeight)
+        view.measure(
+            if (measuredWidth > 0) measuredWidth else 0,
+            if (measuredHeight > 0) measuredHeight else 0
+        )
+
+        val calculatedWidth = view.measuredWidth
+        val widgetWidth = if (calculatedWidth in 1..16000) {
+            calculatedWidth
+        } else if (width != null && width > 0) {
+            width
+        } else {
+            1
+        }
+        val calculatedHeight = view.measuredHeight
+        val widgetHeight = if (calculatedHeight in 1..16000) {
+            calculatedHeight
+        } else if (height != null && height > 0) {
+            height
+        } else {
+            1
+        }
 
         if (draw) {
-            FirebaseCrashlytics.getInstance().setCustomKey("initialWidth", width ?: -1)
-            FirebaseCrashlytics.getInstance().setCustomKey("initialHeight", height ?: -1)
-            FirebaseCrashlytics.getInstance().setCustomKey("measuredWidth", view.measuredWidth)
-            FirebaseCrashlytics.getInstance().setCustomKey("measuredWidth_spec", measuredWidth)
-            FirebaseCrashlytics.getInstance().setCustomKey("measuredHeight", view.measuredHeight)
-            FirebaseCrashlytics.getInstance()
-                .setCustomKey("measuredHeight_spec", measuredHeight)
+            FirebaseCrashlytics.getInstance().setCustomKey("WIDTH SPEC", measuredWidth)
+            FirebaseCrashlytics.getInstance().setCustomKey("HEIGHT SPEC", measuredHeight)
+            FirebaseCrashlytics.getInstance().setCustomKey("VIEW measuredWidth", view.measuredWidth)
+            FirebaseCrashlytics.getInstance().setCustomKey("VIEW measuredHeight", view.measuredHeight)
+            FirebaseCrashlytics.getInstance().setCustomKey("WIDGET final width", measuredWidth)
+            FirebaseCrashlytics.getInstance().setCustomKey("WIDGET final height", view.measuredHeight)
         }
 
         return try {
             val btm = Bitmap.createBitmap(
-                view.measuredWidth,
-                view.measuredHeight,
+                widgetWidth,
+                widgetHeight,
                 if (draw) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
             )
             if (draw) {

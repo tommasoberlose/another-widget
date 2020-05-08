@@ -334,8 +334,8 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
                 } else {
-                    views.setTextColor(R.id.time, ColorHelper.getFontColor())
-                    views.setTextColor(R.id.time_am_pm, ColorHelper.getFontColor())
+                    views.setTextColor(R.id.time, ColorHelper.getClockFontColor())
+                    views.setTextColor(R.id.time_am_pm, ColorHelper.getClockFontColor())
                     views.setTextViewTextSize(
                         R.id.time,
                         TypedValue.COMPLEX_UNIT_SP,

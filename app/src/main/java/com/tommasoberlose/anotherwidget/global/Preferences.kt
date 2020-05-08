@@ -45,6 +45,9 @@ object Preferences : KotprefModel() {
     var backgroundCardColor by stringPref(default = "#000000")
     var backgroundCardAlpha by stringPref(default = "00")
 
+    var clockTextColor by stringPref(default = "#FFFFFF")
+    var clockTextAlpha by stringPref(default = "FF")
+
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
     var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)
     var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 90f)

@@ -27,10 +27,11 @@ class MainViewModel : ViewModel() {
     val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
 
-
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
     val clockTextSize = Preferences.asLiveData(Preferences::clockTextSize)
+    val clockTextColor = Preferences.asLiveData(Preferences::clockTextColor)
+    val clockTextAlpha = Preferences.asLiveData(Preferences::clockTextAlpha)
 
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
     val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)

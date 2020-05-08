@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -43,10 +42,10 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.Comparator
 
-class CalendarSettingsFragment : Fragment() {
+class CalendarTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CalendarSettingsFragment()
+        fun newInstance() = CalendarTabFragment()
     }
 
     private lateinit var viewModel: MainViewModel

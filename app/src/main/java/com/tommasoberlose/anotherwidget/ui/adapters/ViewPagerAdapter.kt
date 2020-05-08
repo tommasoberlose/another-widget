@@ -12,10 +12,10 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            1 -> CalendarSettingsFragment.newInstance()
-            2 -> WeatherSettingsFragment.newInstance()
-            3 -> ClockSettingsFragment.newInstance()
-            else -> GeneralSettingsFragment.newInstance()
+            1 -> CalendarTabFragment.newInstance()
+            2 -> WeatherTabFragment.newInstance()
+            3 -> ClockTabFragment.newInstance()
+            else -> GeneralTabFragment.newInstance()
         }
     }
 }

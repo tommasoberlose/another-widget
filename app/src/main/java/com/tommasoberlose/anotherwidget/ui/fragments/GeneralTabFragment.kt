@@ -3,9 +3,7 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +31,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class GeneralSettingsFragment : Fragment() {
+class GeneralTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = GeneralSettingsFragment()
+        fun newInstance() = GeneralTabFragment()
     }
 
     private lateinit var viewModel: MainViewModel

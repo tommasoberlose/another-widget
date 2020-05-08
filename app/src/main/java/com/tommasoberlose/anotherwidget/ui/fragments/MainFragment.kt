@@ -17,13 +17,11 @@ import android.widget.RelativeLayout
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigator
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
@@ -50,10 +48,10 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class AppMainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
-        fun newInstance() = AppMainFragment()
+        fun newInstance() = MainFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -91,9 +89,9 @@ class AppMainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeL
         }.attach()
 
         // Init clock
-        time.setTextColor(ColorHelper.getFontColor())
+        time.setTextColor(ColorHelper.getClockFontColor())
         time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(requireContext()))
-        time_am_pm.setTextColor(ColorHelper.getFontColor())
+        time_am_pm.setTextColor(ColorHelper.getClockFontColor())
         time_am_pm.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2)
         time_container.isVisible = Preferences.showClock
 
@@ -151,8 +149,8 @@ class AppMainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeL
                 )
                 withContext(Dispatchers.Main) {
                     // Clock
-                    time.setTextColor(ColorHelper.getFontColor())
-                    time_am_pm.setTextColor(ColorHelper.getFontColor())
+                    time.setTextColor(ColorHelper.getClockFontColor())
+                    time_am_pm.setTextColor(ColorHelper.getClockFontColor())
                     time.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP,
                         Preferences.clockTextSize.toPixel(requireContext())

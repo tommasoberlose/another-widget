@@ -41,10 +41,10 @@ import kotlinx.android.synthetic.main.fragment_weather_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WeatherSettingsFragment : Fragment() {
+class WeatherTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = WeatherSettingsFragment()
+        fun newInstance() = WeatherTabFragment()
     }
 
     private lateinit var viewModel: MainViewModel

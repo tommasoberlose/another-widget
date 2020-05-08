@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,29 +19,35 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentClockSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_clock_settings.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 
-class ClockSettingsFragment : Fragment() {
+class ClockTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ClockSettingsFragment()
+        fun newInstance() = ClockTabFragment()
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var colors: IntArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +72,12 @@ class ClockSettingsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            val lazyColors = requireContext().resources.getIntArray(R.array.material_colors)
+            withContext(Dispatchers.Main) {
+                colors = lazyColors
+            }
+        }
         setupListener()
         updateNextAlarmWarningUi()
     }
@@ -91,6 +102,28 @@ class ClockSettingsFragment : Fragment() {
         viewModel.clockTextSize.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 clock_text_size_label?.text = String.format("%.0fsp", it)
+            }
+        })
+
+        viewModel.clockTextColor.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.clockTextAlpha == "00") {
+                    clock_text_color_label?.text = getString(R.string.transparent)
+                } else {
+                    clock_text_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor())).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.clockTextAlpha.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.clockTextAlpha == "00") {
+                    clock_text_color_label?.text = getString(R.string.transparent)
+                } else {
+                    clock_text_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor())).toUpperCase()
+                }
             }
         })
 
@@ -134,6 +167,23 @@ class ClockSettingsFragment : Fragment() {
             dialog.addOnSelectItemListener { value ->
                 Preferences.clockTextSize = value
             }.show()
+        }
+
+        action_clock_text_color.setOnClickListener {
+            BottomSheetColorPicker(requireContext(),
+                colors = colors,
+                header = getString(R.string.settings_font_color_title),
+                getSelected = ColorHelper::getClockFontColorRgb,
+                onColorSelected = { color: Int ->
+                    val colorString = Integer.toHexString(color)
+                    Preferences.clockTextColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                },
+                showAlphaSelector = true,
+                alpha = Preferences.clockTextAlpha.toIntValue(),
+                onAlphaChangeListener = { alpha ->
+                    Preferences.clockTextAlpha = alpha.toHexValue()
+                }
+            ).show()
         }
 
         action_clock_bottom_margin_size.setOnClickListener {

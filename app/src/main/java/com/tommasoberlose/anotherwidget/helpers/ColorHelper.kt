@@ -30,6 +30,29 @@ object ColorHelper {
             Color.parseColor("#000000")
         }
     }
+    fun getClockFontColor(): Int {
+        return try {
+            Color.parseColor("#%s%s".format(Preferences.clockTextAlpha, Preferences.clockTextColor.replace("#", "")))
+        } catch (e: Exception) {
+            Color.parseColor("#FFFFFFFF")
+        }
+    }
+
+    fun getClockFontColorAlpha(): Int {
+        return try {
+            Preferences.clockTextAlpha.toIntValue().toDouble() * 255 / 100
+        } catch (e: Exception) {
+            "FF".toIntValue().toDouble() * 255 / 100
+        }.roundToInt()
+    }
+
+    fun getClockFontColorRgb(): Int {
+        return try {
+            Color.parseColor(Preferences.clockTextColor)
+        } catch (e: Exception) {
+            Color.parseColor("#000000")
+        }
+    }
 
     fun getBackgroundColor(): Int {
         return try {
