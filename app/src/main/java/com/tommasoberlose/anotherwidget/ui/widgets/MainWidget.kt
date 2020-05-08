@@ -19,14 +19,12 @@ import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
-import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWithMaxWidth
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
@@ -261,13 +259,13 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 } else if (Preferences.showNextAlarm && nextAlarm != "") {
-                    val clockIntent = PendingIntent.getActivity(
+                    val alarmIntent = PendingIntent.getActivity(
                         context,
                         widgetID,
                         IntentHelper.getClockIntent(context),
                         0
                     )
-                    views.setOnClickPendingIntent(R.id.second_row_rect, clockIntent)
+                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
 
                     views.setImageViewBitmap(
                         R.id.next_event_rect,
@@ -282,6 +280,7 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+                    views.setOnClickPendingIntent(R.id.next_event_rect, calPIntent)
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
