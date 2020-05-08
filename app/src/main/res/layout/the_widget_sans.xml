@@ -129,6 +129,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/action_next_rect" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/special_weather_rect" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"

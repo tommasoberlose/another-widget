@@ -102,6 +102,36 @@
                 android:layout_gravity="center_vertical"
                 android:id="@+id/action_next"
                 android:src="@drawable/round_chevron_right" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:id="@+id/special_weather">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:id="@+id/divider3"
+                    android:text="@string/divider"
+                    android:includeFontPadding="false"
+                    style="@style/AnotherWidget.Subtitle"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/special_weather_icon"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AnotherWidget.Date.Big"
+                    android:maxLines="1"
+                    android:includeFontPadding="false"
+                    android:id="@+id/special_temp"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"

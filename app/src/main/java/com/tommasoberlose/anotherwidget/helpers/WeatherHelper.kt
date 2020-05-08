@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import com.google.android.gms.location.LocationServices
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment

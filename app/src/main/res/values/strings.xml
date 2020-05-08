@@ -199,4 +199,10 @@
     <string name="next_alarm_warning">The next alarm clock seems to be wrong.\nIt has been set by %s.</string>
     <string name="settings_title">Settings</string>
     <string name="settings_clock_text_color_title">Clock text color</string>
+    <string name="settings_music_title">Music</string>
+    <string name="settings_show_music_title">Show current playing song</string>
+    <string name="settings_show_music_enabled_subtitle">Playing song info visible</string>
+    <string name="settings_show_music_disabled_subtitle">Playing song info hidden</string>
+    <string name="settings_song_info_format_title">Song info format</string>
+    <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
 </resources>

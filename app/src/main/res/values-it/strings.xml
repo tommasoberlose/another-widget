@@ -187,4 +187,10 @@
     <string name="next_alarm_warning">La sveglia sembra impostata male.\nÈ stata impostata dall\'app %s.</string>
     <string name="settings_title">Impostazioni</string>
     <string name="settings_clock_text_color_title">Colore orologio</string>
+    <string name="settings_music_title">Musica</string>
+    <string name="settings_show_music_title">Mostra brano in riproduzione</string>
+    <string name="settings_show_music_enabled_subtitle">Visibile</string>
+    <string name="settings_show_music_disabled_subtitle">Non visibile</string>
+    <string name="settings_song_info_format_title">Formato informazioni brano</string>
+    <string name="settings_request_notification_access">Concedi all\'app il permesso di monitorare le notifiche, è necessario per poter mostrare il brano in riproduzione.</string>
 </resources>

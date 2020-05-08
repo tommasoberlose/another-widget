@@ -4,6 +4,8 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.tommasoberlose.anotherwidget.db.EventRepository
+import com.tommasoberlose.anotherwidget.global.Preferences
 
 object WidgetHelper {
     class WidgetSizeProvider(
@@ -50,5 +52,12 @@ object WidgetHelper {
             val factor = width / first
             width to second * factor
         }
+    }
+
+    fun showSpecialWeather(context: Context): Boolean {
+        return EventRepository(context).getEventsCount() == 0 && (
+                (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
+                (MediaPlayerHelper.isSomeonePlaying(context))
+            )
     }
 }
