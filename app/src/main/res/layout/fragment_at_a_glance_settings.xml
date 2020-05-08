@@ -4,9 +4,6 @@
         <variable
             name="viewModel"
             type="com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel" />
-        <variable
-            name="isMusicVisible"
-            type="Boolean" />
     </data>
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -78,46 +75,46 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/weather_settings"
-                android:alpha="@{isMusicVisible ? 1f : 0.2f, default=1}"
-                android:orientation="vertical">
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:id="@+id/action_show_next_alarm"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_alarm"
+                    android:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_music_info_format"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:src="@drawable/round_queue_music"
-                        android:tint="@color/colorPrimaryText"/>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/AnotherWidget.Settings.Title"
-                            android:text="@string/settings_song_info_format_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/label_music_info_format"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
-                    </LinearLayout>
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_show_next_alarm_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/show_next_alarm_label"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:id="@+id/show_next_alarm_warning"
+                        android:textColor="@color/warningColorText" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

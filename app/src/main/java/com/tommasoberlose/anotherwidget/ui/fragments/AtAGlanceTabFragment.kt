@@ -1,52 +1,40 @@
 package com.tommasoberlose.anotherwidget.ui.fragments
 
-import android.Manifest
-import android.app.Activity
+import android.app.AlarmManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.chibatching.kotpref.bulk
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentMusicSettingsBinding
-import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBinding
-import com.tommasoberlose.anotherwidget.global.Constants
+import com.tommasoberlose.anotherwidget.databinding.FragmentAtAGlanceSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.global.RequestCode
+import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
-import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
-import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
-import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
-import com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.activities.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import kotlinx.android.synthetic.main.fragment_music_settings.*
+import kotlinx.android.synthetic.main.fragment_at_a_glance_settings.*
+import kotlinx.android.synthetic.main.fragment_at_a_glance_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
-class MusicTabFragment : Fragment() {
+class AtAGlanceTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MusicTabFragment()
+        fun newInstance() = AtAGlanceTabFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -61,7 +49,7 @@ class MusicTabFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentMusicSettingsBinding>(inflater, R.layout.fragment_music_settings, container, false)
+        val binding = DataBindingUtil.inflate<FragmentAtAGlanceSettingsBinding>(inflater, R.layout.fragment_at_a_glance_settings, container, false)
 
         subscribeUi(binding, viewModel)
 
@@ -75,23 +63,20 @@ class MusicTabFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupListener()
+        updateNextAlarmWarningUi()
     }
 
     private fun subscribeUi(
-        binding: FragmentMusicSettingsBinding,
+        binding: FragmentAtAGlanceSettingsBinding,
         viewModel: MainViewModel
     ) {
 
         viewModel.showMusic.observe(viewLifecycleOwner, Observer {
-            binding.isMusicVisible = Preferences.showMusic
             checkNotificationPermission()
         })
 
-        viewModel.mediaInfoFormat.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                label_music_info_format?.text =
-                    if (it != "") it else getString(R.string.default_weather_app)
-            }
+        viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
+            updateNextAlarmWarningUi()
         })
     }
 
@@ -100,15 +85,51 @@ class MusicTabFragment : Fragment() {
             Preferences.showMusic = !Preferences.showMusic
         }
 
-        action_music_info_format.setOnClickListener {
-            if (Preferences.showMusic) {
-//                startActivityForResult(
-//                    Intent(requireContext(), WeatherProviderActivity::class.java),
-//                    RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code
-//                )
-            }
+        action_show_next_alarm.setOnClickListener {
+            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.showNextAlarm)
+                .addItem(getString(R.string.settings_visible), true)
+                .addItem(getString(R.string.settings_not_visible), false)
+                .addOnSelectItemListener { value ->
+                    Preferences.showNextAlarm = value
+                }.show()
         }
 
+    }
+
+    private fun updateNextAlarmWarningUi() {
+        with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+            val alarm = nextAlarmClock
+            if (AlarmHelper.isAlarmProbablyWrong(requireContext()) && alarm != null && alarm.showIntent != null) {
+                val pm = requireContext().packageManager as PackageManager
+                val appNameOrPackage = try {
+                    pm.getApplicationLabel(pm.getApplicationInfo(alarm.showIntent?.creatorPackage ?: "", 0))
+                } catch (e: Exception) {
+                    alarm.showIntent?.creatorPackage ?: ""
+                }
+                show_next_alarm_warning.text = getString(R.string.next_alarm_warning).format(appNameOrPackage)
+            } else {
+                maintainScrollPosition {
+                    show_next_alarm_label?.text = if (Preferences.showNextAlarm) getString(R.string.settings_visible) else getString(
+                        R.string.settings_not_visible)
+                }
+            }
+        }
+    }
+
+    private val nextAlarmChangeBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            updateNextAlarmWarningUi()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.registerReceiver(nextAlarmChangeBroadcastReceiver, IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED))
+    }
+
+    override fun onStop() {
+        activity?.unregisterReceiver(nextAlarmChangeBroadcastReceiver)
+        super.onStop()
     }
 
     private fun checkNotificationPermission() {

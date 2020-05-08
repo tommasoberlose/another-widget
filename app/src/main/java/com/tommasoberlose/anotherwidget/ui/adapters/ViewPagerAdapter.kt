@@ -15,7 +15,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
             1 -> CalendarTabFragment.newInstance()
             2 -> WeatherTabFragment.newInstance()
             3 -> ClockTabFragment.newInstance()
-            4 -> MusicTabFragment.newInstance()
+            4 -> AtAGlanceTabFragment.newInstance()
             else -> GeneralTabFragment.newInstance()
         }
     }

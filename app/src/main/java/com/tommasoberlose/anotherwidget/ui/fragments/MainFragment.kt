@@ -85,7 +85,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 1 -> getString(R.string.settings_calendar_title)
                 2 -> getString(R.string.settings_weather_title)
                 3 -> getString(R.string.settings_clock_title)
-                4 -> getString(R.string.settings_music_title)
+                4 -> getString(R.string.settings_at_a_glance_title)
                 else -> ""
             }
         }.attach()

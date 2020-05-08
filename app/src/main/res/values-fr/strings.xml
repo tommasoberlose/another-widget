@@ -194,4 +194,5 @@
     <string name="settings_show_music_disabled_subtitle">Playing song info hidden</string>
     <string name="settings_song_info_format_title">Song info format</string>
     <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
+    <string name="settings_at_a_glance_title">At a Glance</string>
 </resources>
