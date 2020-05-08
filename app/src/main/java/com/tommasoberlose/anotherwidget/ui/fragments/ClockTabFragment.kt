@@ -79,7 +79,6 @@ class ClockTabFragment : Fragment() {
             }
         }
         setupListener()
-        updateNextAlarmWarningUi()
     }
 
     private fun subscribeUi(
@@ -136,10 +135,6 @@ class ClockTabFragment : Fragment() {
                     else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
                 }
             }
-        })
-
-        viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
-            updateNextAlarmWarningUi()
         })
 
         viewModel.clockAppName.observe(viewLifecycleOwner, Observer {
@@ -204,50 +199,6 @@ class ClockTabFragment : Fragment() {
                 )
             }
         }
-
-        action_show_next_alarm.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.showNextAlarm)
-                .addItem(getString(R.string.settings_visible), true)
-                .addItem(getString(R.string.settings_not_visible), false)
-                .addOnSelectItemListener { value ->
-                    Preferences.showNextAlarm = value
-                }.show()
-        }
-    }
-
-    private fun updateNextAlarmWarningUi() {
-        with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-            val alarm = nextAlarmClock
-            if (AlarmHelper.isAlarmProbablyWrong(requireContext()) && alarm != null && alarm.showIntent != null) {
-                val pm = requireContext().packageManager as PackageManager
-                val appNameOrPackage = try {
-                    pm.getApplicationLabel(pm.getApplicationInfo(alarm.showIntent?.creatorPackage ?: "", 0))
-                } catch (e: Exception) {
-                    alarm.showIntent?.creatorPackage ?: ""
-                }
-                show_next_alarm_warning.text = getString(R.string.next_alarm_warning).format(appNameOrPackage)
-            } else {
-                maintainScrollPosition {
-                    show_next_alarm_label?.text = if (Preferences.showNextAlarm) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-                }
-            }
-        }
-    }
-
-    private val nextAlarmChangeBroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            updateNextAlarmWarningUi()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        activity?.registerReceiver(nextAlarmChangeBroadcastReceiver, IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED))
-    }
-
-    override fun onStop() {
-        activity?.unregisterReceiver(nextAlarmChangeBroadcastReceiver)
-        super.onStop()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

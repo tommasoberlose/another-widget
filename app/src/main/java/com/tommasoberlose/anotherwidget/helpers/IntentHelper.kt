@@ -160,4 +160,22 @@ object IntentHelper {
             }
         }
     }
+
+    fun getMusicIntent(context: Context): Intent {
+        return when (Preferences.mediaPlayerPackage) {
+            "" -> {
+                Intent()
+            }
+            else -> {
+                val pm: PackageManager = context.packageManager
+                try {
+                    pm.getLaunchIntentForPackage(Preferences.mediaPlayerPackage)!!.apply {
+                        addCategory(Intent.CATEGORY_LAUNCHER)
+                    }
+                } catch (e: Exception) {
+                    Intent()
+                }
+            }
+        }
+    }
 }

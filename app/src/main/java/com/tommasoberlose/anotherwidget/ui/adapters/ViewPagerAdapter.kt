@@ -8,13 +8,14 @@ import com.tommasoberlose.anotherwidget.ui.fragments.*
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = 5
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             1 -> CalendarTabFragment.newInstance()
             2 -> WeatherTabFragment.newInstance()
             3 -> ClockTabFragment.newInstance()
+            4 -> AtAGlanceTabFragment.newInstance()
             else -> GeneralTabFragment.newInstance()
         }
     }

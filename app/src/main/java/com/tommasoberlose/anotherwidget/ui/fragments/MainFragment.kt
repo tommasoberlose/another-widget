@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.animation.addListener
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -84,6 +85,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 1 -> getString(R.string.settings_calendar_title)
                 2 -> getString(R.string.settings_weather_title)
                 3 -> getString(R.string.settings_clock_title)
+                4 -> getString(R.string.settings_at_a_glance_title)
                 else -> ""
             }
         }.attach()
@@ -261,18 +263,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             }.start()
         }
 
-
-        // Calendar error indicator
-        tabs?.getTabAt(1)?.orCreateBadge?.apply {
-            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
-            badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = Preferences.showEvents && activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) != true
-
-        // Weather error indicator
-        tabs?.getTabAt(2)?.orCreateBadge?.apply {
-            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
-            badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = Preferences.showWeather && (Preferences.weatherProviderApi == "" || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) != true))
+        showErrorBadge()
 
     }
 
@@ -301,8 +292,25 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun showErrorBadge() {
+        // Calendar error indicator
+        tabs?.getTabAt(1)?.orCreateBadge?.apply {
+            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
+            badgeGravity = BadgeDrawable.TOP_END
+        }?.isVisible = Preferences.showEvents && activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) != true
+
+        // Weather error indicator
+        tabs?.getTabAt(2)?.orCreateBadge?.apply {
+            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
+            badgeGravity = BadgeDrawable.TOP_END
+        }?.isVisible = Preferences.showWeather && (Preferences.weatherProviderApi == "" || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) != true))
+
+
+        // Music error indicator
+        tabs?.getTabAt(4)?.orCreateBadge?.apply {
+            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
+            badgeGravity = BadgeDrawable.TOP_END
+        }?.isVisible = Preferences.showMusic && !NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName)
     }
 
     override fun onSharedPreferenceChanged(preferences: SharedPreferences, p1: String) {
@@ -314,6 +322,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         super.onResume()
         Preferences.preferences.registerOnSharedPreferenceChangeListener(this)
         EventBus.getDefault().register(this)
+        showErrorBadge()
     }
 
     override fun onPause() {

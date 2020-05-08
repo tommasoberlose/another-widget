@@ -52,6 +52,10 @@ class MainViewModel : ViewModel() {
 
     val showWeatherWarning = Preferences.asLiveData(Preferences::showWeatherWarning)
 
+    // Music
+    val showMusic = Preferences.asLiveData(Preferences::showMusic)
+    val mediaInfoFormat = Preferences.asLiveData(Preferences::mediaInfoFormat)
+
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)
     val showWallpaper = Preferences.asLiveData(Preferences::showWallpaper)

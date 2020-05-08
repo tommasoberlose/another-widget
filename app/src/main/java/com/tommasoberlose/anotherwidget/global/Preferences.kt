@@ -9,6 +9,7 @@ object Preferences : KotprefModel() {
 
     var darkThemePreference by intPref(default = MODE_NIGHT_FOLLOW_SYSTEM)
 
+    // Calendar and weather
     var showEvents by booleanPref(key = "PREF_SHOW_EVENTS", default = false)
     var showWeather by booleanPref(key = "PREF_SHOW_WEATHER", default = false)
     var weatherIcon by stringPref(key = "PREF_WEATHER_ICON", default = "")
@@ -48,6 +49,7 @@ object Preferences : KotprefModel() {
     var clockTextColor by stringPref(default = "#FFFFFF")
     var clockTextAlpha by stringPref(default = "FF")
 
+    // Global
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
     var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)
     var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 90f)
@@ -64,9 +66,18 @@ object Preferences : KotprefModel() {
     var customFontFile by stringPref(key = "PREF_CUSTOM_FONT_FILE")
     var showNextEvent by booleanPref(key = "PREF_SHOW_NEXT_EVENT", default = true)
 
+    // Settings
     var showWallpaper by booleanPref(default = true)
     var showBigClockWarning by booleanPref(default = true)
     var showWeatherWarning by booleanPref(default = true)
     var showPreview by booleanPref(default = true)
     var showXiaomiWarning by booleanPref(default = true)
+
+    // Music
+    var showMusic by booleanPref(default = false)
+    var mediaInfoFormat by stringPref(default = "")
+    var mediaPlayerTitle by stringPref(default = "")
+    var mediaPlayerAlbum by stringPref(default = "")
+    var mediaPlayerArtist by stringPref(default = "")
+    var mediaPlayerPackage by stringPref(default = "")
 }
