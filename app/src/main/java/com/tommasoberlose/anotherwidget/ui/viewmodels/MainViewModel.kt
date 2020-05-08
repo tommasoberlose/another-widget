@@ -60,4 +60,5 @@ class MainViewModel : ViewModel() {
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)
     val showWallpaper = Preferences.asLiveData(Preferences::showWallpaper)
     val showPreview = Preferences.asLiveData(Preferences::showPreview)
+    val installedIntegrations = Preferences.asLiveData(Preferences::installedIntegrations)
 }

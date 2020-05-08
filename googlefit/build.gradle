@@ -1,0 +1,26 @@
+apply plugin: 'com.android.dynamic-feature'
+
+def apiKeyPropertiesFile = rootProject.file("apikey.properties")
+def apiKeyProperties = new Properties()
+apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        manifestPlaceholders = [ "AWARENESS_API_KEY": apiKeyProperties['AWARENESS_API_KEY']]
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':app')
+
+    // At a Glance
+    implementation 'com.google.android.gms:play-services-awareness:18.0.0'
+}

@@ -194,4 +194,6 @@
     <string name="settings_song_info_format_title">Formato informazioni brano</string>
     <string name="settings_request_notification_access">Concedi all\'app il permesso di monitorare le notifiche, è necessario per poter mostrare il brano in riproduzione.</string>
     <string name="settings_at_a_glance_title">At a Glance</string>
+    <string name="settings_title_integrations">Integrazioni</string>
+    <string name="label_count_installed_integrations">%d integrazioni installate</string>
 </resources>

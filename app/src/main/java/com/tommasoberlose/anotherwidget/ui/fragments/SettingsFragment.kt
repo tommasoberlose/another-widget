@@ -32,6 +32,7 @@ import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
+import com.tommasoberlose.anotherwidget.ui.activities.IntegrationsActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
 import kotlinx.android.synthetic.main.fragment_advanced_settings.*
@@ -97,6 +98,10 @@ class SettingsFragment : Fragment() {
             }
         })
 
+        viewModel.installedIntegrations.observe(viewLifecycleOwner, Observer {
+            integrations_count_label?.text = getString(R.string.label_count_installed_integrations).format(it)
+        })
+
         viewModel.showPreview.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_widget_preview_label?.text =
@@ -115,27 +120,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupListener() {
-        action_change_theme.setOnClickListener {
-            maintainScrollPosition {
-                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_theme_title))
-                    .setSelectedValue(Preferences.darkThemePreference)
-                    .addItem(
-                        getString(R.string.settings_subtitle_dark_theme_light),
-                        AppCompatDelegate.MODE_NIGHT_NO
-                    )
-                    .addItem(
-                        getString(R.string.settings_subtitle_dark_theme_dark),
-                        AppCompatDelegate.MODE_NIGHT_YES
-                    )
-                    .addItem(
-                        getString(R.string.settings_subtitle_dark_theme_default),
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-                    )
-                    .addOnSelectItemListener { value ->
-                        Preferences.darkThemePreference = value
-                    }.show()
-            }
-        }
 
         action_show_widget_preview.setOnClickListener {
             maintainScrollPosition {
@@ -173,6 +157,32 @@ class SettingsFragment : Fragment() {
                         } else {
                             Preferences.showWallpaper = value
                         }
+                    }.show()
+            }
+        }
+
+        action_integrations.setOnClickListener {
+            startActivity(Intent(requireContext(), IntegrationsActivity::class.java))
+        }
+
+        action_change_theme.setOnClickListener {
+            maintainScrollPosition {
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_theme_title))
+                    .setSelectedValue(Preferences.darkThemePreference)
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_light),
+                        AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_dark),
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    )
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_default),
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                    )
+                    .addOnSelectItemListener { value ->
+                        Preferences.darkThemePreference = value
                     }.show()
             }
         }

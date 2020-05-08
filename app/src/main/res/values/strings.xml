@@ -206,4 +206,7 @@
     <string name="settings_show_music_disabled_subtitle">Playing song info hidden</string>
     <string name="settings_song_info_format_title">Song info format</string>
     <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
+    <string name="title_googlefit" translatable="false">Google Fit</string>
+    <string name="settings_title_integrations">Integrations</string>
+    <string name="label_count_installed_integrations">%d installed integrations</string>
 </resources>

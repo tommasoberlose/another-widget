@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tommasoberlose.anotherwidget.ui.viewmodels.CustomLocationViewModel" />
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.IntegrationsViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/colorPrimaryDark"
-        tools:context="com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity">
+        tools:context="com.tommasoberlose.anotherwidget.ui.activities.IntegrationsActivity">
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,50 +33,29 @@
                     android:padding="10dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
                     android:id="@+id/action_back"
+                    android:layout_alignParentLeft="true"
                     android:tint="@color/colorPrimaryText"
                     android:src="@drawable/round_arrow_back" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:text="@string/settings_custom_location_title"
+                    android:text="@string/settings_title_integrations"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="0dp"
-            app:cardBackgroundColor="@color/colorPrimary">
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
-                app:cardCornerRadius="9dp"
-                app:cardElevation="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp">
-                <EditText
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:inputType="textCapWords"
-                    android:id="@+id/location"
-                    android:gravity="center_vertical|start"
-                    android:hint="@string/search"
-                    android:textAlignment="viewStart"
-                    android:textDirection="locale"
-                    android:text="@={viewModel.locationInput}"
-                    android:autofillHints="" />
-            </com.google.android.material.card.MaterialCardView>
+                    android:padding="10dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/action_filter"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"
+                    android:tint="@color/colorPrimaryText"
+                    android:src="@drawable/round_filter_list" />
+            </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
         <RelativeLayout
             android:layout_width="match_parent"

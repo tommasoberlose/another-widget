@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Another Widget.iml" filepath="$PROJECT_DIR$/Another Widget.iml" group="Another Widget" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Another Widget/app" />
+      <module fileurl="file://$PROJECT_DIR$/googlefit/googlefit.iml" filepath="$PROJECT_DIR$/googlefit/googlefit.iml" group="Another Widget/googlefit" />
       <module fileurl="file://$PROJECT_DIR$/tasksintegration/tasksintegration.iml" filepath="$PROJECT_DIR$/tasksintegration/tasksintegration.iml" group="Another Widget/tasksintegration" />
     </modules>
   </component>

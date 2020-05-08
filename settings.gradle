@@ -1,3 +1,4 @@
 rootProject.name='Another Widget'
 include ':app'
 include ':tasksintegration'
+include ':googlefit'

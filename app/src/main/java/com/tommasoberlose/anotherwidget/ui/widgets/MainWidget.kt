@@ -261,14 +261,14 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-                } else if (Preferences.showNextAlarm && nextAlarm != "") {
-                    val alarmIntent = PendingIntent.getActivity(
+                } else if (MediaPlayerHelper.isSomeonePlaying(context)) {
+                    val musicIntent = PendingIntent.getActivity(
                         context,
                         widgetID,
-                        IntentHelper.getClockIntent(context),
+                        IntentHelper.getMusicIntent(context),
                         0
                     )
-                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
+                    views.setOnClickPendingIntent(R.id.second_row_rect, musicIntent)
 
                     views.setImageViewBitmap(
                         R.id.next_event_rect,
@@ -284,14 +284,14 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                     views.setOnClickPendingIntent(R.id.next_event_rect, calPIntent)
-                } else if (MediaPlayerHelper.isSomeonePlaying(context)) {
-                    val musicIntent = PendingIntent.getActivity(
+                } else if (Preferences.showNextAlarm && nextAlarm != "") {
+                    val alarmIntent = PendingIntent.getActivity(
                         context,
                         widgetID,
-                        IntentHelper.getMusicIntent(context),
+                        IntentHelper.getClockIntent(context),
                         0
                     )
-                    views.setOnClickPendingIntent(R.id.second_row_rect, musicIntent)
+                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
 
                     views.setImageViewBitmap(
                         R.id.next_event_rect,
@@ -499,17 +499,6 @@ class MainWidget : AppWidgetProvider() {
 
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
-            } else if (Preferences.showNextAlarm && nextAlarm != "") {
-                v.second_row_icon.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.round_alarm
-                    )
-                )
-                v.next_event.text = DateHelper.getDateText(context, now)
-                v.next_event_date.text = AlarmHelper.getNextAlarm(context)
-                v.empty_layout.visibility = View.GONE
-                v.calendar_layout.visibility = View.VISIBLE
             } else if (MediaPlayerHelper.isSomeonePlaying(context)) {
                 v.second_row_icon.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -519,6 +508,17 @@ class MainWidget : AppWidgetProvider() {
                 )
                 v.next_event.text = DateHelper.getDateText(context, now)
                 v.next_event_date.text = MediaPlayerHelper.getMediaInfo()
+                v.empty_layout.visibility = View.GONE
+                v.calendar_layout.visibility = View.VISIBLE
+            } else if (Preferences.showNextAlarm && nextAlarm != "") {
+                v.second_row_icon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.round_alarm
+                    )
+                )
+                v.next_event.text = DateHelper.getDateText(context, now)
+                v.next_event_date.text = AlarmHelper.getNextAlarm(context)
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
             }

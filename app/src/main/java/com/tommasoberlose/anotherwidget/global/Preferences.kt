@@ -80,4 +80,7 @@ object Preferences : KotprefModel() {
     var mediaPlayerAlbum by stringPref(default = "")
     var mediaPlayerArtist by stringPref(default = "")
     var mediaPlayerPackage by stringPref(default = "")
+
+    // Integrations
+    var installedIntegrations by intPref(default = 0)
 }
