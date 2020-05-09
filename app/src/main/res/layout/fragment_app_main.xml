@@ -65,7 +65,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="140dp"
                 android:id="@+id/preview"
                 android:animateLayoutChanges="true"
                 app:cardBackgroundColor="@color/colorPrimary"
@@ -109,7 +109,7 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:tabGravity="center"
+                app:tabGravity="start"
                 app:tabIndicatorColor="@color/colorAccent"
                 app:tabBackground="@color/colorPrimary"
                 app:tabIndicatorFullWidth="false"
@@ -125,6 +125,7 @@
                 android:paddingRight="16dp"
                 android:clipToPadding="false"
                 app:tabMinWidth="110dp"
+                app:tabMaxWidth="0dp"
                 android:background="@color/colorPrimary"
                 app:tabTextAppearance="@style/AnotherWidget.Settings.Header" />
         </LinearLayout>

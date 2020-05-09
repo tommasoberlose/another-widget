@@ -637,6 +637,11 @@ class MainWidget : AppWidgetProvider() {
                 v.special_weather.visibility = View.GONE
             }
 
+            // Dividers
+            arrayOf(v.divider1, v.divider2, v.divider3).forEach {
+                it.isVisible = Preferences.showDividers
+            }
+
             return v
         }
     }

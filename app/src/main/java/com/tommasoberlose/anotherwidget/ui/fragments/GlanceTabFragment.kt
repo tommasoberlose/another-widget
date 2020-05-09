@@ -19,22 +19,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentAtAGlanceSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import kotlinx.android.synthetic.main.fragment_at_a_glance_settings.*
-import kotlinx.android.synthetic.main.fragment_at_a_glance_settings.scrollView
+import kotlinx.android.synthetic.main.fragment_glance_settings.*
+import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class AtAGlanceTabFragment : Fragment() {
+class GlanceTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = AtAGlanceTabFragment()
+        fun newInstance() = GlanceTabFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -49,7 +49,7 @@ class AtAGlanceTabFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentAtAGlanceSettingsBinding>(inflater, R.layout.fragment_at_a_glance_settings, container, false)
+        val binding = DataBindingUtil.inflate<FragmentGlanceSettingsBinding>(inflater, R.layout.fragment_glance_settings, container, false)
 
         subscribeUi(binding, viewModel)
 
@@ -67,32 +67,32 @@ class AtAGlanceTabFragment : Fragment() {
     }
 
     private fun subscribeUi(
-        binding: FragmentAtAGlanceSettingsBinding,
+        binding: FragmentGlanceSettingsBinding,
         viewModel: MainViewModel
     ) {
 
-        viewModel.showMusic.observe(viewLifecycleOwner, Observer {
-            checkNotificationPermission()
-        })
-
-        viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
-            updateNextAlarmWarningUi()
-        })
+//        viewModel.showMusic.observe(viewLifecycleOwner, Observer {
+//            checkNotificationPermission()
+//        })
+//
+//        viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
+//            updateNextAlarmWarningUi()
+//        })
     }
 
     private fun setupListener() {
-        action_show_music.setOnClickListener {
-            Preferences.showMusic = !Preferences.showMusic
-        }
-
-        action_show_next_alarm.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.showNextAlarm)
-                .addItem(getString(R.string.settings_visible), true)
-                .addItem(getString(R.string.settings_not_visible), false)
-                .addOnSelectItemListener { value ->
-                    Preferences.showNextAlarm = value
-                }.show()
-        }
+//        action_show_music.setOnClickListener {
+//            Preferences.showMusic = !Preferences.showMusic
+//        }
+//
+//        action_show_next_alarm.setOnClickListener {
+//            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.showNextAlarm)
+//                .addItem(getString(R.string.settings_visible), true)
+//                .addItem(getString(R.string.settings_not_visible), false)
+//                .addOnSelectItemListener { value ->
+//                    Preferences.showNextAlarm = value
+//                }.show()
+//        }
 
     }
 

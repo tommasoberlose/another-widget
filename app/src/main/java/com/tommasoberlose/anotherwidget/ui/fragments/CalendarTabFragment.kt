@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -155,6 +156,13 @@ class CalendarTabFragment : Fragment() {
 
         action_show_events.setOnClickListener {
             Preferences.showEvents = !Preferences.showEvents
+            if (Preferences.showEvents) {
+                requirePermission()
+            }
+        }
+
+        show_events_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+            Preferences.showEvents = enabled
             if (Preferences.showEvents) {
                 requirePermission()
             }
@@ -339,6 +347,8 @@ class CalendarTabFragment : Fragment() {
                     report?.let {
                         if (report.areAllPermissionsGranted()){
                             checkReadEventsPermission()
+                        } else {
+                            Preferences.showEvents = false
                         }
                     }
                 }

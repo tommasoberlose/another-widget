@@ -8,6 +8,8 @@ import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
 import io.realm.RealmResults
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EventRepository(val context: Context) {
     private val realm by lazy { Realm.getDefaultInstance() }
@@ -39,12 +41,24 @@ class EventRepository(val context: Context) {
         Preferences.nextEventId = event.id
     }
 
-    fun getNextEvent(): Event? = realm.where(Event::class.java).equalTo("id", Preferences.nextEventId).findFirst() ?: realm.where(Event::class.java).findFirst()
+    fun getNextEvent(): Event? {
+        val nextEvent = getEventByEventId(Preferences.nextEventId)
+        return if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis + 60 * 1000) {
+            nextEvent
+        } else {
+            val events = getEvents()
+            if (events.isNotEmpty())
+                events.first()
+            else
+                resetNextEventData()
+                null
+        }
+    }
 
     fun getEventByEventId(id: Long): Event? = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
 
     fun goToNextEvent() {
-        val eventList = realm.where(Event::class.java).findAll()
+        val eventList = getEvents()
 
         if (eventList.isNotEmpty()) {
             val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
@@ -61,7 +75,7 @@ class EventRepository(val context: Context) {
     }
 
     fun goToPreviousEvent() {
-        val eventList = realm.where(Event::class.java).findAll()
+        val eventList = getEvents()
 
         if (eventList.isNotEmpty()) {
             val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
@@ -77,7 +91,7 @@ class EventRepository(val context: Context) {
         MainWidget.updateWidget(context)
     }
 
-    fun getEvents(): RealmResults<Event> = realm.where(Event::class.java).findAll()
+    fun getEvents(): RealmResults<Event> = realm.where(Event::class.java).greaterThan("endDate", Calendar.getInstance().timeInMillis + 60 * 1000).findAll()
 
-    fun getEventsCount(): Int = realm.where(Event::class.java).findAll().size
+    fun getEventsCount(): Int = getEvents().size
 }

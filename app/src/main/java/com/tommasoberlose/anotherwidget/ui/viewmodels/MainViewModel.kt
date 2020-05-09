@@ -16,6 +16,7 @@ class MainViewModel : ViewModel() {
     val textShadow = Preferences.asLiveData(Preferences::textShadow)
     val customFont = Preferences.asLiveData(Preferences::customFont)
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
+    val showDividers = Preferences.asLiveData(Preferences::showDividers)
 
     // Calendar Settings
     val showEvents = Preferences.asLiveData(Preferences::showEvents)
@@ -34,7 +35,6 @@ class MainViewModel : ViewModel() {
     val clockTextAlpha = Preferences.asLiveData(Preferences::clockTextAlpha)
 
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
-    val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
     val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
     val clockBottomMargin = Preferences.asLiveData(Preferences::clockBottomMargin)
 
@@ -52,9 +52,8 @@ class MainViewModel : ViewModel() {
 
     val showWeatherWarning = Preferences.asLiveData(Preferences::showWeatherWarning)
 
-    // Music
-    val showMusic = Preferences.asLiveData(Preferences::showMusic)
-    val mediaInfoFormat = Preferences.asLiveData(Preferences::mediaInfoFormat)
+    // Glance
+    val showGlance = Preferences.asLiveData(Preferences::showGlance)
 
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)

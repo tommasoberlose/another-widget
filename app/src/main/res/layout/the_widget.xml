@@ -28,11 +28,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="gone"
+            android:layout_marginStart="8dp"
             android:id="@+id/weather">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/divider1"
                 android:text="@string/divider"
@@ -108,11 +108,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone"
+                android:layout_marginStart="8dp"
                 android:id="@+id/special_weather">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:id="@+id/divider3"
                     android:text="@string/divider"
@@ -169,11 +169,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:visibility="gone"
+                android:layout_marginStart="8dp"
                 android:id="@+id/calendar_weather">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:id="@+id/divider2"
                     android:text="@string/divider"

@@ -168,6 +168,10 @@ class WeatherTabFragment : Fragment() {
             Preferences.showWeather = !Preferences.showWeather
         }
 
+        show_weather_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+            Preferences.showWeather = enabled
+        }
+
         action_weather_provider_api_key.setOnClickListener {
             if (Preferences.showWeather) {
                 startActivityForResult(

@@ -27,9 +27,9 @@
     <string name="settings_all_day_subtitle_visible">Visibili</string>
     <string name="settings_all_day_subtitle_gone">Non visibili</string>
     <string name="main_calendar">Calendario Account</string>
-    <string name="settings_calendar_title">Calendario</string>
+    <string name="settings_calendar_title">Eventi</string>
     <string name="settings_weather_title">Meteo</string>
-    <string name="settings_general_title">Tipografia</string>
+    <string name="settings_general_title">Display</string>
     <string name="calendar_settings_list_error">Errore nel caricamento della lista dei calendari</string>
     <string name="settings_hour_format_title">Formato Ora</string>
     <string name="settings_hour_format_subtitle_12">12 ore AM/PM</string>
@@ -193,7 +193,7 @@
     <string name="settings_show_music_disabled_subtitle">Non visibile</string>
     <string name="settings_song_info_format_title">Formato informazioni brano</string>
     <string name="settings_request_notification_access">Concedi all\'app il permesso di monitorare le notifiche, è necessario per poter mostrare il brano in riproduzione.</string>
-    <string name="settings_at_a_glance_title">At a Glance</string>
+    <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_title_integrations">Integrazioni</string>
     <string name="label_count_installed_integrations">%d integrazioni installate</string>
 </resources>

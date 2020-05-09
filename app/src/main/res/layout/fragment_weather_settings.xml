@@ -77,10 +77,11 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_wb_sunny"
+                    android:src="@drawable/round_brightness_5"
                     android:tint="@color/colorPrimaryText"/>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
@@ -97,7 +98,28 @@
                         android:text="@string/description_permission_location"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{isWeatherVisible}"
+                    android:id="@+id/show_weather_switch"
+                    android:buttonTint="@color/colorAccent" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/disabledButtonBackground" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/colorPrimary" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

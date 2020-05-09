@@ -146,6 +146,10 @@ class GeneralTabFragment : Fragment() {
                 custom_font_label?.text = getString(SettingsStringHelper.getCustomFontLabel(it))
             }
         })
+
+        viewModel.showDividers.observe(viewLifecycleOwner, Observer {
+            show_dividers_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        })
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
@@ -242,6 +246,15 @@ class GeneralTabFragment : Fragment() {
                 Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
             }
 */
+        }
+
+        action_show_dividers.setOnClickListener {
+            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_multiple_events_title)).setSelectedValue(Preferences.showDividers)
+                .addItem(getString(R.string.settings_visible), true)
+                .addItem(getString(R.string.settings_not_visible), false)
+                .addOnSelectItemListener { value ->
+                    Preferences.showDividers = value
+                }.show()
         }
     }
 

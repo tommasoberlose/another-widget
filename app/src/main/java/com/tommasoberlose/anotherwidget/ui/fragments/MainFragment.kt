@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +29,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
-import com.tommasoberlose.anotherwidget.databinding.FragmentAdvancedSettingsBinding
-import com.tommasoberlose.anotherwidget.databinding.FragmentAppMainBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
@@ -53,6 +52,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 
     companion object {
         fun newInstance() = MainFragment()
+        private const val PREVIEW_BASE_HEIGHT = 120
     }
 
     private lateinit var viewModel: MainViewModel
@@ -98,7 +98,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         time_container.isVisible = Preferences.showClock
 
         preview.layoutParams = preview.layoutParams.apply {
-            height = 160.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(requireContext()) else 0
+            height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(requireContext()) else 0
         }
         subscribeUi(viewModel)
         updateUI()
@@ -136,7 +136,6 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             )
             widget_shape_background.setImageDrawable(BitmapHelper.getTintedDrawable(requireContext(), R.drawable.card_background, ColorHelper.getBackgroundColor()))
             uiJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                delay(200)
                 val generatedView = MainWidget.generateWidgetView(requireContext())
 
                 withContext(Dispatchers.Main) {
@@ -207,7 +206,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 
                         ValueAnimator.ofInt(
                             preview.height,
-                            160.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
+                            PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
                                 requireContext()
                             ) else 0
                         ).apply {
@@ -229,7 +228,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     if (preview.height == 0) {
                         ValueAnimator.ofInt(
                             preview.height,
-                            160.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
+                            PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
                                 requireContext()
                             ) else 0
                         ).apply {
@@ -323,6 +322,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         Preferences.preferences.registerOnSharedPreferenceChangeListener(this)
         EventBus.getDefault().register(this)
         showErrorBadge()
+        updateUI()
     }
 
     override fun onPause() {

@@ -57,7 +57,6 @@ object Preferences : KotprefModel() {
     var showClock by booleanPref(key = "PREF_SHOW_CLOCK", default = false)
     var clockAppName by stringPref(key = "PREF_CLOCK_APP_NAME", default = "")
     var clockAppPackage by stringPref(key = "PREF_CLOCK_APP_PACKAGE", default = "")
-    var showNextAlarm by booleanPref(default = false)
     var textShadow by intPref(key = "PREF_TEXT_SHADOW", default = 1)
     var showDiffTime by booleanPref(key = "PREF_SHOW_DIFF_TIME", default = true)
     var showDeclinedEvents by booleanPref(key = "PREF_SHOW_DECLINED_EVENTS", default = false)
@@ -66,6 +65,8 @@ object Preferences : KotprefModel() {
     var customFontFile by stringPref(key = "PREF_CUSTOM_FONT_FILE")
     var showNextEvent by booleanPref(key = "PREF_SHOW_NEXT_EVENT", default = true)
 
+    var showDividers by booleanPref(default = true)
+
     // Settings
     var showWallpaper by booleanPref(default = true)
     var showBigClockWarning by booleanPref(default = true)
@@ -73,7 +74,13 @@ object Preferences : KotprefModel() {
     var showPreview by booleanPref(default = true)
     var showXiaomiWarning by booleanPref(default = true)
 
-    // Music
+    // Glance
+    var showGlance by booleanPref(default = true)
+    var customInfo by stringPref(default = "")
+    var showNextAlarm by booleanPref(default = false)
+    var isBatteryLevelLow by booleanPref(default = false)
+    var googleFitSteps by longPref(default = -1)
+
     var showMusic by booleanPref(default = false)
     var mediaInfoFormat by stringPref(default = "")
     var mediaPlayerTitle by stringPref(default = "")

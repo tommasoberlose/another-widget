@@ -58,9 +58,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:paddingTop="16dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:visibility="gone"
+                    style="@style/AnotherWidget.Settings.Header"
+                    android:text="@string/action_refresh_widget"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,6 +188,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:clickable="true"
+                    android:visibility="gone"
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
@@ -225,7 +234,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="12dp"
+                        android:padding="11dp"
                         android:src="@drawable/ic_day_night"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout

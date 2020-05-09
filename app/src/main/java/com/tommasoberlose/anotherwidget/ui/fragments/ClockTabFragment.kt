@@ -154,6 +154,10 @@ class ClockTabFragment : Fragment() {
             Preferences.showClock = !Preferences.showClock
         }
 
+        show_clock_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+            Preferences.showClock = enabled
+        }
+
         action_clock_text_size.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.settings_clock_text_size_title)).setSelectedValue(Preferences.clockTextSize)
             (46 downTo 12).filter { it % 2 == 0 }.forEach {
@@ -182,7 +186,7 @@ class ClockTabFragment : Fragment() {
         }
 
         action_clock_bottom_margin_size.setOnClickListener {
-            BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_next_alarm_title)).setSelectedValue(Preferences.clockBottomMargin)
+            BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_clock_bottom_margin_title)).setSelectedValue(Preferences.clockBottomMargin)
                 .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_none), Constants.ClockBottomMargin.NONE.value)
                 .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_small), Constants.ClockBottomMargin.SMALL.value)
                 .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_medium), Constants.ClockBottomMargin.MEDIUM.value)
