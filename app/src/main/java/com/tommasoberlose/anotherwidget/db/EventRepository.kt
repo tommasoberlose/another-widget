@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.db
 
 import android.content.Context
+import android.util.Log
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
@@ -43,15 +44,18 @@ class EventRepository(val context: Context) {
 
     fun getNextEvent(): Event? {
         val nextEvent = getEventByEventId(Preferences.nextEventId)
-        return if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis + 60 * 1000) {
+        return if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
             nextEvent
         } else {
             val events = getEvents()
-            if (events.isNotEmpty())
-                events.first()
-            else
+            if (events.isNotEmpty()) {
+                val newNextEvent = events.first()
+                Preferences.nextEventId = newNextEvent!!.eventID
+                newNextEvent
+            } else {
                 resetNextEventData()
                 null
+            }
         }
     }
 
@@ -59,7 +63,6 @@ class EventRepository(val context: Context) {
 
     fun goToNextEvent() {
         val eventList = getEvents()
-
         if (eventList.isNotEmpty()) {
             val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
             if (index > -1 && index < eventList.size - 1) {
@@ -76,7 +79,6 @@ class EventRepository(val context: Context) {
 
     fun goToPreviousEvent() {
         val eventList = getEvents()
-
         if (eventList.isNotEmpty()) {
             val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
             if (index > 0) {
@@ -91,7 +93,14 @@ class EventRepository(val context: Context) {
         MainWidget.updateWidget(context)
     }
 
-    fun getEvents(): RealmResults<Event> = realm.where(Event::class.java).greaterThan("endDate", Calendar.getInstance().timeInMillis + 60 * 1000).findAll()
+    fun getEvents(): RealmResults<Event> {
+        val now = Calendar.getInstance().timeInMillis
+        val list = realm.where(Event::class.java).greaterThan("endDate", now).findAll()
+        realm.executeTransactionAsync {
+            it.where(Event::class.java).lessThanOrEqualTo("endDate", now).findAll().deleteAllFromRealm()
+        }
+        return list
+    }
 
     fun getEventsCount(): Int = getEvents().size
 }

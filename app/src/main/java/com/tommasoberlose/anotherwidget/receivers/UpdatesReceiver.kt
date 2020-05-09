@@ -32,7 +32,6 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_DATE_CHANGED,
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
             Actions.ACTION_TIME_UPDATE -> {
-                Log.d("ciao", "arrivata notifica")
                 MainWidget.updateWidget(context)
                 if (intent.hasExtra(EVENT_ID)) {
                     setUpdates(context, intent.getLongExtra(EVENT_ID, -1))
@@ -69,7 +68,6 @@ class UpdatesReceiver : BroadcastReceiver() {
                 val diff = Period(now.timeInMillis, event.startDate)
                 if (event.startDate > now.timeInMillis) {
                     // Update the widget every hour till the event
-                    Log.d("ciao", "${event.title} hours: ${diff.hours} - ${diff.minutes}")
                     setExactAndAllowWhileIdle(
                         AlarmManager.RTC,
                         if (event.startDate - diff.hours * 1000 * 60 * 60 > (now.timeInMillis + 120 * 1000)) event.startDate - diff.hours * 1000 * 60 * 60 else now.timeInMillis + 120000,
@@ -85,10 +83,6 @@ class UpdatesReceiver : BroadcastReceiver() {
                     )
                 } else {
                     // Update the widget one second after the event is finished
-                    Log.d(
-                        "ciao",
-                        "${event.title} end: ${Date(if (event.endDate > now.timeInMillis + 120 * 1000) event.endDate else now.timeInMillis + 120000)}"
-                    )
                     val fireTime =
                         if (event.endDate > now.timeInMillis + 120 * 1000) event.endDate else now.timeInMillis + 120000
                     setExactAndAllowWhileIdle(

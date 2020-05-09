@@ -196,4 +196,7 @@
     <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_title_integrations">Integrazioni</string>
     <string name="label_count_installed_integrations">%d integrazioni installate</string>
+    <string name="title_show_glance">Mostra notizie rapide</string>
+    <string name="description_show_glance">Mostra notizie rapide ottenute da diversi provider</string>
+    <string name="settings_show_dividers_title">Mostra divisori testo</string>
 </resources>

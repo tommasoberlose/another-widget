@@ -76,6 +76,7 @@ object Preferences : KotprefModel() {
 
     // Glance
     var showGlance by booleanPref(default = true)
+    var enabledGlanceProviderOrder by stringPref(default = "")
     var customInfo by stringPref(default = "")
     var showNextAlarm by booleanPref(default = false)
     var isBatteryLevelLow by booleanPref(default = false)

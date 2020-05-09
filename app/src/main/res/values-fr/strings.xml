@@ -197,4 +197,7 @@
     <string name="settings_at_a_glance_title">At a Glance</string>
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
+    <string name="title_show_glance">Show at a glance info</string>
+    <string name="description_show_glance">Show multiple provider data when there are no events displayed.</string>
+    <string name="settings_show_dividers_title">Show text dividers</string>
 </resources>

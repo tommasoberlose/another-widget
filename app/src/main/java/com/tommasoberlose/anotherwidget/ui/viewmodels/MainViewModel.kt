@@ -54,6 +54,8 @@ class MainViewModel : ViewModel() {
 
     // Glance
     val showGlance = Preferences.asLiveData(Preferences::showGlance)
+    val showMusic = Preferences.asLiveData(Preferences::showMusic)
+    val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
 
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)
