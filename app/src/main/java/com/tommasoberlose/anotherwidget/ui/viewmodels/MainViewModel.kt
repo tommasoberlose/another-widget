@@ -33,6 +33,7 @@ class MainViewModel : ViewModel() {
     val clockTextSize = Preferences.asLiveData(Preferences::clockTextSize)
     val clockTextColor = Preferences.asLiveData(Preferences::clockTextColor)
     val clockTextAlpha = Preferences.asLiveData(Preferences::clockTextAlpha)
+    val showAMPMIndicator = Preferences.asLiveData(Preferences::showAMPMIndicator)
 
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
     val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
@@ -56,6 +57,8 @@ class MainViewModel : ViewModel() {
     val showGlance = Preferences.asLiveData(Preferences::showGlance)
     val showMusic = Preferences.asLiveData(Preferences::showMusic)
     val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
+    val showBatteryCharging = Preferences.asLiveData(Preferences::showBatteryCharging)
+    val customInfo = Preferences.asLiveData(Preferences::customNotes)
 
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)

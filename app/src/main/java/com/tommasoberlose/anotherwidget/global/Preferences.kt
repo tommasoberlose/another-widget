@@ -48,6 +48,7 @@ object Preferences : KotprefModel() {
 
     var clockTextColor by stringPref(default = "#FFFFFF")
     var clockTextAlpha by stringPref(default = "FF")
+    var showAMPMIndicator by booleanPref(default = true)
 
     // Global
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
@@ -77,8 +78,9 @@ object Preferences : KotprefModel() {
     // Glance
     var showGlance by booleanPref(default = true)
     var enabledGlanceProviderOrder by stringPref(default = "")
-    var customInfo by stringPref(default = "")
-    var showNextAlarm by booleanPref(default = false)
+    var customNotes by stringPref(default = "")
+    var showNextAlarm by booleanPref(default = true)
+    var showBatteryCharging by booleanPref(default = false)
     var isBatteryLevelLow by booleanPref(default = false)
     var googleFitSteps by longPref(default = -1)
 

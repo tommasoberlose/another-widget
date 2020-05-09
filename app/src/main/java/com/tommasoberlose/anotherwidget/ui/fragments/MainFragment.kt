@@ -160,6 +160,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                         TypedValue.COMPLEX_UNIT_SP,
                         Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
                     )
+                    time_am_pm.isVisible = Preferences.showAMPMIndicator
 
                     // Clock bottom margin
                     clock_bottom_margin_none.isVisible =

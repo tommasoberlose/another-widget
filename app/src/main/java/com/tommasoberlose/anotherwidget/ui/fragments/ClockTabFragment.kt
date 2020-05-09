@@ -104,6 +104,12 @@ class ClockTabFragment : Fragment() {
             }
         })
 
+        viewModel.showAMPMIndicator.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                ampm_indicator_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            }
+        })
+
         viewModel.clockTextColor.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 if (Preferences.clockTextAlpha == "00") {
@@ -166,6 +172,15 @@ class ClockTabFragment : Fragment() {
             dialog.addOnSelectItemListener { value ->
                 Preferences.clockTextSize = value
             }.show()
+        }
+
+        action_ampm_indicator_size.setOnClickListener {
+            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_ampm_indicator_title)).setSelectedValue(Preferences.showAMPMIndicator)
+                .addItem(getString(R.string.settings_visible), true)
+                .addItem(getString(R.string.settings_not_visible), false)
+                .addOnSelectItemListener { value ->
+                    Preferences.showAMPMIndicator = value
+                }.show()
         }
 
         action_clock_text_color.setOnClickListener {

@@ -39,7 +39,7 @@ class EventRepository(val context: Context) {
     }
 
     fun saveNextEventData(event: Event) {
-        Preferences.nextEventId = event.id
+        Preferences.nextEventId = event.eventID
     }
 
     fun getNextEvent(): Event? {
@@ -64,11 +64,11 @@ class EventRepository(val context: Context) {
     fun goToNextEvent() {
         val eventList = getEvents()
         if (eventList.isNotEmpty()) {
-            val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
+            val index = eventList.indexOfFirst { it.eventID == Preferences.nextEventId }
             if (index > -1 && index < eventList.size - 1) {
-                Preferences.nextEventId = eventList[index + 1]!!.id
+                Preferences.nextEventId = eventList[index + 1]!!.eventID
             } else {
-                Preferences.nextEventId = eventList.first()!!.id
+                Preferences.nextEventId = eventList.first()!!.eventID
             }
         } else {
             resetNextEventData()
@@ -80,11 +80,11 @@ class EventRepository(val context: Context) {
     fun goToPreviousEvent() {
         val eventList = getEvents()
         if (eventList.isNotEmpty()) {
-            val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
+            val index = eventList.indexOfFirst { it.eventID == Preferences.nextEventId }
             if (index > 0) {
-                Preferences.nextEventId = eventList[index - 1]!!.id
+                Preferences.nextEventId = eventList[index - 1]!!.eventID
             } else {
-                Preferences.nextEventId = eventList.last()!!.id
+                Preferences.nextEventId = eventList.last()!!.eventID
             }
         } else {
             resetNextEventData()
@@ -95,11 +95,7 @@ class EventRepository(val context: Context) {
 
     fun getEvents(): RealmResults<Event> {
         val now = Calendar.getInstance().timeInMillis
-        val list = realm.where(Event::class.java).greaterThan("endDate", now).findAll()
-        realm.executeTransactionAsync {
-            it.where(Event::class.java).lessThanOrEqualTo("endDate", now).findAll().deleteAllFromRealm()
-        }
-        return list
+        return realm.where(Event::class.java).greaterThan("endDate", now).findAll()
     }
 
     fun getEventsCount(): Int = getEvents().size

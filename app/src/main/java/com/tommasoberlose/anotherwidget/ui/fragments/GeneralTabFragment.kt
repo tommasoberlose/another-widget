@@ -148,7 +148,10 @@ class GeneralTabFragment : Fragment() {
         })
 
         viewModel.showDividers.observe(viewLifecycleOwner, Observer {
-            show_dividers_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            maintainScrollPosition {
+                show_dividers_label?.text =
+                    if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            }
         })
     }
 

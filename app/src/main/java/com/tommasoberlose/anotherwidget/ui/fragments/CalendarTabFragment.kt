@@ -129,7 +129,10 @@ class CalendarTabFragment : Fragment() {
         })
 
         viewModel.showNextEvent.observe(viewLifecycleOwner, Observer {
-            show_multiple_events_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            maintainScrollPosition {
+                show_multiple_events_label?.text =
+                    if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            }
         })
 
         viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
@@ -278,7 +281,7 @@ class CalendarTabFragment : Fragment() {
         action_show_until.setOnClickListener {
             if (Preferences.showEvents) {
                 val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_until_title)).setSelectedValue(Preferences.showUntil)
-                intArrayOf(6,7,0,1,2).forEach {
+                intArrayOf(6,7,0,1,2,3).forEach {
                     dialog.addItem(getString(SettingsStringHelper.getShowUntilString(it)), it)
                 }
                 dialog.addOnSelectItemListener { value ->

@@ -53,11 +53,4 @@ object WidgetHelper {
             width to second * factor
         }
     }
-
-    fun showSpecialWeather(context: Context): Boolean {
-        return EventRepository(context).getEventsCount() == 0 && (
-                (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
-                (MediaPlayerHelper.isSomeonePlaying(context))
-            )
-    }
 }
