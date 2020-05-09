@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -24,16 +23,18 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.BuildConfig
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentAdvancedSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
+import com.tommasoberlose.anotherwidget.ui.activities.IntegrationsActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
-import kotlinx.android.synthetic.main.fragment_advanced_settings.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -58,7 +59,7 @@ class SettingsFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentAdvancedSettingsBinding>(inflater, R.layout.fragment_advanced_settings, container, false)
+        val binding = DataBindingUtil.inflate<FragmentSettingsBinding>(inflater, R.layout.fragment_settings, container, false)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -96,6 +97,10 @@ class SettingsFragment : Fragment() {
             }
         })
 
+        viewModel.installedIntegrations.observe(viewLifecycleOwner, Observer {
+            integrations_count_label?.text = getString(R.string.label_count_installed_integrations).format(it)
+        })
+
         viewModel.showPreview.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_widget_preview_label?.text =
@@ -114,27 +119,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupListener() {
-        action_change_theme.setOnClickListener {
-            maintainScrollPosition {
-                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_theme_title))
-                    .setSelectedValue(Preferences.darkThemePreference)
-                    .addItem(
-                        getString(R.string.settings_subtitle_dark_theme_light),
-                        AppCompatDelegate.MODE_NIGHT_NO
-                    )
-                    .addItem(
-                        getString(R.string.settings_subtitle_dark_theme_dark),
-                        AppCompatDelegate.MODE_NIGHT_YES
-                    )
-                    .addItem(
-                        getString(R.string.settings_subtitle_dark_theme_default),
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-                    )
-                    .addOnSelectItemListener { value ->
-                        Preferences.darkThemePreference = value
-                    }.show()
-            }
-        }
 
         action_show_widget_preview.setOnClickListener {
             maintainScrollPosition {
@@ -176,6 +160,32 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        action_integrations.setOnClickListener {
+            startActivity(Intent(requireContext(), IntegrationsActivity::class.java))
+        }
+
+        action_change_theme.setOnClickListener {
+            maintainScrollPosition {
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_theme_title))
+                    .setSelectedValue(Preferences.darkThemePreference)
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_light),
+                        AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_dark),
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    )
+                    .addItem(
+                        getString(R.string.settings_subtitle_dark_theme_default),
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                    )
+                    .addOnSelectItemListener { value ->
+                        Preferences.darkThemePreference = value
+                    }.show()
+            }
+        }
+
         action_translate.setOnClickListener {
             activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
         }
@@ -195,6 +205,7 @@ class SettingsFragment : Fragment() {
         action_refresh_widget.setOnClickListener {
             WeatherHelper.updateWeather(requireContext())
             CalendarHelper.updateEventList(requireContext())
+            MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
         }
     }
 

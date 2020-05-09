@@ -14,4 +14,12 @@ object Constants {
         MEDIUM(2),
         LARGE(3)
     }
+
+    enum class GlanceProviderId(val id: String) {
+        PLAYING_SONG("PLAYING_SONG"),
+        NEXT_CLOCK_ALARM("NEXT_CLOCK_ALARM"),
+//        BATTERY_LEVEL_LOW("BATTERY_LEVEL_LOW"),
+        CUSTOM_INFO("CUSTOM_INFO"),
+//        GOOGLE_FIT_STEPS("GOOGLE_FIT_STEPS")
+    }
 }

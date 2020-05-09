@@ -33,7 +33,7 @@
     <string name="main_calendar">Account calendar</string>
     <string name="settings_calendar_title">Calendar</string>
     <string name="settings_weather_title">Weather</string>
-    <string name="settings_general_title">General</string>
+    <string name="settings_general_title">Display</string>
     <string name="calendar_settings_list_error">Error loading the calendar list</string>
     <string name="settings_hour_format_title">Hour format</string>
     <string name="settings_hour_format_subtitle_12">12 hour</string>
@@ -117,7 +117,8 @@
     <string name="show_clock_visible">Clock visibility</string>
     <string name="show_clock_not_visible">Clock is hidden</string>
     <string name="settings_clock_text_size_title">Clock text size</string>
-    <string name="settings_show_next_alarm_title">Show next alarm when possible</string>
+    <string name="settings_show_next_alarm_title">Next clock Alarm</string>
+    <string name="settings_show_next_alarm_subtitle">Show the next clock alarm</string>
     <string name="title_text_shadow">Text shadow</string>
     <string name="settings_text_shadow_subtitle_none">None</string>
     <string name="settings_text_shadow_subtitle_low">Low</string>
@@ -198,4 +199,25 @@
     <string name="transparent">Transparent</string>
     <string name="next_alarm_warning">The next alarm clock seems to be wrong.\nIt has been set by %s.</string>
     <string name="settings_title">Settings</string>
+    <string name="settings_clock_text_color_title">Clock text color</string>
+    <string name="settings_at_a_glance_title">Glance</string>
+    <string name="settings_music_title">Music</string>
+    <string name="settings_show_music_title">Current playing song</string>
+    <string name="settings_show_music_enabled_subtitle">Show playing song info</string>
+    <string name="settings_show_music_disabled_subtitle">Hide playing song info</string>
+    <string name="settings_song_info_format_title">Song info format</string>
+    <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
+    <string name="title_googlefit" translatable="false">Google Fit</string>
+    <string name="settings_title_integrations">Integrations</string>
+    <string name="label_count_installed_integrations">%d installed integrations</string>
+    <string name="title_show_glance">Show at a glance info</string>
+    <string name="description_show_glance">Show multiple provider data when there are no events displayed.</string>
+    <string name="settings_show_dividers_title">Show text dividers</string>
+    <string name="settings_sort_glance_providers_title">Data source priority</string>
+    <string name="settings_sort_glance_providers_subtitle">Change the data provider importance</string>
+    <string name="settings_custom_notes_title">Custom notes</string>
+    <string name="settings_low_battery_level_title">Battery level</string>
+    <string name="settings_daily_steps_title">Daily steps</string>
+    <string name="battery_low_warning">Low battery level</string>
+    <string name="settings_ampm_indicator_title">Show AM/PM Indicator</string>
 </resources>

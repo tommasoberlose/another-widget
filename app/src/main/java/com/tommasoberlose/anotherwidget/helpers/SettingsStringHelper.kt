@@ -39,7 +39,6 @@ object SettingsStringHelper {
         return when (info) {
             0 -> R.string.settings_second_row_info_subtitle_0
             1 -> R.string.settings_second_row_info_subtitle_1
-            2 -> R.string.settings_second_row_info_subtitle_2
             else -> R.string.settings_second_row_info_subtitle_0
         }
     }

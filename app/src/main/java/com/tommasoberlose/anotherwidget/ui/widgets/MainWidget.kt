@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -19,14 +20,12 @@ import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
-import com.tommasoberlose.anotherwidget.helpers.WidgetHelper.reduceDimensionWithMaxWidth
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
@@ -54,6 +53,7 @@ class MainWidget : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         CalendarHelper.updateEventList(context)
         WeatherReceiver.setUpdates(context)
+        MediaPlayerHelper.updatePlayingMediaInfo(context)
 
         if (Preferences.showEvents) {
             CalendarHelper.setEventUpdatesAndroidN(context)
@@ -149,6 +149,7 @@ class MainWidget : AppWidgetProvider() {
                 views.setViewVisibility(R.id.empty_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
                 views.setViewVisibility(R.id.second_row_rect, View.GONE)
+                views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
 
                 val calPIntent = PendingIntent.getActivity(
                     context,
@@ -260,14 +261,62 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-                } else if (Preferences.showNextAlarm && nextAlarm != "") {
-                    val clockIntent = PendingIntent.getActivity(
-                        context,
-                        widgetID,
-                        IntentHelper.getClockIntent(context),
-                        0
-                    )
-                    views.setOnClickPendingIntent(R.id.second_row_rect, clockIntent)
+                } else if (Preferences.showGlance) {
+
+
+
+
+
+                    loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders()) {
+                        when (provider) {
+                            Constants.GlanceProviderId.PLAYING_SONG -> {
+                                if (MediaPlayerHelper.isSomeonePlaying(context)) {
+                                    val musicIntent = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getMusicIntent(context),
+                                        0
+                                    )
+                                    views.setOnClickPendingIntent(R.id.second_row_rect, musicIntent)
+                                    break@loop
+                                }
+                            }
+                            Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
+                                if (Preferences.showNextAlarm && nextAlarm != "") {
+                                    val alarmIntent = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getClockIntent(context),
+                                        0
+                                    )
+                                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
+                                    break@loop
+                                }
+                            }
+//                            Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+//                                if (Preferences.isBatteryLevelLow) {
+//                                    val alarmIntent = PendingIntent.getActivity(
+//                                        context,
+//                                        widgetID,
+//                                        IntentHelper.getClockIntent(context),
+//                                        0
+//                                    )
+//                                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
+//                                    break@loop
+//                                }
+//                            }
+                            Constants.GlanceProviderId.CUSTOM_INFO -> {
+                                if (Preferences.customNotes.isNotEmpty()) {
+                                    break@loop
+                                }
+                            }
+//                            Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+//                                if (Preferences.googleFitSteps > 0) {
+//                                    break@loop
+//                                }
+//                            }
+                        }
+                    }
 
                     views.setImageViewBitmap(
                         R.id.next_event_rect,
@@ -278,10 +327,11 @@ class MainWidget : AppWidgetProvider() {
                         R.id.second_row_rect,
                         BitmapHelper.getBitmapFromView(v.second_row, draw = false)
                     )
-                    views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
 
+                    views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+                    views.setOnClickPendingIntent(R.id.next_event_rect, calPIntent)
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
@@ -296,6 +346,7 @@ class MainWidget : AppWidgetProvider() {
                 if (Preferences.showWeather && Preferences.weatherIcon != "") {
                     views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
                     views.setViewVisibility(R.id.calendar_weather_rect, View.VISIBLE)
+                    views.setViewVisibility(R.id.special_weather_rect, View.VISIBLE)
 
                     val i = Intent(context, WidgetClickListenerReceiver::class.java)
                     i.action = Actions.ACTION_OPEN_WEATHER_INTENT
@@ -303,6 +354,7 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setOnClickPendingIntent(R.id.weather_rect, weatherPIntent)
                     views.setOnClickPendingIntent(R.id.calendar_weather_rect, weatherPIntent)
+                    views.setOnClickPendingIntent(R.id.special_weather_rect, weatherPIntent)
 
                     views.setImageViewBitmap(
                         R.id.weather_rect,
@@ -313,9 +365,21 @@ class MainWidget : AppWidgetProvider() {
                         R.id.calendar_weather_rect,
                         BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false)
                     )
+
+                    views.setImageViewBitmap(
+                        R.id.special_weather_rect,
+                        BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false)
+                    )
+
+                    if (GlanceProviderHelper.showSpecialWeather(context)) {
+                        views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)
+                    } else {
+                        views.setViewVisibility(R.id.special_weather_rect, View.GONE)
+                    }
                 } else {
                     views.setViewVisibility(R.id.weather_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)
+                    views.setViewVisibility(R.id.special_weather_rect, View.GONE)
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
@@ -334,8 +398,8 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
                 } else {
-                    views.setTextColor(R.id.time, ColorHelper.getFontColor())
-                    views.setTextColor(R.id.time_am_pm, ColorHelper.getFontColor())
+                    views.setTextColor(R.id.time, ColorHelper.getClockFontColor())
+                    views.setTextColor(R.id.time_am_pm, ColorHelper.getClockFontColor())
                     views.setTextViewTextSize(
                         R.id.time,
                         TypedValue.COMPLEX_UNIT_SP,
@@ -355,7 +419,7 @@ class MainWidget : AppWidgetProvider() {
                     views.setOnClickPendingIntent(R.id.time, clockPIntent)
                     views.setOnClickPendingIntent(R.id.time_am_pm, clockPIntent)
                     views.setViewVisibility(R.id.time, View.VISIBLE)
-                    views.setViewVisibility(R.id.time_am_pm, View.VISIBLE)
+                    views.setViewVisibility(R.id.time_am_pm, if (Preferences.showAMPMIndicator) View.VISIBLE else View.GONE)
 
                     views.setViewVisibility(
                         R.id.clock_bottom_margin_none,
@@ -392,6 +456,7 @@ class MainWidget : AppWidgetProvider() {
 
             v.empty_layout.visibility = View.VISIBLE
             v.calendar_layout.visibility = View.GONE
+            v.next_event_difference_time.visibility = View.GONE
             v.action_next.isVisible = false
             v.action_previous.isVisible = false
 
@@ -459,22 +524,76 @@ class MainWidget : AppWidgetProvider() {
 
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
-            } else if (Preferences.showNextAlarm && nextAlarm != "") {
-                v.second_row_icon.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.round_alarm
-                    )
-                )
+            } else if (Preferences.showGlance) {
+                v.second_row_icon.isVisible = true
+                loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders()) {
+                    when (provider) {
+                        Constants.GlanceProviderId.PLAYING_SONG -> {
+                            if (MediaPlayerHelper.isSomeonePlaying(context)) {
+                                v.second_row_icon.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        R.drawable.round_music_note
+                                    )
+                                )
+                                v.next_event_date.text = MediaPlayerHelper.getMediaInfo()
+                                break@loop
+                            }
+                        }
+                        Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
+                            if (Preferences.showNextAlarm && nextAlarm != "") {
+                                v.second_row_icon.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        R.drawable.round_alarm
+                                    )
+                                )
+                                v.next_event_date.text = AlarmHelper.getNextAlarm(context)
+                                break@loop
+                            }
+                        }
+//                        Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+//                            if (Preferences.isBatteryLevelLow) {
+//                                v.second_row_icon.setImageDrawable(
+//                                    ContextCompat.getDrawable(
+//                                        context,
+//                                        R.drawable.round_battery_charging_full
+//                                    )
+//                                )
+//                                v.next_event_date.text = context.getString(R.string.battery_low_warning)
+//                                break@loop
+//                            }
+//                        }
+                        Constants.GlanceProviderId.CUSTOM_INFO -> {
+                            if (Preferences.customNotes.isNotEmpty()) {
+                                v.second_row_icon.isVisible = false
+                                v.next_event_date.text = Preferences.customNotes
+                                break@loop
+                            }
+                        }
+//                        Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+//                                if (Preferences.googleFitSteps > 0) {
+//                                    v.second_row_icon.setImageDrawable(
+//                                        ContextCompat.getDrawable(
+//                                            context,
+//                                            R.drawable.round_directions_walk
+//                                        )
+//                                    )
+//                                    v.next_event_date.text = ""
+//                                    break@loop
+//                                }
+//                        }
+                    }
+                }
+
                 v.next_event.text = DateHelper.getDateText(context, now)
-                v.next_event_date.text = AlarmHelper.getNextAlarm(context)
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
             }
 
 
             // Color
-            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp).forEach {
+            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
                 it.setTextColor(ColorHelper.getFontColor())
             }
 
@@ -485,13 +604,15 @@ class MainWidget : AppWidgetProvider() {
             // Text Size
             listOf<Pair<TextView, Float>>(
                 v.empty_date to Preferences.textMainSize,
-                v.divider1 to Preferences.textMainSize,
+                v.divider1 to (Preferences.textMainSize - 2),
                 v.temp to Preferences.textMainSize,
                 v.next_event to Preferences.textMainSize,
                 v.next_event_difference_time to Preferences.textMainSize,
                 v.next_event_date to Preferences.textSecondSize,
-                v.divider2 to Preferences.textSecondSize,
-                v.calendar_temp to Preferences.textSecondSize
+                v.divider2 to (Preferences.textSecondSize - 2),
+                v.calendar_temp to Preferences.textSecondSize,
+                v.divider3 to (Preferences.textMainSize - 2),
+                v.special_temp to Preferences.textMainSize
             ).forEach {
                 it.first.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.second)
             }
@@ -511,6 +632,9 @@ class MainWidget : AppWidgetProvider() {
 
             v.action_previous.scaleX = Preferences.textMainSize / 28f
             v.action_previous.scaleY = Preferences.textMainSize / 28f
+
+            v.special_weather_icon.scaleX = Preferences.textMainSize / 20f
+            v.special_weather_icon.scaleY = Preferences.textMainSize / 20f
 
 
             // Shadows
@@ -533,14 +657,14 @@ class MainWidget : AppWidgetProvider() {
                 else -> 0f
             }
 
-            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp).forEach {
+            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
                 it.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
             }
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_PRODUCT_SANS) {
                 val productSans: Typeface = Typeface.createFromAsset(context.assets, "fonts/product_sans_regular.ttf")
-                listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp).forEach {
+                listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
                     it.typeface = productSans
                 }
             }
@@ -549,24 +673,41 @@ class MainWidget : AppWidgetProvider() {
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
                 v.weather.visibility = View.VISIBLE
                 v.calendar_weather.visibility = View.VISIBLE
+                v.special_weather.visibility = View.VISIBLE
                 val currentTemp = String.format(Locale.getDefault(), "%.0f °%s", Preferences.weatherTemp, Preferences.weatherRealTempUnit)
 
                 val icon: String = Preferences.weatherIcon
                 if (icon == "") {
                     v.weather_icon.visibility = View.GONE
                     v.empty_weather_icon.visibility = View.GONE
+                    v.special_weather_icon.visibility = View.GONE
                 } else {
                     v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
                     v.empty_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
+                    v.special_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
                     v.weather_icon.visibility = View.VISIBLE
                     v.empty_weather_icon.visibility = View.VISIBLE
+                    v.special_weather_icon.visibility = View.VISIBLE
                 }
 
                 v.temp.text = currentTemp
                 v.calendar_temp.text = currentTemp
+                v.special_temp.text = currentTemp
+
+                if (GlanceProviderHelper.showSpecialWeather(context)) {
+                    v.calendar_weather.visibility = View.GONE
+                } else {
+                    v.special_weather.visibility = View.GONE
+                }
             } else {
                 v.weather.visibility = View.GONE
                 v.calendar_weather.visibility = View.GONE
+                v.special_weather.visibility = View.GONE
+            }
+
+            // Dividers
+            arrayOf(v.divider1, v.divider2, v.divider3).forEach {
+                it.isVisible = Preferences.showDividers
             }
 
             return v

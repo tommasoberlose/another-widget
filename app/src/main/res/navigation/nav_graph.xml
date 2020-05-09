@@ -6,7 +6,7 @@
     app:startDestination="@id/appMainFragment">
     <fragment
         android:id="@+id/appMainFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.AppMainFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.MainFragment"
         android:label="AppMainFragment" >
         <action
             android:id="@+id/action_appMainFragment_to_appSettingsFragment"

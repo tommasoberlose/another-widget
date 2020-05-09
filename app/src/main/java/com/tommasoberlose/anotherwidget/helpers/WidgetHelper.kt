@@ -4,6 +4,8 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.tommasoberlose.anotherwidget.db.EventRepository
+import com.tommasoberlose.anotherwidget.global.Preferences
 
 object WidgetHelper {
     class WidgetSizeProvider(

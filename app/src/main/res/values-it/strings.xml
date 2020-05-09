@@ -27,9 +27,9 @@
     <string name="settings_all_day_subtitle_visible">Visibili</string>
     <string name="settings_all_day_subtitle_gone">Non visibili</string>
     <string name="main_calendar">Calendario Account</string>
-    <string name="settings_calendar_title">Calendario</string>
+    <string name="settings_calendar_title">Eventi</string>
     <string name="settings_weather_title">Meteo</string>
-    <string name="settings_general_title">Tipografia</string>
+    <string name="settings_general_title">Display</string>
     <string name="calendar_settings_list_error">Errore nel caricamento della lista dei calendari</string>
     <string name="settings_hour_format_title">Formato Ora</string>
     <string name="settings_hour_format_subtitle_12">12 ore AM/PM</string>
@@ -186,4 +186,24 @@
     <string name="transparent">Trasparente</string>
     <string name="next_alarm_warning">La sveglia sembra impostata male.\nÈ stata impostata dall\'app %s.</string>
     <string name="settings_title">Impostazioni</string>
+    <string name="settings_clock_text_color_title">Colore orologio</string>
+    <string name="settings_music_title">Musica</string>
+    <string name="settings_show_music_title">Mostra brano in riproduzione</string>
+    <string name="settings_show_music_enabled_subtitle">Visibile</string>
+    <string name="settings_show_music_disabled_subtitle">Non visibile</string>
+    <string name="settings_song_info_format_title">Formato informazioni brano</string>
+    <string name="settings_request_notification_access">Concedi all\'app il permesso di monitorare le notifiche, è necessario per poter mostrare il brano in riproduzione.</string>
+    <string name="settings_at_a_glance_title">Glance</string>
+    <string name="settings_title_integrations">Integrazioni</string>
+    <string name="label_count_installed_integrations">%d integrazioni installate</string>
+    <string name="title_show_glance">Mostra notizie rapide</string>
+    <string name="description_show_glance">Mostra notizie rapide ottenute da diversi provider</string>
+    <string name="settings_show_next_alarm_subtitle">Mostra la prossima sveglia</string>
+    <string name="settings_show_dividers_title">Mostra divisori testo</string>
+    <string name="settings_sort_glance_providers_title">Ordine notizie rapide</string>
+    <string name="settings_sort_glance_providers_subtitle">Cambia l\'ordine di importanza delle notizie</string>
+    <string name="settings_custom_notes_title">Note</string>
+    <string name="settings_low_battery_level_title">Livello batteria</string>
+    <string name="settings_daily_steps_title">Passi di oggi</string>
+    <string name="battery_low_warning">Livello batteria basso</string>
 </resources>

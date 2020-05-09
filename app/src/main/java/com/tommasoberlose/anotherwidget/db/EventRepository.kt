@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.db
 
 import android.content.Context
+import android.util.Log
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
@@ -8,6 +9,8 @@ import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
 import io.realm.RealmResults
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EventRepository(val context: Context) {
     private val realm by lazy { Realm.getDefaultInstance() }
@@ -36,22 +39,36 @@ class EventRepository(val context: Context) {
     }
 
     fun saveNextEventData(event: Event) {
-        Preferences.nextEventId = event.id
+        Preferences.nextEventId = event.eventID
     }
 
-    fun getNextEvent(): Event? = realm.where(Event::class.java).equalTo("id", Preferences.nextEventId).findFirst() ?: realm.where(Event::class.java).findFirst()
+    fun getNextEvent(): Event? {
+        val nextEvent = getEventByEventId(Preferences.nextEventId)
+        return if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
+            nextEvent
+        } else {
+            val events = getEvents()
+            if (events.isNotEmpty()) {
+                val newNextEvent = events.first()
+                Preferences.nextEventId = newNextEvent!!.eventID
+                newNextEvent
+            } else {
+                resetNextEventData()
+                null
+            }
+        }
+    }
 
     fun getEventByEventId(id: Long): Event? = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
 
     fun goToNextEvent() {
-        val eventList = realm.where(Event::class.java).findAll()
-
+        val eventList = getEvents()
         if (eventList.isNotEmpty()) {
-            val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
+            val index = eventList.indexOfFirst { it.eventID == Preferences.nextEventId }
             if (index > -1 && index < eventList.size - 1) {
-                Preferences.nextEventId = eventList[index + 1]!!.id
+                Preferences.nextEventId = eventList[index + 1]!!.eventID
             } else {
-                Preferences.nextEventId = eventList.first()!!.id
+                Preferences.nextEventId = eventList.first()!!.eventID
             }
         } else {
             resetNextEventData()
@@ -61,14 +78,13 @@ class EventRepository(val context: Context) {
     }
 
     fun goToPreviousEvent() {
-        val eventList = realm.where(Event::class.java).findAll()
-
+        val eventList = getEvents()
         if (eventList.isNotEmpty()) {
-            val index = eventList.indexOfFirst { it.id == Preferences.nextEventId }
+            val index = eventList.indexOfFirst { it.eventID == Preferences.nextEventId }
             if (index > 0) {
-                Preferences.nextEventId = eventList[index - 1]!!.id
+                Preferences.nextEventId = eventList[index - 1]!!.eventID
             } else {
-                Preferences.nextEventId = eventList.last()!!.id
+                Preferences.nextEventId = eventList.last()!!.eventID
             }
         } else {
             resetNextEventData()
@@ -77,7 +93,10 @@ class EventRepository(val context: Context) {
         MainWidget.updateWidget(context)
     }
 
-    fun getEvents(): RealmResults<Event> = realm.where(Event::class.java).findAll()
+    fun getEvents(): RealmResults<Event> {
+        val now = Calendar.getInstance().timeInMillis
+        return realm.where(Event::class.java).greaterThan("endDate", now).findAll()
+    }
 
-    fun getEventsCount(): Int = realm.where(Event::class.java).findAll().size
+    fun getEventsCount(): Int = getEvents().size
 }

@@ -1,15 +1,13 @@
 package com.tommasoberlose.anotherwidget.network
 
 import android.content.Context
-import android.util.Log
 import com.kwabenaberko.openweathermaplib.constants.Units
 import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper
 import com.kwabenaberko.openweathermaplib.implementation.callbacks.CurrentWeatherCallback
 import com.kwabenaberko.openweathermaplib.models.currentweather.CurrentWeather
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
-import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.fragments.AppMainFragment
+import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import org.greenrobot.eventbus.EventBus
 
@@ -27,7 +25,7 @@ class WeatherNetworkApi(val context: Context) {
                         Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
                         MainWidget.updateWidget(context)
 
-                        EventBus.getDefault().post(AppMainFragment.UpdateUiMessageEvent())
+                        EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                     }
                 }
 

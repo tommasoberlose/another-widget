@@ -33,6 +33,7 @@
         <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.CustomDateActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.IntegrationsActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
 
 
         <receiver android:name=".ui.widgets.MainWidget">
@@ -139,6 +140,23 @@
 
         <service android:name=".services.EventListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service android:name=".receivers.MusicNotificationListener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".receivers.BatteryLevelReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

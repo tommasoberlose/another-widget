@@ -207,4 +207,24 @@
 	<string name="transparent">Transparent</string>
 	<string name="next_alarm_warning">The next alarm clock seems to be wrong.\nIt has been set by %s.</string>
 	<string name="settings_title">Settings</string>
+    <string name="settings_clock_text_color_title">Clock text color</string>
+	<string name="settings_music_title">Music</string>
+    <string name="settings_show_music_title">Show current playing song</string>
+    <string name="settings_show_music_enabled_subtitle">Playing song info visible</string>
+    <string name="settings_show_music_disabled_subtitle">Playing song info hidden</string>
+    <string name="settings_song_info_format_title">Song info format</string>
+    <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
+	<string name="settings_at_a_glance_title">At a Glance</string>
+	<string name="settings_title_integrations">Integrations</string>
+	<string name="label_count_installed_integrations">%d installed integrations</string>
+	<string name="title_show_glance">Show at a glance info</string>
+	<string name="description_show_glance">Show multiple provider data when there are no events displayed.</string>
+	<string name="settings_show_dividers_title">Show text dividers</string>
+    <string name="settings_show_next_alarm_subtitle">Show the next clock alarm</string>
+	<string name="settings_sort_glance_providers_title">Data source priority</string>
+	<string name="settings_sort_glance_providers_subtitle">Change the data provider importance</string>
+	<string name="settings_custom_notes_title">Custom notes</string>
+	<string name="settings_low_battery_level_title">Battery level</string>
+	<string name="settings_daily_steps_title">Daily steps</string>
+	<string name="battery_low_warning">Low battery level</string>
 </resources>
