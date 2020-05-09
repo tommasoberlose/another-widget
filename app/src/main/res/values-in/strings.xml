@@ -17,9 +17,9 @@
     <string name="all_set_subtitle">Anda telah menyelesaikan proses konfigurasi.\nWatch out untuk pembaruan.</string>
     <string name="all_set_btn">Tetap up to date</string>
     <string name="action_about">Tentang</string>
-    <string name="h_code">h</string>
-    <string name="min_code">" min"</string>
-    <string name="in_code">in</string>
+    <string name="h_code">j</string>
+    <string name="min_code">" mnt"</string>
+    <string name="in_code">dalam</string>
     <string name="action_project">Proyek</string>
     <string name="settings_unit_title">Unit pengukuran</string>
     <string name="settings_unit_subtitle">Pilih unit pengukuran temperatur</string>
@@ -96,7 +96,7 @@
     <string name="action_open_provider">Kunjungi OpenWeatherMap.com</string>
     <string name="api_key_info_all_set"><![CDATA[Mungkin membutuhkan lebih kurang <b>10 menit</b> sebelum kunci API anda diaktifkan. Cuaca akan diperbarui segera setelah data tersedia!]]></string>
     <string name="well_done">Selesai!</string>
-    <string name="hs_code">h</string>
+    <string name="hs_code">j</string>
     <string name="tomorrow">besok</string>
     <string name="today">hari ini</string>
     <string name="settings_event_app_title">Ketuk pada acara membuka</string>
