@@ -176,7 +176,7 @@ class GeneralTabFragment : Fragment() {
     private fun setupListener() {
         action_main_text_size.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_main_text_size)).setSelectedValue(Preferences.textMainSize)
-            (32 downTo 10).filter { it % 2 == 0 }.forEach {
+            (40 downTo 10).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
             dialog.addOnSelectItemListener { value ->
@@ -186,7 +186,7 @@ class GeneralTabFragment : Fragment() {
 
         action_second_text_size.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_second_text_size)).setSelectedValue(Preferences.textSecondSize)
-            (28 downTo 10).filter { it % 2 == 0 }.forEach {
+            (40 downTo 10).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
             dialog.addOnSelectItemListener { value ->

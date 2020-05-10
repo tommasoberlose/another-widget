@@ -25,9 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.fitness.FitnessOptions
-import com.google.android.gms.fitness.data.DataType
-import com.google.android.gms.tasks.Task
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -40,10 +37,9 @@ import com.tommasoberlose.anotherwidget.components.GlanceProviderSortMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
-import com.tommasoberlose.anotherwidget.helpers.DailyStepsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
-import com.tommasoberlose.anotherwidget.receivers.FenceReceiver
-import com.tommasoberlose.anotherwidget.receivers.FenceReceiver.Companion.FITNESS_OPTIONS
+import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
+import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
@@ -198,8 +194,13 @@ class GlanceTabFragment : Fragment() {
                     .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
                         if (value) {
-                            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(FITNESS_OPTIONS).build())
-                            startActivityForResult(mGoogleSignInClient.signInIntent, 2)
+                            val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(requireContext())
+                            if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
+                                val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(FITNESS_OPTIONS).build())
+                                startActivityForResult(mGoogleSignInClient.signInIntent, 2)
+                            } else {
+                                Preferences.showDailySteps = true
+                            }
                         } else {
                             Preferences.showDailySteps = false
                         }
@@ -270,20 +271,20 @@ class GlanceTabFragment : Fragment() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION) == true) {
             fitness_permission_alert?.isVisible = false
             if (Preferences.showDailySteps) {
-                DailyStepsHelper.registerFence(requireContext())
+                ActivityDetectionReceiver.registerFence(requireContext())
             } else {
-                DailyStepsHelper.unregisterFence(requireContext())
+                ActivityDetectionReceiver.unregisterFence(requireContext())
             }
             show_steps_label?.text = if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
         } else if (Preferences.showDailySteps) {
-            DailyStepsHelper.unregisterFence(requireContext())
+            ActivityDetectionReceiver.unregisterFence(requireContext())
             fitness_permission_alert?.isVisible = true
             show_steps_label?.text = getString(R.string.settings_request_fitness_access)
             fitness_permission_alert?.setOnClickListener {
                 requireFitnessPermission()
             }
         } else {
-            DailyStepsHelper.unregisterFence(requireContext())
+            ActivityDetectionReceiver.unregisterFence(requireContext())
             show_steps_label?.text = getString(R.string.settings_not_visible)
             fitness_permission_alert?.isVisible = false
         }
@@ -297,7 +298,7 @@ class GlanceTabFragment : Fragment() {
         when (requestCode) {
             1 -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    DailyStepsHelper.registerFence(requireContext())
+                    checkFitnessPermission()
                 } else {
                     Preferences.showDailySteps = false
                 }
@@ -312,7 +313,7 @@ class GlanceTabFragment : Fragment() {
                             account,
                             FITNESS_OPTIONS)
                     } else {
-                        DailyStepsHelper.registerFence(requireContext())
+                        checkFitnessPermission()
                     }
                 } catch (e: ApiException) {
                     e.printStackTrace()
