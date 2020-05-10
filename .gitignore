@@ -9,3 +9,4 @@
 .externalNativeBuild
 /tasksintegration/build
 apikey.properties
+/app/google-services.json
