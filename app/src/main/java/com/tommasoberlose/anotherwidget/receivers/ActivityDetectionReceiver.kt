@@ -145,7 +145,13 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                     .readData(readRequest)
                     .addOnSuccessListener { response ->
                         Preferences.googleFitSteps = response.buckets.sumBy {
-                            it.getDataSet(DataType.AGGREGATE_STEP_COUNT_DELTA)?.dataPoints?.get(0)?.getValue(FIELD_STEPS)?.asInt() ?: 0
+                            try {
+                                it.getDataSet(DataType.AGGREGATE_STEP_COUNT_DELTA)?.dataPoints?.get(
+                                    0
+                                )?.getValue(FIELD_STEPS)?.asInt() ?: 0
+                            } catch (ex: Exception) {
+                                0
+                            }
                         }.toLong()
                         MainWidget.updateWidget(context)
                     }
