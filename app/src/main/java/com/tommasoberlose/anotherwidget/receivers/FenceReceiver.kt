@@ -10,6 +10,7 @@ import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataSource
 import com.google.android.gms.fitness.data.DataType
+import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.data.Field.FIELD_STEPS
 import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.gms.location.ActivityTransitionResult
@@ -35,49 +36,49 @@ class FenceReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun requestDailySteps(context: Context) {
-        val fitnessOptions = FitnessOptions.builder()
+    private fun resetDailySteps() {
+        Preferences.googleFitSteps = -1
+    }
+
+    companion object {
+        val FITNESS_OPTIONS = FitnessOptions.builder()
             .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
             .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
             .build()
 
-        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
+        fun requestDailySteps(context: Context) {
 
-        Log.d("ciao", "hasPermission: ${GoogleSignIn.hasPermissions(account, fitnessOptions)}")
+            val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
+            if (account != null && GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
 
-        if (GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-            val cal: Calendar = Calendar.getInstance()
-            cal.time = Date()
-            val endTime: Long = cal.timeInMillis
-            cal.add(Calendar.YEAR, -1)
-            val startTime: Long = cal.timeInMillis
-            val readRequest = DataReadRequest.Builder()
-                .aggregate(
-                    DataType.TYPE_STEP_COUNT_DELTA,
-                    DataType.AGGREGATE_STEP_COUNT_DELTA
-                )
-                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
-                .bucketByTime(1, TimeUnit.DAYS)
-                .build()
+                val cal: Calendar = Calendar.getInstance()
+                cal.set(Calendar.HOUR_OF_DAY, 0)
+                cal.set(Calendar.MINUTE, 0)
+                cal.set(Calendar.SECOND, 0)
+                cal.set(Calendar.MILLISECOND, 0)
+                val startTime: Long = cal.timeInMillis
 
-            if (account != null) {
+                cal.add(Calendar.DAY_OF_YEAR, 1)
+                val endTime: Long = cal.timeInMillis
+                
+                val readRequest = DataReadRequest.Builder()
+                    .aggregate(
+                        DataType.TYPE_STEP_COUNT_DELTA,
+                        DataType.AGGREGATE_STEP_COUNT_DELTA
+                    )
+                    .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                    .bucketByTime(1, TimeUnit.DAYS)
+                    .build()
+
                 Fitness.getHistoryClient(context, account)
                     .readData(readRequest)
                     .addOnSuccessListener { response ->
-                        Preferences.googleFitSteps =
-                            response.dataSets[0].dataPoints[0].getValue(FIELD_STEPS).asFloat()
-                                .toLong()
-                        Log.d("ciao",
-                            "response: ${response.dataSets[0].dataPoints[0].getValue(FIELD_STEPS)
-                                .asFloat().toLong()}"
-                        )
+                        Preferences.googleFitSteps = response.buckets.sumBy {
+                            it.getDataSet(DataType.AGGREGATE_STEP_COUNT_DELTA)?.dataPoints?.get(0)?.getValue(FIELD_STEPS)?.asInt() ?: 0
+                        }.toLong()
                         MainWidget.updateWidget(context)
                     }
             }
         }
-    }
-
-    private fun resetDailySteps() {
-        Preferences.googleFitSteps = -1
     }
 }

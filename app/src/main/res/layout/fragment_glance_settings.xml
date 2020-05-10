@@ -194,7 +194,6 @@
                     android:paddingRight="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:visibility="gone"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:id="@+id/action_show_steps"

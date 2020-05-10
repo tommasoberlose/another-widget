@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
+import com.google.android.gms.tasks.Task
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -38,6 +42,8 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.DailyStepsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
+import com.tommasoberlose.anotherwidget.receivers.FenceReceiver
+import com.tommasoberlose.anotherwidget.receivers.FenceReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
@@ -110,12 +116,12 @@ class GlanceTabFragment : Fragment() {
             }
         })
 
-//        viewModel.showDailySteps.observe(viewLifecycleOwner, Observer {
-//            maintainScrollPosition {
-//                show_steps_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-//            }
-//            checkFitnessPermission()
-//        })
+        viewModel.showDailySteps.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                show_steps_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            }
+            checkFitnessPermission()
+        })
 
         viewModel.customInfo.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
@@ -191,7 +197,12 @@ class GlanceTabFragment : Fragment() {
                     .addItem(getString(R.string.settings_visible), true)
                     .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
-                        Preferences.showDailySteps = value
+                        if (value) {
+                            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(FITNESS_OPTIONS).build())
+                            startActivityForResult(mGoogleSignInClient.signInIntent, 2)
+                        } else {
+                            Preferences.showDailySteps = false
+                        }
                     }.show()
             }
         }
@@ -255,83 +266,87 @@ class GlanceTabFragment : Fragment() {
         }
     }
 
-//    private fun checkFitnessPermission() {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION) == true) {
-//            fitness_permission_alert?.isVisible = false
-//            if (Preferences.showDailySteps) {
-//                val fitnessOptions = FitnessOptions.builder()
-//                    .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-//                    .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-//                    .build()
-//
-//                val account: GoogleSignInAccount = GoogleSignIn.getLastSignedInAccount(requireContext()) ?: GoogleSignIn.getAccountForExtension(requireContext(), fitnessOptions)
-//
-//                if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-//                    GoogleSignIn.requestPermissions(
-//                        requireActivity(),
-//                        1,
-//                        account,
-//                        fitnessOptions)
-//                } else {
-//                    DailyStepsHelper.registerFence(requireContext())
-//                }
-//            } else {
-//                DailyStepsHelper.unregisterFence(requireContext())
-//            }
-//            show_steps_label?.text = if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-//        } else if (Preferences.showDailySteps) {
-//            DailyStepsHelper.unregisterFence(requireContext())
-//            fitness_permission_alert?.isVisible = true
-//            show_steps_label?.text = getString(R.string.settings_request_fitness_access)
-//            fitness_permission_alert?.setOnClickListener {
-//                requireFitnessPermission()
-//            }
-//        } else {
-//            DailyStepsHelper.unregisterFence(requireContext())
-//            show_steps_label?.text = getString(R.string.settings_not_visible)
-//            fitness_permission_alert?.isVisible = false
-//        }
-//    }
-//
-//    override fun onActivityResult(
-//        requestCode: Int,
-//        resultCode: Int,
-//        data: Intent?
-//    ) {
-//        if (resultCode == Activity.RESULT_OK) {
-//            if (requestCode == 1) {
-//                DailyStepsHelper.registerFence(requireContext())
-//            } else {
-//                Preferences.showDailySteps = false
-//            }
-//        }
-//    }
+    private fun checkFitnessPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION) == true) {
+            fitness_permission_alert?.isVisible = false
+            if (Preferences.showDailySteps) {
+                DailyStepsHelper.registerFence(requireContext())
+            } else {
+                DailyStepsHelper.unregisterFence(requireContext())
+            }
+            show_steps_label?.text = if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        } else if (Preferences.showDailySteps) {
+            DailyStepsHelper.unregisterFence(requireContext())
+            fitness_permission_alert?.isVisible = true
+            show_steps_label?.text = getString(R.string.settings_request_fitness_access)
+            fitness_permission_alert?.setOnClickListener {
+                requireFitnessPermission()
+            }
+        } else {
+            DailyStepsHelper.unregisterFence(requireContext())
+            show_steps_label?.text = getString(R.string.settings_not_visible)
+            fitness_permission_alert?.isVisible = false
+        }
+    }
 
-//    private fun requireFitnessPermission() {
-//        Dexter.withContext(requireContext())
-//            .withPermissions(
-//                "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
-//                "android.gms.permission.ACTIVITY_RECOGNITION",
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACTIVITY_RECOGNITION else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
-//            ).withListener(object: MultiplePermissionsListener {
-//                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-//                    report?.let {
-//                        if (report.areAllPermissionsGranted()){
-//                            checkFitnessPermission()
-//                        }
-//                    }
-//                }
-//                override fun onPermissionRationaleShouldBeShown(
-//                    permissions: MutableList<PermissionRequest>?,
-//                    token: PermissionToken?
-//                ) {
-//                    // Remember to invoke this method when the custom rationale is closed
-//                    // or just by default if you don't want to use any custom rationale.
-//                    token?.continuePermissionRequest()
-//                }
-//            })
-//            .check()
-//    }
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        when (requestCode) {
+            1 -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    DailyStepsHelper.registerFence(requireContext())
+                } else {
+                    Preferences.showDailySteps = false
+                }
+            }
+            2-> {
+                try {
+                    val account: GoogleSignInAccount? = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
+                    if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
+                        GoogleSignIn.requestPermissions(
+                            requireActivity(),
+                            1,
+                            account,
+                            FITNESS_OPTIONS)
+                    } else {
+                        DailyStepsHelper.registerFence(requireContext())
+                    }
+                } catch (e: ApiException) {
+                    e.printStackTrace()
+                    Preferences.showDailySteps = false
+                }
+            }
+        }
+    }
+
+    private fun requireFitnessPermission() {
+        Dexter.withContext(requireContext())
+            .withPermissions(
+                "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+                "android.gms.permission.ACTIVITY_RECOGNITION",
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACTIVITY_RECOGNITION else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
+            ).withListener(object: MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    report?.let {
+                        if (report.areAllPermissionsGranted()){
+                            checkFitnessPermission()
+                        }
+                    }
+                }
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    // Remember to invoke this method when the custom rationale is closed
+                    // or just by default if you don't want to use any custom rationale.
+                    token?.continuePermissionRequest()
+                }
+            })
+            .check()
+    }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
         val scrollPosition = scrollView.scrollY

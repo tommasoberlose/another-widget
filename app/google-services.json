@@ -15,23 +15,38 @@
       },
       "oauth_client": [
         {
-          "client_id": "791844924473-73dh46rorjq8vm97dgbn6can2dcpqlf0.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "791844924473-2lt64gf4jif7jb6s14igfql3ntosqj2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tommasoberlose.anotherwidget",
+            "certificate_hash": "8c2a10e4c0663437206d2356d8e0e4047da70fb2"
+          }
+        },
+        {
+          "client_id": "791844924473-7sq4es017gl6pldrpv0efv5avprgdfv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tommasoberlose.anotherwidget",
+            "certificate_hash": "4a2735eca05bc73974f1bf80304bbee32b276196"
+          }
+        },
+        {
+          "client_id": "791844924473-tsfd6idva64t5adh2atcfflpr0k52hlg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tommasoberlose.anotherwidget",
+            "certificate_hash": "82a38974264dca740d0612c9f9d15f15574cf160"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAeJRXstqnzebibxmm3FRM98nbwE_kC8tA"
+          "current_key": "AIzaSyCT_v2Qw1zCWfmc_ywsovj_4poSXr7k5f0"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "791844924473-73dh46rorjq8vm97dgbn6can2dcpqlf0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
