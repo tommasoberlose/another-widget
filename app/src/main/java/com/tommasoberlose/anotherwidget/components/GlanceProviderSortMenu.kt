@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.helpers.GlanceProviderHelper
 import com.tommasoberlose.anotherwidget.models.GlanceProvider
@@ -87,6 +88,7 @@ class GlanceProviderSortMenu(
 
         adapter.updateData(
             GlanceProviderHelper.getGlanceProviders()
+                .filter { it != Constants.GlanceProviderId.BATTERY_LEVEL_LOW }
                 .mapNotNull { GlanceProviderHelper.getGlanceProviderById(context, it) }
         )
 
