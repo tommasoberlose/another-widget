@@ -21,7 +21,9 @@ import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
+import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
+import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_general_settings.*
@@ -29,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 
 class GeneralTabFragment : Fragment() {
@@ -141,6 +144,12 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
+        viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                date_format_label?.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
+            }
+        })
+
         viewModel.customFont.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 custom_font_label?.text = getString(SettingsStringHelper.getCustomFontLabel(it))
@@ -200,6 +209,27 @@ class GeneralTabFragment : Fragment() {
                     Preferences.textGlobalAlpha = alpha.toHexValue()
                 }
             ).show()
+        }
+
+        action_date_format.setOnClickListener {
+            if (Preferences.showEvents) {
+                val now = Calendar.getInstance()
+                val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
+
+                dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
+                if (Preferences.dateFormat != "") {
+                    dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
+                }
+                dialog.addItem(getString(R.string.custom_date_format), "-")
+
+                dialog.addOnSelectItemListener { value ->
+                    if (value == "-") {
+                        startActivity(Intent(requireContext(), CustomDateActivity::class.java))
+                    } else {
+                        Preferences.dateFormat = value
+                    }
+                }.show()
+            }
         }
 
         action_background_color.setOnClickListener {

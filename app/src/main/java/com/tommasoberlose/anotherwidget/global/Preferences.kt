@@ -83,6 +83,7 @@ object Preferences : KotprefModel() {
     var showBatteryCharging by booleanPref(default = false)
     var isBatteryLevelLow by booleanPref(default = false)
     var googleFitSteps by longPref(default = -1)
+    var showDailySteps by booleanPref(default = false)
 
     var showMusic by booleanPref(default = false)
     var mediaInfoFormat by stringPref(default = "")

@@ -11,10 +11,6 @@
             <dist:on-demand />
         </dist:delivery>
         <dist:fusing dist:include="true" />
-
-        <meta-data
-            android:name="com.google.android.awareness.API_KEY"
-            android:value="${AWARENESS_API_KEY}"/>
     </dist:module>
 </manifest>
 

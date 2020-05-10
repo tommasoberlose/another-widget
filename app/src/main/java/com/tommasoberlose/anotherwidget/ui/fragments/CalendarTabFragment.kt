@@ -135,12 +135,6 @@ class CalendarTabFragment : Fragment() {
             }
         })
 
-        viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                date_format_label?.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
-            }
-        })
-
         viewModel.calendarAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 calendar_app_label?.text = if (it != "") it else getString(R.string.default_calendar_app)
@@ -287,27 +281,6 @@ class CalendarTabFragment : Fragment() {
                 dialog.addOnSelectItemListener { value ->
                         Preferences.showUntil = value
                     }.show()
-            }
-        }
-
-        action_date_format.setOnClickListener {
-            if (Preferences.showEvents) {
-                val now = Calendar.getInstance()
-                val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
-
-                dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
-                if (Preferences.dateFormat != "") {
-                    dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
-                }
-                dialog.addItem(getString(R.string.custom_date_format), "-")
-
-                dialog.addOnSelectItemListener { value ->
-                        if (value == "-") {
-                            startActivity(Intent(requireContext(), CustomDateActivity::class.java))
-                        } else {
-                            Preferences.dateFormat = value
-                        }
-                }.show()
             }
         }
 

@@ -53,18 +53,18 @@ object GlanceProviderHelper {
                    R.drawable.round_notes
                )
             }
-//            Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-//               GlanceProvider(providerId.id,
-//                   context.getString(R.string.settings_low_battery_level_title),
-//                   R.drawable.round_battery_charging_full
-//               )
-//            }
-//            Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-//               GlanceProvider(providerId.id,
-//                   context.getString(R.string.settings_daily_steps_title),
-//                   R.drawable.round_directions_walk
-//               )
-//            }
+            Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+               GlanceProvider(providerId.id,
+                   context.getString(R.string.settings_low_battery_level_title),
+                   R.drawable.round_battery_charging_full
+               )
+            }
+            Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+               GlanceProvider(providerId.id,
+                   context.getString(R.string.settings_daily_steps_title),
+                   R.drawable.round_directions_walk
+               )
+            }
         }
     }
 
@@ -72,13 +72,13 @@ object GlanceProviderHelper {
         Preferences.enabledGlanceProviderOrder = list.joinToString(separator = ",")
     }
 
-    fun showSpecialWeather(context: Context): Boolean {
-        return EventRepository(context).getEventsCount() == 0 && (
+    fun showGlanceProviders(context: Context): Boolean {
+        return Preferences.showGlance && EventRepository(context).getEventsCount() == 0 && (
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
                         (MediaPlayerHelper.isSomeonePlaying(context)) ||
                         (Preferences.isBatteryLevelLow) ||
                         (Preferences.customNotes.isNotEmpty()) ||
-                        (Preferences.googleFitSteps > 0)
+                        (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
                 )
     }
 }

@@ -1,9 +1,5 @@
 apply plugin: 'com.android.dynamic-feature'
 
-def apiKeyPropertiesFile = rootProject.file("apikey.properties")
-def apiKeyProperties = new Properties()
-apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
-
 android {
     compileSdkVersion 29
 
@@ -12,8 +8,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
-        manifestPlaceholders = [ "AWARENESS_API_KEY": apiKeyProperties['AWARENESS_API_KEY']]
     }
 
     compileOptions {

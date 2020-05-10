@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.chibatching.kotpref.Kotpref
 import com.google.firebase.crashlytics.FirebaseCrashlytics

@@ -58,6 +58,7 @@ class MainViewModel : ViewModel() {
     val showMusic = Preferences.asLiveData(Preferences::showMusic)
     val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
     val showBatteryCharging = Preferences.asLiveData(Preferences::showBatteryCharging)
+    val showDailySteps = Preferences.asLiveData(Preferences::showDailySteps)
     val customInfo = Preferences.asLiveData(Preferences::customNotes)
 
     // Advanced Settings
