@@ -206,4 +206,7 @@
     <string name="settings_low_battery_level_title">Livello batteria</string>
     <string name="settings_daily_steps_title">Passi di oggi</string>
     <string name="battery_low_warning">Livello batteria basso</string>
+    <string name="settings_request_fitness_access">Abbiamo bisogno di alcuni permessi per leggere i tuoi passi di oggi da Google Fit.</string>
+    <string name="settings_ampm_indicator_title">Mostra AM/PM</string>
+    <string name="daily_steps_counter">%d passi</string>
 </resources>

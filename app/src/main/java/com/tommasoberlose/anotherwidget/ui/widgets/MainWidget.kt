@@ -573,7 +573,7 @@ class MainWidget : AppWidgetProvider() {
                                         R.drawable.round_directions_walk
                                     )
                                 )
-                                v.next_event_date.text = "${Preferences.googleFitSteps}"
+                                v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
                                 break@loop
                             }
                         }

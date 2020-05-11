@@ -257,7 +257,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_crop_3_2"
+                    android:src="@drawable/round_aspect_ratio"
                     android:tint="@color/colorPrimaryText"/>
 
                 <LinearLayout
