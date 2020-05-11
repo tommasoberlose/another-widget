@@ -79,6 +79,8 @@ class WeatherTabFragment : Fragment() {
         binding: FragmentWeatherSettingsBinding,
         viewModel: MainViewModel
     ) {
+        binding.isWeatherVisible = Preferences.showWeather
+
         viewModel.showWeatherWarning.observe(viewLifecycleOwner, Observer {
             weather_warning?.isVisible = it
             checkLocationPermission()

@@ -70,19 +70,6 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/disabledButtonBackground" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary" />
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/calendar_settings"
                 android:alpha="@{isGlanceVisible ? 1f : 0.2f, default=1}"
@@ -329,7 +316,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="12dp"
+                        android:padding="11dp"
                         android:src="@drawable/round_flip_to_front"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout

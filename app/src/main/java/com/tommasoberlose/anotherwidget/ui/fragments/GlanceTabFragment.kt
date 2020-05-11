@@ -87,6 +87,7 @@ class GlanceTabFragment : Fragment() {
         binding: FragmentGlanceSettingsBinding,
         viewModel: MainViewModel
     ) {
+        binding.isGlanceVisible = Preferences.showGlance
 
         viewModel.showGlance.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {

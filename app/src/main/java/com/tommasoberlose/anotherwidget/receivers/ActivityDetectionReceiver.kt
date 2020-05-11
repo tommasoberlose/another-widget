@@ -32,15 +32,11 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
 
             if (lastEvent.activityType == DetectedActivity.WALKING || lastEvent.activityType == DetectedActivity.RUNNING && lastEvent.transitionType == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
                 requestDailySteps(context)
-                setTimeout(context)
-            } else {
-                resetDailySteps()
             }
         } else {
             if (intent.action == Intent.ACTION_BOOT_COMPLETED || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED && Preferences.showDailySteps && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION)) {
-                registerFence(context)
-            } else {
                 resetDailySteps()
+                registerFence(context)
             }
         }
     }
@@ -154,6 +150,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                             }
                         }.toLong()
                         MainWidget.updateWidget(context)
+                        setTimeout(context)
                     }
             }
         }

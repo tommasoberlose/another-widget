@@ -81,6 +81,8 @@ class CalendarTabFragment : Fragment() {
         binding: FragmentCalendarSettingsBinding,
         viewModel: MainViewModel
     ) {
+        binding.isCalendarEnabled = Preferences.showEvents
+
         viewModel.showEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 binding.isCalendarEnabled = it
