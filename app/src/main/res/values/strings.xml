@@ -221,5 +221,5 @@
     <string name="settings_daily_steps_title">Daily steps</string>
     <string name="battery_low_warning">Low battery level</string>
     <string name="settings_ampm_indicator_title">Show AM/PM Indicator</string>
-    <string name="daily_steps_counter">%d steps today</string>
+    <string name="daily_steps_counter">%d steps so far</string>
 </resources>

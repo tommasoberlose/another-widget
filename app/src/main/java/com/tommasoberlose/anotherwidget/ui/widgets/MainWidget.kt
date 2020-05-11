@@ -570,7 +570,7 @@ class MainWidget : AppWidgetProvider() {
                                 v.second_row_icon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
-                                        R.drawable.round_directions_walk
+                                        R.drawable.round_steps
                                     )
                                 )
                                 v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
