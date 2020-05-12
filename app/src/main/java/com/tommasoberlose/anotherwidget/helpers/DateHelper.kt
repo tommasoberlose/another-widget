@@ -23,7 +23,7 @@ object DateHelper {
             "%s, %s".format(
                 SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time),
                 DateUtils.formatDateTime(context, date.timeInMillis, flags)
-            ).getCapWordString()
+            )
         }
     }
 
@@ -33,6 +33,6 @@ object DateHelper {
         return "%s, %s".format(
             SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time),
             DateUtils.formatDateTime(context, date.timeInMillis, flags)
-        ).getCapWordString()
+        )
     }
 }

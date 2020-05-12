@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     <androidx.appcompat.widget.AppCompatTextView
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textAppearance="@style/AnotherWidget.Settings.Title"
         app:textAllCaps="false"
         android:letterSpacing="0"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:background="@color/disabledButtonBackground" />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="64dp"
         android:background="@color/colorPrimaryDark"
         android:paddingStart="16dp"
         android:paddingEnd="56dp"
@@ -37,13 +37,12 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:id="@+id/notes"
-        android:gravity="center_vertical|start"
+        android:gravity="center"
         android:textDirection="locale"
-        android:textAlignment="viewStart"
-        android:lines="1"
-        android:inputType="textCapSentences"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:fontFamily="@font/product_sans"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="2"
+        android:lines="2"
         android:autofillHints=""
         tools:ignore="TextFields" />
     <LinearLayout

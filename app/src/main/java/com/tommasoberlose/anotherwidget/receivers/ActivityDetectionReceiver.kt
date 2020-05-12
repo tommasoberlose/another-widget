@@ -30,6 +30,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             val result = ActivityTransitionResult.extractResult(intent)!!
             val lastEvent = result.transitionEvents.last()
 
+            Log.d("ciao", "activity detected: $lastEvent")
             if (lastEvent.activityType == DetectedActivity.WALKING || lastEvent.activityType == DetectedActivity.RUNNING && lastEvent.transitionType == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
                 requestDailySteps(context)
             }
@@ -37,6 +38,8 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             if (intent.action == Intent.ACTION_BOOT_COMPLETED || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED && Preferences.showDailySteps && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION)) {
                 resetDailySteps()
                 registerFence(context)
+            } else {
+                resetDailySteps()
             }
         }
     }
@@ -155,15 +158,15 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             }
         }
 
-        fun setTimeout(context: Context) {
+        private fun setTimeout(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                cancel(PendingIntent.getBroadcast(context, 0, Intent(context, ActivityDetectionReceiver::class.java), 0))
+                cancel(PendingIntent.getBroadcast(context, 5, Intent(context, ActivityDetectionReceiver::class.java), 0))
                 setExactAndAllowWhileIdle(
                     AlarmManager.RTC,
-                    Calendar.getInstance().timeInMillis + 15 * 60 * 1000,
+                    Calendar.getInstance().timeInMillis + 5 * 60 * 1000,
                     PendingIntent.getBroadcast(
                         context,
-                        0,
+                        5,
                         Intent(context, ActivityDetectionReceiver::class.java),
                         0
                     )

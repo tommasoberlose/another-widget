@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="20dp"
                     android:textColor="@color/colorSecondaryText"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
                     android:textSize="16sp"
                     android:gravity="center"
                     android:text="@string/support_dev_subtitle" />

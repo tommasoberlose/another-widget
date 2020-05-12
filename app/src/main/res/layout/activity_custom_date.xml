@@ -87,6 +87,7 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:hint="@string/settings_date_format_title"
+                        android:fontFamily="@font/product_sans"
                         android:text="@={viewModel.dateInput}"
                         android:autofillHints=""
                         tools:ignore="TextFields" />
@@ -116,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:id="@+id/date_format_value"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textAppearance="@style/AnotherWidget.Settings.Title"
                 android:letterSpacing="0"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="20sp"

@@ -45,6 +45,7 @@
                         android:layout_height="match_parent"
                         android:text="@string/app_name"
                         android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_marginBottom="1dp"
                         style="@style/AnotherWidget.Main.Title"/>
                 </LinearLayout>

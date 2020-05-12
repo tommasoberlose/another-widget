@@ -123,6 +123,17 @@ class CalendarTabFragment : Fragment() {
             }
         })
 
+        viewModel.widgetUpdateFrequency.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                widget_update_frequency_label?.text = when (it) {
+                    Constants.WidgetUpdateFrequency.HIGH.value -> getString(R.string.settings_widget_update_frequency_high)
+                    Constants.WidgetUpdateFrequency.DEFAULT.value -> getString(R.string.settings_widget_update_frequency_default)
+                    Constants.WidgetUpdateFrequency.LOW.value -> getString(R.string.settings_widget_update_frequency_low)
+                    else -> ""
+                }
+            }
+        })
+
         viewModel.showUntil.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_until_label?.text = getString(SettingsStringHelper.getShowUntilString(it))
@@ -258,6 +269,18 @@ class CalendarTabFragment : Fragment() {
                     .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
                         Preferences.showDiffTime = value
+                    }.show()
+            }
+        }
+
+        action_widget_update_frequency.setOnClickListener {
+            if (Preferences.showEvents) {
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_widget_update_frequency_title), message = getString(R.string.settings_widget_update_frequency_subtitle)).setSelectedValue(Preferences.widgetUpdateFrequency)
+                    .addItem(getString(R.string.settings_widget_update_frequency_high), Constants.WidgetUpdateFrequency.HIGH.value)
+                    .addItem(getString(R.string.settings_widget_update_frequency_default), Constants.WidgetUpdateFrequency.DEFAULT.value)
+                    .addItem(getString(R.string.settings_widget_update_frequency_low), Constants.WidgetUpdateFrequency.LOW.value)
+                    .addOnSelectItemListener { value ->
+                        Preferences.widgetUpdateFrequency = value
                     }.show()
             }
         }

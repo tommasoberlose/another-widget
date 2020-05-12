@@ -84,6 +84,7 @@
                     android:textColorHint="@color/colorSecondaryText"
                     android:textAlignment="viewStart"
                     android:id="@+id/search"
+                    android:fontFamily="@font/product_sans"
                     android:gravity="center_vertical|start"
                     android:hint="@string/search"
                     android:text="@={viewModel.searchInput}"

@@ -70,7 +70,7 @@ class GlanceProviderSortMenu(
                     // move item in `fromPos` to `toPos` in adapter.
                     adapter.notifyItemMoved(fromPos, toPos)
 
-                    val list = GlanceProviderHelper.getGlanceProviders()
+                    val list = GlanceProviderHelper.getGlanceProviders(context)
                     Collections.swap(list, fromPos, toPos)
                     GlanceProviderHelper.saveGlanceProviderOrder(list)
                     return true
@@ -87,8 +87,7 @@ class GlanceProviderSortMenu(
         mIth.attachToRecyclerView(view.menu)
 
         adapter.updateData(
-            GlanceProviderHelper.getGlanceProviders()
-                .filter { it != Constants.GlanceProviderId.BATTERY_LEVEL_LOW }
+            GlanceProviderHelper.getGlanceProviders(context)
                 .mapNotNull { GlanceProviderHelper.getGlanceProviderById(context, it) }
         )
 

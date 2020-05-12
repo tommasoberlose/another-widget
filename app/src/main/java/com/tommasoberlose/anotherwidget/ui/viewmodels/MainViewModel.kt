@@ -9,6 +9,8 @@ class MainViewModel : ViewModel() {
     // General Settings
     val textGlobalColor = Preferences.asLiveData(Preferences::textGlobalColor)
     val textGlobalAlpha = Preferences.asLiveData(Preferences::textGlobalAlpha)
+    val textSecondaryColor = Preferences.asLiveData(Preferences::textSecondaryColor)
+    val textSecondaryAlpha = Preferences.asLiveData(Preferences::textSecondaryAlpha)
     val backgroundCardColor = Preferences.asLiveData(Preferences::backgroundCardColor)
     val backgroundCardAlpha = Preferences.asLiveData(Preferences::backgroundCardAlpha)
     val textMainSize = Preferences.asLiveData(Preferences::textMainSize)
@@ -27,6 +29,7 @@ class MainViewModel : ViewModel() {
     val showNextEvent = Preferences.asLiveData(Preferences::showNextEvent)
     val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
+    val widgetUpdateFrequency = Preferences.asLiveData(Preferences::widgetUpdateFrequency)
 
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
@@ -52,6 +55,7 @@ class MainViewModel : ViewModel() {
     val customLocationAdd = Preferences.asLiveData(Preferences::customLocationAdd)
 
     val showWeatherWarning = Preferences.asLiveData(Preferences::showWeatherWarning)
+    val weatherIconPack = Preferences.asLiveData(Preferences::weatherIconPack)
 
     // Glance
     val showGlance = Preferences.asLiveData(Preferences::showGlance)

@@ -40,8 +40,14 @@ object Preferences : KotprefModel() {
     var eventAppName by stringPref(key = "PREF_EVENT_APP_NAME", default = "")
     var eventAppPackage by stringPref(key = "PREF_EVENT_APP_PACKAGE", default = "")
     var openEventDetails by booleanPref(default = true)
+
+    var widgetUpdateFrequency by intPref(default = Constants.WidgetUpdateFrequency.DEFAULT.value)
+
     var textGlobalColor by stringPref(key = "PREF_TEXT_COLOR", default = "#FFFFFF")
     var textGlobalAlpha by stringPref(default = "FF")
+
+    var textSecondaryColor by stringPref(default = "#FFFFFF")
+    var textSecondaryAlpha by stringPref(default = "FF")
 
     var backgroundCardColor by stringPref(default = "#000000")
     var backgroundCardAlpha by stringPref(default = "00")
@@ -49,6 +55,8 @@ object Preferences : KotprefModel() {
     var clockTextColor by stringPref(default = "#FFFFFF")
     var clockTextAlpha by stringPref(default = "FF")
     var showAMPMIndicator by booleanPref(default = true)
+
+    var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.value)
 
     // Global
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)

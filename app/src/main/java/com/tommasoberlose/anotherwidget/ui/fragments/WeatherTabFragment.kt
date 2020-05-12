@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,6 +127,16 @@ class WeatherTabFragment : Fragment() {
             checkLocationPermission()
         })
 
+        viewModel.weatherIconPack.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                label_weather_icon_pack?.text = when (it) {
+                    Constants.WeatherIconPack.MINIMAL.value -> getString(R.string.settings_weather_icon_pack_minimal)
+                    else -> getString(R.string.settings_weather_icon_pack_default)
+                }
+            }
+            checkLocationPermission()
+        })
+
         viewModel.weatherAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 weather_app_label?.text =
@@ -213,6 +224,17 @@ class WeatherTabFragment : Fragment() {
                 dialog
                     .addOnSelectItemListener { value ->
                         Preferences.weatherRefreshPeriod = value
+                    }.show()
+            }
+        }
+
+        action_weather_icon_pack.setOnClickListener {
+            if (Preferences.showWeather) {
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).setSelectedValue(Preferences.weatherIconPack)
+                    .addItem(getString(R.string.settings_weather_icon_pack_default), Constants.WeatherIconPack.DEFAULT.value)
+                    .addItem(getString(R.string.settings_weather_icon_pack_minimal), Constants.WeatherIconPack.MINIMAL.value)
+                    .addOnSelectItemListener { value ->
+                        Preferences.weatherIconPack = value
                     }.show()
             }
         }

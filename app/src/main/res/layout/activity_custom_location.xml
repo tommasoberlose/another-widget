@@ -70,6 +70,7 @@
                     android:paddingRight="16dp"
                     android:inputType="textCapWords"
                     android:id="@+id/location"
+                    android:fontFamily="@font/product_sans"
                     android:gravity="center_vertical|start"
                     android:hint="@string/search"
                     android:textAlignment="viewStart"

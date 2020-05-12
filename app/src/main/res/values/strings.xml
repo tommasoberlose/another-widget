@@ -104,7 +104,8 @@
     <string name="settings_second_row_info_subtitle_1">Event address</string>
     <string name="settings_second_row_info_subtitle_0">Event time</string>
     <string name="settings_second_row_info_subtitle_2">Show next alarm time</string>
-    <string name="settings_font_color_title">Text color</string>
+    <string name="settings_font_color_title">First row text color</string>
+    <string name="settings_secondary_font_color_title">Second row text color</string>
     <string name="settings_background_color_title">Background color</string>
     <string name="title_main_text_size">First row text size</string>
     <string name="title_second_text_size">Second row text size</string>
@@ -222,4 +223,14 @@
     <string name="battery_low_warning">Low battery level</string>
     <string name="settings_ampm_indicator_title">Show AM/PM Indicator</string>
     <string name="daily_steps_counter">%d steps so far</string>
+    <string name="soon">soon</string>
+    <string name="now">now</string>
+    <string name="settings_widget_update_frequency_title">Time left update frequency</string>
+    <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consume</string>
+    <string name="settings_widget_update_frequency_low">Low</string>
+    <string name="settings_widget_update_frequency_default">Default</string>
+    <string name="settings_widget_update_frequency_high">High</string>
+    <string name="settings_weather_icon_pack_title">Icon pack</string>
+    <string name="settings_weather_icon_pack_default">Default</string>
+    <string name="settings_weather_icon_pack_minimal">Minimal</string>
 </resources>

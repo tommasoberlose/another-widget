@@ -6,6 +6,7 @@ import android.os.Build
 import com.google.android.gms.location.LocationServices
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
@@ -49,79 +50,79 @@ object WeatherHelper {
     fun getWeatherIconResource(icon: String): Int {
         when (icon) {
             "01d" -> {
-                return R.drawable.clear_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.clear_day else R.drawable.clear_day_2
             }
             "02d" -> {
-                return R.drawable.partly_cloudy
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.partly_cloudy else R.drawable.partly_cloudy_2
             }
             "03d" -> {
-                return R.drawable.mostly_cloudy
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.mostly_cloudy else R.drawable.mostly_cloudy_2
             }
             "04d" -> {
-                return R.drawable.cloudy_weather
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.cloudy_weather else R.drawable.cloudy_weather_2
             }
             "09d" -> {
-                return R.drawable.storm_weather_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.storm_weather_day else R.drawable.storm_weather_day_2
             }
             "10d" -> {
-                return R.drawable.rainy_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rainy_day else R.drawable.rainy_day_2
             }
             "11d" -> {
-                return R.drawable.thunder_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.thunder_day else R.drawable.thunder_day_2
             }
             "13d" -> {
-                return R.drawable.snow_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.snow_day else R.drawable.snow_day_2
             }
             "50d" -> {
-                return R.drawable.haze_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_day else R.drawable.haze_day_2
             }
             "80d" -> {
-                return R.drawable.windy_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.windy_day else R.drawable.windy_day_2
             }
             "81d" -> {
-                return R.drawable.rain_snow_day
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rain_snow_day else R.drawable.rain_snow_day_2
             }
             "82d" -> {
-                return R.drawable.haze_weather
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_weather else R.drawable.haze_weather_2
             }
 
 
 
             "01n" -> {
-                return R.drawable.clear_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.clear_night else R.drawable.clear_night_2
             }
             "02n" -> {
-                return R.drawable.partly_cloudy_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.partly_cloudy_night else R.drawable.partly_cloudy_night_2
             }
             "03n" -> {
-                return R.drawable.mostly_cloudy_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.mostly_cloudy_night else R.drawable.mostly_cloudy_night_2
             }
             "04n" -> {
-                return R.drawable.cloudy_weather
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.cloudy_weather else R.drawable.cloudy_weather_2
             }
             "09n" -> {
-                return R.drawable.storm_weather_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.storm_weather_night else R.drawable.storm_weather_night_2
             }
             "10n" -> {
-                return R.drawable.rainy_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rainy_night else R.drawable.rainy_night_2
             }
             "11n" -> {
-                return R.drawable.thunder_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.thunder_night else R.drawable.thunder_night_2
             }
             "13n" -> {
-                return R.drawable.snow_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.snow_night else R.drawable.snow_night_2
             }
             "50n" -> {
-                return R.drawable.haze_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_night else R.drawable.haze_night_2
             }
             "80n" -> {
-                return R.drawable.windy_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.windy_night else R.drawable.windy_night_2
             }
             "81n" -> {
-                return R.drawable.rain_snow_night
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rain_snow_night else R.drawable.rain_snow_night_2
             }
             "82n" -> {
-                return R.drawable.haze_weather
+                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_weather else R.drawable.haze_weather_2
             }
             else -> {
                 return R.drawable.unknown

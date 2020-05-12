@@ -213,3 +213,12 @@ fun String.getCapWordString(): String {
         this
     }
 }
+
+fun Context.checkIfFitInstalled(): Boolean {
+    return try {
+        packageManager.getPackageInfo("com.google.android.apps.fitness", PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: Exception) {
+        false
+    }
+}

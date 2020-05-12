@@ -178,4 +178,15 @@ object IntentHelper {
             }
         }
     }
+
+    fun getFitIntent(context: Context): Intent {
+        val pm: PackageManager = context.packageManager
+        return try {
+            pm.getLaunchIntentForPackage("com.google.android.apps.fitness")!!.apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }
+        } catch (e: Exception) {
+            Intent()
+        }
+    }
 }

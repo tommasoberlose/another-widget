@@ -3,6 +3,8 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.content.Context
 import android.text.format.DateUtils
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.global.Constants
+import com.tommasoberlose.anotherwidget.global.Preferences
 import org.joda.time.DateTime
 import java.util.concurrent.TimeUnit
 
@@ -68,8 +70,20 @@ object SettingsStringHelper {
         difference += 60 * 1000 - (difference % (60 * 1000))
 
         when {
-            difference <= 0 || TimeUnit.MILLISECONDS.toHours(difference) < 1 -> {
+            difference <= 0 -> {
                 return ""
+            }
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.HIGH.value && TimeUnit.MILLISECONDS.toMinutes(difference) > 5 -> {
+                return DateUtils.getRelativeTimeSpanString(start, start - 1000 * 60 * (TimeUnit.MILLISECONDS.toMinutes(difference) - 1 - (TimeUnit.MILLISECONDS.toMinutes(difference) - 1) % 5), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
+            }
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.DEFAULT.value && TimeUnit.MILLISECONDS.toMinutes(difference) > 5 -> {
+                return DateUtils.getRelativeTimeSpanString(start, start - 1000 * 60 * (TimeUnit.MILLISECONDS.toMinutes(difference) - 1 - (TimeUnit.MILLISECONDS.toMinutes(difference) - 1) % 15), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
+            }
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.LOW.value -> {
+                return context.getString(R.string.soon)
+            }
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 -> {
+                return context.getString(R.string.now)
             }
             TimeUnit.MILLISECONDS.toHours(difference) < 12 -> {
                 return DateUtils.getRelativeTimeSpanString(start, now, DateUtils.HOUR_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()

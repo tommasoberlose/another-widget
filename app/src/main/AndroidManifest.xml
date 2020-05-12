@@ -131,6 +131,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
                 <action android:name="android.intent.action.BATTERY_LOW"/>
                 <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.CONFIGURATION_CHANGED"/>
             </intent-filter>
         </receiver>
 
@@ -143,10 +144,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <meta-data
-            android:name="com.google.android.awareness.API_KEY"
-            android:value="${AWARENESS_API_KEY}"/>
     </application>
 
 </manifest>

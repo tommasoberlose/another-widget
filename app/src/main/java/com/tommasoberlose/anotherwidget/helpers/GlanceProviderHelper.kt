@@ -6,12 +6,18 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.GlanceProvider
+import com.tommasoberlose.anotherwidget.utils.checkIfFitInstalled
 import java.util.ArrayList
 
 object GlanceProviderHelper {
-    fun getGlanceProviders(): ArrayList<Constants.GlanceProviderId> {
+    fun getGlanceProviders(context: Context): ArrayList<Constants.GlanceProviderId> {
         val enabledProviders = Preferences.enabledGlanceProviderOrder.split(",").filter { it != "" }
+
         val providers = Constants.GlanceProviderId.values()
+            .filter { it != Constants.GlanceProviderId.BATTERY_LEVEL_LOW }
+            .filter {
+                context.checkIfFitInstalled() || it != Constants.GlanceProviderId.GOOGLE_FIT_STEPS
+            }.toTypedArray()
 
         providers.sortWith(Comparator { p1, p2 ->
             when {

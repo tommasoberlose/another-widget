@@ -43,7 +43,10 @@ import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Comp
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.checkIfFitInstalled
+import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_glance_settings.*
+import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -78,6 +81,8 @@ class GlanceTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        action_show_steps.isVisible = requireContext().checkIfFitInstalled()
 
         setupListener()
         updateNextAlarmWarningUi()

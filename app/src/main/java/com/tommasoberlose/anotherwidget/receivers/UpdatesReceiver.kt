@@ -10,6 +10,8 @@ import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
+import com.tommasoberlose.anotherwidget.global.Constants
+import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -68,24 +70,54 @@ class UpdatesReceiver : BroadcastReceiver() {
                 val diff = Period(now.timeInMillis, event.startDate)
                 if (event.startDate > now.timeInMillis) {
                     // Update the widget every hour till the event
-                    setExactAndAllowWhileIdle(
-                        AlarmManager.RTC,
-                        if (event.startDate - diff.hours * 1000 * 60 * 60 > (now.timeInMillis + 120 * 1000)) event.startDate - diff.hours * 1000 * 60 * 60 else now.timeInMillis + 120000,
-                        PendingIntent.getBroadcast(
-                            context,
-                            event.eventID.toInt(),
-                            Intent(context, UpdatesReceiver::class.java).apply {
-                                action = Actions.ACTION_TIME_UPDATE
-                                putExtra(EVENT_ID, event.eventID)
-                            },
-                            0
+                    if (diff.hours == 0) {
+                        var minutes = 0
+                        when (Preferences.widgetUpdateFrequency) {
+                            Constants.WidgetUpdateFrequency.DEFAULT.value -> {
+                                minutes = when {
+                                    diff.minutes > 50 -> 50
+                                    diff.minutes > 30 -> 30
+                                    diff.minutes > 15 -> 15
+                                    else -> 0
+                                }
+                            }
+                            Constants.WidgetUpdateFrequency.HIGH.value -> {
+                                minutes = diff.minutes - (diff.minutes % 5)
+                            }
+                        }
+                        setExact(
+                            AlarmManager.RTC,
+                            if (event.startDate - minutes * 1000 * 60 > (now.timeInMillis + 120 * 1000)) event.startDate - 60 * 1000 * minutes else now.timeInMillis + 120000,
+                            PendingIntent.getBroadcast(
+                                context,
+                                event.eventID.toInt(),
+                                Intent(context, UpdatesReceiver::class.java).apply {
+                                    action = Actions.ACTION_TIME_UPDATE
+                                    putExtra(EVENT_ID, event.eventID)
+                                },
+                                0
+                            )
                         )
-                    )
+                    } else {
+                        setExact(
+                            AlarmManager.RTC,
+                            event.startDate - diff.hours * 1000 * 60 * 60,
+                            PendingIntent.getBroadcast(
+                                context,
+                                event.eventID.toInt(),
+                                Intent(context, UpdatesReceiver::class.java).apply {
+                                    action = Actions.ACTION_TIME_UPDATE
+                                    putExtra(EVENT_ID, event.eventID)
+                                },
+                                0
+                            )
+                        )
+                    }
                 } else {
                     // Update the widget one second after the event is finished
                     val fireTime =
                         if (event.endDate > now.timeInMillis + 120 * 1000) event.endDate else now.timeInMillis + 120000
-                    setExactAndAllowWhileIdle(
+                    setExact(
                         AlarmManager.RTC,
                         fireTime,
                         PendingIntent.getBroadcast(

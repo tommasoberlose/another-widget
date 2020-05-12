@@ -16,7 +16,7 @@
         android:paddingBottom="16dp"
         android:orientation="vertical">
         <androidx.appcompat.widget.AppCompatTextView
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textAppearance="@style/AnotherWidget.Settings.Title"
             app:textAllCaps="false"
             android:letterSpacing="0"
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:text="Titolo"
             android:textColor="@color/colorPrimaryText"/>
         <androidx.appcompat.widget.AppCompatTextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
             app:textAllCaps="false"
             android:letterSpacing="0"
             android:layout_width="match_parent"

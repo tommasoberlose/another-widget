@@ -98,7 +98,8 @@
     <string name="settings_second_row_info_subtitle_0">Orario evento</string>
     <string name="settings_second_row_info_subtitle_1">Location evento</string>
     <string name="settings_second_row_info_subtitle_2">Mostra orario prossimo allarme</string>
-    <string name="settings_font_color_title">Colore Testo</string>
+    <string name="settings_font_color_title">Colore testo prima riga</string>
+    <string name="settings_secondary_font_color_title">Colore testo seconda riga</string>
     <string name="title_main_text_size">Dimensione Testo Prima Riga</string>
     <string name="title_second_text_size">Dimensione Testo Seconda Riga</string>
     <string name="settings_clock_title">Orologio</string>
@@ -209,4 +210,14 @@
     <string name="settings_request_fitness_access">Abbiamo bisogno di alcuni permessi per leggere i tuoi passi di oggi da Google Fit.</string>
     <string name="settings_ampm_indicator_title">Mostra AM/PM</string>
     <string name="daily_steps_counter">%d passi</string>
+    <string name="soon">a breve</string>
+    <string name="now">ora</string>
+    <string name="settings_widget_update_frequency_title">Frequenza aggiornamento tempo rimanente</string>
+    <string name="settings_widget_update_frequency_subtitle">Maggiore è la frequenza maggiore sarà il consumo di batteria</string>
+    <string name="settings_widget_update_frequency_low">Bassa</string>
+    <string name="settings_widget_update_frequency_default">Default</string>
+    <string name="settings_widget_update_frequency_high">Alta</string>
+    <string name="settings_weather_icon_pack_title">Icon pack</string>
+    <string name="settings_weather_icon_pack_default">Default</string>
+    <string name="settings_weather_icon_pack_minimal">Minimal</string>
 </resources>

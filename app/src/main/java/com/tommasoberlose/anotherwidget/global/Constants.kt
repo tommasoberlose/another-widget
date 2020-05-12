@@ -22,4 +22,15 @@ object Constants {
         CUSTOM_INFO("CUSTOM_INFO"),
         GOOGLE_FIT_STEPS("GOOGLE_FIT_STEPS")
     }
+
+    enum class WidgetUpdateFrequency(val value: Int) {
+        LOW(0),
+        DEFAULT(1),
+        HIGH(2)
+    }
+
+    enum class WeatherIconPack(val value: Int) {
+        DEFAULT(0),
+        MINIMAL(1)
+    }
 }

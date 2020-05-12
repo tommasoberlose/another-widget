@@ -116,6 +116,28 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
+        viewModel.textSecondaryColor.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textSecondaryAlpha == "00") {
+                    secondary_font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    secondary_font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor())).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.textSecondaryAlpha.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textSecondaryAlpha == "00") {
+                    secondary_font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    secondary_font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor())).toUpperCase()
+                }
+            }
+        })
+
         viewModel.backgroundCardColor.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlpha == "00") {
@@ -207,6 +229,23 @@ class GeneralTabFragment : Fragment() {
                 alpha = Preferences.textGlobalAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
                     Preferences.textGlobalAlpha = alpha.toHexValue()
+                }
+            ).show()
+        }
+
+        action_secondary_font_color.setOnClickListener {
+            BottomSheetColorPicker(requireContext(),
+                colors = colors,
+                header = getString(R.string.settings_secondary_font_color_title),
+                getSelected = ColorHelper::getSecondaryFontColorRgb,
+                onColorSelected = { color: Int ->
+                    val colorString = Integer.toHexString(color)
+                    Preferences.textSecondaryColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                },
+                showAlphaSelector = true,
+                alpha = Preferences.textSecondaryAlpha.toIntValue(),
+                onAlphaChangeListener = { alpha ->
+                    Preferences.textSecondaryAlpha = alpha.toHexValue()
                 }
             ).show()
         }
