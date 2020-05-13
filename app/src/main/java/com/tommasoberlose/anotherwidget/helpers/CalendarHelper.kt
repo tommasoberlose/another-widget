@@ -31,6 +31,12 @@ object CalendarHelper {
             val eventList = ArrayList<Event>()
 
             val now = Calendar.getInstance()
+            val begin = Calendar.getInstance().apply {
+                set(Calendar.MILLISECOND, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.HOUR_OF_DAY, 0)
+            }
             val limit = Calendar.getInstance()
             when (Preferences.showUntil) {
                 0 -> limit.add(Calendar.HOUR, 3)
@@ -45,7 +51,7 @@ object CalendarHelper {
             }
 
             val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
-            ContentUris.appendId(builder, now.timeInMillis)
+            ContentUris.appendId(builder, begin.timeInMillis)
             ContentUris.appendId(builder, limit.timeInMillis)
 
             if (!context.checkGrantedPermission(
@@ -56,14 +62,14 @@ object CalendarHelper {
             } else {
                 try {
                     val provider = CalendarProvider(context)
-                    val data = provider.getInstances(now.timeInMillis, limit.timeInMillis)
+                    val data = provider.getInstances(begin.timeInMillis, limit.timeInMillis)
                     if (data != null) {
                         val instances = data.list
                         for (instance in instances) {
                             try {
                                 val e = provider.getEvent(instance.eventId)
-                                Log.d("ciao", "evento: $e")
-                                if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && (Preferences.calendarAllDay || !e.allDay) && !getFilteredCalendarIdList().contains(
+                                Log.d("ciao", "evento: $instance")
+                                if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && now.timeInMillis < instance.end && (Preferences.calendarAllDay || !e.allDay) && !getFilteredCalendarIdList().contains(
                                         e.calendarId
                                     ) && (Preferences.showDeclinedEvents || e.selfAttendeeStatus.toInt() != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
                                 ) {

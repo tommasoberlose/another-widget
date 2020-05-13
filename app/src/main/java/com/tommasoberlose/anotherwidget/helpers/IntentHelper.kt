@@ -114,19 +114,40 @@ object IntentHelper {
                 if (Preferences.calendarAppPackage == "") {
                     Intent(Intent.ACTION_VIEW).apply {
                         data = uri
-                        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
-                        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
-//                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
-//                        type = "vnd.android.cursor.item/event"
+                        if (!e.allDay) {
+                            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
+                            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                        } else {
+                            val start = Calendar.getInstance().apply {
+                                timeInMillis = e.startDate
+                            }
+                            val end = Calendar.getInstance().apply {
+                                timeInMillis = e.endDate
+                            }
+
+                            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate + start.timeZone.getOffset(start.timeInMillis))
+                            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate + end.timeZone.getOffset(end.timeInMillis))
+                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
+                        }
                     }
                 } else {
                     getCalendarIntent(context).apply {
                         action = Intent.ACTION_VIEW
                         data = uri
-                        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
-                        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
-//                        putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (e.allDay) 1 else 0)
-//                        type = "vnd.android.cursor.item/event"
+                        if (!e.allDay) {
+                            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
+                            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                        } else {
+                            val start = Calendar.getInstance().apply {
+                                timeInMillis = e.startDate
+                            }
+                            val end = Calendar.getInstance().apply {
+                                timeInMillis = e.endDate
+                            }
+                            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.timeInMillis + start.timeZone.getOffset(start.timeInMillis))
+                            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.timeInMillis + end.timeZone.getOffset(end.timeInMillis))
+                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
+                        }
                     }
                 }
             }
