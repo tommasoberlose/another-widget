@@ -40,7 +40,7 @@ class EventRepository(val context: Context) {
 
     fun getNextEvent(): Event? {
         val nextEvent = getEventByEventId(Preferences.nextEventId)
-        return if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
+        val event = if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
             nextEvent
         } else {
             val events = getEvents()
@@ -53,9 +53,21 @@ class EventRepository(val context: Context) {
                 null
             }
         }
+        return try {
+            realm.copyFromRealm(event!!)
+        } catch (ex: Exception) {
+            event
+        }
     }
 
-    fun getEventByEventId(id: Long): Event? = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
+    fun getEventByEventId(id: Long): Event? {
+        val event = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
+        return try {
+            realm.copyFromRealm(event!!)
+        } catch (ex: Exception) {
+            event
+        }
+    }
 
     fun goToNextEvent() {
         val eventList = getEvents()

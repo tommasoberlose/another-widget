@@ -131,7 +131,6 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
                 <action android:name="android.intent.action.BATTERY_LOW"/>
                 <action android:name="android.intent.action.BATTERY_OKAY"/>
-                <action android:name="android.intent.action.CONFIGURATION_CHANGED"/>
             </intent-filter>
         </receiver>
 

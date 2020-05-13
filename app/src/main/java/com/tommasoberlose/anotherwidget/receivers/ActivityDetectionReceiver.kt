@@ -30,7 +30,6 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             val result = ActivityTransitionResult.extractResult(intent)!!
             val lastEvent = result.transitionEvents.last()
 
-            Log.d("ciao", "activity detected: $lastEvent")
             if (lastEvent.activityType == DetectedActivity.WALKING || lastEvent.activityType == DetectedActivity.RUNNING && lastEvent.transitionType == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
                 requestDailySteps(context)
             }

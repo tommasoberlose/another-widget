@@ -15,8 +15,6 @@ class BatteryLevelReceiver : BroadcastReceiver() {
             Intent.ACTION_BATTERY_OKAY -> Preferences.isBatteryLevelLow = false
         }
         MainWidget.updateWidget(context)
-
-        Log.d("ciao", "intent: ${intent}")
     }
 
 }

@@ -68,7 +68,6 @@ object CalendarHelper {
                         for (instance in instances) {
                             try {
                                 val e = provider.getEvent(instance.eventId)
-                                Log.d("ciao", "evento: $instance")
                                 if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && now.timeInMillis < instance.end && (Preferences.calendarAllDay || !e.allDay) && !getFilteredCalendarIdList().contains(
                                         e.calendarId
                                     ) && (Preferences.showDeclinedEvents || e.selfAttendeeStatus.toInt() != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
