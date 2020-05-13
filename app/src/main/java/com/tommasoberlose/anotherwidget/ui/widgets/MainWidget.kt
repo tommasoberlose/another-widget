@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -34,6 +35,7 @@ import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 
 class MainWidget : AppWidgetProvider() {
@@ -84,9 +86,10 @@ class MainWidget : AppWidgetProvider() {
                                      appWidgetId: Int) {
             val displayMetrics = Resources.getSystem().displayMetrics
             val width = displayMetrics.widthPixels
+            val height = displayMetrics.heightPixels
 
             val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
-            generateWidgetView(context, appWidgetId, appWidgetManager, dimensions.first - 8.toPixel(context) /*width - 16.toPixel(context)*/)
+            generateWidgetView(context, appWidgetId, appWidgetManager, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)))
         }
 
         private fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int) {
@@ -498,8 +501,8 @@ class MainWidget : AppWidgetProvider() {
                 } else {
                     v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.round_today))
                     if (!nextEvent.allDay) {
-                        val startHour = DateFormat.getTimeInstance(DateFormat.SHORT).format(nextEvent.startDate)
-                        val endHour = DateFormat.getTimeInstance(DateFormat.SHORT).format(nextEvent.endDate)
+                        val startHour = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(nextEvent.startDate)
+                        val endHour = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(nextEvent.endDate)
 
                         var dayDiff = TimeUnit.MILLISECONDS.toDays(nextEvent.endDate - nextEvent.startDate)
 

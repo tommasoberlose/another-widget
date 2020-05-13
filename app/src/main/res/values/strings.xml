@@ -233,4 +233,5 @@
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Default</string>
     <string name="settings_weather_icon_pack_minimal">Minimal</string>
+    <string name="action_capitalize_the_date">Capitalize the date</string>
 </resources>

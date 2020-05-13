@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentUris
 import android.content.Context
 import android.provider.CalendarContract
+import android.util.Log
 import com.tommasoberlose.anotherwidget.services.EventListenerJob
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.models.Event
@@ -61,6 +62,7 @@ object CalendarHelper {
                         for (instance in instances) {
                             try {
                                 val e = provider.getEvent(instance.eventId)
+                                Log.d("ciao", "evento: $e")
                                 if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && (Preferences.calendarAllDay || !e.allDay) && !getFilteredCalendarIdList().contains(
                                         e.calendarId
                                     ) && (Preferences.showDeclinedEvents || e.selfAttendeeStatus.toInt() != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)

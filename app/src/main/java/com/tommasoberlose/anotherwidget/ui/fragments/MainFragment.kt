@@ -14,6 +14,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.animation.addListener
 import androidx.core.app.NotificationManagerCompat
@@ -291,21 +292,27 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             activity?.let { act ->
                 val wallpaper = act.getCurrentWallpaper()
                 widget_bg.setImageDrawable(if (it) wallpaper else null)
-                widget_bg.layoutParams = widget_bg.layoutParams.apply {
+                if (wallpaper != null) {
+                    widget_bg.layoutParams =
+                        (widget_bg.layoutParams as ViewGroup.MarginLayoutParams).apply {
 
-                    val metrics = DisplayMetrics()
-                    act.windowManager.defaultDisplay.getMetrics(metrics)
+                            val metrics = DisplayMetrics()
+                            act.windowManager.defaultDisplay.getMetrics(metrics)
 
-                    var newHeight = metrics.heightPixels
-                    var newWidth = (wallpaper?.intrinsicWidth ?: 1) * metrics.heightPixels / (wallpaper?.intrinsicHeight ?: 1)
+                            val dimensions: Pair<Int, Int> = if (wallpaper.intrinsicWidth >= wallpaper.intrinsicHeight) {
+                                metrics.heightPixels to (wallpaper.intrinsicWidth) * metrics.heightPixels / (wallpaper.intrinsicHeight)
+                            } else {
+                                metrics.widthPixels to (wallpaper.intrinsicHeight) * metrics.widthPixels / (wallpaper.intrinsicWidth)
+                            }
 
-                    if (newWidth < metrics.widthPixels) {
-                        newWidth = metrics.widthPixels
-                        newHeight = (wallpaper?.intrinsicHeight ?: 1) * metrics.widthPixels / (wallpaper?.intrinsicWidth ?: 1)
-                    }
+                            setMargins(
+                                if (dimensions.first >= dimensions.second) (-80).toPixel(requireContext()) else 0,
+                                (-80).toPixel(requireContext()), 0, 0
+                            )
 
-                    height = newHeight
-                    width = newWidth
+                            width = dimensions.first
+                            height = dimensions.second
+                        }
                 }
             }
         })

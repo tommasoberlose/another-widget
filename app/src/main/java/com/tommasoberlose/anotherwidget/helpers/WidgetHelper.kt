@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
+import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -24,19 +25,9 @@ object WidgetHelper {
             return widthInPx to heightInPx
         }
 
-        private fun getWidgetWidth(isPortrait: Boolean, widgetId: Int): Int =
-            if (isPortrait) {
-                getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-            } else {
-                getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
-            }
+        private fun getWidgetWidth(isPortrait: Boolean, widgetId: Int): Int = getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
 
-        private fun getWidgetHeight(isPortrait: Boolean, widgetId: Int): Int =
-            if (isPortrait) {
-                getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
-            } else {
-                getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-            }
+        private fun getWidgetHeight(isPortrait: Boolean, widgetId: Int): Int = getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
 
         private fun getWidgetSizeInDp(widgetId: Int, key: String): Int =
             appWidgetManager.getAppWidgetOptions(widgetId).getInt(key, 0)
