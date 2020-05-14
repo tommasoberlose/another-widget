@@ -39,22 +39,6 @@
                 android:textSize="16sp"
                 style="@style/AnotherWidget.Settings.Title"
                 android:text="@string/settings_show_music_title"/>
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:letterSpacing="0"
-                android:textAllCaps="false"
-                android:clickable="true"
-                android:layout_marginStart="-8dp"
-                android:layout_marginBottom="-8dp"
-                android:paddingBottom="0dp"
-                android:paddingTop="0dp"
-                android:focusable="true"
-                android:visibility="gone"
-                android:id="@+id/button"
-                android:textColor="@color/errorColorText"
-                android:text="@string/action_grant_permission"/>
         </LinearLayout>
         <ImageView
             android:layout_width="48dp"

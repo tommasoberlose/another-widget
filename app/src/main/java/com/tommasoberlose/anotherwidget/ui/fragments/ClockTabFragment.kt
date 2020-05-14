@@ -85,6 +85,8 @@ class ClockTabFragment : Fragment() {
         binding: FragmentClockSettingsBinding,
         viewModel: MainViewModel
     ) {
+        binding.isClockVisible = Preferences.showClock
+
         viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
             large_clock_warning?.isVisible = it
             small_clock_warning?.isVisible = !it

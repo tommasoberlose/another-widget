@@ -227,4 +227,18 @@
 	<string name="settings_low_battery_level_title">Battery level</string>
 	<string name="settings_daily_steps_title">Daily steps</string>
 	<string name="battery_low_warning">Low battery level</string>
+	<string name="settings_request_fitness_access">We need a few permissions to get your daily steps from Google Fit.</string>
+	<string name="settings_ampm_indicator_title">Show AM/PM Indicator</string>
+	<string name="daily_steps_counter">%d steps today</string>
+	<string name="settings_secondary_font_color_title">Second row text color</string>
+	<string name="soon">soon</string>
+	<string name="now">now</string>
+	<string name="settings_widget_update_frequency_title">Time left update frequency</string>
+	<string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consume</string>
+	<string name="settings_widget_update_frequency_low">Low</string>
+	<string name="settings_widget_update_frequency_default">Default</string>
+	<string name="settings_widget_update_frequency_high">High</string>
+	<string name="settings_weather_icon_pack_title">Icon pack</string>
+	<string name="settings_weather_icon_pack_default">Default</string>
+	<string name="settings_weather_icon_pack_minimal">Minimal</string>
 </resources>

@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.helpers.GlanceProviderHelper
 import com.tommasoberlose.anotherwidget.models.GlanceProvider
@@ -69,7 +70,7 @@ class GlanceProviderSortMenu(
                     // move item in `fromPos` to `toPos` in adapter.
                     adapter.notifyItemMoved(fromPos, toPos)
 
-                    val list = GlanceProviderHelper.getGlanceProviders()
+                    val list = GlanceProviderHelper.getGlanceProviders(context)
                     Collections.swap(list, fromPos, toPos)
                     GlanceProviderHelper.saveGlanceProviderOrder(list)
                     return true
@@ -86,7 +87,7 @@ class GlanceProviderSortMenu(
         mIth.attachToRecyclerView(view.menu)
 
         adapter.updateData(
-            GlanceProviderHelper.getGlanceProviders()
+            GlanceProviderHelper.getGlanceProviders(context)
                 .mapNotNull { GlanceProviderHelper.getGlanceProviderById(context, it) }
         )
 

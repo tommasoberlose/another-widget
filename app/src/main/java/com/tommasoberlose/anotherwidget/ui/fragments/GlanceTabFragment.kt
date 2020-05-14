@@ -1,31 +1,35 @@
 package com.tommasoberlose.anotherwidget.ui.fragments
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.components.CustomNotesDialog
@@ -33,16 +37,18 @@ import com.tommasoberlose.anotherwidget.components.GlanceProviderSortMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
-import com.tommasoberlose.anotherwidget.helpers.GlanceProviderHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
-import com.tommasoberlose.anotherwidget.models.GlanceProvider
+import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
+import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.checkIfFitInstalled
+import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_glance_settings.*
+import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import net.idik.lib.slimadapter.SlimAdapter
-import java.util.*
 
 
 class GlanceTabFragment : Fragment() {
@@ -76,6 +82,8 @@ class GlanceTabFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        action_show_steps.isVisible = requireContext().checkIfFitInstalled()
+
         setupListener()
         updateNextAlarmWarningUi()
     }
@@ -84,6 +92,7 @@ class GlanceTabFragment : Fragment() {
         binding: FragmentGlanceSettingsBinding,
         viewModel: MainViewModel
     ) {
+        binding.isGlanceVisible = Preferences.showGlance
 
         viewModel.showGlance.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
@@ -107,6 +116,13 @@ class GlanceTabFragment : Fragment() {
             maintainScrollPosition {
                 show_low_battery_level_warning_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
+        })
+
+        viewModel.showDailySteps.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                show_steps_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+            }
+            checkFitnessPermission()
         })
 
         viewModel.customInfo.observe(viewLifecycleOwner, Observer {
@@ -174,6 +190,30 @@ class GlanceTabFragment : Fragment() {
             }
         }
 
+        action_show_steps.setOnClickListener {
+            if (Preferences.showGlance) {
+                BottomSheetMenu<Boolean>(
+                    requireContext(),
+                    header = getString(R.string.settings_daily_steps_title)
+                ).setSelectedValue(Preferences.showDailySteps)
+                    .addItem(getString(R.string.settings_visible), true)
+                    .addItem(getString(R.string.settings_not_visible), false)
+                    .addOnSelectItemListener { value ->
+                        if (value) {
+                            val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(requireContext())
+                            if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
+                                val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(FITNESS_OPTIONS).build())
+                                startActivityForResult(mGoogleSignInClient.signInIntent, 2)
+                            } else {
+                                Preferences.showDailySteps = true
+                            }
+                        } else {
+                            Preferences.showDailySteps = false
+                        }
+                    }.show()
+            }
+        }
+
         action_show_custom_notes.setOnClickListener {
             if (Preferences.showGlance) {
                 CustomNotesDialog(requireContext()).show()
@@ -228,9 +268,91 @@ class GlanceTabFragment : Fragment() {
                 activity?.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
             }
         } else {
-            show_music_label?.text = getString(R.string.settings_show_music_disabled_subtitle)
+            show_music_label?.text = getString(R.string.settings_not_visible)
             notification_permission_alert?.isVisible = false
         }
+    }
+
+    private fun checkFitnessPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION) == true) {
+            fitness_permission_alert?.isVisible = false
+            if (Preferences.showDailySteps) {
+                ActivityDetectionReceiver.registerFence(requireContext())
+            } else {
+                ActivityDetectionReceiver.unregisterFence(requireContext())
+            }
+            show_steps_label?.text = if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+        } else if (Preferences.showDailySteps) {
+            ActivityDetectionReceiver.unregisterFence(requireContext())
+            fitness_permission_alert?.isVisible = true
+            show_steps_label?.text = getString(R.string.settings_request_fitness_access)
+            fitness_permission_alert?.setOnClickListener {
+                requireFitnessPermission()
+            }
+        } else {
+            ActivityDetectionReceiver.unregisterFence(requireContext())
+            show_steps_label?.text = getString(R.string.settings_not_visible)
+            fitness_permission_alert?.isVisible = false
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        when (requestCode) {
+            1 -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    checkFitnessPermission()
+                } else {
+                    Preferences.showDailySteps = false
+                }
+            }
+            2-> {
+                try {
+                    val account: GoogleSignInAccount? = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
+                    if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
+                        GoogleSignIn.requestPermissions(
+                            requireActivity(),
+                            1,
+                            account,
+                            FITNESS_OPTIONS)
+                    } else {
+                        checkFitnessPermission()
+                    }
+                } catch (e: ApiException) {
+                    e.printStackTrace()
+                    Preferences.showDailySteps = false
+                }
+            }
+        }
+    }
+
+    private fun requireFitnessPermission() {
+        Dexter.withContext(requireContext())
+            .withPermissions(
+                "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+                "android.gms.permission.ACTIVITY_RECOGNITION",
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACTIVITY_RECOGNITION else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
+            ).withListener(object: MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    report?.let {
+                        if (report.areAllPermissionsGranted()){
+                            checkFitnessPermission()
+                        }
+                    }
+                }
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    // Remember to invoke this method when the custom rationale is closed
+                    // or just by default if you don't want to use any custom rationale.
+                    token?.continuePermissionRequest()
+                }
+            })
+            .check()
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

@@ -19,7 +19,7 @@
         android:visibility="gone"
         android:orientation="vertical">
         <androidx.appcompat.widget.AppCompatTextView
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textAppearance="@style/AnotherWidget.Settings.Title"
             app:textAllCaps="false"
             android:letterSpacing="0"
             android:layout_width="match_parent"
@@ -28,7 +28,6 @@
             android:paddingBottom="8dp"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
-            android:textSize="16sp"
             android:gravity="start"
             android:textAlignment="viewStart"
             android:id="@+id/header_text"
@@ -49,7 +48,7 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
         <androidx.appcompat.widget.AppCompatTextView
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
             app:textAllCaps="false"
             android:letterSpacing="0"
             android:layout_width="match_parent"
@@ -58,7 +57,6 @@
             android:paddingBottom="16dp"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
-            android:textSize="15sp"
             android:gravity="start"
             android:textAlignment="viewStart"
             android:id="@+id/text_alpha"

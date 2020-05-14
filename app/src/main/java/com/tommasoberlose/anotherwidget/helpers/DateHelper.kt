@@ -12,27 +12,30 @@ import java.util.*
 object DateHelper {
     fun getDateText(context: Context, date: Calendar): String {
         return if (Preferences.dateFormat != "") {
-            try {
+            val text = try {
                 SimpleDateFormat(Preferences.dateFormat, Locale.getDefault()).format(date.time)
             } catch (e: Exception) {
                 getDefaultDateText(context, date)
             }
+            if (Preferences.isDateCapitalize) text.getCapWordString() else text
         } else {
             val flags: Int =
                 DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-            "%s, %s".format(
+            val text = "%s, %s".format(
                 SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time),
                 DateUtils.formatDateTime(context, date.timeInMillis, flags)
-            ).getCapWordString()
+            )
+            if (Preferences.isDateCapitalize) text.getCapWordString() else text
         }
     }
 
     fun getDefaultDateText(context: Context, date: Calendar): String {
         val flags: Int =
             DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-        return "%s, %s".format(
+        val text = "%s, %s".format(
             SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time),
             DateUtils.formatDateTime(context, date.timeInMillis, flags)
-        ).getCapWordString()
+        )
+        return if (Preferences.isDateCapitalize) text.getCapWordString() else text
     }
 }

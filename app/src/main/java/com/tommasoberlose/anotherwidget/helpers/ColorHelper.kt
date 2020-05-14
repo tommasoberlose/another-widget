@@ -30,6 +30,31 @@ object ColorHelper {
             Color.parseColor("#000000")
         }
     }
+
+    fun getSecondaryFontColor(): Int {
+        return try {
+            Color.parseColor("#%s%s".format(Preferences.textSecondaryAlpha, Preferences.textSecondaryColor.replace("#", "")))
+        } catch (e: Exception) {
+            Color.parseColor("#FFFFFFFF")
+        }
+    }
+
+    fun getSecondaryFontColorAlpha(): Int {
+        return try {
+            Preferences.textSecondaryAlpha.toIntValue().toDouble() * 255 / 100
+        } catch (e: Exception) {
+            "FF".toIntValue().toDouble() * 255 / 100
+        }.roundToInt()
+    }
+
+    fun getSecondaryFontColorRgb(): Int {
+        return try {
+            Color.parseColor(Preferences.textSecondaryColor)
+        } catch (e: Exception) {
+            Color.parseColor("#000000")
+        }
+    }
+
     fun getClockFontColor(): Int {
         return try {
             Color.parseColor("#%s%s".format(Preferences.clockTextAlpha, Preferences.clockTextColor.replace("#", "")))

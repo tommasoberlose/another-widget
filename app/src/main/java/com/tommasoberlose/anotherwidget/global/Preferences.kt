@@ -30,6 +30,7 @@ object Preferences : KotprefModel() {
     var customLocationLon by stringPref(key = "PREF_CUSTOM_LOCATION_LON", default = "")
     var customLocationAdd by stringPref(key = "PREF_CUSTOM_LOCATION_ADD", default = "")
     var dateFormat by stringPref(default = "")
+    var isDateCapitalize by booleanPref(default = true)
     var weatherRefreshPeriod by intPref(key = "PREF_WEATHER_REFRESH_PERIOD", default = 1)
     var showUntil by intPref(key = "PREF_SHOW_UNTIL", default = 1)
     var calendarAppName by stringPref(key = "PREF_CALENDAR_APP_NAME", default = "")
@@ -40,8 +41,14 @@ object Preferences : KotprefModel() {
     var eventAppName by stringPref(key = "PREF_EVENT_APP_NAME", default = "")
     var eventAppPackage by stringPref(key = "PREF_EVENT_APP_PACKAGE", default = "")
     var openEventDetails by booleanPref(default = true)
+
+    var widgetUpdateFrequency by intPref(default = Constants.WidgetUpdateFrequency.DEFAULT.value)
+
     var textGlobalColor by stringPref(key = "PREF_TEXT_COLOR", default = "#FFFFFF")
     var textGlobalAlpha by stringPref(default = "FF")
+
+    var textSecondaryColor by stringPref(default = "#FFFFFF")
+    var textSecondaryAlpha by stringPref(default = "FF")
 
     var backgroundCardColor by stringPref(default = "#000000")
     var backgroundCardAlpha by stringPref(default = "00")
@@ -49,6 +56,8 @@ object Preferences : KotprefModel() {
     var clockTextColor by stringPref(default = "#FFFFFF")
     var clockTextAlpha by stringPref(default = "FF")
     var showAMPMIndicator by booleanPref(default = true)
+
+    var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.value)
 
     // Global
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
@@ -83,6 +92,7 @@ object Preferences : KotprefModel() {
     var showBatteryCharging by booleanPref(default = false)
     var isBatteryLevelLow by booleanPref(default = false)
     var googleFitSteps by longPref(default = -1)
+    var showDailySteps by booleanPref(default = false)
 
     var showMusic by booleanPref(default = false)
     var mediaInfoFormat by stringPref(default = "")

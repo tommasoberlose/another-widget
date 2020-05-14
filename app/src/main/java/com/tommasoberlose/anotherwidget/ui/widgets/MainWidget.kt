@@ -35,6 +35,7 @@ import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 
 class MainWidget : AppWidgetProvider() {
@@ -85,9 +86,10 @@ class MainWidget : AppWidgetProvider() {
                                      appWidgetId: Int) {
             val displayMetrics = Resources.getSystem().displayMetrics
             val width = displayMetrics.widthPixels
+            val height = displayMetrics.heightPixels
 
             val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
-            generateWidgetView(context, appWidgetId, appWidgetManager, dimensions.first - 8.toPixel(context) /*width - 16.toPixel(context)*/)
+            generateWidgetView(context, appWidgetId, appWidgetManager, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)))
         }
 
         private fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int) {
@@ -261,13 +263,8 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-                } else if (Preferences.showGlance) {
-
-
-
-
-
-                    loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders()) {
+                } else if (GlanceProviderHelper.showGlanceProviders(context)) {
+                    loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                         when (provider) {
                             Constants.GlanceProviderId.PLAYING_SONG -> {
                                 if (MediaPlayerHelper.isSomeonePlaying(context)) {
@@ -293,28 +290,35 @@ class MainWidget : AppWidgetProvider() {
                                     break@loop
                                 }
                             }
-//                            Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-//                                if (Preferences.isBatteryLevelLow) {
-//                                    val alarmIntent = PendingIntent.getActivity(
-//                                        context,
-//                                        widgetID,
-//                                        IntentHelper.getClockIntent(context),
-//                                        0
-//                                    )
-//                                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
-//                                    break@loop
-//                                }
-//                            }
+                            Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+                                if (Preferences.isBatteryLevelLow) {
+                                    val alarmIntent = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getClockIntent(context),
+                                        0
+                                    )
+                                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
+                                    break@loop
+                                }
+                            }
                             Constants.GlanceProviderId.CUSTOM_INFO -> {
                                 if (Preferences.customNotes.isNotEmpty()) {
                                     break@loop
                                 }
                             }
-//                            Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-//                                if (Preferences.googleFitSteps > 0) {
-//                                    break@loop
-//                                }
-//                            }
+                            Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+                                if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
+                                    val fitIntent = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getFitIntent(context),
+                                        0
+                                    )
+                                    views.setOnClickPendingIntent(R.id.second_row_rect, fitIntent)
+                                    break@loop
+                                }
+                            }
                         }
                     }
 
@@ -371,7 +375,7 @@ class MainWidget : AppWidgetProvider() {
                         BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false)
                     )
 
-                    if (GlanceProviderHelper.showSpecialWeather(context)) {
+                    if (GlanceProviderHelper.showGlanceProviders(context)) {
                         views.setViewVisibility(R.id.calendar_weather_rect, View.GONE)
                     } else {
                         views.setViewVisibility(R.id.special_weather_rect, View.GONE)
@@ -452,7 +456,10 @@ class MainWidget : AppWidgetProvider() {
             val eventRepository = EventRepository(context)
             val v = View.inflate(context, R.layout.the_widget, null)
 
-            val now = Calendar.getInstance()
+            val now = Calendar.getInstance().apply {
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
 
             v.empty_layout.visibility = View.VISIBLE
             v.calendar_layout.visibility = View.GONE
@@ -472,7 +479,7 @@ class MainWidget : AppWidgetProvider() {
 
                 v.next_event.text = nextEvent.title
 
-                if (Preferences.showDiffTime && now.timeInMillis < (nextEvent.startDate - 1000 * 60 * 60)) {
+                if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
                     v.next_event_difference_time.text = if (!nextEvent.allDay) {
                         SettingsStringHelper.getDifferenceText(
                             context,
@@ -494,8 +501,8 @@ class MainWidget : AppWidgetProvider() {
                 } else {
                     v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.round_today))
                     if (!nextEvent.allDay) {
-                        val startHour = DateFormat.getTimeInstance(DateFormat.SHORT).format(nextEvent.startDate)
-                        val endHour = DateFormat.getTimeInstance(DateFormat.SHORT).format(nextEvent.endDate)
+                        val startHour = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(nextEvent.startDate)
+                        val endHour = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(nextEvent.endDate)
 
                         var dayDiff = TimeUnit.MILLISECONDS.toDays(nextEvent.endDate - nextEvent.startDate)
 
@@ -518,15 +525,15 @@ class MainWidget : AppWidgetProvider() {
 
                     } else {
                         val flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-                        v.next_event_date.text = DateUtils.formatDateTime(context, now.timeInMillis, flags).getCapWordString()
+                        v.next_event_date.text = DateUtils.formatDateTime(context, now.timeInMillis, flags)
                     }
                 }
 
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
-            } else if (Preferences.showGlance) {
+            } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 v.second_row_icon.isVisible = true
-                loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders()) {
+                loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
@@ -552,37 +559,38 @@ class MainWidget : AppWidgetProvider() {
                                 break@loop
                             }
                         }
-//                        Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-//                            if (Preferences.isBatteryLevelLow) {
-//                                v.second_row_icon.setImageDrawable(
-//                                    ContextCompat.getDrawable(
-//                                        context,
-//                                        R.drawable.round_battery_charging_full
-//                                    )
-//                                )
-//                                v.next_event_date.text = context.getString(R.string.battery_low_warning)
-//                                break@loop
-//                            }
-//                        }
+                        Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+                            if (Preferences.isBatteryLevelLow) {
+                                v.second_row_icon.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        R.drawable.round_battery_charging_full
+                                    )
+                                )
+                                v.next_event_date.text = context.getString(R.string.battery_low_warning)
+                                break@loop
+                            }
+                        }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {
                             if (Preferences.customNotes.isNotEmpty()) {
                                 v.second_row_icon.isVisible = false
                                 v.next_event_date.text = Preferences.customNotes
+                                v.next_event_date.maxLines = 2
                                 break@loop
                             }
                         }
-//                        Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-//                                if (Preferences.googleFitSteps > 0) {
-//                                    v.second_row_icon.setImageDrawable(
-//                                        ContextCompat.getDrawable(
-//                                            context,
-//                                            R.drawable.round_directions_walk
-//                                        )
-//                                    )
-//                                    v.next_event_date.text = ""
-//                                    break@loop
-//                                }
-//                        }
+                        Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+                            if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
+                                v.second_row_icon.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        R.drawable.round_steps
+                                    )
+                                )
+                                v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
+                                break@loop
+                            }
+                        }
                     }
                 }
 
@@ -593,12 +601,28 @@ class MainWidget : AppWidgetProvider() {
 
 
             // Color
-            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
+            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.divider3, v.special_temp).forEach {
                 it.setTextColor(ColorHelper.getFontColor())
             }
 
-            listOf<ImageView>(v.second_row_icon, v.action_next, v.action_previous).forEach {
+            if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) {
+                listOf<ImageView>(v.action_next, v.action_previous)
+            } else {
+                listOf<ImageView>(v.action_next, v.action_previous, v.empty_weather_icon, v.special_weather_icon)
+            }.forEach {
                 it.setColorFilter(ColorHelper.getFontColor())
+            }
+
+            listOf<TextView>(v.next_event_date, v.divider2, v.calendar_temp).forEach {
+                it.setTextColor(ColorHelper.getSecondaryFontColor())
+            }
+
+            if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) {
+                listOf<ImageView>(v.second_row_icon)
+            } else {
+                listOf<ImageView>(v.second_row_icon, v.weather_icon)
+            }.forEach {
+                it.setColorFilter(ColorHelper.getSecondaryFontColor())
             }
 
             // Text Size
@@ -621,11 +645,11 @@ class MainWidget : AppWidgetProvider() {
             v.second_row_icon.scaleX = Preferences.textSecondSize / 18f
             v.second_row_icon.scaleY = Preferences.textSecondSize / 18f
 
-            v.weather_icon.scaleX = Preferences.textSecondSize / 16f
-            v.weather_icon.scaleY = Preferences.textSecondSize / 16f
+            v.weather_icon.scaleX = Preferences.textSecondSize / 14f
+            v.weather_icon.scaleY = Preferences.textSecondSize / 14f
 
-            v.empty_weather_icon.scaleX = Preferences.textMainSize / 20f
-            v.empty_weather_icon.scaleY = Preferences.textMainSize / 20f
+            v.empty_weather_icon.scaleX = Preferences.textMainSize / 18f
+            v.empty_weather_icon.scaleY = Preferences.textMainSize / 18f
 
             v.action_next.scaleX = Preferences.textMainSize / 28f
             v.action_next.scaleY = Preferences.textMainSize / 28f
@@ -694,7 +718,7 @@ class MainWidget : AppWidgetProvider() {
                 v.calendar_temp.text = currentTemp
                 v.special_temp.text = currentTemp
 
-                if (GlanceProviderHelper.showSpecialWeather(context)) {
+                if (GlanceProviderHelper.showGlanceProviders(context)) {
                     v.calendar_weather.visibility = View.GONE
                 } else {
                     v.special_weather.visibility = View.GONE

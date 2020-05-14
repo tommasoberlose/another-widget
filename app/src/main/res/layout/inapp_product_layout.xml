@@ -26,7 +26,7 @@
         android:textSize="16sp"
         android:textColor="@color/colorPrimaryText"
         android:letterSpacing="0"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
+        android:textAppearance="@style/AnotherWidget.Settings.Title"/>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
@@ -42,6 +42,7 @@
             android:paddingRight="12dp"
             android:gravity="center"
             android:text="12.00$"
+            android:fontFamily="@font/product_sans"
             android:textColor="@color/colorAccent"
             android:id="@+id/product_price"
             android:textSize="14sp"/>

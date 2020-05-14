@@ -18,7 +18,9 @@ import com.tommasoberlose.anotherwidget.databinding.ActivityCustomDateBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomDateViewModel
+import com.tommasoberlose.anotherwidget.utils.getCapWordString
 import com.tommasoberlose.anotherwidget.utils.openURI
+import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.activity_custom_date.*
 import kotlinx.android.synthetic.main.activity_custom_location.action_back
 import kotlinx.android.synthetic.main.activity_custom_location.list_view
@@ -78,7 +80,7 @@ class CustomDateActivity  : AppCompatActivity() {
                 }
 
                 delay(200)
-                val text = if (dateFormat != "") {
+                var text = if (dateFormat != "") {
                     try {
                         SimpleDateFormat(dateFormat, Locale.getDefault()).format(DATE.time)
                     } catch (e: Exception) {
@@ -88,6 +90,10 @@ class CustomDateActivity  : AppCompatActivity() {
                     "__"
                 }
 
+                if (Preferences.isDateCapitalize) {
+                    text = text.getCapWordString()
+                }
+
                 withContext(Dispatchers.Main) {
                     action_save.isVisible = text != ERROR_STRING
                     loader.visibility = View.INVISIBLE
@@ -95,6 +101,11 @@ class CustomDateActivity  : AppCompatActivity() {
                 }
 
             }
+        })
+
+        viewModel.isDateCapitalize.observe(this, Observer {
+            viewModel.dateInput.value = viewModel.dateInput.value
+            binding.isdCapitalizeEnabled = it
         })
     }
 
@@ -106,6 +117,15 @@ class CustomDateActivity  : AppCompatActivity() {
         action_save.setOnClickListener {
             Preferences.dateFormat = viewModel.dateInput.value ?: ""
             finish()
+        }
+
+        action_capitalize.setOnClickListener {
+            Preferences.isDateCapitalize = !Preferences.isDateCapitalize
+        }
+
+        action_capitalize.setOnLongClickListener {
+            toast(getString(R.string.action_capitalize_the_date))
+            true
         }
 
         action_date_format_info.setOnClickListener {

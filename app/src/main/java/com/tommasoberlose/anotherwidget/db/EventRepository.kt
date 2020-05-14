@@ -16,17 +16,13 @@ class EventRepository(val context: Context) {
     private val realm by lazy { Realm.getDefaultInstance() }
 
     fun saveEvents(eventList: ArrayList<Event>) {
-        realm.executeTransactionAsync { realm ->
+        realm.executeTransaction { realm ->
             realm.where(Event::class.java).findAll().deleteAllFromRealm()
             realm.copyToRealm(eventList)
         }
     }
 
     fun resetNextEventData() {
-        realm.executeTransactionAsync {
-            it.where(Event::class.java).findAll().deleteAllFromRealm()
-        }
-
         Preferences.bulk {
             remove(Preferences::nextEventId)
             remove(Preferences::nextEventName)
@@ -44,7 +40,7 @@ class EventRepository(val context: Context) {
 
     fun getNextEvent(): Event? {
         val nextEvent = getEventByEventId(Preferences.nextEventId)
-        return if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
+        val event = if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
             nextEvent
         } else {
             val events = getEvents()
@@ -57,9 +53,21 @@ class EventRepository(val context: Context) {
                 null
             }
         }
+        return try {
+            realm.copyFromRealm(event!!)
+        } catch (ex: Exception) {
+            event
+        }
     }
 
-    fun getEventByEventId(id: Long): Event? = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
+    fun getEventByEventId(id: Long): Event? {
+        val event = realm.where(Event::class.java).equalTo("eventID", id).findFirst()
+        return try {
+            realm.copyFromRealm(event!!)
+        } catch (ex: Exception) {
+            event
+        }
+    }
 
     fun goToNextEvent() {
         val eventList = getEvents()
@@ -95,8 +103,13 @@ class EventRepository(val context: Context) {
 
     fun getEvents(): RealmResults<Event> {
         val now = Calendar.getInstance().timeInMillis
+        realm.refresh()
         return realm.where(Event::class.java).greaterThan("endDate", now).findAll()
     }
 
     fun getEventsCount(): Int = getEvents().size
+
+    fun close() {
+        realm.close()
+    }
 }

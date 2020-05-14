@@ -81,6 +81,8 @@ class CalendarTabFragment : Fragment() {
         binding: FragmentCalendarSettingsBinding,
         viewModel: MainViewModel
     ) {
+        binding.isCalendarEnabled = Preferences.showEvents
+
         viewModel.showEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 binding.isCalendarEnabled = it
@@ -121,6 +123,17 @@ class CalendarTabFragment : Fragment() {
             }
         })
 
+        viewModel.widgetUpdateFrequency.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                widget_update_frequency_label?.text = when (it) {
+                    Constants.WidgetUpdateFrequency.HIGH.value -> getString(R.string.settings_widget_update_frequency_high)
+                    Constants.WidgetUpdateFrequency.DEFAULT.value -> getString(R.string.settings_widget_update_frequency_default)
+                    Constants.WidgetUpdateFrequency.LOW.value -> getString(R.string.settings_widget_update_frequency_low)
+                    else -> ""
+                }
+            }
+        })
+
         viewModel.showUntil.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_until_label?.text = getString(SettingsStringHelper.getShowUntilString(it))
@@ -132,12 +145,6 @@ class CalendarTabFragment : Fragment() {
             maintainScrollPosition {
                 show_multiple_events_label?.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
-        })
-
-        viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                date_format_label?.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
             }
         })
 
@@ -266,6 +273,18 @@ class CalendarTabFragment : Fragment() {
             }
         }
 
+        action_widget_update_frequency.setOnClickListener {
+            if (Preferences.showEvents) {
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_widget_update_frequency_title), message = getString(R.string.settings_widget_update_frequency_subtitle)).setSelectedValue(Preferences.widgetUpdateFrequency)
+                    .addItem(getString(R.string.settings_widget_update_frequency_high), Constants.WidgetUpdateFrequency.HIGH.value)
+                    .addItem(getString(R.string.settings_widget_update_frequency_default), Constants.WidgetUpdateFrequency.DEFAULT.value)
+                    .addItem(getString(R.string.settings_widget_update_frequency_low), Constants.WidgetUpdateFrequency.LOW.value)
+                    .addOnSelectItemListener { value ->
+                        Preferences.widgetUpdateFrequency = value
+                    }.show()
+            }
+        }
+
         action_second_row_info.setOnClickListener {
             if (Preferences.showEvents) {
                 val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_second_row_info_title)).setSelectedValue(Preferences.secondRowInformation)
@@ -287,27 +306,6 @@ class CalendarTabFragment : Fragment() {
                 dialog.addOnSelectItemListener { value ->
                         Preferences.showUntil = value
                     }.show()
-            }
-        }
-
-        action_date_format.setOnClickListener {
-            if (Preferences.showEvents) {
-                val now = Calendar.getInstance()
-                val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
-
-                dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
-                if (Preferences.dateFormat != "") {
-                    dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
-                }
-                dialog.addItem(getString(R.string.custom_date_format), "-")
-
-                dialog.addOnSelectItemListener { value ->
-                        if (value == "-") {
-                            startActivity(Intent(requireContext(), CustomDateActivity::class.java))
-                        } else {
-                            Preferences.dateFormat = value
-                        }
-                }.show()
             }
         }
 

@@ -48,7 +48,7 @@
                         android:text="@string/clock_warning"
                         android:textColor="@color/colorPrimaryText"
                         android:letterSpacing="0"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textAppearance="@style/AnotherWidget.Settings.Title"
                         app:textAllCaps="false" />
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
@@ -108,20 +108,6 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/disabledButtonBackground" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/colorPrimary" />
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_settings"
                 android:alpha="@{isClockVisible ? 1f : 0.2f, default=1}"
@@ -174,6 +160,43 @@
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
+                    android:id="@+id/action_clock_text_color"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        android:src="@drawable/round_palette"
+                        android:tint="@color/colorPrimaryText"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_clock_text_color_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/clock_text_color_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
                     android:id="@+id/action_ampm_indicator_size"
                     android:orientation="horizontal">
                     <ImageView
@@ -198,43 +221,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/ampm_indicator_label"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_clock_text_color"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:src="@drawable/round_palette"
-                        android:tint="@color/colorPrimaryText"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/AnotherWidget.Settings.Title"
-                            android:text="@string/settings_clock_text_color_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/clock_text_color_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -330,6 +316,7 @@
                     android:text="@string/clock_warning"
                     android:textColor="@color/colorPrimaryText"
                     android:letterSpacing="0"
+                    android:fontFamily="@font/product_sans"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:textAllCaps="false" />
             </LinearLayout>

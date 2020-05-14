@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.gms.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+
 
     <application
         android:allowBackup="true"
@@ -21,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main" android:screenOrientation="portrait">
+        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,41 +86,13 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_WEATHER_UPDATE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".receivers.PlayerReceiver"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.android.music.metachanged" />
-                <action android:name="com.android.music.playstatechanged" />
-                <action android:name="com.android.music.playbackcomplete" />
-                <action android:name="com.android.music.queuechanged" />
-
-                <action android:name="com.htc.music.metachanged" />
-                <action android:name="fm.last.android.metachanged" />
-                <action android:name="com.sec.android.app.music.metachanged" />
-                <action android:name="com.nullsoft.winamp.metachanged" />
-                <action android:name="com.amazon.mp3.metachanged" />
-                <action android:name="com.miui.player.metachanged" />
-                <action android:name="com.real.IMP.metachanged" />
-                <action android:name="com.sonyericsson.music.metachanged" />
-                <action android:name="com.rdio.android.metachanged" />
-                <action android:name="com.samsung.sec.android.MusicPlayer.metachanged" />
-                <action android:name="com.andrew.apollo.metachanged" />
-                <action android:name="com.spotify.music.playbackstatechanged"/>
-                <action android:name="com.spotify.music.metadatachanged"/>
-                <action android:name="com.spotify.music.queuechanged"/>
             </intent-filter>
         </receiver>
 
@@ -155,6 +131,16 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
                 <action android:name="android.intent.action.BATTERY_LOW"/>
                 <action android:name="android.intent.action.BATTERY_OKAY"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.ActivityDetectionReceiver"
+            android:exported="false"
+            android:permission="com.google.android.gms.permission.ACTIVITY_RECOGNITION">
+            <intent-filter>
+                <action android:name="com.mypackage.ACTION_PROCESS_ACTIVITY_TRANSITIONS" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>

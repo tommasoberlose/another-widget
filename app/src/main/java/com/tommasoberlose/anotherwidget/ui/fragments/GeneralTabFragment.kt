@@ -21,7 +21,9 @@ import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
+import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
+import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_general_settings.*
@@ -29,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 
 class GeneralTabFragment : Fragment() {
@@ -113,6 +116,28 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
+        viewModel.textSecondaryColor.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textSecondaryAlpha == "00") {
+                    secondary_font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    secondary_font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor())).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.textSecondaryAlpha.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textSecondaryAlpha == "00") {
+                    secondary_font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    secondary_font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor())).toUpperCase()
+                }
+            }
+        })
+
         viewModel.backgroundCardColor.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlpha == "00") {
@@ -138,6 +163,12 @@ class GeneralTabFragment : Fragment() {
         viewModel.textShadow.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 text_shadow_label?.text = getString(SettingsStringHelper.getTextShadowString(it))
+            }
+        })
+
+        viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                date_format_label?.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
             }
         })
 
@@ -167,7 +198,7 @@ class GeneralTabFragment : Fragment() {
     private fun setupListener() {
         action_main_text_size.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_main_text_size)).setSelectedValue(Preferences.textMainSize)
-            (32 downTo 10).filter { it % 2 == 0 }.forEach {
+            (40 downTo 10).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
             dialog.addOnSelectItemListener { value ->
@@ -177,7 +208,7 @@ class GeneralTabFragment : Fragment() {
 
         action_second_text_size.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_second_text_size)).setSelectedValue(Preferences.textSecondSize)
-            (28 downTo 10).filter { it % 2 == 0 }.forEach {
+            (40 downTo 10).filter { it % 2 == 0 }.forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
             dialog.addOnSelectItemListener { value ->
@@ -200,6 +231,44 @@ class GeneralTabFragment : Fragment() {
                     Preferences.textGlobalAlpha = alpha.toHexValue()
                 }
             ).show()
+        }
+
+        action_secondary_font_color.setOnClickListener {
+            BottomSheetColorPicker(requireContext(),
+                colors = colors,
+                header = getString(R.string.settings_secondary_font_color_title),
+                getSelected = ColorHelper::getSecondaryFontColorRgb,
+                onColorSelected = { color: Int ->
+                    val colorString = Integer.toHexString(color)
+                    Preferences.textSecondaryColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                },
+                showAlphaSelector = true,
+                alpha = Preferences.textSecondaryAlpha.toIntValue(),
+                onAlphaChangeListener = { alpha ->
+                    Preferences.textSecondaryAlpha = alpha.toHexValue()
+                }
+            ).show()
+        }
+
+        action_date_format.setOnClickListener {
+            if (Preferences.showEvents) {
+                val now = Calendar.getInstance()
+                val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
+
+                dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
+                if (Preferences.dateFormat != "") {
+                    dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
+                }
+                dialog.addItem(getString(R.string.custom_date_format), "-")
+
+                dialog.addOnSelectItemListener { value ->
+                    if (value == "-") {
+                        startActivity(Intent(requireContext(), CustomDateActivity::class.java))
+                    } else {
+                        Preferences.dateFormat = value
+                    }
+                }.show()
+            }
         }
 
         action_background_color.setOnClickListener {
