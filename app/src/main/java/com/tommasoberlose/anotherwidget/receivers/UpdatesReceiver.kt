@@ -12,6 +12,7 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.BatteryHelper
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -28,7 +29,9 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
             Intent.ACTION_LOCALE_CHANGED,
-            Actions.ACTION_CALENDAR_UPDATE -> CalendarHelper.updateEventList(context)
+            Actions.ACTION_CALENDAR_UPDATE -> {
+                CalendarHelper.updateEventList(context)
+            }
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",
             Intent.ACTION_DATE_CHANGED,

@@ -291,15 +291,18 @@ class MainWidget : AppWidgetProvider() {
                                 }
                             }
                             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                                if (Preferences.isBatteryLevelLow) {
-                                    val alarmIntent = PendingIntent.getActivity(
-                                        context,
-                                        widgetID,
-                                        IntentHelper.getClockIntent(context),
-                                        0
-                                    )
-                                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
-                                    break@loop
+                                if (Preferences.showBatteryCharging) {
+                                    BatteryHelper.updateBatteryInfo(context)
+                                    if (Preferences.isCharging || Preferences.isBatteryLevelLow) {
+                                        val batteryIntent = PendingIntent.getActivity(
+                                            context,
+                                            widgetID,
+                                            IntentHelper.getBatteryIntent(context),
+                                            0
+                                        )
+                                        views.setOnClickPendingIntent(R.id.second_row_rect, batteryIntent)
+                                        break@loop
+                                    }
                                 }
                             }
                             Constants.GlanceProviderId.CUSTOM_INFO -> {
@@ -562,15 +565,24 @@ class MainWidget : AppWidgetProvider() {
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                            if (Preferences.isBatteryLevelLow) {
-                                v.second_row_icon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_battery_charging_full
-                                    )
-                                )
-                                v.next_event_date.text = context.getString(R.string.battery_low_warning)
-                                break@loop
+                            Log.d("ciao", "isChargin: ${Preferences.isCharging} ")
+                            if (Preferences.showBatteryCharging) {
+                                BatteryHelper.updateBatteryInfo(context)
+                                if (Preferences.isCharging) {
+                                    v.second_row_icon.isVisible = false
+                                    val batteryLevel = BatteryHelper.getBatteryLevel(context)
+                                    if (batteryLevel == 100) {
+                                        v.next_event_date.text = "%s - %d%%".format(context.getString(R.string.charging), batteryLevel)
+                                    } else {
+                                        v.next_event_date.text = context.getString(R.string.charging)
+                                    }
+                                    break@loop
+                                } else if (Preferences.isBatteryLevelLow) {
+                                    v.second_row_icon.isVisible = false
+                                    v.next_event_date.text =
+                                        context.getString(R.string.battery_low_warning)
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {

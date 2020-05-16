@@ -14,7 +14,6 @@ object GlanceProviderHelper {
         val enabledProviders = Preferences.enabledGlanceProviderOrder.split(",").filter { it != "" }
 
         val providers = Constants.GlanceProviderId.values()
-            .filter { it != Constants.GlanceProviderId.BATTERY_LEVEL_LOW }
             .filter {
                 context.checkIfFitInstalled() || it != Constants.GlanceProviderId.GOOGLE_FIT_STEPS
             }.toTypedArray()
@@ -80,10 +79,11 @@ object GlanceProviderHelper {
 
     fun showGlanceProviders(context: Context): Boolean {
         val eventRepository = EventRepository(context)
+        BatteryHelper.updateBatteryInfo(context)
         val showGlance = Preferences.showGlance && eventRepository.getEventsCount() == 0 && (
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
                         (MediaPlayerHelper.isSomeonePlaying(context)) ||
-                        (Preferences.isBatteryLevelLow) ||
+                        (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                         (Preferences.customNotes.isNotEmpty()) ||
                         (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
                 )

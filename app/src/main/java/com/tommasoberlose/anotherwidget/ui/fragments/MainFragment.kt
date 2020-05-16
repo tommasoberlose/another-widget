@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -268,8 +269,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     widget_loader?.animate()?.scaleX(0f)?.scaleY(0f)?.alpha(0f)?.setDuration(200L)?.start()
                     bitmap_container?.apply {
                         setImageBitmap(bitmap)
-//                        scaleX = 0.9f
-//                        scaleY = 0.9f
+                        scaleX = 0.9f
+                        scaleY = 0.9f
                     }
                     widget?.animate()?.alpha(1f)?.start()
                 }
