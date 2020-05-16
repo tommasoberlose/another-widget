@@ -59,6 +59,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                     setEventUpdate(context, event)
                 }
             }
+            eventRepository.close()
         }
 
         private fun setEventUpdate(context: Context, event: Event) {
@@ -135,9 +136,11 @@ class UpdatesReceiver : BroadcastReceiver() {
 
         fun removeUpdates(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                EventRepository(context).getEvents().forEach {
+                val eventRepository = EventRepository(context)
+                eventRepository.getEvents().forEach {
                     cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java), 0))
                 }
+                eventRepository.close()
             }
         }
     }

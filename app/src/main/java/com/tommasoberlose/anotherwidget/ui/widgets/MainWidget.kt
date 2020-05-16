@@ -36,6 +36,7 @@ import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 
 class MainWidget : AppWidgetProvider() {
@@ -140,9 +141,8 @@ class MainWidget : AppWidgetProvider() {
         }
 
         private fun updateCalendarView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
+            val eventRepository = EventRepository(context)
             try {
-                val eventRepository = EventRepository(context)
-
                 views.setImageViewBitmap(
                     R.id.empty_date_rect,
                     BitmapHelper.getBitmapFromView(v.empty_date, draw = false)
@@ -340,6 +340,8 @@ class MainWidget : AppWidgetProvider() {
             } catch (ex: Exception) {
                 ex.printStackTrace()
                 CrashlyticsReceiver.sendCrash(context, ex)
+            } finally {
+                eventRepository.close()
             }
 
             return views
@@ -698,7 +700,7 @@ class MainWidget : AppWidgetProvider() {
                 v.weather.visibility = View.VISIBLE
                 v.calendar_weather.visibility = View.VISIBLE
                 v.special_weather.visibility = View.VISIBLE
-                val currentTemp = String.format(Locale.getDefault(), "%.0f °%s", Preferences.weatherTemp, Preferences.weatherRealTempUnit)
+                val currentTemp = String.format(Locale.getDefault(), "%d °%s", Preferences.weatherTemp.roundToInt(), Preferences.weatherRealTempUnit)
 
                 val icon: String = Preferences.weatherIcon
                 if (icon == "") {
@@ -733,6 +735,8 @@ class MainWidget : AppWidgetProvider() {
             arrayOf(v.divider1, v.divider2, v.divider3).forEach {
                 it.isVisible = Preferences.showDividers
             }
+
+            eventRepository.close()
 
             return v
         }

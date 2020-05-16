@@ -321,7 +321,7 @@ class GeneralTabFragment : Fragment() {
         }
 
         action_show_dividers.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_multiple_events_title)).setSelectedValue(Preferences.showDividers)
+            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_dividers_title)).setSelectedValue(Preferences.showDividers)
                 .addItem(getString(R.string.settings_visible), true)
                 .addItem(getString(R.string.settings_not_visible), false)
                 .addOnSelectItemListener { value ->

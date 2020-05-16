@@ -145,7 +145,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     ColorHelper.getBackgroundColor()
                 )
             )
-            uiJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            uiJob = lifecycleScope.launch(Dispatchers.IO) {
                 val generatedView = MainWidget.generateWidgetView(requireContext())
 
                 withContext(Dispatchers.Main) {
@@ -230,10 +230,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                             ).apply {
                                 duration = 500L
                                 addUpdateListener {
-                                    val animatedValue = animatedValue as Int
-                                    val layoutParams = preview.layoutParams
-                                    layoutParams.height = animatedValue
-                                    preview.layoutParams = layoutParams
+                                    if (preview != null) {
+                                        val animatedValue = animatedValue as Int
+                                        val layoutParams = preview.layoutParams
+                                        layoutParams.height = animatedValue
+                                        preview.layoutParams = layoutParams
+                                    }
                                 }
                             }.start()
                         }
@@ -253,10 +255,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                         ).apply {
                             duration = 300L
                             addUpdateListener {
-                                val animatedValue = animatedValue as Int
-                                val layoutParams = preview.layoutParams
-                                layoutParams.height = animatedValue
-                                preview?.layoutParams = layoutParams
+                                if (preview != null) {
+                                    val animatedValue = animatedValue as Int
+                                    val layoutParams = preview.layoutParams
+                                    layoutParams.height = animatedValue
+                                    preview?.layoutParams = layoutParams
+                                }
                             }
                         }.start()
                     }
@@ -264,8 +268,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     widget_loader?.animate()?.scaleX(0f)?.scaleY(0f)?.alpha(0f)?.setDuration(200L)?.start()
                     bitmap_container?.apply {
                         setImageBitmap(bitmap)
-                        scaleX = 0.9f
-                        scaleY = 0.9f
+//                        scaleX = 0.9f
+//                        scaleY = 0.9f
                     }
                     widget?.animate()?.alpha(1f)?.start()
                 }
@@ -278,10 +282,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 ).apply {
                     duration = 300L
                     addUpdateListener {
-                        val animatedValue = animatedValue as Int
-                        val layoutParams = preview.layoutParams
-                        layoutParams.height = animatedValue
-                        preview.layoutParams = layoutParams
+                        if (preview != null) {
+                            val animatedValue = animatedValue as Int
+                            val layoutParams = preview.layoutParams
+                            layoutParams.height = animatedValue
+                            preview.layoutParams = layoutParams
+                        }
                     }
                 }.start()
             }

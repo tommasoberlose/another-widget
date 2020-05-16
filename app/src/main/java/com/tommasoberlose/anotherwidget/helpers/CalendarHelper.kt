@@ -102,6 +102,7 @@ object CalendarHelper {
 
                     if (eventList.isEmpty()) {
                         eventRepository.resetNextEventData()
+                        eventRepository.clearEvents()
                     } else {
                         eventList.sortWith(Comparator { event: Event, event1: Event ->
                             if (event.allDay && event1.allDay) {
@@ -134,6 +135,7 @@ object CalendarHelper {
         MainWidget.updateWidget(context)
 
         EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+        eventRepository.close()
     }
 
     fun getCalendarList(context: Context): List<me.everything.providers.android.calendar.Calendar> {

@@ -19,7 +19,7 @@
             android:paddingBottom="8dp"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:gravity="start"
             android:textAlignment="viewStart"
             android:id="@+id/header_text"
