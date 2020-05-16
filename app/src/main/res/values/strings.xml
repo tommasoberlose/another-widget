@@ -235,4 +235,15 @@
     <string name="settings_weather_icon_pack_default">Default</string>
     <string name="settings_weather_icon_pack_minimal">Minimal</string>
     <string name="action_capitalize_the_date">Capitalize the date</string>
+    <string name="providers">Providers</string>
+    <string name="first_row_header">First row style</string>
+    <string name="second_row_header">Second row style</string>
+    <string name="global_style_header">Global style</string>
+    <string name="style_header">Style</string>
+    <string name="filters_header">Event filters</string>
+    <string name="event_detail_header">Event detail</string>
+    <string name="actions_header">Actions</string>
+    <string name="provider_header">Provider</string>
+    <string name="clock_text_header">Clock text</string>
+    <string name="preferences_header">Preferences</string>
 </resources>

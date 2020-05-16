@@ -565,7 +565,6 @@ class MainWidget : AppWidgetProvider() {
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                            Log.d("ciao", "isChargin: ${Preferences.isCharging} ")
                             if (Preferences.showBatteryCharging) {
                                 BatteryHelper.updateBatteryInfo(context)
                                 if (Preferences.isCharging) {
@@ -589,18 +588,14 @@ class MainWidget : AppWidgetProvider() {
                             if (Preferences.customNotes.isNotEmpty()) {
                                 v.second_row_icon.isVisible = false
                                 v.next_event_date.text = Preferences.customNotes
+                                v.next_event_date.gravity
                                 v.next_event_date.maxLines = 2
                                 break@loop
                             }
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                v.second_row_icon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_steps
-                                    )
-                                )
+                                v.second_row_icon.isVisible = false
                                 v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
                                 break@loop
                             }

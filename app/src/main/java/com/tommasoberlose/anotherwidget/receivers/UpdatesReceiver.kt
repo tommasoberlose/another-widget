@@ -105,7 +105,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                     } else {
                         setExact(
                             AlarmManager.RTC,
-                            event.startDate - diff.hours * 1000 * 60 * 60,
+                            event.startDate - diff.hours * 1000 * 60 * 60 + if (diff.minutes > 30) (- 30) else (+ 30),
                             PendingIntent.getBroadcast(
                                 context,
                                 event.eventID.toInt(),

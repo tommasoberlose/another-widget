@@ -86,7 +86,22 @@ object SettingsStringHelper {
                 return context.getString(R.string.now)
             }
             TimeUnit.MILLISECONDS.toHours(difference) < 12 -> {
-                return DateUtils.getRelativeTimeSpanString(start, now, DateUtils.HOUR_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
+                val minutes =  TimeUnit.MILLISECONDS.toMinutes(difference) - 60 * TimeUnit.MILLISECONDS.toHours(difference)
+                return if (minutes < 1 || minutes > 30) {
+                    DateUtils.getRelativeTimeSpanString(
+                        start,
+                        now - 1000 * 60 * 40,
+                        DateUtils.HOUR_IN_MILLIS,
+                        DateUtils.FORMAT_ABBREV_RELATIVE
+                    ).toString()
+                } else {
+                    DateUtils.getRelativeTimeSpanString(
+                        start,
+                        now,
+                        DateUtils.HOUR_IN_MILLIS,
+                        DateUtils.FORMAT_ABBREV_RELATIVE
+                    ).toString()
+                }
             }
             eventDate.dayOfYear == nowDate.plusDays(1).dayOfYear -> {
                 return String.format("%s", context.getString(R.string.tomorrow))
