@@ -6,6 +6,7 @@ import android.location.Address
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -47,7 +48,15 @@ class SupportDevActivity : AppCompatActivity(), PurchasesUpdatedListener {
             .register<SkuDetails>(R.layout.inapp_product_layout) { item, injector ->
                 item.sku
                 injector
-                    .text(R.id.product_title, item.sku.replace("(Another Widget)", ""))
+                    .with<TextView>(R.id.product_title) {
+                        it.text = when (item.sku) {
+                            "donation_coffee" -> getString(R.string.donation_coffee)
+                            "donation_donuts" -> getString(R.string.donation_donuts)
+                            "donation_breakfast" -> getString(R.string.donation_breakfast)
+                            "donation_lunch" -> getString(R.string.donation_lunch)
+                            else -> ""
+                        }
+                    }
                     .text(R.id.product_price, item.price)
                     .clicked(R.id.item) {
                         viewModel.purchase(this, item)
