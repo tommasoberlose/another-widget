@@ -97,6 +97,7 @@ class GlanceTabFragment : Fragment() {
         viewModel.showGlance.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 binding.isGlanceVisible = it
+                show_glance_label.text = if (it) getString(R.string.description_show_glance_visible) else getString(R.string.description_show_glance_not_visible)
             }
         })
 

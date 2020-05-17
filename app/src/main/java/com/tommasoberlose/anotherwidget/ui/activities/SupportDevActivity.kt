@@ -45,8 +45,9 @@ class SupportDevActivity : AppCompatActivity(), PurchasesUpdatedListener {
         adapter = SlimAdapter.create()
         adapter
             .register<SkuDetails>(R.layout.inapp_product_layout) { item, injector ->
+                item.sku
                 injector
-                    .text(R.id.product_title, item.title.replace("(Another Widget)", ""))
+                    .text(R.id.product_title, item.sku.replace("(Another Widget)", ""))
                     .text(R.id.product_price, item.price)
                     .clicked(R.id.item) {
                         viewModel.purchase(this, item)

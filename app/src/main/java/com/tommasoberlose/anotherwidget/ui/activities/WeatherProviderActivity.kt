@@ -32,11 +32,6 @@ class WeatherProviderActivity : AppCompatActivity() {
             openURI("https://home.openweathermap.org/users/sign_up")
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            last_info.text = Html.fromHtml(getString(R.string.api_key_info_all_set), Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            last_info.text = Html.fromHtml(getString(R.string.api_key_info_all_set))
-        }
         api_key.editText?.setText(Preferences.weatherProviderApi)
     }
 }

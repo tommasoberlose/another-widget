@@ -99,7 +99,7 @@ class CalendarTabFragment : Fragment() {
         viewModel.calendarAllDay.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 all_day_label?.text =
-                    if (it) getString(R.string.settings_all_day_subtitle_visible) else getString(R.string.settings_all_day_subtitle_gone)
+                    if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
             checkReadEventsPermission()
         })
@@ -215,7 +215,7 @@ class CalendarTabFragment : Fragment() {
                     }
                     
                     dialog.addItem(
-                        if (calendarSelectorList[index].name == calendarSelectorList[index].accountName) getString(R.string.account_events) else calendarSelectorList[index].name,
+                        if (calendarSelectorList[index].name == calendarSelectorList[index].accountName) getString(R.string.main_calendar) else calendarSelectorList[index].name,
                         calendarSelectorList[index].id
                     )
                 }
@@ -232,8 +232,8 @@ class CalendarTabFragment : Fragment() {
         action_show_all_day.setOnClickListener {
             if (Preferences.showEvents) {
                 BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_all_day_title)).setSelectedValue(Preferences.calendarAllDay)
-                    .addItem(getString(R.string.settings_all_day_subtitle_visible), true)
-                    .addItem(getString(R.string.settings_all_day_subtitle_gone), false)
+                    .addItem(getString(R.string.settings_visible), true)
+                    .addItem(getString(R.string.settings_not_visible), false)
                     .addOnSelectItemListener { value ->
                         Preferences.calendarAllDay = value
                     }.show()

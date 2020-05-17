@@ -187,7 +187,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     clock_bottom_margin_large?.isVisible =
                         Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
 
-                    if ((Preferences.showClock && time_container?.isVisible == false) || (!Preferences.showClock && time_container?.isVisible == true)) {
+                    if ((Preferences.showClock && (time?.alpha ?: 1f < 1f)) || (!Preferences.showClock && (time?.alpha ?: 0f > 0f))) {
                         if (Preferences.showClock) {
                             time_container?.layoutParams = time_container.layoutParams.apply {
                                 height = RelativeLayout.LayoutParams.WRAP_CONTENT

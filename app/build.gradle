@@ -22,7 +22,7 @@ android {
         applicationId "com.tommasoberlose.anotherwidget"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 92
+        versionCode 93
         versionName "2.0.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
