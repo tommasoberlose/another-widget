@@ -38,8 +38,8 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="11dp"
-                    android:src="@drawable/round_widgets"
+                    android:padding="12dp"
+                    android:src="@drawable/round_hourglass_empty"
                     android:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -56,8 +56,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/show_clock_label"
-                        android:text="@string/description_show_glance"
+                        android:id="@+id/show_glance_label"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -74,6 +73,18 @@
                 android:id="@+id/calendar_settings"
                 android:alpha="@{isGlanceVisible ? 1f : 0.2f, default=1}"
                 android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/providers"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,7 +101,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="10dp"
+                        android:padding="11dp"
                         android:src="@drawable/round_music_note"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
@@ -143,7 +154,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="11dp"
+                        android:padding="12dp"
                         android:src="@drawable/round_alarm"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
@@ -188,8 +199,8 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="10dp"
-                        android:src="@drawable/round_steps"
+                        android:padding="11dp"
+                        android:src="@drawable/round_directions_walk"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -234,7 +245,6 @@
                     android:paddingRight="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:visibility="gone"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:id="@+id/action_show_low_battery_level_warning"
@@ -279,7 +289,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="10dp"
+                        android:padding="12dp"
                         android:src="@drawable/round_notes"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
@@ -300,42 +310,54 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:text="@string/preferences_header"
+                android:textAlignment="viewStart"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorAccent"
+                android:textAppearance="@style/AnotherWidget.Settings.Header"
+                app:textAllCaps="false" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:id="@+id/action_sort_glance_providers"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_flip_to_front"
+                    android:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_sort_glance_providers"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="10dp"
-                        android:src="@drawable/round_flip_to_front"
-                        android:tint="@color/colorPrimaryText"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/AnotherWidget.Settings.Title"
-                            android:text="@string/settings_sort_glance_providers_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_sort_glance_providers_subtitle"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
-                    </LinearLayout>
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_sort_glance_providers_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_sort_glance_providers_subtitle"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

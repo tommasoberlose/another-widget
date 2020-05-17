@@ -95,7 +95,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/show_clock_label"
-                        android:text="@string/description_show_clock"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -112,6 +111,18 @@
                 android:id="@+id/clock_settings"
                 android:alpha="@{isClockVisible ? 1f : 0.2f, default=1}"
                 android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/clock_text_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,6 +197,18 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/appearance_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -261,6 +284,18 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/actions_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -298,27 +333,27 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/small_clock_warning"
-                android:orientation="vertical">
-                <androidx.appcompat.widget.AppCompatTextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:paddingBottom="32dp"
-                    android:duplicateParentState="true"
-                    android:textSize="14sp"
-                    android:text="@string/clock_warning"
-                    android:textColor="@color/colorPrimaryText"
-                    android:letterSpacing="0"
-                    android:fontFamily="@font/product_sans"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    app:textAllCaps="false" />
+                    android:id="@+id/small_clock_warning"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="16dp"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp"
+                        android:paddingBottom="32dp"
+                        android:duplicateParentState="true"
+                        android:textSize="14sp"
+                        android:text="@string/clock_warning"
+                        android:textColor="@color/colorPrimaryText"
+                        android:letterSpacing="0"
+                        android:fontFamily="@font/product_sans"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:textAllCaps="false" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

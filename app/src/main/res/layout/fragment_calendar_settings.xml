@@ -89,6 +89,18 @@
                 android:id="@+id/calendar_settings"
                 android:alpha="@{isCalendarEnabled ? 1f : 0.2f, default=1}"
                 android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/filters_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -237,6 +249,18 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/event_detail_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -348,6 +372,18 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/actions_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -182,6 +182,10 @@ object IntentHelper {
         }
     }
 
+    fun getBatteryIntent(context: Context): Intent {
+        return Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
+    }
+
     fun getMusicIntent(context: Context): Intent {
         return when (Preferences.mediaPlayerPackage) {
             "" -> {

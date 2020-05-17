@@ -155,7 +155,7 @@
                 android:textSize="16sp"
                 android:gravity="start"
                 android:textAlignment="viewStart"
-                android:id="@+id/last_info"/>
+                android:text="@string/api_key_info_all_set"/>
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

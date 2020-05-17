@@ -22,6 +22,12 @@ class EventRepository(val context: Context) {
         }
     }
 
+    fun clearEvents() {
+        realm.executeTransaction { realm ->
+            realm.where(Event::class.java).findAll().deleteAllFromRealm()
+        }
+    }
+
     fun resetNextEventData() {
         Preferences.bulk {
             remove(Preferences::nextEventId)

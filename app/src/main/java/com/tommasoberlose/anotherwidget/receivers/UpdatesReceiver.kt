@@ -12,6 +12,7 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.BatteryHelper
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -28,7 +29,9 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
             Intent.ACTION_LOCALE_CHANGED,
-            Actions.ACTION_CALENDAR_UPDATE -> CalendarHelper.updateEventList(context)
+            Actions.ACTION_CALENDAR_UPDATE -> {
+                CalendarHelper.updateEventList(context)
+            }
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",
             Intent.ACTION_DATE_CHANGED,
@@ -59,6 +62,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                     setEventUpdate(context, event)
                 }
             }
+            eventRepository.close()
         }
 
         private fun setEventUpdate(context: Context, event: Event) {
@@ -101,7 +105,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                     } else {
                         setExact(
                             AlarmManager.RTC,
-                            event.startDate - diff.hours * 1000 * 60 * 60,
+                            event.startDate - diff.hours * 1000 * 60 * 60 + if (diff.minutes > 30) (- 30) else (+ 30),
                             PendingIntent.getBroadcast(
                                 context,
                                 event.eventID.toInt(),
@@ -135,9 +139,11 @@ class UpdatesReceiver : BroadcastReceiver() {
 
         fun removeUpdates(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                EventRepository(context).getEvents().forEach {
+                val eventRepository = EventRepository(context)
+                eventRepository.getEvents().forEach {
                     cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java), 0))
                 }
+                eventRepository.close()
             }
         }
     }

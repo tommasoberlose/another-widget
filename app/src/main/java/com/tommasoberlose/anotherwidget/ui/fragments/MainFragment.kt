@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -145,7 +146,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     ColorHelper.getBackgroundColor()
                 )
             )
-            uiJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            uiJob = lifecycleScope.launch(Dispatchers.IO) {
                 val generatedView = MainWidget.generateWidgetView(requireContext())
 
                 withContext(Dispatchers.Main) {
@@ -186,7 +187,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     clock_bottom_margin_large?.isVisible =
                         Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
 
-                    if ((Preferences.showClock && time_container?.isVisible == false) || (!Preferences.showClock && time_container?.isVisible == true)) {
+                    if ((Preferences.showClock && (time?.alpha ?: 1f < 1f)) || (!Preferences.showClock && (time?.alpha ?: 0f > 0f))) {
                         if (Preferences.showClock) {
                             time_container?.layoutParams = time_container.layoutParams.apply {
                                 height = RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -230,10 +231,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                             ).apply {
                                 duration = 500L
                                 addUpdateListener {
-                                    val animatedValue = animatedValue as Int
-                                    val layoutParams = preview.layoutParams
-                                    layoutParams.height = animatedValue
-                                    preview.layoutParams = layoutParams
+                                    if (preview != null) {
+                                        val animatedValue = animatedValue as Int
+                                        val layoutParams = preview.layoutParams
+                                        layoutParams.height = animatedValue
+                                        preview.layoutParams = layoutParams
+                                    }
                                 }
                             }.start()
                         }
@@ -253,10 +256,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                         ).apply {
                             duration = 300L
                             addUpdateListener {
-                                val animatedValue = animatedValue as Int
-                                val layoutParams = preview.layoutParams
-                                layoutParams.height = animatedValue
-                                preview?.layoutParams = layoutParams
+                                if (preview != null) {
+                                    val animatedValue = animatedValue as Int
+                                    val layoutParams = preview.layoutParams
+                                    layoutParams.height = animatedValue
+                                    preview?.layoutParams = layoutParams
+                                }
                             }
                         }.start()
                     }
@@ -278,10 +283,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 ).apply {
                     duration = 300L
                     addUpdateListener {
-                        val animatedValue = animatedValue as Int
-                        val layoutParams = preview.layoutParams
-                        layoutParams.height = animatedValue
-                        preview.layoutParams = layoutParams
+                        if (preview != null) {
+                            val animatedValue = animatedValue as Int
+                            val layoutParams = preview.layoutParams
+                            layoutParams.height = animatedValue
+                            preview.layoutParams = layoutParams
+                        }
                     }
                 }.start()
             }

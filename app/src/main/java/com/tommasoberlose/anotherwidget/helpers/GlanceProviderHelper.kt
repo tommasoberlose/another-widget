@@ -14,7 +14,6 @@ object GlanceProviderHelper {
         val enabledProviders = Preferences.enabledGlanceProviderOrder.split(",").filter { it != "" }
 
         val providers = Constants.GlanceProviderId.values()
-            .filter { it != Constants.GlanceProviderId.BATTERY_LEVEL_LOW }
             .filter {
                 context.checkIfFitInstalled() || it != Constants.GlanceProviderId.GOOGLE_FIT_STEPS
             }.toTypedArray()
@@ -68,7 +67,7 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_daily_steps_title),
-                   R.drawable.round_steps
+                   R.drawable.round_directions_walk
                )
             }
         }
@@ -79,12 +78,16 @@ object GlanceProviderHelper {
     }
 
     fun showGlanceProviders(context: Context): Boolean {
-        return Preferences.showGlance && EventRepository(context).getEventsCount() == 0 && (
+        val eventRepository = EventRepository(context)
+        BatteryHelper.updateBatteryInfo(context)
+        val showGlance = Preferences.showGlance && eventRepository.getEventsCount() == 0 && (
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
                         (MediaPlayerHelper.isSomeonePlaying(context)) ||
-                        (Preferences.isBatteryLevelLow) ||
+                        (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                         (Preferences.customNotes.isNotEmpty()) ||
                         (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
                 )
+        eventRepository.close()
+        return showGlance
     }
 }

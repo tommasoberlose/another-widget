@@ -91,6 +91,7 @@ object Preferences : KotprefModel() {
     var showNextAlarm by booleanPref(default = true)
     var showBatteryCharging by booleanPref(default = false)
     var isBatteryLevelLow by booleanPref(default = false)
+    var isCharging by booleanPref(default = false)
     var googleFitSteps by longPref(default = -1)
     var showDailySteps by booleanPref(default = false)
 

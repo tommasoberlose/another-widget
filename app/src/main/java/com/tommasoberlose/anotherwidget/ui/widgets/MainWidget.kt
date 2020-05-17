@@ -36,6 +36,7 @@ import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 
 class MainWidget : AppWidgetProvider() {
@@ -140,9 +141,8 @@ class MainWidget : AppWidgetProvider() {
         }
 
         private fun updateCalendarView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
+            val eventRepository = EventRepository(context)
             try {
-                val eventRepository = EventRepository(context)
-
                 views.setImageViewBitmap(
                     R.id.empty_date_rect,
                     BitmapHelper.getBitmapFromView(v.empty_date, draw = false)
@@ -291,15 +291,18 @@ class MainWidget : AppWidgetProvider() {
                                 }
                             }
                             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                                if (Preferences.isBatteryLevelLow) {
-                                    val alarmIntent = PendingIntent.getActivity(
-                                        context,
-                                        widgetID,
-                                        IntentHelper.getClockIntent(context),
-                                        0
-                                    )
-                                    views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
-                                    break@loop
+                                if (Preferences.showBatteryCharging) {
+                                    BatteryHelper.updateBatteryInfo(context)
+                                    if (Preferences.isCharging || Preferences.isBatteryLevelLow) {
+                                        val batteryIntent = PendingIntent.getActivity(
+                                            context,
+                                            widgetID,
+                                            IntentHelper.getBatteryIntent(context),
+                                            0
+                                        )
+                                        views.setOnClickPendingIntent(R.id.second_row_rect, batteryIntent)
+                                        break@loop
+                                    }
                                 }
                             }
                             Constants.GlanceProviderId.CUSTOM_INFO -> {
@@ -340,6 +343,8 @@ class MainWidget : AppWidgetProvider() {
             } catch (ex: Exception) {
                 ex.printStackTrace()
                 CrashlyticsReceiver.sendCrash(context, ex)
+            } finally {
+                eventRepository.close()
             }
 
             return views
@@ -560,33 +565,37 @@ class MainWidget : AppWidgetProvider() {
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                            if (Preferences.isBatteryLevelLow) {
-                                v.second_row_icon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_battery_charging_full
-                                    )
-                                )
-                                v.next_event_date.text = context.getString(R.string.battery_low_warning)
-                                break@loop
+                            if (Preferences.showBatteryCharging) {
+                                BatteryHelper.updateBatteryInfo(context)
+                                if (Preferences.isCharging) {
+                                    v.second_row_icon.isVisible = false
+                                    val batteryLevel = BatteryHelper.getBatteryLevel(context)
+                                    if (batteryLevel == 100) {
+                                        v.next_event_date.text = "%s - %d%%".format(context.getString(R.string.charging), batteryLevel)
+                                    } else {
+                                        v.next_event_date.text = context.getString(R.string.charging)
+                                    }
+                                    break@loop
+                                } else if (Preferences.isBatteryLevelLow) {
+                                    v.second_row_icon.isVisible = false
+                                    v.next_event_date.text =
+                                        context.getString(R.string.battery_low_warning)
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {
                             if (Preferences.customNotes.isNotEmpty()) {
                                 v.second_row_icon.isVisible = false
                                 v.next_event_date.text = Preferences.customNotes
+                                v.next_event_date.gravity
                                 v.next_event_date.maxLines = 2
                                 break@loop
                             }
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                v.second_row_icon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_steps
-                                    )
-                                )
+                                v.second_row_icon.isVisible = false
                                 v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
                                 break@loop
                             }
@@ -698,7 +707,7 @@ class MainWidget : AppWidgetProvider() {
                 v.weather.visibility = View.VISIBLE
                 v.calendar_weather.visibility = View.VISIBLE
                 v.special_weather.visibility = View.VISIBLE
-                val currentTemp = String.format(Locale.getDefault(), "%.0f °%s", Preferences.weatherTemp, Preferences.weatherRealTempUnit)
+                val currentTemp = String.format(Locale.getDefault(), "%d °%s", Preferences.weatherTemp.roundToInt(), Preferences.weatherRealTempUnit)
 
                 val icon: String = Preferences.weatherIcon
                 if (icon == "") {
@@ -733,6 +742,8 @@ class MainWidget : AppWidgetProvider() {
             arrayOf(v.divider1, v.divider2, v.divider3).forEach {
                 it.isVisible = Preferences.showDividers
             }
+
+            eventRepository.close()
 
             return v
         }

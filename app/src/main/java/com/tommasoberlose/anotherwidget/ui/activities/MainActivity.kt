@@ -76,7 +76,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         controlExtras(intent)
-        requirePermission()
+        if (Preferences.showWallpaper) {
+            requirePermission()
+        }
     }
 
     override fun onBackPressed() {

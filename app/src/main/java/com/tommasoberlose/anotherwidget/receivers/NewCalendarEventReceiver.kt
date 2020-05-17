@@ -24,5 +24,6 @@ class NewCalendarEventReceiver : BroadcastReceiver() {
                 eventRepository.goToPreviousEvent()
             }
         }
+        eventRepository.close()
     }
 }

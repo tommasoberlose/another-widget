@@ -17,7 +17,6 @@
 
     <application
         android:allowBackup="true"
-        android:fullBackupContent="@xml/my_backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:name=".AWApplication"
@@ -25,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main">
+        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -116,6 +115,8 @@
 
         <service android:name=".services.EventListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service android:name=".services.BatteryListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <service android:name=".receivers.MusicNotificationListener"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -131,6 +132,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
                 <action android:name="android.intent.action.BATTERY_LOW"/>
                 <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_CHANGED"/>
             </intent-filter>
         </receiver>
 
