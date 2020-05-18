@@ -112,7 +112,7 @@ class MainWidget : AppWidgetProvider() {
                     context,
                     appWidgetId,
                     IntentHelper.getWidgetUpdateIntent(context),
-                    0
+                    PendingIntent.FLAG_UPDATE_CURRENT
                 )
                 views.setOnClickPendingIntent(R.id.widget_shape_background, refreshIntent)
             } catch (ex: Exception) {
@@ -157,7 +157,7 @@ class MainWidget : AppWidgetProvider() {
                     context,
                     widgetID,
                     IntentHelper.getCalendarIntent(context),
-                    0
+                    PendingIntent.FLAG_UPDATE_CURRENT
                 )
                 views.setOnClickPendingIntent(R.id.empty_date_rect, calPIntent)
 
@@ -180,7 +180,7 @@ class MainWidget : AppWidgetProvider() {
                                     context,
                                     NewCalendarEventReceiver::class.java
                                 ).apply { action = Actions.ACTION_GO_TO_NEXT_EVENT },
-                                0
+                                PendingIntent.FLAG_UPDATE_CURRENT
                             )
                         )
 
@@ -198,7 +198,7 @@ class MainWidget : AppWidgetProvider() {
                                     context,
                                     NewCalendarEventReceiver::class.java
                                 ).apply { action = Actions.ACTION_GO_TO_PREVIOUS_EVENT },
-                                0
+                                PendingIntent.FLAG_UPDATE_CURRENT
                             )
                         )
                     } else {
@@ -210,7 +210,7 @@ class MainWidget : AppWidgetProvider() {
                         context,
                         widgetID,
                         IntentHelper.getEventIntent(context, nextEvent),
-                        0
+                        PendingIntent.FLAG_UPDATE_CURRENT
                     )
                     views.setOnClickPendingIntent(R.id.next_event_rect, pIntent)
                     views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, pIntent)
@@ -233,7 +233,7 @@ class MainWidget : AppWidgetProvider() {
                             context,
                             widgetID,
                             IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
-                            0
+                            PendingIntent.FLAG_UPDATE_CURRENT
                         )
                         views.setOnClickPendingIntent(R.id.second_row_rect, mapIntent)
                     } else {
@@ -245,7 +245,7 @@ class MainWidget : AppWidgetProvider() {
                                 nextEvent,
                                 forceEventDetails = true
                             ),
-                            0
+                            PendingIntent.FLAG_UPDATE_CURRENT
                         )
                         views.setOnClickPendingIntent(R.id.second_row_rect, pIntentDetail)
                     }
@@ -263,7 +263,7 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-                } else if (GlanceProviderHelper.showGlanceProviders(context) && v.second_row_icon.isVisible) {
+                } else if (GlanceProviderHelper.showGlanceProviders(context) && v.calendar_layout.isVisible) {
                     loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                         when (provider) {
                             Constants.GlanceProviderId.PLAYING_SONG -> {
@@ -272,7 +272,7 @@ class MainWidget : AppWidgetProvider() {
                                         context,
                                         widgetID,
                                         IntentHelper.getMusicIntent(context),
-                                        0
+                                        PendingIntent.FLAG_UPDATE_CURRENT
                                     )
                                     views.setOnClickPendingIntent(R.id.second_row_rect, musicIntent)
                                     break@loop
@@ -284,7 +284,7 @@ class MainWidget : AppWidgetProvider() {
                                         context,
                                         widgetID,
                                         IntentHelper.getClockIntent(context),
-                                        0
+                                        PendingIntent.FLAG_UPDATE_CURRENT
                                     )
                                     views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
                                     break@loop
@@ -297,8 +297,8 @@ class MainWidget : AppWidgetProvider() {
                                         val batteryIntent = PendingIntent.getActivity(
                                             context,
                                             widgetID,
-                                            IntentHelper.getBatteryIntent(context),
-                                            0
+                                            IntentHelper.getBatteryIntent(),
+                                            PendingIntent.FLAG_UPDATE_CURRENT
                                         )
                                         views.setOnClickPendingIntent(R.id.second_row_rect, batteryIntent)
                                         break@loop
@@ -316,7 +316,7 @@ class MainWidget : AppWidgetProvider() {
                                         context,
                                         widgetID,
                                         IntentHelper.getFitIntent(context),
-                                        0
+                                        PendingIntent.FLAG_UPDATE_CURRENT
                                     )
                                     views.setOnClickPendingIntent(R.id.second_row_rect, fitIntent)
                                     break@loop
@@ -537,6 +537,7 @@ class MainWidget : AppWidgetProvider() {
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
+                v.second_row_icon.isVisible = true
                 var showSomething = false
                 loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                     when (provider) {
@@ -610,10 +611,11 @@ class MainWidget : AppWidgetProvider() {
                 }
 
                 if (showSomething) {
-                    v.second_row_icon.isVisible = true
                     v.next_event.text = DateHelper.getDateText(context, now)
                     v.empty_layout.visibility = View.GONE
                     v.calendar_layout.visibility = View.VISIBLE
+                } else {
+                    v.second_row_icon.isVisible = false
                 }
             }
 

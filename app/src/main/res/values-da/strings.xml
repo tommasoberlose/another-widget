@@ -96,12 +96,12 @@
     <string name="settings_weather_provider_api_key_subtitle_not_set">Vejrudbyderen skal konfigureres</string>
     <string name="api_key_hint">OpenWeather API nøgle</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Vejr fra Google Awareness er forældet. Der kræves nu en OpenWeather API nøgle for at vise vejret i widget'en.</string>
+    <string name="weather_warning">Vejr fra Google Awareness er forældet. Der kræves nu en OpenWeather API nøgle for at vise vejret i widget\'en.</string>
     <string name="api_key_title_1">Opret en OpenWeather konto</string>
     <string name="api_key_subtitle_1">Opret en gratis konto hos OpenWeather. Det vil kun tage få minutter.</string>
     <string name="api_key_title_2">Kopier din API nøgle</string>
     <string name="api_key_subtitle_2">Find menuen API keys i dine kontoindstillinger, og kopier standardnøglen.</string>
-    <string name="api_key_title_3">Indtast nøglen i app'en</string>
+    <string name="api_key_title_3">Indtast nøglen i app\'en</string>
     <string name="api_key_subtitle_3">Indsæt nøglen i feltet ovenfor og gem ændringen. Så snart nøglen er aktiveret, vil vejret blive synligt.</string>
     <string name="action_open_provider">Gå til OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">Der kan gå op til 10 minutter inden din API nøgle er aktiveret. Vejret vil blive opdateret så snart det er tilgængeligt.</string>
@@ -182,7 +182,7 @@
     <string name="settings_feedback_title">Feedback og feature requests</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Enheder</string>
-    <string name="xiaomi_warning_message">Aktiver tilladelsen til visning af popup-vinduer, når app'en kører i baggrunden, som findes under "Andre tilladelser" i appindstillingerne. Ellers vil du ikke kunne åbne nogle applikationer ved tryk på widget'en.</string>
+    <string name="xiaomi_warning_message">Aktiver tilladelsen til visning af popup-vinduer, når app\'en kører i baggrunden, som findes under "Andre tilladelser" i appindstillingerne. Ellers vil du ikke kunne åbne nogle applikationer ved tryk på widget\'en.</string>
     <string name="action_ignore">Ignorér</string>
     <string name="action_grant_permission">Giv tilladelse</string>
     <string name="settings_title">Indstillinger</string>

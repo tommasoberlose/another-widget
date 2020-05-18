@@ -114,6 +114,7 @@ object IntentHelper {
                 if (Preferences.calendarAppPackage == "") {
                     Intent(Intent.ACTION_VIEW).apply {
                         data = uri
+                        flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         if (!e.allDay) {
                             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
                             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
@@ -127,8 +128,10 @@ object IntentHelper {
 
                             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate + start.timeZone.getOffset(start.timeInMillis))
                             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate + end.timeZone.getOffset(end.timeInMillis))
-                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
+//                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
                         }
+
+                        Log.d("ciao", "intent: ${this} - extras: ${this.extras}")
                     }
                 } else {
                     getCalendarIntent(context).apply {
@@ -182,7 +185,7 @@ object IntentHelper {
         }
     }
 
-    fun getBatteryIntent(context: Context): Intent {
+    fun getBatteryIntent(): Intent {
         return Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
     }
 
