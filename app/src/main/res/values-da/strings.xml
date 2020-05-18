@@ -3,7 +3,7 @@
     <string name="add_widget">Add</string>
 
     <!-- Display -->
-    <string name="settings_general_title">Typografi</string>
+    <string name="settings_general_title">Visning</string>
     <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Tekstfarve</string>
     <string name="settings_secondary_font_color_title">Tekstfarve</string>
@@ -129,7 +129,7 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Vis næste alarm</string>
-    <string name="next_alarm_warning">The next alarm clock seems to be wrong.\nIt has been set by %s.</string>
+    <string name="next_alarm_warning">Den næste alarm lader til at være forkert.\nDen er indstillet af %s.</string>
     <string name="settings_at_a_glance_title">Overblik</string>
     <string name="settings_show_music_title">Aktuel sang</string>
     <string name="settings_request_notification_access">Vi har brug for tilladelse til aflæsning af notifikationer, for at vise den aktuelle sang.</string>
