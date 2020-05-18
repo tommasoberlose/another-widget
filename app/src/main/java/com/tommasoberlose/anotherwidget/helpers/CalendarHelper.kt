@@ -37,22 +37,10 @@ object CalendarHelper {
                 set(Calendar.MINUTE, 0)
                 set(Calendar.HOUR_OF_DAY, 0)
             }
-            val limit = Calendar.getInstance()
-            when (Preferences.showUntil) {
-                0 -> limit.add(Calendar.HOUR, 3)
-                1 -> limit.add(Calendar.HOUR, 6)
-                2 -> limit.add(Calendar.HOUR, 12)
-                3 -> limit.add(Calendar.DAY_OF_MONTH, 1)
-                4 -> limit.add(Calendar.DAY_OF_MONTH, 3)
-                5 -> limit.add(Calendar.DAY_OF_MONTH, 7)
-                6 -> limit.add(Calendar.MINUTE, 30)
-                7 -> limit.add(Calendar.HOUR, 1)
-                else -> limit.add(Calendar.HOUR, 6)
+            val limit = Calendar.getInstance().apply {
+                timeInMillis = begin.timeInMillis
+                add(Calendar.DAY_OF_YEAR, 2)
             }
-
-            val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
-            ContentUris.appendId(builder, begin.timeInMillis)
-            ContentUris.appendId(builder, limit.timeInMillis)
 
             if (!context.checkGrantedPermission(
                     Manifest.permission.READ_CALENDAR
