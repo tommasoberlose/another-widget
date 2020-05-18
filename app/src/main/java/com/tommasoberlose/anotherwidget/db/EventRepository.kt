@@ -46,7 +46,22 @@ class EventRepository(val context: Context) {
 
     fun getNextEvent(): Event? {
         val nextEvent = getEventByEventId(Preferences.nextEventId)
-        val event = if (nextEvent != null && nextEvent.endDate > Calendar.getInstance().timeInMillis) {
+        val now = Calendar.getInstance().timeInMillis
+        val limit = Calendar.getInstance().apply {
+            timeInMillis = now
+            when (Preferences.showUntil) {
+                0 -> add(Calendar.HOUR, 3)
+                1 -> add(Calendar.HOUR, 6)
+                2 -> add(Calendar.HOUR, 12)
+                3 -> add(Calendar.DAY_OF_MONTH, 1)
+                4 -> add(Calendar.DAY_OF_MONTH, 3)
+                5 -> add(Calendar.DAY_OF_MONTH, 7)
+                6 -> add(Calendar.MINUTE, 30)
+                7 -> add(Calendar.HOUR, 1)
+                else -> add(Calendar.HOUR, 6)
+            }
+        }
+        val event = if (nextEvent != null && nextEvent.endDate > now && nextEvent.startDate < limit.timeInMillis) {
             nextEvent
         } else {
             val events = getEvents()
@@ -107,10 +122,30 @@ class EventRepository(val context: Context) {
         MainWidget.updateWidget(context)
     }
 
-    fun getEvents(): RealmResults<Event> {
+    fun getFutureEvents(): RealmResults<Event> {
         val now = Calendar.getInstance().timeInMillis
         realm.refresh()
         return realm.where(Event::class.java).greaterThan("endDate", now).findAll()
+    }
+
+    private fun getEvents(): RealmResults<Event> {
+        val now = Calendar.getInstance().timeInMillis
+        val limit = Calendar.getInstance().apply {
+            timeInMillis = now
+            when (Preferences.showUntil) {
+                0 -> add(Calendar.HOUR, 3)
+                1 -> add(Calendar.HOUR, 6)
+                2 -> add(Calendar.HOUR, 12)
+                3 -> add(Calendar.DAY_OF_MONTH, 1)
+                4 -> add(Calendar.DAY_OF_MONTH, 3)
+                5 -> add(Calendar.DAY_OF_MONTH, 7)
+                6 -> add(Calendar.MINUTE, 30)
+                7 -> add(Calendar.HOUR, 1)
+                else -> add(Calendar.HOUR, 6)
+            }
+        }
+        realm.refresh()
+        return realm.where(Event::class.java).greaterThan("endDate", now).lessThanOrEqualTo("startDate", limit.timeInMillis).findAll()
     }
 
     fun getEventsCount(): Int = getEvents().size
