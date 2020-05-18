@@ -44,6 +44,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.checkIfFitInstalled
+import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_glance_settings.*
 import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
@@ -177,6 +178,22 @@ class GlanceTabFragment : Fragment() {
             }
         }
 
+        action_show_next_alarm.setOnLongClickListener {
+            with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+                val alarm = nextAlarmClock
+                if (alarm != null && alarm.showIntent != null) {
+                    val pm = requireContext().packageManager as PackageManager
+                    val appNameOrPackage = try {
+                        pm.getApplicationLabel(pm.getApplicationInfo(alarm.showIntent?.creatorPackage ?: "", 0))
+                    } catch (e: Exception) {
+                        alarm.showIntent?.creatorPackage ?: ""
+                    }
+                    activity?.toast(getString(R.string.next_alarm_warning).format(appNameOrPackage), long = true)
+                }
+            }
+            true
+        }
+
         action_show_low_battery_level_warning.setOnClickListener {
             if (Preferences.showGlance) {
                 BottomSheetMenu<Boolean>(
@@ -232,8 +249,7 @@ class GlanceTabFragment : Fragment() {
                 } catch (e: Exception) {
                     alarm.showIntent?.creatorPackage ?: ""
                 }
-                show_next_alarm_warning.text =
-                    getString(R.string.next_alarm_warning).format(appNameOrPackage)
+                show_next_alarm_warning.text = getString(R.string.next_alarm_warning).format(appNameOrPackage)
             } else {
                 show_next_alarm_label?.text = if (Preferences.showNextAlarm) getString(R.string.settings_visible) else getString(
                         R.string.settings_not_visible)
