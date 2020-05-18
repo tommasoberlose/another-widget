@@ -13,6 +13,13 @@ Also, as much as possible, there are always updates and new features in the shor
 Help me developing with feedback and support me on how you can.
 <div style="text-align:center"><a href="https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget" target="_blank"><img src="google-play-badge.png" height="100" /></a></div>
 
+
+Help with translations
+-------
+
+Hey! You could view the file strings.xml ([here](https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml)) that contains the English version of the app strings.
+You have to copy the file, create a copy of it inside the folder values-[LANGUAGE-SUFFIX] with the translated strings and create a pull request to submit your changes.
+
 License
 -------
 Copyright (C) 2017-2020 Tommaso Berlose (http://tommasoberlose.com)

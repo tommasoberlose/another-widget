@@ -65,7 +65,7 @@
     <string name="soon">soon</string>
     <string name="now">now</string>
     <string name="settings_widget_update_frequency_title">Time left update frequency</string>
-    <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consume</string>
+    <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consumption</string>
     <string name="settings_widget_update_frequency_low">Low</string>
     <string name="settings_widget_update_frequency_default">Default</string>
     <string name="settings_widget_update_frequency_high">High</string>
