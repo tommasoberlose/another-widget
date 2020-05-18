@@ -4,7 +4,6 @@
 
     <!-- Display -->
     <string name="settings_general_title">Отображение</string>
-    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Цвет текста</string>
     <string name="settings_secondary_font_color_title">Цвет текста</string>
     <string name="settings_background_color_title">Цвет фона</string>
@@ -77,8 +76,6 @@
     <string name="title_permission_location">Отображать погоду</string>
     <string name="description_permission_location">Предоставить доступ к местоположению\nдля отображения погоды в виджете.</string>
     <string name="settings_unit_title">Единица измерения</string>
-    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
-    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Частота обновления</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 минут</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 час</string>
@@ -154,7 +151,6 @@
     <string name="action_feedback">Обратная связь</string>
     <string name="action_about">О разработчике</string>
     <string name="action_refresh_widget">Обновить виджет</string>
-    <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Ошибка открытия URL: Ссылка скопирована в буфер обмена.</string>
     <string name="loading_text">Загрузка данных…</string>
     <string name="error_opening_app">Ошибка открытия приложения.</string>
@@ -180,7 +176,6 @@
     <string name="support_refresh_widget_subtitle">Принудительно перезагрузить виджет</string>
     <string name="settings_feedback_subtitle">Это проект с открытым исходынм кодом, не ограничивайте себя, если хотите помочь.</string>
     <string name="settings_feedback_title">Отзывы и запрос функций</string>
-    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Устройства Xiaomi</string>
     <string name="xiaomi_warning_message">Предоставьте разрешение для отображения всплывающих уведомлений в фоновом режиме в разделе "Прочие разрешения" настроек. Иначе вы не сможете открывать приложения по нажатию на виджет.</string>
     <string name="action_ignore">Проигнорировать</string>
