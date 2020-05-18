@@ -263,7 +263,7 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-                } else if (GlanceProviderHelper.showGlanceProviders(context)) {
+                } else if (GlanceProviderHelper.showGlanceProviders(context) && v.second_row_icon.isVisible) {
                     loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                         when (provider) {
                             Constants.GlanceProviderId.PLAYING_SONG -> {
@@ -530,14 +530,14 @@ class MainWidget : AppWidgetProvider() {
 
                     } else {
                         val flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-                        v.next_event_date.text = DateUtils.formatDateTime(context, now.timeInMillis, flags)
+                        v.next_event_date.text = DateUtils.formatDateTime(context, nextEvent.startDate, flags)
                     }
                 }
 
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
-                v.second_row_icon.isVisible = true
+                var showSomething = false
                 loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
@@ -549,6 +549,7 @@ class MainWidget : AppWidgetProvider() {
                                     )
                                 )
                                 v.next_event_date.text = MediaPlayerHelper.getMediaInfo()
+                                showSomething = true
                                 break@loop
                             }
                         }
@@ -561,6 +562,7 @@ class MainWidget : AppWidgetProvider() {
                                     )
                                 )
                                 v.next_event_date.text = AlarmHelper.getNextAlarm(context)
+                                showSomething = true
                                 break@loop
                             }
                         }
@@ -575,11 +577,13 @@ class MainWidget : AppWidgetProvider() {
                                     } else {
                                         v.next_event_date.text = context.getString(R.string.charging)
                                     }
+                                    showSomething = true
                                     break@loop
                                 } else if (Preferences.isBatteryLevelLow) {
                                     v.second_row_icon.isVisible = false
                                     v.next_event_date.text =
                                         context.getString(R.string.battery_low_warning)
+                                    showSomething = true
                                     break@loop
                                 }
                             }
@@ -590,6 +594,7 @@ class MainWidget : AppWidgetProvider() {
                                 v.next_event_date.text = Preferences.customNotes
                                 v.next_event_date.gravity
                                 v.next_event_date.maxLines = 2
+                                showSomething = true
                                 break@loop
                             }
                         }
@@ -597,15 +602,19 @@ class MainWidget : AppWidgetProvider() {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
                                 v.second_row_icon.isVisible = false
                                 v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
+                                showSomething = true
                                 break@loop
                             }
                         }
                     }
                 }
 
-                v.next_event.text = DateHelper.getDateText(context, now)
-                v.empty_layout.visibility = View.GONE
-                v.calendar_layout.visibility = View.VISIBLE
+                if (showSomething) {
+                    v.second_row_icon.isVisible = true
+                    v.next_event.text = DateHelper.getDateText(context, now)
+                    v.empty_layout.visibility = View.GONE
+                    v.calendar_layout.visibility = View.VISIBLE
+                }
             }
 
 
