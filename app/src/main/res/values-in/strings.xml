@@ -77,8 +77,6 @@
     <string name="title_permission_location">Tampilkan cuaca</string>
     <string name="description_permission_location">Berikan izin akses ke lokasi anda\nuntuk menampilkan cuaca di widget.</string>
     <string name="settings_unit_title">Unit pengukuran</string>
-    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
-    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Frekuensi penyegaran</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 menit</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 jam</string>
@@ -154,7 +152,6 @@
     <string name="action_feedback">Umpanbalik</string>
     <string name="action_about">Tentang</string>
     <string name="action_refresh_widget">Segarkan widget</string>
-    <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Terjadi kesalahan saat membuka URL: Tautan disalin ke papan klip.</string>
     <string name="loading_text">Memuat Data…</string>
     <string name="error_opening_app">Terjadi kesalahan saat membuka aplikasi.</string>
@@ -180,7 +177,6 @@
     <string name="support_refresh_widget_subtitle">Paksa mulai ulang layanan widget</string>
     <string name="settings_feedback_subtitle">Ini adalah proyek sumber terbuka, jangan sungkan untuk membantu.</string>
     <string name="settings_feedback_title">Umpanbalik dan permintaan fitur</string>
-    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Perangkat Xiaomi</string>
     <string name="xiaomi_warning_message">Berikan izin untuk menampilkan jendela pop-up saat berjalan di latar belakang di dalam bagian "Perizinan lainnya" di pengaturan aplikasi. Jika tidak, anda tidak akan bisa membuka aplikasi apapun saat mengetuk widget.</string>
     <string name="action_ignore">Abaikan</string>

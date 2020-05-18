@@ -4,7 +4,6 @@
 
     <!-- Display -->
     <string name="settings_general_title">Display</string>
-    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Colore testo</string>
     <string name="settings_secondary_font_color_title">Colore testo</string>
     <string name="settings_background_color_title">Colore sfondo</string>

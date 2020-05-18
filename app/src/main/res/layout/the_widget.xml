@@ -123,7 +123,7 @@
                     android:layout_height="20dp"
                     android:id="@+id/special_weather_icon"
                     android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"/>
+                    android:layout_marginEnd="8dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -183,6 +183,8 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:id="@+id/weather_icon"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
                     android:src="@drawable/clear_night"/>
                 <TextView
                     android:layout_width="wrap_content"
