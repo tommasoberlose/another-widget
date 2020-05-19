@@ -251,24 +251,22 @@ class GeneralTabFragment : Fragment() {
         }
 
         action_date_format.setOnClickListener {
-            if (Preferences.showEvents) {
-                val now = Calendar.getInstance()
-                val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
+            val now = Calendar.getInstance()
+            val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
 
-                dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
-                if (Preferences.dateFormat != "") {
-                    dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
-                }
-                dialog.addItem(getString(R.string.custom_date_format), "-")
-
-                dialog.addOnSelectItemListener { value ->
-                    if (value == "-") {
-                        startActivity(Intent(requireContext(), CustomDateActivity::class.java))
-                    } else {
-                        Preferences.dateFormat = value
-                    }
-                }.show()
+            dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
+            if (Preferences.dateFormat != "") {
+                dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
             }
+            dialog.addItem(getString(R.string.custom_date_format), "-")
+
+            dialog.addOnSelectItemListener { value ->
+                if (value == "-") {
+                    startActivity(Intent(requireContext(), CustomDateActivity::class.java))
+                } else {
+                    Preferences.dateFormat = value
+                }
+            }.show()
         }
 
         action_background_color.setOnClickListener {
