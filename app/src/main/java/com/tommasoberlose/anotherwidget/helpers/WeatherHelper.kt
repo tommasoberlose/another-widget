@@ -47,81 +47,177 @@ object WeatherHelper {
     }
 
     fun getWeatherIconResource(icon: String): Int {
-        when (icon) {
+        return when (icon) {
             "01d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.clear_day else R.drawable.clear_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.clear_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.clear_day_2
+                    else -> R.drawable.clear_day
+                }
             }
             "02d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.partly_cloudy else R.drawable.partly_cloudy_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.partly_cloudy_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.partly_cloudy_2
+                    else -> R.drawable.partly_cloudy
+                }
             }
             "03d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.mostly_cloudy else R.drawable.mostly_cloudy_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.mostly_cloudy_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.mostly_cloudy_2
+                    else -> R.drawable.mostly_cloudy
+                }
             }
             "04d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.cloudy_weather else R.drawable.cloudy_weather_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.cloudy_weather_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.cloudy_weather_2
+                    else -> R.drawable.cloudy_weather
+                }
             }
             "09d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.storm_weather_day else R.drawable.storm_weather_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.storm_weather_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.storm_weather_day_2
+                    else -> R.drawable.storm_weather_day
+                }
             }
             "10d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rainy_day else R.drawable.rainy_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.rainy_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rainy_day_2
+                    else -> R.drawable.rainy_day
+                }
             }
             "11d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.thunder_day else R.drawable.thunder_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.thunder_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.thunder_day_2
+                    else -> R.drawable.thunder_day
+                }
             }
             "13d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.snow_day else R.drawable.snow_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.snow_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.snow_day_2
+                    else -> R.drawable.snow_day
+                }
             }
             "50d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_day else R.drawable.haze_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.haze_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_day_2
+                    else -> R.drawable.haze_day
+                }
             }
             "80d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.windy_day else R.drawable.windy_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.windy_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.windy_day_2
+                    else -> R.drawable.windy_day
+                }
             }
             "81d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rain_snow_day else R.drawable.rain_snow_day_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.rain_snow_day_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rain_snow_day_2
+                    else -> R.drawable.rain_snow_day
+                }
             }
             "82d" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_weather else R.drawable.haze_weather_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.haze_weather_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_weather_2
+                    else -> R.drawable.haze_weather
+                }
             }
 
 
 
             "01n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.clear_night else R.drawable.clear_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.clear_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.clear_night_2
+                    else -> R.drawable.clear_night
+                }
             }
             "02n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.partly_cloudy_night else R.drawable.partly_cloudy_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.partly_cloudy_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.partly_cloudy_night_2
+                    else -> R.drawable.partly_cloudy_night
+                }
             }
             "03n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.mostly_cloudy_night else R.drawable.mostly_cloudy_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.mostly_cloudy_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.mostly_cloudy_night_2
+                    else -> R.drawable.mostly_cloudy_night
+                }
             }
             "04n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.cloudy_weather else R.drawable.cloudy_weather_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.cloudy_weather_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.cloudy_weather_2
+                    else -> R.drawable.cloudy_weather
+                }
             }
             "09n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.storm_weather_night else R.drawable.storm_weather_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.storm_weather_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.storm_weather_night_2
+                    else -> R.drawable.storm_weather_night
+                }
             }
             "10n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rainy_night else R.drawable.rainy_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.rainy_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rainy_night_2
+                    else -> R.drawable.rainy_night
+                }
             }
             "11n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.thunder_night else R.drawable.thunder_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.thunder_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.thunder_night_2
+                    else -> R.drawable.thunder_night
+                }
             }
             "13n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.snow_night else R.drawable.snow_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.snow_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.snow_night_2
+                    else -> R.drawable.snow_night
+                }
             }
             "50n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_night else R.drawable.haze_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.haze_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_night_2
+                    else -> R.drawable.haze_night
+                }
             }
             "80n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.windy_night else R.drawable.windy_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.windy_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.windy_night_2
+                    else -> R.drawable.windy_night
+                }
             }
             "81n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.rain_snow_night else R.drawable.rain_snow_night_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.rain_snow_night_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rain_snow_night_2
+                    else -> R.drawable.rain_snow_night
+                }
             }
             "82n" -> {
-                return if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) R.drawable.haze_weather else R.drawable.haze_weather_2
+                when (Preferences.weatherIconPack) {
+                    Constants.WeatherIconPack.COOL.value -> R.drawable.haze_weather_3
+                    Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_weather_2
+                    else -> R.drawable.haze_weather
+                }
             }
             else -> {
                 return R.drawable.unknown

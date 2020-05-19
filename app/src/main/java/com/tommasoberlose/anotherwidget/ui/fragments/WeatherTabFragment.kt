@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.BuildCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,7 +29,9 @@ import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBindi
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
+import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity
@@ -129,9 +132,12 @@ class WeatherTabFragment : Fragment() {
 
         viewModel.weatherIconPack.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                label_weather_icon_pack?.text = when (it) {
-                    Constants.WeatherIconPack.MINIMAL.value -> getString(R.string.settings_weather_icon_pack_minimal)
-                    else -> getString(R.string.settings_weather_icon_pack_default)
+                label_weather_icon_pack?.text = getString(R.string.settings_weather_icon_pack_default).format((it + 1))
+                weather_icon_pack.setImageDrawable(ContextCompat.getDrawable(requireContext(), WeatherHelper.getWeatherIconResource("01d")))
+                if (it == Constants.WeatherIconPack.MINIMAL.value) {
+                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText))
+                } else {
+                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), android.R.color.transparent))
                 }
             }
             checkLocationPermission()
@@ -230,10 +236,11 @@ class WeatherTabFragment : Fragment() {
 
         action_weather_icon_pack.setOnClickListener {
             if (Preferences.showWeather) {
-                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).setSelectedValue(Preferences.weatherIconPack)
-                    .addItem(getString(R.string.settings_weather_icon_pack_default), Constants.WeatherIconPack.DEFAULT.value)
-                    .addItem(getString(R.string.settings_weather_icon_pack_minimal), Constants.WeatherIconPack.MINIMAL.value)
-                    .addOnSelectItemListener { value ->
+                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).setSelectedValue(Preferences.weatherIconPack)
+                Constants.WeatherIconPack.values().forEach {
+                    dialog.addItem(getString(R.string.settings_weather_icon_pack_default).format(it.value + 1), it.value)
+                }
+                dialog.addOnSelectItemListener { value ->
                         Preferences.weatherIconPack = value
                     }.show()
             }

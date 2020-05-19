@@ -625,7 +625,7 @@ class MainWidget : AppWidgetProvider() {
                 it.setTextColor(ColorHelper.getFontColor())
             }
 
-            if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) {
+            if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value || Preferences.weatherIconPack == Constants.WeatherIconPack.COOL.value) {
                 listOf<ImageView>(v.action_next, v.action_previous)
             } else {
                 listOf<ImageView>(v.action_next, v.action_previous, v.empty_weather_icon, v.special_weather_icon)
@@ -637,7 +637,7 @@ class MainWidget : AppWidgetProvider() {
                 it.setTextColor(ColorHelper.getSecondaryFontColor())
             }
 
-            if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value) {
+            if (Preferences.weatherIconPack == Constants.WeatherIconPack.DEFAULT.value || Preferences.weatherIconPack == Constants.WeatherIconPack.COOL.value) {
                 listOf<ImageView>(v.second_row_icon)
             } else {
                 listOf<ImageView>(v.second_row_icon, v.weather_icon)

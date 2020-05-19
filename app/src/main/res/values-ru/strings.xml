@@ -103,8 +103,7 @@
     <string name="action_open_provider">Перейти на OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">Активация ключа может занять до десяти минут. Погода обновится как только появится возможность.</string>
     <string name="settings_weather_icon_pack_title">Набор иконок</string>
-    <string name="settings_weather_icon_pack_default">По умолчанию</string>
-    <string name="settings_weather_icon_pack_minimal">Минималистичный</string>
+    <string name="settings_weather_icon_pack_default">Набор иконок %d</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Часы</string>

@@ -104,8 +104,7 @@
     <string name="action_open_provider">Kunjungi OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">Mungkin membutuhkan lebih kurang 10 menit sebelum kunci API anda diaktifkan. Cuaca akan diperbarui segera setelah data tersedia.</string>
     <string name="settings_weather_icon_pack_title">Paket ikon</string>
-    <string name="settings_weather_icon_pack_default">Bawaan</string>
-    <string name="settings_weather_icon_pack_minimal">Minimal</string>
+    <string name="settings_weather_icon_pack_default">Paket ikon %d</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Jam</string>
