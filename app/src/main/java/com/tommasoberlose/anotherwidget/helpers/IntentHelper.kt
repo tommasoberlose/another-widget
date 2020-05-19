@@ -128,10 +128,8 @@ object IntentHelper {
 
                             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate + start.timeZone.getOffset(start.timeInMillis))
                             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate + end.timeZone.getOffset(end.timeInMillis))
-//                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
+                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
                         }
-
-                        Log.d("ciao", "intent: ${this} - extras: ${this.extras}")
                     }
                 } else {
                     getCalendarIntent(context).apply {

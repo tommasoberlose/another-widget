@@ -327,6 +327,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
+                        android:id="@+id/weather_icon_pack"
                         android:src="@drawable/round_cloud_queue"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout

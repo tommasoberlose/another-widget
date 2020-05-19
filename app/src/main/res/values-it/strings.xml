@@ -102,9 +102,8 @@
     <string name="api_key_subtitle_3">Copia qui la chiave API e salva la nuova configurazione.</string>
     <string name="action_open_provider">Apri OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">La chiave API potrebbe aver bisogno di più di 20 minuti per diventare attiva, aggiorneremo il meteo non appena sarà possibile.</string>
-    <string name="settings_weather_icon_pack_title">Stile icone</string>
-    <string name="settings_weather_icon_pack_default">Default</string>
-    <string name="settings_weather_icon_pack_minimal">Minimal</string>
+    <string name="settings_weather_icon_pack_title">Icon pack</string>
+    <string name="settings_weather_icon_pack_default">Icon pack %d</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Orologio</string>

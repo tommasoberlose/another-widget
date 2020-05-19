@@ -31,6 +31,7 @@ object Constants {
 
     enum class WeatherIconPack(val value: Int) {
         DEFAULT(0),
-        MINIMAL(1)
+        MINIMAL(1),
+        COOL(2)
     }
 }
