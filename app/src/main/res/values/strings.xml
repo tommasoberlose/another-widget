@@ -57,14 +57,14 @@
     <string name="settings_second_row_info_title">Event info</string>
     <string name="settings_second_row_info_subtitle_1">Event address</string>
     <string name="settings_second_row_info_subtitle_0">Event time</string>
-    <string name="settings_show_diff_time_title">Time left to the event</string>
+    <string name="settings_show_diff_time_title">Time until the event</string>
     <string name="settings_show_declined_events_title">Declined events</string>
     <string name="default_event_app">Event details</string>
     <string name="default_calendar_app">Default calendar app</string>
     <string name="settings_show_multiple_events_title">Multiple events switcher</string>
     <string name="soon">soon</string>
     <string name="now">now</string>
-    <string name="settings_widget_update_frequency_title">Time left update frequency</string>
+    <string name="settings_widget_update_frequency_title">Time until event update frequency</string>
     <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consumption</string>
     <string name="settings_widget_update_frequency_low">Low</string>
     <string name="settings_widget_update_frequency_default">Default</string>
@@ -88,8 +88,8 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
     <string name="settings_custom_location_title">Location</string>
     <string name="custom_location_gps">Use geolocation</string>
-    <string name="show_weather_visible">Weather info are visible</string>
-    <string name="show_weather_not_visible">Weather info are hidden</string>
+    <string name="show_weather_visible">Weather info is visible</string>
+    <string name="show_weather_not_visible">Weather info is hidden</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
     <string name="settings_weather_provider_api_key_title">Weather API key</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly</string>
