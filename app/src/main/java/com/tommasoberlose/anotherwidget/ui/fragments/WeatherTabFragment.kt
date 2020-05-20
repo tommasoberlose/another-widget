@@ -241,8 +241,8 @@ class WeatherTabFragment : Fragment() {
                     dialog.addItem(getString(R.string.settings_weather_icon_pack_default).format(it.value + 1), it.value)
                 }
                 dialog.addOnSelectItemListener { value ->
-                        Preferences.weatherIconPack = value
-                    }.show()
+                    Preferences.weatherIconPack = value
+                }.show()
             }
         }
 

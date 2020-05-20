@@ -52,6 +52,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.clear_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.clear_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.clear_day_4
                     else -> R.drawable.clear_day
                 }
             }
@@ -59,6 +60,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.partly_cloudy_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.partly_cloudy_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.partly_cloudy_4
                     else -> R.drawable.partly_cloudy
                 }
             }
@@ -66,6 +68,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.mostly_cloudy_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.mostly_cloudy_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.mostly_cloudy_4
                     else -> R.drawable.mostly_cloudy
                 }
             }
@@ -73,6 +76,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.cloudy_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.cloudy_weather_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.cloudy_weather_4
                     else -> R.drawable.cloudy_weather
                 }
             }
@@ -80,6 +84,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.storm_weather_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.storm_weather_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.storm_weather_day_4
                     else -> R.drawable.storm_weather_day
                 }
             }
@@ -87,6 +92,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rainy_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rainy_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rainy_day_4
                     else -> R.drawable.rainy_day
                 }
             }
@@ -94,6 +100,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.thunder_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.thunder_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.thunder_day_4
                     else -> R.drawable.thunder_day
                 }
             }
@@ -101,6 +108,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.snow_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.snow_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.snow_day_4
                     else -> R.drawable.snow_day
                 }
             }
@@ -108,6 +116,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_day_4
                     else -> R.drawable.haze_day
                 }
             }
@@ -115,6 +124,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.windy_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.windy_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.windy_day_4
                     else -> R.drawable.windy_day
                 }
             }
@@ -122,6 +132,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rain_snow_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rain_snow_day_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rain_snow_day_4
                     else -> R.drawable.rain_snow_day
                 }
             }
@@ -129,6 +140,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_weather_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_weather_4
                     else -> R.drawable.haze_weather
                 }
             }
@@ -139,6 +151,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.clear_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.clear_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.clear_night_4
                     else -> R.drawable.clear_night
                 }
             }
@@ -146,6 +159,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.partly_cloudy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.partly_cloudy_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.partly_cloudy_night_4
                     else -> R.drawable.partly_cloudy_night
                 }
             }
@@ -153,6 +167,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.mostly_cloudy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.mostly_cloudy_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.mostly_cloudy_night_4
                     else -> R.drawable.mostly_cloudy_night
                 }
             }
@@ -160,6 +175,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.cloudy_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.cloudy_weather_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.cloudy_weather_4
                     else -> R.drawable.cloudy_weather
                 }
             }
@@ -167,6 +183,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.storm_weather_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.storm_weather_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.storm_weather_night_4
                     else -> R.drawable.storm_weather_night
                 }
             }
@@ -174,6 +191,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rainy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rainy_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rainy_night_4
                     else -> R.drawable.rainy_night
                 }
             }
@@ -181,6 +199,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.thunder_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.thunder_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.thunder_night_4
                     else -> R.drawable.thunder_night
                 }
             }
@@ -188,6 +207,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.snow_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.snow_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.snow_night_4
                     else -> R.drawable.snow_night
                 }
             }
@@ -195,6 +215,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_night_4
                     else -> R.drawable.haze_night
                 }
             }
@@ -202,6 +223,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.windy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.windy_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.windy_night_4
                     else -> R.drawable.windy_night
                 }
             }
@@ -209,6 +231,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rain_snow_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rain_snow_night_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rain_snow_night_4
                     else -> R.drawable.rain_snow_night
                 }
             }
@@ -216,6 +239,7 @@ object WeatherHelper {
                 when (Preferences.weatherIconPack) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_weather_2
+                    Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_weather_4
                     else -> R.drawable.haze_weather
                 }
             }
