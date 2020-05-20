@@ -146,6 +146,7 @@
     <string name="daily_steps_counter">%d steps so far</string>
     <string name="charging">Charging</string>
     <string name="providers">Providers</string>
+    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>
@@ -205,5 +206,4 @@
     <string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
-    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 </resources>

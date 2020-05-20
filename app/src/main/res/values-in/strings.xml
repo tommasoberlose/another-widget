@@ -144,6 +144,7 @@
     <string name="daily_steps_counter">%d langkah sejauh ini</string>
     <string name="charging">Mengisi daya</string>
     <string name="providers">Penyedia</string>
+    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 
     <!-- Settings -->
     <string name="action_share">Bagikan</string>
