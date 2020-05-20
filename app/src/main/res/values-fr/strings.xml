@@ -140,9 +140,9 @@
     <string name="settings_daily_steps_title">Nombre de pas quotidiens</string>
     <string name="battery_low_warning">Batterie faible</string>
     <string name="daily_steps_counter">%d pas jusqu\à présent</string>
-    <string name="charging">En charge</string>
+    <string name="charging">Batterie en charge</string>
     <string name="providers">Fournisseurs</string>
-    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
+    <string name="glance_info">Les infos en un coup d'œil n\'apparaîtront que si aucun événement n'est affiché et uniquement lorsque quelques conditions sont vérifiées.</string>
 
     <!-- Settings -->
     <string name="action_share">Partager</string>
