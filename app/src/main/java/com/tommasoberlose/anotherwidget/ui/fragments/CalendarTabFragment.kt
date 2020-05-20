@@ -74,6 +74,11 @@ class CalendarTabFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        show_all_day_toggle.isChecked = Preferences.calendarAllDay
+        show_declined_events_toggle.isChecked = Preferences.showDeclinedEvents
+        show_diff_time_toggle.isChecked = Preferences.showDiffTime
+        show_multiple_events_toggle.isChecked = Preferences.showNextEvent
+
         setupListener()
     }
 
@@ -82,6 +87,7 @@ class CalendarTabFragment : Fragment() {
         viewModel: MainViewModel
     ) {
         binding.isCalendarEnabled = Preferences.showEvents
+        binding.isDiffEnabled = Preferences.showDiffTime || !Preferences.showEvents
 
         viewModel.showEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
@@ -92,8 +98,10 @@ class CalendarTabFragment : Fragment() {
                 } else {
                     CalendarHelper.removeEventUpdatesAndroidN(requireContext())
                 }
+                binding.isDiffEnabled = Preferences.showDiffTime || !it
             }
             checkReadEventsPermission()
+            updateCalendar()
         })
 
         viewModel.calendarAllDay.observe(viewLifecycleOwner, Observer {
@@ -101,14 +109,14 @@ class CalendarTabFragment : Fragment() {
                 all_day_label?.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-            checkReadEventsPermission()
+            updateCalendar()
         })
 
         viewModel.showDeclinedEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_declined_events_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-            checkReadEventsPermission()
+            updateCalendar()
         })
 
         viewModel.secondRowInformation.observe(viewLifecycleOwner, Observer {
@@ -120,6 +128,7 @@ class CalendarTabFragment : Fragment() {
         viewModel.showDiffTime.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_diff_time_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                binding.isDiffEnabled = it || !Preferences.showEvents
             }
         })
 
@@ -138,7 +147,7 @@ class CalendarTabFragment : Fragment() {
             maintainScrollPosition {
                 show_until_label?.text = getString(SettingsStringHelper.getShowUntilString(it))
             }
-            checkReadEventsPermission()
+            updateCalendar()
         })
 
         viewModel.showNextEvent.observe(viewLifecycleOwner, Observer {
@@ -222,7 +231,7 @@ class CalendarTabFragment : Fragment() {
 
                 dialog.addOnMultipleSelectItemListener { values ->
                     CalendarHelper.filterCalendar(calendarSelectorList.map { it.id }.filter { !values.contains(it) })
-                    checkReadEventsPermission()
+                    updateCalendar()
                 }.show()
             } else {
                 activity?.toast(getString(R.string.calendar_settings_list_error))
@@ -231,50 +240,54 @@ class CalendarTabFragment : Fragment() {
 
         action_show_all_day.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_all_day_title)).setSelectedValue(Preferences.calendarAllDay)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.calendarAllDay = value
-                    }.show()
+                show_all_day_toggle.isChecked = !show_all_day_toggle.isChecked
+            }
+        }
+
+        show_all_day_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (Preferences.showEvents) {
+                Preferences.calendarAllDay = isChecked
             }
         }
 
         action_show_declined_events.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_declined_events_title)).setSelectedValue(Preferences.showDeclinedEvents)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.showDeclinedEvents = value
-                    }.show()
+                show_declined_events_toggle.isChecked = !show_declined_events_toggle.isChecked
+            }
+        }
+
+        show_declined_events_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (Preferences.showEvents) {
+                Preferences.showDeclinedEvents = isChecked
             }
         }
 
         action_show_multiple_events.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_multiple_events_title)).setSelectedValue(Preferences.showNextEvent)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.showNextEvent = value
-                    }.show()
+                show_multiple_events_toggle.isChecked = !show_multiple_events_toggle.isChecked
+            }
+        }
+
+        show_multiple_events_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (Preferences.showEvents) {
+                Preferences.showNextEvent = isChecked
             }
         }
 
         action_show_diff_time.setOnClickListener {
             if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_diff_time_title)).setSelectedValue(Preferences.showDiffTime)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.showDiffTime = value
-                    }.show()
+                show_diff_time_toggle.isChecked = !show_diff_time_toggle.isChecked
+            }
+        }
+
+        show_diff_time_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (Preferences.showEvents) {
+                Preferences.showDiffTime = isChecked
             }
         }
 
         action_widget_update_frequency.setOnClickListener {
-            if (Preferences.showEvents) {
+            if (Preferences.showEvents && Preferences.showDiffTime) {
                 BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_widget_update_frequency_title), message = getString(R.string.settings_widget_update_frequency_subtitle)).setSelectedValue(Preferences.widgetUpdateFrequency)
                     .addItem(getString(R.string.settings_widget_update_frequency_high), Constants.WidgetUpdateFrequency.HIGH.value)
                     .addItem(getString(R.string.settings_widget_update_frequency_default), Constants.WidgetUpdateFrequency.DEFAULT.value)
@@ -329,13 +342,18 @@ class CalendarTabFragment : Fragment() {
         if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
             show_events_label?.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
             read_calendar_permission_alert?.isVisible = false
-            CalendarHelper.updateEventList(requireContext())
         } else {
             show_events_label?.text = if (showEvents) getString(R.string.description_permission_calendar) else getString(R.string.show_events_not_visible)
             read_calendar_permission_alert?.isVisible = showEvents
             read_calendar_permission_alert?.setOnClickListener {
                 requirePermission()
             }
+        }
+    }
+
+    private fun updateCalendar() {
+        if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
+            CalendarHelper.updateEventList(requireContext())
         }
     }
 
@@ -386,11 +404,11 @@ class CalendarTabFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        val scrollPosition = scrollView.scrollY
+        scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.smoothScrollTo(0, scrollPosition)
+            scrollView.isScrollable = true
         }
     }
 }

@@ -133,7 +133,7 @@ class WeatherTabFragment : Fragment() {
         viewModel.weatherIconPack.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 label_weather_icon_pack?.text = getString(R.string.settings_weather_icon_pack_default).format((it + 1))
-                weather_icon_pack.setImageDrawable(ContextCompat.getDrawable(requireContext(), WeatherHelper.getWeatherIconResource("01d")))
+                weather_icon_pack.setImageDrawable(ContextCompat.getDrawable(requireContext(), WeatherHelper.getWeatherIconResource("02d")))
                 if (it == Constants.WeatherIconPack.MINIMAL.value) {
                     weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText))
                 } else {
@@ -303,11 +303,11 @@ class WeatherTabFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        val scrollPosition = scrollView.scrollY
+        scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.smoothScrollTo(0, scrollPosition)
+            scrollView.isScrollable = true
         }
     }
 }

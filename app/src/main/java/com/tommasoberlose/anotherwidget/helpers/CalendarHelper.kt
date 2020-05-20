@@ -24,7 +24,6 @@ import kotlin.collections.ArrayList
  */
 
 object CalendarHelper {
-
     fun updateEventList(context: Context) {
         val eventRepository = EventRepository(context)
         if (Preferences.showEvents) {

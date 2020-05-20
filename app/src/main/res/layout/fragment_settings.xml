@@ -49,7 +49,7 @@
                     tools:ignore="RelativeOverlap" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
-        <ScrollView
+        <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/scrollView"
@@ -126,7 +126,8 @@
                         android:src="@drawable/round_compare"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -142,6 +143,12 @@
                             android:id="@+id/show_widget_preview_label"
                             style="@style/AnotherWidget.Settings.Subtitle" />
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_widget_preview_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -163,7 +170,8 @@
                         android:src="@drawable/round_wallpaper"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -179,6 +187,12 @@
                             android:id="@+id/show_wallpaper_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_wallpaper_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -440,6 +454,6 @@
                         app:textAllCaps="false" />
                 </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+        </com.tommasoberlose.anotherwidget.components.FixedFocusScrollView>
     </LinearLayout>
 </layout>

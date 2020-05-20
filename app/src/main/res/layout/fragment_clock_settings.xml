@@ -8,7 +8,7 @@
             name="isClockVisible"
             type="Boolean" />
     </data>
-    <ScrollView
+    <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:focusable="true"
             android:orientation="vertical">
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -77,8 +78,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_schedule"
-                    android:tint="@color/colorPrimaryText"/>
+                    android:src="@drawable/alarm"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -230,7 +230,8 @@
                         android:scaleX="-1"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -246,6 +247,12 @@
                             android:id="@+id/ampm_indicator_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/ampm_indicator_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -356,5 +363,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.tommasoberlose.anotherwidget.components.FixedFocusScrollView>
 </layout>
