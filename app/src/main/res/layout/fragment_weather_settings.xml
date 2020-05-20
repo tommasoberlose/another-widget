@@ -8,7 +8,7 @@
             name="isWeatherVisible"
             type="Boolean" />
     </data>
-    <ScrollView
+    <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -77,6 +77,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
+                    android:id="@+id/weather_icon_pack"
                     android:src="@drawable/round_brightness_5"
                     android:tint="@color/colorPrimaryText"/>
                 <LinearLayout
@@ -327,8 +328,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:id="@+id/weather_icon_pack"
-                        android:src="@drawable/round_cloud_queue"
+                        android:src="@drawable/round_cloud_circle"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -399,5 +399,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.tommasoberlose.anotherwidget.components.FixedFocusScrollView>
 </layout>

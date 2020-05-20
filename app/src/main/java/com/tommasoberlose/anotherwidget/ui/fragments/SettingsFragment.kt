@@ -65,6 +65,8 @@ class SettingsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        subscribeUi(viewModel)
+
         return binding.root
     }
 
@@ -75,7 +77,8 @@ class SettingsFragment : Fragment() {
             Navigation.findNavController(it).popBackStack()
         }
 
-        subscribeUi(viewModel)
+        show_widget_preview_toggle.isChecked = Preferences.showPreview
+        show_wallpaper_toggle.isChecked = Preferences.showWallpaper
 
         setupListener()
 
@@ -120,44 +123,26 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupListener() {
-
         action_show_widget_preview.setOnClickListener {
-            maintainScrollPosition {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.action_show_widget_preview))
-                    .setSelectedValue(Preferences.showPreview)
-                    .addItem(
-                        getString(R.string.settings_visible),
-                        true
-                    )
-                    .addItem(
-                        getString(R.string.settings_not_visible),
-                        false
-                    )
-                    .addOnSelectItemListener { value ->
-                        Preferences.showPreview = value
-                    }.show()
-            }
+            show_widget_preview_toggle.isChecked = !show_widget_preview_toggle.isChecked
+        }
+
+        show_widget_preview_toggle.setOnCheckedChangeListener { _, isChecked ->
+            Preferences.showPreview = isChecked
         }
 
         action_show_wallpaper.setOnClickListener {
-            maintainScrollPosition {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_title_show_wallpaper))
-                    .setSelectedValue(Preferences.showWallpaper && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true)
-                    .addItem(
-                        getString(R.string.settings_visible),
-                        true
-                    )
-                    .addItem(
-                        getString(R.string.settings_not_visible),
-                        false
-                    )
-                    .addOnSelectItemListener { value ->
-                        if (value) {
-                            requirePermission()
-                        } else {
-                            Preferences.showWallpaper = value
-                        }
-                    }.show()
+        }
+
+        action_show_wallpaper.setOnClickListener {
+            show_wallpaper_toggle.isChecked = !show_wallpaper_toggle.isChecked
+        }
+
+        show_wallpaper_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                requirePermission()
+            } else {
+                Preferences.showWallpaper = isChecked
             }
         }
 
@@ -211,11 +196,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        val scrollPosition = scrollView.scrollY
+        scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.smoothScrollTo(0, scrollPosition)
+            scrollView.isScrollable = true
         }
     }
 
@@ -226,8 +211,8 @@ class SettingsFragment : Fragment() {
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
-                        Preferences.showWallpaper = false
-                        Preferences.showWallpaper = report.areAllPermissionsGranted()
+                        show_wallpaper_toggle?.isChecked = false
+                        show_wallpaper_toggle?.isChecked = report.areAllPermissionsGranted()
                     }
                 }
                 override fun onPermissionRationaleShouldBeShown(

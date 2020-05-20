@@ -21,6 +21,7 @@ import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
+import com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
 import com.tommasoberlose.anotherwidget.databinding.FragmentClockSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -71,6 +72,8 @@ class ClockTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        ampm_indicator_toggle.isChecked = Preferences.showAMPMIndicator
 
         lifecycleScope.launch(Dispatchers.IO) {
             val lazyColors = requireContext().resources.getIntArray(R.array.material_colors)
@@ -167,57 +170,88 @@ class ClockTabFragment : Fragment() {
         }
 
         action_clock_text_size.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.settings_clock_text_size_title)).setSelectedValue(Preferences.clockTextSize)
-            (46 downTo 12).filter { it % 2 == 0 }.forEach {
-                dialog.addItem("${it}sp", it.toFloat())
+            if (Preferences.showClock) {
+                val dialog = BottomSheetMenu<Float>(
+                    requireContext(),
+                    header = getString(R.string.settings_clock_text_size_title)
+                ).setSelectedValue(Preferences.clockTextSize)
+                (46 downTo 12).filter { it % 2 == 0 }.forEach {
+                    dialog.addItem("${it}sp", it.toFloat())
+                }
+                dialog.addOnSelectItemListener { value ->
+                    Preferences.clockTextSize = value
+                }.show()
             }
-            dialog.addOnSelectItemListener { value ->
-                Preferences.clockTextSize = value
-            }.show()
         }
 
         action_ampm_indicator_size.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_ampm_indicator_title)).setSelectedValue(Preferences.showAMPMIndicator)
-                .addItem(getString(R.string.settings_visible), true)
-                .addItem(getString(R.string.settings_not_visible), false)
-                .addOnSelectItemListener { value ->
-                    Preferences.showAMPMIndicator = value
-                }.show()
+            if (Preferences.showClock) {
+                ampm_indicator_toggle.isChecked = !ampm_indicator_toggle.isChecked
+            }
+        }
+
+        ampm_indicator_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (Preferences.showClock) {
+                Preferences.showAMPMIndicator = isChecked
+            }
         }
 
         action_clock_text_color.setOnClickListener {
-            BottomSheetColorPicker(requireContext(),
-                colors = colors,
-                header = getString(R.string.settings_font_color_title),
-                getSelected = ColorHelper::getClockFontColorRgb,
-                onColorSelected = { color: Int ->
-                    val colorString = Integer.toHexString(color)
-                    Preferences.clockTextColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
-                },
-                showAlphaSelector = true,
-                alpha = Preferences.clockTextAlpha.toIntValue(),
-                onAlphaChangeListener = { alpha ->
-                    Preferences.clockTextAlpha = alpha.toHexValue()
-                }
-            ).show()
+            if (Preferences.showClock) {
+                BottomSheetColorPicker(requireContext(),
+                    colors = colors,
+                    header = getString(R.string.settings_font_color_title),
+                    getSelected = ColorHelper::getClockFontColorRgb,
+                    onColorSelected = { color: Int ->
+                        val colorString = Integer.toHexString(color)
+                        Preferences.clockTextColor =
+                            "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    },
+                    showAlphaSelector = true,
+                    alpha = Preferences.clockTextAlpha.toIntValue(),
+                    onAlphaChangeListener = { alpha ->
+                        Preferences.clockTextAlpha = alpha.toHexValue()
+                    }
+                ).show()
+            }
         }
 
         action_clock_bottom_margin_size.setOnClickListener {
-            BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_clock_bottom_margin_title)).setSelectedValue(Preferences.clockBottomMargin)
-                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_none), Constants.ClockBottomMargin.NONE.value)
-                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_small), Constants.ClockBottomMargin.SMALL.value)
-                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_medium), Constants.ClockBottomMargin.MEDIUM.value)
-                .addItem(getString(R.string.settings_clock_bottom_margin_subtitle_large), Constants.ClockBottomMargin.LARGE.value)
-                .addOnSelectItemListener { value ->
-                    Preferences.clockBottomMargin = value
-                }.show()
+            if (Preferences.showClock) {
+                BottomSheetMenu<Int>(
+                    requireContext(),
+                    header = getString(R.string.settings_clock_bottom_margin_title)
+                ).setSelectedValue(Preferences.clockBottomMargin)
+                    .addItem(
+                        getString(R.string.settings_clock_bottom_margin_subtitle_none),
+                        Constants.ClockBottomMargin.NONE.value
+                    )
+                    .addItem(
+                        getString(R.string.settings_clock_bottom_margin_subtitle_small),
+                        Constants.ClockBottomMargin.SMALL.value
+                    )
+                    .addItem(
+                        getString(R.string.settings_clock_bottom_margin_subtitle_medium),
+                        Constants.ClockBottomMargin.MEDIUM.value
+                    )
+                    .addItem(
+                        getString(R.string.settings_clock_bottom_margin_subtitle_large),
+                        Constants.ClockBottomMargin.LARGE.value
+                    )
+                    .addOnSelectItemListener { value ->
+                        Preferences.clockBottomMargin = value
+                    }.show()
+            }
         }
 
         action_clock_app.setOnClickListener {
             if (Preferences.showClock) {
-                startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java),
-                    RequestCode.CLOCK_APP_REQUEST_CODE.code
-                )
+                if (Preferences.showClock) {
+                    startActivityForResult(
+                        Intent(requireContext(), ChooseApplicationActivity::class.java),
+                        RequestCode.CLOCK_APP_REQUEST_CODE.code
+                    )
+                }
             }
         }
     }
@@ -233,11 +267,11 @@ class ClockTabFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        val scrollPosition = scrollView.scrollY
+        scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.smoothScrollTo(0, scrollPosition)
+            scrollView.isScrollable = true
         }
     }
 }

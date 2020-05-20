@@ -67,6 +67,8 @@ class GeneralTabFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        show_dividers_toggle.isChecked = Preferences.showDividers
+
         setupListener()
         lifecycleScope.launch(Dispatchers.IO) {
             val lazyColors = requireContext().resources.getIntArray(R.array.material_colors)
@@ -184,15 +186,6 @@ class GeneralTabFragment : Fragment() {
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
         })
-    }
-
-    private fun maintainScrollPosition(callback: () -> Unit) {
-        val scrollPosition = scrollView.scrollY
-        callback.invoke()
-        lifecycleScope.launch {
-            delay(200)
-            scrollView.smoothScrollTo(0, scrollPosition)
-        }
     }
 
     private fun setupListener() {
@@ -319,12 +312,11 @@ class GeneralTabFragment : Fragment() {
         }
 
         action_show_dividers.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_show_dividers_title)).setSelectedValue(Preferences.showDividers)
-                .addItem(getString(R.string.settings_visible), true)
-                .addItem(getString(R.string.settings_not_visible), false)
-                .addOnSelectItemListener { value ->
-                    Preferences.showDividers = value
-                }.show()
+            show_dividers_toggle.isChecked = !show_dividers_toggle.isChecked
+        }
+
+        show_dividers_toggle.setOnCheckedChangeListener { _, isChecked ->
+            Preferences.showDividers = isChecked
         }
     }
 
@@ -345,5 +337,14 @@ class GeneralTabFragment : Fragment() {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun maintainScrollPosition(callback: () -> Unit) {
+        scrollView.isScrollable = false
+        callback.invoke()
+        lifecycleScope.launch {
+            delay(200)
+            scrollView.isScrollable = true
+        }
     }
 }

@@ -7,9 +7,12 @@
         <variable
             name="isCalendarEnabled"
             type="Boolean" />
+        <variable
+            name="isDiffEnabled"
+            type="Boolean" />
     </data>
 
-    <ScrollView
+    <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -158,7 +161,8 @@
                         android:src="@drawable/round_date_range"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -174,6 +178,12 @@
                             android:id="@+id/all_day_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_all_day_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,7 +205,8 @@
                         android:src="@drawable/round_event_busy"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -211,6 +222,12 @@
                             android:id="@+id/show_declined_events_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_declined_events_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -281,7 +298,8 @@
                         android:src="@drawable/round_timelapse"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -297,6 +315,12 @@
                             android:id="@+id/show_diff_time_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_diff_time_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -307,6 +331,7 @@
                     android:paddingRight="8dp"
                     android:clickable="true"
                     android:focusable="true"
+                    android:alpha="@{isDiffEnabled ? 1f : 0.2f, default=1}"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:id="@+id/action_widget_update_frequency"
@@ -404,7 +429,8 @@
                         android:src="@drawable/round_code"
                         android:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -420,6 +446,12 @@
                             android:id="@+id/show_multiple_events_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_multiple_events_toggle"
+                        android:buttonTint="@color/colorAccent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -497,5 +529,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.tommasoberlose.anotherwidget.components.FixedFocusScrollView>
 </layout>

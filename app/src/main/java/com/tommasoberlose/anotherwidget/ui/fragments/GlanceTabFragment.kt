@@ -373,11 +373,11 @@ class GlanceTabFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        val scrollPosition = scrollView.scrollY
+        scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.smoothScrollTo(0, scrollPosition)
+            scrollView.isScrollable = true
         }
     }
 
