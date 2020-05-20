@@ -143,6 +143,7 @@
     <string name="daily_steps_counter">%d passi fatti finore</string>
     <string name="charging">In carica</string>
     <string name="providers">Providers</string>
+    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>

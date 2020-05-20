@@ -142,6 +142,7 @@
     <string name="daily_steps_counter">%d pas jusqu\à présent</string>
     <string name="charging">En charge</string>
     <string name="providers">Fournisseurs</string>
+    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 
     <!-- Settings -->
     <string name="action_share">Partager</string>
