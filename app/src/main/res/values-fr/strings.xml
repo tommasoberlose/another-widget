@@ -179,7 +179,7 @@
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
     <string name="xiaomi_warning_message">Veuillez activer l\'option \'\'Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\'\' dans la section \'\'Autres autorisations\'\' des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune application en tapant sur le widget.</string>
     <string name="action_ignore">Ignorer</string>
-    <string name="action_grant_permission">Aller dans Paramètres</string>
+    <string name="action_grant_permission">Ouvrir les Paramètres</string>
     <string name="settings_title">Paramètres</string>
     <string name="style_header">Style</string>
     <string name="actions_header">Actions</string>
