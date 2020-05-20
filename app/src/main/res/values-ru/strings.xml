@@ -173,7 +173,7 @@
     <string name="settings_subtitle_dark_theme_default">По умолчанию</string>
     <string name="search">Поиск</string>
     <string name="settings_app_version_title">Версия приложения</string>
-    <string name="settings_title_show_wallpaper">Показывать обои</string>
+    <string name="settings_title_show_wallpaper">Отображать обои</string>
     <string name="support_refresh_widget_subtitle">Принудительно перезагрузить виджет</string>
     <string name="settings_feedback_subtitle">Это проект с открытым исходынм кодом, не ограничивайте себя, если хотите помочь.</string>
     <string name="settings_feedback_title">Отзывы и запрос функций</string>
@@ -197,7 +197,7 @@
     <string name="donation_dinner">Ужин в Ginza Project</string>
     <string name="donation_breakfast">Скромный завтрак</string>
     <string name="donation_lunch">Хороший обед</string>
-    <string name="action_show_widget_preview">Показать превью виджета</string>
+    <string name="action_show_widget_preview">Отображать превью виджета</string>
     <string name="support_dev_subtitle">Этот проект разрабатывает один человек,\nспасибо за поддержку</string>
     <string name="settings_title_integrations">Интеграции</string>
     <string name="label_count_installed_integrations">%d установленные интеграции</string>
