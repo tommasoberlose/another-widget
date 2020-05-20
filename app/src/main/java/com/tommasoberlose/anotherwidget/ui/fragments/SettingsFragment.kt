@@ -211,8 +211,11 @@ class SettingsFragment : Fragment() {
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
-                        show_wallpaper_toggle?.isChecked = false
-                        show_wallpaper_toggle?.isChecked = report.areAllPermissionsGranted()
+                        if (report.areAllPermissionsGranted()) {
+                            Preferences.showWallpaper = true
+                        } else {
+                            show_wallpaper_toggle?.isChecked = false
+                        }
                     }
                 }
                 override fun onPermissionRationaleShouldBeShown(
