@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Another Widget</string>
+    <string name="add_widget">Hinzufügen</string>
+
+    <!-- Display -->
+    <string name="settings_general_title">Anzeige</string>
+    <string name="divider" translatable="false">|</string>
+    <string name="settings_font_color_title">Schriftfarbe</string>
+    <string name="settings_secondary_font_color_title">Schriftfarbe</string>
+    <string name="settings_background_color_title">Hintergrundfarbe</string>
+    <string name="title_main_text_size">Schriftgröße</string>
+    <string name="title_second_text_size">Schriftgröße</string>
+    <string name="title_text_shadow">Textschatten</string>
+    <string name="settings_text_shadow_subtitle_none">Keinen</string>
+    <string name="settings_text_shadow_subtitle_low">Niedrig</string>
+    <string name="settings_text_shadow_subtitle_high">Hoch</string>
+    <string name="settings_custom_font_title">Widget Schriftart</string>
+    <string name="custom_font_subtitle_0">System Schirftart</string>
+    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_date_format">Datumsformat</string>
+    <string name="alpha">Alpha</string>
+    <string name="transparent">Transparent</string>
+    <string name="settings_show_dividers_title">Texttrennlinien anzeigen</string>
+    <string name="first_row_header">Erste Zeile</string>
+    <string name="second_row_header">Zweite Zeile</string>
+    <string name="global_style_header">Widget</string>
+    <string name="action_capitalize_the_date">Datum groß schreiben</string>
+    <string name="settings_date_format_title">Datumsformat</string>
+
+    <!-- Calendar -->
+    <string name="settings_calendar_title">Kalender</string>
+    <string name="title_permission_calendar">Termine anzeigen</string>
+    <string name="description_permission_calendar">Erlaube den Zugriff auf Ihren Kalender, um Termine im Widget anzuzeigen.</string>
+    <string name="settings_filter_calendar_title">Termine filtern</string>
+    <string name="settings_filter_calendar_subtitle">Kalender Sichtbarkeit ändern</string>
+    <string name="settings_all_day_title">Ganztägige Termine</string>
+    <string name="main_calendar">Benutzer Kalender</string>
+    <string name="calendar_settings_list_error">Fehler beim Laden der Kalenderliste</string>
+    <string name="all_day">Ganztägiger Termin</string>
+    <string name="show_events_visible">Termine sind sichtbar</string>
+    <string name="show_events_not_visible">Termine sind ausgeblendet</string>
+    <string name="settings_show_until_subtitle_6">30 Minuten vorher</string>
+    <string name="settings_show_until_subtitle_7">1 Stunde vorher</string>
+    <string name="settings_show_until_subtitle_0">3 Stunden vorher</string>
+    <string name="settings_show_until_subtitle_1">6 Stunden vorher</string>
+    <string name="settings_show_until_subtitle_2">12 Stunden vorher</string>
+    <string name="settings_show_until_subtitle_3">24 Stunden vorher</string>
+    <string name="settings_show_until_subtitle_4">3 Tage vorher</string>
+    <string name="settings_show_until_subtitle_5">7 Tage vorher</string>
+    <string name="settings_show_until_title">Zeige Termine mindestends</string>
+    <string name="day_char">T</string>
+    <string name="settings_calendar_app_title">Standard Kalender App</string>
+    <string name="error_no_calendar">Keine Kalender gefunden.</string>
+    <string name="tomorrow">morgen</string>
+    <string name="today">heute</string>
+    <string name="settings_event_app_title">Klick auf den Termin öffnet</string>
+    <string name="settings_second_row_info_title">Termininformation</string>
+    <string name="settings_second_row_info_subtitle_0">Zeit des Termins</string>
+    <string name="settings_show_diff_time_title">Zeit bis zum Termin</string>
+    <string name="settings_show_declined_events_title">Abgesagte Termine</string>
+    <string name="default_event_app">Termindetails</string>
+    <string name="default_calendar_app">Standard Kalender App</string>
+    <string name="settings_show_multiple_events_title">Schalter für mehrere Termine</string>
+    <string name="soon">bald</string>
+    <string name="now">jetzt</string>
+    <string name="settings_widget_update_frequency_subtitle">Hohe Aktualisierungshäufigkeit verursacht mehr Batterieverbrauch</string>
+    <string name="settings_widget_update_frequency_low">Niedrig</string>
+    <string name="settings_widget_update_frequency_default">Standard</string>
+    <string name="settings_widget_update_frequency_high">Hoch</string>
+    <string name="filters_header">Filter</string>
+    <string name="event_detail_header">Termindetail</string>
+
+    <!-- Weather -->
+    <string name="settings_weather_title">Wetter</string>
+    <string name="title_permission_location">Wetter anzeige</string>
+    <string name="description_permission_location">Erlaube Standortzugriff, um\nWetterinformationen im Widget anzuzeigen.</string>
+    <string name="settings_unit_title">Messeinheit</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
+    <string name="settings_weather_refresh_period_title">Aktualisierungsrate</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30 Minuten</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1 Stunde</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3 Stunden</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6 Stunden</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12 Stunden</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24 Stunden</string>
+    <string name="settings_custom_location_title">Standort</string>
+    <string name="custom_location_gps">GPS-Standort verwenden</string>
+    <string name="show_weather_visible">Wetterinfos sind sichtbar</string>
+    <string name="show_weather_not_visible">Wetterinfos sind ausgeblendet</string>
+    <string name="settings_weather_app_title">Klick aufs Wetter öffnet</string>
+    <string name="settings_weather_provider_api_key_title">Wetter-API-Schlüssel</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Der Wetteranbieter ist korrekt konfiguriert</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Der Wetteranbieter muss konfiguriert werden</string>
+    <string name="api_key_hint">OpenWeather API Schlüssel</string>
+    <string name="default_weather_app">Google Weather</string>
+    <string name="weather_warning">Google Awareness Wetter ist veraltet. Es wird nun ein OpenWeather API-Schlüssel benötigt, um das Wetter im Widget anzuzeigen.</string>
+    <string name="api_key_title_1">OpenWeather Konto registrieren</string>
+    <string name="api_key_title_2">API-Schlüssel kopieren</string>
+    <string name="api_key_subtitle_2">Gehe in die Kontoeinstellungen und kopiere den Standardschlüssel im API-Schlüsselmenü.</string>
+    <string name="api_key_subtitle_3">Füge den SChlüssel in das obere Feld ein und speicher ihn. Sobald der Schlüssel aktiviert ist, wird das Wetter sichtbar sein.</string>
+    <string name="action_open_provider">Öffne OpenWeatherMap.com</string>
+    <string name="api_key_info_all_set">Es kann bis zu zehn Minuten dauern, bis der API-Schlüssel aktiviert ist. Das Wetter wird aktualisiert, sobald es verfügbar ist..</string>
+    <string name="settings_weather_icon_pack_title">Icon Pack</string>
+    <string name="settings_weather_icon_pack_default">Icon Pack %d</string>
+
+    <!-- Clock -->
+    <string name="settings_clock_title">Uhr</string>
+    <string name="settings_clock_app_title">Klick auf die Uhr öffnet</string>
+    <string name="title_show_clock">Uhr anzeigen</string>
+    <string name="show_clock_visible">Uhr ist sichtbar</string>
+    <string name="show_clock_not_visible">Uhr ist nicht sichtbar</string>
+    <string name="settings_clock_text_size_title">Schriftgröße</string>
+    <string name="default_clock_app">Standard Uhr App</string>
+    <string name="settings_clock_bottom_margin_title">Unterer Rand der Uhr</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Keinen</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Klein</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Mittel</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Groß</string>
+    <string name="clock_warning">Aufgrund technischer Einschränkungen hat die Uhr nicht die benutzerdefinierte Schriftart und Textschatten, die im Abschnitt Anzeige eingestellt sind.</string>
+    <string name="settings_clock_text_color_title">Schriftfarbe</string>
+    <string name="settings_ampm_indicator_title">Zeige AM/PM</string>
+    <string name="clock_text_header">Uhr Textstil</string>
+
+    <!-- Glance -->
+    <string name="settings_show_next_alarm_title">Nächster Wecker</string>
+    <string name="next_alarm_warning">Der nächste Wecker scheint falsch zu sein.\nEr wurde durch %s festgelegt.</string>
+    <string name="settings_at_a_glance_title">Überblick</string>
+    <string name="settings_show_music_title">Aktuell spielendes Lied</string>
+    <string name="settings_request_notification_access">Wir benötigen Zugriff auf die Benachrichtigungen, um auf das aktuell abgespielte Lied zugreifen zu können.</string>
+    <string name="settings_request_fitness_access">Wir benötigen ein paar Berechtigungen, um die täglichen Schritte von Google Fit zu erhalten.</string>
+    <string name="title_show_glance">Informationen auf einen Blick anzeigen</string>
+    <string name="description_show_glance_visible">Dienst ist aktiviert</string>
+    <string name="description_show_glance_not_visible">Dienst ist deaktiviert</string>
+    <string name="settings_sort_glance_providers_title">Priorität der Datenquelle</string>
+    <string name="settings_custom_notes_title">Benutzerdefinierte Notizen</string>
+    <string name="settings_low_battery_level_title">Akku</string>
+    <string name="settings_daily_steps_title">Tägliche Schritte</string>
+    <string name="battery_low_warning">Niedriger Akkustand</string>
+    <string name="daily_steps_counter">%d Schritte bis jetzt</string>
+    <string name="charging">Aufladen</string>
+    <string name="providers">Anbieter</string>
+    <string name="glance_info">Überblick Informationen sind nur dann sichtbar, wenn keine Termine angeueigt werden und wenn einige Bedingungen erfüllt sind.</string>
+
+    <!-- Settings -->
+    <string name="action_share">Teilen</string>
+    <string name="action_rate">App bewerten</string>
+    <string name="action_support">Unterstütze mich</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="action_about">Über</string>
+    <string name="action_refresh_widget">Widget aktualisieren</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
+    <string name="error_opening_uri">Fehler beim Öffnen der URL: Link in Zwischenablage kopiert.</string>
+    <string name="loading_text">Daten werden geladen…</string>
+    <string name="error_opening_app">Fehler beim Öffnen der App.</string>
+    <string name="default_name">Standard-App</string>
+    <string name="action_save">Speichern</string>
+    <string name="settings_visible">Sichtbar</string>
+    <string name="settings_not_visible">Ausgeblendet</string>
+    <string name="support_translations_title">Hilf beim Übersetzen</string>
+    <string name="support_translations_subtitle">Öffne eine neue Pull-Request auf GitHub</string>
+    <string name="support_website_title">Meine anderen Projekte anschauen</string>
+    <string name="support_website_subtitle">Gleicher Entwickler, viele Möglichkeiten</string>
+    <string name="error">Ups, da ist etwas schief gelaufen!</string>
+    <string name="settings_theme_title">Thema</string>
+    <string name="support_main_subtitle">Entwickler brauchen immer viel Kaffee</string>
+    <string name="settings_subtitle_dark_theme_light">Hell</string>
+    <string name="settings_subtitle_dark_theme_dark">Dunkel</string>
+    <string name="settings_subtitle_dark_theme_by_battery_saver">Durch Energiesparmodus festgelegt</string>
+    <string name="settings_subtitle_dark_theme_follow_system">Dem Systemthema folgen</string>
+    <string name="settings_subtitle_dark_theme_default">Standard</string>
+    <string name="search">Suchen</string>
+    <string name="settings_app_version_title">App Version</string>
+    <string name="settings_title_show_wallpaper">Hintergrundbild anzeigen</string>
+    <string name="support_refresh_widget_subtitle">Neustart des Widget Dienstes erzwingen</string>
+    <string name="settings_feedback_subtitle">Dies ist ein Open-Source-Projekt, du kannst gerne helfen.</string>
+    <string name="settings_feedback_title">Feedback und Vorschläge</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
+    <string name="xiaomi_warning_title">Xiaomi G</string>
+    <string name="xiaomi_warning_message">Aktiviere die Berechtigung zum Anzeigen von Popup-Fenstern, wenn die App im Hintergrund ausgeführt wird, untert \"Andere Berechtigungen\" in den App-Einstellungen. Andernfalls kann beim Klicken auf das Widget keine Anwendung geöffnet werden.</string>
+    <string name="action_ignore">Ignorieren</string>
+    <string name="action_grant_permission">Berechtigung erlauben</string>
+    <string name="settings_title">Einstellungen</string>
+    <string name="style_header">Stil</string>
+    <string name="actions_header">Aktionen</string>
+    <string name="provider_header">Konfiguration</string>
+    <string name="appearance_header">Erscheinungsbild</string>
+    <string name="preferences_header">Präferenzen</string>
+
+    <!-- Activities -->
+    <string name="action_choose_application">Anwendung auswählen</string>
+    <string name="support_main_title">Den Entwickler unterstützen</string>
+    <string name="thanks">Danke für Ihre Unterstützung!</string>
+    <string name="donation_coffee">Ein italienischer Kaffee</string>
+    <string name="donation_donuts">Ein paar glasierte Donuts</string>
+    <string name="donation_dinner">Ein teures Abendessendinner</string>
+    <string name="donation_breakfast">Ein englisches Frühstück</string>
+    <string name="donation_lunch">Ein schnelles Mittagessen</string>
+    <string name="action_show_widget_preview">Widget Vorschau anzeigen</string>
+    <string name="support_dev_subtitle">Dies ist ein Ein-Entwickler-Projekt, \nalso vielen Dank für die Unterstützung!</string>
+    <string name="settings_title_integrations">Integrationen</string>
+    <string name="label_count_installed_integrations">%d installierte Integrationen</string>
+    <string name="settings_second_row_info_subtitle_1">Ort des Termins</string>
+    <string name="settings_widget_update_frequency_title">Zeit bis zum nächten Termin Aktualisierungshäufigkeit</string>
+    <string name="api_key_subtitle_1">Registriere ein Konto bei OpenWeather. Es dauert nur wenige Minuten.</string>
+    <string name="api_key_title_3">Schlüssel in die App eingeben</string>
+    <string name="settings_sort_glance_providers_subtitle">Wichtigkeit der Datenprovider ändern</string>
+</resources>
