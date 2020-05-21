@@ -99,7 +99,7 @@
     <string name="api_key_title_1">OpenWeather Konto registrieren</string>
     <string name="api_key_title_2">API-Schlüssel kopieren</string>
     <string name="api_key_subtitle_2">Gehe in die Kontoeinstellungen und kopiere den Standardschlüssel im API-Schlüsselmenü.</string>
-    <string name="api_key_subtitle_3">Füge den SChlüssel in das obere Feld ein und speicher ihn. Sobald der Schlüssel aktiviert ist, wird das Wetter sichtbar sein.</string>
+    <string name="api_key_subtitle_3">Füge den Schlüssel in das obere Feld ein und speicher ihn. Sobald der Schlüssel aktiviert ist, wird das Wetter sichtbar sein.</string>
     <string name="action_open_provider">Öffne OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">Es kann bis zu zehn Minuten dauern, bis der API-Schlüssel aktiviert ist. Das Wetter wird aktualisiert, sobald es verfügbar ist..</string>
     <string name="settings_weather_icon_pack_title">Icon Pack</string>
@@ -177,7 +177,7 @@
     <string name="settings_feedback_subtitle">Dies ist ein Open-Source-Projekt, du kannst gerne helfen.</string>
     <string name="settings_feedback_title">Feedback und Vorschläge</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
-    <string name="xiaomi_warning_title">Xiaomi G</string>
+    <string name="xiaomi_warning_title">Xiaomi Geräte</string>
     <string name="xiaomi_warning_message">Aktiviere die Berechtigung zum Anzeigen von Popup-Fenstern, wenn die App im Hintergrund ausgeführt wird, untert \"Andere Berechtigungen\" in den App-Einstellungen. Andernfalls kann beim Klicken auf das Widget keine Anwendung geöffnet werden.</string>
     <string name="action_ignore">Ignorieren</string>
     <string name="action_grant_permission">Berechtigung erlauben</string>
