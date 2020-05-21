@@ -25,6 +25,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
+import com.tommasoberlose.anotherwidget.components.IconPackSelector
 import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -133,12 +134,12 @@ class WeatherTabFragment : Fragment() {
         viewModel.weatherIconPack.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 label_weather_icon_pack?.text = getString(R.string.settings_weather_icon_pack_default).format((it + 1))
-                weather_icon_pack.setImageDrawable(ContextCompat.getDrawable(requireContext(), WeatherHelper.getWeatherIconResource("02d")))
-                if (it == Constants.WeatherIconPack.MINIMAL.value) {
-                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText))
-                } else {
-                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), android.R.color.transparent))
-                }
+//                weather_icon_pack.setImageDrawable(ContextCompat.getDrawable(requireContext(), WeatherHelper.getWeatherIconResource("02d")))
+//                if (it == Constants.WeatherIconPack.MINIMAL.value) {
+//                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText))
+//                } else {
+//                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), android.R.color.transparent))
+//                }
             }
             checkLocationPermission()
         })
@@ -236,13 +237,7 @@ class WeatherTabFragment : Fragment() {
 
         action_weather_icon_pack.setOnClickListener {
             if (Preferences.showWeather) {
-                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).setSelectedValue(Preferences.weatherIconPack)
-                Constants.WeatherIconPack.values().forEach {
-                    dialog.addItem(getString(R.string.settings_weather_icon_pack_default).format(it.value + 1), it.value)
-                }
-                dialog.addOnSelectItemListener { value ->
-                    Preferences.weatherIconPack = value
-                }.show()
+                IconPackSelector(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).show()
             }
         }
 

@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.db
 
 import android.content.Context
+import android.provider.CalendarContract
 import android.util.Log
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -122,13 +123,18 @@ class EventRepository(val context: Context) {
         MainWidget.updateWidget(context)
     }
 
-    fun getFutureEvents(): RealmResults<Event> {
+    fun getFutureEvents(): List<Event> {
         val now = Calendar.getInstance().timeInMillis
         realm.refresh()
-        return realm.where(Event::class.java).greaterThan("endDate", now).findAll()
+        return realm
+            .where(Event::class.java)
+            .greaterThan("endDate", now)
+            .findAll()
+            .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
+            .filter { (Preferences.calendarAllDay || !it.allDay) }
     }
 
-    private fun getEvents(): RealmResults<Event> {
+    private fun getEvents(): List<Event> {
         val now = Calendar.getInstance().timeInMillis
         val limit = Calendar.getInstance().apply {
             timeInMillis = now
@@ -145,7 +151,13 @@ class EventRepository(val context: Context) {
             }
         }
         realm.refresh()
-        return realm.where(Event::class.java).greaterThan("endDate", now).lessThanOrEqualTo("startDate", limit.timeInMillis).findAll()
+        return realm
+            .where(Event::class.java)
+            .greaterThan("endDate", now)
+            .lessThanOrEqualTo("startDate", limit.timeInMillis)
+            .findAll()
+            .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
+            .filter { (Preferences.calendarAllDay || !it.allDay) }
     }
 
     fun getEventsCount(): Int = getEvents().size

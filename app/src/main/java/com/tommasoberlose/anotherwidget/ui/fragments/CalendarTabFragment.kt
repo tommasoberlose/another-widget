@@ -109,14 +109,12 @@ class CalendarTabFragment : Fragment() {
                 all_day_label?.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-            updateCalendar()
         })
 
         viewModel.showDeclinedEvents.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_declined_events_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-            updateCalendar()
         })
 
         viewModel.secondRowInformation.observe(viewLifecycleOwner, Observer {

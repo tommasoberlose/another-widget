@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ class ClockTabFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var colors: IntArray
+    private lateinit var binding: FragmentClockSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +62,7 @@ class ClockTabFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentClockSettingsBinding>(inflater, R.layout.fragment_clock_settings, container, false)
+        binding = DataBindingUtil.inflate<FragmentClockSettingsBinding>(inflater, R.layout.fragment_clock_settings, container, false)
 
         subscribeUi(binding, viewModel)
 
@@ -89,6 +91,7 @@ class ClockTabFragment : Fragment() {
         viewModel: MainViewModel
     ) {
         binding.isClockVisible = Preferences.showClock
+        binding.is24Format = DateFormat.is24HourFormat(requireContext())
 
         viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
             large_clock_warning?.isVisible = it
@@ -264,6 +267,11 @@ class ClockTabFragment : Fragment() {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onResume() {
+        binding.is24Format = DateFormat.is24HourFormat(requireContext())
+        super.onResume()
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

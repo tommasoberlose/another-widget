@@ -11,9 +11,11 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import android.util.Log
+import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.toast
 import java.util.*
 
 
@@ -64,12 +66,8 @@ object IntentHelper {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                 } catch (e: Exception) {
-                    Intent(Intent.ACTION_VIEW).apply {
-                        addCategory(Intent.CATEGORY_DEFAULT)
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        data = Uri.parse("dynact://velour/weather/ProxyActivity")
-                        component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
-                    }
+                    context.toast(context.getString(R.string.error_opening_app))
+                    Intent()
                 }
             }
         }
@@ -98,10 +96,8 @@ object IntentHelper {
                         data = calendarUri
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    Intent(Intent.ACTION_VIEW).apply {
-                        data = calendarUri
-                    }
+                    context.toast(context.getString(R.string.error_opening_app))
+                    Intent()
                 }
             }
         }
@@ -132,23 +128,33 @@ object IntentHelper {
                         }
                     }
                 } else {
-                    getCalendarIntent(context).apply {
-                        action = Intent.ACTION_VIEW
-                        data = uri
-                        if (!e.allDay) {
-                            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
-                            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
-                        } else {
-                            val start = Calendar.getInstance().apply {
-                                timeInMillis = e.startDate
+                    val calendarIntent = getCalendarIntent(context)
+                    if (calendarIntent.action == Intent.ACTION_VIEW) {
+                        calendarIntent.apply {
+                            data = uri
+                            if (!e.allDay) {
+                                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, e.startDate)
+                                putExtra(CalendarContract.EXTRA_EVENT_END_TIME, e.endDate)
+                            } else {
+                                val start = Calendar.getInstance().apply {
+                                    timeInMillis = e.startDate
+                                }
+                                val end = Calendar.getInstance().apply {
+                                    timeInMillis = e.endDate
+                                }
+                                putExtra(
+                                    CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                                    start.timeInMillis + start.timeZone.getOffset(start.timeInMillis)
+                                )
+                                putExtra(
+                                    CalendarContract.EXTRA_EVENT_END_TIME,
+                                    end.timeInMillis + end.timeZone.getOffset(end.timeInMillis)
+                                )
+                                putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
                             }
-                            val end = Calendar.getInstance().apply {
-                                timeInMillis = e.endDate
-                            }
-                            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.timeInMillis + start.timeZone.getOffset(start.timeInMillis))
-                            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.timeInMillis + end.timeZone.getOffset(end.timeInMillis))
-                            putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, 1)
                         }
+                    } else {
+                        Intent()
                     }
                 }
             }
@@ -175,9 +181,8 @@ object IntentHelper {
                         addCategory(Intent.CATEGORY_LAUNCHER)
                     }
                 } catch (e: Exception) {
-                    Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    }
+                    context.toast(context.getString(R.string.error_opening_app))
+                    Intent()
                 }
             }
         }
@@ -199,6 +204,7 @@ object IntentHelper {
                         addCategory(Intent.CATEGORY_LAUNCHER)
                     }
                 } catch (e: Exception) {
+                    context.toast(context.getString(R.string.error_opening_app))
                     Intent()
                 }
             }
@@ -212,6 +218,7 @@ object IntentHelper {
                 addCategory(Intent.CATEGORY_LAUNCHER)
             }
         } catch (e: Exception) {
+            context.toast(context.getString(R.string.error_opening_app))
             Intent()
         }
     }

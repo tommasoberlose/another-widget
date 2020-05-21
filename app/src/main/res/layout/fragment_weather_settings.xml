@@ -76,10 +76,9 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="12dp"
+                    android:padding="10dp"
                     android:id="@+id/weather_icon_pack"
-                    android:src="@drawable/round_brightness_5"
-                    android:tint="@color/colorPrimaryText"/>
+                    android:src="@drawable/clear_day_3"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
