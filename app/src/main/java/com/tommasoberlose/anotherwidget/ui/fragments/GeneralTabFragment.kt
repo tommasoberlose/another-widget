@@ -255,16 +255,20 @@ class GeneralTabFragment : Fragment() {
             dialog.addItem(getString(R.string.custom_date_format), "-")
 
             dialog.addOnSelectItemListener { value ->
-                if (value == "-") {
-                    startActivity(Intent(requireContext(), CustomDateActivity::class.java))
-                } else if (value == "") {
-                    Preferences.blockingBulk {
-                        isDateCapitalize = false
-                        isDateUppercase = false
+                when (value) {
+                    "-" -> {
+                        startActivity(Intent(requireContext(), CustomDateActivity::class.java))
                     }
-                    Preferences.dateFormat = value
-                } else {
-                    Preferences.dateFormat = value
+                    "" -> {
+                        Preferences.blockingBulk {
+                            isDateCapitalize = false
+                            isDateUppercase = false
+                        }
+                        Preferences.dateFormat = value
+                    }
+                    else -> {
+                        Preferences.dateFormat = value
+                    }
                 }
             }.show()
         }
