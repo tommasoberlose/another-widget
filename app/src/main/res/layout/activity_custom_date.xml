@@ -145,7 +145,7 @@
                     android:layout_height="40dp"
                     android:padding="5dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/round_keyboard_capslock"
+                    android:src="@drawable/round_publish"
                     android:layout_alignParentEnd="true"
                     android:clickable="true"
                     android:focusable="true"
