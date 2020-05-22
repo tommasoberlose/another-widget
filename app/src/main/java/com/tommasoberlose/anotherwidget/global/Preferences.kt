@@ -31,6 +31,7 @@ object Preferences : KotprefModel() {
     var customLocationAdd by stringPref(key = "PREF_CUSTOM_LOCATION_ADD", default = "")
     var dateFormat by stringPref(default = "")
     var isDateCapitalize by booleanPref(default = true)
+    var isDateUppercase by booleanPref(default = false)
     var weatherRefreshPeriod by intPref(key = "PREF_WEATHER_REFRESH_PERIOD", default = 1)
     var showUntil by intPref(key = "PREF_SHOW_UNTIL", default = 1)
     var calendarAppName by stringPref(key = "PREF_CALENDAR_APP_NAME", default = "")

@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomDateBinding
@@ -90,8 +92,12 @@ class CustomDateActivity  : AppCompatActivity() {
                     "__"
                 }
 
-                if (Preferences.isDateCapitalize) {
+                if (viewModel.isDateCapitalize.value == true) {
                     text = text.getCapWordString()
+                }
+
+                if (viewModel.isDateUppercase.value == true) {
+                    text = text.toUpperCase(Locale.getDefault())
                 }
 
                 withContext(Dispatchers.Main) {
@@ -105,8 +111,30 @@ class CustomDateActivity  : AppCompatActivity() {
 
         viewModel.isDateCapitalize.observe(this, Observer {
             viewModel.dateInput.value = viewModel.dateInput.value
-            binding.isdCapitalizeEnabled = it
+            updateCapitalizeUi()
         })
+
+        viewModel.isDateUppercase.observe(this, Observer {
+            viewModel.dateInput.value = viewModel.dateInput.value
+            updateCapitalizeUi()
+        })
+    }
+
+    private fun updateCapitalizeUi() {
+        when {
+            viewModel.isDateUppercase.value == true -> {
+                action_capitalize.setImageDrawable(ContextCompat.getDrawable(this@CustomDateActivity, R.drawable.round_publish))
+                action_capitalize.alpha = 1f
+            }
+            viewModel.isDateCapitalize.value == true -> {
+                action_capitalize.setImageDrawable(ContextCompat.getDrawable(this@CustomDateActivity, R.drawable.ic_capitalize))
+                action_capitalize.alpha = 1f
+            }
+            else -> {
+                action_capitalize.setImageDrawable(ContextCompat.getDrawable(this@CustomDateActivity, R.drawable.round_publish))
+                action_capitalize.alpha = 0.3f
+            }
+        }
     }
 
     private fun setupListener() {
@@ -115,12 +143,29 @@ class CustomDateActivity  : AppCompatActivity() {
         }
 
         action_save.setOnClickListener {
-            Preferences.dateFormat = viewModel.dateInput.value ?: ""
+            Preferences.blockingBulk {
+                dateFormat = viewModel.dateInput.value ?: ""
+                isDateCapitalize = viewModel.isDateCapitalize.value ?: true
+                isDateUppercase = viewModel.isDateUppercase.value ?: false
+            }
             finish()
         }
 
         action_capitalize.setOnClickListener {
-            Preferences.isDateCapitalize = !Preferences.isDateCapitalize
+            when {
+                viewModel.isDateUppercase.value == true -> {
+                    viewModel.isDateCapitalize.value = false
+                    viewModel.isDateUppercase.value = false
+                }
+                viewModel.isDateCapitalize.value == true -> {
+                    viewModel.isDateCapitalize.value = false
+                    viewModel.isDateUppercase.value = true
+                }
+                else -> {
+                    viewModel.isDateCapitalize.value = true
+                    viewModel.isDateUppercase.value = false
+                }
+            }
         }
 
         action_capitalize.setOnLongClickListener {

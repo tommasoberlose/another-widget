@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.chibatching.kotpref.blockingBulk
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
@@ -256,6 +257,12 @@ class GeneralTabFragment : Fragment() {
             dialog.addOnSelectItemListener { value ->
                 if (value == "-") {
                     startActivity(Intent(requireContext(), CustomDateActivity::class.java))
+                } else if (value == "") {
+                    Preferences.blockingBulk {
+                        isDateCapitalize = false
+                        isDateUppercase = false
+                    }
+                    Preferences.dateFormat = value
                 } else {
                     Preferences.dateFormat = value
                 }

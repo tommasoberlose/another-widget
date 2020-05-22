@@ -5,9 +5,6 @@
         <variable
             name="viewModel"
             type="com.tommasoberlose.anotherwidget.ui.viewmodels.CustomDateViewModel" />
-        <variable
-            name="isdCapitalizeEnabled"
-            type="Boolean" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -145,14 +142,13 @@
                     android:layout_height="40dp"
                     android:padding="5dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/round_publish"
+                    android:src="@drawable/ic_capitalize"
                     android:layout_alignParentEnd="true"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:tint="@color/colorPrimaryText"
                     android:layout_marginEnd="20dp"
-                    android:alpha="@{isdCapitalizeEnabled ? 1f : 0.3f, default=0.3}"
                     android:id="@+id/action_capitalize" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
