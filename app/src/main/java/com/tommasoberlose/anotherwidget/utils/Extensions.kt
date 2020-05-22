@@ -222,3 +222,12 @@ fun Context.checkIfFitInstalled(): Boolean {
         false
     }
 }
+
+fun Intent.isDefaultSet(context: Context): Boolean {
+    val pm = context.packageManager
+    return try {
+        resolveActivity(pm) != null && resolveActivity(pm).packageName.isNotBlank()
+    } catch (ex: java.lang.Exception) {
+        false
+    }
+}

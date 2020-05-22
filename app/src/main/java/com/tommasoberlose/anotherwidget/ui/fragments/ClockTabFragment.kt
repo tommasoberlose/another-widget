@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import kotlinx.android.synthetic.main.fragment_clock_settings.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -155,17 +156,17 @@ class ClockTabFragment : Fragment() {
 
         viewModel.clockAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                clock_app_label?.text = try {
-                    with(requireContext().packageManager) {
-                        Log.d("ciao", "app: ${IntentHelper.getClockIntent(requireContext()).resolveActivity(this)}")
-                        if (IntentHelper.getClockIntent(requireContext()).resolveActivity(this) == null)
-                            throw Exception()
+                clock_app_label?.text = when {
+                    Preferences.clockAppName != "" -> Preferences.clockAppName
+                    else -> {
+                        if (IntentHelper.getClockIntent(requireContext()).isDefaultSet(requireContext())) {
+                            getString(
+                                R.string.default_clock_app
+                            )
+                        } else {
+                            getString(R.string.nothing)
+                        }
                     }
-                    if (Preferences.clockAppName != "") Preferences.clockAppName else getString(
-                            R.string.default_clock_app
-                        )
-                } catch (ex: Exception) {
-                    "Nothing"
                 }
             }
         })

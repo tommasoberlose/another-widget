@@ -32,9 +32,11 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.helpers.DateHelper
+import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_calendar_settings.scrollView
@@ -157,7 +159,18 @@ class CalendarTabFragment : Fragment() {
 
         viewModel.calendarAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                calendar_app_label?.text = if (it != "") it else getString(R.string.default_calendar_app)
+                calendar_app_label?.text = when {
+                    Preferences.clockAppName != "" -> Preferences.clockAppName
+                    else -> {
+                        if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
+                            getString(
+                                R.string.default_calendar_app
+                            )
+                        } else {
+                            getString(R.string.nothing)
+                        }
+                    }
+                }
             }
         })
 
