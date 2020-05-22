@@ -2,6 +2,8 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 
 import android.Manifest
 import android.animation.ValueAnimator
+import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProviderInfo
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -14,7 +16,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.animation.addListener
 import androidx.core.app.NotificationManagerCompat
@@ -36,7 +37,6 @@ import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget

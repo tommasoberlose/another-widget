@@ -128,7 +128,5 @@ class UpdateCalendarJob : JobIntentService() {
 
         EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
         eventRepository.close()
-
-        Log.d("ciao", "aggiornati")
     }
 }
