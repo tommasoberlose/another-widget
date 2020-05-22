@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
+import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -153,8 +155,18 @@ class ClockTabFragment : Fragment() {
 
         viewModel.clockAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                clock_app_label?.text =
-                    if (Preferences.clockAppName != "") Preferences.clockAppName else getString(R.string.default_clock_app)
+                clock_app_label?.text = try {
+                    with(requireContext().packageManager) {
+                        Log.d("ciao", "app: ${IntentHelper.getClockIntent(requireContext()).resolveActivity(this)}")
+                        if (IntentHelper.getClockIntent(requireContext()).resolveActivity(this) == null)
+                            throw Exception()
+                    }
+                    if (Preferences.clockAppName != "") Preferences.clockAppName else getString(
+                            R.string.default_clock_app
+                        )
+                } catch (ex: Exception) {
+                    "Nothing"
+                }
             }
         })
     }

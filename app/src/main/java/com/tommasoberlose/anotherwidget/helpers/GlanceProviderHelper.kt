@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.helpers
 
 import android.content.Context
+import android.util.Log
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -80,13 +81,14 @@ object GlanceProviderHelper {
     fun showGlanceProviders(context: Context): Boolean {
         val eventRepository = EventRepository(context)
         BatteryHelper.updateBatteryInfo(context)
-        val showGlance = Preferences.showGlance && eventRepository.getEventsCount() == 0 && (
+
+        val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents) && (
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
-                        (MediaPlayerHelper.isSomeonePlaying(context)) ||
-                        (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
-                        (Preferences.customNotes.isNotEmpty()) ||
-                        (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
-                )
+                (MediaPlayerHelper.isSomeonePlaying(context)) ||
+                (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
+                (Preferences.customNotes.isNotEmpty()) ||
+                (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
+        )
         eventRepository.close()
         return showGlance
     }
