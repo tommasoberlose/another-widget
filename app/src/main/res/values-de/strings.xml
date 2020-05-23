@@ -16,7 +16,7 @@
     <string name="settings_custom_font_title">Widget Schriftart</string>
     <string name="custom_font_subtitle_0">System Schriftart</string>
     <string name="custom_font_subtitle_1">Product Sans</string>
-    <string name="custom_date_format">Datumsformat</string>
+    <string name="custom_date_format">Benutzerdefiniertes Format</string>
     <string name="alpha">Alpha</string>
     <string name="transparent">Transparent</string>
     <string name="settings_show_dividers_title">Texttrennlinien anzeigen</string>
@@ -63,8 +63,8 @@
     <string name="settings_show_multiple_events_title">Schalter für mehrere Termine</string>
     <string name="soon">bald</string>
     <string name="now">jetzt</string>
-    <string name="settings_widget_update_frequency_title">Zeit bis zum nächten Termin Aktualisierungshäufigkeit</string>
-    <string name="settings_widget_update_frequency_subtitle">Hohe Aktualisierungshäufigkeit verursacht einen höheren Batterieverbrauch</string>
+    <string name="settings_widget_update_frequency_title">Zeit bis zum Termin Aktualisierungsrate</string>
+    <string name="settings_widget_update_frequency_subtitle">Eine höhere Aktualisierungsrate verursacht einen höheren Akkuverbrauch</string>
     <string name="settings_widget_update_frequency_low">Niedrig</string>
     <string name="settings_widget_update_frequency_default">Standard</string>
     <string name="settings_widget_update_frequency_high">Hoch</string>
@@ -88,7 +88,7 @@
     <string name="show_weather_visible">Wetterinfos sind sichtbar</string>
     <string name="show_weather_not_visible">Wetterinfos sind ausgeblendet</string>
     <string name="settings_weather_app_title">Klick aufs Wetter öffnet</string>
-    <string name="settings_weather_provider_api_key_title">Wetter-API-Schlüssel</string>
+    <string name="settings_weather_provider_api_key_title">Wetter API Key</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">Der Wetteranbieter ist korrekt konfiguriert</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">Der Wetteranbieter muss konfiguriert werden</string>
     <string name="api_key_hint">OpenWeather API Schlüssel</string>
@@ -154,7 +154,7 @@
     <string name="error_opening_uri">Fehler beim Öffnen der URL: Link in Zwischenablage kopiert.</string>
     <string name="loading_text">Daten werden geladen…</string>
     <string name="error_opening_app">Fehler beim Öffnen der App.</string>
-    <string name="default_name">Standard-App</string>
+    <string name="default_name">Standard App</string>
     <string name="action_save">Speichern</string>
     <string name="settings_visible">Sichtbar</string>
     <string name="settings_not_visible">Ausgeblendet</string>
