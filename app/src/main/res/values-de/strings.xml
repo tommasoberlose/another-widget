@@ -16,7 +16,7 @@
     <string name="settings_custom_font_title">Widget Schriftart</string>
     <string name="custom_font_subtitle_0">System Schriftart</string>
     <string name="custom_font_subtitle_1">Product Sans</string>
-    <string name="custom_date_format">Benutzerdefiniertes Format</string>
+    <string name="custom_date_format">Eigenes Format</string>
     <string name="alpha">Alpha</string>
     <string name="transparent">Transparent</string>
     <string name="settings_show_dividers_title">Texttrennlinien anzeigen</string>
