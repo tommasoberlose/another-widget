@@ -15,10 +15,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.widget.ImageView
-import android.widget.RemoteViews
-import android.widget.TextClock
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R

@@ -207,4 +207,5 @@
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
     <string name="nothing">Nothing</string>
+    <string name="header_widget_background">Widget background</string>
 </resources>
