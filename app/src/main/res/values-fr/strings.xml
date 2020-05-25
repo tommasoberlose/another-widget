@@ -56,11 +56,11 @@
     <string name="settings_second_row_info_title">Infos de l\'événement</string>
     <string name="settings_second_row_info_subtitle_1">Adresse de l\'événement</string>
     <string name="settings_second_row_info_subtitle_0">Heure de l\'événement</string>
-    <string name="settings_show_diff_time_title">Temps restant jusqu\'à l\'événement</string>
+    <string name="settings_show_diff_time_title">Temps restant jusqu\'à l\'évmt</string>
     <string name="settings_show_declined_events_title">Événements refusés</string>
     <string name="default_event_app">Détails de l\'événement</string>
     <string name="default_calendar_app">App calendrier par défaut</string>
-    <string name="settings_show_multiple_events_title">Sélecteur d\'événements multiples</string>
+    <string name="settings_show_multiple_events_title">Sélecteur d\'évmts multiples</string>
     <string name="soon">bientôt</string>
     <string name="now">maintenant</string>
     <string name="settings_widget_update_frequency_title">Fréquence de màj du temps restant</string>
@@ -125,7 +125,7 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Prochaine alarme</string>
-    <string name="next_alarm_warning">La prochaine alarme semble erronée.\nElle a été définie par %s.</string>
+    <string name="next_alarm_warning">La prochaine alarme semble erronée\nElle a été définie par %s</string>
     <string name="settings_at_a_glance_title">Coups d\'œil</string>
     <string name="settings_show_music_title">Musique en cours de lecture</string>
     <string name="settings_request_notification_access">Nous avons besoin d\'accéder aux notifications pour vérifier la musique en cours de lecture</string>
