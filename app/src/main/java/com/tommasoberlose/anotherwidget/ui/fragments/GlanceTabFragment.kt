@@ -8,8 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +36,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.components.CustomNotesDialog
 import com.tommasoberlose.anotherwidget.components.GlanceProviderSortMenu
+import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
@@ -188,7 +191,9 @@ class GlanceTabFragment : Fragment() {
                     } catch (e: Exception) {
                         alarm.showIntent?.creatorPackage ?: ""
                     }
-                    activity?.toast(getString(R.string.next_alarm_warning).format(appNameOrPackage), long = true)
+                    MaterialBottomSheetDialog(requireContext(), message = getString(R.string.next_alarm_warning).format(appNameOrPackage))
+                        .setPositiveButton(getString(android.R.string.ok))
+                        .show()
                 }
             }
             true
@@ -274,19 +279,23 @@ class GlanceTabFragment : Fragment() {
     }
 
     private fun checkNotificationPermission() {
-        if (NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName)) {
-            notification_permission_alert?.isVisible = false
-            MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
-            show_music_label?.text = if (Preferences.showMusic) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-        } else if (Preferences.showMusic) {
-            notification_permission_alert?.isVisible = true
-            show_music_label?.text = getString(R.string.settings_request_notification_access)
-            notification_permission_alert?.setOnClickListener {
-                activity?.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
+        when {
+            NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName) -> {
+                notification_permission_alert?.isVisible = false
+                MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
+                show_music_label?.text = if (Preferences.showMusic) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-        } else {
-            show_music_label?.text = getString(R.string.settings_not_visible)
-            notification_permission_alert?.isVisible = false
+            Preferences.showMusic -> {
+                notification_permission_alert?.isVisible = true
+                show_music_label?.text = getString(R.string.settings_request_notification_access)
+                notification_permission_alert?.setOnClickListener {
+                    activity?.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
+                }
+            }
+            else -> {
+                show_music_label?.text = getString(R.string.settings_not_visible)
+                notification_permission_alert?.isVisible = false
+            }
         }
     }
 

@@ -59,6 +59,8 @@
             android:id="@+id/action_negative"
             android:letterSpacing="0"
             android:text="Dismiss"
+            android:fontFamily="@font/product_sans"
+            android:textStyle="bold"
             app:textAllCaps="false" />
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
@@ -72,6 +74,8 @@
             android:id="@+id/action_positive"
             android:letterSpacing="0"
             android:text="Accept"
+            android:fontFamily="@font/product_sans"
+            android:textStyle="bold"
             app:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>

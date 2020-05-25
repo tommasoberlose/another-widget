@@ -11,8 +11,8 @@ typealias DialogCallback = () -> Unit
 
 class MaterialBottomSheetDialog(
     context: Context,
-    private val title: String? = "",
-    private val message: String? = ""
+    private val title: String? = null,
+    private val message: String? = null
 ) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
     private var positiveButtonLabel: String? = null
@@ -36,7 +36,7 @@ class MaterialBottomSheetDialog(
         val view = View.inflate(context, R.layout.bottom_sheet_dialog, null)
 
         // Header
-        view.message.isVisible = title != null
+        view.title.isVisible = title != null
         view.title.text = title ?: ""
 
         view.message.isVisible = message != null

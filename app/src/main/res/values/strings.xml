@@ -189,7 +189,7 @@
     <string name="settings_title">Settings</string>
     <string name="style_header">Style</string>
     <string name="actions_header">Actions</string>
-    <string name="provider_header">Setup</string>
+    <string name="provider_header">Provider</string>
     <string name="appearance_header">Appearance</string>
     <string name="preferences_header">Preferences</string>
 
