@@ -206,4 +206,5 @@
     <string name="support_dev_subtitle">Ini adalah proyek pengembang tunggal,\nterima kasih banyak untuk dukungannya!</string>
     <string name="settings_title_integrations">Integrasi</string>
     <string name="label_count_installed_integrations">%d integrasi terpasang</string>
+    <string name="nothing">Tidak ada</string>
 </resources>
