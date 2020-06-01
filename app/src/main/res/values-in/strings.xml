@@ -25,7 +25,7 @@
     <string name="first_row_header">Baris pertama</string>
     <string name="second_row_header">Baris kedua</string>
     <string name="global_style_header">Widget</string>
-    <string name="action_capitalize_the_date">Tanggal huruf besar</string>
+    <string name="action_capitalize_the_date">Tanggal huruf kapital</string>
     <string name="settings_date_format_title">Format tanggal</string>
 
     <!-- Calendar -->
@@ -207,4 +207,5 @@
     <string name="settings_title_integrations">Integrasi</string>
     <string name="label_count_installed_integrations">%d integrasi terpasang</string>
     <string name="nothing">Tidak ada</string>
+    <string name="header_widget_background">Latar belakang widget</string>
 </resources>
