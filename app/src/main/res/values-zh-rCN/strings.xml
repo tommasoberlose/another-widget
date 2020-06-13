@@ -121,7 +121,7 @@
     <string name="search">搜索</string>
     <string name="settings_title_show_wallpaper">显示壁纸</string>
     <string name="support_refresh_widget_subtitle">强制重启微件服务</string>
-    <string name="clock_warning">由于技术上的限制，在版式中设置的字体和文字阴影无法应用到时间上。</string>
+    <string name="clock_warning">由于技术上的限制，在显示部分设置的字体和文字阴影无法应用到时间上。</string>
     <string name="weather_warning">Google Awareness 天气已经不再被推荐使用。现在需要一个 OpenWeather 的 API 密钥来在微件中显示天气。</string>
     <string name="custom_date_format">自定义日期格式</string>
     <string name="settings_app_version_title">应用版本</string>
