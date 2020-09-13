@@ -177,7 +177,7 @@
     <string name="support_refresh_widget_subtitle">Forzar el reinicio del servicio del widget</string>
     <string name="account_events">Eventos de la cuenta</string>
     <string name="clock_warning">Debido a limitaciones tecnológicas, el reloj ya no podrá tener la fuente personalizada y las sombras de texto seleccionadas en la sección de tipografía.</string>
-    <string name="weather_warning">Google Awareness está obsoleto. ahora se requiere de una clave de API de OpenWeather API para mostrar el clima en el widget.</string>
+    <string name="weather_warning">Google Awareness está obsoleto. ahora se requiere de una clave de API de OpenWeather para mostrar el clima en el widget.</string>
     <string name="custom_date_format">Formato de fecha personalizado</string>
     <string name="settings_app_version_title">Versión de la app</string>
     <string name="support_dev_subtitle">Este es un proyecto de un único desarrollador,\nasí que gracias por el apoyo!</string>
