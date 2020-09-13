@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Another Widget</string>
-    <string name="add_widget">Add</string>
+    <string name="add_widget">Añadir</string>
 
     <!-- Display -->
     <string name="settings_general_title">Display</string>
@@ -194,18 +194,18 @@
     <string name="preferences_header">Preferences</string>
 
     <!-- Activities -->
-    <string name="action_choose_application">Choose application</string>
-    <string name="support_main_title">Support the developer</string>
-    <string name="thanks">Thanks for supporting me!</string>
-    <string name="donation_coffee">An italian coffee</string>
-    <string name="donation_donuts">Some glazed donuts</string>
-    <string name="donation_dinner">An expensive dinner</string>
+    <string name="action_choose_application">Elegir aplicación</string>
+    <string name="support_main_title">Apoya al desarrollador</string>
+    <string name="thanks">Gracias por apoyarme!</string>
+    <string name="donation_coffee">Un café italiano</string>
+    <string name="donation_donuts">Unas donas glaceadas</string>
+    <string name="donation_dinner">Una cena cara</string>
     <string name="donation_breakfast">An english breakfast</string>
     <string name="donation_lunch">A quick lunch</string>
     <string name="action_show_widget_preview">Show widget preview</string>
     <string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
-    <string name="nothing">Nothing</string>
-    <string name="header_widget_background">Widget background</string>
+    <string name="nothing">Nada</string>
+    <string name="header_widget_background">Widget en segundo plano</string>
 </resources>
