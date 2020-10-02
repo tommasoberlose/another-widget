@@ -28,6 +28,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomLocationBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -62,7 +63,11 @@ class CustomLocationActivity : AppCompatActivity() {
                 injector
                     .text(R.id.text, getString(R.string.custom_location_gps))
                     .clicked(R.id.text) {
-                        requirePermission()
+                        MaterialBottomSheetDialog(this, message = getString(R.string.background_location_warning))
+                            .setPositiveButton(getString(android.R.string.ok)) {
+                                requirePermission()
+                            }
+                            .show()
                     }
             }
             .register<Address>(R.layout.custom_location_item) { item, injector ->

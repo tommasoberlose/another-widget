@@ -93,7 +93,7 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 ore</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 ore</string>
     <string name="settings_custom_location_title">Location</string>
-    <string name="custom_location_gps">Usa geolocalizzazione</string>
+    <string name="custom_location_gps">Geolocalizzazione</string>
     <string name="show_weather_visible">Meteo visibile</string>
     <string name="show_weather_not_visible">Meteo nascosto</string>
     <string name="settings_weather_app_title">Tap sul meteo apre</string>
@@ -113,6 +113,7 @@
     <string name="api_key_info_all_set">La chiave API potrebbe aver bisogno di più di 20 minuti per diventare attiva, aggiorneremo il meteo non appena sarà possibile.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
+    <string name="background_location_warning">Raccoglieremo i dati sulla posizione per attivare l\'aggiornamento del meteo anche quando l\'app è chiusa o non in uso.\nNon utilizzeremo i tuoi dati in nessun altro modo.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Orologio</string>

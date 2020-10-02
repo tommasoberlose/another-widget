@@ -79,7 +79,7 @@
     <string name="settings_busy_events_title">Relevant events</string>
     <string name="settings_busy_events_subtitle">Show only the events\nthat keep you busy</string>
     <string name="attendee_status_accepted">Accepted events</string>
-    <string name="attendee_status_invited">Events invites</string>
+    <string name="attendee_status_invited">Events invitations</string>
     <string name="attendee_status_declined">Declined events</string>
 
     <!-- Weather -->
@@ -97,7 +97,7 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 hours</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
     <string name="settings_custom_location_title">Location</string>
-    <string name="custom_location_gps">Use geolocation</string>
+    <string name="custom_location_gps">Geolocation</string>
     <string name="show_weather_visible">Weather info is visible</string>
     <string name="show_weather_not_visible">Weather info is hidden</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
@@ -117,6 +117,7 @@
     <string name="api_key_info_all_set">It may take up to ten minutes before your API key is activated. The weather will be updated as soon as it is available.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
+    <string name="background_location_warning">We will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>

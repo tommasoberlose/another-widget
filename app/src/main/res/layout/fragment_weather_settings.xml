@@ -224,6 +224,26 @@
                             android:text="@string/action_grant_permission"/>
                     </LinearLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/background_location_warning"
+                    android:paddingStart="64dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
+                        android:textSize="14sp"
+                        android:text="@string/background_location_warning"
+                        android:textColor="@color/colorSecondaryText"
+                        android:letterSpacing="0"
+                        android:fontFamily="@font/product_sans"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:textAllCaps="false" />
+                </LinearLayout>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

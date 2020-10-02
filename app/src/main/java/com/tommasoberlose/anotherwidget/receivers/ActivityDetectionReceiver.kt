@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.chibatching.kotpref.Kotpref
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.fitness.Fitness
@@ -35,15 +36,16 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             }
         } else {
             if (intent.action == Intent.ACTION_BOOT_COMPLETED || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED && Preferences.showDailySteps && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION)) {
-                resetDailySteps()
+                resetDailySteps(context)
                 registerFence(context)
             } else {
-                resetDailySteps()
+                resetDailySteps(context)
             }
         }
     }
 
-    private fun resetDailySteps() {
+    private fun resetDailySteps(context: Context) {
+        Kotpref.init(context)
         Preferences.googleFitSteps = -1
     }
 
@@ -54,6 +56,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             .build()
 
         fun registerFence(context: Context) {
+            Kotpref.init(context)
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(
                     Manifest.permission.ACTIVITY_RECOGNITION)) {
                 val transitions = mutableListOf<ActivityTransition>()
@@ -116,6 +119,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
         }
 
         fun requestDailySteps(context: Context) {
+            Kotpref.init(context)
 
             val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
             if (account != null && GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {

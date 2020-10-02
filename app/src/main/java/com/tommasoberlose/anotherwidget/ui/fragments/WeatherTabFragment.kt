@@ -26,6 +26,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.components.IconPackSelector
+import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -110,6 +111,7 @@ class WeatherTabFragment : Fragment() {
 
         viewModel.customLocationAdd.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
+                background_location_warning.isVisible = it == ""
                 label_custom_location?.text =
                     if (it == "") getString(R.string.custom_location_gps) else it
             }
@@ -164,7 +166,11 @@ class WeatherTabFragment : Fragment() {
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             location_permission_alert?.isVisible = true
             location_permission_alert?.setOnClickListener {
-                requirePermission()
+                MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
+                    .setPositiveButton(getString(android.R.string.ok)) {
+                        requirePermission()
+                    }
+                    .show()
             }
         } else {
             location_permission_alert?.isVisible = false

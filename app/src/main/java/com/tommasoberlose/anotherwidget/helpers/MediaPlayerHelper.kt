@@ -10,6 +10,7 @@ import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import com.chibatching.kotpref.Kotpref
 import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -29,6 +30,7 @@ object MediaPlayerHelper {
     }
 
     fun updatePlayingMediaInfo(context: Context) {
+        Kotpref.init(context)
         if (NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)) {
             val list = try {
                 (context.getSystemService(Context.MEDIA_SESSION_SERVICE) as MediaSessionManager).getActiveSessions(
@@ -66,19 +68,20 @@ object MediaPlayerHelper {
                 }
 
                 if (!isSomeonePlaying) {
-                    removeMediaInfo()
+                    removeMediaInfo(context)
                 }
 
             } else {
-                removeMediaInfo()
+                removeMediaInfo(context)
             }
         } else {
-            removeMediaInfo()
+            removeMediaInfo(context)
         }
         MainWidget.updateWidget(context)
     }
 
-    private fun removeMediaInfo() {
+    private fun removeMediaInfo(context: Context) {
+        Kotpref.init(context)
         Preferences.blockingBulk {
             remove(Preferences::mediaPlayerTitle)
             remove(Preferences::mediaPlayerArtist)
