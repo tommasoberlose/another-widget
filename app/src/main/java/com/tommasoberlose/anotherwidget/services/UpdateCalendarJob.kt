@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget.services
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.provider.CalendarContract
 import android.util.Log
 import androidx.core.app.JobIntentService
 import com.tommasoberlose.anotherwidget.db.EventRepository
@@ -92,17 +93,28 @@ class UpdateCalendarJob : JobIntentService() {
                         }
                     }
 
-                    if (eventList.isEmpty()) {
+                    val filteredEventList = eventList
+                        .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
+                        .filter { (Preferences.calendarAllDay || !it.allDay) }
+
+                    if (filteredEventList.isEmpty()) {
                         eventRepository.resetNextEventData()
                         eventRepository.clearEvents()
                     } else {
                         eventList.sortWith(Comparator { event: Event, event1: Event ->
-                            if (event.allDay && event1.allDay) {
-                                event.startDate.compareTo(event1.startDate)
-                            } else if (event.allDay) {
-                                1
-                            } else if (event1.allDay) {
-                                -1
+                            val date = Calendar.getInstance().apply { timeInMillis = event.startDate }
+                            val date1 = Calendar.getInstance().apply { timeInMillis = event1.startDate }
+
+                            if (date.get(Calendar.DAY_OF_YEAR) == date1.get(Calendar.DAY_OF_YEAR) && date.get(Calendar.YEAR) == date1.get(Calendar.YEAR)) {
+                                if (event.allDay && event1.allDay) {
+                                    event1.startDate.compareTo(event.startDate)
+                                } else if (event.allDay) {
+                                    -1
+                                } else if (event1.allDay) {
+                                    1
+                                } else {
+                                    event1.startDate.compareTo(event.startDate)
+                                }
                             } else {
                                 event1.startDate.compareTo(event.startDate)
                             }
@@ -111,9 +123,7 @@ class UpdateCalendarJob : JobIntentService() {
                         eventRepository.saveEvents(
                             eventList
                         )
-                        eventRepository.saveNextEventData(
-                            eventList[0]
-                        )
+                        eventRepository.saveNextEventData(filteredEventList.first())
                     }
                 } catch (ignored: java.lang.Exception) {
 

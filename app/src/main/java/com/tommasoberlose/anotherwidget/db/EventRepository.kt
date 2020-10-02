@@ -11,6 +11,7 @@ import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
 import io.realm.RealmResults
 import java.util.*
+import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 class EventRepository(val context: Context) {
@@ -68,7 +69,7 @@ class EventRepository(val context: Context) {
             val events = getEvents()
             if (events.isNotEmpty()) {
                 val newNextEvent = events.first()
-                Preferences.nextEventId = newNextEvent!!.eventID
+                Preferences.nextEventId = newNextEvent.eventID
                 newNextEvent
             } else {
                 resetNextEventData()
@@ -96,9 +97,9 @@ class EventRepository(val context: Context) {
         if (eventList.isNotEmpty()) {
             val index = eventList.indexOfFirst { it.eventID == Preferences.nextEventId }
             if (index > -1 && index < eventList.size - 1) {
-                Preferences.nextEventId = eventList[index + 1]!!.eventID
+                Preferences.nextEventId = eventList[index + 1].eventID
             } else {
-                Preferences.nextEventId = eventList.first()!!.eventID
+                Preferences.nextEventId = eventList.first().eventID
             }
         } else {
             resetNextEventData()
@@ -112,9 +113,9 @@ class EventRepository(val context: Context) {
         if (eventList.isNotEmpty()) {
             val index = eventList.indexOfFirst { it.eventID == Preferences.nextEventId }
             if (index > 0) {
-                Preferences.nextEventId = eventList[index - 1]!!.eventID
+                Preferences.nextEventId = eventList[index - 1].eventID
             } else {
-                Preferences.nextEventId = eventList.last()!!.eventID
+                Preferences.nextEventId = eventList.last().eventID
             }
         } else {
             resetNextEventData()

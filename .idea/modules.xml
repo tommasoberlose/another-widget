@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Another Widget.iml" filepath="$PROJECT_DIR$/Another Widget.iml" group="Another Widget" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Another_Widget.iml" filepath="$PROJECT_DIR$/.idea/modules/Another_Widget.iml" group="Another_Widget" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Another Widget/app" />
     </modules>
   </component>

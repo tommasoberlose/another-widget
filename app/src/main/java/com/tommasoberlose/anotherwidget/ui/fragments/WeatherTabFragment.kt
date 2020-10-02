@@ -216,6 +216,9 @@ class WeatherTabFragment : Fragment() {
                     .addItem(getString(R.string.fahrenheit), "F")
                     .addItem(getString(R.string.celsius), "C")
                     .addOnSelectItemListener { value ->
+                        if (value != Preferences.weatherTempUnit) {
+                            WeatherHelper.updateWeather(requireContext())
+                        }
                         Preferences.weatherTempUnit = value
                     }.show()
             }

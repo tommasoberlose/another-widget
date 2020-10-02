@@ -62,8 +62,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enterTransition = MaterialSharedAxis.create(MaterialSharedAxis.X, true)
-        reenterTransition = MaterialSharedAxis.create(MaterialSharedAxis.X, false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(
