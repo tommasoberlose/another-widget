@@ -19,6 +19,7 @@ class MainViewModel : ViewModel() {
     val customFont = Preferences.asLiveData(Preferences::customFont)
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
     val showDividers = Preferences.asLiveData(Preferences::showDividers)
+    val secondRowTopMargin = Preferences.asLiveData(Preferences::secondRowTopMargin)
 
     // Calendar Settings
     val showEvents = Preferences.asLiveData(Preferences::showEvents)

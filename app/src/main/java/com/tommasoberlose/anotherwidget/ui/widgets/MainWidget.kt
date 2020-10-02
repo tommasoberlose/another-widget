@@ -261,7 +261,21 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+
+                    views.setViewVisibility(
+                        R.id.second_row_top_margin_small_sans,
+                        if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
+                    )
+                    views.setViewVisibility(
+                        R.id.second_row_top_margin_medium_sans,
+                        if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                    )
+                    views.setViewVisibility(
+                        R.id.second_row_top_margin_large_sans,
+                        if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
+                    )
                 } else if (GlanceProviderHelper.showGlanceProviders(context) && v.calendar_layout.isVisible) {
+                    var showSomething = false
                     loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                         when (provider) {
                             Constants.GlanceProviderId.PLAYING_SONG -> {
@@ -273,6 +287,7 @@ class MainWidget : AppWidgetProvider() {
                                         PendingIntent.FLAG_UPDATE_CURRENT
                                     )
                                     views.setOnClickPendingIntent(R.id.second_row_rect, musicIntent)
+                                    showSomething = true
                                     break@loop
                                 }
                             }
@@ -285,6 +300,7 @@ class MainWidget : AppWidgetProvider() {
                                         PendingIntent.FLAG_UPDATE_CURRENT
                                     )
                                     views.setOnClickPendingIntent(R.id.second_row_rect, alarmIntent)
+                                    showSomething = true
                                     break@loop
                                 }
                             }
@@ -299,6 +315,7 @@ class MainWidget : AppWidgetProvider() {
                                             PendingIntent.FLAG_UPDATE_CURRENT
                                         )
                                         views.setOnClickPendingIntent(R.id.second_row_rect, batteryIntent)
+                                        showSomething = true
                                         break@loop
                                     }
                                 }
@@ -317,26 +334,44 @@ class MainWidget : AppWidgetProvider() {
                                         PendingIntent.FLAG_UPDATE_CURRENT
                                     )
                                     views.setOnClickPendingIntent(R.id.second_row_rect, fitIntent)
+                                    showSomething = true
                                     break@loop
                                 }
                             }
                         }
                     }
 
-                    views.setImageViewBitmap(
-                        R.id.next_event_rect,
-                        BitmapHelper.getBitmapFromView(v.next_event, draw = false)
-                    )
 
-                    views.setImageViewBitmap(
-                        R.id.second_row_rect,
-                        BitmapHelper.getBitmapFromView(v.second_row, draw = false)
-                    )
+                    if (showSomething) {
+                        views.setImageViewBitmap(
+                            R.id.next_event_rect,
+                            BitmapHelper.getBitmapFromView(v.next_event, draw = false)
+                        )
 
-                    views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
-                    views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
-                    views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-                    views.setOnClickPendingIntent(R.id.next_event_rect, calPIntent)
+                        views.setImageViewBitmap(
+                            R.id.second_row_rect,
+                            BitmapHelper.getBitmapFromView(v.second_row, draw = false)
+                        )
+
+                        views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
+                        views.setViewVisibility(R.id.empty_layout_rect, View.GONE)
+                        views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+                        views.setOnClickPendingIntent(R.id.next_event_rect, calPIntent)
+
+
+                        views.setViewVisibility(
+                            R.id.second_row_top_margin_small_sans,
+                            if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
+                        )
+                        views.setViewVisibility(
+                            R.id.second_row_top_margin_medium_sans,
+                            if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                        )
+                        views.setViewVisibility(
+                            R.id.second_row_top_margin_large_sans,
+                            if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
+                        )
+                    }
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
@@ -534,6 +569,10 @@ class MainWidget : AppWidgetProvider() {
 
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
+
+                v.second_row_top_margin_small.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
+                v.second_row_top_margin_medium.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                v.second_row_top_margin_large.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 v.second_row_icon.isVisible = true
                 var showSomething = false
@@ -612,6 +651,10 @@ class MainWidget : AppWidgetProvider() {
                     v.next_event.text = DateHelper.getDateText(context, now)
                     v.empty_layout.visibility = View.GONE
                     v.calendar_layout.visibility = View.VISIBLE
+
+                    v.second_row_top_margin_small.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
+                    v.second_row_top_margin_medium.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                    v.second_row_top_margin_large.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
                 } else {
                     v.second_row_icon.isVisible = false
                 }

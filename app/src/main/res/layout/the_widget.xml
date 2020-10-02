@@ -134,6 +134,24 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/second_row_top_margin_small" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/second_row_top_margin_medium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/second_row_top_margin_large" />
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

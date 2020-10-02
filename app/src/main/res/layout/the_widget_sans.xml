@@ -129,6 +129,24 @@
                         android:id="@+id/special_weather_rect" />
                 </LinearLayout>
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:id="@+id/second_row_top_margin_small_sans" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:id="@+id/second_row_top_margin_medium_sans" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:id="@+id/second_row_top_margin_large_sans" />
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

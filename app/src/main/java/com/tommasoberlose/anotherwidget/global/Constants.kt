@@ -15,6 +15,13 @@ object Constants {
         LARGE(3)
     }
 
+    enum class SecondRowTopMargin(val value: Int) {
+        NONE(0),
+        SMALL(1),
+        MEDIUM(2),
+        LARGE(3)
+    }
+
     enum class GlanceProviderId(val id: String) {
         PLAYING_SONG("PLAYING_SONG"),
         NEXT_CLOCK_ALARM("NEXT_CLOCK_ALARM"),

@@ -17,6 +17,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentGeneralSettingsBinding
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
@@ -27,7 +28,9 @@ import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import kotlinx.android.synthetic.main.fragment_clock_settings.*
 import kotlinx.android.synthetic.main.fragment_general_settings.*
+import kotlinx.android.synthetic.main.fragment_general_settings.scrollView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -141,6 +144,17 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
+        viewModel.secondRowTopMargin.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                second_row_top_margin_label?.text = when (it) {
+                    Constants.SecondRowTopMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
+                    Constants.SecondRowTopMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
+                    Constants.SecondRowTopMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
+                    else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
+                }
+            }
+        })
+
         viewModel.backgroundCardColor.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlpha == "00") {
@@ -242,6 +256,32 @@ class GeneralTabFragment : Fragment() {
                     Preferences.textSecondaryAlpha = alpha.toHexValue()
                 }
             ).show()
+        }
+
+        action_second_row_top_margin_size.setOnClickListener {
+            BottomSheetMenu<Int>(
+                requireContext(),
+                header = getString(R.string.settings_secondary_row_top_margin_title)
+            ).setSelectedValue(Preferences.secondRowTopMargin)
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_none),
+                    Constants.SecondRowTopMargin.NONE.value
+                )
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_small),
+                    Constants.SecondRowTopMargin.SMALL.value
+                )
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_medium),
+                    Constants.SecondRowTopMargin.MEDIUM.value
+                )
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_large),
+                    Constants.SecondRowTopMargin.LARGE.value
+                )
+                .addOnSelectItemListener { value ->
+                    Preferences.secondRowTopMargin = value
+                }.show()
         }
 
         action_date_format.setOnClickListener {
