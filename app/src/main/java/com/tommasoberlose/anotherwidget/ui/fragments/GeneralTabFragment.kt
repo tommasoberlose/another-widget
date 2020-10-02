@@ -28,6 +28,7 @@ import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import kotlinx.android.synthetic.main.fragment_clock_settings.*
 import kotlinx.android.synthetic.main.fragment_general_settings.*
 import kotlinx.android.synthetic.main.fragment_general_settings.scrollView
@@ -106,7 +107,18 @@ class GeneralTabFragment : Fragment() {
                     font_color_label?.text = getString(R.string.transparent)
                 } else {
                     font_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.textGlobalColorDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textGlobalAlphaDark == "00") {
+                    font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -117,7 +129,18 @@ class GeneralTabFragment : Fragment() {
                     font_color_label?.text = getString(R.string.transparent)
                 } else {
                     font_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.textGlobalAlphaDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textGlobalAlphaDark == "00") {
+                    font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -128,7 +151,18 @@ class GeneralTabFragment : Fragment() {
                     secondary_font_color_label?.text = getString(R.string.transparent)
                 } else {
                     secondary_font_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.textSecondaryColorDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textSecondaryAlphaDark == "00") {
+                    secondary_font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    secondary_font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -139,7 +173,18 @@ class GeneralTabFragment : Fragment() {
                     secondary_font_color_label?.text = getString(R.string.transparent)
                 } else {
                     secondary_font_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.textSecondaryAlphaDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.textSecondaryAlphaDark == "00") {
+                    secondary_font_color_label?.text = getString(R.string.transparent)
+                } else {
+                    secondary_font_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -161,7 +206,18 @@ class GeneralTabFragment : Fragment() {
                     background_color_label?.text = getString(R.string.transparent)
                 } else {
                     background_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.backgroundCardColorDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.backgroundCardAlphaDark == "00") {
+                    background_color_label?.text = getString(R.string.transparent)
+                } else {
+                    background_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -172,14 +228,37 @@ class GeneralTabFragment : Fragment() {
                     background_color_label?.text = getString(R.string.transparent)
                 } else {
                     background_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.backgroundCardAlphaDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.backgroundCardAlphaDark == "00") {
+                    background_color_label?.text = getString(R.string.transparent)
+                } else {
+                    background_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
 
         viewModel.textShadow.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                text_shadow_label?.text = getString(SettingsStringHelper.getTextShadowString(it))
+                if (activity?.isDarkTheme() != true) {
+                    text_shadow_label?.text =
+                        getString(SettingsStringHelper.getTextShadowString(it))
+                }
+            }
+        })
+
+        viewModel.textShadowDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (activity?.isDarkTheme() == true) {
+                    text_shadow_label?.text =
+                        getString(SettingsStringHelper.getTextShadowString(it))
+                }
             }
         })
 
@@ -228,15 +307,23 @@ class GeneralTabFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_font_color_title),
-                getSelected = ColorHelper::getFontColorRgb,
+                getSelected = { ColorHelper.getFontColorRgb(activity?.isDarkTheme() == true) },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
-                    Preferences.textGlobalColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    if (activity?.isDarkTheme() == true) {
+                        Preferences.textGlobalColorDark = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    } else {
+                        Preferences.textGlobalColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    }
                 },
                 showAlphaSelector = true,
-                alpha = Preferences.textGlobalAlpha.toIntValue(),
+                alpha = if (activity?.isDarkTheme() == true) Preferences.textGlobalAlphaDark.toIntValue() else Preferences.textGlobalAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
-                    Preferences.textGlobalAlpha = alpha.toHexValue()
+                    if (activity?.isDarkTheme() == true) {
+                        Preferences.textGlobalAlphaDark = alpha.toHexValue()
+                    } else {
+                        Preferences.textGlobalAlpha = alpha.toHexValue()
+                    }
                 }
             ).show()
         }
@@ -245,15 +332,25 @@ class GeneralTabFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_secondary_font_color_title),
-                getSelected = ColorHelper::getSecondaryFontColorRgb,
+                getSelected = { ColorHelper.getSecondaryFontColorRgb(activity?.isDarkTheme() == true) },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
-                    Preferences.textSecondaryColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    if (activity?.isDarkTheme() == true) {
+                        Preferences.textSecondaryColorDark =
+                            "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    } else {
+                        Preferences.textSecondaryColor =
+                            "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    }
                 },
                 showAlphaSelector = true,
-                alpha = Preferences.textSecondaryAlpha.toIntValue(),
+                alpha = if (activity?.isDarkTheme() == true) Preferences.textSecondaryAlphaDark.toIntValue() else Preferences.textSecondaryAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
-                    Preferences.textSecondaryAlpha = alpha.toHexValue()
+                    if (activity?.isDarkTheme() == true) {
+                        Preferences.textSecondaryAlphaDark = alpha.toHexValue()
+                    } else {
+                        Preferences.textSecondaryAlpha = alpha.toHexValue()
+                    }
                 }
             ).show()
         }
@@ -317,26 +414,40 @@ class GeneralTabFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_background_color_title),
-                getSelected = { ColorHelper.getBackgroundColorRgb() },
+                getSelected = { ColorHelper.getBackgroundColorRgb(activity?.isDarkTheme() == true) },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
-                    Preferences.backgroundCardColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    if (activity?.isDarkTheme() == true) {
+                        Preferences.backgroundCardColorDark =
+                            "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    } else {
+                        Preferences.backgroundCardColor =
+                            "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                    }
                 },
                 showAlphaSelector = true,
-                alpha = Preferences.backgroundCardAlpha.toIntValue(),
+                alpha = if (activity?.isDarkTheme() == true) Preferences.backgroundCardAlphaDark.toIntValue() else Preferences.backgroundCardAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
-                    Preferences.backgroundCardAlpha = alpha.toHexValue()
+                    if (activity?.isDarkTheme() == true) {
+                        Preferences.backgroundCardAlphaDark = alpha.toHexValue()
+                    } else {
+                        Preferences.backgroundCardAlpha = alpha.toHexValue()
+                    }
                 }
             ).show()
         }
 
         action_text_shadow.setOnClickListener {
-            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.title_text_shadow)).setSelectedValue(Preferences.textShadow)
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.title_text_shadow)).setSelectedValue(if (activity?.isDarkTheme() == true) Preferences.textShadowDark else Preferences.textShadow)
             (2 downTo 0).forEach {
                 dialog.addItem(getString(SettingsStringHelper.getTextShadowString(it)), it)
             }
             dialog.addOnSelectItemListener { value ->
-                Preferences.textShadow = value
+                if (activity?.isDarkTheme() == true) {
+                    Preferences.textShadowDark = value
+                } else {
+                    Preferences.textShadow = value
+                }
             }.show()
         }
 

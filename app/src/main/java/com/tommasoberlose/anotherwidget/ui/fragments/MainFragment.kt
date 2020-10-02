@@ -42,6 +42,7 @@ import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.fragment_app_main.*
 import kotlinx.android.synthetic.main.the_widget_sans.*
@@ -93,9 +94,9 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         }.attach()
 
         // Init clock
-        time.setTextColor(ColorHelper.getClockFontColor())
+        time.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
         time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(requireContext()))
-        time_am_pm.setTextColor(ColorHelper.getClockFontColor())
+        time_am_pm.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
         time_am_pm.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2)
         time_container.isVisible = Preferences.showClock
 
@@ -134,7 +135,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             preview?.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    if (ColorHelper.getFontColor()
+                    if (ColorHelper.getFontColor(activity?.isDarkTheme() == true)
                             .isColorDark()
                     ) android.R.color.white else R.color.colorAccent
                 )
@@ -143,7 +144,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 BitmapHelper.getTintedDrawable(
                     requireContext(),
                     R.drawable.card_background,
-                    ColorHelper.getBackgroundColor()
+                    ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true)
                 )
             )
             uiJob = lifecycleScope.launch(Dispatchers.IO) {
@@ -165,8 +166,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 }
                 withContext(Dispatchers.Main) {
                     // Clock
-                    time?.setTextColor(ColorHelper.getClockFontColor())
-                    time_am_pm?.setTextColor(ColorHelper.getClockFontColor())
+                    time?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
+                    time_am_pm?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
                     time?.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP,
                         Preferences.clockTextSize.toPixel(requireContext())

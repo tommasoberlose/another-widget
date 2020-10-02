@@ -56,6 +56,20 @@ object Preferences : KotprefModel() {
 
     var clockTextColor by stringPref(default = "#FFFFFF")
     var clockTextAlpha by stringPref(default = "FF")
+
+    var textGlobalColorDark by stringPref(default = "#FFFFFF")
+    var textGlobalAlphaDark by stringPref(default = "FF")
+
+    var textSecondaryColorDark by stringPref(default = "#FFFFFF")
+    var textSecondaryAlphaDark by stringPref(default = "FF")
+
+    var backgroundCardColorDark by stringPref(default = "#000000")
+    var backgroundCardAlphaDark by stringPref(default = "00")
+
+    var clockTextColorDark by stringPref(default = "#FFFFFF")
+    var clockTextAlphaDark by stringPref(default = "FF")
+
+
     var showAMPMIndicator by booleanPref(default = true)
 
     var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.value)
@@ -70,6 +84,7 @@ object Preferences : KotprefModel() {
     var clockAppName by stringPref(key = "PREF_CLOCK_APP_NAME", default = "")
     var clockAppPackage by stringPref(key = "PREF_CLOCK_APP_PACKAGE", default = "")
     var textShadow by intPref(key = "PREF_TEXT_SHADOW", default = 1)
+    var textShadowDark by intPref(default = 1)
     var showDiffTime by booleanPref(key = "PREF_SHOW_DIFF_TIME", default = true)
     var showDeclinedEvents by booleanPref(key = "PREF_SHOW_DECLINED_EVENTS", default = false)
     var showInvitedEvents by booleanPref(default = false)

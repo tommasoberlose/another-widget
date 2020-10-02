@@ -172,7 +172,7 @@ fun String.isValidEmail(): Boolean
         = this.isNotEmpty() &&
         Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
-fun Activity.isDarkTheme(): Boolean {
+fun Context.isDarkTheme(): Boolean {
     return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }
 

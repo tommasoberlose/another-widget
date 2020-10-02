@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import kotlinx.android.synthetic.main.fragment_clock_settings.*
 import kotlinx.coroutines.Dispatchers
@@ -127,7 +128,18 @@ class ClockTabFragment : Fragment() {
                     clock_text_color_label?.text = getString(R.string.transparent)
                 } else {
                     clock_text_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.clockTextColorDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.clockTextAlphaDark == "00") {
+                    clock_text_color_label?.text = getString(R.string.transparent)
+                } else {
+                    clock_text_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -138,7 +150,18 @@ class ClockTabFragment : Fragment() {
                     clock_text_color_label?.text = getString(R.string.transparent)
                 } else {
                     clock_text_color_label?.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor())).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                }
+            }
+        })
+
+        viewModel.clockTextAlphaDark.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                if (Preferences.clockTextAlphaDark == "00") {
+                    clock_text_color_label?.text = getString(R.string.transparent)
+                } else {
+                    clock_text_color_label?.text =
+                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
         })
@@ -217,16 +240,25 @@ class ClockTabFragment : Fragment() {
                 BottomSheetColorPicker(requireContext(),
                     colors = colors,
                     header = getString(R.string.settings_font_color_title),
-                    getSelected = ColorHelper::getClockFontColorRgb,
+                    getSelected = { ColorHelper.getClockFontColorRgb(activity?.isDarkTheme() == true) },
                     onColorSelected = { color: Int ->
                         val colorString = Integer.toHexString(color)
-                        Preferences.clockTextColor =
-                            "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                        if (activity?.isDarkTheme() == true) {
+                            Preferences.clockTextColorDark =
+                                "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                        } else {
+                            Preferences.clockTextColor =
+                                "#" + if (colorString.length > 6) colorString.substring(2) else colorString
+                        }
                     },
                     showAlphaSelector = true,
-                    alpha = Preferences.clockTextAlpha.toIntValue(),
+                    alpha = if (activity?.isDarkTheme() == true) Preferences.clockTextAlphaDark.toIntValue() else Preferences.clockTextAlpha.toIntValue(),
                     onAlphaChangeListener = { alpha ->
-                        Preferences.clockTextAlpha = alpha.toHexValue()
+                        if (activity?.isDarkTheme() == true) {
+                            Preferences.clockTextAlphaDark = alpha.toHexValue()
+                        } else {
+                            Preferences.clockTextAlpha = alpha.toHexValue()
+                        }
                     }
                 ).show()
             }

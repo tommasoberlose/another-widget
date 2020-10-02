@@ -7,97 +7,97 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import kotlin.math.roundToInt
 
 object ColorHelper {
-    fun getFontColor(): Int {
+    fun getFontColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format(Preferences.textGlobalAlpha, Preferences.textGlobalColor.replace("#", "")))
+            Color.parseColor("#%s%s".format(if (!isDark) Preferences.textGlobalAlpha else Preferences.textGlobalAlphaDark, (if (!isDark) Preferences.textGlobalColor else Preferences.textGlobalColorDark).replace("#", "")))
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
     }
 
-    fun getFontColorAlpha(): Int {
+    fun getFontColorAlpha(isDark: Boolean): Int {
         return try {
-            Preferences.textGlobalAlpha.toIntValue().toDouble() * 255 / 100
+            (if (!isDark) Preferences.textGlobalAlpha else Preferences.textGlobalAlphaDark).toIntValue().toDouble() * 255 / 100
         } catch (e: Exception) {
             "FF".toIntValue().toDouble() * 255 / 100
         }.roundToInt()
     }
 
-    fun getFontColorRgb(): Int {
+    fun getFontColorRgb(isDark: Boolean): Int {
         return try {
-            Color.parseColor(Preferences.textGlobalColor)
+            Color.parseColor((if (!isDark) Preferences.textGlobalColor else Preferences.textGlobalColorDark))
         } catch (e: Exception) {
             Color.parseColor("#000000")
         }
     }
 
-    fun getSecondaryFontColor(): Int {
+    fun getSecondaryFontColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format(Preferences.textSecondaryAlpha, Preferences.textSecondaryColor.replace("#", "")))
+            Color.parseColor("#%s%s".format((if (!isDark) Preferences.textSecondaryAlpha else Preferences.textSecondaryAlphaDark), (if (!isDark) Preferences.textSecondaryColor else Preferences.textSecondaryColorDark).replace("#", "")))
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
     }
 
-    fun getSecondaryFontColorAlpha(): Int {
+    fun getSecondaryFontColorAlpha(isDark: Boolean): Int {
         return try {
-            Preferences.textSecondaryAlpha.toIntValue().toDouble() * 255 / 100
+            (if (!isDark) Preferences.textSecondaryAlpha else Preferences.textSecondaryAlphaDark).toIntValue().toDouble() * 255 / 100
         } catch (e: Exception) {
             "FF".toIntValue().toDouble() * 255 / 100
         }.roundToInt()
     }
 
-    fun getSecondaryFontColorRgb(): Int {
+    fun getSecondaryFontColorRgb(isDark: Boolean): Int {
         return try {
-            Color.parseColor(Preferences.textSecondaryColor)
+            Color.parseColor((if (!isDark) Preferences.textSecondaryColor else Preferences.textSecondaryColorDark))
         } catch (e: Exception) {
             Color.parseColor("#000000")
         }
     }
 
-    fun getClockFontColor(): Int {
+    fun getClockFontColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format(Preferences.clockTextAlpha, Preferences.clockTextColor.replace("#", "")))
+            Color.parseColor("#%s%s".format((if (!isDark) Preferences.clockTextAlpha else Preferences.clockTextAlphaDark), (if (!isDark) Preferences.clockTextColor else Preferences.clockTextColorDark).replace("#", "")))
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
     }
 
-    fun getClockFontColorAlpha(): Int {
+    fun getClockFontColorAlpha(isDark: Boolean): Int {
         return try {
-            Preferences.clockTextAlpha.toIntValue().toDouble() * 255 / 100
+            (if (!isDark) Preferences.clockTextAlpha else Preferences.clockTextAlphaDark).toIntValue().toDouble() * 255 / 100
         } catch (e: Exception) {
             "FF".toIntValue().toDouble() * 255 / 100
         }.roundToInt()
     }
 
-    fun getClockFontColorRgb(): Int {
+    fun getClockFontColorRgb(isDark: Boolean): Int {
         return try {
-            Color.parseColor(Preferences.clockTextColor)
+            Color.parseColor((if (!isDark) Preferences.clockTextColor else Preferences.clockTextColorDark))
         } catch (e: Exception) {
             Color.parseColor("#000000")
         }
     }
 
-    fun getBackgroundColor(): Int {
+    fun getBackgroundColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format(Preferences.backgroundCardAlpha, Preferences.backgroundCardColor.replace("#", "")))
+            Color.parseColor("#%s%s".format((if (!isDark) Preferences.backgroundCardAlpha else Preferences.backgroundCardAlphaDark), (if (!isDark) Preferences.backgroundCardColor else Preferences.backgroundCardColorDark).replace("#", "")))
         } catch (e: Exception) {
             Color.parseColor("#00000000")
         }
     }
 
-    fun getBackgroundAlpha(): Int {
+    fun getBackgroundAlpha(isDark: Boolean): Int {
         return try {
-            Preferences.backgroundCardAlpha.toIntValue().toDouble() * 255 / 100
+            (if (!isDark) Preferences.backgroundCardAlpha else Preferences.backgroundCardAlphaDark).toIntValue().toDouble() * 255 / 100
         } catch (e: Exception) {
             "00".toIntValue().toDouble() * 255 / 100
         }.roundToInt()
     }
 
-    fun getBackgroundColorRgb(): Int {
+    fun getBackgroundColorRgb(isDark: Boolean): Int {
         return try {
-            Color.parseColor(Preferences.backgroundCardColor)
+            Color.parseColor((if (!isDark) Preferences.backgroundCardColor else Preferences.backgroundCardColorDark))
         } catch (e: Exception) {
             Color.parseColor("#000000")
         }

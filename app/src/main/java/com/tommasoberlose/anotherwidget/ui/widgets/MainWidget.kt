@@ -24,9 +24,11 @@ import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
+import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.the_widget.view.*
 import java.lang.Exception
@@ -99,12 +101,12 @@ class MainWidget : AppWidgetProvider() {
                 views.setInt(
                     R.id.widget_shape_background,
                     "setColorFilter",
-                    ColorHelper.getBackgroundColorRgb()
+                    ColorHelper.getBackgroundColorRgb(context.isDarkTheme())
                 )
                 views.setInt(
                     R.id.widget_shape_background,
                     "setImageAlpha",
-                    ColorHelper.getBackgroundAlpha()
+                    ColorHelper.getBackgroundAlpha(context.isDarkTheme())
                 )
                 val refreshIntent = PendingIntent.getActivity(
                     context,
@@ -440,8 +442,8 @@ class MainWidget : AppWidgetProvider() {
                     views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
                     views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
                 } else {
-                    views.setTextColor(R.id.time, ColorHelper.getClockFontColor())
-                    views.setTextColor(R.id.time_am_pm, ColorHelper.getClockFontColor())
+                    views.setTextColor(R.id.time, ColorHelper.getClockFontColor(context.isDarkTheme()))
+                    views.setTextColor(R.id.time_am_pm, ColorHelper.getClockFontColor(context.isDarkTheme()))
                     views.setTextViewTextSize(
                         R.id.time,
                         TypedValue.COMPLEX_UNIT_SP,
@@ -663,7 +665,7 @@ class MainWidget : AppWidgetProvider() {
 
             // Color
             listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.divider3, v.special_temp).forEach {
-                it.setTextColor(ColorHelper.getFontColor())
+                it.setTextColor(ColorHelper.getFontColor(context.applicationContext.isDarkTheme()))
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.value) {
@@ -671,11 +673,12 @@ class MainWidget : AppWidgetProvider() {
             } else {
                 listOf<ImageView>(v.action_next, v.action_previous, v.empty_weather_icon, v.special_weather_icon)
             }.forEach {
-                it.setColorFilter(ColorHelper.getFontColor())
+                it.setColorFilter(ColorHelper.getFontColorRgb(context.applicationContext.isDarkTheme()))
+                it.alpha = (if (context.isDarkTheme()) Preferences.textGlobalAlphaDark.toIntValue().toFloat() else Preferences.textGlobalAlpha.toIntValue().toFloat()) / 100
             }
 
             listOf<TextView>(v.next_event_date, v.divider2, v.calendar_temp).forEach {
-                it.setTextColor(ColorHelper.getSecondaryFontColor())
+                it.setTextColor(ColorHelper.getSecondaryFontColor(context.applicationContext.isDarkTheme()))
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.value) {
@@ -683,7 +686,8 @@ class MainWidget : AppWidgetProvider() {
             } else {
                 listOf<ImageView>(v.second_row_icon, v.weather_icon)
             }.forEach {
-                it.setColorFilter(ColorHelper.getSecondaryFontColor())
+                it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
+                it.alpha = (if (context.isDarkTheme()) Preferences.textSecondaryAlphaDark.toIntValue().toFloat() else Preferences.textSecondaryAlpha.toIntValue().toFloat()) / 100
             }
 
             // Text Size
@@ -723,19 +727,19 @@ class MainWidget : AppWidgetProvider() {
 
 
             // Shadows
-            val shadowRadius = when (Preferences.textShadow) {
+            val shadowRadius = when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                 0 -> 0f
                 1 -> 5f
                 2 -> 5f
                 else -> 5f
             }
-            val shadowColor =  when (Preferences.textShadow) {
+            val shadowColor =  when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                 0 -> Color.TRANSPARENT
                 1 -> R.color.black_50
                 2 -> Color.BLACK
                 else -> R.color.black_50
             }
-            val shadowDy =  when (Preferences.textShadow) {
+            val shadowDy =  when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                 0 -> 0f
                 1 -> 0f
                 2 -> 1f
