@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Another Widget</string>
+    <string name="add_widget">Pridať</string>
+
+    <!-- Display -->
+    <string name="settings_general_title">Zobrazenie</string>
+    <string name="divider" translatable="false">|</string>
+    <string name="settings_font_color_title">Farba textu</string>
+    <string name="settings_secondary_font_color_title">Farba textu</string>
+    <string name="settings_background_color_title">Farba pozadia</string>
+    <string name="title_main_text_size">Veľkosť textu</string>
+    <string name="title_second_text_size">Veľkosť textu</string>
+    <string name="title_text_shadow">Tieňovanie textu</string>
+    <string name="settings_text_shadow_subtitle_none">Žiadne</string>
+    <string name="settings_text_shadow_subtitle_low">Slabé</string>
+    <string name="settings_text_shadow_subtitle_high">Silné</string>
+    <string name="settings_custom_font_title">Písmo widgetu</string>
+    <string name="custom_font_subtitle_0">Písmo zariadenia</string>
+    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_date_format">Vlastný formát dátumu</string>
+    <string name="alpha">Alfa</string>
+    <string name="transparent">Priehľadný</string>
+    <string name="settings_show_dividers_title">Zobraziť oddeľovače textu</string>
+    <string name="first_row_header">Prvý riadok</string>
+    <string name="second_row_header">Druhý riadok</string>
+    <string name="global_style_header">Widget</string>
+    <string name="action_capitalize_the_date">Vykresliť dátum kapitálkami</string>
+    <string name="settings_date_format_title">Formát dátumu</string>
+    <string name="header_widget_background">Pozadie widgetu</string>
+    <string name="settings_secondary_row_top_margin_title">Okraj</string>
+
+    <!-- Calendar -->
+    <string name="settings_calendar_title">Kalendár</string>
+    <string name="title_permission_calendar">Zobrazovať udalosti</string>
+    <string name="description_permission_calendar">Udeľte prístup ku kalendáru \npre zobrazovanie udalostí vo widgete.</string>
+    <string name="settings_filter_calendar_title">Filtrovať udalosti</string>
+    <string name="settings_filter_calendar_subtitle">Zmeniť viditeľnosť kalendárov</string>
+    <string name="settings_all_day_title">Celodenné udalosti</string>
+    <string name="main_calendar">Kalendár používateľa</string>
+    <string name="calendar_settings_list_error">Chyba pri načítaní zoznamu kalendárov</string>
+    <string name="all_day">Celodenná udalosť</string>
+    <string name="show_events_visible">Udalosti sa zobrazujú</string>
+    <string name="show_events_not_visible">Udalosti sa nezobrazujú</string>
+    <string name="settings_show_until_subtitle_0">3 hodiny vopred</string>
+    <string name="settings_show_until_subtitle_1">6 hodín vopred</string>
+    <string name="settings_show_until_subtitle_2">12 hodín vopred</string>
+    <string name="settings_show_until_subtitle_3">24 hodín vopred</string>
+    <string name="settings_show_until_subtitle_4">3 dni vopred</string>
+    <string name="settings_show_until_subtitle_5">7 dní vopred</string>
+    <string name="settings_show_until_subtitle_6">30 minút vopred</string>
+    <string name="settings_show_until_subtitle_7">1 hodinu vopred</string>
+    <string name="settings_show_until_title">Zobrazovať udalosti aspoň</string>
+    <string name="day_char">d.</string>
+    <string name="settings_calendar_app_title">Predvolená aplikácia pre kalendár</string>
+    <string name="error_no_calendar">Žiadne kalendáre neboli nájdené.</string>
+    <string name="tomorrow">zajtra</string>
+    <string name="today">dnes</string>
+    <string name="settings_event_app_title">Ťuknutie na udalosť otvorí</string>
+    <string name="settings_second_row_info_title">Informácie o udalosti</string>
+    <string name="settings_second_row_info_subtitle_1">Adresa udalosti</string>
+    <string name="settings_second_row_info_subtitle_0">Čas udalosti</string>
+    <string name="settings_show_diff_time_title">Čas do začiatku udalosti</string>
+    <string name="settings_show_declined_events_title">Zamietnuté udalosti</string>
+    <string name="default_event_app">Podrobnosti o udalosti</string>
+    <string name="default_calendar_app">Predvolená aplikácia pre kalendár</string>
+    <string name="settings_show_multiple_events_title">Prepínač medzi viacerými udalosťami</string>
+    <string name="soon">čoskoro</string>
+    <string name="now">teraz</string>
+    <string name="settings_widget_update_frequency_title">Frekvencia aktualizácie času do začiatku udalosti</string>
+    <string name="settings_widget_update_frequency_subtitle">Častejšia aktualizácia spôsobuje vyššiu spotrebu batérie</string>
+    <string name="settings_widget_update_frequency_low">Nízka</string>
+    <string name="settings_widget_update_frequency_default">Predvolená</string>
+    <string name="settings_widget_update_frequency_high">Vysoká</string>
+    <string name="filters_header">Filtre</string>
+    <string name="event_detail_header">Podrobnosti udalosti</string>
+    <string name="settings_attendee_status_title">Stav účasti</string>
+    <string name="settings_attendee_status_subtitle">Filtrovať prijaté alebo zamietnuté udalosti</string>
+    <string name="settings_busy_events_title">Relevantné udalosti</string>
+    <string name="settings_busy_events_subtitle">Zobrazovať len udalosti,\npočas ktorých nemám čas</string>
+    <string name="attendee_status_accepted">Prijaté udalosti</string>
+    <string name="attendee_status_invited">Pozvánky na udalosti</string>
+    <string name="attendee_status_declined">Zamietnuté udalosti</string>
+
+    <!-- Weather -->
+    <string name="settings_weather_title">Počasie</string>
+    <string name="title_permission_location">Zobrazovať počasie</string>
+    <string name="description_permission_location">Udeľte prístup k polohe\npre zobrazovanie počasia vo widgete.</string>
+    <string name="settings_unit_title">Jednotky</string>
+    <string name="fahrenheit" translatable="false">°F - stupne Fahrenheita</string>
+    <string name="celsius" translatable="false">°C - stupne Celzia</string>
+    <string name="settings_weather_refresh_period_title">Frekvencia aktualizácií</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30 minút</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1 hodina</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3 hodiny</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6 hodín</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12 hodín</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24 hodín</string>
+    <string name="settings_custom_location_title">Poloha</string>
+    <string name="custom_location_gps">Geolokácia</string>
+    <string name="show_weather_visible">Počasie sa zobrazuje</string>
+    <string name="show_weather_not_visible">Počasie sa nezobrazuje</string>
+    <string name="settings_weather_app_title">Ťuknutie na počasie otvorí</string>
+    <string name="settings_weather_provider_api_key_title">Kľúč k API pre počasie</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Poskytovateľ počasia je správne nakonfigurovaný</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Poskytovateľ počasia musí byť nakonfigurovaný</string>
+    <string name="api_key_hint">Kľúč k OpenWeather API</string>
+    <string name="default_weather_app">Počasie Google</string>
+    <string name="weather_warning">Počasie Google Awareness je zastaralé. Pre zobrazovanie počasia vo widgete je vyžadovaný kľúč k OpenWeather API.</string>
+    <string name="api_key_title_1">Vytvorte si OpenWeather účet</string>
+    <string name="api_key_subtitle_1">Zaregistrujte sa zdarma na OpenWeather. Bude to trvať len pár minút.</string>
+    <string name="api_key_title_2">Skopírujte kľúč k API</string>
+    <string name="api_key_subtitle_2">Nájdite menu s kľúčmi k API vo Vašom účte a skopírujte predvolený kľúč.</string>
+    <string name="api_key_title_3">Vložte kľúč do aplikácie</string>
+    <string name="api_key_subtitle_3">Vložte kľúč do poľa vyššie a uložte ho. Počasie sa zobrazí hneď ako bude kľúč aktivovaný.</string>
+    <string name="action_open_provider">Prejdite na OpenWeatherMap.com</string>
+    <string name="api_key_info_all_set">Aktivácia Vášho API kľúča môže trvať až 10 minút. Počasie sa aktualizuje hneď ako bude dostupné.</string>
+    <string name="settings_weather_icon_pack_title">Balíček ikon</string>
+    <string name="settings_weather_icon_pack_default">Balíček ikon %d</string>
+    <string name="background_location_warning">Zbierame údaje o polohe pre aktualizáciu počasia aj keď je aplikácia zatvorená alebo sa nepoužíva.\nInak tieto údaje nepoužijeme.</string>
+
+    <!-- Clock -->
+    <string name="settings_clock_title">Hodiny</string>
+    <string name="settings_clock_app_title">Ťuknutie na hodiny otvorí</string>
+    <string name="title_show_clock">Zobrazovať hodiny</string>
+    <string name="show_clock_visible">Hodiny sa zobrazujú</string>
+    <string name="show_clock_not_visible">Hodiny sa nezobrazujú</string>
+    <string name="settings_clock_text_size_title">Veľkosť textu</string>
+    <string name="default_clock_app">Predvolená aplikácia hodín</string>
+    <string name="settings_clock_bottom_margin_title">Medzera pod hodinami</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Žiadna</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Malá</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Stredná</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Veľká</string>
+    <string name="clock_warning">Kvôli technologickým obmedzeniam hodiny nebudú používať vlastné písmo a tiene zvolené v časti Zobrazenie.</string>
+    <string name="settings_clock_text_color_title">Farba textu</string>
+    <string name="settings_ampm_indicator_title">Zobrazovať indikátor AM/PM</string>
+    <string name="clock_text_header">Štýl hodín</string>
+
+    <!-- Glance -->
+    <string name="settings_show_next_alarm_title">Nasledujúci budík</string>
+    <string name="next_alarm_warning">Nasledujúci budík vyzerá nesprávne.\nBol nastavený cez %s.</string>
+    <string name="settings_at_a_glance_title">Rýchle informácie</string>
+    <string name="settings_show_music_title">Práve prehrávaná skladba</string>
+    <string name="settings_request_notification_access">Pre získanie informácií o práve prehrávanej skladbe potrebujeme povolenie prístupu k notifikáciám.</string>
+    <string name="settings_request_fitness_access">Pre získanie počtu krokov z Google Fit potrebujeme pár povolení.</string>
+    <string name="title_show_glance">Zobrazovať rýchle informácie</string>
+    <string name="description_show_glance_visible">Služba je zapnutá</string>
+    <string name="description_show_glance_not_visible">Služba je vypnutá</string>
+    <string name="settings_sort_glance_providers_title">Priorita zdrojov dát</string>
+    <string name="settings_sort_glance_providers_subtitle">Zmeniť prioritu zdrojov dát</string>
+    <string name="settings_custom_notes_title">Vlastné poznámky</string>
+    <string name="settings_low_battery_level_title">Batéria</string>
+    <string name="settings_daily_steps_title">Denný počet krokov</string>
+    <string name="battery_low_warning">Nízka úroveň batérie</string>
+    <string name="daily_steps_counter">%d krokov doteraz</string>
+    <string name="charging">Nabité</string>
+    <string name="providers">Poskytovatelia</string>
+    <string name="glance_info">Rýchle informácie sa zobrazujú len ak sa nezobrazujú udalosti a platí pár ďalších podmienok.</string>
+
+    <!-- Settings -->
+    <string name="action_share">Zdieľať</string>
+    <string name="action_rate">Ohodnotiť aplikáciu</string>
+    <string name="action_support">Podporte ma</string>
+    <string name="action_feedback">Spätná väzba</string>
+    <string name="action_about">O aplikácii</string>
+    <string name="action_refresh_widget">Aktualizovať widget</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
+    <string name="error_opening_uri">Chyba pri otváraní URL: odkaz bol skopírovaný do schránky.</string>
+    <string name="loading_text">Načítavam údaje…</string>
+    <string name="error_opening_app">Chyba pri otváraní aplikácie.</string>
+    <string name="default_name">Predvolená aplikácia</string>
+    <string name="action_save">Uložiť</string>
+    <string name="settings_visible">Viditeľné</string>
+    <string name="settings_not_visible">Skryté</string>
+    <string name="support_translations_title">Pomôžte s prekladom</string>
+    <string name="support_translations_subtitle">Otvorte pull request na GitHube</string>
+    <string name="support_website_title">Pozrite si moje ďalšie projekty</string>
+    <string name="support_website_subtitle">Ten istý vývojár, mnoho možností</string>
+    <string name="error">Ups, niečo sa pokazilo!</string>
+    <string name="settings_theme_title">Motív</string>
+    <string name="support_main_subtitle">Vývojári vždy potrebujú veľa kávy</string>
+    <string name="settings_subtitle_dark_theme_light">Svetlý</string>
+    <string name="settings_subtitle_dark_theme_dark">Tmavý</string>
+    <string name="settings_subtitle_dark_theme_by_battery_saver">Nastavené šetričom batérie</string>
+    <string name="settings_subtitle_dark_theme_follow_system">Rovnaký ako motív systému</string>
+    <string name="settings_subtitle_dark_theme_default">Predvolený</string>
+    <string name="search">Hľadať</string>
+    <string name="settings_app_version_title">Verzia aplikácie</string>
+    <string name="settings_title_show_wallpaper">Zobraziť tapetu</string>
+    <string name="support_refresh_widget_subtitle">Vynútiť reštart služby widgetu</string>
+    <string name="settings_feedback_subtitle">Toto je open-source projekt, kľudne pomôžte.</string>
+    <string name="settings_feedback_title">Spätná väzba a požiadavky na funkcionalitu</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
+    <string name="xiaomi_warning_title">Zariadenia Xiaomi</string>
+    <string name="xiaomi_warning_message">Enable the permission to display pop-up windows when running in the background inside the "Other permission" section of the app settings. Inak nebude možné otvárať aplikácie ťukaním na widget.</string>
+    <string name="action_ignore">Ignorovať</string>
+    <string name="action_grant_permission">Udeliť povolenie</string>
+    <string name="settings_title">Nastavenia</string>
+    <string name="style_header">Štýl</string>
+    <string name="actions_header">Akcie</string>
+    <string name="provider_header">Poskytovateľ</string>
+    <string name="appearance_header">Vzhľad</string>
+    <string name="preferences_header">Nastavenia</string>
+
+    <!-- Activities -->
+    <string name="action_choose_application">Vyberte aplikáciu</string>
+    <string name="support_main_title">Podporte vývojára</string>
+    <string name="thanks">Vďaka za podporu!</string>
+    <string name="donation_coffee">Talianska káva</string>
+    <string name="donation_donuts">Glazované donuty</string>
+    <string name="donation_dinner">Luxusná večera</string>
+    <string name="donation_breakfast">Anglické raňajky</string>
+    <string name="donation_lunch">Rýchly obed</string>
+    <string name="action_show_widget_preview">Ukázať náhľad widgetu</string>
+    <string name="support_dev_subtitle">Toto je projekt jedného vývojára,\nďakujem za podporu!</string>
+    <string name="settings_title_integrations">Integrácie</string>
+    <string name="label_count_installed_integrations">%d nainštalovaných integrácií</string>
+    <string name="nothing">Nič</string>
+</resources>
