@@ -122,8 +122,7 @@
     <string name="settings_clock_bottom_margin_subtitle_small">Pequeño</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">Mediano</string>
     <string name="settings_clock_bottom_margin_subtitle_large">Grande</string>
-    <string name="clock_warning">Debido a limitaciones tecnológicas, el reloj ya no podrá tener la fuente personalizada y las sombras de texto seleccionadas en la sección Pantalla.</string>
-        <string name="clock_warning">Debido a limitaciones tecnológicas, el reloj ya no podrá tener la fuente personalizada y las sombras de texto seleccionadas en la sección de tipografía.</string>
+    <string name="clock_warning">Debido a limitaciones tecnológicas, el reloj ya no podrá tener la fuente personalizada y las sombras de texto seleccionadas en la sección de tipografía.</string>
     <string name="settings_clock_text_color_title">Color de texto</string>
     <string name="settings_ampm_indicator_title">Mostrar indicador AM/PM</string>
     <string name="clock_text_header">Estilo del texto del reloj</string>
