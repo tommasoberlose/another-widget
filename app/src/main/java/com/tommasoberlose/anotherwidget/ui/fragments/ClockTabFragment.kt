@@ -96,6 +96,7 @@ class ClockTabFragment : Fragment() {
     ) {
         binding.isClockVisible = Preferences.showClock
         binding.is24Format = DateFormat.is24HourFormat(requireContext())
+        binding.isDarkModeEnabled = activity?.isDarkTheme() == true
 
         viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
             large_clock_warning?.isVisible = it

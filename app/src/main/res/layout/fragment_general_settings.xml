@@ -5,6 +5,10 @@
         <variable
             name="viewModel"
             type="com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel" />
+        <variable
+            name="isDarkModeEnabled"
+            type="Boolean" />
+        <import type="android.view.View" />
     </data>
     <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
         android:layout_width="match_parent"
@@ -111,6 +115,7 @@
                     android:layout_gravity="center_vertical"
                     app:cardBackgroundColor="@color/colorPrimary"
                     android:layout_marginEnd="8dp"
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
                     app:cardElevation="0dp">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
@@ -254,6 +259,7 @@
                     app:cardCornerRadius="4dp"
                     android:layout_gravity="center_vertical"
                     app:cardBackgroundColor="@color/colorPrimary"
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
                     android:layout_marginEnd="8dp"
                     app:cardElevation="0dp">
                     <androidx.appcompat.widget.AppCompatTextView
@@ -360,6 +366,7 @@
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="4dp"
                     android:layout_gravity="center_vertical"
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
                     app:cardBackgroundColor="@color/colorPrimary"
                     android:layout_marginEnd="8dp"
                     app:cardElevation="0dp">
@@ -514,6 +521,7 @@
                     app:cardCornerRadius="4dp"
                     android:layout_gravity="center_vertical"
                     app:cardBackgroundColor="@color/colorPrimary"
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
                     android:layout_marginEnd="8dp"
                     app:cardElevation="0dp">
                     <androidx.appcompat.widget.AppCompatTextView

@@ -65,6 +65,7 @@ class GeneralTabFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.isDarkModeEnabled = activity?.isDarkTheme() == true
 
         return binding.root
     }

@@ -11,6 +11,9 @@
             name="is24Format"
             type="Boolean" />
         <import type="android.view.View" />
+        <variable
+            name="isDarkModeEnabled"
+            type="Boolean" />
     </data>
     <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -184,7 +187,8 @@
                         android:src="@drawable/round_palette"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -200,6 +204,27 @@
                             android:id="@+id/clock_text_color_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="4dp"
+                        android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
+                        android:layout_gravity="center_vertical"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        android:layout_marginEnd="8dp"
+                        app:cardElevation="0dp">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="12sp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                            android:text="@string/settings_subtitle_dark_theme_dark"/>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
@@ -349,18 +374,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/small_clock_warning"
-                    android:orientation="vertical">
+                    android:padding="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="10dp"
+                        android:src="@drawable/outline_info_24"
+                        app:tint="@color/colorSecondaryText"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        android:paddingLeft="24dp"
-                        android:paddingRight="24dp"
-                        android:paddingBottom="32dp"
                         android:duplicateParentState="true"
                         android:textSize="14sp"
+                        android:layout_marginTop="8dp"
                         android:text="@string/clock_warning"
-                        android:textColor="@color/colorPrimaryText"
+                        android:textColor="@color/colorSecondaryText"
                         android:letterSpacing="0"
                         android:fontFamily="@font/product_sans"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"

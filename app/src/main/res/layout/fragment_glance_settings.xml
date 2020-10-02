@@ -362,18 +362,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/small_clock_warning"
-                    android:orientation="vertical">
+                    android:padding="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="10dp"
+                        android:src="@drawable/outline_info_24"
+                        app:tint="@color/colorSecondaryText"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        android:paddingLeft="24dp"
-                        android:paddingRight="24dp"
-                        android:paddingBottom="32dp"
                         android:duplicateParentState="true"
                         android:textSize="14sp"
+                        android:layout_marginTop="8dp"
                         android:text="@string/glance_info"
-                        android:textColor="@color/colorPrimaryText"
+                        android:textColor="@color/colorSecondaryText"
                         android:letterSpacing="0"
                         android:fontFamily="@font/product_sans"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
