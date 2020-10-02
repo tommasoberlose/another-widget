@@ -140,7 +140,7 @@
     <string name="settings_low_battery_level_title">Batteria</string>
     <string name="settings_daily_steps_title">Passi fatti</string>
     <string name="battery_low_warning">Livello batteria basso</string>
-    <string name="daily_steps_counter">%d passi fatti finore</string>
+    <string name="daily_steps_counter">%d passi fatti finora</string>
     <string name="charging">In carica</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
