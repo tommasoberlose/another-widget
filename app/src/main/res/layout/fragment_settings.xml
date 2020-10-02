@@ -29,7 +29,7 @@
                     android:layout_height="48dp"
                     android:padding="10dp"
                     android:src="@drawable/round_arrow_back"
-                    android:tint="@color/colorPrimaryText"
+                    app:tint="@color/colorPrimaryText"
                     android:layout_centerVertical="true"
                     android:clickable="true"
                     android:focusable="true"
@@ -87,7 +87,7 @@
                         android:layout_height="48dp"
                         android:padding="11dp"
                         android:src="@drawable/round_refresh"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                         android:layout_height="48dp"
                         android:padding="11dp"
                         android:src="@drawable/round_compare"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -168,7 +168,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_wallpaper"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -213,7 +213,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_extension"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
                         android:layout_height="48dp"
                         android:padding="11dp"
                         android:src="@drawable/ic_day_night"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_translate"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -325,7 +325,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_group_work"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -363,7 +363,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_widgets"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -401,7 +401,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_favorite"
-                        android:tint="@color/errorColorText"/>
+                        app:tint="@color/errorColorText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

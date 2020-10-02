@@ -143,11 +143,11 @@ fun Context.isTablet(): Boolean {
 }
 
 fun String.md5(): String {
-    val MD5 = "MD5"
+    val mD5 = "MD5"
     try {
         // Create MD5 Hash
         val digest = java.security.MessageDigest
-            .getInstance(MD5)
+            .getInstance(mD5)
         digest.update(toByteArray())
         val messageDigest = digest.digest()
 

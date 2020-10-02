@@ -5,6 +5,7 @@ import android.provider.CalendarContract
 import android.util.Log
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.applyFilters
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
@@ -131,8 +132,7 @@ class EventRepository(val context: Context) {
             .where(Event::class.java)
             .greaterThan("endDate", now)
             .findAll()
-            .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
-            .filter { (Preferences.calendarAllDay || !it.allDay) }
+            .applyFilters()
     }
 
     private fun getEvents(): List<Event> {
@@ -157,8 +157,7 @@ class EventRepository(val context: Context) {
             .greaterThan("endDate", now)
             .lessThanOrEqualTo("startDate", limit.timeInMillis)
             .findAll()
-            .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
-            .filter { (Preferences.calendarAllDay || !it.allDay) }
+            .applyFilters()
     }
 
     fun getEventsCount(): Int = getEvents().size

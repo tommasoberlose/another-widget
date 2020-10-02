@@ -27,6 +27,7 @@
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Capitalize the date</string>
     <string name="settings_date_format_title">Date format</string>
+    <string name="header_widget_background">Widget background</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendar</string>
@@ -72,6 +73,13 @@
     <string name="settings_widget_update_frequency_high">High</string>
     <string name="filters_header">Filters</string>
     <string name="event_detail_header">Event detail</string>
+    <string name="settings_attendee_status_title">Attendee Status</string>
+    <string name="settings_attendee_status_subtitle">Filter accepted or declined events</string>
+    <string name="settings_busy_events_title">Relevant events</string>
+    <string name="settings_busy_events_subtitle">Show only the events\nthat keep you busy</string>
+    <string name="attendee_status_accepted">Accepted events</string>
+    <string name="attendee_status_invited">Events invites</string>
+    <string name="attendee_status_declined">Declined events</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Weather</string>
@@ -144,7 +152,7 @@
     <string name="settings_daily_steps_title">Daily steps</string>
     <string name="battery_low_warning">Low battery level</string>
     <string name="daily_steps_counter">%d steps so far</string>
-    <string name="charging">Charging</string>
+    <string name="charging">Charged</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 
@@ -207,5 +215,4 @@
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
     <string name="nothing">Nothing</string>
-    <string name="header_widget_background">Widget background</string>
 </resources>

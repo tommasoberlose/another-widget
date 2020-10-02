@@ -4,7 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +31,8 @@ import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
-import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
-import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import com.tommasoberlose.anotherwidget.utils.toast
@@ -42,7 +40,6 @@ import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_calendar_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.Comparator
 
 class CalendarTabFragment : Fragment() {
@@ -77,7 +74,7 @@ class CalendarTabFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         show_all_day_toggle.isChecked = Preferences.calendarAllDay
-        show_declined_events_toggle.isChecked = Preferences.showDeclinedEvents
+        show_only_busy_events_toggle.isChecked = Preferences.showOnlyBusyEvents
         show_diff_time_toggle.isChecked = Preferences.showDiffTime
         show_multiple_events_toggle.isChecked = Preferences.showNextEvent
 
@@ -110,12 +107,6 @@ class CalendarTabFragment : Fragment() {
             maintainScrollPosition {
                 all_day_label?.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
-        })
-
-        viewModel.showDeclinedEvents.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_declined_events_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
         })
 
@@ -258,18 +249,58 @@ class CalendarTabFragment : Fragment() {
         show_all_day_toggle.setOnCheckedChangeListener { _, isChecked ->
             if (Preferences.showEvents) {
                 Preferences.calendarAllDay = isChecked
+                updateCalendar()
             }
         }
 
-        action_show_declined_events.setOnClickListener {
+        action_change_attendee_filter.setOnClickListener {
             if (Preferences.showEvents) {
-                show_declined_events_toggle.isChecked = !show_declined_events_toggle.isChecked
+                val selectedValues = emptyList<Int>().toMutableList()
+                if (Preferences.showDeclinedEvents) {
+                    selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
+                }
+                if (Preferences.showInvitedEvents) {
+                    selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_INVITED)
+                }
+                if (Preferences.showAcceptedEvents) {
+                    selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED)
+                }
+
+                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_attendee_status_title), isMultiSelection = true)
+                    .setSelectedValues(selectedValues)
+
+                dialog.addItem(
+                    getString(R.string.attendee_status_invited),
+                    CalendarContract.Attendees.ATTENDEE_STATUS_INVITED
+                )
+                dialog.addItem(
+                    getString(R.string.attendee_status_accepted),
+                    CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED
+                )
+                dialog.addItem(
+                    getString(R.string.attendee_status_declined),
+                    CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED
+                )
+
+                dialog.addOnMultipleSelectItemListener { values ->
+                    Preferences.showDeclinedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
+                    Preferences.showAcceptedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED)
+                    Preferences.showInvitedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_INVITED)
+                    updateCalendar()
+                }.show()
             }
         }
 
-        show_declined_events_toggle.setOnCheckedChangeListener { _, isChecked ->
+        action_show_only_busy_events.setOnClickListener {
             if (Preferences.showEvents) {
-                Preferences.showDeclinedEvents = isChecked
+                show_only_busy_events_toggle.isChecked = !show_only_busy_events_toggle.isChecked
+            }
+        }
+
+        show_only_busy_events_toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (Preferences.showEvents) {
+                Preferences.showOnlyBusyEvents = isChecked
+                updateCalendar()
             }
         }
 

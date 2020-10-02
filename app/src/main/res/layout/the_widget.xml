@@ -21,7 +21,7 @@
             android:ellipsize="end"
             android:text="@string/loading_text"
             android:includeFontPadding="false"
-            style="@style/AnotherWidget.Title"/>
+            style="@style/AnotherWidget.Widget.Title"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
                 android:id="@+id/divider1"
                 android:text="@string/divider"
                 android:includeFontPadding="false"
-                style="@style/AnotherWidget.Subtitle"/>
+                style="@style/AnotherWidget.Widget.Subtitle"/>
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Date.Big"
+                style="@style/AnotherWidget.Widget.Date.Big"
                 android:maxLines="1"
                 android:includeFontPadding="false"
                 android:id="@+id/temp"/>
@@ -83,7 +83,7 @@
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Title" />
+                style="@style/AnotherWidget.Widget.Title" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
                     android:includeFontPadding="false"
-                    style="@style/AnotherWidget.Title" />
+                    style="@style/AnotherWidget.Widget.Title" />
             </LinearLayout>
             <ImageView
                 android:layout_width="32dp"
@@ -117,7 +117,7 @@
                     android:id="@+id/divider3"
                     android:text="@string/divider"
                     android:includeFontPadding="false"
-                    style="@style/AnotherWidget.Subtitle"/>
+                    style="@style/AnotherWidget.Widget.Subtitle"/>
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -127,7 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Date.Big"
+                    style="@style/AnotherWidget.Widget.Date.Big"
                     android:maxLines="1"
                     android:includeFontPadding="false"
                     android:id="@+id/special_temp"/>
@@ -161,7 +161,7 @@
                     android:maxLines="1"
                     android:includeFontPadding="false"
                     android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Subtitle" />
+                    style="@style/AnotherWidget.Widget.Subtitle" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -178,7 +178,7 @@
                     android:id="@+id/divider2"
                     android:text="@string/divider"
                     android:includeFontPadding="false"
-                    style="@style/AnotherWidget.Subtitle"/>
+                    style="@style/AnotherWidget.Widget.Subtitle"/>
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
@@ -189,7 +189,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Date"
+                    style="@style/AnotherWidget.Widget.Date"
                     android:layout_marginStart="8dp"
                     android:ellipsize="marquee"
                     android:layout_marginEnd="4dp"

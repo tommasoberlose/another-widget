@@ -102,7 +102,7 @@
                         android:layout_height="48dp"
                         android:padding="11dp"
                         android:src="@drawable/round_music_note"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_alarm"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                         android:layout_height="48dp"
                         android:padding="11dp"
                         android:src="@drawable/round_directions_walk"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_battery_charging_full"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -290,7 +290,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_notes"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -339,7 +339,7 @@
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_flip_to_front"
-                        android:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

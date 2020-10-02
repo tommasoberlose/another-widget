@@ -58,7 +58,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/colorPrimaryText"
+                    app:tint="@color/colorPrimaryText"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:id="@+id/action_settings"/>

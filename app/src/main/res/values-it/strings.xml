@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Aggiungi</string>
 
     <!-- Display -->
@@ -26,6 +25,7 @@
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Data maiuscola</string>
     <string name="settings_date_format_title">Formato data</string>
+    <string name="header_widget_background">Sfondo widget</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendario</string>
@@ -71,6 +71,13 @@
     <string name="settings_widget_update_frequency_high">Alta</string>
     <string name="filters_header">Filtri</string>
     <string name="event_detail_header">Dettagli evento</string>
+    <string name="settings_attendee_status_title">Partecipazione eventi</string>
+    <string name="settings_attendee_status_subtitle">Filtra eventi accettati o rifiutati</string>
+    <string name="settings_busy_events_title">Eventi importanti</string>
+    <string name="settings_busy_events_subtitle">Mostra solo gli eventi\ndove risulti occupato</string>
+    <string name="attendee_status_accepted">Eventi accettati</string>
+    <string name="attendee_status_invited">Inviti ad eventi</string>
+    <string name="attendee_status_declined">Eventi rifiutati</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Meteo</string>
@@ -141,7 +148,7 @@
     <string name="settings_daily_steps_title">Passi fatti</string>
     <string name="battery_low_warning">Livello batteria basso</string>
     <string name="daily_steps_counter">%d passi fatti finora</string>
-    <string name="charging">In carica</string>
+    <string name="charging">Carica</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
 
@@ -201,4 +208,5 @@
     <string name="support_dev_subtitle">Questo è un progetto sviluppato da una singola persona,\n grazie per il tuo supporto!</string>
     <string name="settings_title_integrations">Integrazioni</string>
     <string name="label_count_installed_integrations">%d integrazioni installate</string>
+    <string name="nothing">Niente</string>
 </resources>

@@ -10,6 +10,7 @@ import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.receivers.MusicNotificationListener
@@ -78,7 +79,7 @@ object MediaPlayerHelper {
     }
 
     private fun removeMediaInfo() {
-        Preferences.bulk {
+        Preferences.blockingBulk {
             remove(Preferences::mediaPlayerTitle)
             remove(Preferences::mediaPlayerArtist)
             remove(Preferences::mediaPlayerAlbum)

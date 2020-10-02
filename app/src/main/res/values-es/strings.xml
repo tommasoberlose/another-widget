@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Añadir</string>
 
     <!-- Display -->
     <string name="settings_general_title">Pantalla</string>
-    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Color del texto</string>
     <string name="settings_secondary_font_color_title">Color del texto</string>
     <string name="settings_background_color_title">Color del fondo</string>
@@ -78,8 +76,6 @@
     <string name="title_permission_location">Mostrar el clima</string>
     <string name="description_permission_location">Permite el acceso a tu ubicación\npara ver el clima en tu widget.</string>
     <string name="settings_unit_title">Unidad de medición</string>
-    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
-    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Frecuencia de refresco</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 minutos</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 hora</string>
@@ -155,7 +151,6 @@
     <string name="action_feedback">Comentarios</string>
     <string name="action_about">Acerca de</string>
     <string name="action_refresh_widget">Refrescar widget</string>
-    <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Error abriendo la URL: Link copiado al portapapeles.</string>
     <string name="loading_text">Cargando datos…</string>
     <string name="error_opening_app">Error abriendo la app.</string>
@@ -181,7 +176,6 @@
     <string name="support_refresh_widget_subtitle">Forzar el reinicio del servicio del widget</string>
     <string name="settings_feedback_subtitle">Este es un proyecto de código abierto, siéntete libre de ayudar.</string>
     <string name="settings_feedback_title">Comentarios y solicitudes de funciones</string>
-    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Dispositivos Xiaomi</string>
     <string name="xiaomi_warning_message">Habilita el permiso para mostrar ventanas emergentes mientras está ejecutándose en segundo plano dentro de la sección "Otros permisos" en la app de ajustes. De lo contrario, no podrás abrir ninguna aplicación tocando en el widget.</string>
     <string name="action_ignore">Ignorar</string>

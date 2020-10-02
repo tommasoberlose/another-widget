@@ -40,7 +40,7 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/action_back"
-                        android:tint="@color/colorPrimaryText"
+                        app:tint="@color/colorPrimaryText"
                         android:src="@drawable/round_arrow_back" />
                     <TextView
                         android:layout_width="wrap_content"

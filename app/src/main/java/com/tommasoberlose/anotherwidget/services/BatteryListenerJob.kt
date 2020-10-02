@@ -52,7 +52,7 @@ class BatteryListenerJob : JobService() {
             }
         }
 
-        fun remove(context: Context) {
+        private fun remove(context: Context) {
             val js = context.getSystemService(JobScheduler::class.java)
             js?.cancel(chargingJobId)
             js?.cancel(notChargingJobId)

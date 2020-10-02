@@ -69,4 +69,15 @@ object CalendarHelper {
     fun removeEventUpdatesAndroidN(context: Context) {
         EventListenerJob.remove(context)
     }
+
+    fun List<Event>.applyFilters() : List<Event> {
+        return this
+            .asSequence()
+            .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
+            .filter { (Preferences.showAcceptedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED) }
+            .filter { (Preferences.showInvitedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_INVITED) }
+            .filter { (Preferences.calendarAllDay || !it.allDay) }
+            .filter { (!Preferences.showOnlyBusyEvents || it.availability != CalendarContract.EventsEntity.AVAILABILITY_FREE) }
+            .toList()
+    }
 }

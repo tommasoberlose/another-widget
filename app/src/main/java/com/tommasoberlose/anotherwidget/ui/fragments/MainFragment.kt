@@ -372,7 +372,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         super.onPause()
     }
 
-    var delayJob: Job? = null
+    private var delayJob: Job? = null
 
     override fun onSharedPreferenceChanged(preferences: SharedPreferences, p1: String) {
         delayJob?.cancel()

@@ -30,6 +30,7 @@ class MainViewModel : ViewModel() {
     val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
     val widgetUpdateFrequency = Preferences.asLiveData(Preferences::widgetUpdateFrequency)
+    val showOnlyBusyEvents = Preferences.asLiveData(Preferences::showOnlyBusyEvents)
 
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)

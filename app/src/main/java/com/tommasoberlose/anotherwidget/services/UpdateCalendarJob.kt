@@ -9,6 +9,7 @@ import androidx.core.app.JobIntentService
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.applyFilters
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
@@ -23,7 +24,7 @@ import kotlin.collections.ArrayList
 class UpdateCalendarJob : JobIntentService() {
 
     companion object {
-        val jobId = 1200
+        private const val jobId = 1200
 
         fun enqueueWork(context: Context, work: Intent) {
             enqueueWork(context, UpdateCalendarJob::class.java, jobId, work)
@@ -84,7 +85,8 @@ class UpdateCalendarJob : JobIntentService() {
                                             calendarID = e.calendarId.toInt(),
                                             allDay = e.allDay,
                                             address = e.eventLocation ?: "",
-                                            selfAttendeeStatus = e.selfAttendeeStatus.toInt()
+                                            selfAttendeeStatus = e.selfAttendeeStatus.toInt(),
+                                            availability = e.availability
                                         )
                                     )
                                 }
@@ -94,8 +96,7 @@ class UpdateCalendarJob : JobIntentService() {
                     }
 
                     val filteredEventList = eventList
-                        .filter { (Preferences.showDeclinedEvents || it.selfAttendeeStatus != CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED) }
-                        .filter { (Preferences.calendarAllDay || !it.allDay) }
+                        .applyFilters()
 
                     if (filteredEventList.isEmpty()) {
                         eventRepository.resetNextEventData()

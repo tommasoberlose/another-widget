@@ -24,7 +24,7 @@
             android:padding="12dp"
             android:id="@+id/icon"
             android:src="@drawable/round_music_note"
-            android:tint="@color/colorPrimaryText"/>
+            app:tint="@color/colorPrimaryText"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -49,6 +49,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:id="@+id/action_drag"
             android:src="@drawable/round_drag"
-            android:tint="@color/colorPrimaryText" />
+            app:tint="@color/colorPrimaryText" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

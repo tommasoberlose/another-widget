@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Add</string>
 
     <!-- Display -->
     <string name="settings_general_title">Visning</string>
-    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Tekstfarve</string>
     <string name="settings_secondary_font_color_title">Tekstfarve</string>
     <string name="settings_background_color_title">Baggrundsfarve</string>
@@ -78,8 +76,6 @@
     <string name="title_permission_location">Vis vejret</string>
     <string name="description_permission_location">Giv tilladelse til din lokation\nfor at se vejret i din widget.</string>
     <string name="settings_unit_title">Måleenhed</string>
-    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
-    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Opdateringsfrekvens</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 minutter</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 time</string>
@@ -155,7 +151,6 @@
     <string name="action_feedback">Feedback</string>
     <string name="action_about">Om</string>
     <string name="action_refresh_widget">Genindlæs widget</string>
-    <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Fejl ved åbning af URL: Link kopieret til udklipsholder.</string>
     <string name="loading_text">Indlæser data…</string>
     <string name="error_opening_app">Fejl ved åbning af app.</string>
@@ -181,7 +176,6 @@
     <string name="support_refresh_widget_subtitle">Tving en genstart af widget-tjenesten</string>
     <string name="settings_feedback_subtitle">Dette er et open-source projekt, du er velkommen til at hjælpe.</string>
     <string name="settings_feedback_title">Feedback og feature requests</string>
-    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Enheder</string>
     <string name="xiaomi_warning_message">Aktiver tilladelsen til visning af popup-vinduer, når app\'en kører i baggrunden, som findes under "Andre tilladelser" i appindstillingerne. Ellers vil du ikke kunne åbne nogle applikationer ved tryk på widget\'en.</string>
     <string name="action_ignore">Ignorér</string>

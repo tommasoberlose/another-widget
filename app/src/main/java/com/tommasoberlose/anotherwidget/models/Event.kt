@@ -17,7 +17,8 @@ open class Event(
     var calendarID: Int = 0,
     var allDay: Boolean = false,
     var address: String = "",
-    var selfAttendeeStatus: Int = CalendarContract.Attendees.ATTENDEE_STATUS_NONE
+    var selfAttendeeStatus: Int = CalendarContract.Attendees.ATTENDEE_STATUS_NONE,
+    var availability: Int = CalendarContract.EventsEntity.AVAILABILITY_BUSY
 ) : RealmObject() {
     override fun toString(): String {
         return "Event:\nEVENT ID: " + eventID + "\nTITLE: " + title + "\nSTART DATE: " + Date(startDate) + "\nEND DATE: " + Date(endDate) + "\nCAL ID: " + calendarID  + "\nADDRESS: " + address

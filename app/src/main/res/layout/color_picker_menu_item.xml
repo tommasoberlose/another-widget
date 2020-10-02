@@ -20,7 +20,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:id="@+id/check"
-            android:tint="@android:color/white"
+            app:tint="@android:color/white"
             android:src="@drawable/round_check"
             android:layout_gravity="center" />
     </com.google.android.material.card.MaterialCardView>
