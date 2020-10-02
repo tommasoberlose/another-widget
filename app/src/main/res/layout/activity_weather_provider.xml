@@ -76,14 +76,14 @@
                     android:nextFocusLeft="@id/api_key"
                     android:gravity="center_vertical|start"
                     android:textColor="@color/colorPrimaryText"
-                    app:boxBackgroundColor="@color/colorPrimaryDark"
-                    app:boxStrokeColor="@color/colorAccent"
+                    app:boxBackgroundColor="@color/colorPrimary"
+                    app:boxStrokeWidth="0dp"
                     app:hintTextColor="@color/colorAccent"
                     android:hint="@string/api_key_hint"
                     android:fontFamily="@font/product_sans"
                     android:textAlignment="viewStart"
                     android:textDirection="locale"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
