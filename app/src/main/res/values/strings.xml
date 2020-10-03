@@ -217,4 +217,6 @@
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
     <string name="nothing">Nothing</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
+    <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
 </resources>

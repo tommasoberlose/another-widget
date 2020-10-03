@@ -184,6 +184,10 @@ class SettingsFragment : Fragment() {
             activity?.openURI("https://github.com/tommasoberlose/another-widget/issues")
         }
 
+        action_privacy_policy.setOnClickListener {
+            activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/privacy-policy.md")
+        }
+
         action_help_dev.setOnClickListener {
             startActivity(Intent(requireContext(), SupportDevActivity::class.java))
         }
