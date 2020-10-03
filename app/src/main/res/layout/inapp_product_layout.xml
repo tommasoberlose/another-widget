@@ -42,7 +42,7 @@
             android:paddingRight="12dp"
             android:gravity="center"
             android:text="12.00$"
-            android:fontFamily="@font/product_sans"
+            android:fontFamily="@font/google_sans"
             android:textColor="@color/colorAccent"
             android:id="@+id/product_price"
             android:textSize="14sp"/>

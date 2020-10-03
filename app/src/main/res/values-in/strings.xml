@@ -16,7 +16,7 @@
     <string name="settings_text_shadow_subtitle_high">Tinggi</string>
     <string name="settings_custom_font_title">Fon widget</string>
     <string name="custom_font_subtitle_0">Fon Perangkat</string>
-    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Format tanggal khusus</string>
     <string name="alpha">Alpha</string>
     <string name="transparent">Transparan</string>

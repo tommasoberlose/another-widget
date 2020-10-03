@@ -80,7 +80,7 @@
                     app:boxStrokeWidth="0dp"
                     app:hintTextColor="@color/colorAccent"
                     android:hint="@string/api_key_hint"
-                    android:fontFamily="@font/product_sans"
+                    android:fontFamily="@font/google_sans"
                     android:textAlignment="viewStart"
                     android:textDirection="locale"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="viewStart"
                         android:textDirection="locale"
-                        android:fontFamily="@font/product_sans"
+                        android:fontFamily="@font/google_sans"
                         android:gravity="center_vertical|start" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>

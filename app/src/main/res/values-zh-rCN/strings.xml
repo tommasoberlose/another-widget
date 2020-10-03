@@ -15,7 +15,7 @@
     <string name="settings_text_shadow_subtitle_high">高</string>
     <string name="settings_custom_font_title">微件字体</string>
     <string name="custom_font_subtitle_0">设备字体</string>
-    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">自定义日期格式</string>
     <string name="alpha">不透明度</string>
     <string name="transparent">透明</string>

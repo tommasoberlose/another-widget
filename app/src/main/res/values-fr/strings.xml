@@ -15,7 +15,7 @@
     <string name="settings_text_shadow_subtitle_high">Élevée</string>
     <string name="settings_custom_font_title">Police du widget</string>
     <string name="custom_font_subtitle_0">Police de l\'appareil</string>
-    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Format personnalisé</string>
     <string name="alpha">Opacité </string>
     <string name="transparent">Transparent</string>
