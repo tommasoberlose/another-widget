@@ -17,7 +17,7 @@
     <string name="settings_text_shadow_subtitle_high">Silné</string>
     <string name="settings_custom_font_title">Písmo widgetu</string>
     <string name="custom_font_subtitle_0">Písmo zariadenia</string>
-    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Vlastný formát dátumu</string>
     <string name="alpha">Alfa</string>
     <string name="transparent">Priehľadný</string>

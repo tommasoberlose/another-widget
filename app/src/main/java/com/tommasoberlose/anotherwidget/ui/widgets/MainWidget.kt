@@ -751,10 +751,10 @@ class MainWidget : AppWidgetProvider() {
             }
 
             // Custom Font
-            if (Preferences.customFont == Constants.CUSTOM_FONT_PRODUCT_SANS) {
-                val productSans: Typeface = Typeface.createFromAsset(context.assets, "fonts/product_sans_regular.ttf")
+            if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
+                val googleSans: Typeface = Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
                 listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
-                    it.typeface = productSans
+                    it.typeface = googleSans
                 }
             }
 
