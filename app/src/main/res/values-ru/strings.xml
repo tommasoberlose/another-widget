@@ -15,7 +15,7 @@
     <string name="settings_text_shadow_subtitle_high">Сильная</string>
     <string name="settings_custom_font_title">Шрифт виджета</string>
     <string name="custom_font_subtitle_0">Шрифт устройства</string>
-    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Настраиваемый формат даты</string>
     <string name="alpha">Непрозрачность</string>
     <string name="transparent">Прозрачный</string>

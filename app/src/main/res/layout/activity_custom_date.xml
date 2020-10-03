@@ -87,7 +87,7 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:hint="@string/settings_date_format_title"
-                        android:fontFamily="@font/product_sans"
+                        android:fontFamily="@font/google_sans"
                         android:text="@={viewModel.dateInput}"
                         android:autofillHints=""
                         tools:ignore="TextFields" />

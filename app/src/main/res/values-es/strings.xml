@@ -15,7 +15,7 @@
     <string name="settings_text_shadow_subtitle_high">Mucha</string>
     <string name="settings_custom_font_title">Fuente del widget</string>
     <string name="custom_font_subtitle_0">Fuente del dispositivo</string>
-    <string name="custom_font_subtitle_1">Product Sans</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Formato de fecha personalizado</string>
     <string name="alpha">Alfa</string>
     <string name="transparent">Transparente</string>

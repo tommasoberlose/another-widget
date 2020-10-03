@@ -240,7 +240,7 @@
                         android:text="@string/background_location_warning"
                         android:textColor="@color/colorSecondaryText"
                         android:letterSpacing="0"
-                        android:fontFamily="@font/product_sans"
+                        android:fontFamily="@font/google_sans"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         app:textAllCaps="false" />
                 </LinearLayout>

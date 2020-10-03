@@ -7,7 +7,7 @@ object Constants {
     const val RESULT_APP_NAME = "RESULT_APP_NAME"
     const val RESULT_APP_PACKAGE = "RESULT_APP_PACKAGE"
 
-    const val CUSTOM_FONT_PRODUCT_SANS = 1
+    const val CUSTOM_FONT_GOOGLE_SANS = 1
     enum class ClockBottomMargin(val value: Int) {
         NONE(0),
         SMALL(1),
