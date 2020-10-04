@@ -32,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.ChooseApplicationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.CustomFontActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.CustomLocationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />

@@ -29,6 +29,7 @@
     <string name="settings_date_format_title">Date format</string>
     <string name="header_widget_background">Widget background</string>
     <string name="settings_secondary_row_top_margin_title">Margin</string>
+    <string name="action_custom_font_to_search">Custom font...</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendar</string>

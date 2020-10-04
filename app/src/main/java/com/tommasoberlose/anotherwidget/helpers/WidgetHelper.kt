@@ -3,10 +3,20 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
+import android.graphics.Typeface
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 import android.util.Log
+import androidx.core.provider.FontRequest
+import androidx.core.provider.FontsContractCompat
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.toPixel
+import kotlin.math.min
 
 object WidgetHelper {
     class WidgetSizeProvider(
@@ -42,6 +52,39 @@ object WidgetHelper {
         } else {
             val factor = width / first
             width to second * factor
+        }
+    }
+
+    fun runWithCustomTypeface(context: Context, function: (typeface: Typeface?) -> Unit) {
+        if (Preferences.customFontFile != "") {
+            val request = FontRequest(
+                "com.google.android.gms.fonts",
+                "com.google.android.gms",
+                Preferences.customFontFile,
+                R.array.com_google_android_gms_fonts_certs
+            )
+
+            val callback = object : FontsContractCompat.FontRequestCallback() {
+                override fun onTypefaceRetrieved(typeface: Typeface) {
+                    function.invoke(typeface)
+                }
+
+                override fun onTypefaceRequestFailed(reason: Int) {
+                    function.invoke(null)
+                }
+            }
+
+            val handlerThread = HandlerThread("generateView")
+            handlerThread.start()
+            if (Looper.myLooper() == null) {
+                Looper.prepare()
+            }
+
+            Handler(handlerThread.looper).run {
+                FontsContractCompat.requestFont(context, request, callback, this)
+            }
+        } else {
+            function.invoke(null)
         }
     }
 }

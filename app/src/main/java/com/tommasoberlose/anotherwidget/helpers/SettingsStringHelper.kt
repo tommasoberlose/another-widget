@@ -54,11 +54,12 @@ object SettingsStringHelper {
         }
     }
 
-    fun getCustomFontLabel(shadow: Int): Int {
-        return when (shadow) {
-            0 -> R.string.custom_font_subtitle_0
-            1 -> R.string.custom_font_subtitle_1
-            else -> R.string.custom_font_subtitle_1
+    fun getCustomFontLabel(context: Context, font: Int): String {
+        return when (font) {
+            0 -> context.getString(R.string.custom_font_subtitle_0)
+            Constants.CUSTOM_FONT_GOOGLE_SANS -> context.getString(R.string.custom_font_subtitle_1)
+            Constants.CUSTOM_FONT_DOWNLOADED -> Preferences.customFontName
+            else -> context.getString(R.string.custom_font_subtitle_1)
         }
     }
 

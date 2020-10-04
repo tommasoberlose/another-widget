@@ -24,6 +24,7 @@ class MainViewModel : ViewModel() {
     val textShadow = Preferences.asLiveData(Preferences::textShadow)
     val textShadowDark = Preferences.asLiveData(Preferences::textShadowDark)
     val customFont = Preferences.asLiveData(Preferences::customFont)
+    val customFontFile = Preferences.asLiveData(Preferences::customFontFile)
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
     val showDividers = Preferences.asLiveData(Preferences::showDividers)
     val secondRowTopMargin = Preferences.asLiveData(Preferences::secondRowTopMargin)

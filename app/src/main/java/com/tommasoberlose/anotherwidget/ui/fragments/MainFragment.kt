@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
+import com.tommasoberlose.anotherwidget.helpers.WidgetHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -147,133 +148,136 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true)
                 )
             )
-            uiJob = lifecycleScope.launch(Dispatchers.IO) {
-                val generatedView = MainWidget.generateWidgetView(requireContext())
+            WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
+                uiJob = lifecycleScope.launch(Dispatchers.IO) {
+                    val generatedView = MainWidget.generateWidgetView(requireContext(), typeface)
 
-                withContext(Dispatchers.Main) {
-                    generatedView.measure(0, 0)
-                    preview?.measure(0, 0)
-                }
+                    withContext(Dispatchers.Main) {
+                        generatedView.measure(0, 0)
+                        preview?.measure(0, 0)
+                    }
 
-                val bitmap = if (preview != null) {
-                    BitmapHelper.getBitmapFromView(
-                        generatedView,
-                        if (preview.width > 0) preview.width else generatedView.measuredWidth,
-                        generatedView.measuredHeight
-                    )
-                } else {
-                    null
-                }
-                withContext(Dispatchers.Main) {
-                    // Clock
-                    time?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-                    time_am_pm?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-                    time?.setTextSize(
-                        TypedValue.COMPLEX_UNIT_SP,
-                        Preferences.clockTextSize.toPixel(requireContext())
-                    )
-                    time_am_pm?.setTextSize(
-                        TypedValue.COMPLEX_UNIT_SP,
-                        Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
-                    )
-                    time_am_pm?.isVisible = Preferences.showAMPMIndicator
+                    val bitmap = if (preview != null) {
+                        BitmapHelper.getBitmapFromView(
+                            generatedView,
+                            if (preview.width > 0) preview.width else generatedView.measuredWidth,
+                            generatedView.measuredHeight
+                        )
+                    } else {
+                        null
+                    }
+                    withContext(Dispatchers.Main) {
+                        // Clock
+                        time?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
+                        time_am_pm?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
+                        time?.setTextSize(
+                            TypedValue.COMPLEX_UNIT_SP,
+                            Preferences.clockTextSize.toPixel(requireContext())
+                        )
+                        time_am_pm?.setTextSize(
+                            TypedValue.COMPLEX_UNIT_SP,
+                            Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
+                        )
+                        time_am_pm?.isVisible = Preferences.showAMPMIndicator
 
-                    // Clock bottom margin
-                    clock_bottom_margin_none?.isVisible =
-                        Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
-                    clock_bottom_margin_small?.isVisible =
-                        Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
-                    clock_bottom_margin_medium?.isVisible =
-                        Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
-                    clock_bottom_margin_large?.isVisible =
-                        Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
+                        // Clock bottom margin
+                        clock_bottom_margin_none?.isVisible =
+                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
+                        clock_bottom_margin_small?.isVisible =
+                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
+                        clock_bottom_margin_medium?.isVisible =
+                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
+                        clock_bottom_margin_large?.isVisible =
+                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
 
-                    if ((Preferences.showClock && (time?.alpha ?: 1f < 1f)) || (!Preferences.showClock && (time?.alpha ?: 0f > 0f))) {
-                        if (Preferences.showClock) {
+                        if ((Preferences.showClock && (time?.alpha ?: 1f < 1f)) || (!Preferences.showClock && (time?.alpha ?: 0f > 0f))) {
+                            if (Preferences.showClock) {
+                                time_container?.layoutParams = time_container.layoutParams.apply {
+                                    height = RelativeLayout.LayoutParams.WRAP_CONTENT
+                                }
+                                time_container?.measure(0, 0)
+                            }
+                            val initialHeight = time_container?.measuredHeight ?: 0
+                            ValueAnimator.ofFloat(
+                                if (Preferences.showClock) 0f else 1f,
+                                if (Preferences.showClock) 1f else 0f
+                            ).apply {
+                                duration = 500L
+                                addUpdateListener {
+                                    val animatedValue = animatedValue as Float
+                                    time_container?.layoutParams =
+                                        time_container.layoutParams.apply {
+                                            height = (initialHeight * animatedValue).toInt()
+                                        }
+                                    time?.alpha = animatedValue
+                                }
+                                addListener(
+                                    onStart = {
+                                        if (Preferences.showClock) {
+                                            time_container?.isVisible = true
+                                        }
+                                    },
+                                    onEnd = {
+                                        if (!Preferences.showClock) {
+                                            time_container?.isVisible = false
+                                        }
+                                    }
+                                )
+                            }.start()
+
+                            if (preview != null) {
+                                ValueAnimator.ofInt(
+                                    preview.height,
+                                    PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
+                                        requireContext()
+                                    ) else 0
+                                ).apply {
+                                    duration = 500L
+                                    addUpdateListener {
+                                        if (preview != null) {
+                                            val animatedValue = animatedValue as Int
+                                            val layoutParams = preview.layoutParams
+                                            layoutParams.height = animatedValue
+                                            preview.layoutParams = layoutParams
+                                        }
+                                    }
+                                }.start()
+                            }
+                        } else {
                             time_container?.layoutParams = time_container.layoutParams.apply {
                                 height = RelativeLayout.LayoutParams.WRAP_CONTENT
                             }
                             time_container?.measure(0, 0)
                         }
-                        val initialHeight = time_container?.measuredHeight ?: 0
-                        ValueAnimator.ofFloat(
-                            if (Preferences.showClock) 0f else 1f,
-                            if (Preferences.showClock) 1f else 0f
-                        ).apply {
-                            duration = 500L
-                            addUpdateListener {
-                                val animatedValue = animatedValue as Float
-                                time_container?.layoutParams =
-                                    time_container.layoutParams.apply {
-                                        height = (initialHeight * animatedValue).toInt()
-                                    }
-                                time?.alpha = animatedValue
-                            }
-                            addListener(
-                                onStart = {
-                                    if (Preferences.showClock) {
-                                        time_container?.isVisible = true
-                                    }
-                                },
-                                onEnd = {
-                                    if (!Preferences.showClock) {
-                                        time_container?.isVisible = false
-                                    }
-                                }
-                            )
-                        }.start()
 
-                        if (preview != null) {
+                        if (preview != null && preview.height == 0) {
                             ValueAnimator.ofInt(
                                 preview.height,
                                 PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
                                     requireContext()
                                 ) else 0
                             ).apply {
-                                duration = 500L
+                                duration = 300L
                                 addUpdateListener {
                                     if (preview != null) {
                                         val animatedValue = animatedValue as Int
                                         val layoutParams = preview.layoutParams
                                         layoutParams.height = animatedValue
-                                        preview.layoutParams = layoutParams
+                                        preview?.layoutParams = layoutParams
                                     }
                                 }
                             }.start()
                         }
-                    } else {
-                        time_container?.layoutParams = time_container.layoutParams.apply {
-                            height = RelativeLayout.LayoutParams.WRAP_CONTENT
+
+                        widget_loader?.animate()?.scaleX(0f)?.scaleY(0f)?.alpha(0f)
+                            ?.setDuration(200L)?.start()
+                        bitmap_container?.apply {
+                            setImageBitmap(bitmap)
+                            scaleX = 0.9f
+                            scaleY = 0.9f
                         }
-                        time_container?.measure(0, 0)
+                        widget?.animate()?.alpha(1f)?.start()
                     }
-
-                    if (preview != null && preview.height == 0) {
-                        ValueAnimator.ofInt(
-                            preview.height,
-                            PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
-                                requireContext()
-                            ) else 0
-                        ).apply {
-                            duration = 300L
-                            addUpdateListener {
-                                if (preview != null) {
-                                    val animatedValue = animatedValue as Int
-                                    val layoutParams = preview.layoutParams
-                                    layoutParams.height = animatedValue
-                                    preview?.layoutParams = layoutParams
-                                }
-                            }
-                        }.start()
-                    }
-
-                    widget_loader?.animate()?.scaleX(0f)?.scaleY(0f)?.alpha(0f)?.setDuration(200L)?.start()
-                    bitmap_container?.apply {
-                        setImageBitmap(bitmap)
-                        scaleX = 0.9f
-                        scaleY = 0.9f
-                    }
-                    widget?.animate()?.alpha(1f)?.start()
                 }
             }
         } else {

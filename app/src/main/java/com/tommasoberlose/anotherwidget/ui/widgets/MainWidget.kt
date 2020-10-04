@@ -11,12 +11,18 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 import android.text.format.DateUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.provider.FontRequest
+import androidx.core.provider.FontsContractCompat
 import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
@@ -90,10 +96,14 @@ class MainWidget : AppWidgetProvider() {
             val height = displayMetrics.heightPixels
 
             val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
-            generateWidgetView(context, appWidgetId, appWidgetManager, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)))
+
+            WidgetHelper.runWithCustomTypeface(context) {
+                generateWidgetView(context, appWidgetId, appWidgetManager, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
+            }
         }
 
-        private fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int) {
+        private fun generateWidgetView(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, w: Int, typeface: Typeface? = null) {
+
             var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
 
             try {
@@ -125,7 +135,8 @@ class MainWidget : AppWidgetProvider() {
 
             // Setup listener
             try {
-                val generatedView = generateWidgetView(context)
+
+                val generatedView = generateWidgetView(context, typeface)
                 views.setImageViewBitmap(
                     R.id.bitmap_container,
                     BitmapHelper.getBitmapFromView(generatedView, width = w)
@@ -492,7 +503,7 @@ class MainWidget : AppWidgetProvider() {
 
 
         // Generates the widget bitmap from the view
-        fun generateWidgetView(context: Context): View {
+        fun generateWidgetView(context: Context, typeface: Typeface? = null): View {
             val eventRepository = EventRepository(context)
             val v = View.inflate(context, R.layout.the_widget, null)
 
@@ -514,8 +525,10 @@ class MainWidget : AppWidgetProvider() {
 
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
                 // Multiple counter
-                v.action_next.isVisible = Preferences.showNextEvent && eventRepository.getEventsCount() > 1
-                v.action_previous.isVisible = Preferences.showNextEvent && eventRepository.getEventsCount() > 1
+                v.action_next.isVisible =
+                    Preferences.showNextEvent && eventRepository.getEventsCount() > 1
+                v.action_previous.isVisible =
+                    Preferences.showNextEvent && eventRepository.getEventsCount() > 1
 
                 v.next_event.text = nextEvent.title
 
@@ -528,7 +541,11 @@ class MainWidget : AppWidgetProvider() {
                         )
                             .toLowerCase(Locale.getDefault())
                     } else {
-                        SettingsStringHelper.getAllDayEventDifferenceText(context, now.timeInMillis, nextEvent.startDate).toLowerCase(Locale.getDefault())
+                        SettingsStringHelper.getAllDayEventDifferenceText(
+                            context,
+                            now.timeInMillis,
+                            nextEvent.startDate
+                        ).toLowerCase(Locale.getDefault())
                     }
                     v.next_event_difference_time.visibility = View.VISIBLE
                 } else {
@@ -536,15 +553,30 @@ class MainWidget : AppWidgetProvider() {
                 }
 
                 if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.round_place))
+                    v.second_row_icon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.round_place
+                        )
+                    )
                     v.next_event_date.text = nextEvent.address
                 } else {
-                    v.second_row_icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.round_today))
+                    v.second_row_icon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.round_today
+                        )
+                    )
                     if (!nextEvent.allDay) {
-                        val startHour = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(nextEvent.startDate)
-                        val endHour = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(nextEvent.endDate)
+                        val startHour =
+                            DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
+                                .format(nextEvent.startDate)
+                        val endHour =
+                            DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
+                                .format(nextEvent.endDate)
 
-                        var dayDiff = TimeUnit.MILLISECONDS.toDays(nextEvent.endDate - nextEvent.startDate)
+                        var dayDiff =
+                            TimeUnit.MILLISECONDS.toDays(nextEvent.endDate - nextEvent.startDate)
 
                         val startCal = Calendar.getInstance()
                         startCal.timeInMillis = nextEvent.startDate
@@ -554,31 +586,46 @@ class MainWidget : AppWidgetProvider() {
 
                         if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
                             dayDiff++
-                        } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(Calendar.MINUTE) >= endCal.get(Calendar.MINUTE)) {
+                        } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(
+                                Calendar.MINUTE
+                            ) >= endCal.get(Calendar.MINUTE)
+                        ) {
                             dayDiff++
                         }
                         var multipleDay = ""
                         if (dayDiff > 0) {
-                            multipleDay = String.format(" (+%s%s)", dayDiff, context.getString(R.string.day_char))
+                            multipleDay = String.format(
+                                " (+%s%s)",
+                                dayDiff,
+                                context.getString(R.string.day_char)
+                            )
                         }
-                        v.next_event_date.text = String.format("%s - %s%s", startHour, endHour, multipleDay)
+                        v.next_event_date.text =
+                            String.format("%s - %s%s", startHour, endHour, multipleDay)
 
                     } else {
-                        val flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-                        v.next_event_date.text = DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                        val flags: Int =
+                            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
+                        v.next_event_date.text =
+                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
                     }
                 }
 
                 v.empty_layout.visibility = View.GONE
                 v.calendar_layout.visibility = View.VISIBLE
 
-                v.second_row_top_margin_small.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
-                v.second_row_top_margin_medium.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
-                v.second_row_top_margin_large.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
+                v.second_row_top_margin_small.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
+                v.second_row_top_margin_medium.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                v.second_row_top_margin_large.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 v.second_row_icon.isVisible = true
                 var showSomething = false
-                loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
+                loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(
+                    context
+                )) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
@@ -613,9 +660,13 @@ class MainWidget : AppWidgetProvider() {
                                     v.second_row_icon.isVisible = false
                                     val batteryLevel = BatteryHelper.getBatteryLevel(context)
                                     if (batteryLevel == 100) {
-                                        v.next_event_date.text = "%s - %d%%".format(context.getString(R.string.charging), batteryLevel)
+                                        v.next_event_date.text = "%s - %d%%".format(
+                                            context.getString(R.string.charging),
+                                            batteryLevel
+                                        )
                                     } else {
-                                        v.next_event_date.text = context.getString(R.string.charging)
+                                        v.next_event_date.text =
+                                            context.getString(R.string.charging)
                                     }
                                     showSomething = true
                                     break@loop
@@ -641,7 +692,9 @@ class MainWidget : AppWidgetProvider() {
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
                                 v.second_row_icon.isVisible = false
-                                v.next_event_date.text = context.getString(R.string.daily_steps_counter).format(Preferences.googleFitSteps)
+                                v.next_event_date.text =
+                                    context.getString(R.string.daily_steps_counter)
+                                        .format(Preferences.googleFitSteps)
                                 showSomething = true
                                 break@loop
                             }
@@ -654,9 +707,12 @@ class MainWidget : AppWidgetProvider() {
                     v.empty_layout.visibility = View.GONE
                     v.calendar_layout.visibility = View.VISIBLE
 
-                    v.second_row_top_margin_small.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
-                    v.second_row_top_margin_medium.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
-                    v.second_row_top_margin_large.visibility = if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
+                    v.second_row_top_margin_small.visibility =
+                        if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
+                    v.second_row_top_margin_medium.visibility =
+                        if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
+                    v.second_row_top_margin_large.visibility =
+                        if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
                 } else {
                     v.second_row_icon.isVisible = false
                 }
@@ -664,17 +720,33 @@ class MainWidget : AppWidgetProvider() {
 
 
             // Color
-            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.divider3, v.special_temp).forEach {
+            listOf<TextView>(
+                v.empty_date,
+                v.divider1,
+                v.temp,
+                v.next_event,
+                v.next_event_difference_time,
+                v.divider3,
+                v.special_temp
+            ).forEach {
                 it.setTextColor(ColorHelper.getFontColor(context.applicationContext.isDarkTheme()))
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.value) {
                 listOf<ImageView>(v.action_next, v.action_previous)
             } else {
-                listOf<ImageView>(v.action_next, v.action_previous, v.empty_weather_icon, v.special_weather_icon)
+                listOf<ImageView>(
+                    v.action_next,
+                    v.action_previous,
+                    v.empty_weather_icon,
+                    v.special_weather_icon
+                )
             }.forEach {
                 it.setColorFilter(ColorHelper.getFontColorRgb(context.applicationContext.isDarkTheme()))
-                it.alpha = (if (context.isDarkTheme()) Preferences.textGlobalAlphaDark.toIntValue().toFloat() else Preferences.textGlobalAlpha.toIntValue().toFloat()) / 100
+                it.alpha =
+                    (if (context.isDarkTheme()) Preferences.textGlobalAlphaDark.toIntValue()
+                        .toFloat() else Preferences.textGlobalAlpha.toIntValue()
+                        .toFloat()) / 100
             }
 
             listOf<TextView>(v.next_event_date, v.divider2, v.calendar_temp).forEach {
@@ -687,7 +759,10 @@ class MainWidget : AppWidgetProvider() {
                 listOf<ImageView>(v.second_row_icon, v.weather_icon)
             }.forEach {
                 it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
-                it.alpha = (if (context.isDarkTheme()) Preferences.textSecondaryAlphaDark.toIntValue().toFloat() else Preferences.textSecondaryAlpha.toIntValue().toFloat()) / 100
+                it.alpha =
+                    (if (context.isDarkTheme()) Preferences.textSecondaryAlphaDark.toIntValue()
+                        .toFloat() else Preferences.textSecondaryAlpha.toIntValue()
+                        .toFloat()) / 100
             }
 
             // Text Size
@@ -727,34 +802,75 @@ class MainWidget : AppWidgetProvider() {
 
 
             // Shadows
-            val shadowRadius = when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
-                0 -> 0f
-                1 -> 5f
-                2 -> 5f
-                else -> 5f
-            }
-            val shadowColor =  when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
-                0 -> Color.TRANSPARENT
-                1 -> R.color.black_50
-                2 -> Color.BLACK
-                else -> R.color.black_50
-            }
-            val shadowDy =  when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
-                0 -> 0f
-                1 -> 0f
-                2 -> 1f
-                else -> 0f
-            }
+            val shadowRadius =
+                when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
+                    0 -> 0f
+                    1 -> 5f
+                    2 -> 5f
+                    else -> 5f
+                }
+            val shadowColor =
+                when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
+                    0 -> Color.TRANSPARENT
+                    1 -> R.color.black_50
+                    2 -> Color.BLACK
+                    else -> R.color.black_50
+                }
+            val shadowDy =
+                when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
+                    0 -> 0f
+                    1 -> 0f
+                    2 -> 1f
+                    else -> 0f
+                }
 
-            listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
+            listOf<TextView>(
+                v.empty_date,
+                v.divider1,
+                v.temp,
+                v.next_event,
+                v.next_event_difference_time,
+                v.next_event_date,
+                v.divider2,
+                v.calendar_temp,
+                v.divider3,
+                v.special_temp
+            ).forEach {
                 it.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
             }
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
-                val googleSans: Typeface = Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
-                listOf<TextView>(v.empty_date, v.divider1, v.temp, v.next_event, v.next_event_difference_time, v.next_event_date, v.divider2, v.calendar_temp, v.divider3, v.special_temp).forEach {
+                val googleSans: Typeface =
+                    Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
+                listOf<TextView>(
+                    v.empty_date,
+                    v.divider1,
+                    v.temp,
+                    v.next_event,
+                    v.next_event_difference_time,
+                    v.next_event_date,
+                    v.divider2,
+                    v.calendar_temp,
+                    v.divider3,
+                    v.special_temp
+                ).forEach {
                     it.typeface = googleSans
+                }
+            } else if (Preferences.customFont == Constants.CUSTOM_FONT_DOWNLOADED && typeface != null) {
+                listOf<TextView>(
+                    v.empty_date,
+                    v.divider1,
+                    v.temp,
+                    v.next_event,
+                    v.next_event_difference_time,
+                    v.next_event_date,
+                    v.divider2,
+                    v.calendar_temp,
+                    v.divider3,
+                    v.special_temp
+                ).forEach {
+                    it.typeface = typeface
                 }
             }
 
@@ -763,7 +879,12 @@ class MainWidget : AppWidgetProvider() {
                 v.weather.visibility = View.VISIBLE
                 v.calendar_weather.visibility = View.VISIBLE
                 v.special_weather.visibility = View.VISIBLE
-                val currentTemp = String.format(Locale.getDefault(), "%d °%s", Preferences.weatherTemp.roundToInt(), Preferences.weatherRealTempUnit)
+                val currentTemp = String.format(
+                    Locale.getDefault(),
+                    "%d °%s",
+                    Preferences.weatherTemp.roundToInt(),
+                    Preferences.weatherRealTempUnit
+                )
 
                 val icon: String = Preferences.weatherIcon
                 if (icon == "") {
@@ -772,8 +893,16 @@ class MainWidget : AppWidgetProvider() {
                     v.special_weather_icon.visibility = View.GONE
                 } else {
                     v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
-                    v.empty_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
-                    v.special_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
+                    v.empty_weather_icon.setImageResource(
+                        WeatherHelper.getWeatherIconResource(
+                            icon
+                        )
+                    )
+                    v.special_weather_icon.setImageResource(
+                        WeatherHelper.getWeatherIconResource(
+                            icon
+                        )
+                    )
                     v.weather_icon.visibility = View.VISIBLE
                     v.empty_weather_icon.visibility = View.VISIBLE
                     v.special_weather_icon.visibility = View.VISIBLE

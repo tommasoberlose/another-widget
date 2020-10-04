@@ -122,4 +122,7 @@ dependencies {
 
     // Permissions
     implementation 'com.karumi:dexter:6.1.0'
+
+    // Fonts
+    implementation 'com.github.firatkarababa:downloadable-font-list-library:1.0.2'
 }
