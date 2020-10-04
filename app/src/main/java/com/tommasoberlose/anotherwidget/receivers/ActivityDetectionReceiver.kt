@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import com.chibatching.kotpref.Kotpref
+import com.chibatching.kotpref.blockingBulk
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.fitness.Fitness
@@ -46,7 +47,9 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
 
     private fun resetDailySteps(context: Context) {
         Kotpref.init(context)
-        Preferences.googleFitSteps = -1
+        Preferences.blockingBulk {
+            remove(Preferences::googleFitSteps)
+        }
     }
 
     companion object {
