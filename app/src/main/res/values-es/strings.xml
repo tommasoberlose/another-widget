@@ -53,7 +53,7 @@
     <string name="tomorrow">mañana</string>
     <string name="today">hoy</string>
     <string name="settings_event_app_title">Tocar el evento abre</string>
-    <string name="settings_second_row_info_title">información del evento</string>
+    <string name="settings_second_row_info_title">Información del evento</string>
     <string name="settings_second_row_info_subtitle_1">Dirección del evento</string>
     <string name="settings_second_row_info_subtitle_0">Hora del evento</string>
     <string name="settings_show_diff_time_title">Tiempo previo al evento</string>
@@ -100,7 +100,7 @@
     <string name="api_key_subtitle_2">Encuentra el menu de claves API en los ajustes de tu cuenta y copia la clave predeterminada.</string>
     <string name="api_key_title_3">Ingresa la clave a la app</string>
     <string name="api_key_subtitle_3">Pega la clave en el campo de debajo y guárdalo. Una vez la clave sea activada el clima será visible.</string>
-    <string name="action_open_provider">Ve a OpenWeatherMap.com</string>
+    <string name="action_open_provider">Ir a OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">La activación de tu clave de API puede llegar a tomar unos diez minutos. El clima se actualizará tan pronto esté disponible.</string>
     <string name="settings_weather_icon_pack_title">Paquete de iconos</string>
     <string name="settings_weather_icon_pack_default">Paquete de iconos %d</string>
@@ -142,7 +142,7 @@
     <string name="daily_steps_counter">%d pasos hechos</string>
     <string name="charging">Cargando</string>
     <string name="providers">Proveedores</string>
-    <string name="glance_info">La información de Glance se mostrará solo cuando no haya ningún evento visible y algunas condiciones verificadas.</string>
+    <string name="glance_info">La información de Glance solo se mostrará cuando no haya ningún evento visible y se cumplan algunas condiciones.</string>
 
     <!-- Settings -->
     <string name="action_share">Compartir</string>
@@ -171,7 +171,7 @@
     <string name="settings_subtitle_dark_theme_follow_system">Seguir el tema del sistema</string>
     <string name="settings_subtitle_dark_theme_default">Por defecto</string>
     <string name="search">Buscar</string>
-    <string name="settings_app_version_title">Versión de app</string>
+    <string name="settings_app_version_title">Versión de la app</string>
     <string name="settings_title_show_wallpaper">Mostrar fondo de pantalla</string>
     <string name="support_refresh_widget_subtitle">Forzar el reinicio del servicio del widget</string>
     <string name="settings_feedback_subtitle">Este es un proyecto de código abierto, siéntete libre de ayudar.</string>
