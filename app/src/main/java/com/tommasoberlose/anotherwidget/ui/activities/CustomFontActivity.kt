@@ -104,9 +104,9 @@ class CustomFontActivity : AppCompatActivity() {
                     if (item.fontVariants.size <= 1) {
                         saveFont(item)
                     } else {
-                        val dialog = BottomSheetMenu<String>(this, header = item.fontFamily)
-                        item.fontVariants.filter { !it.contains("italic") }.forEach {
-                            dialog.addItem(SettingsStringHelper.getVariantLabel(this, it), it)
+                        val dialog = BottomSheetMenu<Int>(this, header = item.fontFamily)
+                        item.fontVariants.filter { !it.contains("italic") }.forEachIndexed { index, s ->
+                            dialog.addItem(SettingsStringHelper.getVariantLabel(this, s), index)
                         }
                         dialog.addOnSelectItemListener { value ->
                             saveFont(item, value)
@@ -167,13 +167,12 @@ class CustomFontActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveFont(font: Font, variant: String = "") {
+    private fun saveFont(font: Font, variantPos: Int? = null) {
         val resultIntent = Intent()
         Preferences.blockingBulk {
             customFont = Constants.CUSTOM_FONT_DOWNLOADED
             customFontName = font.fontFamily
-            customFontFile = font.queryString
-            customFontVariant = variant
+            customFontFile = if (variantPos != null) font.getQueryString(variantPos) else font.queryString
         }
         setResult(Activity.RESULT_OK, resultIntent)
         finish()

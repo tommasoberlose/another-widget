@@ -302,13 +302,6 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
-        viewModel.customFontVariant.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
-                MainWidget.updateWidget(requireContext())
-            }
-        })
-
         viewModel.showDividers.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_dividers_label?.text =
@@ -506,7 +499,6 @@ class GeneralTabFragment : Fragment() {
                         customFont = value
                         customFontFile = ""
                         customFontName = ""
-                        customFontVariant = ""
                     }
                 }
             }.show()

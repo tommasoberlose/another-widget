@@ -94,7 +94,6 @@ object Preferences : KotprefModel() {
     var customFont by intPref(key = "PREF_CUSTOM_FONT", default = Constants.CUSTOM_FONT_GOOGLE_SANS)
     var customFontFile by stringPref(default = "")
     var customFontName by stringPref(default = "")
-    var customFontVariant by stringPref(default = "")
     var showNextEvent by booleanPref(key = "PREF_SHOW_NEXT_EVENT", default = true)
 
     var showDividers by booleanPref(default = true)
