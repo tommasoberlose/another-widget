@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
+import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -349,8 +350,15 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         tabs?.getTabAt(2)?.orCreateBadge?.apply {
             backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = Preferences.showWeather && (Preferences.weatherProviderApi == "" || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) != true))
-
+        }?.isVisible = if (Preferences.showWeather) {
+            (WeatherHelper.isKeyRequired() && Preferences.weatherProviderApi == "")
+                    || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
+                        ) != true)
+                    || (Preferences.weatherProviderError != "")
+        } else {
+            false
+        }
 
         // Music error indicator
         tabs?.getTabAt(4)?.orCreateBadge?.apply {

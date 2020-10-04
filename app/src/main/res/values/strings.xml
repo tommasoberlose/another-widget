@@ -130,6 +130,17 @@
     <string name="settings_weather_provider_weather_ca">Weather.gc.ca (Canada)</string>
     <string name="settings_weather_provider_bom">BOM (Australia)\nPowered by Australia\'s national weather</string>
     <string name="settings_weather_provider_meteofrance">Meteofrance.com (France)</string>
+    <string name="action_open_provider_open_weather">Open openweathermap.com</string>
+    <string name="action_open_provider_weatherbit">Open weatherbit.io</string>
+    <string name="action_open_provider_foreca">Open foreca.com</string>
+    <string name="action_open_provider_here">Open here.com</string>
+    <string name="action_open_provider_accuweather">Open Accuweather.com</string>
+    <string name="action_open_provider_weather_gov">Open Weather.gov</string>
+    <string name="action_open_provider_yr">Open yr.no</string>
+    <string name="action_open_provider_smhi">Open smhi.se</string>
+    <string name="action_open_provider_weather_ca">Open weather.gc.ca</string>
+    <string name="action_open_provider_bom">Open bom.gov.au</string>
+    <string name="action_open_provider_meteofrance">Open meteofrance.com</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>

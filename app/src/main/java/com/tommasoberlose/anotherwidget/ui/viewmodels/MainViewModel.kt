@@ -68,6 +68,8 @@ class MainViewModel : ViewModel() {
     val showWeatherWarning = Preferences.asLiveData(Preferences::showWeatherWarning)
     val weatherIconPack = Preferences.asLiveData(Preferences::weatherIconPack)
     val weatherProvider = Preferences.asLiveData(Preferences::weatherProvider)
+    val weatherProviderError = Preferences.asLiveData(Preferences::weatherProviderError)
+    val weatherProviderLocationError = Preferences.asLiveData(Preferences::weatherProviderLocationError)
 
     // Glance
     val showGlance = Preferences.asLiveData(Preferences::showGlance)

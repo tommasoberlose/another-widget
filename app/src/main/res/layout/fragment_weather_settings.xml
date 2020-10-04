@@ -162,52 +162,22 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_weather_provider_api_key"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:src="@drawable/round_vpn_key"
-                        app:tint="@color/colorPrimaryText"/>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/AnotherWidget.Settings.Title"
-                            android:text="@string/settings_weather_provider_api_key_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/label_weather_provider_api_key"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
-                    </LinearLayout>
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:visibility="gone"
-                        android:id="@+id/api_key_alert_icon"
-                        android:src="@drawable/round_error"
-                        app:tint="@color/errorColorText"/>
-                </LinearLayout>
+                    android:duplicateParentState="true"
+                    android:textSize="14sp"
+                    android:paddingStart="64dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:id="@+id/weather_provider_error"
+                    android:textColor="@color/errorColorText"
+                    android:letterSpacing="0"
+                    android:fontFamily="@font/google_sans"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -262,6 +232,22 @@
                             android:text="@string/action_grant_permission"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:duplicateParentState="true"
+                    android:textSize="14sp"
+                    android:paddingStart="64dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:id="@+id/weather_provider_location_error"
+                    android:textColor="@color/errorColorText"
+                    android:letterSpacing="0"
+                    android:fontFamily="@font/google_sans"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

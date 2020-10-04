@@ -40,6 +40,8 @@ object Preferences : KotprefModel() {
     var weatherAppPackage by stringPref(key = "PREF_WEATHER_APP_PACKAGE", default = "")
     var weatherProviderApi by stringPref(key = "PREF_WEATHER_PROVIDER_API_KEY", default = "")
     var weatherProvider by intPref(default = Constants.WeatherProvider.OPEN_WEATHER.value)
+    var weatherProviderError by stringPref(default = "")
+    var weatherProviderLocationError by stringPref(default = "")
     var eventAppName by stringPref(key = "PREF_EVENT_APP_NAME", default = "")
     var eventAppPackage by stringPref(key = "PREF_EVENT_APP_PACKAGE", default = "")
     var openEventDetails by booleanPref(default = true)

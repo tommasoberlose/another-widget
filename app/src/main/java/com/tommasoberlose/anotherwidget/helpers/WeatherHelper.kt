@@ -62,6 +62,56 @@ object WeatherHelper {
         })
     }
 
+    fun getProviderLinkName(context: Context): String {
+        return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+            Constants.WeatherProvider.OPEN_WEATHER -> R.string.action_open_provider_open_weather
+            Constants.WeatherProvider.WEATHER_BIT -> R.string.action_open_provider_weatherbit
+            Constants.WeatherProvider.FORECA -> R.string.action_open_provider_foreca
+            Constants.WeatherProvider.HERE -> R.string.action_open_provider_here
+            Constants.WeatherProvider.ACCUWEATHER -> R.string.action_open_provider_accuweather
+            Constants.WeatherProvider.WEATHER_GOV -> R.string.action_open_provider_weather_gov
+            Constants.WeatherProvider.YR -> R.string.action_open_provider_yr
+            Constants.WeatherProvider.SMHI -> R.string.action_open_provider_smhi
+            Constants.WeatherProvider.WEATHER_CA -> R.string.action_open_provider_weather_ca
+            Constants.WeatherProvider.BOM -> R.string.action_open_provider_bom
+            Constants.WeatherProvider.METEOFRANCE -> R.string.action_open_provider_meteofrance
+            else -> R.string.nothing
+        })
+    }
+
+    fun getProviderLink(): String {
+        return when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+            Constants.WeatherProvider.OPEN_WEATHER -> "https://home.openweathermap.org/users/sign_up"
+            Constants.WeatherProvider.WEATHER_BIT -> ""
+            Constants.WeatherProvider.FORECA -> ""
+            Constants.WeatherProvider.HERE -> ""
+            Constants.WeatherProvider.ACCUWEATHER -> ""
+            Constants.WeatherProvider.WEATHER_GOV -> ""
+            Constants.WeatherProvider.YR -> ""
+            Constants.WeatherProvider.SMHI -> ""
+            Constants.WeatherProvider.WEATHER_CA -> ""
+            Constants.WeatherProvider.BOM -> ""
+            Constants.WeatherProvider.METEOFRANCE -> ""
+            else -> ""
+        }
+    }
+
+    fun isKeyRequired(): Boolean = when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+        Constants.WeatherProvider.OPEN_WEATHER,
+        Constants.WeatherProvider.WEATHER_BIT,
+        Constants.WeatherProvider.FORECA,
+        Constants.WeatherProvider.HERE,
+        Constants.WeatherProvider.ACCUWEATHER,
+        Constants.WeatherProvider.YR,
+        Constants.WeatherProvider.SMHI,
+        Constants.WeatherProvider.WEATHER_CA,
+        Constants.WeatherProvider.BOM,
+        Constants.WeatherProvider.METEOFRANCE -> true
+
+        Constants.WeatherProvider.WEATHER_GOV -> false
+        else -> true
+    }
+
     fun getWeatherIconResource(icon: String, style: Int = Preferences.weatherIconPack): Int {
         return when (icon) {
             "01d" -> {

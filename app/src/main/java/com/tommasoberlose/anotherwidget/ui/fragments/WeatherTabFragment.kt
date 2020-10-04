@@ -105,14 +105,16 @@ class WeatherTabFragment : Fragment() {
         viewModel.weatherProvider.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 label_weather_provider.text = WeatherHelper.getProviderName(requireContext(), Constants.WeatherProvider.fromInt(it)!!)
+                checkWeatherProviderConfig()
             }
         })
 
-        viewModel.weatherProviderApi.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                checkWeatherProviderConfig()
-            }
-            checkLocationPermission()
+        viewModel.weatherProviderError.observe(viewLifecycleOwner, Observer {
+            checkWeatherProviderConfig()
+        })
+
+        viewModel.weatherProviderLocationError.observe(viewLifecycleOwner, Observer {
+            checkWeatherProviderConfig()
         })
 
         viewModel.customLocationAdd.observe(viewLifecycleOwner, Observer {
@@ -184,11 +186,11 @@ class WeatherTabFragment : Fragment() {
     }
 
     private fun checkWeatherProviderConfig() {
-        label_weather_provider_api_key?.text =
-            if (Preferences.weatherProviderApi == "") getString(R.string.settings_weather_provider_api_key_subtitle_not_set) else getString(
-                R.string.settings_weather_provider_api_key_subtitle_all_set
-            )
-        label_weather_provider_api_key?.setTextColor(ContextCompat.getColor(requireContext(), if (Preferences.weatherProviderApi == "" && Preferences.showWeather) R.color.errorColorText else R.color.colorSecondaryText))
+        weather_provider_error.isVisible = Preferences.weatherProviderError != ""
+        weather_provider_error?.text = Preferences.weatherProviderError
+
+        weather_provider_location_error.isVisible = Preferences.weatherProviderLocationError != ""
+        weather_provider_location_error?.text = Preferences.weatherProviderLocationError
     }
 
     private fun setupListener() {
@@ -205,21 +207,6 @@ class WeatherTabFragment : Fragment() {
         }
 
         action_weather_provider.setOnClickListener {
-            if (Preferences.showWeather) {
-                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_provider_api)).setSelectedValue(Preferences.weatherProvider)
-                (0 until 11).forEach {
-                    val item = Constants.WeatherProvider.fromInt(it)
-                    dialog.addItem(WeatherHelper.getProviderName(requireContext(), item!!), it)
-                }
-
-                dialog.addOnSelectItemListener { value ->
-                        Preferences.weatherProvider = value
-                        checkWeatherProviderConfig()
-                    }.show()
-            }
-        }
-
-        action_weather_provider_api_key.setOnClickListener {
             if (Preferences.showWeather) {
                 startActivityForResult(
                     Intent(requireContext(), WeatherProviderActivity::class.java),
