@@ -46,6 +46,22 @@ object WeatherHelper {
         MainWidget.updateWidget(context)
     }
 
+    fun getProviderName(context: Context, provider: Constants.WeatherProvider): String {
+        return context.getString(when(provider) {
+            Constants.WeatherProvider.OPEN_WEATHER -> R.string.settings_weather_provider_open_weather
+            Constants.WeatherProvider.WEATHER_BIT -> R.string.settings_weather_provider_weatherbit
+            Constants.WeatherProvider.FORECA -> R.string.settings_weather_provider_foreca
+            Constants.WeatherProvider.HERE -> R.string.settings_weather_provider_here
+            Constants.WeatherProvider.ACCUWEATHER -> R.string.settings_weather_provider_accuweather
+            Constants.WeatherProvider.WEATHER_GOV -> R.string.settings_weather_provider_weather_gov
+            Constants.WeatherProvider.YR -> R.string.settings_weather_provider_yr
+            Constants.WeatherProvider.SMHI -> R.string.settings_weather_provider_smhi
+            Constants.WeatherProvider.WEATHER_CA -> R.string.settings_weather_provider_weather_ca
+            Constants.WeatherProvider.BOM -> R.string.settings_weather_provider_bom
+            Constants.WeatherProvider.METEOFRANCE -> R.string.settings_weather_provider_meteofrance
+        })
+    }
+
     fun getWeatherIconResource(icon: String, style: Int = Preferences.weatherIconPack): Int {
         return when (icon) {
             "01d" -> {

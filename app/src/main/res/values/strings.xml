@@ -118,6 +118,18 @@
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
     <string name="background_location_warning">We will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
+    <string name="settings_weather_provider_api">Weather provider</string>
+    <string name="settings_weather_provider_open_weather">Open Weather Map</string>
+    <string name="settings_weather_provider_weatherbit">Weatherbit.io</string>
+    <string name="settings_weather_provider_foreca">Foreca.com</string>
+    <string name="settings_weather_provider_here">Here.com</string>
+    <string name="settings_weather_provider_accuweather">Accuweather.com</string>
+    <string name="settings_weather_provider_weather_gov">Weather.gov (US)\nPowered by National Weather Services</string>
+    <string name="settings_weather_provider_yr">YR.no/Met.no\nPowered by Meteorological Institute</string>
+    <string name="settings_weather_provider_smhi">Smhi.se (Swedish)\nPowered by Swedish Meteorological</string>
+    <string name="settings_weather_provider_weather_ca">Weather.gc.ca (Canada)</string>
+    <string name="settings_weather_provider_bom">BOM (Australia)\nPowered by Australia\'s national weather</string>
+    <string name="settings_weather_provider_meteofrance">Meteofrance.com (France)</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>
@@ -202,6 +214,8 @@
     <string name="provider_header">Provider</string>
     <string name="appearance_header">Appearance</string>
     <string name="preferences_header">Preferences</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
+    <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Choose application</string>
@@ -217,6 +231,4 @@
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
     <string name="nothing">Nothing</string>
-    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
-    <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
 </resources>

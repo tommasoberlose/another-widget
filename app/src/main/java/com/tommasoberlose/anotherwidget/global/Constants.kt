@@ -36,6 +36,25 @@ object Constants {
         HIGH(2)
     }
 
+    enum class WeatherProvider(val value: Int) {
+        OPEN_WEATHER(0),
+        WEATHER_BIT(1),
+        FORECA(2),
+        HERE(3),
+        ACCUWEATHER(4),
+        WEATHER_GOV(5),
+        YR(6),
+        SMHI(7),
+        WEATHER_CA(8),
+        BOM(9),
+        METEOFRANCE(10);
+
+        companion object {
+            private val map = WeatherProvider.values().associateBy(WeatherProvider::value)
+            fun fromInt(type: Int) = map[type]
+        }
+    }
+
     enum class WeatherIconPack(val value: Int) {
         DEFAULT(0),
         MINIMAL(1),

@@ -102,6 +102,12 @@ class WeatherTabFragment : Fragment() {
             checkLocationPermission()
         })
 
+        viewModel.weatherProvider.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                label_weather_provider.text = WeatherHelper.getProviderName(requireContext(), Constants.WeatherProvider.fromInt(it)!!)
+            }
+        })
+
         viewModel.weatherProviderApi.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 checkWeatherProviderConfig()
@@ -196,6 +202,21 @@ class WeatherTabFragment : Fragment() {
 
         show_weather_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showWeather = enabled
+        }
+
+        action_weather_provider.setOnClickListener {
+            if (Preferences.showWeather) {
+                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_provider_api)).setSelectedValue(Preferences.weatherProvider)
+                (0 until 11).forEach {
+                    val item = Constants.WeatherProvider.fromInt(it)
+                    dialog.addItem(WeatherHelper.getProviderName(requireContext(), item!!), it)
+                }
+
+                dialog.addOnSelectItemListener { value ->
+                        Preferences.weatherProvider = value
+                        checkWeatherProviderConfig()
+                    }.show()
+            }
         }
 
         action_weather_provider_api_key.setOnClickListener {

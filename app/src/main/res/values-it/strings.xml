@@ -114,6 +114,7 @@
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
     <string name="background_location_warning">Raccoglieremo i dati sulla posizione per attivare l\'aggiornamento del meteo anche quando l\'app è chiusa o non in uso.\nNon utilizzeremo i tuoi dati in nessun altro modo.</string>
+    <string name="settings_weather_provider_api">Provider meteo</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Orologio</string>
@@ -196,6 +197,8 @@
     <string name="provider_header">Setup</string>
     <string name="appearance_header">Stile</string>
     <string name="preferences_header">Preferenze</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
+    <string name="settings_privacy_policy_subtitle">Apri la privacy policy dell\'app</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Scegli applicazione</string>
