@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:text="@string/action_choose_application"
+                    android:text="@string/settings_custom_font_title"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
                 <androidx.appcompat.widget.AppCompatImageView
