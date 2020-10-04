@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.koolio.library.DownloadableFontList
 import com.koolio.library.Font
 import com.koolio.library.FontList
+import com.tommasoberlose.anotherwidget.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,7 +34,7 @@ class CustomFontViewModel(application: Application) : AndroidViewModel(applicati
                     }
                 }
 
-            DownloadableFontList.requestDownloadableFontList(fontListCallback, "AIzaSyCT_v2Qw1zCWfmc_ywsovj_4poSXr7k5f0")
+            DownloadableFontList.requestDownloadableFontList(fontListCallback, BuildConfig.GOOGLE_API_KEY)
         }
     }
 }

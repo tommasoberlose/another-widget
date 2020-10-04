@@ -21,9 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chibatching.kotpref.blockingBulk
 import com.koolio.library.Font
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomFontBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.DateHelper
+import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomFontViewModel
 import kotlinx.android.synthetic.main.activity_choose_application.*
 import kotlinx.coroutines.*
@@ -98,7 +101,17 @@ class CustomFontActivity : AppCompatActivity() {
                     }
 
                 injector.clicked(R.id.text) {
-                    saveFont(item)
+                    if (item.fontVariants.size <= 1) {
+                        saveFont(item)
+                    } else {
+                        val dialog = BottomSheetMenu<String>(this, header = item.fontFamily)
+                        item.fontVariants.filter { !it.contains("italic") }.forEach {
+                            dialog.addItem(SettingsStringHelper.getVariantLabel(this, it), it)
+                        }
+                        dialog.addOnSelectItemListener { value ->
+                            saveFont(item, value)
+                        }.show()
+                    }
                 }
             }
             .attachTo(list_view)
@@ -154,12 +167,13 @@ class CustomFontActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveFont(font: Font) {
+    private fun saveFont(font: Font, variant: String = "") {
         val resultIntent = Intent()
         Preferences.blockingBulk {
             customFont = Constants.CUSTOM_FONT_DOWNLOADED
             customFontName = font.fontFamily
             customFontFile = font.queryString
+            customFontVariant = variant
         }
         setResult(Activity.RESULT_OK, resultIntent)
         finish()

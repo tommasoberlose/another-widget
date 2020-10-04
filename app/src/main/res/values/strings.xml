@@ -30,6 +30,15 @@
     <string name="header_widget_background">Widget background</string>
     <string name="settings_secondary_row_top_margin_title">Margin</string>
     <string name="action_custom_font_to_search">Custom font...</string>
+    <string name="font_100">Thin</string>
+    <string name="font_200">Light</string>
+    <string name="font_300">Book</string>
+    <string name="font_400">Regular</string>
+    <string name="font_500">Medium</string>
+    <string name="font_600">Semi-bold</string>
+    <string name="font_700">Bold</string>
+    <string name="font_800">Black</string>
+    <string name="font_900">Heavy</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendar</string>

@@ -295,6 +295,20 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
+        viewModel.customFontName.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
+                MainWidget.updateWidget(requireContext())
+            }
+        })
+
+        viewModel.customFontVariant.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
+                MainWidget.updateWidget(requireContext())
+            }
+        })
+
         viewModel.showDividers.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_dividers_label?.text =
@@ -492,21 +506,10 @@ class GeneralTabFragment : Fragment() {
                         customFont = value
                         customFontFile = ""
                         customFontName = ""
+                        customFontVariant = ""
                     }
                 }
             }.show()
-
-/*
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "* / *" TO FIX WITHOUT SPACE
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-
-            try {
-                startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), Constants.CUSTOM_FONT_CHOOSER_REQUEST_CODE)
-            } catch (ex: android.content.ActivityNotFoundException) {
-                Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
-            }
-*/
         }
 
         action_show_dividers.setOnClickListener {
@@ -516,17 +519,6 @@ class GeneralTabFragment : Fragment() {
         show_dividers_toggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showDividers = isChecked
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RequestCode.CUSTOM_FONT_CHOOSER_REQUEST_CODE.code -> {
-
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

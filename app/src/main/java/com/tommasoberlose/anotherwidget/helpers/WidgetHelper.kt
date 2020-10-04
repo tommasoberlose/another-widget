@@ -57,6 +57,7 @@ object WidgetHelper {
 
     fun runWithCustomTypeface(context: Context, function: (typeface: Typeface?) -> Unit) {
         if (Preferences.customFontFile != "") {
+            Log.d("ciao", Preferences.customFontFile)
             val request = FontRequest(
                 "com.google.android.gms.fonts",
                 "com.google.android.gms",
