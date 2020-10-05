@@ -49,11 +49,22 @@ class WeatherProviderActivity : AppCompatActivity() {
         viewModel.weatherProvider.observe(this, Observer {
             weather_provider.editText?.setText(WeatherHelper.getProviderName(this, Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!).split("\n").first())
 
-            info_container.isVisible = WeatherHelper.isKeyRequired()
             api_key_container.isVisible = WeatherHelper.isKeyRequired()
+
+            WeatherHelper.getProviderInfoTitle(this).let {
+                info_title.text = it
+                info_title.isVisible = it != ""
+            }
+
+            WeatherHelper.getProviderInfoSubtitle(this).let {
+                info_subtitle.text = it
+                info_subtitle.isVisible = it != ""
+            }
 
             action_open_provider.text = WeatherHelper.getProviderLinkName(this)
         })
+
+        viewModel.weatherProviderApi
     }
 
     private fun setListener() {
@@ -80,7 +91,8 @@ class WeatherProviderActivity : AppCompatActivity() {
         }
 
         api_key.editText?.addTextChangedListener {
-            Preferences.weatherProviderApi = it?.toString() ?: ""
+            val key = it?.toString() ?: ""
+            Preferences.weatherProviderApi = key
         }
     }
 

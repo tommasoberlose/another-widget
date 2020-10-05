@@ -92,6 +92,8 @@
                         android:clickable="false"
                         android:id="@+id/weather_provider_inner"
                         android:textDirection="locale"
+                        android:textStyle="bold"
+                        android:cursorVisible="false"
                         android:fontFamily="@font/google_sans"
                         android:gravity="center_vertical|start" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -151,8 +153,9 @@
                     android:layout_height="wrap_content"
                     style="@style/AnotherWidget.Settings.Title"
                     android:gravity="start"
+                    android:id="@+id/info_title"
                     android:textAlignment="viewStart"
-                    android:text="This weather provider needs\nan API key to work correctly."/>
+                    android:text="@string/weather_provider_info_open_weather_title"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,22 +163,28 @@
                     android:textSize="16sp"
                     android:layout_marginTop="12dp"
                     android:gravity="start"
+                    android:id="@+id/info_subtitle"
                     android:textAlignment="viewStart"
-                    android:text="Please, open the provider website, create a personal account and copy here the default key."/>
+                    android:text="@string/weather_provider_info_open_weather_subtitle"/>
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
                     android:textColor="@color/colorAccent"
                     android:letterSpacing="0"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:gravity="start|center_vertical"
-                    android:textAlignment="viewStart"
+                    android:layout_marginTop="16dp"
                     android:layout_marginStart="-8dp"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical|end"
+                    app:strokeColor="@color/colorAccent"
+                    android:textAlignment="viewEnd"
+                    app:iconTint="@color/colorAccent"
+                    app:icon="@drawable/round_chevron_right"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textAllCaps="false"
                     android:id="@+id/action_open_provider"
                     android:text="@string/action_open_provider"/>
             </LinearLayout>

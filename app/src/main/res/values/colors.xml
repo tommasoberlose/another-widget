@@ -30,5 +30,6 @@
     <color name="errorColorText">#E93B3B</color>
     <color name="warningColorText">#FB8C00</color>
     <color name="disabledButtonBackground">#efefef</color>
+    <color name="success">#43A047</color>
 
 </resources>

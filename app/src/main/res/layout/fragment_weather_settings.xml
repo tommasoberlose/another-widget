@@ -175,7 +175,7 @@
                     android:id="@+id/weather_provider_error"
                     android:textColor="@color/errorColorText"
                     android:letterSpacing="0"
-                    android:fontFamily="@font/google_sans"
+                    android:fontFamily="@font/google_sans_bold"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     app:textAllCaps="false" />
@@ -245,7 +245,7 @@
                     android:id="@+id/weather_provider_location_error"
                     android:textColor="@color/errorColorText"
                     android:letterSpacing="0"
-                    android:fontFamily="@font/google_sans"
+                    android:fontFamily="@font/google_sans_bold"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     app:textAllCaps="false" />
@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/background_location_warning"
                     android:paddingStart="64dp"
-                    android:paddingEnd="16dp"
+                    android:paddingEnd="8dp"
                     android:paddingBottom="8dp"
                     android:orientation="horizontal">
                     <androidx.appcompat.widget.AppCompatTextView

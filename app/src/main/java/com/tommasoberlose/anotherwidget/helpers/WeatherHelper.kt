@@ -44,6 +44,7 @@ object WeatherHelper {
     fun removeWeather(context: Context) {
         Preferences.remove(Preferences::weatherTemp)
         Preferences.remove(Preferences::weatherRealTempUnit)
+        Preferences.remove(Preferences::weatherIcon)
         MainWidget.updateWidget(context)
     }
 
@@ -76,6 +77,40 @@ object WeatherHelper {
             Constants.WeatherProvider.WEATHER_CA -> R.string.action_open_provider_weather_ca
             Constants.WeatherProvider.BOM -> R.string.action_open_provider_bom
             Constants.WeatherProvider.METEOFRANCE -> R.string.action_open_provider_meteofrance
+            else -> R.string.nothing
+        })
+    }
+
+    fun getProviderInfoTitle(context: Context): String {
+        return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+            Constants.WeatherProvider.OPEN_WEATHER -> R.string.weather_provider_info_open_weather_title
+            Constants.WeatherProvider.WEATHER_BIT -> R.string.weather_provider_info_weatherbit_title
+            Constants.WeatherProvider.FORECA -> R.string.weather_provider_info_foreca_title
+            Constants.WeatherProvider.HERE -> R.string.weather_provider_info_here_title
+            Constants.WeatherProvider.ACCUWEATHER -> R.string.weather_provider_info_accuweather_title
+            Constants.WeatherProvider.WEATHER_GOV -> R.string.weather_provider_info_weather_gov_title
+            Constants.WeatherProvider.YR -> R.string.weather_provider_info_yr_title
+            Constants.WeatherProvider.SMHI -> R.string.weather_provider_info_smhi_title
+            Constants.WeatherProvider.WEATHER_CA -> R.string.weather_provider_info_weather_ca_title
+            Constants.WeatherProvider.BOM -> R.string.weather_provider_info_bom_title
+            Constants.WeatherProvider.METEOFRANCE -> R.string.weather_provider_info_meteofrance_title
+            else -> R.string.nothing
+        })
+    }
+
+    fun getProviderInfoSubtitle(context: Context): String {
+        return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+            Constants.WeatherProvider.OPEN_WEATHER -> R.string.weather_provider_info_open_weather_subtitle
+            Constants.WeatherProvider.WEATHER_BIT -> R.string.weather_provider_info_weatherbit_subtitle
+            Constants.WeatherProvider.FORECA -> R.string.weather_provider_info_foreca_subtitle
+            Constants.WeatherProvider.HERE -> R.string.weather_provider_info_here_subtitle
+            Constants.WeatherProvider.ACCUWEATHER -> R.string.weather_provider_info_accuweather_subtitle
+            Constants.WeatherProvider.WEATHER_GOV -> R.string.weather_provider_info_weather_gov_subtitle
+            Constants.WeatherProvider.YR -> R.string.weather_provider_info_yr_subtitle
+            Constants.WeatherProvider.SMHI -> R.string.weather_provider_info_smhi_subtitle
+            Constants.WeatherProvider.WEATHER_CA -> R.string.weather_provider_info_weather_ca_subtitle
+            Constants.WeatherProvider.BOM -> R.string.weather_provider_info_bom_subtitle
+            Constants.WeatherProvider.METEOFRANCE -> R.string.weather_provider_info_meteofrance_subtitle
             else -> R.string.nothing
         })
     }
@@ -315,4 +350,43 @@ object WeatherHelper {
             }
         }
     }
+
+    fun getWeatherGovIcon(iconString: String, isDaytime: Boolean): String = when {
+        iconString.contains("skc") -> "01"
+        iconString.contains("few") -> "02"
+        iconString.contains("sct") -> "03"
+        iconString.contains("bkn") -> "04"
+        iconString.contains("ovc") -> "04"
+        iconString.contains("wind_skc") -> "01"
+        iconString.contains("wind_few") -> "02"
+        iconString.contains("wind_sct") -> "03"
+        iconString.contains("wind_bkn") -> "04"
+        iconString.contains("wind_ovc") -> "04"
+        iconString.contains("snow") -> "13"
+        iconString.contains("rain_snow") -> "81"
+        iconString.contains("rain_sleet") -> "81"
+        iconString.contains("snow_sleet") -> "81"
+        iconString.contains("fzra") -> "81"
+        iconString.contains("rain_fzra") -> "81"
+        iconString.contains("snow_fzra") -> "81"
+        iconString.contains("sleet") -> "81"
+        iconString.contains("rain") -> "10"
+        iconString.contains("rain_showers") -> "10"
+        iconString.contains("rain_showers_hi") -> "10"
+        iconString.contains("tsra") -> "82"
+        iconString.contains("tsra_sct") -> "82"
+        iconString.contains("tsra_hi") -> "82"
+        iconString.contains("tornado") -> "80"
+        iconString.contains("hurricane") -> "80"
+        iconString.contains("tropical_storm") -> "09"
+        iconString.contains("dust") -> "Dust"
+        iconString.contains("smoke") -> "Smoke"
+        iconString.contains("haze") -> "50"
+        iconString.contains("hot") -> "01"
+        iconString.contains("cold") -> "13"
+        iconString.contains("blizzard") -> "80"
+        iconString.contains("fog") -> "82"
+        else -> ""
+    } + if (isDaytime) "d" else "n"
+
 }
