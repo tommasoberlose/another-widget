@@ -108,19 +108,19 @@ class UpdateCalendarJob : JobIntentService() {
 
                             if (date.get(Calendar.DAY_OF_YEAR) == date1.get(Calendar.DAY_OF_YEAR) && date.get(Calendar.YEAR) == date1.get(Calendar.YEAR)) {
                                 if (event.allDay && event1.allDay) {
-                                    event1.startDate.compareTo(event.startDate)
+                                    event.startDate.compareTo(event1.startDate)
                                 } else if (event.allDay) {
-                                    -1
-                                } else if (event1.allDay) {
                                     1
+                                } else if (event1.allDay) {
+                                    -1
                                 } else {
-                                    event1.startDate.compareTo(event.startDate)
+                                    event.startDate.compareTo(event1.startDate)
                                 }
                             } else {
-                                event1.startDate.compareTo(event.startDate)
+                                event.startDate.compareTo(event1.startDate)
                             }
                         })
-                        eventList.reverse()
+                        
                         eventRepository.saveEvents(
                             eventList
                         )
