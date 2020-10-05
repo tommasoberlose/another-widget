@@ -94,6 +94,7 @@ object Preferences : KotprefModel() {
     var customFont by intPref(key = "PREF_CUSTOM_FONT", default = Constants.CUSTOM_FONT_GOOGLE_SANS)
     var customFontFile by stringPref(default = "")
     var customFontName by stringPref(default = "")
+    var customFontVariant by stringPref(default = "regular")
     var showNextEvent by booleanPref(key = "PREF_SHOW_NEXT_EVENT", default = true)
 
     var showDividers by booleanPref(default = true)
@@ -122,6 +123,7 @@ object Preferences : KotprefModel() {
     var mediaPlayerAlbum by stringPref(default = "")
     var mediaPlayerArtist by stringPref(default = "")
     var mediaPlayerPackage by stringPref(default = "")
+    var musicPlayersFilter by stringPref(default = "")
 
     // Integrations
     var installedIntegrations by intPref(default = 0)

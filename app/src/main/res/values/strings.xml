@@ -167,6 +167,8 @@
     <string name="charging">Charged</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
+    <string name="settings_music_players_filter_title">Music Players</string>
+    <string name="settings_music_players_filter_subtitle">Choose your relevant music players</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

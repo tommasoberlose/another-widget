@@ -2,6 +2,7 @@ package com.tommasoberlose.anotherwidget.components
 
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -9,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tommasoberlose.anotherwidget.R
 import kotlinx.android.synthetic.main.bottom_sheet_menu.view.*
 import kotlinx.android.synthetic.main.bottom_sheet_menu_item.view.*
+import org.w3c.dom.Text
 
 /**
  * [BottomSheetDialogFragment] that uses a custom
@@ -32,8 +34,8 @@ open class BottomSheetMenu<T>(context: Context, private val header: String? = nu
         return this
     }
 
-    fun addItem(title: String, value: T? = null): BottomSheetMenu<T> {
-        items.add(MenuItem(title, value))
+    fun addItem(title: String, value: T? = null, renderCallback: ((view: TextView) -> Unit)? = null): BottomSheetMenu<T> {
+        items.add(MenuItem(title, value, renderCallback))
         return this
     }
 
@@ -94,7 +96,10 @@ open class BottomSheetMenu<T>(context: Context, private val header: String? = nu
                             ) else ContextCompat.getColor(context, R.color.colorSecondaryText)
                         )
                     }
+
+                    item.renderCallback?.invoke(itemView.label)
                 }
+
                 view.menu.addView(itemView)
             } else {
                 val itemView = View.inflate(context, R.layout.bottom_sheet_menu_divider, null)
@@ -106,6 +111,6 @@ open class BottomSheetMenu<T>(context: Context, private val header: String? = nu
         super.show()
     }
 
-    class MenuItem<T>(val title: String, val value: T? = null)
+    class MenuItem<T>(val title: String, val value: T? = null, val renderCallback: ((view: TextView) -> Unit)? = null)
 
 }

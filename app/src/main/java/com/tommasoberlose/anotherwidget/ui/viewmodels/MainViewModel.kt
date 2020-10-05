@@ -26,6 +26,7 @@ class MainViewModel : ViewModel() {
     val customFont = Preferences.asLiveData(Preferences::customFont)
     val customFontFile = Preferences.asLiveData(Preferences::customFontFile)
     val customFontName = Preferences.asLiveData(Preferences::customFontName)
+    val customFontVariant = Preferences.asLiveData(Preferences::customFontVariant)
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
     val showDividers = Preferences.asLiveData(Preferences::showDividers)
     val secondRowTopMargin = Preferences.asLiveData(Preferences::secondRowTopMargin)
@@ -77,6 +78,7 @@ class MainViewModel : ViewModel() {
     val showBatteryCharging = Preferences.asLiveData(Preferences::showBatteryCharging)
     val showDailySteps = Preferences.asLiveData(Preferences::showDailySteps)
     val customInfo = Preferences.asLiveData(Preferences::customNotes)
+    val musicPlayersFilter = Preferences.asLiveData(Preferences::musicPlayersFilter)
 
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)

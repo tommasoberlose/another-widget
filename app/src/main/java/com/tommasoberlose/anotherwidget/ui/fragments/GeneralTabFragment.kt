@@ -302,6 +302,13 @@ class GeneralTabFragment : Fragment() {
             }
         })
 
+        viewModel.customFontVariant.observe(viewLifecycleOwner, Observer {
+            maintainScrollPosition {
+                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
+                MainWidget.updateWidget(requireContext())
+            }
+        })
+
         viewModel.showDividers.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_dividers_label?.text =
@@ -481,11 +488,14 @@ class GeneralTabFragment : Fragment() {
 
         action_custom_font.setOnClickListener {
             val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_custom_font_title)).setSelectedValue(Preferences.customFont)
-            (0..1).forEach {
-                dialog.addItem(SettingsStringHelper.getCustomFontLabel(requireContext(), it), it)
+            dialog.addItem(SettingsStringHelper.getCustomFontLabel(requireContext(), 0), 0)
+
+            if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
+                dialog.addItem(SettingsStringHelper.getCustomFontLabel(requireContext(), Constants.CUSTOM_FONT_GOOGLE_SANS), Constants.CUSTOM_FONT_GOOGLE_SANS)
             }
+
             if (Preferences.customFontFile != "") {
-                dialog.addItem(Preferences.customFontName, Constants.CUSTOM_FONT_DOWNLOADED)
+                dialog.addItem(SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont), Constants.CUSTOM_FONT_DOWNLOADED)
             }
             dialog.addItem(getString(R.string.action_custom_font_to_search), Constants.CUSTOM_FONT_DOWNLOAD_NEW)
             dialog.addOnSelectItemListener { value ->
@@ -499,6 +509,7 @@ class GeneralTabFragment : Fragment() {
                         customFont = value
                         customFontFile = ""
                         customFontName = ""
+                        customFontVariant = ""
                     }
                 }
             }.show()

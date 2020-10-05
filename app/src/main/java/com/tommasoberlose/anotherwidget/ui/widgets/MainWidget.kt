@@ -507,6 +507,8 @@ class MainWidget : AppWidgetProvider() {
             val eventRepository = EventRepository(context)
             val v = View.inflate(context, R.layout.the_widget, null)
 
+            v.loader.isVisible = false
+
             val now = Calendar.getInstance().apply {
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
@@ -841,8 +843,15 @@ class MainWidget : AppWidgetProvider() {
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
-                val googleSans: Typeface =
-                    Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
+                val googleSans: Typeface = when (Preferences.customFontVariant) {
+                    "100" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_thin.ttf")
+                    "200" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_light.ttf")
+                    "500" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_medium.ttf")
+                    "700" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_bold.ttf")
+                    "800" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_black.ttf")
+                    else -> Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
+                }
+
                 listOf<TextView>(
                     v.empty_date,
                     v.divider1,
@@ -892,17 +901,9 @@ class MainWidget : AppWidgetProvider() {
                     v.empty_weather_icon.visibility = View.GONE
                     v.special_weather_icon.visibility = View.GONE
                 } else {
-                    v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
-                    v.empty_weather_icon.setImageResource(
-                        WeatherHelper.getWeatherIconResource(
-                            icon
-                        )
-                    )
-                    v.special_weather_icon.setImageResource(
-                        WeatherHelper.getWeatherIconResource(
-                            icon
-                        )
-                    )
+                    v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    v.empty_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    v.special_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
                     v.weather_icon.visibility = View.VISIBLE
                     v.empty_weather_icon.visibility = View.VISIBLE
                     v.special_weather_icon.visibility = View.VISIBLE

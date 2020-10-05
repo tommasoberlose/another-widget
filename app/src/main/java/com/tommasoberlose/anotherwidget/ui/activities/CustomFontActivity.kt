@@ -63,6 +63,31 @@ class CustomFontActivity : AppCompatActivity() {
             }
         })
         adapter
+            .register<String>(R.layout.list_item) { item, injector ->
+                injector
+                    .text(R.id.text, item)
+                    .with<TextView>(R.id.text) {
+                        val googleSans: Typeface = when (Preferences.customFontVariant) {
+                            "100" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_thin.ttf")
+                            "200" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_light.ttf")
+                            "500" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_medium.ttf")
+                            "700" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_bold.ttf")
+                            "800" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_black.ttf")
+                            else -> Typeface.createFromAsset(this.assets, "fonts/google_sans_regular.ttf")
+                        }
+                        it.typeface = googleSans
+                    }
+
+                injector.clicked(R.id.text) {
+                    val dialog = BottomSheetMenu<String>(this, header = item)
+                    listOf("100", "200", "regular", "500", "700", "800").forEachIndexed { index, s ->
+                        dialog.addItem(SettingsStringHelper.getVariantLabel(this, s), s)
+                    }
+                    dialog.addOnSelectItemListener { value ->
+                        saveGoogleSansFont(value)
+                    }.show()
+                }
+            }
             .register<Font>(R.layout.list_item) { item, injector ->
                 injector
                     .text(R.id.text, item.fontFamily)
@@ -101,17 +126,18 @@ class CustomFontActivity : AppCompatActivity() {
                     }
 
                 injector.clicked(R.id.text) {
-                    if (item.fontVariants.size <= 1) {
-                        saveFont(item)
+                    val dialog = BottomSheetMenu<Int>(this, header = item.fontFamily)
+                    if (item.fontVariants.isEmpty()) {
+                        dialog.addItem(SettingsStringHelper.getVariantLabel(this, "regular"), -1)
                     } else {
-                        val dialog = BottomSheetMenu<Int>(this, header = item.fontFamily)
-                        item.fontVariants.filter { !it.contains("italic") }.forEachIndexed { index, s ->
-                            dialog.addItem(SettingsStringHelper.getVariantLabel(this, s), index)
-                        }
-                        dialog.addOnSelectItemListener { value ->
-                            saveFont(item, value)
-                        }.show()
+                        item.fontVariants.filter { !it.contains("italic") }
+                            .forEachIndexed { index, s ->
+                                dialog.addItem(SettingsStringHelper.getVariantLabel(this, s), index)
+                            }
                     }
+                    dialog.addOnSelectItemListener { value ->
+                        saveFont(item, value)
+                    }.show()
                 }
             }
             .attachTo(list_view)
@@ -146,13 +172,33 @@ class CustomFontActivity : AppCompatActivity() {
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
             if (list != null && list.isNotEmpty()) {
                 delay(200)
-                val filteredList: List<Font> = if (search == null || search == "") {
-                    list
+                val filteredList: List<Any> = if (search == null || search == "") {
+                    listOf(getString(R.string.custom_font_subtitle_1)) + list.distinctBy { it.fontFamily }
                 } else {
-                    list.filter {
-                        it.fontFamily.contains(search, true)
+                    (listOf(getString(R.string.custom_font_subtitle_1)) + list.distinctBy { it.fontFamily }).filter {
+                        when (it) {
+                            is Font -> {
+                                it.fontFamily.contains(search, true)
+                            }
+                            is String -> {
+                                it.contains(search, ignoreCase = true)
+                            }
+                            else -> {
+                                true
+                            }
+                        }
                     }
-                }.distinctBy { it.fontFamily }
+                }.sortedWith { el1, el2 ->
+                    if (el1 is Font && el2 is Font) {
+                        el1.fontFamily.compareTo(el2.fontFamily)
+                    } else if (el1 is Font && el2 is String) {
+                        el1.fontFamily.compareTo(el2)
+                    } else if (el1 is String && el2 is Font) {
+                        el1.compareTo(el2.fontFamily)
+                    } else {
+                        1
+                    }
+                }
                 withContext(Dispatchers.Main) {
                     adapter.updateData(filteredList)
                     loader.visibility = View.INVISIBLE
@@ -172,7 +218,20 @@ class CustomFontActivity : AppCompatActivity() {
         Preferences.blockingBulk {
             customFont = Constants.CUSTOM_FONT_DOWNLOADED
             customFontName = font.fontFamily
-            customFontFile = if (variantPos != null) font.getQueryString(variantPos) else font.queryString
+            customFontFile = if (variantPos != null && variantPos > -1) font.getQueryString(variantPos) else font.queryString
+            customFontVariant = if (variantPos != null && variantPos > -1) font.fontVariants[variantPos] else "regular"
+        }
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
+
+    private fun saveGoogleSansFont(variant: String) {
+        val resultIntent = Intent()
+        Preferences.blockingBulk {
+            customFont = Constants.CUSTOM_FONT_GOOGLE_SANS
+            customFontName = ""
+            customFontFile = ""
+            customFontVariant = variant
         }
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
