@@ -37,6 +37,7 @@
         <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.CustomDateActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.IntegrationsActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.MusicPlayersFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
 
 
         <receiver android:name=".ui.widgets.MainWidget">

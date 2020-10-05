@@ -120,7 +120,7 @@ class UpdateCalendarJob : JobIntentService() {
                                 event.startDate.compareTo(event1.startDate)
                             }
                         })
-                        
+
                         eventRepository.saveEvents(
                             eventList
                         )
