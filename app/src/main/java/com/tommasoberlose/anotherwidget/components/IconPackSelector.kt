@@ -32,10 +32,10 @@ class IconPackSelector(context: Context, private val header: String? = null) : B
             itemView.label.text = context.getString(R.string.settings_weather_icon_pack_default).format(item.value + 1)
             itemView.isSelected = item.value == Preferences.weatherIconPack
 
-            itemView.icon_1.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource("01d", item.value)))
-            itemView.icon_2.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource("01n", item.value)))
-            itemView.icon_3.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource("10d", item.value)))
-            itemView.icon_4.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource("09n", item.value)))
+            itemView.icon_1.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01d", item.value)))
+            itemView.icon_2.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01n", item.value)))
+            itemView.icon_3.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "10d", item.value)))
+            itemView.icon_4.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "09n", item.value)))
 
             listOf<ImageView>(itemView.icon_1, itemView.icon_2, itemView.icon_3, itemView.icon_4).forEach {
                 if (item == Constants.WeatherIconPack.MINIMAL) {

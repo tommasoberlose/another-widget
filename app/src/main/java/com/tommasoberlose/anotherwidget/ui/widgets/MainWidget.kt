@@ -771,9 +771,9 @@ class MainWidget : AppWidgetProvider() {
                     v.empty_weather_icon.visibility = View.GONE
                     v.special_weather_icon.visibility = View.GONE
                 } else {
-                    v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
-                    v.empty_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
-                    v.special_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(icon))
+                    v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    v.empty_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    v.special_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
                     v.weather_icon.visibility = View.VISIBLE
                     v.empty_weather_icon.visibility = View.VISIBLE
                     v.special_weather_icon.visibility = View.VISIBLE
