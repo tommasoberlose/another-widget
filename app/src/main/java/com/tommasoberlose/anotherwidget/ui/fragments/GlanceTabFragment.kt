@@ -44,6 +44,7 @@ import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.checkIfFitInstalled
@@ -136,6 +137,9 @@ class GlanceTabFragment : Fragment() {
             }
         })
 
+        viewModel.musicPlayersFilter.observe(viewLifecycleOwner, Observer {
+
+        })
     }
 
     private fun setupListener() {
@@ -241,6 +245,10 @@ class GlanceTabFragment : Fragment() {
             if (Preferences.showGlance) {
                 CustomNotesDialog(requireContext()).show()
             }
+        }
+
+        action_filter_music_players.setOnClickListener {
+            startActivity(Intent(requireContext(), MusicPlayersFilterActivity::class.java))
         }
     }
 

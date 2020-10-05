@@ -10,7 +10,12 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'realm-android'
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -22,6 +27,7 @@ android {
         versionName "2.0.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GOOGLE_API_KEY", apikeyProperties['GOOGLE_API_KEY'])
     }
 
     buildTypes {
@@ -131,4 +137,7 @@ dependencies {
 
     // Permissions
     implementation 'com.karumi:dexter:6.1.0'
+
+    // Fonts
+    implementation 'com.github.firatkarababa:downloadable-font-list-library:1.0.2'
 }

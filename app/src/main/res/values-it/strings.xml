@@ -27,6 +27,16 @@
     <string name="settings_date_format_title">Formato data</string>
     <string name="header_widget_background">Sfondo widget</string>
     <string name="settings_secondary_row_top_margin_title">Margine</string>
+    <string name="action_custom_font_to_search">Cerca font…</string>
+    <string name="font_100">Thin</string>
+    <string name="font_200">Leggero</string>
+    <string name="font_300">Lettura</string>
+    <string name="font_400">Normale</string>
+    <string name="font_500">Medio</string>
+    <string name="font_600">Semigrassetto</string>
+    <string name="font_700">Grassetto</string>
+    <string name="font_800">Nero</string>
+    <string name="font_900">Molto nero</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendario</string>
@@ -154,6 +164,8 @@
     <string name="charging">Carica</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
+    <string name="settings_music_players_filter_title">Player Musica</string>
+    <string name="settings_music_players_filter_subtitle">Scegli i player musical che ti interessano</string>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>

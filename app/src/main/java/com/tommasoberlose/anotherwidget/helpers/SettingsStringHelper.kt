@@ -54,12 +54,25 @@ object SettingsStringHelper {
         }
     }
 
-    fun getCustomFontLabel(shadow: Int): Int {
-        return when (shadow) {
-            0 -> R.string.custom_font_subtitle_0
-            1 -> R.string.custom_font_subtitle_1
-            else -> R.string.custom_font_subtitle_1
+    fun getCustomFontLabel(context: Context, font: Int): String {
+        return when (font) {
+            Constants.CUSTOM_FONT_GOOGLE_SANS -> context.getString(R.string.custom_font_subtitle_1) + " - ${getVariantLabel(context, Preferences.customFontVariant)}"
+            Constants.CUSTOM_FONT_DOWNLOADED -> Preferences.customFontName + " - ${getVariantLabel(context, Preferences.customFontVariant)}"
+            else -> context.getString(R.string.custom_font_subtitle_0)
         }
+    }
+
+    fun getVariantLabel(context: Context, variant: String): String = when {
+        variant.contains("100") -> context.getString(R.string.font_100)
+        variant.contains("200") -> context.getString(R.string.font_200)
+        variant.contains("300") -> context.getString(R.string.font_300)
+        variant.contains("regular") || variant.contains("400") -> context.getString(R.string.font_400)
+        variant.contains("500") -> context.getString(R.string.font_500)
+        variant.contains("600") -> context.getString(R.string.font_600)
+        variant.contains("700") -> context.getString(R.string.font_700)
+        variant.contains("800") -> context.getString(R.string.font_800)
+        variant.contains("900") -> context.getString(R.string.font_900)
+        else -> context.getString(R.string.font_400)
     }
 
     fun getDifferenceText(context: Context, now: Long, start: Long): String {

@@ -11,6 +11,7 @@ import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import org.greenrobot.eventbus.EventBus
 
 
@@ -112,14 +113,14 @@ object WeatherHelper {
         else -> true
     }
 
-    fun getWeatherIconResource(icon: String, style: Int = Preferences.weatherIconPack): Int {
+    fun getWeatherIconResource(context: Context, icon: String, style: Int = Preferences.weatherIconPack): Int {
         return when (icon) {
             "01d" -> {
                 when (style) {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.clear_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.clear_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.clear_day_4
-                    else -> R.drawable.clear_day
+                    else -> if (context.isDarkTheme()) R.drawable.clear_day_5 else R.drawable.clear_day_5_light
                 }
             }
             "02d" -> {
@@ -127,7 +128,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.partly_cloudy_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.partly_cloudy_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.partly_cloudy_4
-                    else -> R.drawable.partly_cloudy
+                    else -> if (context.isDarkTheme()) R.drawable.partly_cloudy_5 else R.drawable.partly_cloudy_5_light
                 }
             }
             "03d" -> {
@@ -135,7 +136,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.mostly_cloudy_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.mostly_cloudy_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.mostly_cloudy_4
-                    else -> R.drawable.mostly_cloudy
+                    else -> if (context.isDarkTheme()) R.drawable.mostly_cloudy_5 else R.drawable.mostly_cloudy_5_light
                 }
             }
             "04d" -> {
@@ -143,7 +144,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.cloudy_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.cloudy_weather_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.cloudy_weather_4
-                    else -> R.drawable.cloudy_weather
+                    else -> if (context.isDarkTheme()) R.drawable.cloudy_weather_5 else R.drawable.cloudy_weather_5_light
                 }
             }
             "09d" -> {
@@ -151,7 +152,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.storm_weather_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.storm_weather_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.storm_weather_day_4
-                    else -> R.drawable.storm_weather_day
+                    else -> if (context.isDarkTheme()) R.drawable.storm_weather_day_5 else R.drawable.storm_weather_day_5_light
                 }
             }
             "10d" -> {
@@ -159,7 +160,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rainy_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rainy_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rainy_day_4
-                    else -> R.drawable.rainy_day
+                    else -> if (context.isDarkTheme()) R.drawable.rainy_day_5 else R.drawable.rainy_day_5_light
                 }
             }
             "11d" -> {
@@ -167,7 +168,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.thunder_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.thunder_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.thunder_day_4
-                    else -> R.drawable.thunder_day
+                    else -> if (context.isDarkTheme()) R.drawable.thunder_day_5 else R.drawable.thunder_day_5_light
                 }
             }
             "13d" -> {
@@ -175,7 +176,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.snow_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.snow_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.snow_day_4
-                    else -> R.drawable.snow_day
+                    else -> if (context.isDarkTheme()) R.drawable.snow_day_5 else R.drawable.snow_day_5_light
                 }
             }
             "50d" -> {
@@ -183,7 +184,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_day_4
-                    else -> R.drawable.haze_day
+                    else -> if (context.isDarkTheme()) R.drawable.haze_day_5 else R.drawable.haze_day_5_light
                 }
             }
             "80d" -> {
@@ -191,7 +192,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.windy_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.windy_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.windy_day_4
-                    else -> R.drawable.windy_day
+                    else -> if (context.isDarkTheme()) R.drawable.windy_day_5 else R.drawable.windy_day_5_light
                 }
             }
             "81d" -> {
@@ -199,7 +200,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rain_snow_day_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rain_snow_day_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rain_snow_day_4
-                    else -> R.drawable.rain_snow_day
+                    else -> if (context.isDarkTheme()) R.drawable.rain_snow_day_5 else R.drawable.rain_snow_day_5_light
                 }
             }
             "82d" -> {
@@ -207,7 +208,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_weather_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_weather_4
-                    else -> R.drawable.haze_weather
+                    else -> if (context.isDarkTheme()) R.drawable.haze_weather_5 else R.drawable.haze_weather_5_light
                 }
             }
 
@@ -218,7 +219,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.clear_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.clear_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.clear_night_4
-                    else -> R.drawable.clear_night
+                    else -> if (context.isDarkTheme()) R.drawable.clear_night_5 else R.drawable.clear_night_5_light
                 }
             }
             "02n" -> {
@@ -226,7 +227,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.partly_cloudy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.partly_cloudy_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.partly_cloudy_night_4
-                    else -> R.drawable.partly_cloudy_night
+                    else -> if (context.isDarkTheme()) R.drawable.partly_cloudy_night_5 else R.drawable.partly_cloudy_night_5_light
                 }
             }
             "03n" -> {
@@ -234,7 +235,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.mostly_cloudy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.mostly_cloudy_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.mostly_cloudy_night_4
-                    else -> R.drawable.mostly_cloudy_night
+                    else -> if (context.isDarkTheme()) R.drawable.mostly_cloudy_night_5 else R.drawable.mostly_cloudy_night_5_light
                 }
             }
             "04n" -> {
@@ -242,7 +243,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.cloudy_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.cloudy_weather_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.cloudy_weather_4
-                    else -> R.drawable.cloudy_weather
+                    else -> if (context.isDarkTheme()) R.drawable.cloudy_weather_5 else R.drawable.cloudy_weather_5_light
                 }
             }
             "09n" -> {
@@ -250,7 +251,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.storm_weather_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.storm_weather_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.storm_weather_night_4
-                    else -> R.drawable.storm_weather_night
+                    else -> if (context.isDarkTheme()) R.drawable.storm_weather_night_5 else R.drawable.storm_weather_night_5_light
                 }
             }
             "10n" -> {
@@ -258,7 +259,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rainy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rainy_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rainy_night_4
-                    else -> R.drawable.rainy_night
+                    else -> if (context.isDarkTheme()) R.drawable.rainy_night_5 else R.drawable.rainy_night_5_light
                 }
             }
             "11n" -> {
@@ -266,7 +267,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.thunder_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.thunder_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.thunder_night_4
-                    else -> R.drawable.thunder_night
+                    else -> if (context.isDarkTheme()) R.drawable.thunder_night_5 else R.drawable.thunder_night_5_light
                 }
             }
             "13n" -> {
@@ -274,7 +275,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.snow_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.snow_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.snow_night_4
-                    else -> R.drawable.snow_night
+                    else -> if (context.isDarkTheme()) R.drawable.snow_night_5 else R.drawable.snow_night_5_light
                 }
             }
             "50n" -> {
@@ -282,7 +283,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_night_4
-                    else -> R.drawable.haze_night
+                    else -> if (context.isDarkTheme()) R.drawable.haze_night_5 else R.drawable.haze_night_5_light
                 }
             }
             "80n" -> {
@@ -290,7 +291,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.windy_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.windy_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.windy_night_4
-                    else -> R.drawable.windy_night
+                    else -> if (context.isDarkTheme()) R.drawable.windy_night_5 else R.drawable.windy_night_5_light
                 }
             }
             "81n" -> {
@@ -298,7 +299,7 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.rain_snow_night_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.rain_snow_night_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.rain_snow_night_4
-                    else -> R.drawable.rain_snow_night
+                    else -> if (context.isDarkTheme()) R.drawable.rain_snow_night_5 else R.drawable.rain_snow_night_5_light
                 }
             }
             "82n" -> {
@@ -306,11 +307,11 @@ object WeatherHelper {
                     Constants.WeatherIconPack.COOL.value -> R.drawable.haze_weather_3
                     Constants.WeatherIconPack.MINIMAL.value -> R.drawable.haze_weather_2
                     Constants.WeatherIconPack.GOOGLE_NEWS.value -> R.drawable.haze_weather_4
-                    else -> R.drawable.haze_weather
+                    else -> if (context.isDarkTheme()) R.drawable.haze_weather_5 else R.drawable.haze_weather_5_light
                 }
             }
             else -> {
-                return R.drawable.unknown
+                return if (context.isDarkTheme()) R.drawable.unknown_dark else R.drawable.unknown_light
             }
         }
     }

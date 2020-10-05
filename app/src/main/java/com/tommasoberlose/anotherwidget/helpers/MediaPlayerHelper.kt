@@ -38,6 +38,8 @@ object MediaPlayerHelper {
                 )
             } catch (ex: Exception) {
                 emptyList<MediaController>()
+            }.filter {
+                Preferences.musicPlayersFilter == "" || isMusicPlayerAccepted(it.packageName)
             }
 
             if (list.isNotEmpty()) {
@@ -87,6 +89,16 @@ object MediaPlayerHelper {
             remove(Preferences::mediaPlayerArtist)
             remove(Preferences::mediaPlayerAlbum)
             remove(Preferences::mediaPlayerPackage)
+        }
+    }
+
+    fun isMusicPlayerAccepted(appPkg: String): Boolean = Preferences.musicPlayersFilter.contains(appPkg)
+
+    fun toggleMusicPlayerFilter(appPkg: String) {
+        if (Preferences.musicPlayersFilter == "" || !Preferences.musicPlayersFilter.contains(appPkg)) {
+            Preferences.musicPlayersFilter = Preferences.musicPlayersFilter.split(",").union(listOf(appPkg)).joinToString(separator = ",")
+        } else {
+            Preferences.musicPlayersFilter = Preferences.musicPlayersFilter.split(",").filter { it != appPkg }.joinToString(separator = ",")
         }
     }
 }
