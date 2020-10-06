@@ -132,56 +132,41 @@
 
     <string name="settings_weather_provider_open_weather">Open Weather Map</string>
     <string name="settings_weather_provider_weatherbit">Weatherbit.io</string>
-    <string name="settings_weather_provider_foreca">Foreca.com</string>
+    <string name="settings_weather_provider_weather_api">Weatherapi.com</string>
     <string name="settings_weather_provider_here">Here.com</string>
     <string name="settings_weather_provider_accuweather">Accuweather.com</string>
     <string name="settings_weather_provider_weather_gov">Weather.gov (US)\nPowered by National Weather Services</string>
     <string name="settings_weather_provider_yr">YR.no/Met.no\nPowered by Meteorological Institute</string>
-    <string name="settings_weather_provider_smhi">Smhi.se (Swedish)\nPowered by Swedish Meteorological</string>
-    <string name="settings_weather_provider_weather_ca">Weather.gc.ca (Canada)</string>
-    <string name="settings_weather_provider_bom">BOM (Australia)\nPowered by Australia\'s national weather</string>
-    <string name="settings_weather_provider_meteofrance">Meteofrance.com (France)</string>
 
     <string name="action_open_provider_open_weather">Open openweathermap.com</string>
     <string name="action_open_provider_weatherbit">Open weatherbit.io</string>
-    <string name="action_open_provider_foreca">Open foreca.com</string>
+    <string name="action_open_provider_weatherapi">Open weatherapi.com</string>
     <string name="action_open_provider_here">Open here.com</string>
     <string name="action_open_provider_accuweather">Open Accuweather.com</string>
     <string name="action_open_provider_weather_gov">Open Weather.gov</string>
     <string name="action_open_provider_yr">Open yr.no</string>
-    <string name="action_open_provider_smhi">Open smhi.se</string>
-    <string name="action_open_provider_weather_ca">Open weather.gc.ca</string>
-    <string name="action_open_provider_bom">Open bom.gov.au</string>
-    <string name="action_open_provider_meteofrance">Open meteofrance.com</string>
 
     <string name="weather_provider_info_open_weather_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_weatherbit_title">Weatherbit.io</string>
-    <string name="weather_provider_info_foreca_title">Foreca.com</string>
-    <string name="weather_provider_info_here_title">Here.com</string>
-    <string name="weather_provider_info_accuweather_title">Accuweather.com</string>
+    <string name="weather_provider_info_weatherbit_title">This weather provider needs\nan API key to work correctly.</string>
+    <string name="weather_provider_info_weatherapi_title">This weather provider needs\nan API key to work correctly.</string>
+    <string name="weather_provider_info_here_title">This weather provider needs\nan API key to work correctly.</string>
+    <string name="weather_provider_info_accuweather_title">This weather provider needs\nan API key to work correctly.</string>
     <string name="weather_provider_info_weather_gov_title">This weather provider works only\nfor locations inside the US.</string>
-    <string name="weather_provider_info_yr_title">YR.no/Met.no\nPowered by Meteorological Institute</string>
-    <string name="weather_provider_info_smhi_title">Smhi.se (Swedish)\nPowered by Swedish Meteorological</string>
-    <string name="weather_provider_info_weather_ca_title">Weather.gc.ca (Canada)</string>
-    <string name="weather_provider_info_bom_title">BOM (Australia)\nPowered by Australia\'s national weather</string>
-    <string name="weather_provider_info_meteofrance_title">Meteofrance.com (France)</string>
+    <string name="weather_provider_info_yr_title">This weather provider allows only Celsius temperatures.</string>
 
     <string name="weather_provider_info_open_weather_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_weatherbit_subtitle">Weatherbit.io</string>
-    <string name="weather_provider_info_foreca_subtitle">Foreca.com</string>
-    <string name="weather_provider_info_here_subtitle">Here.com</string>
-    <string name="weather_provider_info_accuweather_subtitle">Accuweather.com</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_here_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
     <string name="weather_provider_info_weather_gov_subtitle" />
-    <string name="weather_provider_info_yr_subtitle">YR.no/Met.no\nPowered by Meteorological Institute</string>
-    <string name="weather_provider_info_smhi_subtitle">Smhi.se (Swedish)\nPowered by Swedish Meteorological</string>
-    <string name="weather_provider_info_weather_ca_subtitle">Weather.gc.ca (Canada)</string>
-    <string name="weather_provider_info_bom_subtitle">BOM (Australia)\nPowered by Australia\'s national weather</string>
-    <string name="weather_provider_info_meteofrance_subtitle">Meteofrance.com (France)</string>
+    <string name="weather_provider_info_yr_subtitle" />
 
     <string name="weather_provider_error_missing_key">The weather provider that you\'ve selected requires an API key.</string>
     <string name="weather_provider_error_wrong_location">The current location is not supported.</string>
     <string name="weather_provider_error_missing_location">Please select a valid location.</string>
     <string name="weather_provider_error_expired_key">It seems that your API key has expired.</string>
+    <string name="weather_provider_error_invalid_key">API key not valid, or not yet activated.</string>
     <string name="weather_provider_error_misconfigured">The weather provider is wrongly configured.</string>
 
     <!-- Clock -->

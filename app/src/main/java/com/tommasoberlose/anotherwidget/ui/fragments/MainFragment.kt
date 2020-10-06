@@ -2,8 +2,6 @@ package com.tommasoberlose.anotherwidget.ui.fragments
 
 import android.Manifest
 import android.animation.ValueAnimator
-import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProviderInfo
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -11,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -355,7 +352,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
         }?.isVisible = if (Preferences.showWeather) {
-            (WeatherHelper.isKeyRequired() && Preferences.weatherProviderApi == "")
+            (WeatherHelper.isKeyRequired() && Preferences.weatherProviderApiOpen == "")
                     || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
                         ) != true)

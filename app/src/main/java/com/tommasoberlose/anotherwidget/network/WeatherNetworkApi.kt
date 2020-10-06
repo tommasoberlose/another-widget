@@ -13,12 +13,11 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
-import com.tommasoberlose.anotherwidget.network.repository.WeatherGovRepository
+import com.tommasoberlose.anotherwidget.network.repository.*
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.lang.Exception
@@ -32,6 +31,11 @@ class WeatherNetworkApi(val context: Context) {
             when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
                 Constants.WeatherProvider.OPEN_WEATHER -> useOpenWeatherMap(context)
                 Constants.WeatherProvider.WEATHER_GOV -> useWeatherGov(context)
+                Constants.WeatherProvider.WEATHER_BIT -> useWeatherBitProvider(context)
+                Constants.WeatherProvider.WEATHER_API -> useWeatherApiProvider(context)
+                Constants.WeatherProvider.HERE -> useHereProvider(context)
+                Constants.WeatherProvider.ACCUWEATHER -> useAccuweatherProvider(context)
+                Constants.WeatherProvider.YR -> useYrProvider(context)
             }
         } else {
             WeatherHelper.removeWeather(
@@ -41,8 +45,8 @@ class WeatherNetworkApi(val context: Context) {
     }
 
     private fun useOpenWeatherMap(context: Context) {
-        if (Preferences.weatherProviderApi != "" ) {
-            val helper = OpenWeatherMapHelper(Preferences.weatherProviderApi)
+        if (Preferences.weatherProviderApiOpen != "" ) {
+            val helper = OpenWeatherMapHelper(Preferences.weatherProviderApiOpen)
             helper.setUnits(if (Preferences.weatherTempUnit == "F") Units.IMPERIAL else Units.METRIC)
             helper.getCurrentWeatherByGeoCoordinates(Preferences.customLocationLat.toDouble(), Preferences.customLocationLon.toDouble(), object :
                 CurrentWeatherCallback {
@@ -118,21 +122,163 @@ class WeatherNetworkApi(val context: Context) {
                             }
                         }
                     } catch(ex: Exception) {
-
                     }
                 }
                 is NetworkResponse.ServerError -> {
                     if (pointsResponse.body?.containsKey("status") == true && (pointsResponse.body?.get("status") as Double).toInt() == 404) {
                         Preferences.weatherProviderError = ""
                         Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_wrong_location)
-
-                        WeatherHelper.removeWeather(
-                            context
-                        )
                     }
+
+                    WeatherHelper.removeWeather(
+                        context
+                    )
                 }
             }
 
+        }
+    }
+
+    private fun useHereProvider(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = HereRepository()
+
+            when (val response = repository.getWeather()) {
+                is NetworkResponse.Success -> {
+                    try {
+                        Log.d("ciao - here", response.body.toString())
+                    } catch(ex: Exception) {
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    WeatherHelper.removeWeather(
+                        context
+                    )
+                }
+            }
+        }
+    }
+
+    private fun useWeatherBitProvider(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = WeatherbitRepository()
+
+            when (val response = repository.getWeather()) {
+                is NetworkResponse.Success -> {
+                    try {
+                        val data = response.body["data"] as List<LinkedTreeMap<String, Any>>?
+                        data?.first()?.let {
+                            val temp = it["temp"] as Double
+                            val weatherInfo = it["weather"] as LinkedTreeMap<String, Any>
+                            val iconCode = weatherInfo["icon"] as String
+
+                            Preferences.weatherTemp = temp.toFloat()
+                            Preferences.weatherIcon = WeatherHelper.getWeatherBitIcon(iconCode)
+                            Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                            MainWidget.updateWidget(context)
+
+                            EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+                        }
+                    } catch(ex: Exception) {
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    when (response.code) {
+                        403 -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_invalid_key)
+                        }
+                    }
+                    WeatherHelper.removeWeather(
+                        context
+                    )
+                }
+            }
+        }
+    }
+
+    private fun useWeatherApiProvider(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = WeatherApiRepository()
+
+            when (val response = repository.getWeather()) {
+                is NetworkResponse.Success -> {
+                    try {
+                        val current = response.body["current"] as LinkedTreeMap<String, Any>?
+                        current?.let {
+                            val tempC = current["temp_c"] as Double
+                            val tempF = current["temp_f"] as Double
+                            val isDay = current["is_day"] as Double
+                            val condition = current["condition"] as LinkedTreeMap<String, Any>
+                            val iconCode = condition["code"] as Double
+
+                            Preferences.weatherTemp = if (Preferences.weatherTempUnit == "F") tempF.toFloat() else tempC.toFloat()
+                            Preferences.weatherIcon = WeatherHelper.getWeatherApiIcon(iconCode.toInt(), isDay.toInt() == 1)
+                            Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                            MainWidget.updateWidget(context)
+
+                            EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+                        }
+                    } catch(ex: Exception) {
+                        Log.d("ciao", ex.localizedMessage)
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    when (response.code) {
+                        401 -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_invalid_key)
+                        }
+                        403 -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_expired_key)
+                        }
+                    }
+
+                    WeatherHelper.removeWeather(
+                        context
+                    )
+                }
+            }
+        }
+    }
+
+    private fun useAccuweatherProvider(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = AccuweatherRepository()
+
+//            when (val response = repository.getWeather()) {
+//                is NetworkResponse.Success -> {
+//                    try {
+//                        Log.d("ciao", response.body.toString())
+//                    } catch(ex: Exception) {
+//
+//                    }
+//                }
+//                is NetworkResponse.ServerError -> {
+//                    WeatherHelper.removeWeather(
+//                        context
+//                    )
+//                }
+//            }
+        }
+    }
+
+    private fun useYrProvider(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = YrRepository()
+
+            when (val response = repository.getWeather()) {
+                is NetworkResponse.Success -> {
+                    try {
+                        Log.d("ciao - yr", response.body.toString())
+                    } catch(ex: Exception) {
+
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    WeatherHelper.removeWeather(
+                        context
+                    )
+                }
+            }
         }
     }
 }

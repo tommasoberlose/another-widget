@@ -64,7 +64,7 @@ class MainViewModel : ViewModel() {
     val weatherRefreshPeriod = Preferences.asLiveData(Preferences::weatherRefreshPeriod)
 
     val weatherAppName = Preferences.asLiveData(Preferences::weatherAppName)
-    val weatherProviderApi = Preferences.asLiveData(Preferences::weatherProviderApi)
+    val weatherProviderApi = Preferences.asLiveData(Preferences::weatherProviderApiOpen)
 
     val customLocationAdd = Preferences.asLiveData(Preferences::customLocationAdd)
 

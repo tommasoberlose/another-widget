@@ -170,9 +170,11 @@ class WeatherTabFragment : Fragment() {
 
         if (activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) == true) {
             location_permission_alert?.isVisible = false
+            background_location_warning.isVisible = Preferences.customLocationAdd == ""
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             location_permission_alert?.isVisible = true
+            background_location_warning.isVisible = false
             location_permission_alert?.setOnClickListener {
                 MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
                     .setPositiveButton(getString(android.R.string.ok)) {
@@ -283,7 +285,7 @@ class WeatherTabFragment : Fragment() {
                     MainWidget.updateWidget(requireContext())
                 }
                 RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
-                    WeatherReceiver.setOneTimeUpdate(requireContext())
+                    checkLocationPermission()
                 }
             }
         }

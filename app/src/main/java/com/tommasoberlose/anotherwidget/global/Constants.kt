@@ -42,15 +42,11 @@ object Constants {
     enum class WeatherProvider(val value: Int) {
         OPEN_WEATHER(0),
         WEATHER_BIT(1),
-        FORECA(2),
+        WEATHER_API(2),
         HERE(3),
         ACCUWEATHER(4),
         WEATHER_GOV(5),
-        YR(6),
-        SMHI(7),
-        WEATHER_CA(8),
-        BOM(9),
-        METEOFRANCE(10);
+        YR(6);
 
         companion object {
             private val map = WeatherProvider.values().associateBy(WeatherProvider::value)

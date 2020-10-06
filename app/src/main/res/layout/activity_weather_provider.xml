@@ -50,8 +50,26 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorAccent"
+            android:layout_marginTop="-7dp"
+            android:id="@+id/loader"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/list_view" />
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"

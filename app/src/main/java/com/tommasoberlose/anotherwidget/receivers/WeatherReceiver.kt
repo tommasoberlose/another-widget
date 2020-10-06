@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
@@ -33,7 +32,7 @@ class WeatherReceiver : BroadcastReceiver() {
         fun setUpdates(context: Context) {
             removeUpdates(context)
 
-            if (Preferences.showWeather && Preferences.weatherProviderApi != "") {
+            if (Preferences.showWeather) {
                 val interval = MINUTE * when (Preferences.weatherRefreshPeriod) {
                     0 -> 30
                     1 -> 60
@@ -55,7 +54,7 @@ class WeatherReceiver : BroadcastReceiver() {
         }
 
         fun setOneTimeUpdate(context: Context) {
-            if (Preferences.showWeather && Preferences.weatherProviderApi != "") {
+            if (Preferences.showWeather) {
                 listOf(10, 20, 30).forEach {
                     with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
                         setExactAndAllowWhileIdle(

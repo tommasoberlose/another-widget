@@ -52,15 +52,11 @@ object WeatherHelper {
         return context.getString(when(provider) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.settings_weather_provider_open_weather
             Constants.WeatherProvider.WEATHER_BIT -> R.string.settings_weather_provider_weatherbit
-            Constants.WeatherProvider.FORECA -> R.string.settings_weather_provider_foreca
+            Constants.WeatherProvider.WEATHER_API -> R.string.settings_weather_provider_weather_api
             Constants.WeatherProvider.HERE -> R.string.settings_weather_provider_here
             Constants.WeatherProvider.ACCUWEATHER -> R.string.settings_weather_provider_accuweather
             Constants.WeatherProvider.WEATHER_GOV -> R.string.settings_weather_provider_weather_gov
             Constants.WeatherProvider.YR -> R.string.settings_weather_provider_yr
-            Constants.WeatherProvider.SMHI -> R.string.settings_weather_provider_smhi
-            Constants.WeatherProvider.WEATHER_CA -> R.string.settings_weather_provider_weather_ca
-            Constants.WeatherProvider.BOM -> R.string.settings_weather_provider_bom
-            Constants.WeatherProvider.METEOFRANCE -> R.string.settings_weather_provider_meteofrance
         })
     }
 
@@ -68,15 +64,11 @@ object WeatherHelper {
         return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.action_open_provider_open_weather
             Constants.WeatherProvider.WEATHER_BIT -> R.string.action_open_provider_weatherbit
-            Constants.WeatherProvider.FORECA -> R.string.action_open_provider_foreca
+            Constants.WeatherProvider.WEATHER_API -> R.string.action_open_provider_weatherapi
             Constants.WeatherProvider.HERE -> R.string.action_open_provider_here
             Constants.WeatherProvider.ACCUWEATHER -> R.string.action_open_provider_accuweather
             Constants.WeatherProvider.WEATHER_GOV -> R.string.action_open_provider_weather_gov
             Constants.WeatherProvider.YR -> R.string.action_open_provider_yr
-            Constants.WeatherProvider.SMHI -> R.string.action_open_provider_smhi
-            Constants.WeatherProvider.WEATHER_CA -> R.string.action_open_provider_weather_ca
-            Constants.WeatherProvider.BOM -> R.string.action_open_provider_bom
-            Constants.WeatherProvider.METEOFRANCE -> R.string.action_open_provider_meteofrance
             else -> R.string.nothing
         })
     }
@@ -85,15 +77,11 @@ object WeatherHelper {
         return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.weather_provider_info_open_weather_title
             Constants.WeatherProvider.WEATHER_BIT -> R.string.weather_provider_info_weatherbit_title
-            Constants.WeatherProvider.FORECA -> R.string.weather_provider_info_foreca_title
+            Constants.WeatherProvider.WEATHER_API -> R.string.weather_provider_info_weatherapi_title
             Constants.WeatherProvider.HERE -> R.string.weather_provider_info_here_title
             Constants.WeatherProvider.ACCUWEATHER -> R.string.weather_provider_info_accuweather_title
             Constants.WeatherProvider.WEATHER_GOV -> R.string.weather_provider_info_weather_gov_title
             Constants.WeatherProvider.YR -> R.string.weather_provider_info_yr_title
-            Constants.WeatherProvider.SMHI -> R.string.weather_provider_info_smhi_title
-            Constants.WeatherProvider.WEATHER_CA -> R.string.weather_provider_info_weather_ca_title
-            Constants.WeatherProvider.BOM -> R.string.weather_provider_info_bom_title
-            Constants.WeatherProvider.METEOFRANCE -> R.string.weather_provider_info_meteofrance_title
             else -> R.string.nothing
         })
     }
@@ -102,15 +90,11 @@ object WeatherHelper {
         return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.weather_provider_info_open_weather_subtitle
             Constants.WeatherProvider.WEATHER_BIT -> R.string.weather_provider_info_weatherbit_subtitle
-            Constants.WeatherProvider.FORECA -> R.string.weather_provider_info_foreca_subtitle
+            Constants.WeatherProvider.WEATHER_API -> R.string.weather_provider_info_weatherapi_subtitle
             Constants.WeatherProvider.HERE -> R.string.weather_provider_info_here_subtitle
             Constants.WeatherProvider.ACCUWEATHER -> R.string.weather_provider_info_accuweather_subtitle
             Constants.WeatherProvider.WEATHER_GOV -> R.string.weather_provider_info_weather_gov_subtitle
             Constants.WeatherProvider.YR -> R.string.weather_provider_info_yr_subtitle
-            Constants.WeatherProvider.SMHI -> R.string.weather_provider_info_smhi_subtitle
-            Constants.WeatherProvider.WEATHER_CA -> R.string.weather_provider_info_weather_ca_subtitle
-            Constants.WeatherProvider.BOM -> R.string.weather_provider_info_bom_subtitle
-            Constants.WeatherProvider.METEOFRANCE -> R.string.weather_provider_info_meteofrance_subtitle
             else -> R.string.nothing
         })
     }
@@ -118,16 +102,12 @@ object WeatherHelper {
     fun getProviderLink(): String {
         return when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
             Constants.WeatherProvider.OPEN_WEATHER -> "https://home.openweathermap.org/users/sign_up"
-            Constants.WeatherProvider.WEATHER_BIT -> ""
-            Constants.WeatherProvider.FORECA -> ""
-            Constants.WeatherProvider.HERE -> ""
-            Constants.WeatherProvider.ACCUWEATHER -> ""
-            Constants.WeatherProvider.WEATHER_GOV -> ""
-            Constants.WeatherProvider.YR -> ""
-            Constants.WeatherProvider.SMHI -> ""
-            Constants.WeatherProvider.WEATHER_CA -> ""
-            Constants.WeatherProvider.BOM -> ""
-            Constants.WeatherProvider.METEOFRANCE -> ""
+            Constants.WeatherProvider.WEATHER_BIT -> "https://www.weatherbit.io/account/create"
+            Constants.WeatherProvider.WEATHER_API -> "https://www.weatherapi.com/signup.aspx"
+            Constants.WeatherProvider.HERE -> "https://developer.here.com/sign-up?create=Freemium-Basic&keepState=true&step=account"
+            Constants.WeatherProvider.ACCUWEATHER -> "https://developer.accuweather.com/user/register"
+            Constants.WeatherProvider.WEATHER_GOV -> "http://www.weather.gov/"
+            Constants.WeatherProvider.YR -> "https://www.yr.no/"
             else -> ""
         }
     }
@@ -135,16 +115,12 @@ object WeatherHelper {
     fun isKeyRequired(): Boolean = when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
         Constants.WeatherProvider.OPEN_WEATHER,
         Constants.WeatherProvider.WEATHER_BIT,
-        Constants.WeatherProvider.FORECA,
+        Constants.WeatherProvider.WEATHER_API,
         Constants.WeatherProvider.HERE,
-        Constants.WeatherProvider.ACCUWEATHER,
-        Constants.WeatherProvider.YR,
-        Constants.WeatherProvider.SMHI,
-        Constants.WeatherProvider.WEATHER_CA,
-        Constants.WeatherProvider.BOM,
-        Constants.WeatherProvider.METEOFRANCE -> true
+        Constants.WeatherProvider.ACCUWEATHER -> true
 
-        Constants.WeatherProvider.WEATHER_GOV -> false
+        Constants.WeatherProvider.WEATHER_GOV,
+        Constants.WeatherProvider.YR -> false
         else -> true
     }
 
@@ -389,4 +365,90 @@ object WeatherHelper {
         else -> ""
     } + if (isDaytime) "d" else "n"
 
+    fun getWeatherBitIcon(iconString: String): String = when {
+        iconString.contains("t01") -> "11"
+        iconString.contains("t02") -> "09"
+        iconString.contains("t03") -> "09"
+        iconString.contains("t04") -> "09"
+        iconString.contains("t05") -> "09"
+        iconString.contains("d01") -> "10"
+        iconString.contains("d02") -> "10"
+        iconString.contains("d03") -> "10"
+        iconString.contains("r01") -> "10"
+        iconString.contains("r02") -> "10"
+        iconString.contains("r03") -> "10"
+        iconString.contains("f01") -> "10"
+        iconString.contains("r04") -> "10"
+        iconString.contains("r05") -> "10"
+        iconString.contains("r06") -> "10"
+        iconString.contains("s01") -> "13"
+        iconString.contains("s02") -> "13"
+        iconString.contains("s03") -> "13"
+        iconString.contains("s04") -> "81"
+        iconString.contains("s05") -> "90"
+        iconString.contains("s06") -> "13"
+        iconString.contains("a01") -> "82"
+        iconString.contains("a02") -> "82"
+        iconString.contains("a03") -> "82"
+        iconString.contains("a04") -> "82"
+        iconString.contains("a05") -> "82"
+        iconString.contains("a06") -> "82"
+        iconString.contains("c01") -> "01"
+        iconString.contains("c02") -> "02"
+        iconString.contains("c03") -> "04"
+        iconString.contains("c04") -> "04"
+        else -> ""
+    } + if (iconString.contains("d")) "d" else "n"
+
+    fun getWeatherApiIcon(icon: Int, isDaytime: Boolean): String = when(icon) {
+        1000 -> "01"
+        1003 -> "02"
+        1006 -> "03"
+        1009 -> "04"
+        1030 -> "82"
+        1063 -> "10"
+        1066 -> "10"
+        1069 -> "10"
+        1072 -> "81"
+        1087 -> "11"
+        1114 -> "13"
+        1117 -> "09"
+        1135 -> "82"
+        1147 -> "82"
+        1150 -> "10"
+        1153 -> "10"
+        1168 -> "10"
+        1171 -> "10"
+        1180 -> "10"
+        1183 -> "10"
+        1186 -> "10"
+        1189 -> "10"
+        1192 -> "10"
+        1195 -> "10"
+        1198 -> "81"
+        1201 -> "81"
+        1204 -> "13"
+        1207 -> "13"
+        1210 -> "13"
+        1213 -> "13"
+        1216 -> "13"
+        1219 -> "13"
+        1222 -> "13"
+        1225 -> "13"
+        1237 -> "13"
+        1240 -> "10"
+        1243 -> "10"
+        1246 -> "10"
+        1249 -> "13"
+        1252 -> "13"
+        1255 -> "13"
+        1258 -> "13"
+        1261 -> "13"
+        1264 -> "13"
+        1273 -> "09"
+        1276 -> "09"
+        1279 -> "13"
+        1282 -> "13"
+        else -> ""
+    } + if (isDaytime) "d" else "n"
 }
