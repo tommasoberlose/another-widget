@@ -25,11 +25,23 @@
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Datum groß schreiben</string>
     <string name="settings_date_format_title">Datumsformat</string>
+    <string name="header_widget_background">Widget Hintergrund</string>
+    <string name="settings_secondary_row_top_margin_title">Abstand</string>
+    <string name="action_custom_font_to_search">Benutzerdefinierte Schriftart...</string>
+    <string name="font_100">Ultraleicht</string>
+    <string name="font_200">Leicht</string>
+    <string name="font_300">Buch</string>
+    <string name="font_400">Normal</string>
+    <string name="font_500">Medium</string>
+    <string name="font_600">Halbfett</string>
+    <string name="font_700">Fett</string>
+    <string name="font_800">Extrafett</string>
+    <string name="font_900">Ultrafett</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Kalender</string>
     <string name="title_permission_calendar">Termine anzeigen</string>
-    <string name="description_permission_calendar">Erlaube den Zugriff auf Ihren Kalender, um Termine im Widget anzuzeigen.</string>
+    <string name="description_permission_calendar">Erlaube den Zugriff auf Ihren Kalender,\num Termine im Widget anzuzeigen.</string>
     <string name="settings_filter_calendar_title">Termine filtern</string>
     <string name="settings_filter_calendar_subtitle">Kalender Sichtbarkeit ändern</string>
     <string name="settings_all_day_title">Ganztägige Termine</string>
@@ -70,11 +82,18 @@
     <string name="settings_widget_update_frequency_high">Hoch</string>
     <string name="filters_header">Filter</string>
     <string name="event_detail_header">Termindetail</string>
+    <string name="settings_attendee_status_title">Teilnahmestatus</string>
+    <string name="settings_attendee_status_subtitle">Akzeptierte oder abgelehnte Termine filtern</string>
+    <string name="settings_busy_events_title">Relevante Termine</string>
+    <string name="settings_busy_events_subtitle">Nur Termine anzeigen, bei \ndenen Sie beschäftigt sind</string>
+    <string name="attendee_status_accepted">Akzeptierte Termine</string>
+    <string name="attendee_status_invited">Einladungen zu Terminen</string>
+    <string name="attendee_status_declined">Abgelehnte Termine</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Wetter</string>
     <string name="title_permission_location">Wetter anzeigen</string>
-    <string name="description_permission_location">Erlaube Standortzugriff, um\nWetterinformationen im Widget anzuzeigen.</string>
+    <string name="description_permission_location">Erlaube den Standortzugriff, um\nWetterinformationen im Widget anzuzeigen.</string>
     <string name="settings_unit_title">Messeinheit</string>
     <string name="settings_weather_refresh_period_title">Aktualisierungsrate</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 Minuten</string>
@@ -87,7 +106,7 @@
     <string name="custom_location_gps">GPS-Standort verwenden</string>
     <string name="show_weather_visible">Wetterinfos sind sichtbar</string>
     <string name="show_weather_not_visible">Wetterinfos sind ausgeblendet</string>
-    <string name="settings_weather_app_title">Klick aufs Wetter öffnet</string>
+    <string name="settings_weather_app_title">Klick auf das Wetter öffnet</string>
     <string name="settings_weather_provider_api_key_title">Wetter API Key</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">Der Wetteranbieter ist korrekt konfiguriert</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">Der Wetteranbieter muss konfiguriert werden</string>
@@ -99,11 +118,12 @@
     <string name="api_key_title_2">API-Schlüssel kopieren</string>
     <string name="api_key_subtitle_2">Gehe in die Kontoeinstellungen und kopiere den Standardschlüssel im API-Schlüsselmenü.</string>
     <string name="api_key_title_3">Schlüssel in die App eingeben</string>
-    <string name="api_key_subtitle_3">Füge den Schlüssel in das obere Feld ein und speicher ihn. Sobald der Schlüssel aktiviert ist, wird das Wetter sichtbar sein.</string>
+    <string name="api_key_subtitle_3">Füge den Schlüssel in das obere Feld ein und speicher ihn. Sobald der Schlüssel aktiviert ist, wird das Wetter angezeigt.</string>
     <string name="action_open_provider">Öffne OpenWeatherMap.com</string>
     <string name="api_key_info_all_set">Es kann bis zu zehn Minuten dauern, bis der API-Schlüssel aktiviert ist. Das Wetter wird aktualisiert, sobald es verfügbar ist.</string>
     <string name="settings_weather_icon_pack_title">Icon Pack</string>
     <string name="settings_weather_icon_pack_default">Icon Pack %d</string>
+    <string name="background_location_warning">Wir sammeln Standortdaten, um die Wetterinformationen zu aktualisieren, auch wenn die App geschlossen oder nicht in Gebrauch ist.\nDie Daten werden nicht für andere Zwecke verwendet.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Uhr</string>
@@ -113,7 +133,7 @@
     <string name="show_clock_not_visible">Uhr ist nicht sichtbar</string>
     <string name="settings_clock_text_size_title">Schriftgröße</string>
     <string name="default_clock_app">Standard Uhr App</string>
-    <string name="settings_clock_bottom_margin_title">Unterer Rand der Uhr</string>
+    <string name="settings_clock_bottom_margin_title">Unterer Abstand der Uhr</string>
     <string name="settings_clock_bottom_margin_subtitle_none">Keinen</string>
     <string name="settings_clock_bottom_margin_subtitle_small">Klein</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">Mittel</string>
@@ -140,9 +160,11 @@
     <string name="settings_daily_steps_title">Tägliche Schritte</string>
     <string name="battery_low_warning">Niedriger Akkustand</string>
     <string name="daily_steps_counter">%d Schritte bis jetzt</string>
-    <string name="charging">Aufladen</string>
+    <string name="charging">Lädt</string>
     <string name="providers">Anbieter</string>
     <string name="glance_info">Überblick Informationen sind nur dann sichtbar, wenn keine Termine angezeigt werden und wenn einige Bedingungen erfüllt sind.</string>
+    <string name="settings_music_players_filter_title">Musik Player</string>
+    <string name="settings_music_players_filter_subtitle">Wähle die gewünschten Musik Player aus</string>
 
     <!-- Settings -->
     <string name="action_share">Teilen</string>
@@ -197,8 +219,9 @@
     <string name="donation_breakfast">Ein englisches Frühstück</string>
     <string name="donation_lunch">Ein schnelles Mittagessen</string>
     <string name="action_show_widget_preview">Widget Vorschau anzeigen</string>
-    <string name="support_dev_subtitle">Dies ist ein Ein-Entwickler-Projekt, \nalso vielen Dank für die Unterstützung!</string>
+    <string name="support_dev_subtitle">Dies ist ein Ein-Entwickler-Projekt, \ndaher vielen Dank für die Unterstützung!</string>
     <string name="settings_title_integrations">Integrationen</string>
     <string name="label_count_installed_integrations">%d installierte Integrationen</string>
     <string name="nothing">Nichts</string>
+    <string name="settings_privacy_policy_subtitle">Datenschutzrichtlinien der App anzeigen</string>
 </resources>
