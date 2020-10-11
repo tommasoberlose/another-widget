@@ -95,7 +95,7 @@ fun View.expand() {
     }
 }
 
-fun View.collapse() {
+fun View.collapse(duration: Long = 500L) {
     if (visibility != View.GONE) {
         val initialHeight = measuredHeight
 
@@ -114,7 +114,7 @@ fun View.collapse() {
             }
         }
 
-        a.duration = 500L //(initialHeight / v.context.resources.displayMetrics.density).toLong()
+        a.duration = duration //(initialHeight / v.context.resources.displayMetrics.density).toLong()
         startAnimation(a)
     }
 }

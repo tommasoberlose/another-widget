@@ -112,8 +112,8 @@
     <string name="show_weather_not_visible">Weather info is hidden</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
     <string name="settings_weather_provider_api_key_title">Weather API key</string>
-    <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly</string>
-    <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly.</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured.</string>
     <string name="api_key_hint">OpenWeather API Key</string>
     <string name="default_weather_app">Google Weather</string>
     <string name="weather_warning">Google Awareness weather has been deprecated. It\'s now required an OpenWeather API key to show the weather in the widget.</string>
@@ -130,21 +130,13 @@
     <string name="background_location_warning">We will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
     <string name="settings_weather_provider_api">Weather provider</string>
 
-    <string name="settings_weather_provider_open_weather">Open Weather Map</string>
-    <string name="settings_weather_provider_weatherbit">Weatherbit.io</string>
-    <string name="settings_weather_provider_weather_api">Weatherapi.com</string>
-    <string name="settings_weather_provider_here">Here.com</string>
-    <string name="settings_weather_provider_accuweather">Accuweather.com</string>
-    <string name="settings_weather_provider_weather_gov">Weather.gov (US)\nPowered by National Weather Services</string>
-    <string name="settings_weather_provider_yr">YR.no/Met.no\nPowered by Meteorological Institute</string>
-
-    <string name="action_open_provider_open_weather">Open openweathermap.com</string>
-    <string name="action_open_provider_weatherbit">Open weatherbit.io</string>
-    <string name="action_open_provider_weatherapi">Open weatherapi.com</string>
-    <string name="action_open_provider_here">Open here.com</string>
-    <string name="action_open_provider_accuweather">Open Accuweather.com</string>
-    <string name="action_open_provider_weather_gov">Open Weather.gov</string>
-    <string name="action_open_provider_yr">Open yr.no</string>
+    <string name="settings_weather_provider_open_weather" translatable="false">Open Weather Map</string>
+    <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">Weatherapi.com</string>
+    <string name="settings_weather_provider_here" translatable="false">Here.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">Accuweather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (US)\nPowered by National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nPowered by Meteorological Institute</string>
 
     <string name="weather_provider_info_open_weather_title">This weather provider needs\nan API key to work correctly.</string>
     <string name="weather_provider_info_weatherbit_title">This weather provider needs\nan API key to work correctly.</string>
@@ -168,6 +160,12 @@
     <string name="weather_provider_error_expired_key">It seems that your API key has expired.</string>
     <string name="weather_provider_error_invalid_key">API key not valid, or not yet activated.</string>
     <string name="weather_provider_error_misconfigured">The weather provider is wrongly configured.</string>
+    <string name="weather_provider_error_connection">Connection error.</string>
+    <string name="weather_provider_error_generic">Something went wrong, check the weather provider config.</string>
+    <string name="api_key_required_message">Account required</string>
+    <string name="us_only_message">US Only</string>
+    <string name="weather_select_a_provider">Select a provider</string>
+    <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they\'re usually more accurate.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>
@@ -204,7 +202,8 @@
     <string name="settings_daily_steps_title">Daily steps</string>
     <string name="battery_low_warning">Low battery level</string>
     <string name="daily_steps_counter">%d steps so far</string>
-    <string name="charging">Charged</string>
+    <string name="charging">Charging</string>
+    <string name="charged">Charged</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
     <string name="settings_music_players_filter_title">Music Players</string>

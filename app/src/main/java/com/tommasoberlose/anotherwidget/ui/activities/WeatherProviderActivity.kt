@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -15,37 +17,44 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
+import com.tommasoberlose.anotherwidget.components.BottomSheetWeatherProviderSettings
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.databinding.ActivityWeatherProviderBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
+import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
+import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.ui.viewmodels.WeatherProviderViewModel
+import com.tommasoberlose.anotherwidget.utils.collapse
+import com.tommasoberlose.anotherwidget.utils.expand
 import com.tommasoberlose.anotherwidget.utils.openURI
-import kotlinx.android.synthetic.main.activity_choose_application.*
+import com.tommasoberlose.anotherwidget.utils.reveal
 import kotlinx.android.synthetic.main.activity_weather_provider.*
-import kotlinx.android.synthetic.main.activity_weather_provider.action_back
-import kotlinx.android.synthetic.main.activity_weather_provider.list_view
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.idik.lib.slimadapter.SlimAdapter
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class WeatherProviderActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: WeatherProviderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_provider)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        api_key.editText?.setText(Preferences.weatherProviderApiOpen)
+        viewModel = ViewModelProvider(this).get(WeatherProviderViewModel::class.java)
 
         list_view.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
@@ -53,91 +62,119 @@ class WeatherProviderActivity : AppCompatActivity() {
 
         adapter = SlimAdapter.create()
         adapter
-            .register<Int>(R.layout.list_item) { item, injector ->
-                val provider = Constants.WeatherProvider.fromInt(item)!!
+            .register<Constants.WeatherProvider>(R.layout.weather_provider_list_item) { provider, injector ->
                 injector
                     .text(R.id.text, WeatherHelper.getProviderName(this, provider))
-                    .clicked(R.id.text) {
-                        Preferences.weatherProvider = item
+                    .clicked(R.id.item) {
+                        val oldValue = Preferences.weatherProvider
+                        Preferences.weatherProvider = provider.value
+                        updateListItem(oldValue)
+                        updateListItem()
+                        loader.isVisible = true
+
+                        lifecycleScope.launch {
+                            WeatherHelper.updateWeather(this@WeatherProviderActivity)
+                        }
                     }
-            }
-            .attachTo(list_view)
+                    .clicked(R.id.radioButton) {
+                        val oldValue = Preferences.weatherProvider
+                        Preferences.weatherProvider = provider.value
+                        updateListItem(oldValue)
+                        updateListItem()
+                        loader.isVisible = true
+
+                        lifecycleScope.launch {
+                            WeatherHelper.updateWeather(this@WeatherProviderActivity)
+                        }
+                    }
+                    .checked(R.id.radioButton, provider.value == Preferences.weatherProvider)
+                    .with<TextView>(R.id.text2) {
+                        if (WeatherHelper.isKeyRequired(provider)) {
+                            it.text = getString(R.string.api_key_required_message)
+                        }
+
+                        if (provider == Constants.WeatherProvider.WEATHER_GOV) {
+                            it.text = getString(R.string.us_only_message)
+                        }
+                    }
+                    .clicked(R.id.action_configure) {
+                        BottomSheetWeatherProviderSettings(this) {
+                            lifecycleScope.launch {
+                                loader.isVisible = true
+                                WeatherHelper.updateWeather(this@WeatherProviderActivity)
+                            }
+                        }.show()
+                    }
+                    .visibility(R.id.action_configure, if (/*WeatherHelper.isKeyRequired(provider) && */provider.value == Preferences.weatherProvider) View.VISIBLE else View.GONE)
+                    .visibility(R.id.info_container, if (WeatherHelper.isKeyRequired(provider) || provider == Constants.WeatherProvider.WEATHER_GOV) View.VISIBLE else View.GONE)
+                    .with<TextView>(R.id.provider_error) {
+                        if (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-") {
+                            it.text = Preferences.weatherProviderError
+                            it.isVisible = provider.value == Preferences.weatherProvider
+                        } else if (Preferences.weatherProviderLocationError != "") {
+                            it.text = Preferences.weatherProviderLocationError
+                            it.isVisible = provider.value == Preferences.weatherProvider
+                        } else {
+                            it.isVisible = false
+                        }
+                    }
+                    .image(R.id.action_configure, ContextCompat.getDrawable(this, if (WeatherHelper.isKeyRequired(provider)) R.drawable.round_settings else R.drawable.outline_info_white))
+            }.attachTo(list_view)
+
+        adapter.updateData(
+            Constants.WeatherProvider.values().asList()
+                .filter { it != Constants.WeatherProvider.HERE }
+                .filter { it != Constants.WeatherProvider.ACCUWEATHER }
+        )
 
         setupListener()
         subscribeUi(viewModel)
     }
 
-    private fun subscribeUi(viewModel: MainViewModel) {
-        adapter.updateData(Constants.WeatherProvider.values().map { it.value })
+    private fun subscribeUi(viewModel: WeatherProviderViewModel) {
+        viewModel.weatherProviderError.observe(this) {
+            updateListItem()
+        }
 
-//        viewModel.weatherProvider.observe(this, Observer {
-//            weather_provider.editText?.setText(WeatherHelper.getProviderName(this, Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!).split("\n").first())
-//
-//            api_key_container.isVisible = WeatherHelper.isKeyRequired()
-//
-//            WeatherHelper.getProviderInfoTitle(this).let {
-//                info_title.text = it
-//                info_title.isVisible = it != ""
-//            }
-//
-//            WeatherHelper.getProviderInfoSubtitle(this).let {
-//                info_subtitle.text = it
-//                info_subtitle.isVisible = it != ""
-//            }
-//
-//            action_open_provider.text = WeatherHelper.getProviderLinkName(this)
-//
-//            api_key.editText?.setText(when (Constants.WeatherProvider.fromInt(it)) {
-//                Constants.WeatherProvider.OPEN_WEATHER -> Preferences.weatherProviderApiOpen
-//                Constants.WeatherProvider.WEATHER_BIT -> Preferences.weatherProviderApiWeatherBit
-//                Constants.WeatherProvider.WEATHER_API -> Preferences.weatherProviderApiWeatherApi
-//                Constants.WeatherProvider.HERE -> Preferences.weatherProviderApiHere
-//                Constants.WeatherProvider.ACCUWEATHER -> Preferences.weatherProviderApiAccuweather
-//                Constants.WeatherProvider.WEATHER_GOV,
-//                Constants.WeatherProvider.YR,
-//                null -> ""
-//            })
-//        })
+        viewModel.weatherProviderLocationError.observe(this) {
+            updateListItem()
+        }
+    }
+
+    private fun updateListItem(provider: Int = Preferences.weatherProvider) {
+        (adapter.data).forEachIndexed { index, item ->
+            if (item is Constants.WeatherProvider && item.value == provider) {
+                adapter.notifyItemChanged(index)
+            }
+        }
     }
 
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
         }
-
-        action_open_provider.setOnClickListener {
-            openURI(WeatherHelper.getProviderLink())
-        }
-
-        weather_provider_inner.setOnClickListener {
-            if (Preferences.showWeather) {
-                val dialog = BottomSheetMenu<Int>(this, header = getString(R.string.settings_weather_provider_api)).setSelectedValue(Preferences.weatherProvider)
-                (0 until 7).forEach {
-                    val item = Constants.WeatherProvider.fromInt(it)
-                    dialog.addItem(WeatherHelper.getProviderName(this, item!!), it)
-                }
-
-                dialog.addOnSelectItemListener { value ->
-                    Preferences.weatherProvider = value
-                }.show()
-            }
-        }
-
-        api_key.editText?.addTextChangedListener {
-            val key = it?.toString() ?: ""
-            when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
-                Constants.WeatherProvider.OPEN_WEATHER -> Preferences.weatherProviderApiOpen = key
-                Constants.WeatherProvider.WEATHER_BIT -> Preferences.weatherProviderApiWeatherBit = key
-                Constants.WeatherProvider.WEATHER_API -> Preferences.weatherProviderApiWeatherApi = key
-                Constants.WeatherProvider.HERE -> Preferences.weatherProviderApiHere = key
-                Constants.WeatherProvider.ACCUWEATHER -> Preferences.weatherProviderApiAccuweather = key
-                else -> {}
-            }
-        }
     }
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onPause() {
+        EventBus.getDefault().unregister(this)
+        super.onPause()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(ignore: MainFragment.UpdateUiMessageEvent?) {
+        loader.isVisible = Preferences.weatherProviderError == "-"
+        if (Preferences.weatherProviderError == "" && Preferences.weatherProviderLocationError == "") {
+            Snackbar.make(list_view, getString(R.string.settings_weather_provider_api_key_subtitle_all_set), Snackbar.LENGTH_LONG).show()
+        }
     }
 }

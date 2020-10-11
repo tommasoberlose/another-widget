@@ -39,10 +39,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
-import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import com.tommasoberlose.anotherwidget.utils.toPixel
+import com.tommasoberlose.anotherwidget.utils.*
 import kotlinx.android.synthetic.main.fragment_app_main.*
 import kotlinx.android.synthetic.main.the_widget_sans.*
 import kotlinx.coroutines.*
@@ -76,6 +73,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         subscribeUi(viewModel)
 
         // Viewpager
@@ -352,11 +350,11 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
         }?.isVisible = if (Preferences.showWeather) {
-            (WeatherHelper.isKeyRequired() && Preferences.weatherProviderApiOpen == "")
+            (WeatherHelper.isKeyRequired() && WeatherHelper.getApiKey() == "")
                     || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
                         ) != true)
-                    || (Preferences.weatherProviderError != "")
+                    || (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-")
         } else {
             false
         }

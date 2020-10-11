@@ -23,8 +23,8 @@ android {
         applicationId "com.tommasoberlose.anotherwidget"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 105
-        versionName "2.0.13"
+        versionCode 106
+        versionName "2.0.14"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "GOOGLE_API_KEY", apikeyProperties['GOOGLE_API_KEY'])

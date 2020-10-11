@@ -188,7 +188,7 @@ class WeatherTabFragment : Fragment() {
     }
 
     private fun checkWeatherProviderConfig() {
-        weather_provider_error.isVisible = Preferences.weatherProviderError != ""
+        weather_provider_error.isVisible = Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-"
         weather_provider_error?.text = Preferences.weatherProviderError
 
         weather_provider_location_error.isVisible = Preferences.weatherProviderLocationError != ""
@@ -233,7 +233,9 @@ class WeatherTabFragment : Fragment() {
                     .addItem(getString(R.string.celsius), "C")
                     .addOnSelectItemListener { value ->
                         if (value != Preferences.weatherTempUnit) {
-                            WeatherHelper.updateWeather(requireContext())
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                WeatherHelper.updateWeather(requireContext())
+                            }
                         }
                         Preferences.weatherTempUnit = value
                     }.show()

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,43 +13,53 @@
         android:layout_height="wrap_content"
         app:cardElevation="2dp"
         app:cardCornerRadius="0dp"
+        android:id="@+id/toolbar"
         app:cardBackgroundColor="@color/colorPrimary">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:gravity="center_vertical"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="10dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:id="@+id/action_back"
+                android:layout_alignParentEnd="true"
                 app:tint="@color/colorPrimaryText"
-                android:src="@drawable/round_arrow_back" />
+                android:src="@drawable/round_close" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/colorPrimary">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="64dp"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
                 android:text="@string/settings_weather_provider_api"
                 android:gravity="center"
+                android:textSize="24sp"
                 style="@style/AnotherWidget.Main.Title"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/action_save"
+                android:text="@string/weather_provider_activity_subtitle"
                 android:gravity="center"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:padding="16dp"
-                android:textColor="@color/colorAccent"
-                android:id="@+id/action_save"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
-        </RelativeLayout>
+                style="@style/AnotherWidget.Main.Subtitle"/>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -58,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
+            android:visibility="gone"
             android:indeterminateTint="@color/colorAccent"
             android:layout_marginTop="-7dp"
             android:id="@+id/loader"
@@ -65,147 +77,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:listitem="@layout/weather_provider_list_item"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"
             android:id="@+id/list_view" />
     </RelativeLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:descendantFocusability="beforeDescendants"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center_vertical">
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/weather_provider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:textStyle="bold"
-                    android:nextFocusUp="@id/api_key"
-                    android:nextFocusLeft="@id/api_key"
-                    android:gravity="center_vertical|start"
-                    android:textColor="@color/colorPrimaryText"
-                    app:boxBackgroundColor="@color/colorPrimary"
-                    app:boxStrokeWidth="0dp"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:hint="@string/settings_weather_provider_api"
-                    android:fontFamily="@font/google_sans"
-                    android:textAlignment="viewStart"
-                    android:textDirection="locale"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="viewStart"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:id="@+id/weather_provider_inner"
-                        android:textDirection="locale"
-                        android:textStyle="bold"
-                        android:cursorVisible="false"
-                        android:fontFamily="@font/google_sans"
-                        android:gravity="center_vertical|start" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:descendantFocusability="beforeDescendants"
-                android:focusable="true"
-                android:paddingTop="16dp"
-                android:id="@+id/api_key_container"
-                android:focusableInTouchMode="true"
-                android:gravity="center_vertical">
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/api_key"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:textStyle="bold"
-                    android:nextFocusUp="@id/api_key"
-                    android:nextFocusLeft="@id/api_key"
-                    android:gravity="center_vertical|start"
-                    android:textColor="@color/colorPrimaryText"
-                    app:boxBackgroundColor="@color/colorPrimary"
-                    app:boxStrokeWidth="0dp"
-                    app:hintTextColor="@color/colorAccent"
-                    android:hint="@string/settings_weather_provider_api_key_title"
-                    android:fontFamily="@font/google_sans"
-                    android:textAlignment="viewStart"
-                    android:textDirection="locale"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="viewStart"
-                        android:textDirection="locale"
-                        android:id="@+id/api_key_inner"
-                        android:fontFamily="@font/google_sans"
-                        android:gravity="center_vertical|start" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/info_container">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@color/disabledButtonBackground" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Settings.Title"
-                    android:gravity="start"
-                    android:id="@+id/info_title"
-                    android:textAlignment="viewStart"
-                    android:text="@string/weather_provider_info_open_weather_title"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Main.Subtitle"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:gravity="start"
-                    android:id="@+id/info_subtitle"
-                    android:textAlignment="viewStart"
-                    android:text="@string/weather_provider_info_open_weather_subtitle"/>
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:textColor="@color/colorAccent"
-                    android:letterSpacing="0"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="-8dp"
-                    android:textSize="14sp"
-                    android:gravity="center_vertical|end"
-                    app:strokeColor="@color/colorAccent"
-                    android:textAlignment="viewEnd"
-                    app:iconTint="@color/colorAccent"
-                    app:icon="@drawable/round_chevron_right"
-                    app:iconGravity="end"
-                    app:iconSize="20dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:id="@+id/action_open_provider"
-                    android:text="@string/action_open_provider"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

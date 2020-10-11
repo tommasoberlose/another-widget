@@ -193,7 +193,9 @@ class SettingsFragment : Fragment() {
         }
 
         action_refresh_widget.setOnClickListener {
-            WeatherHelper.updateWeather(requireContext())
+            viewLifecycleOwner.lifecycleScope.launch {
+                WeatherHelper.updateWeather(requireContext())
+            }
             CalendarHelper.updateEventList(requireContext())
             MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
         }

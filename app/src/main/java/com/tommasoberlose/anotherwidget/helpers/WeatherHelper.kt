@@ -3,6 +3,7 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import com.google.android.gms.location.LocationServices
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -12,6 +13,9 @@ import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 
 
@@ -21,7 +25,7 @@ import org.greenrobot.eventbus.EventBus
 
 object WeatherHelper {
 
-    fun updateWeather(context: Context) {
+    suspend fun updateWeather(context: Context) {
         val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
@@ -32,10 +36,17 @@ object WeatherHelper {
                     if (location != null) {
                         Preferences.customLocationLat = location.latitude.toString()
                         Preferences.customLocationLon = location.longitude.toString()
-
-                        networkApi.updateWeather()
-                        EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                     }
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        networkApi.updateWeather()
+                    }
+                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+                } else {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        networkApi.updateWeather()
+                    }
+                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                 }
             }
         }
@@ -48,7 +59,7 @@ object WeatherHelper {
         MainWidget.updateWidget(context)
     }
 
-    fun getProviderName(context: Context, provider: Constants.WeatherProvider): String {
+    fun getProviderName(context: Context, provider: Constants.WeatherProvider = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): String {
         return context.getString(when(provider) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.settings_weather_provider_open_weather
             Constants.WeatherProvider.WEATHER_BIT -> R.string.settings_weather_provider_weatherbit
@@ -60,21 +71,8 @@ object WeatherHelper {
         })
     }
 
-    fun getProviderLinkName(context: Context): String {
-        return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
-            Constants.WeatherProvider.OPEN_WEATHER -> R.string.action_open_provider_open_weather
-            Constants.WeatherProvider.WEATHER_BIT -> R.string.action_open_provider_weatherbit
-            Constants.WeatherProvider.WEATHER_API -> R.string.action_open_provider_weatherapi
-            Constants.WeatherProvider.HERE -> R.string.action_open_provider_here
-            Constants.WeatherProvider.ACCUWEATHER -> R.string.action_open_provider_accuweather
-            Constants.WeatherProvider.WEATHER_GOV -> R.string.action_open_provider_weather_gov
-            Constants.WeatherProvider.YR -> R.string.action_open_provider_yr
-            else -> R.string.nothing
-        })
-    }
-
-    fun getProviderInfoTitle(context: Context): String {
-        return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+    fun getProviderInfoTitle(context: Context, provider: Constants.WeatherProvider? = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): String {
+        return context.getString(when(provider) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.weather_provider_info_open_weather_title
             Constants.WeatherProvider.WEATHER_BIT -> R.string.weather_provider_info_weatherbit_title
             Constants.WeatherProvider.WEATHER_API -> R.string.weather_provider_info_weatherapi_title
@@ -86,8 +84,8 @@ object WeatherHelper {
         })
     }
 
-    fun getProviderInfoSubtitle(context: Context): String {
-        return context.getString(when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+    fun getProviderInfoSubtitle(context: Context, provider: Constants.WeatherProvider? = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): String {
+        return context.getString(when(provider) {
             Constants.WeatherProvider.OPEN_WEATHER -> R.string.weather_provider_info_open_weather_subtitle
             Constants.WeatherProvider.WEATHER_BIT -> R.string.weather_provider_info_weatherbit_subtitle
             Constants.WeatherProvider.WEATHER_API -> R.string.weather_provider_info_weatherapi_subtitle
@@ -99,20 +97,20 @@ object WeatherHelper {
         })
     }
 
-    fun getProviderLink(): String {
-        return when(Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
-            Constants.WeatherProvider.OPEN_WEATHER -> "https://home.openweathermap.org/users/sign_up"
-            Constants.WeatherProvider.WEATHER_BIT -> "https://www.weatherbit.io/account/create"
-            Constants.WeatherProvider.WEATHER_API -> "https://www.weatherapi.com/signup.aspx"
-            Constants.WeatherProvider.HERE -> "https://developer.here.com/sign-up?create=Freemium-Basic&keepState=true&step=account"
-            Constants.WeatherProvider.ACCUWEATHER -> "https://developer.accuweather.com/user/register"
+    fun getProviderLink(provider: Constants.WeatherProvider? = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): String {
+        return when(provider) {
+            Constants.WeatherProvider.OPEN_WEATHER -> "https://home.openweathermap.org/users/sign_in"
+            Constants.WeatherProvider.WEATHER_BIT -> "https://www.weatherbit.io/account/login"
+            Constants.WeatherProvider.WEATHER_API -> "https://www.weatherapi.com/login.aspx"
+            Constants.WeatherProvider.HERE -> "https://developer.here.com/login"
+            Constants.WeatherProvider.ACCUWEATHER -> "https://developer.accuweather.com/user/login"
             Constants.WeatherProvider.WEATHER_GOV -> "http://www.weather.gov/"
             Constants.WeatherProvider.YR -> "https://www.yr.no/"
             else -> ""
         }
     }
 
-    fun isKeyRequired(): Boolean = when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+    fun isKeyRequired(provider: Constants.WeatherProvider? = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): Boolean = when (provider) {
         Constants.WeatherProvider.OPEN_WEATHER,
         Constants.WeatherProvider.WEATHER_BIT,
         Constants.WeatherProvider.WEATHER_API,
@@ -122,6 +120,17 @@ object WeatherHelper {
         Constants.WeatherProvider.WEATHER_GOV,
         Constants.WeatherProvider.YR -> false
         else -> true
+    }
+
+    fun getApiKey(provider: Constants.WeatherProvider? = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): String = when (provider) {
+        Constants.WeatherProvider.OPEN_WEATHER -> Preferences.weatherProviderApiOpen
+        Constants.WeatherProvider.WEATHER_BIT -> Preferences.weatherProviderApiWeatherBit
+        Constants.WeatherProvider.WEATHER_API -> Preferences.weatherProviderApiWeatherApi
+        Constants.WeatherProvider.HERE -> Preferences.weatherProviderApiHere
+        Constants.WeatherProvider.ACCUWEATHER -> Preferences.weatherProviderApiAccuweather
+        Constants.WeatherProvider.WEATHER_GOV -> ""
+        Constants.WeatherProvider.YR -> ""
+        else -> ""
     }
 
     fun getWeatherIconResource(context: Context, icon: String, style: Int = Preferences.weatherIconPack): Int {
@@ -451,4 +460,50 @@ object WeatherHelper {
         1282 -> "13"
         else -> ""
     } + if (isDaytime) "d" else "n"
+
+    fun getYRIcon(iconCode: String, isDaytime: Boolean): String = when {
+        iconCode.contains("clearsky") -> "01"
+        iconCode.contains("cloudy") -> "04"
+        iconCode.contains("fair") -> "02"
+        iconCode.contains("fog") -> "82"
+        iconCode.contains("heavyrain") -> "10"
+        iconCode.contains("heavyrainandthunder") -> "11"
+        iconCode.contains("heavyrainshowers") -> "10"
+        iconCode.contains("heavyrainshowersandthunder") -> "11"
+        iconCode.contains("heavysleet") -> "10"
+        iconCode.contains("heavysleetandthunder") -> "11"
+        iconCode.contains("heavysleetshowers") -> "10"
+        iconCode.contains("heavysleetshowersandthunder") -> "11"
+        iconCode.contains("heavysnow") -> "13"
+        iconCode.contains("heavysnowandthunder") -> "13"
+        iconCode.contains("heavysnowshowers") -> "13"
+        iconCode.contains("heavysnowshowersandthunder") -> "13"
+        iconCode.contains("lightrain") -> "10"
+        iconCode.contains("lightrainandthunder") -> "11"
+        iconCode.contains("lightrainshowers") -> "10"
+        iconCode.contains("lightrainshowersandthunder") -> "11"
+        iconCode.contains("lightsleet") -> "10"
+        iconCode.contains("lightsleetandthunder") -> "11"
+        iconCode.contains("lightsleetshowers") -> "10"
+        iconCode.contains("lightsnow") -> "13"
+        iconCode.contains("lightsnowandthunder") -> "13"
+        iconCode.contains("lightsnowshowers") -> "13"
+        iconCode.contains("lightssleetshowersandthunder") -> "81"
+        iconCode.contains("lightssnowshowersandthunder") -> "81"
+        iconCode.contains("partlycloudy") -> "03"
+        iconCode.contains("rain") -> "10"
+        iconCode.contains("rainandthunder") -> "11"
+        iconCode.contains("rainshowers") -> "10"
+        iconCode.contains("rainshowersandthunder") -> "11"
+        iconCode.contains("sleet") -> "10"
+        iconCode.contains("sleetandthunder") -> "11"
+        iconCode.contains("sleetshowers") -> "10"
+        iconCode.contains("sleetshowersandthunder") -> "11"
+        iconCode.contains("snow") -> "13"
+        iconCode.contains("snowandthunder") -> "13"
+        iconCode.contains("snowshowers") -> "13"
+        iconCode.contains("snowshowersandthunder") -> "13"
+        else -> ""
+    } + if (isDaytime) "d" else "n"
+
 }

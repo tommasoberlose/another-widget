@@ -32,10 +32,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.receivers.*
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.getCapWordString
-import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import com.tommasoberlose.anotherwidget.utils.toPixel
+import com.tommasoberlose.anotherwidget.utils.*
 import kotlinx.android.synthetic.main.the_widget.view.*
 import java.lang.Exception
 import java.text.DateFormat
@@ -661,14 +658,11 @@ class MainWidget : AppWidgetProvider() {
                                 if (Preferences.isCharging) {
                                     v.second_row_icon.isVisible = false
                                     val batteryLevel = BatteryHelper.getBatteryLevel(context)
-                                    if (batteryLevel == 100) {
-                                        v.next_event_date.text = "%s - %d%%".format(
-                                            context.getString(R.string.charging),
-                                            batteryLevel
-                                        )
+                                    if (batteryLevel != 100) {
+                                        v.next_event_date.text = context.getString(R.string.charging)
                                     } else {
                                         v.next_event_date.text =
-                                            context.getString(R.string.charging)
+                                            context.getString(R.string.charged)
                                     }
                                     showSomething = true
                                     break@loop

@@ -126,6 +126,35 @@
     <string name="background_location_warning">Raccoglieremo i dati sulla posizione per attivare l\'aggiornamento del meteo anche quando l\'app è chiusa o non in uso.\nNon utilizzeremo i tuoi dati in nessun altro modo.</string>
     <string name="settings_weather_provider_api">Provider meteo</string>
 
+    <string name="weather_provider_info_open_weather_title">Questo provider meteo necessita di una chiave API\nper un corretto funzionamento.</string>
+    <string name="weather_provider_info_weatherbit_title">Questo provider meteo necessita di una chiave API\nper un corretto funzionamento.</string>
+    <string name="weather_provider_info_weatherapi_title">Questo provider meteo necessita di una chiave API\nper un corretto funzionamento.</string>
+    <string name="weather_provider_info_here_title">Questo provider meteo necessita di una chiave API\nper un corretto funzionamento.</string>
+    <string name="weather_provider_info_accuweather_title">Questo provider meteo necessita di una chiave API\nper un corretto funzionamento.</string>
+    <string name="weather_provider_info_weather_gov_title">Questo provider meteo funziona\nsolo negli Stati Uniti.</string>
+    <string name="weather_provider_info_yr_title">Questo provider meteo funziona unicamente in gradi Celsius.</string>
+
+    <string name="weather_provider_info_open_weather_subtitle">Apri il sito del provider, crea un account gratuito e personale.\nCerca la chiave API di default nelle impostazioni e copiala qui.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Apri il sito del provider, crea un account gratuito e personale.\nCerca la chiave API di default nelle impostazioni e copiala qui.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Apri il sito del provider, crea un account gratuito e personale.\nCerca la chiave API di default nelle impostazioni e copiala qui.</string>
+    <string name="weather_provider_info_here_subtitle">Apri il sito del provider, crea un account gratuito e personale.\nCerca la chiave API di default nelle impostazioni e copiala qui.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Apri il sito del provider, crea un account gratuito e personale.\nCerca la chiave API di default nelle impostazioni e copiala qui.</string>
+    <string name="weather_provider_info_weather_gov_subtitle" />
+    <string name="weather_provider_info_yr_subtitle" />
+
+    <string name="weather_provider_error_missing_key">Il provider meteo che hai selezionato\nnecessita di una chiave API.</string>
+    <string name="weather_provider_error_wrong_location">La posizione attuale non è supportata da questo provider.</string>
+    <string name="weather_provider_error_missing_location">Seleziona una posizione valida.</string>
+    <string name="weather_provider_error_expired_key">Sembra che la tua chiave API sia scaduta.</string>
+    <string name="weather_provider_error_invalid_key">La chiave API non è valida o deve ancora essere attivata.</string>
+    <string name="weather_provider_error_misconfigured">Verifica la configurazione del provider meteo.</string>
+    <string name="weather_provider_error_connection">Errore di connessione.</string>
+    <string name="weather_provider_error_generic">Errore, verifica la configurazione del provider meteo.</string>
+    <string name="api_key_required_message">Account richiesto</string>
+    <string name="us_only_message">Solo US</string>
+    <string name="weather_select_a_provider">Scegli provider</string>
+    <string name="weather_provider_activity_subtitle">Scegli un provider meteo.\nAlcuni provider richiedono la creazione di un account personale, ma è grauito e permette di avere migliori prestazioni.</string>
+
     <!-- Clock -->
     <string name="settings_clock_title">Orologio</string>
     <string name="settings_clock_app_title">Tap sull\'orologio apre</string>
@@ -161,7 +190,8 @@
     <string name="settings_daily_steps_title">Passi fatti</string>
     <string name="battery_low_warning">Livello batteria basso</string>
     <string name="daily_steps_counter">%d passi fatti finora</string>
-    <string name="charging">Carica</string>
+    <string name="charging">In carica</string>
+    <string name="charged">Carica completa</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
     <string name="settings_music_players_filter_title">Player Musica</string>
