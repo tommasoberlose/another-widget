@@ -164,6 +164,7 @@
     <string name="weather_provider_error_generic">Something went wrong, check the weather provider config.</string>
     <string name="api_key_required_message">Account required</string>
     <string name="us_only_message">US Only</string>
+    <string name="celsius_only_message">Metric Units Only</string>
     <string name="weather_select_a_provider">Select a provider</string>
     <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they\'re usually more accurate.</string>
 

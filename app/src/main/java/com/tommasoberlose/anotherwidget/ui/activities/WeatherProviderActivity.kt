@@ -96,6 +96,10 @@ class WeatherProviderActivity : AppCompatActivity() {
                         if (provider == Constants.WeatherProvider.WEATHER_GOV) {
                             it.text = getString(R.string.us_only_message)
                         }
+
+                        if (provider == Constants.WeatherProvider.YR) {
+                            it.text = getString(R.string.celsius_only_message)
+                        }
                     }
                     .clicked(R.id.action_configure) {
                         BottomSheetWeatherProviderSettings(this) {
@@ -106,7 +110,6 @@ class WeatherProviderActivity : AppCompatActivity() {
                         }.show()
                     }
                     .visibility(R.id.action_configure, if (/*WeatherHelper.isKeyRequired(provider) && */provider.value == Preferences.weatherProvider) View.VISIBLE else View.GONE)
-                    .visibility(R.id.info_container, if (WeatherHelper.isKeyRequired(provider) || provider == Constants.WeatherProvider.WEATHER_GOV) View.VISIBLE else View.GONE)
                     .with<TextView>(R.id.provider_error) {
                         if (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-") {
                             it.text = Preferences.weatherProviderError

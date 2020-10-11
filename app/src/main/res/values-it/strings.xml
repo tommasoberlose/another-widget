@@ -152,6 +152,7 @@
     <string name="weather_provider_error_generic">Errore, verifica la configurazione del provider meteo.</string>
     <string name="api_key_required_message">Account richiesto</string>
     <string name="us_only_message">Solo US</string>
+    <string name="celsius_only_message">Solo Celsius</string>
     <string name="weather_select_a_provider">Scegli provider</string>
     <string name="weather_provider_activity_subtitle">Scegli un provider meteo.\nAlcuni provider richiedono la creazione di un account personale, ma è grauito e permette di avere migliori prestazioni.</string>
 
