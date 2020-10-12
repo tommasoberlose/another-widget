@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?android:attr/colorPrimary"
     tools:context=".ui.activities.MainActivity">
     <androidx.fragment.app.FragmentContainerView
@@ -13,30 +12,21 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"/>
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:visibility="gone"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="0dp"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/action_add_widget"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="4dp">
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:text="@string/add_widget"
-            android:layout_marginTop="-8dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"/>
-    </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+        android:visibility="gone"
+        android:textColor="@android:color/white"
+        android:text="@string/add_widget"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/round_add"
+        app:iconTint="@android:color/white"/>
+</RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Another Widget</string>
-    <string name="add_widget">Add</string>
+    <string name="add_widget">Add Widget</string>
 
     <!-- Display -->
     <string name="settings_general_title">Display</string>
