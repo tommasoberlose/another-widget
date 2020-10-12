@@ -151,7 +151,7 @@ class CalendarTabFragment : Fragment() {
         viewModel.calendarAppName.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 calendar_app_label?.text = when {
-                    Preferences.clockAppName != "" -> Preferences.clockAppName
+                    Preferences.calendarAppName != "" -> Preferences.calendarAppName
                     else -> {
                         if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
                             getString(
