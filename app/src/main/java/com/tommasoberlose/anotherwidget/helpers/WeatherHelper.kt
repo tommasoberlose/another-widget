@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import com.chibatching.kotpref.Kotpref
 import com.google.android.gms.location.LocationServices
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -26,6 +27,7 @@ import org.greenrobot.eventbus.EventBus
 object WeatherHelper {
 
     suspend fun updateWeather(context: Context) {
+        Kotpref.init(context)
         val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()

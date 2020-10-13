@@ -167,7 +167,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
         private fun setTimeout(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
                 cancel(PendingIntent.getBroadcast(context, 5, Intent(context, ActivityDetectionReceiver::class.java), 0))
-                setExactAndAllowWhileIdle(
+                setExact(
                     AlarmManager.RTC,
                     Calendar.getInstance().timeInMillis + 5 * 60 * 1000,
                     PendingIntent.getBroadcast(

@@ -30,11 +30,12 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:layout_marginTop="2dp"
                     android:layout_centerVertical="true"
-                    android:id="@+id/action_back"
                     android:layout_alignParentLeft="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:id="@+id/action_back"
                     app:tint="@color/colorPrimaryText"
                     android:src="@drawable/round_arrow_back" />
                 <TextView
@@ -44,17 +45,6 @@
                     android:text="@string/settings_title_integrations"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/action_filter"
-                    android:layout_alignParentRight="true"
-                    android:visibility="gone"
-                    app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_filter_list" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
         <RelativeLayout

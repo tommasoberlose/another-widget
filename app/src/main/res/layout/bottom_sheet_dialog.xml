@@ -58,7 +58,7 @@
             app:rippleColor="@color/colorSecondaryText"
             android:id="@+id/action_negative"
             android:letterSpacing="0"
-            android:text="Dismiss"
+            android:text="@string/action_dismiss"
             android:fontFamily="@font/google_sans"
             android:textStyle="bold"
             app:textAllCaps="false" />
@@ -69,11 +69,12 @@
             android:textColor="@color/colorAccent"
             android:clickable="true"
             android:focusable="true"
+            app:backgroundTint="@color/colorAccent_op10"
             android:textSize="16sp"
             app:rippleColor="@color/colorAccent_op30"
             android:id="@+id/action_positive"
             android:letterSpacing="0"
-            android:text="Accept"
+            android:text="@string/action_accept"
             android:fontFamily="@font/google_sans"
             android:textStyle="bold"
             app:textAllCaps="false" />

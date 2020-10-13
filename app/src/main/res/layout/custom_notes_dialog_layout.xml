@@ -62,6 +62,7 @@
             android:clickable="true"
             android:focusable="true"
             android:textSize="16sp"
+            app:backgroundTint="@color/colorAccent_op10"
             app:rippleColor="@color/colorAccent_op30"
             android:id="@+id/action_positive"
             android:letterSpacing="0"

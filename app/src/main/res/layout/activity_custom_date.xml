@@ -19,7 +19,7 @@
             app:cardCornerRadius="0dp"
             android:id="@+id/toolbar"
             app:cardBackgroundColor="@color/colorPrimary">
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
@@ -28,32 +28,21 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="10dp"
+                    android:padding="12dp"
+                    android:layout_marginTop="2dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_centerVertical="true"
                     android:id="@+id/action_back"
-                    android:layout_alignParentLeft="true"
                     app:tint="@color/colorPrimaryText"
                     android:src="@drawable/round_arrow_back" />
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:text="@string/custom_date_format"
+                    android:layout_marginEnd="48dp"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_save"
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
-                    android:padding="16dp"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/action_save"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
-            </RelativeLayout>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -123,7 +112,7 @@
                     android:textAppearance="@style/AnotherWidget.Settings.Title"
                     android:letterSpacing="0"
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     app:textAllCaps="false"
                     android:gravity="center_vertical|start"
                     android:paddingEnd="32dp"
@@ -167,10 +156,23 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="16dp"
+                android:paddingBottom="64dp"
                 android:paddingTop="16dp"
                 android:clipToPadding="false"
                 android:id="@+id/list_view" />
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:layout_margin="16dp"
+                app:backgroundTint="@color/colorAccent"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/action_save"
+                android:layout_alignParentRight="true"
+                android:text="@string/action_save" />
         </RelativeLayout>
     </LinearLayout>
 

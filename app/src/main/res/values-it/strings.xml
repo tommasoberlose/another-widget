@@ -257,4 +257,6 @@
     <string name="settings_title_integrations">Integrazioni</string>
     <string name="label_count_installed_integrations">%d integrazioni installate</string>
     <string name="nothing">Niente</string>
+    <string name="action_dismiss">Annulla</string>
+    <string name="action_accept">Ok</string>
 </resources>

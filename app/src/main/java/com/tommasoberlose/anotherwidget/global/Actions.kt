@@ -5,6 +5,7 @@ object Actions {
     const val ACTION_EXTRA_DISABLE_GPS_NOTIFICATION = "ACTION_EXTRA_DISABLE_GPS_NOTIFICATION"
 
     const val ACTION_TIME_UPDATE = "com.tommasoberlose.anotherwidget.action.TIME_UPDATE"
+    const val ACTION_ALARM_UPDATE = "com.tommasoberlose.anotherwidget.action.ALARM_UPDATE"
     const val ACTION_CALENDAR_UPDATE = "com.tommasoberlose.anotherwidget.action.CALENDAR_UPDATE"
     const val ACTION_WEATHER_UPDATE = "com.tommasoberlose.anotherwidget.action.WEATHER_UPDATE"
     const val ACTION_OPEN_WEATHER_INTENT = "com.tommasoberlose.anotherwidget.action.OPEN_WEATHER_INTENT"

@@ -30,10 +30,11 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:layout_marginTop="2dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/action_back"
                     app:tint="@color/colorPrimaryText"
                     android:src="@drawable/round_arrow_back" />
