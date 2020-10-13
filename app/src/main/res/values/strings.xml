@@ -30,15 +30,16 @@
     <string name="header_widget_background">Widget background</string>
     <string name="settings_secondary_row_top_margin_title">Margin</string>
     <string name="action_custom_font_to_search">Custom font...</string>
-    <string name="font_100">Thin</string>
-    <string name="font_200">Light</string>
-    <string name="font_300">Book</string>
-    <string name="font_400">Regular</string>
-    <string name="font_500">Medium</string>
-    <string name="font_600">Semi-bold</string>
-    <string name="font_700">Bold</string>
-    <string name="font_800">Black</string>
-    <string name="font_900">Heavy</string>
+    
+    <string name="font_100" translatable="false">Thin</string>
+    <string name="font_200" translatable="false">Light</string>
+    <string name="font_300" translatable="false">Book</string>
+    <string name="font_400" translatable="false">Regular</string>
+    <string name="font_500" translatable="false">Medium</string>
+    <string name="font_600" translatable="false">Semi-bold</string>
+    <string name="font_700" translatable="false">Bold</string>
+    <string name="font_800" translatable="false">Black</string>
+    <string name="font_900" translatable="false">Heavy</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendar</string>
@@ -87,7 +88,7 @@
     <string name="settings_attendee_status_title">Attendee Status</string>
     <string name="settings_attendee_status_subtitle">Filter accepted or declined events</string>
     <string name="settings_busy_events_title">Relevant events</string>
-    <string name="settings_busy_events_subtitle">Show only the events\nthat keep you busy</string>
+    <string name="settings_busy_events_subtitle">Show only events that keep busy</string>
     <string name="attendee_status_accepted">Accepted events</string>
     <string name="attendee_status_invited">Events invitations</string>
     <string name="attendee_status_declined">Declined events</string>
@@ -123,36 +124,36 @@
     <string name="api_key_subtitle_2">Find the API keys menu from your account settings and copy the default key.</string>
     <string name="api_key_title_3">Enter the key to the app</string>
     <string name="api_key_subtitle_3">Paste the key into the field above and save it. Once the key is activated the weather will become visible.</string>
-    <string name="action_open_provider">Go to OpenWeatherMap.com</string>
+    <string name="action_open_provider">Go to OpenWeatherMap.org</string>
     <string name="api_key_info_all_set">It may take up to ten minutes before your API key is activated. The weather will be updated as soon as it is available.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
     <string name="background_location_warning">We will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
     <string name="settings_weather_provider_api">Weather provider</string>
 
-    <string name="settings_weather_provider_open_weather" translatable="false">Open Weather Map</string>
+    <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
     <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
-    <string name="settings_weather_provider_weather_api" translatable="false">Weatherapi.com</string>
-    <string name="settings_weather_provider_here" translatable="false">Here.com</string>
-    <string name="settings_weather_provider_accuweather" translatable="false">Accuweather.com</string>
-    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (US)\nPowered by National Weather Services</string>
-    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nPowered by Meteorological Institute</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">WeatherAPI.com</string>
+    <string name="settings_weather_provider_here" translatable="false">HERE.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">AccuWeather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
 
     <string name="weather_provider_info_open_weather_title">This weather provider needs\nan API key to work correctly.</string>
     <string name="weather_provider_info_weatherbit_title">This weather provider needs\nan API key to work correctly.</string>
     <string name="weather_provider_info_weatherapi_title">This weather provider needs\nan API key to work correctly.</string>
     <string name="weather_provider_info_here_title">This weather provider needs\nan API key to work correctly.</string>
     <string name="weather_provider_info_accuweather_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_weather_gov_title">This weather provider works only\nfor locations inside the US.</string>
-    <string name="weather_provider_info_yr_title">This weather provider allows only Celsius temperatures.</string>
+    <string name="weather_provider_info_weather_gov_title">This weather provider only works\nfor locations inside the USA.</string>
+    <string name="weather_provider_info_yr_title">This weather provider only allows\nCelsius temperature unit.</string>
 
-    <string name="weather_provider_info_open_weather_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_weatherbit_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_weatherapi_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_here_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_accuweather_subtitle">Please, open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_weather_gov_subtitle" />
-    <string name="weather_provider_info_yr_subtitle" />
+    <string name="weather_provider_info_open_weather_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_here_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_weather_gov_subtitle">\n</string>
+    <string name="weather_provider_info_yr_subtitle">\n</string>
 
     <string name="weather_provider_error_missing_key">The weather provider that you\'ve selected requires an API key.</string>
     <string name="weather_provider_error_wrong_location">The current location is not supported.</string>
@@ -163,10 +164,10 @@
     <string name="weather_provider_error_connection">Connection error.</string>
     <string name="weather_provider_error_generic">Something went wrong, check the weather provider config.</string>
     <string name="api_key_required_message">Account required</string>
-    <string name="us_only_message">US Only</string>
-    <string name="celsius_only_message">Metric Units Only</string>
+    <string name="us_only_message">USA Only</string>
+    <string name="celsius_only_message">Metric Unit Only</string>
     <string name="weather_select_a_provider">Select a provider</string>
-    <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they\'re usually more accurate.</string>
+    <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they are usually more accurate.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>
