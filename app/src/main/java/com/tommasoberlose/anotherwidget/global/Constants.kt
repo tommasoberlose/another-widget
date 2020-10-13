@@ -30,7 +30,9 @@ object Constants {
         NEXT_CLOCK_ALARM("NEXT_CLOCK_ALARM"),
         BATTERY_LEVEL_LOW("BATTERY_LEVEL_LOW"),
         CUSTOM_INFO("CUSTOM_INFO"),
-        GOOGLE_FIT_STEPS("GOOGLE_FIT_STEPS");
+        GOOGLE_FIT_STEPS("GOOGLE_FIT_STEPS"),
+        NOTIFICATIONS("NOTIFICATIONS"),
+        GREETINGS("GREETINGS");
 
         companion object {
             private val map = GlanceProviderId.values().associateBy(GlanceProviderId::id)

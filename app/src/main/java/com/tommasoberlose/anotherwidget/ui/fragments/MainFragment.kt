@@ -35,6 +35,7 @@ import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.helpers.WidgetHelper
+import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -363,7 +364,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         tabs?.getTabAt(4)?.orCreateBadge?.apply {
             backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = Preferences.showMusic && !NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName)
+        }?.isVisible = ((Preferences.showMusic || Preferences.showNotifications) && !NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName)) ||
+                (Preferences.showDailySteps && !(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION)))
     }
 
     override fun onResume() {

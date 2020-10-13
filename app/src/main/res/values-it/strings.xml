@@ -179,6 +179,7 @@
     <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_show_music_title">Canzone in riproduzione</string>
     <string name="settings_request_notification_access">È necessario l\'accesso alle notifiche per controllare la canzone in riproduzione.</string>
+    <string name="settings_request_last_notification_access">È necessario l\'accesso alle notifiche per mostrare le ultime che ti sono arrivate.</string>
     <string name="settings_request_fitness_access">Sono necessari i permessi per accedere ai passi di oggi su Google Fit.</string>
     <string name="title_show_glance">Mostra At a Glance</string>
     <string name="description_show_glance_visible">Informazioni visibili</string>

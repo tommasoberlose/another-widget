@@ -7,23 +7,21 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
 import android.text.format.DateUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RemoteViews
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.provider.FontRequest
-import androidx.core.provider.FontsContractCompat
 import androidx.core.view.isVisible
+import com.google.gson.Gson
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
@@ -32,9 +30,10 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.receivers.*
-import com.tommasoberlose.anotherwidget.utils.*
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
+import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.the_widget.view.*
-import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -346,6 +345,26 @@ class MainWidget : AppWidgetProvider() {
                                     views.setOnClickPendingIntent(R.id.second_row_rect, fitIntent)
                                     showSomething = true
                                     break@loop
+                                }
+                            }
+                            Constants.GlanceProviderId.NOTIFICATIONS -> {
+                                if (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) {
+                                    try {
+                                        val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
+                                        val icon = ContextCompat.getDrawable(remotePackageContext, Preferences.lastNotificationIcon)
+                                        val notificationIntent = PendingIntent.getActivity(
+                                            context,
+                                            widgetID,
+                                            IntentHelper.getNotificationIntent(context),
+                                            PendingIntent.FLAG_UPDATE_CURRENT
+                                        )
+                                        views.setOnClickPendingIntent(
+                                            R.id.second_row_rect,
+                                            notificationIntent
+                                        )
+                                        showSomething = true
+                                        break@loop
+                                    } catch (ex: Exception) {}
                                 }
                             }
                         }
@@ -693,6 +712,19 @@ class MainWidget : AppWidgetProvider() {
                                         .format(Preferences.googleFitSteps)
                                 showSomething = true
                                 break@loop
+                            }
+                        }
+                        Constants.GlanceProviderId.NOTIFICATIONS -> {
+                            if (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) {
+                                try {
+                                    val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
+                                    val icon = ContextCompat.getDrawable(remotePackageContext, Preferences.lastNotificationIcon)
+                                    v.second_row_icon.isVisible = true
+                                    v.second_row_icon.setImageDrawable(icon)
+                                    v.next_event_date.text = Preferences.lastNotificationTitle
+                                    showSomething = true
+                                    break@loop
+                                } catch (ex: Exception) {}
                             }
                         }
                     }

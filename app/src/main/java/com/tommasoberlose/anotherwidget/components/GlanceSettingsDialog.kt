@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.app.NotificationManagerCompat
@@ -29,10 +28,9 @@ import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import kotlinx.android.synthetic.main.fragment_glance_settings.*
 import kotlinx.android.synthetic.main.glance_provider_settings_layout.view.*
 
-class GlanceSettingsDialog(val context: Activity, val provider: Constants.GlanceProviderId, val statusCallback: (() -> Unit)?) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
+class GlanceSettingsDialog(val context: Activity, val provider: Constants.GlanceProviderId, private val statusCallback: (() -> Unit)?) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
     override fun show() {
         val view = View.inflate(context, R.layout.glance_provider_settings_layout, null)
@@ -44,6 +42,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> context.getString(R.string.settings_low_battery_level_title)
             Constants.GlanceProviderId.CUSTOM_INFO -> context.getString(R.string.settings_custom_notes_title)
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> context.getString(R.string.settings_daily_steps_title)
+            Constants.GlanceProviderId.NOTIFICATIONS -> context.getString(R.string.settings_show_notifications_title)
+            Constants.GlanceProviderId.GREETINGS -> context.getString(R.string.settings_show_greetings_title)
         }
 
         /* SUBTITLE*/
@@ -53,14 +53,16 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> context.getString(R.string.settings_low_battery_level_subtitle)
             Constants.GlanceProviderId.CUSTOM_INFO -> ""
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> context.getString(R.string.settings_daily_steps_subtitle)
+            Constants.GlanceProviderId.NOTIFICATIONS -> context.getString(R.string.settings_show_notifications_subtitle)
+            Constants.GlanceProviderId.GREETINGS -> context.getString(R.string.settings_show_greetings_subtitle)
         }
 
         /* SONG */
         view.action_filter_music_players.isVisible = provider == Constants.GlanceProviderId.PLAYING_SONG
-        view.action_filter_music_players.setOnClickListener {
-            context.startActivity(Intent(context, MusicPlayersFilterActivity::class.java))
-        }
         if (provider == Constants.GlanceProviderId.PLAYING_SONG) {
+            view.action_filter_music_players.setOnClickListener {
+                context.startActivity(Intent(context, MusicPlayersFilterActivity::class.java))
+            }
             checkNotificationPermission(view)
         }
 
@@ -68,27 +70,35 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         view.alarm_set_by_container.isVisible = provider == Constants.GlanceProviderId.NEXT_CLOCK_ALARM
         if (provider == Constants.GlanceProviderId.NEXT_CLOCK_ALARM) {
             view.header.text = context.getString(R.string.information_header)
-        }
-        if (provider == Constants.GlanceProviderId.NEXT_CLOCK_ALARM) {
             view.warning_container.isVisible = false
             checkNextAlarm(view)
         }
 
         /* GOOGLE STEPS */
+        view.action_toggle_google_fit.isVisible = provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS
         if (provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS) {
             checkFitnessPermission(view)
         }
 
         /* BATTERY INFO */
-        view.header.isVisible = provider != Constants.GlanceProviderId.BATTERY_LEVEL_LOW
         if (provider == Constants.GlanceProviderId.BATTERY_LEVEL_LOW) {
             view.warning_container.isVisible = false
+            view.header.isVisible = false
             view.divider.isVisible = false
         }
 
-        /* CUSTOM NOTES */
-        view.subtitle.isVisible = provider != Constants.GlanceProviderId.CUSTOM_INFO
-        view.provider_switch.isVisible = provider != Constants.GlanceProviderId.CUSTOM_INFO
+        /* NOTIFICATIONS */
+        view.action_filter_notifications_app.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
+        if (provider == Constants.GlanceProviderId.NOTIFICATIONS) {
+            checkLastNotificationsPermission(view)
+        }
+
+        /* GREETINGS */
+        if (provider == Constants.GlanceProviderId.GREETINGS) {
+            view.warning_container.isVisible = false
+            view.header.isVisible = false
+            view.divider.isVisible = false
+        }
 
         /* TOGGLE */
         view.provider_switch.isChecked = when (provider) {
@@ -97,6 +107,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> Preferences.showBatteryCharging
             Constants.GlanceProviderId.CUSTOM_INFO -> true
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> Preferences.showDailySteps
+            Constants.GlanceProviderId.NOTIFICATIONS -> Preferences.showNotifications
+            Constants.GlanceProviderId.GREETINGS -> Preferences.showGreetings
         }
 
         view.provider_switch.setOnCheckedChangeListener { _, isChecked ->
@@ -111,6 +123,13 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                 }
                 Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                     Preferences.showBatteryCharging = isChecked
+                }
+                Constants.GlanceProviderId.NOTIFICATIONS -> {
+                    Preferences.showNotifications = isChecked
+                    checkLastNotificationsPermission(view)
+                }
+                Constants.GlanceProviderId.GREETINGS -> {
+                    Preferences.showGreetings = isChecked
                 }
                 Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                     if (isChecked) {
@@ -161,6 +180,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
     }
 
     private fun checkNotificationPermission(view: View) {
+        Log.d("ciao", NotificationManagerCompat.getEnabledListenerPackages(context).toString())
         when {
             NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName) -> {
                 view.warning_container.isVisible = false
@@ -172,7 +192,25 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                 view.warning_container.setOnClickListener {
                     context.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
                 }
-                Log.d("ciao", "ok: ${view.warning_container.isVisible}")
+            }
+            else -> {
+                view.warning_container.isVisible = false
+            }
+        }
+        statusCallback?.invoke()
+    }
+
+    private fun checkLastNotificationsPermission(view: View) {
+        when {
+            NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName) -> {
+                view.warning_container.isVisible = false
+            }
+            Preferences.showNotifications -> {
+                view.warning_container.isVisible = true
+                view.warning_title.text = context.getString(R.string.settings_request_last_notification_access)
+                view.warning_container.setOnClickListener {
+                    context.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
+                }
             }
             else -> {
                 view.warning_container.isVisible = false

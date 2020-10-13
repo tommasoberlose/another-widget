@@ -1,7 +1,6 @@
 package com.tommasoberlose.anotherwidget.helpers
 
 import android.content.Context
-import android.util.Log
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -71,6 +70,18 @@ object GlanceProviderHelper {
                    R.drawable.round_directions_walk
                )
             }
+            Constants.GlanceProviderId.NOTIFICATIONS -> {
+                GlanceProvider(providerId.id,
+                    context.getString(R.string.settings_show_notifications_title),
+                    R.drawable.round_notifications
+                )
+            }
+            Constants.GlanceProviderId.GREETINGS -> {
+                GlanceProvider(providerId.id,
+                    context.getString(R.string.settings_show_greetings_title),
+                    R.drawable.round_history_edu
+                )
+            }
         }
     }
 
@@ -84,12 +95,12 @@ object GlanceProviderHelper {
 
         val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents)
             && (
+                (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) ||
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
                 (MediaPlayerHelper.isSomeonePlaying(context)) ||
                 (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                 (Preferences.customNotes.isNotEmpty()) ||
-                (Preferences.showDailySteps && Preferences.googleFitSteps > 0) ||
-                (Preferences.showNotifications && ActiveNotificationsHelper.getLastNotification(context) != null)
+                (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
             )
         eventRepository.close()
         return showGlance

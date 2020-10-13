@@ -26,6 +26,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -132,9 +133,6 @@ class SettingsFragment : Fragment() {
         }
 
         action_show_wallpaper.setOnClickListener {
-        }
-
-        action_show_wallpaper.setOnClickListener {
             show_wallpaper_toggle.isChecked = !show_wallpaper_toggle.isChecked
         }
 
@@ -198,6 +196,7 @@ class SettingsFragment : Fragment() {
             }
             CalendarHelper.updateEventList(requireContext())
             MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
+            ActiveNotificationsHelper.clearLastNotification(requireContext())
         }
     }
 

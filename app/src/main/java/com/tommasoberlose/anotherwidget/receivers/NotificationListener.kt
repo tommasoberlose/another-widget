@@ -1,19 +1,18 @@
 package com.tommasoberlose.anotherwidget.receivers
 
-import android.app.Notification
-import android.media.MediaMetadata
-import android.media.session.MediaController
+import android.app.*
+import android.content.Context
+import android.content.Intent
 import android.media.session.MediaSession
-import android.media.session.PlaybackState
+import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
-import com.chibatching.kotpref.bulk
-import com.google.gson.Gson
+import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
-import com.tommasoberlose.anotherwidget.helpers.WidgetHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import java.util.*
 
 
 class NotificationListener : NotificationListenerService() {
@@ -27,19 +26,58 @@ class NotificationListener : NotificationListenerService() {
         sbn?.notification?.extras?.let { bundle ->
             bundle.getParcelable<MediaSession.Token>(Notification.EXTRA_MEDIA_SESSION)?.let {
                 MediaPlayerHelper.updatePlayingMediaInfo(this)
+            } ?: run {
+                val isGroupHeader = sbn.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
+                val isOngoing = sbn.notification.flags and Notification.FLAG_ONGOING_EVENT != 0
+
+                if (bundle.containsKey(Notification.EXTRA_TITLE) && !isGroupHeader && !isOngoing) {
+                    Preferences.lastNotificationId = sbn.id
+                    Preferences.lastNotificationTitle = bundle.getString(Notification.EXTRA_TITLE) ?: ""
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        Preferences.lastNotificationIcon = sbn.notification.smallIcon.resId
+                        Preferences.lastNotificationPackage = sbn.notification.smallIcon.resPackage
+                    } else {
+                        Preferences.lastNotificationIcon = sbn.notification.icon
+                        Preferences.lastNotificationPackage = sbn.packageName
+                    }
+                    MainWidget.updateWidget(this)
+                    setTimeout(this)
+                }
             }
         }
 
-        Log.d("ciao", Gson().toJson(sbn?.notification?.smallIcon))
-        Log.d("ciao", Gson().toJson(sbn?.notification?.contentIntent))
-        Log.d("ciao", Gson().toJson(sbn?.notification))
-        MainWidget.updateWidget(this)
         super.onNotificationPosted(sbn)
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?) {
         MediaPlayerHelper.updatePlayingMediaInfo(this)
+
+        sbn?.let {
+            if (sbn.id == Preferences.lastNotificationId && sbn.packageName == Preferences.lastNotificationPackage) {
+                ActiveNotificationsHelper.clearLastNotification(this)
+            }
+        }
+
         MainWidget.updateWidget(this)
         super.onNotificationRemoved(sbn)
+    }
+
+    private fun setTimeout(context: Context) {
+        with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+            val intent = Intent(context, UpdatesReceiver::class.java).apply {
+                action = Actions.ACTION_CLEAR_NOTIFICATION
+            }
+            cancel(PendingIntent.getBroadcast(context, 28943, intent, 0))
+            setExact(
+                AlarmManager.RTC,
+                Calendar.getInstance().timeInMillis + 30 * 1000,
+                PendingIntent.getBroadcast(
+                    context,
+                    5,
+                    intent,
+                    0
+                )
+            )
+        }
     }
 }

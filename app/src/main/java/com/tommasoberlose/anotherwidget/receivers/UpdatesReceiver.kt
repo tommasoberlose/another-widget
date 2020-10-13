@@ -12,8 +12,10 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.BatteryHelper
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import org.joda.time.Period
@@ -32,15 +34,23 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_DATE_CHANGED,
             Actions.ACTION_CALENDAR_UPDATE -> {
                 CalendarHelper.updateEventList(context)
+                ActiveNotificationsHelper.clearLastNotification(context)
+                MediaPlayerHelper.updatePlayingMediaInfo(context)
             }
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
+            Actions.ACTION_ALARM_UPDATE,
             Actions.ACTION_TIME_UPDATE -> {
                 MainWidget.updateWidget(context)
                 if (intent.hasExtra(EVENT_ID)) {
                     setUpdates(context, intent.getLongExtra(EVENT_ID, -1))
                 }
+            }
+
+            Actions.ACTION_CLEAR_NOTIFICATION -> {
+                ActiveNotificationsHelper.clearLastNotification(context)
+                MainWidget.updateWidget(context)
             }
         }
     }

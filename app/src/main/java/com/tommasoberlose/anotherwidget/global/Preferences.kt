@@ -123,7 +123,13 @@ object Preferences : KotprefModel() {
     var isCharging by booleanPref(default = false)
     var googleFitSteps by longPref(default = -1)
     var showDailySteps by booleanPref(default = false)
+    var showGreetings by booleanPref(default = false)
     var showNotifications by booleanPref(default = false)
+
+    var lastNotificationId by intPref(default = -1)
+    var lastNotificationTitle by stringPref(default = "")
+    var lastNotificationIcon by intPref(default = 0)
+    var lastNotificationPackage by stringPref(default = "")
 
     var showMusic by booleanPref(default = false)
     var mediaInfoFormat by stringPref(default = "")

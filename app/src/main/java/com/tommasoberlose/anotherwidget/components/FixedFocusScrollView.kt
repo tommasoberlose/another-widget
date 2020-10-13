@@ -6,13 +6,14 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.ScrollView
+import androidx.core.widget.NestedScrollView
 
 
 class FixedFocusScrollView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ScrollView(context, attrs, defStyle) {
+) : NestedScrollView(context, attrs, defStyle) {
 
     var isScrollable = true
 

@@ -127,7 +127,7 @@
     <string name="api_key_info_all_set">Der kan gå op til 10 minutter inden din API nøgle er aktiveret. Vejret vil blive opdateret så snart det er tilgængeligt.</string>
     <string name="settings_weather_icon_pack_title">Ikonpakke</string>
     <string name="settings_weather_icon_pack_default">Ikonpakke %d</string>
-    <string name="background_location_warning">Vi indsamler placeringsdata for at opdatere vejrinformationer, selv når app'en er lukket eller ikke er i brug.\nVi bruger ikke disse data på andre måder.</string>
+    <string name="background_location_warning">Vi indsamler placeringsdata for at opdatere vejrinformationer, selv når app\'en er lukket eller ikke er i brug.\nVi bruger ikke disse data på andre måder.</string>
     <string name="settings_weather_provider_api">Vejrudbyder</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">Open Weather Map</string>
@@ -188,7 +188,6 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Vis næste alarm</string>
-    <string name="next_alarm_warning">Den næste alarm lader til at være forkert.\nDen er indstillet af %s.</string>
     <string name="settings_at_a_glance_title">Overblik</string>
     <string name="settings_show_music_title">Aktuel sang</string>
     <string name="settings_request_notification_access">Vi har brug for tilladelse til aflæsning af notifikationer, for at vise den aktuelle sang.</string>

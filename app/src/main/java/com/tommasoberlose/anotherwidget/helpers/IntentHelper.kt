@@ -222,4 +222,16 @@ object IntentHelper {
             Intent()
         }
     }
+
+    fun getNotificationIntent(context: Context): Intent {
+        val pm: PackageManager = context.packageManager
+        return try {
+            pm.getLaunchIntentForPackage(Preferences.lastNotificationPackage)!!.apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }
+        } catch (e: Exception) {
+            context.toast(context.getString(R.string.error_opening_app))
+            Intent()
+        }
+    }
 }
