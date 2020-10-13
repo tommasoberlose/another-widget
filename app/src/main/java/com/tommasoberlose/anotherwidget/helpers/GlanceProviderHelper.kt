@@ -43,19 +43,19 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_show_next_alarm_title),
-                   R.drawable.round_alarm
+                   R.drawable.round_access_alarm
                )
             }
             Constants.GlanceProviderId.PLAYING_SONG -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_show_music_title),
-                   R.drawable.round_music_note
+                   R.drawable.round_radio
                )
             }
             Constants.GlanceProviderId.CUSTOM_INFO -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_custom_notes_title),
-                   R.drawable.round_notes
+                   R.drawable.round_sticky_note_2
                )
             }
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
@@ -67,7 +67,7 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_daily_steps_title),
-                   R.drawable.round_directions_walk
+                   R.drawable.round_run_circle
                )
             }
             Constants.GlanceProviderId.NOTIFICATIONS -> {

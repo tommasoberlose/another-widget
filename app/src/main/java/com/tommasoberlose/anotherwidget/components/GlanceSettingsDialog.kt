@@ -29,6 +29,7 @@ import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.android.synthetic.main.glance_provider_settings_layout.view.*
+import kotlinx.coroutines.*
 
 class GlanceSettingsDialog(val context: Activity, val provider: Constants.GlanceProviderId, private val statusCallback: (() -> Unit)?) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
@@ -77,7 +78,9 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         /* GOOGLE STEPS */
         view.action_toggle_google_fit.isVisible = provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS
         if (provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS) {
+            view.warning_container.isVisible = false
             checkFitnessPermission(view)
+            checkGoogleFitConnection(view)
         }
 
         /* BATTERY INFO */
@@ -111,48 +114,64 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.GREETINGS -> Preferences.showGreetings
         }
 
+        var job: Job? = null
+
         view.provider_switch.setOnCheckedChangeListener { _, isChecked ->
-            when (provider) {
-                Constants.GlanceProviderId.PLAYING_SONG -> {
-                    Preferences.showMusic = isChecked
-                    checkNotificationPermission(view)
-                }
-                Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                    Preferences.showNextAlarm = isChecked
-                    checkNextAlarm(view)
-                }
-                Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                    Preferences.showBatteryCharging = isChecked
-                }
-                Constants.GlanceProviderId.NOTIFICATIONS -> {
-                    Preferences.showNotifications = isChecked
-                    checkLastNotificationsPermission(view)
-                }
-                Constants.GlanceProviderId.GREETINGS -> {
-                    Preferences.showGreetings = isChecked
-                }
-                Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-                    if (isChecked) {
-                        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-                        if (!GoogleSignIn.hasPermissions(account,
-                                ActivityDetectionReceiver.FITNESS_OPTIONS
-                            )) {
-                            val mGoogleSignInClient = GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
-                                GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(
-                                ActivityDetectionReceiver.FITNESS_OPTIONS
-                            ).build())
-                            context.startActivityForResult(mGoogleSignInClient.signInIntent, 2)
-                        } else {
-                            Preferences.showDailySteps = true
+            job?.cancel()
+            job = GlobalScope.launch(Dispatchers.IO) {
+                delay(300)
+                withContext(Dispatchers.Main) {
+                    when (provider) {
+                        Constants.GlanceProviderId.PLAYING_SONG -> {
+                            Preferences.showMusic = isChecked
+                            checkNotificationPermission(view)
                         }
-                    } else {
-                        Preferences.showDailySteps = false
+                        Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
+                            Preferences.showNextAlarm = isChecked
+                            checkNextAlarm(view)
+                        }
+                        Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+                            Preferences.showBatteryCharging = isChecked
+                        }
+                        Constants.GlanceProviderId.NOTIFICATIONS -> {
+                            Preferences.showNotifications = isChecked
+                            checkLastNotificationsPermission(view)
+                        }
+                        Constants.GlanceProviderId.GREETINGS -> {
+                            Preferences.showGreetings = isChecked
+                        }
+                        Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+                            if (isChecked) {
+                                val account: GoogleSignInAccount? =
+                                    GoogleSignIn.getLastSignedInAccount(context)
+                                if (!GoogleSignIn.hasPermissions(account,
+                                        ActivityDetectionReceiver.FITNESS_OPTIONS
+                                    )
+                                ) {
+                                    val mGoogleSignInClient =
+                                        GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
+                                            GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(
+                                            ActivityDetectionReceiver.FITNESS_OPTIONS
+                                        ).build())
+                                    context.startActivityForResult(mGoogleSignInClient.signInIntent,
+                                        2)
+                                } else {
+                                    Preferences.showDailySteps = true
+                                }
+                            } else {
+                                Preferences.showDailySteps = false
+                            }
+
+                            view.warning_container.isVisible = false
+                            checkFitnessPermission(view)
+                            checkGoogleFitConnection(view)
+                        }
+                        else -> {
+                        }
                     }
-                    checkFitnessPermission(view)
+                    statusCallback?.invoke()
                 }
-                else -> {}
             }
-            statusCallback?.invoke()
         }
 
         setContentView(view)
@@ -180,7 +199,6 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
     }
 
     private fun checkNotificationPermission(view: View) {
-        Log.d("ciao", NotificationManagerCompat.getEnabledListenerPackages(context).toString())
         when {
             NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName) -> {
                 view.warning_container.isVisible = false
@@ -223,7 +241,6 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(
                 Manifest.permission.ACTIVITY_RECOGNITION)
         ) {
-            view.warning_container.isVisible = false
             if (Preferences.showDailySteps) {
                 ActivityDetectionReceiver.registerFence(context)
             } else {
@@ -238,9 +255,49 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             }
         } else {
             ActivityDetectionReceiver.unregisterFence(context)
-            view.warning_container.isVisible = false
         }
         statusCallback?.invoke()
+    }
+
+    private fun checkGoogleFitConnection(view: View) {
+        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
+        if (!GoogleSignIn.hasPermissions(account,
+                ActivityDetectionReceiver.FITNESS_OPTIONS
+            )) {
+            view.warning_container.isVisible = true
+            view.warning_title.text = context.getString(R.string.settings_request_fitness_access)
+            view.warning_container.setOnClickListener {
+                GoogleSignIn.requestPermissions(
+                    context,
+                    1,
+                    account,
+                    ActivityDetectionReceiver.FITNESS_OPTIONS)
+            }
+            view.action_connect_to_google_fit.isVisible = true
+            view.action_disconnect_to_google_fit.isVisible = false
+            view.action_connect_to_google_fit.setOnClickListener {
+                GoogleSignIn.requestPermissions(
+                    context,
+                    1,
+                    account,
+                    ActivityDetectionReceiver.FITNESS_OPTIONS)
+            }
+            view.action_disconnect_to_google_fit.setOnClickListener(null)
+            view.google_fit_status_label.text = context.getString(R.string.google_fit_account_not_connected)
+        } else {
+            view.action_connect_to_google_fit.isVisible = false
+            view.action_disconnect_to_google_fit.isVisible = true
+            view.action_connect_to_google_fit.setOnClickListener(null)
+            view.action_disconnect_to_google_fit.setOnClickListener {
+                GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
+                    GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(
+                    ActivityDetectionReceiver.FITNESS_OPTIONS
+                ).build()).signOut().addOnCompleteListener {
+                    show()
+                }
+            }
+            view.google_fit_status_label.text = context.getString(R.string.google_fit_account_connected)
+        }
     }
 
     private fun requireFitnessPermission(view: View) {

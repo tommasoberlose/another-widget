@@ -30,11 +30,8 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.helpers.BitmapHelper
-import com.tommasoberlose.anotherwidget.helpers.ColorHelper
+import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
-import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
-import com.tommasoberlose.anotherwidget.helpers.WidgetHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
@@ -360,12 +357,13 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             false
         }
 
-        // Music error indicator
+        // Glance error indicator
         tabs?.getTabAt(4)?.orCreateBadge?.apply {
             backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
         }?.isVisible = ((Preferences.showMusic || Preferences.showNotifications) && !NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName)) ||
-                (Preferences.showDailySteps && !(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION)))
+                (Preferences.showDailySteps && !(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION))) ||
+                (AlarmHelper.isAlarmProbablyWrong(requireContext()))
     }
 
     override fun onResume() {

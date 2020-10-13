@@ -221,6 +221,11 @@
     <string name="settings_show_notifications_subtitle">Take a quick view of the last notifications showed up on your device.</string>
     <string name="settings_show_greetings_title">Greetings</string>
     <string name="settings_show_greetings_subtitle">View some cool phrase when you don\'t expect it.</string>
+    <string name="google_fit_account_connected">Account connected</string>
+    <string name="google_fit_account_not_connected">Account not connected</string>
+    <string name="google_fit">Google Fit</string>
+    <string name="action_connect">Connect</string>
+    <string name="action_disconnect">Disconnect</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

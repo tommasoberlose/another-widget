@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="56dp"
+        android:paddingBottom="48dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -220,7 +220,8 @@
                 android:id="@+id/action_toggle_google_fit"
                 android:orientation="horizontal">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
@@ -230,14 +231,34 @@
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="Google Fit"/>
+                        android:text="@string/google_fit"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="@string/settings_music_players_filter_subtitle"
+                        android:id="@+id/google_fit_status_label"
+                        android:text="@string/google_fit_account_not_connected"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    app:backgroundTint="@color/colorAccent_op10"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/action_connect"
+                    android:textAllCaps="false"
+                    android:id="@+id/action_connect_to_google_fit" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/colorSecondaryText"
+                    android:visibility="gone"
+                    app:strokeColor="@color/disabledButtonBackground"
+                    android:text="@string/action_disconnect"
+                    android:textAllCaps="false"
+                    android:id="@+id/action_disconnect_to_google_fit" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

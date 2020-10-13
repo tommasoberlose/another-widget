@@ -204,6 +204,11 @@
     <string name="settings_show_next_alarm_app_title">Allarme impostato da %s</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">La prossima sveglia sembra impostata da un\'app errata. Disinstalla l\'app che imposta allarmi errati.</string>
     <string name="settings_show_next_alarm_app_subtitle_correct">La prossima sveglia sembra corretta.</string>
+    <string name="google_fit_account_connected">Account collegato</string>
+    <string name="google_fit_account_not_connected">Account non collegato</string>
+    <string name="google_fit">Google Fit</string>
+    <string name="action_connect">Collega</string>
+    <string name="action_disconnect">Scollega</string>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>

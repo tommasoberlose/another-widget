@@ -202,8 +202,9 @@ class GlanceTabFragment : Fragment() {
                         injector.visibility(R.id.info_icon, View.VISIBLE)
                     }
                     Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(
-                                Manifest.permission.ACTIVITY_RECOGNITION) == true
+                        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
+                        if (GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(
+                                Manifest.permission.ACTIVITY_RECOGNITION) == true)
                         ) {
                             injector.text(R.id.label,
                                 if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(
@@ -361,14 +362,12 @@ class GlanceTabFragment : Fragment() {
             1 -> {
                 if (resultCode == Activity.RESULT_OK) {
                     adapter.notifyItemRangeChanged(0, adapter.data.size)
-                    if (dialog != null) {
-                        dialog?.show()
-                    }
                 } else {
                     Preferences.showDailySteps = false
-                    if (dialog != null) {
-                        dialog?.show()
-                    }
+                }
+
+                if (dialog != null) {
+                    dialog?.show()
                 }
             }
             2 -> {
@@ -383,16 +382,14 @@ class GlanceTabFragment : Fragment() {
                             FITNESS_OPTIONS)
                     } else {
                         adapter.notifyItemRangeChanged(0, adapter.data.size)
-                        if (dialog != null) {
-                            dialog?.show()
-                        }
                     }
                 } catch (e: ApiException) {
                     e.printStackTrace()
                     Preferences.showDailySteps = false
-                    if (dialog != null) {
-                        dialog?.show()
-                    }
+                }
+
+                if (dialog != null) {
+                    dialog?.show()
                 }
             }
         }
@@ -410,5 +407,8 @@ class GlanceTabFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         adapter.notifyItemRangeChanged(0, adapter.data.size)
+        if (dialog != null) {
+            dialog?.show()
+        }
     }
 }
