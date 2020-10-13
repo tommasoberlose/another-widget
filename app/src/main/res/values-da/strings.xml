@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_widget">Add</string>
+    <string name="app_name" translatable="false">Another Widget</string>
+    <string name="add_widget">Tilføj</string>
 
     <!-- Display -->
     <string name="settings_general_title">Visning</string>
+    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Tekstfarve</string>
     <string name="settings_secondary_font_color_title">Tekstfarve</string>
     <string name="settings_background_color_title">Baggrundsfarve</string>
@@ -25,6 +27,18 @@
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Skift mellem stort og småt begyndelsesbogstav</string>
     <string name="settings_date_format_title">Datoformat</string>
+    <string name="header_widget_background">Widget baggrund</string>
+    <string name="settings_secondary_row_top_margin_title">Margen</string>
+    <string name="action_custom_font_to_search">Brugerdefineret skrifttype...</string>
+    <string name="font_100">Tynd</string>
+    <string name="font_200">Let</string>
+    <string name="font_300">Bog</string>
+    <string name="font_400">Almindelig</string>
+    <string name="font_500">Medium</string>
+    <string name="font_600">Semi-fed</string>
+    <string name="font_700">Fed</string>
+    <string name="font_800">Sort</string>
+    <string name="font_900">Tung</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Kalender</string>
@@ -70,12 +84,21 @@
     <string name="settings_widget_update_frequency_high">Høj</string>
     <string name="filters_header">Filtre</string>
     <string name="event_detail_header">Begivenhedsdetaljer</string>
+    <string name="settings_attendee_status_title">Deltagerstatus</string>
+    <string name="settings_attendee_status_subtitle">Filtrer accepterede eller afviste begivenheder</string>
+    <string name="settings_busy_events_title">Relevante begivenheder</string>
+    <string name="settings_busy_events_subtitle">Vis kun de begivenheder\nsom holder dig optaget</string>
+    <string name="attendee_status_accepted">Accepterede begivenheder</string>
+    <string name="attendee_status_invited">Begivenhedsinvitationer</string>
+    <string name="attendee_status_declined">Afviste begivenheder</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Vejr</string>
     <string name="title_permission_location">Vis vejret</string>
     <string name="description_permission_location">Giv tilladelse til din lokation\nfor at se vejret i din widget.</string>
     <string name="settings_unit_title">Måleenhed</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Opdateringsfrekvens</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 minutter</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 time</string>
@@ -104,6 +127,46 @@
     <string name="api_key_info_all_set">Der kan gå op til 10 minutter inden din API nøgle er aktiveret. Vejret vil blive opdateret så snart det er tilgængeligt.</string>
     <string name="settings_weather_icon_pack_title">Ikonpakke</string>
     <string name="settings_weather_icon_pack_default">Ikonpakke %d</string>
+    <string name="background_location_warning">Vi indsamler placeringsdata for at opdatere vejrinformationer, selv når app'en er lukket eller ikke er i brug.\nVi bruger ikke disse data på andre måder.</string>
+    <string name="settings_weather_provider_api">Vejrudbyder</string>
+
+    <string name="settings_weather_provider_open_weather" translatable="false">Open Weather Map</string>
+    <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">Weatherapi.com</string>
+    <string name="settings_weather_provider_here" translatable="false">Here.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">Accuweather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (US)\nPowered by National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nPowered by Meteorological Institute</string>
+
+    <string name="weather_provider_info_open_weather_title">Denne vejrudbyder har brug for\nen API-nøgle for at fungere korrekt.</string>
+    <string name="weather_provider_info_weatherbit_title">Denne vejrudbyder har brug for\nen API-nøgle for at fungere korrekt.</string>
+    <string name="weather_provider_info_weatherapi_title">Denne vejrudbyder har brug for\nen API-nøgle for at fungere korrekt.</string>
+    <string name="weather_provider_info_here_title">Denne vejrudbyder har brug for\nen API-nøgle for at fungere korrekt.</string>
+    <string name="weather_provider_info_accuweather_title">Denne vejrudbyder har brug for\nen API-nøgle for at fungere korrekt.</string>
+    <string name="weather_provider_info_weather_gov_title">Denne vejrudbyder fungerer kun\nfor placeringer i USA.</string>
+    <string name="weather_provider_info_yr_title">Denne vejrudbyder tillader kun Celsius temperaturer.</string>
+
+    <string name="weather_provider_info_open_weather_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
+    <string name="weather_provider_info_here_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
+    <string name="weather_provider_info_weather_gov_subtitle" />
+    <string name="weather_provider_info_yr_subtitle" />
+
+    <string name="weather_provider_error_missing_key">Vejrudbyderen du har valgt kræver en API-nøgle.</string>
+    <string name="weather_provider_error_wrong_location">Den aktuelle placering understøttes ikke.</string>
+    <string name="weather_provider_error_missing_location">Vælg en gyldig placering.</string>
+    <string name="weather_provider_error_expired_key">Det ser ud til, at din API-nøgle er udløbet.</string>
+    <string name="weather_provider_error_invalid_key">API-nøgle er ikke gyldig eller endnu ikke aktiveret.</string>
+    <string name="weather_provider_error_misconfigured">Vejrudbyderen er forkert konfigureret.</string>
+    <string name="weather_provider_error_connection">Forbindelsesfejl.</string>
+    <string name="weather_provider_error_generic">Noget gik galt, tjek vejrudbyderens konfiguration.</string>
+    <string name="api_key_required_message">Konto påkrævet</string>
+    <string name="us_only_message">Kun USA</string>
+    <string name="celsius_only_message">Kun metriske enheder</string>
+    <string name="weather_select_a_provider">Vælg en udbyder</string>
+    <string name="weather_provider_activity_subtitle">Vælg en vejrudbyder fra listen.\nEnkelte udbydere har brug for en gratis personlig konto,\nmen de er normalt mere nøjagtige.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Ur</string>
@@ -141,8 +204,11 @@
     <string name="battery_low_warning">Lavt batteriniveau</string>
     <string name="daily_steps_counter">%d skridt indtil videre</string>
     <string name="charging">Oplader</string>
+    <string name="charged">Opladet</string>
     <string name="providers">Kilder</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
+    <string name="settings_music_players_filter_title">Musikafspillere</string>
+    <string name="settings_music_players_filter_subtitle">Vælg dine relevante musikafspillere</string>
 
     <!-- Settings -->
     <string name="action_share">Del</string>
@@ -151,6 +217,7 @@
     <string name="action_feedback">Feedback</string>
     <string name="action_about">Om</string>
     <string name="action_refresh_widget">Genindlæs widget</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Fejl ved åbning af URL: Link kopieret til udklipsholder.</string>
     <string name="loading_text">Indlæser data…</string>
     <string name="error_opening_app">Fejl ved åbning af app.</string>
@@ -176,6 +243,7 @@
     <string name="support_refresh_widget_subtitle">Tving en genstart af widget-tjenesten</string>
     <string name="settings_feedback_subtitle">Dette er et open-source projekt, du er velkommen til at hjælpe.</string>
     <string name="settings_feedback_title">Feedback og feature requests</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Enheder</string>
     <string name="xiaomi_warning_message">Aktiver tilladelsen til visning af popup-vinduer, når app\'en kører i baggrunden, som findes under "Andre tilladelser" i appindstillingerne. Ellers vil du ikke kunne åbne nogle applikationer ved tryk på widget\'en.</string>
     <string name="action_ignore">Ignorér</string>
@@ -186,6 +254,10 @@
     <string name="provider_header">Opsætning</string>
     <string name="appearance_header">Udseende</string>
     <string name="preferences_header">Præferencer</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Juridisk og privatliv]]></string>
+    <string name="settings_privacy_policy_subtitle">Se appens privatlivspolitik</string>
+    <string name="project_header">Projekt</string>
+    <string name="information_header">Information</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Vælg applikation</string>
@@ -200,4 +272,7 @@
     <string name="support_dev_subtitle">Dette er et projekt fra en enkelt udvikler,\nså tak for støtten!</string>
     <string name="settings_title_integrations">Integrationer</string>
     <string name="label_count_installed_integrations">%d installerede integrationer</string>
+    <string name="nothing">Intet</string>
+    <string name="action_dismiss">Afvis</string>
+    <string name="action_accept">Accepter</string>
 </resources>
