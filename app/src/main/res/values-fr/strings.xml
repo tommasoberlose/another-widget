@@ -25,6 +25,9 @@
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Date en majuscules</string>
     <string name="settings_date_format_title">Format de date</string>
+    <string name="header_widget_background">Arrière-plan du widget</string>
+    <string name="settings_secondary_row_top_margin_title">Marge intermédiaire</string>
+    <string name="action_custom_font_to_search">Police personnalisée</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendrier</string>
@@ -70,6 +73,13 @@
     <string name="settings_widget_update_frequency_high">Élevée</string>
     <string name="filters_header">Filtres</string>
     <string name="event_detail_header">Détails</string>
+    <string name="settings_attendee_status_title">Statut de présence</string>
+    <string name="settings_attendee_status_subtitle">Filtrer les évmts acceptés ou refusés</string>
+    <string name="settings_busy_events_title">Événements pertinents</string>
+    <string name="settings_busy_events_subtitle">Afficher uniquement les évmts\nqui vous occupent</string>
+    <string name="attendee_status_accepted">Événements acceptés</string>
+    <string name="attendee_status_invited">Invitations à des évmts</string>
+    <string name="attendee_status_declined">Événements refusés</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Météo</string>
@@ -91,19 +101,51 @@
     <string name="settings_weather_provider_api_key_title">Clé API pour la météo</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">Fournisseur météo correctement configuré</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">Le fournisseur météo doit être configuré</string>
-    <string name="api_key_hint">Clé API OpenWeather</string>
+    <string name="api_key_hint">Clé API OpenWeatherMap</string>
     <string name="default_weather_app">Google Weather</string>
     <string name="weather_warning">La météo de Google Awareness est obsolète. Il faut désormais une clé API OpenWeather pour afficher la météo dans le widget.</string>
-    <string name="api_key_title_1">Inscrivez-vous sur OpenWeather</string>
-    <string name="api_key_subtitle_1">Créez un compte gratuit sur OpenWeather. \nCela ne prendra que quelques minutes.</string>
+    <string name="api_key_title_1">Inscrivez-vous sur OpenWeatherMap</string>
+    <string name="api_key_subtitle_1">Créez un compte gratuit sur OpenWeatherMap. \nCela ne prendra que quelques minutes.</string>
     <string name="api_key_title_2">Copiez votre clé API</string>
     <string name="api_key_subtitle_2">Recherchez la clé API dans vos paramètres du compte et copiez la clé par défaut.</string>
     <string name="api_key_title_3">Saisissez la clé API dans l\'app</string>
     <string name="api_key_subtitle_3">Collez la clé dans le champ ci-dessus et enregistrez-la. Une fois la clé activée, la météo deviendra visible.</string>
-    <string name="action_open_provider">Aller sur OpenWeatherMap.com</string>
+    <string name="action_open_provider">Aller sur OpenWeatherMap.org</string>
     <string name="api_key_info_all_set">Cela peut prendre jusqu\'à 10 minutes avant que votre clé API soit activée. La météo sera mise à jour dès qu\'elle sera disponible !</string>
     <string name="settings_weather_icon_pack_title">Pack d\'icônes</string>
     <string name="settings_weather_icon_pack_default">Pack d\'icônes %d</string>
+    <string name="background_location_warning">Nous collecterons les données GPS pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas les données GPS autrement que mentionné.</string>
+    <string name="settings_weather_provider_api">Fournisseur météo</string>
+    
+    <string name="weather_provider_info_open_weather_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
+    <string name="weather_provider_info_weatherbit_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
+    <string name="weather_provider_info_weatherapi_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
+    <string name="weather_provider_info_here_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
+    <string name="weather_provider_info_accuweather_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
+    <string name="weather_provider_info_weather_gov_title">Ce fournisseur météo fonctionne uniquement\npour les emplacements aux États-Unis.</string>
+    <string name="weather_provider_info_yr_title">Ce fournisseur météo autorise uniquement\nles températures en unité Celsius.</string>
+
+    <string name="weather_provider_info_open_weather_subtitle">Ouvrez le site web du fournisseur, créez un compte et copiez ici la clé par défaut.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Ouvrez le site web du fournisseur, créez un compte et copiez ici la clé par défaut.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Ouvrez le site web du fournisseur, créez un compte et copiez ici la clé par défaut.</string>
+    <string name="weather_provider_info_here_subtitle">Ouvrez le site web du fournisseur, créez un compte et copiez ici la clé par défaut.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Ouvrez le site web du fournisseur, créez un compte et copiez ici la clé par défaut.</string>
+    <string name="weather_provider_info_weather_gov_subtitle">\n</string>
+    <string name="weather_provider_info_yr_subtitle">\n</string>
+    
+    <string name="weather_provider_error_missing_key">Le fournisseur météo que vous avez sélectionné nécessite une clé API.</string>
+    <string name="weather_provider_error_wrong_location">Localisation actuelle non supportée.</string>
+    <string name="weather_provider_error_missing_location">Choisissez une localisation valide.</string>
+    <string name="weather_provider_error_expired_key">Il semble que votre clé API a expiré.</string>
+    <string name="weather_provider_error_invalid_key">Clé API invalide ou pas encore activée.</string>
+    <string name="weather_provider_error_misconfigured">Le fournisseur météo est mal configuré.</string>
+    <string name="weather_provider_error_connection">Erreur de connexion.</string>
+    <string name="weather_provider_error_generic">Erreur. Vérifiez la configuration du fournisseur météo.</string>
+    <string name="api_key_required_message">Compte requis</string>
+    <string name="us_only_message">USA uniquement</string>
+    <string name="celsius_only_message">Unité Celsius uniquement</string>
+    <string name="weather_select_a_provider">Sélectionner un fournisseur</string>
+    <string name="weather_provider_activity_subtitle">Sélectionnez un fournisseur météo dans la liste.\nCertains fournisseurs ont besoin d\'un compte\npersonnel gratuit pour fonctionner,\nmais ils sont généralement plus précis.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Horloge</string>
@@ -142,7 +184,9 @@
     <string name="daily_steps_counter">%d pas jusqu\à présent</string>
     <string name="charging">Batterie en charge</string>
     <string name="providers">Fournisseurs</string>
-    <string name="glance_info">Les coups d\'œil n\'apparaîtront que si aucun événement n\'est affiché et uniquement lorsque quelques conditions sont vérifiées.</string>
+    <string name="glance_info">Les coups d\'œil n\'apparaîtront que si aucun événement n\'est affiché et uniquement lorsque certaines conditions sont vérifiées.</string>
+    <string name="settings_music_players_filter_title">Lecteurs de musique</string>
+    <string name="settings_music_players_filter_subtitle">Choisir des apps de lecteur de musique</string>
 
     <!-- Settings -->
     <string name="action_share">Partager</string>
@@ -174,10 +218,10 @@
     <string name="settings_app_version_title">Version de l\'app</string>
     <string name="settings_title_show_wallpaper">Afficher le fond d\'écran</string>
     <string name="support_refresh_widget_subtitle">Forcer le redémarrage des services du widget</string>
-    <string name="settings_feedback_subtitle">Ce projet est open-source, n\'hésitez pas à aider</string>
+    <string name="settings_feedback_subtitle">Projet open-source - N\'hésitez pas à aider</string>
     <string name="settings_feedback_title">Commentaires et suggestions</string>
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
-    <string name="xiaomi_warning_message">Veuillez activer l\'option \'\'Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\'\' dans la section \'\'Autres autorisations\'\' des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune application en tapant sur le widget.</string>
+    <string name="xiaomi_warning_message">Veuillez activer l\'option \'\'Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\'\' dans la section \'\'Autres autorisations\'\' des paramètres de l\'application.\nSinon, vous risquerez de ne pouvoir ouvrir aucune app en tapant sur le widget.</string>
     <string name="action_ignore">Ignorer</string>
     <string name="action_grant_permission">Ouvrir les Paramètres</string>
     <string name="settings_title">Paramètres</string>
@@ -186,6 +230,10 @@
     <string name="provider_header">Configuration</string>
     <string name="appearance_header">Apparence</string>
     <string name="preferences_header">Préférences</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]>Légal et confidentialité</string>
+    <string name="settings_privacy_policy_subtitle">Voir la déclaration de confidentialité</string>
+    <string name="project_header">Projet</string>
+    <string name="information_header">Information</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Choisir l\'app</string>
@@ -200,4 +248,7 @@
     <string name="support_dev_subtitle">Ceci est le projet d\'un unique développeur,\ndonc merci pour le soutien !</string>
     <string name="settings_title_integrations">Intégrations</string>
     <string name="label_count_installed_integrations">%d intégrations installées</string>
+    <string name="nothing">Rien</string>
+    <string name="action_dismiss">Refuser</string>
+    <string name="action_accept">Accepter</string>
 </resources>
