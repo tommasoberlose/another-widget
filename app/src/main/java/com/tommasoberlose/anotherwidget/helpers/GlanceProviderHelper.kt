@@ -82,13 +82,15 @@ object GlanceProviderHelper {
         val eventRepository = EventRepository(context)
         BatteryHelper.updateBatteryInfo(context)
 
-        val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents) && (
+        val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents)
+            && (
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
                 (MediaPlayerHelper.isSomeonePlaying(context)) ||
                 (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                 (Preferences.customNotes.isNotEmpty()) ||
-                (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
-        )
+                (Preferences.showDailySteps && Preferences.googleFitSteps > 0) ||
+                (Preferences.showNotifications && ActiveNotificationsHelper.getLastNotification(context) != null)
+            )
         eventRepository.close()
         return showGlance
     }

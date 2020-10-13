@@ -16,13 +16,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -33,14 +38,14 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
-import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.components.CustomNotesDialog
-import com.tommasoberlose.anotherwidget.components.GlanceProviderSortMenu
-import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
+import com.tommasoberlose.anotherwidget.components.*
 import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
+import com.tommasoberlose.anotherwidget.helpers.GlanceProviderHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
+import com.tommasoberlose.anotherwidget.models.GlanceProvider
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
@@ -54,6 +59,8 @@ import kotlinx.android.synthetic.main.fragment_glance_settings.*
 import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.idik.lib.slimadapter.SlimAdapter
+import java.util.*
 
 
 class GlanceTabFragment : Fragment() {
@@ -62,6 +69,8 @@ class GlanceTabFragment : Fragment() {
         fun newInstance() = GlanceTabFragment()
     }
 
+    private var dialog: GlanceSettingsDialog? = null
+    private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,10 +96,125 @@ class GlanceTabFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        action_show_steps.isVisible = requireContext().checkIfFitInstalled()
+        // List
+        adapter = SlimAdapter.create()
+
+        providers_list.setHasFixedSize(true)
+        val mLayoutManager = LinearLayoutManager(context)
+        providers_list.layoutManager = mLayoutManager
+
+        adapter = SlimAdapter.create()
+        adapter
+            .register<GlanceProvider>(R.layout.glance_provider_item) { item, injector ->
+                val provider = Constants.GlanceProviderId.from(item.id)!!
+                injector
+                    .text(R.id.title, item.title)
+                    .with<ImageView>(R.id.icon) {
+                        it.setImageDrawable(ContextCompat.getDrawable(requireContext(), item.icon))
+                    }
+                    .clicked(R.id.item) {
+                        if (Preferences.showGlance) {
+                            if (provider == Constants.GlanceProviderId.CUSTOM_INFO) {
+                                CustomNotesDialog(requireContext()).show()
+                            } else {
+                                dialog = GlanceSettingsDialog(requireActivity(), provider) {
+                                    adapter.notifyItemRangeChanged(0, adapter.data.size)
+                                }
+                                dialog?.setOnDismissListener {
+                                    dialog = null
+                                }
+                                dialog?.show()
+                            }
+                        }
+                    }
+                when (provider) {
+                    Constants.GlanceProviderId.PLAYING_SONG -> {
+                        when {
+                            NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName) -> {
+                                MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
+                                injector.invisible(R.id.error_icon)
+                                injector.text(R.id.label, if (Preferences.showMusic) getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
+                            }
+                            Preferences.showMusic -> {
+                                injector.visible(R.id.error_icon)
+                                injector.text(R.id.label, getString(R.string.settings_not_visible))
+                            }
+                            else -> {
+                                injector.invisible(R.id.error_icon)
+                                injector.text(R.id.label, getString(R.string.settings_not_visible))
+                            }
+                        }
+                    }
+                    Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
+                        injector.text(R.id.label, if (Preferences.showNextAlarm && !AlarmHelper.isAlarmProbablyWrong(requireContext())) getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
+                        injector.visibility(R.id.error_icon, if (Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(requireContext())) View.VISIBLE else View.GONE)
+                    }
+                    Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
+                        injector.text(R.id.label, if (Preferences.showBatteryCharging) getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
+                        injector.invisible(R.id.error_icon)
+                    }
+                    Constants.GlanceProviderId.CUSTOM_INFO -> {
+                        injector.text(R.id.label, if (Preferences.customNotes != "") getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
+                        injector.invisible(R.id.error_icon)
+                    }
+                    Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION) == true) {
+                            injector.text(R.id.label, if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(R.string.settings_not_visible))
+                            injector.invisible(R.id.error_icon)
+                        } else if (Preferences.showDailySteps) {
+                            ActivityDetectionReceiver.unregisterFence(requireContext())
+                            injector.visible(R.id.error_icon)
+                            injector.text(R.id.label, getString(R.string.settings_not_visible))
+                        } else {
+                            ActivityDetectionReceiver.unregisterFence(requireContext())
+                            injector.text(R.id.label, getString(R.string.settings_not_visible))
+                            injector.invisible(R.id.error_icon)
+                        }
+                    }
+                }
+            }
+            .attachTo(providers_list)
+
+        val mIth = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                0
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val fromPos = viewHolder.adapterPosition
+                    val toPos = target.adapterPosition
+                    // move item in `fromPos` to `toPos` in adapter.
+                    adapter.notifyItemMoved(fromPos, toPos)
+
+                    val list = GlanceProviderHelper.getGlanceProviders(requireContext())
+                    Collections.swap(list, fromPos, toPos)
+                    GlanceProviderHelper.saveGlanceProviderOrder(list)
+                    return true
+                }
+
+                override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+                    return 1f
+                }
+
+                override fun onSwiped(
+                    viewHolder: RecyclerView.ViewHolder,
+                    direction: Int
+                ) {
+                    // remove from adapter
+                }
+            })
+
+        mIth.attachToRecyclerView(providers_list)
+        adapter.updateData(
+            GlanceProviderHelper.getGlanceProviders(requireContext())
+                .mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) }
+        )
+        providers_list.isNestedScrollingEnabled = false
 
         setupListener()
-        updateNextAlarmWarningUi()
     }
 
     private fun subscribeUi(
@@ -105,45 +229,9 @@ class GlanceTabFragment : Fragment() {
                 show_glance_label.text = if (it) getString(R.string.description_show_glance_visible) else getString(R.string.description_show_glance_not_visible)
             }
         })
-
-        viewModel.showMusic.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                checkNotificationPermission()
-            }
-        })
-
-        viewModel.showNextAlarm.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                updateNextAlarmWarningUi()
-            }
-        })
-
-        viewModel.showBatteryCharging.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_low_battery_level_warning_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
-        })
-
-        viewModel.showDailySteps.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_steps_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
-            checkFitnessPermission()
-        })
-
-        viewModel.customInfo.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_custom_notes_label?.text = if (it == "") getString(R.string.settings_not_visible) else it
-            }
-        })
-
-        viewModel.musicPlayersFilter.observe(viewLifecycleOwner, Observer {
-
-        })
     }
 
     private fun setupListener() {
-
         action_show_glance.setOnClickListener {
             Preferences.showGlance = !Preferences.showGlance
         }
@@ -151,183 +239,25 @@ class GlanceTabFragment : Fragment() {
         show_glance_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showGlance = enabled
         }
-
-        action_sort_glance_providers.setOnClickListener {
-            GlanceProviderSortMenu(requireContext())
-                .show()
-        }
-
-        action_show_music.setOnClickListener {
-            if (Preferences.showGlance) {
-                BottomSheetMenu<Boolean>(
-                    requireContext(),
-                    header = getString(R.string.settings_show_music_title)
-                ).setSelectedValue(Preferences.showMusic)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.showMusic = value
-                    }.show()
-            }
-        }
-
-        action_show_next_alarm.setOnClickListener {
-            if (Preferences.showGlance) {
-                BottomSheetMenu<Boolean>(
-                    requireContext(),
-                    header = getString(R.string.settings_show_next_alarm_title)
-                ).setSelectedValue(Preferences.showNextAlarm)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.showNextAlarm = value
-                    }.show()
-            }
-        }
-
-        action_show_next_alarm.setOnLongClickListener {
-            with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                val alarm = nextAlarmClock
-                if (alarm != null && alarm.showIntent != null) {
-                    val pm = requireContext().packageManager as PackageManager
-                    val appNameOrPackage = try {
-                        pm.getApplicationLabel(pm.getApplicationInfo(alarm.showIntent?.creatorPackage ?: "", 0))
-                    } catch (e: Exception) {
-                        alarm.showIntent?.creatorPackage ?: ""
-                    }
-                    MaterialBottomSheetDialog(requireContext(), message = getString(R.string.next_alarm_warning).format(appNameOrPackage))
-                        .setPositiveButton(getString(android.R.string.ok))
-                        .show()
-                }
-            }
-            true
-        }
-
-        action_show_low_battery_level_warning.setOnClickListener {
-            if (Preferences.showGlance) {
-                BottomSheetMenu<Boolean>(
-                    requireContext(),
-                    header = getString(R.string.settings_low_battery_level_title)
-                ).setSelectedValue(Preferences.showBatteryCharging)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.showBatteryCharging = value
-                    }.show()
-            }
-        }
-
-        action_show_steps.setOnClickListener {
-            if (Preferences.showGlance) {
-                BottomSheetMenu<Boolean>(
-                    requireContext(),
-                    header = getString(R.string.settings_daily_steps_title)
-                ).setSelectedValue(Preferences.showDailySteps)
-                    .addItem(getString(R.string.settings_visible), true)
-                    .addItem(getString(R.string.settings_not_visible), false)
-                    .addOnSelectItemListener { value ->
-                        if (value) {
-                            val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(requireContext())
-                            if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
-                                val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(FITNESS_OPTIONS).build())
-                                startActivityForResult(mGoogleSignInClient.signInIntent, 2)
-                            } else {
-                                Preferences.showDailySteps = true
-                            }
-                        } else {
-                            Preferences.showDailySteps = false
-                        }
-                    }.show()
-            }
-        }
-
-        action_show_custom_notes.setOnClickListener {
-            if (Preferences.showGlance) {
-                CustomNotesDialog(requireContext()).show()
-            }
-        }
-
-        action_filter_music_players.setOnClickListener {
-            startActivity(Intent(requireContext(), MusicPlayersFilterActivity::class.java))
-        }
-    }
-
-    private fun updateNextAlarmWarningUi() {
-        with(requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-            val alarm = nextAlarmClock
-            if (AlarmHelper.isAlarmProbablyWrong(requireContext()) && alarm != null && alarm.showIntent != null) {
-                val pm = requireContext().packageManager as PackageManager
-                val appNameOrPackage = try {
-                    pm.getApplicationLabel(pm.getApplicationInfo(alarm.showIntent?.creatorPackage ?: "", 0))
-                } catch (e: Exception) {
-                    alarm.showIntent?.creatorPackage ?: ""
-                }
-                show_next_alarm_warning.text = getString(R.string.next_alarm_warning).format(appNameOrPackage)
-            } else {
-                show_next_alarm_label?.text = if (Preferences.showNextAlarm) getString(R.string.settings_visible) else getString(
-                        R.string.settings_not_visible)
-            }
-        }
     }
 
     private val nextAlarmChangeBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            updateNextAlarmWarningUi()
+            adapter.notifyItemChanged(1)
         }
     }
 
     override fun onStart() {
         super.onStart()
         activity?.registerReceiver(nextAlarmChangeBroadcastReceiver, IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED))
+        if (dialog != null) {
+            dialog?.show()
+        }
     }
 
     override fun onStop() {
         activity?.unregisterReceiver(nextAlarmChangeBroadcastReceiver)
         super.onStop()
-    }
-
-    private fun checkNotificationPermission() {
-        when {
-            NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName) -> {
-                notification_permission_alert?.isVisible = false
-                MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
-                show_music_label?.text = if (Preferences.showMusic) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
-            Preferences.showMusic -> {
-                notification_permission_alert?.isVisible = true
-                show_music_label?.text = getString(R.string.settings_request_notification_access)
-                notification_permission_alert?.setOnClickListener {
-                    activity?.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
-                }
-            }
-            else -> {
-                show_music_label?.text = getString(R.string.settings_not_visible)
-                notification_permission_alert?.isVisible = false
-            }
-        }
-    }
-
-    private fun checkFitnessPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION) == true) {
-            fitness_permission_alert?.isVisible = false
-            if (Preferences.showDailySteps) {
-                ActivityDetectionReceiver.registerFence(requireContext())
-            } else {
-                ActivityDetectionReceiver.unregisterFence(requireContext())
-            }
-            show_steps_label?.text = if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-        } else if (Preferences.showDailySteps) {
-            ActivityDetectionReceiver.unregisterFence(requireContext())
-            fitness_permission_alert?.isVisible = true
-            show_steps_label?.text = getString(R.string.settings_request_fitness_access)
-            fitness_permission_alert?.setOnClickListener {
-                requireFitnessPermission()
-            }
-        } else {
-            ActivityDetectionReceiver.unregisterFence(requireContext())
-            show_steps_label?.text = getString(R.string.settings_not_visible)
-            fitness_permission_alert?.isVisible = false
-        }
     }
 
     override fun onActivityResult(
@@ -338,9 +268,15 @@ class GlanceTabFragment : Fragment() {
         when (requestCode) {
             1 -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    checkFitnessPermission()
+                    adapter.notifyItemChanged(2)
+                    if (dialog != null) {
+                        dialog?.show()
+                    }
                 } else {
                     Preferences.showDailySteps = false
+                    if (dialog != null) {
+                        dialog?.show()
+                    }
                 }
             }
             2-> {
@@ -353,40 +289,20 @@ class GlanceTabFragment : Fragment() {
                             account,
                             FITNESS_OPTIONS)
                     } else {
-                        checkFitnessPermission()
+                        adapter.notifyItemChanged(2)
+                        if (dialog != null) {
+                            dialog?.show()
+                        }
                     }
                 } catch (e: ApiException) {
                     e.printStackTrace()
                     Preferences.showDailySteps = false
+                    if (dialog != null) {
+                        dialog?.show()
+                    }
                 }
             }
         }
-    }
-
-    private fun requireFitnessPermission() {
-        Dexter.withContext(requireContext())
-            .withPermissions(
-                "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
-                "android.gms.permission.ACTIVITY_RECOGNITION",
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACTIVITY_RECOGNITION else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
-            ).withListener(object: MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    report?.let {
-                        if (report.areAllPermissionsGranted()){
-                            checkFitnessPermission()
-                        }
-                    }
-                }
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    // Remember to invoke this method when the custom rationale is closed
-                    // or just by default if you don't want to use any custom rationale.
-                    token?.continuePermissionRequest()
-                }
-            })
-            .check()
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
@@ -400,6 +316,6 @@ class GlanceTabFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        checkNotificationPermission()
+        adapter.notifyItemRangeChanged(0, adapter.data.size)
     }
 }

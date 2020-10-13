@@ -4,24 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
     android:clickable="true"
     android:focusable="true"
     app:cardElevation="0dp"
-    app:cardBackgroundColor="@color/colorPrimary"
-    app:cardCornerRadius="9dp">
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="3dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
+        android:id="@+id/item"
         android:orientation="horizontal">
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="12dp"
+            android:padding="11dp"
             android:id="@+id/icon"
             android:src="@drawable/round_music_note"
             app:tint="@color/colorPrimaryText"/>
@@ -35,20 +39,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/title"
-                android:textSize="16sp"
                 style="@style/AnotherWidget.Settings.Title"
+                android:id="@+id/title"
                 android:text="@string/settings_show_music_title"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/label"
+                style="@style/AnotherWidget.Settings.Subtitle"/>
         </LinearLayout>
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:id="@+id/action_drag"
-            android:src="@drawable/round_drag"
-            app:tint="@color/colorPrimaryText" />
+            android:src="@drawable/round_error"
+            app:tint="@color/errorColorText"
+            android:id="@+id/error_icon"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

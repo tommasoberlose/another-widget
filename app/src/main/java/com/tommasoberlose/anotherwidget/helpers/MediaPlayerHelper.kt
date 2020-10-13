@@ -1,20 +1,17 @@
 package com.tommasoberlose.anotherwidget.helpers
 
-import android.app.Notification
 import android.content.ComponentName
 import android.content.Context
 import android.media.MediaMetadata
 import android.media.session.MediaController
-import android.media.session.MediaSession
 import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
-import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import com.chibatching.kotpref.Kotpref
 import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.receivers.MusicNotificationListener
+import com.tommasoberlose.anotherwidget.receivers.NotificationListener
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import java.lang.Exception
 
@@ -34,7 +31,7 @@ object MediaPlayerHelper {
         if (NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)) {
             val list = try {
                 (context.getSystemService(Context.MEDIA_SESSION_SERVICE) as MediaSessionManager).getActiveSessions(
-                    ComponentName(context.packageName, MusicNotificationListener::class.java.name)
+                    ComponentName(context.packageName, NotificationListener::class.java.name)
                 )
             } catch (ex: Exception) {
                 emptyList<MediaController>()

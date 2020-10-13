@@ -188,7 +188,6 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Next clock alarm</string>
-    <string name="next_alarm_warning">The next alarm clock seems to be wrong.\nIt has been set by %s.</string>
     <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_show_music_title">Current playing song</string>
     <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
@@ -197,7 +196,7 @@
     <string name="description_show_glance_visible">Service enabled</string>
     <string name="description_show_glance_not_visible">Service disabled</string>
     <string name="settings_sort_glance_providers_title">Data source priority</string>
-    <string name="settings_sort_glance_providers_subtitle">Change the data provider importance</string>
+    <string name="settings_sort_glance_providers_subtitle">Change the data provider priority sorting the list below with a drag and drop of the rows.</string>
     <string name="settings_custom_notes_title">Custom notes</string>
     <string name="settings_low_battery_level_title">Battery</string>
     <string name="settings_daily_steps_title">Daily steps</string>
@@ -209,6 +208,13 @@
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
     <string name="settings_music_players_filter_title">Music Players</string>
     <string name="settings_music_players_filter_subtitle">Choose your relevant music players</string>
+    <string name="settings_show_music_subtitle">We use the music players\' notification to show the current playing song.</string>
+    <string name="settings_low_battery_level_subtitle">Get notified when the device has the battery low or is charging.</string>
+    <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after when finishing a walk or a run.</string>
+    <string name="settings_show_next_alarm_subtitle">View your next clock alarm, check if your default clock app is the only one setting device alarms.</string>
+    <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong.</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct.</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

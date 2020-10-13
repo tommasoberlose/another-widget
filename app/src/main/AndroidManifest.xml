@@ -120,7 +120,7 @@
 
         <service android:name=".services.BatteryListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".receivers.MusicNotificationListener"
+        <service android:name=".receivers.NotificationListener"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />

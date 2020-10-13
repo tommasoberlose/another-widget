@@ -176,7 +176,6 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Prossimo allarme</string>
-    <string name="next_alarm_warning">Il prossimo allarme non sembra corretto. È stato impostato dall\'app %s.</string>
     <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_show_music_title">Canzone in riproduzione</string>
     <string name="settings_request_notification_access">È necessario l\'accesso alle notifiche per controllare la canzone in riproduzione.</string>
@@ -197,6 +196,13 @@
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
     <string name="settings_music_players_filter_title">Player Musica</string>
     <string name="settings_music_players_filter_subtitle">Scegli i player musical che ti interessano</string>
+    <string name="settings_show_music_subtitle">Utilizziamo la notifica del tuo player di musica per mostrare la canzone in riproduzione.</string>
+    <string name="settings_low_battery_level_subtitle">Visualizza quando il dispositivo è in carica o ha la batteria scarica.</string>
+    <string name="settings_daily_steps_subtitle">Visualizza rapidamente i passi giornalieri una volta finita una camminata o una corsa.</string>
+    <string name="settings_show_next_alarm_subtitle">Guarda la tua prossima sveglia e verifica che la tua app Orologio sia l\'unica a impostare allarmi.</string>
+    <string name="settings_show_next_alarm_app_title">Allarme impostato da %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">La prossima sveglia sembra impostata da un\'app errata. Disinstalla l\'app che imposta allarmi errati.</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">La prossima sveglia sembra corretta.</string>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>
