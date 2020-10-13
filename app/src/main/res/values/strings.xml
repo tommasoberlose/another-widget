@@ -256,6 +256,8 @@
     <string name="preferences_header">Preferences</string>
     <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
     <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
+    <string name="project_header">Project</string>
+    <string name="information_header">Information</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Choose application</string>

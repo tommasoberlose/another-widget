@@ -27,7 +27,8 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="10dp"
+                    android:padding="12dp"
+                    android:layout_marginTop="2dp"
                     android:src="@drawable/round_arrow_back"
                     app:tint="@color/colorPrimaryText"
                     android:layout_centerVertical="true"
@@ -59,16 +60,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
                     android:paddingTop="16dp"
+                    android:text="@string/preferences_header"
+                    android:textAlignment="viewStart"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:visibility="gone"
-                    style="@style/AnotherWidget.Settings.Header"
-                    android:text="@string/action_refresh_widget"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -269,6 +272,18 @@
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/project_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -353,43 +368,6 @@
                     android:paddingRight="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:id="@+id/action_privacy_policy"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:src="@drawable/round_privacy_tip"
-                        app:tint="@color/colorPrimaryText"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/AnotherWidget.Settings.Title"
-                            android:text="@string/settings_privacy_policy_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_privacy_policy_subtitle"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:visibility="gone"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
@@ -454,6 +432,55 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/support_main_subtitle"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/information_header"
+                    android:textAlignment="viewStart"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header"
+                    app:textAllCaps="false" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:id="@+id/action_privacy_policy"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        android:src="@drawable/round_privacy_tip"
+                        app:tint="@color/colorPrimaryText"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_privacy_policy_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_privacy_policy_subtitle"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>

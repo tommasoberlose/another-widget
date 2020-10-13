@@ -242,6 +242,8 @@
     <string name="preferences_header">Preferenze</string>
     <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
     <string name="settings_privacy_policy_subtitle">Apri la privacy policy dell\'app</string>
+    <string name="project_header">Il progetto</string>
+    <string name="information_header">Informazioni</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Scegli applicazione</string>
