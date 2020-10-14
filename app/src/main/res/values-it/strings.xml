@@ -123,7 +123,7 @@
     <string name="api_key_info_all_set">La chiave API potrebbe aver bisogno di più di 20 minuti per diventare attiva, aggiorneremo il meteo non appena sarà possibile.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
-    <string name="background_location_warning">Raccoglieremo i dati sulla posizione per attivare l\'aggiornamento del meteo anche quando l\'app è chiusa o non in uso.\nNon utilizzeremo i tuoi dati in nessun altro modo.</string>
+    <string name="background_location_warning">Con la geolocalizzazione attiva raccoglieremo i dati sulla posizione per attivare l\'aggiornamento del meteo anche quando l\'app è chiusa o non in uso.\nNon utilizzeremo i tuoi dati in nessun altro modo.</string>
     <string name="settings_weather_provider_api">Provider meteo</string>
 
     <string name="weather_provider_info_open_weather_title">Questo provider meteo necessita di una chiave API\nper un corretto funzionamento.</string>

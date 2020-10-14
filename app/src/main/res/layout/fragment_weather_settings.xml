@@ -249,26 +249,6 @@
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     app:textAllCaps="false" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/background_location_warning"
-                    android:paddingStart="64dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp"
-                    android:orientation="horizontal">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:duplicateParentState="true"
-                        android:textSize="14sp"
-                        android:text="@string/background_location_warning"
-                        android:textColor="@color/colorSecondaryText"
-                        android:letterSpacing="0"
-                        android:fontFamily="@font/google_sans"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        app:textAllCaps="false" />
-                </LinearLayout>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -440,6 +420,34 @@
                             android:id="@+id/weather_app_label"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:id="@+id/background_location_warning"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        android:src="@drawable/outline_info_24"
+                        app:tint="@color/colorSecondaryText"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
+                        android:layout_marginTop="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/background_location_warning"
+                        android:textColor="@color/colorSecondaryText"
+                        android:letterSpacing="0"
+                        android:fontFamily="@font/google_sans"
+                        android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
+                        app:textAllCaps="false" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

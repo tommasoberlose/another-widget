@@ -380,22 +380,23 @@
                     android:layout_marginBottom="24dp"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
                         android:src="@drawable/outline_info_24"
                         app:tint="@color/colorSecondaryText"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:duplicateParentState="true"
-                        android:textSize="14sp"
                         android:layout_marginTop="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="@string/clock_warning"
                         android:textColor="@color/colorSecondaryText"
                         android:letterSpacing="0"
                         android:fontFamily="@font/google_sans"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
                         app:textAllCaps="false" />
                 </LinearLayout>
             </LinearLayout>

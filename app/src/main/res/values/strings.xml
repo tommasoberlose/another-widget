@@ -128,7 +128,7 @@
     <string name="api_key_info_all_set">It may take up to ten minutes before your API key is activated. The weather will be updated as soon as it is available.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
-    <string name="background_location_warning">We will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
+    <string name="background_location_warning">When GPS is on, we will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
     <string name="settings_weather_provider_api">Weather provider</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
