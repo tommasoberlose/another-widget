@@ -209,6 +209,8 @@
     <string name="google_fit">Google Fit</string>
     <string name="action_connect">Collega</string>
     <string name="action_disconnect">Scollega</string>
+    <string name="applications_filter_title">Applicazioni</string>
+    <string name="applications_filter_subtitle">Scegli le notifiche che vuoi vedere</string>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>

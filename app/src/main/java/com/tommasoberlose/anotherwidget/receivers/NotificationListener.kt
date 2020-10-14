@@ -7,6 +7,7 @@ import android.media.session.MediaSession
 import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
@@ -30,7 +31,7 @@ class NotificationListener : NotificationListenerService() {
                 val isGroupHeader = sbn.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
                 val isOngoing = sbn.notification.flags and Notification.FLAG_ONGOING_EVENT != 0
 
-                if (bundle.containsKey(Notification.EXTRA_TITLE) && !isGroupHeader && !isOngoing) {
+                if (bundle.containsKey(Notification.EXTRA_TITLE) && !isGroupHeader && !isOngoing && ActiveNotificationsHelper.isAppAccepted(sbn.packageName)) {
                     Preferences.lastNotificationId = sbn.id
                     Preferences.lastNotificationTitle = bundle.getString(Notification.EXTRA_TITLE) ?: ""
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

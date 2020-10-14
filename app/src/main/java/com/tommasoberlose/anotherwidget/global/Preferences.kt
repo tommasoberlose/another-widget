@@ -138,6 +138,7 @@ object Preferences : KotprefModel() {
     var mediaPlayerArtist by stringPref(default = "")
     var mediaPlayerPackage by stringPref(default = "")
     var musicPlayersFilter by stringPref(default = "")
+    var appNotificationsFilter by stringPref(default = "")
 
     // Integrations
     var installedIntegrations by intPref(default = 0)

@@ -72,8 +72,6 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        subscribeUi(viewModel)
-
         // Viewpager
         pager.adapter = ViewPagerAdapter(requireActivity())
         pager.offscreenPageLimit = 4
@@ -89,17 +87,20 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         }.attach()
 
         // Init clock
-        time.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-        time.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(requireContext()))
-        time_am_pm.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-        time_am_pm.setTextSize(TypedValue.COMPLEX_UNIT_SP, Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2)
+        if (Preferences.showClock) {
+            time.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
+            time.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                Preferences.clockTextSize.toPixel(requireContext()))
+            time_am_pm.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
+            time_am_pm.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2)
+        }
         time_container.isVisible = Preferences.showClock
 
         preview.layoutParams = preview.layoutParams.apply {
             height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(requireContext()) else 0
         }
         subscribeUi(viewModel)
-        updateUI()
 
         // Warnings
         if (getString(R.string.xiaomi_manufacturer).equals(Build.MANUFACTURER, ignoreCase = true) && Preferences.showXiaomiWarning) {
@@ -361,7 +362,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         tabs?.getTabAt(4)?.orCreateBadge?.apply {
             backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
             badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = ((Preferences.showMusic || Preferences.showNotifications) && !NotificationManagerCompat.getEnabledListenerPackages(requireContext()).contains(requireContext().packageName)) ||
+        }?.isVisible = ((Preferences.showMusic || Preferences.showNotifications) && !ActiveNotificationsHelper.checkNotificationAccess(requireContext())) ||
                 (Preferences.showDailySteps && !(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION))) ||
                 (AlarmHelper.isAlarmProbablyWrong(requireContext()))
     }

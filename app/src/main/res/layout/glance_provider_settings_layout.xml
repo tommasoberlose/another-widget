@@ -197,12 +197,12 @@
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="App notifications filter"/>
+                        android:text="@string/applications_filter_title"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="@string/settings_music_players_filter_subtitle"
+                        android:text="@string/applications_filter_subtitle"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>

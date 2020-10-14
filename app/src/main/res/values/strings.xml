@@ -226,6 +226,8 @@
     <string name="google_fit">Google Fit</string>
     <string name="action_connect">Connect</string>
     <string name="action_disconnect">Disconnect</string>
+    <string name="applications_filter_title">Applications</string>
+    <string name="applications_filter_subtitle">Choose which notifications to view</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

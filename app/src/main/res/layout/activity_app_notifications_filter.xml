@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tommasoberlose.anotherwidget.ui.viewmodels.MusicPlayersFilterViewModel" />
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.AppNotificationsViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/colorPrimaryDark"
-        tools:context="com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity">
+        tools:context="com.tommasoberlose.anotherwidget.ui.activities.AppNotificationsFilterActivity">
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:text="@string/settings_music_players_filter_title"
+                    android:text="@string/applications_filter_title"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
                 <androidx.appcompat.widget.AppCompatImageView

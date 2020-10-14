@@ -6,7 +6,6 @@ import android.media.MediaMetadata
 import android.media.session.MediaController
 import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
-import androidx.core.app.NotificationManagerCompat
 import com.chibatching.kotpref.Kotpref
 import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
@@ -16,7 +15,7 @@ import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import java.lang.Exception
 
 object MediaPlayerHelper {
-    fun isSomeonePlaying(context: Context) = Preferences.showMusic && NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName) && Preferences.mediaPlayerTitle != ""
+    fun isSomeonePlaying(context: Context) = Preferences.showMusic && ActiveNotificationsHelper.checkNotificationAccess(context) && Preferences.mediaPlayerTitle != ""
 
     fun getMediaInfo(): String {
       return if (Preferences.mediaPlayerArtist == "") {
@@ -28,7 +27,7 @@ object MediaPlayerHelper {
 
     fun updatePlayingMediaInfo(context: Context) {
         Kotpref.init(context)
-        if (NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)) {
+        if (ActiveNotificationsHelper.checkNotificationAccess(context)) {
             val list = try {
                 (context.getSystemService(Context.MEDIA_SESSION_SERVICE) as MediaSessionManager).getActiveSessions(
                     ComponentName(context.packageName, NotificationListener::class.java.name)
@@ -89,7 +88,7 @@ object MediaPlayerHelper {
         }
     }
 
-    fun isMusicPlayerAccepted(appPkg: String): Boolean = Preferences.musicPlayersFilter.contains(appPkg)
+    fun isMusicPlayerAccepted(appPkg: String): Boolean = Preferences.musicPlayersFilter == "" || Preferences.musicPlayersFilter.contains(appPkg)
 
     fun toggleMusicPlayerFilter(appPkg: String) {
         if (Preferences.musicPlayersFilter == "" || !Preferences.musicPlayersFilter.contains(appPkg)) {

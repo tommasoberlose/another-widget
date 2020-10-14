@@ -23,9 +23,11 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
+import com.tommasoberlose.anotherwidget.ui.activities.AppNotificationsFilterActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.android.synthetic.main.glance_provider_settings_layout.view.*
@@ -94,6 +96,9 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         view.action_filter_notifications_app.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
         if (provider == Constants.GlanceProviderId.NOTIFICATIONS) {
             checkLastNotificationsPermission(view)
+            view.action_filter_notifications_app.setOnClickListener {
+                context.startActivity(Intent(context, AppNotificationsFilterActivity::class.java))
+            }
         }
 
         /* GREETINGS */
@@ -200,7 +205,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
 
     private fun checkNotificationPermission(view: View) {
         when {
-            NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName) -> {
+            ActiveNotificationsHelper.checkNotificationAccess(context) -> {
                 view.warning_container.isVisible = false
                 MediaPlayerHelper.updatePlayingMediaInfo(context)
             }
@@ -220,7 +225,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
 
     private fun checkLastNotificationsPermission(view: View) {
         when {
-            NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName) -> {
+            ActiveNotificationsHelper.checkNotificationAccess(context) -> {
                 view.warning_container.isVisible = false
             }
             Preferences.showNotifications -> {

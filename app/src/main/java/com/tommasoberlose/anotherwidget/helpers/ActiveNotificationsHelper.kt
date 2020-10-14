@@ -1,15 +1,14 @@
 package com.tommasoberlose.anotherwidget.helpers
 
-import android.app.Notification
-import android.app.NotificationManager
+import android.content.ContentResolver
 import android.content.Context
-import android.service.notification.StatusBarNotification
+import android.provider.Settings
 import android.util.Log
+import androidx.core.app.NotificationManagerCompat
 import com.chibatching.kotpref.Kotpref
 import com.chibatching.kotpref.blockingBulk
-import com.google.gson.Gson
 import com.tommasoberlose.anotherwidget.global.Preferences
-import java.lang.Exception
+import com.tommasoberlose.anotherwidget.receivers.NotificationListener
 
 object ActiveNotificationsHelper {
     fun showLastNotification(): Boolean {
@@ -23,6 +22,24 @@ object ActiveNotificationsHelper {
             remove(Preferences::lastNotificationTitle)
             remove(Preferences::lastNotificationPackage)
             remove(Preferences::lastNotificationIcon)
+        }
+    }
+
+    fun checkNotificationAccess(context: Context): Boolean {
+        val contentResolver: ContentResolver = context.contentResolver
+        val enabledNotificationListeners =
+            Settings.Secure.getString(contentResolver, "enabled_notification_listeners")
+        val packageName: String = context.packageName
+        return NotificationManagerCompat.getEnabledListenerPackages(context).contains(packageName) && (enabledNotificationListeners != null && enabledNotificationListeners.contains(NotificationListener::class.java.name))
+    }
+
+    fun isAppAccepted(appPkg: String): Boolean = Preferences.appNotificationsFilter == "" || Preferences.appNotificationsFilter.contains(appPkg)
+
+    fun toggleAppFilter(appPkg: String) {
+        if (Preferences.appNotificationsFilter == "" || !Preferences.appNotificationsFilter.contains(appPkg)) {
+            Preferences.appNotificationsFilter = Preferences.appNotificationsFilter.split(",").union(listOf(appPkg)).joinToString(separator = ",")
+        } else {
+            Preferences.appNotificationsFilter = Preferences.appNotificationsFilter.split(",").filter { it != appPkg }.joinToString(separator = ",")
         }
     }
 }

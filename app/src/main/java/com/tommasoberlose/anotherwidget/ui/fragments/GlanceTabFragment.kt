@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.components.GlanceSettingsDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.GlanceProviderHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
@@ -121,9 +122,7 @@ class GlanceTabFragment : Fragment() {
                 when (provider) {
                     Constants.GlanceProviderId.PLAYING_SONG -> {
                         when {
-                            NotificationManagerCompat.getEnabledListenerPackages(requireContext())
-                                .contains(
-                                    requireContext().packageName) -> {
+                            ActiveNotificationsHelper.checkNotificationAccess(requireContext()) -> {
                                 MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
                                 injector.visibility(R.id.error_icon, View.GONE)
                                 injector.visibility(R.id.info_icon, View.VISIBLE)
@@ -167,9 +166,7 @@ class GlanceTabFragment : Fragment() {
                     }
                     Constants.GlanceProviderId.NOTIFICATIONS -> {
                         when {
-                            NotificationManagerCompat.getEnabledListenerPackages(requireContext())
-                                .contains(
-                                    requireContext().packageName) -> {
+                            ActiveNotificationsHelper.checkNotificationAccess(requireContext()) -> {
                                 injector.visibility(R.id.error_icon, View.GONE)
                                 injector.visibility(R.id.info_icon, View.VISIBLE)
                                 injector.text(R.id.label,
@@ -305,6 +302,7 @@ class GlanceTabFragment : Fragment() {
         adapter.updateData(
             GlanceProviderHelper.getGlanceProviders(requireContext())
                 .mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) }
+                .filterNot { it.id == Constants.GlanceProviderId.GREETINGS.id }
         )
         providers_list.isNestedScrollingEnabled = false
 
