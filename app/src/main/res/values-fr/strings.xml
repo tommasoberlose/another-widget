@@ -176,7 +176,7 @@
     <string name="description_show_glance_visible">Services activés</string>
     <string name="description_show_glance_not_visible">Services désactivés</string>
     <string name="settings_sort_glance_providers_title">Priorité des sources de données</string>
-    <string name="settings_sort_glance_providers_subtitle">Glisser pour modifier l\'ordre de priorité.</string>
+    <string name="settings_sort_glance_providers_subtitle">Glissez-déposez les fournisseurs de la liste pour modifier l\'ordre de priorité de leur affichage.</string>
     <string name="settings_custom_notes_title">Notes personnalisées</string>
     <string name="settings_low_battery_level_title">Batterie (en charge/faible)</string>
     <string name="settings_daily_steps_title">Nombre de pas quotidiens</string>
