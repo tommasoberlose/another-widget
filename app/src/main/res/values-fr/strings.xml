@@ -189,7 +189,7 @@
     <string name="settings_music_players_filter_subtitle">Choisir des apps de lecture de musique</string>
         
     <string name="settings_show_music_subtitle">Nous utilisons la notification des lecteurs de musique pour afficher la chanson en cours de lecture.</string>
-    <string name="settings_low_battery_level_subtitle">Affiche lorsque la batterie de l\'appareil est faible ou en charge.</string>
+    <string name="settings_low_battery_level_subtitle">Soyez averti lorsque la batterie de l\'appareil est faible ou en charge.</string>
     <string name="settings_daily_steps_subtitle">Affiche vos pas quotidiens pendant un bref instant après avoir fini une marche ou une course.</string>
     <string name="settings_show_next_alarm_subtitle">Affiche votre prochaine alarme.\nVérifiez si votre app d\'horloge par défaut est la seule à définir les alarmes sur votre appareil.</string>
     <string name="settings_show_next_alarm_app_title">Alarme réglée par %s</string>
