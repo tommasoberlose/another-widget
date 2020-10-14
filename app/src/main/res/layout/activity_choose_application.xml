@@ -90,6 +90,14 @@
                     android:hint="@string/search"
                     android:text="@={viewModel.searchInput}"
                     android:autofillHints="" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_close"
+                    app:tint="@color/colorPrimaryText"
+                    android:layout_gravity="center_vertical|end"
+                    android:id="@+id/clear_search" />
             </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.card.MaterialCardView>
         <RelativeLayout

@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +22,12 @@ import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBin
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
 import kotlinx.android.synthetic.main.activity_choose_application.*
+import kotlinx.android.synthetic.main.activity_choose_application.action_back
+import kotlinx.android.synthetic.main.activity_choose_application.clear_search
 import kotlinx.android.synthetic.main.activity_choose_application.list_view
+import kotlinx.android.synthetic.main.activity_choose_application.loader
+import kotlinx.android.synthetic.main.activity_choose_application.search
+import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -87,6 +93,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     private fun subscribeUi(binding: ActivityChooseApplicationBinding, viewModel: ChooseApplicationViewModel) {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         viewModel.appList.observe(this, Observer {
             updateList(list = it)
@@ -95,6 +102,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
+            clear_search.isVisible = search.isNotBlank()
         })
     }
 
@@ -122,6 +130,10 @@ class ChooseApplicationActivity : AppCompatActivity() {
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
+        }
+
+        clear_search.setOnClickListener {
+            viewModel.searchInput.value = ""
         }
     }
 

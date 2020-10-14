@@ -33,5 +33,6 @@
     <color name="warningColorText">#FB8C00</color>
     <color name="disabledButtonBackground">#efefef</color>
     <color name="success">#43A047</color>
+    <color name="badgeBackground">#efefef</color>
 
 </resources>

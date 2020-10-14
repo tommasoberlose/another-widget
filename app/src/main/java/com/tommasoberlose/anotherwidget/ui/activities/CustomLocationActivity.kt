@@ -15,6 +15,7 @@ import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +36,11 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomLocationViewModel
 import kotlinx.android.synthetic.main.activity_custom_location.*
+import kotlinx.android.synthetic.main.activity_custom_location.action_back
+import kotlinx.android.synthetic.main.activity_custom_location.clear_search
+import kotlinx.android.synthetic.main.activity_custom_location.list_view
+import kotlinx.android.synthetic.main.activity_custom_location.loader
+import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus
@@ -99,6 +105,8 @@ class CustomLocationActivity : AppCompatActivity() {
 
     private fun subscribeUi(binding: ActivityCustomLocationBinding, viewModel: CustomLocationViewModel) {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         viewModel.addresses.observe(this, Observer {
             adapter.updateData(listOf("Default") + it)
             loader.visibility = View.INVISIBLE
@@ -125,6 +133,7 @@ class CustomLocationActivity : AppCompatActivity() {
                 }
 
             }
+            clear_search.isVisible = location.isNotBlank()
         })
     }
 
@@ -161,6 +170,10 @@ class CustomLocationActivity : AppCompatActivity() {
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
+        }
+
+        clear_search.setOnClickListener {
+            viewModel.locationInput.value = ""
         }
     }
 }

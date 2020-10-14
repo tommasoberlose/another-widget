@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="4dp"
             android:layout_gravity="center_vertical"
-            app:cardBackgroundColor="@color/disabledButtonBackground"
+            app:cardBackgroundColor="@color/badgeBackground"
             android:layout_marginTop="4dp"
             android:id="@+id/info_container"
             app:cardElevation="0dp">

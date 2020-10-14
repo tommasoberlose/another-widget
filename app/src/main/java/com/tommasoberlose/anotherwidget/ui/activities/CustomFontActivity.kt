@@ -29,6 +29,12 @@ import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomFontViewModel
 import kotlinx.android.synthetic.main.activity_choose_application.*
+import kotlinx.android.synthetic.main.activity_choose_application.action_back
+import kotlinx.android.synthetic.main.activity_choose_application.clear_search
+import kotlinx.android.synthetic.main.activity_choose_application.list_view
+import kotlinx.android.synthetic.main.activity_choose_application.loader
+import kotlinx.android.synthetic.main.activity_choose_application.search
+import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import net.idik.lib.slimadapter.diff.DefaultDiffCallback
@@ -152,6 +158,7 @@ class CustomFontActivity : AppCompatActivity() {
 
     private fun subscribeUi(binding: ActivityCustomFontBinding, viewModel: CustomFontViewModel) {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         viewModel.fontList.observe(this, Observer {
             updateList(list = it)
@@ -160,6 +167,7 @@ class CustomFontActivity : AppCompatActivity() {
 
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
+            clear_search.isVisible = search.isNotBlank()
         })
     }
 
@@ -210,6 +218,10 @@ class CustomFontActivity : AppCompatActivity() {
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
+        }
+
+        clear_search.setOnClickListener {
+            viewModel.searchInput.value = ""
         }
     }
 

@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -280,11 +281,14 @@ class GlanceTabFragment : Fragment() {
                             R.color.colorPrimaryDark))
                     }
 
+                    val topEdge = if ((view.top == 0 && dY < 0) || ((view.top + view.height >= recyclerView.height - 32f.convertDpToPixel(requireContext())) && dY > 0)) 0f else dY
+                    Log.d("ciao", "${view.top} + ${view.height} = ${view.top + view.height} to compare to ${recyclerView.height} - ${32f.convertDpToPixel(requireContext())}")
+
                     super.onChildDraw(c,
                         recyclerView,
                         viewHolder,
                         dX,
-                        dY,
+                        topEdge,
                         actionState,
                         isCurrentlyActive)
                 }

@@ -45,6 +45,15 @@
                     android:text="@string/settings_music_players_filter_title"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_clear_all"
+                    app:tint="@color/colorPrimaryText"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/clear_selection" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
@@ -67,8 +76,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@color/colorPrimaryDark"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="64dp"
                     android:inputType="textCapWords"
                     android:textColor="@color/colorPrimaryText"
                     android:textColorHint="@color/colorSecondaryText"
@@ -79,6 +88,14 @@
                     android:hint="@string/search"
                     android:text="@={viewModel.searchInput}"
                     android:autofillHints="" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_close"
+                    app:tint="@color/colorPrimaryText"
+                    android:layout_gravity="center_vertical|end"
+                    android:id="@+id/clear_search" />
             </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.card.MaterialCardView>
         <RelativeLayout

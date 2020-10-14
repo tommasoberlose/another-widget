@@ -73,6 +73,7 @@ class CustomDateActivity  : AppCompatActivity() {
 
     private fun subscribeUi(binding: ActivityCustomDateBinding, viewModel: CustomDateViewModel) {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         viewModel.dateInput.observe(this, Observer { dateFormat ->
             formatJob?.cancel()

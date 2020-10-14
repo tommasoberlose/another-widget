@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,8 +25,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MusicPlayersFilterViewModel
-import kotlinx.android.synthetic.main.activity_choose_application.*
-import kotlinx.android.synthetic.main.activity_choose_application.list_view
+import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import kotlin.Comparator as Comparator1
@@ -81,6 +81,7 @@ class MusicPlayersFilterActivity : AppCompatActivity() {
 
     private fun subscribeUi(binding: ActivityMusicPlayersFilterBinding, viewModel: MusicPlayersFilterViewModel) {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         viewModel.appList.observe(this, Observer {
             updateList(list = it)
@@ -89,10 +90,12 @@ class MusicPlayersFilterActivity : AppCompatActivity() {
 
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
+            clear_search.isVisible = search.isNotBlank()
         })
 
         viewModel.musicPlayersFilter.observe(this, {
             updateList()
+            clear_selection.isVisible = Preferences.musicPlayersFilter != ""
         })
     }
 
@@ -132,6 +135,14 @@ class MusicPlayersFilterActivity : AppCompatActivity() {
     private fun setupListener() {
         action_back.setOnClickListener {
             onBackPressed()
+        }
+
+        clear_search.setOnClickListener {
+            viewModel.searchInput.value = ""
+        }
+
+        clear_selection.setOnClickListener {
+            Preferences.musicPlayersFilter = ","
         }
     }
 

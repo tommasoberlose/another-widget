@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/selectableItemBackground"
     android:focusable="true"
     android:clickable="true"
@@ -43,4 +43,12 @@
         android:id="@+id/checkBox"
         android:visibility="gone"
         android:layout_gravity="center_vertical" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="12dp"
+        android:src="@drawable/round_check_circle_outline"
+        android:visibility="gone"
+        app:tint="@color/colorPrimaryText"
+        android:id="@+id/selected_icon" />
 </LinearLayout>
