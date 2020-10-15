@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.helpers
 
 import android.content.Context
+import android.util.Log
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -16,7 +17,9 @@ object GlanceProviderHelper {
         val providers = Constants.GlanceProviderId.values()
             .filter {
                 context.checkIfFitInstalled() || it != Constants.GlanceProviderId.GOOGLE_FIT_STEPS
-            }.toTypedArray()
+            }
+            .filterNot { it.id == Constants.GlanceProviderId.GREETINGS.id }
+            .toTypedArray()
 
         providers.sortWith(Comparator { p1, p2 ->
             when {
@@ -35,6 +38,8 @@ object GlanceProviderHelper {
             }
         })
 
+        Log.d("ciao", providers.toList().toString())
+
         return ArrayList(providers.toList())
     }
 
@@ -49,7 +54,7 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.PLAYING_SONG -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_show_music_title),
-                   R.drawable.round_radio
+                   R.drawable.round_music_note
                )
             }
             Constants.GlanceProviderId.CUSTOM_INFO -> {
@@ -67,7 +72,7 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_daily_steps_title),
-                   R.drawable.round_run_circle
+                   R.drawable.round_near_me
                )
             }
             Constants.GlanceProviderId.NOTIFICATIONS -> {

@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_choose_application.search
 import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
+import net.idik.lib.slimadapter.SlimAdapterEx
 
 
 class ChooseApplicationActivity : AppCompatActivity() {
@@ -47,7 +48,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
         val mLayoutManager = LinearLayoutManager(this)
         list_view.layoutManager = mLayoutManager
 
-        adapter = SlimAdapter.create()
+        adapter = SlimAdapterEx.create()
         adapter
             .register<String>(R.layout.application_info_layout) { _, injector ->
                 injector

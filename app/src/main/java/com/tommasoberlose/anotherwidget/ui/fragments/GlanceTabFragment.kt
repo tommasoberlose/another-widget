@@ -241,8 +241,6 @@ class GlanceTabFragment : Fragment() {
                     val toPos = target.adapterPosition
                     // move item in `fromPos` to `toPos` in adapter.
                     adapter.notifyItemMoved(fromPos, toPos)
-
-                    Collections.swap(list, fromPos, toPos)
                     return true
                 }
 
@@ -250,12 +248,22 @@ class GlanceTabFragment : Fragment() {
                     return false
                 }
 
-                override fun clearView(
+                override fun onMoved(
                     recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder
+                    viewHolder: RecyclerView.ViewHolder,
+                    fromPos: Int,
+                    target: RecyclerView.ViewHolder,
+                    toPos: Int,
+                    x: Int,
+                    y: Int
                 ) {
-                    super.clearView(recyclerView, viewHolder)
+                    with(list[fromPos]) {
+                        list[fromPos] = list[toPos]
+                        list[toPos] = this
+                    }
                     GlanceProviderHelper.saveGlanceProviderOrder(list)
+                    Log.d("ciao", list.toString())
+                    super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
                 }
 
                 override fun onChildDraw(
@@ -279,7 +287,6 @@ class GlanceTabFragment : Fragment() {
                     }
 
                     val topEdge = if ((view.top == 0 && dY < 0) || ((view.top + view.height >= recyclerView.height - 32f.convertDpToPixel(requireContext())) && dY > 0)) 0f else dY
-                    Log.d("ciao", "${view.top} + ${view.height} = ${view.top + view.height} to compare to ${recyclerView.height} - ${32f.convertDpToPixel(requireContext())}")
 
                     super.onChildDraw(c,
                         recyclerView,
@@ -302,7 +309,6 @@ class GlanceTabFragment : Fragment() {
         adapter.updateData(
             GlanceProviderHelper.getGlanceProviders(requireContext())
                 .mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) }
-                .filterNot { it.id == Constants.GlanceProviderId.GREETINGS.id }
         )
         providers_list.isNestedScrollingEnabled = false
 

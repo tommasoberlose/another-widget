@@ -64,7 +64,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         view.action_filter_music_players.isVisible = provider == Constants.GlanceProviderId.PLAYING_SONG
         if (provider == Constants.GlanceProviderId.PLAYING_SONG) {
             view.action_filter_music_players.setOnClickListener {
-                context.startActivity(Intent(context, MusicPlayersFilterActivity::class.java))
+                dismiss()
+                context.startActivityForResult(Intent(context, MusicPlayersFilterActivity::class.java), 0)
             }
             checkNotificationPermission(view)
         }
@@ -97,7 +98,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         if (provider == Constants.GlanceProviderId.NOTIFICATIONS) {
             checkLastNotificationsPermission(view)
             view.action_filter_notifications_app.setOnClickListener {
-                context.startActivity(Intent(context, AppNotificationsFilterActivity::class.java))
+                dismiss()
+                context.startActivityForResult(Intent(context, AppNotificationsFilterActivity::class.java), 0)
             }
         }
 

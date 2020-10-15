@@ -13,6 +13,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import java.lang.Exception
 import java.util.*
 
 
@@ -35,10 +36,18 @@ class NotificationListener : NotificationListenerService() {
                     Preferences.lastNotificationId = sbn.id
                     Preferences.lastNotificationTitle = bundle.getString(Notification.EXTRA_TITLE) ?: ""
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        Preferences.lastNotificationIcon = sbn.notification.smallIcon.resId
+                        try {
+                            Preferences.lastNotificationIcon = sbn.notification.smallIcon.resId
+                        } catch (ex: Exception) {
+                            Preferences.lastNotificationIcon = 0
+                        }
                         Preferences.lastNotificationPackage = sbn.notification.smallIcon.resPackage
                     } else {
-                        Preferences.lastNotificationIcon = sbn.notification.icon
+                        try {
+                            Preferences.lastNotificationIcon = sbn.notification.icon
+                        } catch (ex: Exception) {
+                            Preferences.lastNotificationIcon = 0
+                        }
                         Preferences.lastNotificationPackage = sbn.packageName
                     }
                     MainWidget.updateWidget(this)

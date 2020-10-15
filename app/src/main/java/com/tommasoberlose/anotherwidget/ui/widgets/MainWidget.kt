@@ -624,8 +624,15 @@ class MainWidget : AppWidgetProvider() {
                     } else {
                         val flags: Int =
                             DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-                        v.next_event_date.text =
+                        val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
+
+                        v.next_event_date.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
                             DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                        } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(Calendar.YEAR) > start.get(Calendar.YEAR)) {
+                            DateUtils.formatDateTime(context, now.timeInMillis, flags)
+                        } else {
+                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                        }
                     }
                 }
 
@@ -718,9 +725,14 @@ class MainWidget : AppWidgetProvider() {
                             if (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) {
                                 try {
                                     val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
-                                    val icon = ContextCompat.getDrawable(remotePackageContext, Preferences.lastNotificationIcon)
-                                    v.second_row_icon.isVisible = true
-                                    v.second_row_icon.setImageDrawable(icon)
+                                    if (Preferences.lastNotificationIcon != 0) {
+                                        val icon = ContextCompat.getDrawable(remotePackageContext,
+                                            Preferences.lastNotificationIcon)
+                                        v.second_row_icon.isVisible = true
+                                        v.second_row_icon.setImageDrawable(icon)
+                                    } else {
+                                        v.second_row_icon.isVisible = false
+                                    }
                                     v.next_event_date.text = Preferences.lastNotificationTitle
                                     showSomething = true
                                     break@loop
