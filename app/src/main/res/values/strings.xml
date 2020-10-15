@@ -49,7 +49,7 @@
     <string name="settings_filter_calendar_subtitle">Change calendar visibility</string>
     <string name="settings_all_day_title">All day events</string>
     <string name="main_calendar">Account calendar</string>
-    <string name="calendar_settings_list_error">Error loading the calendar list</string>
+    <string name="calendar_settings_list_error">Error loading the calendar list.</string>
     <string name="all_day">All day event</string>
     <string name="show_events_visible">Events are visible</string>
     <string name="show_events_not_visible">Events are hidden</string>
@@ -79,7 +79,7 @@
     <string name="soon">soon</string>
     <string name="now">now</string>
     <string name="settings_widget_update_frequency_title">Time until event update frequency</string>
-    <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consumption</string>
+    <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consumption.</string>
     <string name="settings_widget_update_frequency_low">Low</string>
     <string name="settings_widget_update_frequency_default">Default</string>
     <string name="settings_widget_update_frequency_high">High</string>
@@ -115,10 +115,10 @@
     <string name="settings_weather_provider_api_key_title">Weather API key</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly.</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured.</string>
-    <string name="api_key_hint">OpenWeather API Key</string>
+    <string name="api_key_hint">OpenWeatherMap API Key</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Google Awareness weather has been deprecated. It\'s now required an OpenWeather API key to show the weather in the widget.</string>
-    <string name="api_key_title_1">Register for an OpenWeather Account</string>
+    <string name="weather_warning">Google Awareness weather has been deprecated. It\'s now required an OpenWeatherMap API key to show the weather in the widget.</string>
+    <string name="api_key_title_1">Register for an OpenWeatherMap Account</string>
     <string name="api_key_subtitle_1">Register a free account on OpenWeather. It will only take a few minutes.</string>
     <string name="api_key_title_2">Copy your API Key</string>
     <string name="api_key_subtitle_2">Find the API keys menu from your account settings and copy the default key.</string>
@@ -128,7 +128,7 @@
     <string name="api_key_info_all_set">It may take up to ten minutes before your API key is activated. The weather will be updated as soon as it is available.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
-    <string name="background_location_warning">When GPS is on, we will collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
+    <string name="background_location_warning">When GPS is on, we collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
     <string name="settings_weather_provider_api">Weather provider</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
@@ -198,7 +198,7 @@
     <string name="description_show_glance_visible">Service enabled</string>
     <string name="description_show_glance_not_visible">Service disabled</string>
     <string name="settings_sort_glance_providers_title">Data source priority</string>
-    <string name="settings_sort_glance_providers_subtitle">Change the data provider priority sorting the list below with a drag and drop of the rows.</string>
+    <string name="settings_sort_glance_providers_subtitle">Change the data provider priority by sorting the list below with the drag-and-drop icons.</string>
     <string name="settings_custom_notes_title">Custom notes</string>
     <string name="settings_low_battery_level_title">Battery</string>
     <string name="settings_daily_steps_title">Daily steps</string>
@@ -212,13 +212,13 @@
     <string name="settings_music_players_filter_subtitle">Choose your relevant music players</string>
     <string name="settings_show_music_subtitle">We use the music players\' notification to show the current playing song.</string>
     <string name="settings_low_battery_level_subtitle">Get notified when the device has the battery low or is charging.</string>
-    <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after when finishing a walk or a run.</string>
+    <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after finishing a walk or a run.</string>
     <string name="settings_show_next_alarm_subtitle">View your next clock alarm, check if your default clock app is the only one setting device alarms.</string>
     <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong.</string>
     <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct.</string>
-    <string name="settings_show_notifications_title">Last notifications</string>
-    <string name="settings_show_notifications_subtitle">Take a quick view of the last notifications showed up on your device.</string>
+    <string name="settings_show_notifications_title">Lastest notifications</string>
+    <string name="settings_show_notifications_subtitle">Check out the lastest notifications that showed up on your device.</string>
     <string name="settings_show_greetings_title">Greetings</string>
     <string name="settings_show_greetings_subtitle">View some cool phrase when you don\'t expect it.</string>
     <string name="google_fit_account_connected">Account connected</string>
@@ -260,7 +260,7 @@
     <string name="settings_app_version_title">App version</string>
     <string name="settings_title_show_wallpaper">Show wallpaper</string>
     <string name="support_refresh_widget_subtitle">Force the restart of the widget service</string>
-    <string name="settings_feedback_subtitle">This is an open-source project, feel free to help.</string>
+    <string name="settings_feedback_subtitle">Feel free to help our project</string>
     <string name="settings_feedback_title">Feedback and feature requests</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Devices</string>
@@ -275,7 +275,7 @@
     <string name="preferences_header">Preferences</string>
     <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
     <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
-    <string name="project_header">Project</string>
+    <string name="project_header">Open-source project</string>
     <string name="information_header">Information</string>
 
     <!-- Activities -->
