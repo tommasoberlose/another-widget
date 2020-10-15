@@ -215,8 +215,8 @@
     <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after finishing a walk or a run.</string>
     <string name="settings_show_next_alarm_subtitle">View your next clock alarm, check if your default clock app is the only one setting device alarms.</string>
     <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
-    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong.</string>
-    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct.</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct</string>
     <string name="settings_show_notifications_title">Lastest notifications</string>
     <string name="settings_show_notifications_subtitle">Check out the lastest notifications that showed up on your device.</string>
     <string name="settings_show_greetings_title">Greetings</string>
