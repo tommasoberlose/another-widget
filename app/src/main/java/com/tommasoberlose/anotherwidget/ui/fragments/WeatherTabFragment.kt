@@ -42,6 +42,8 @@ import com.tommasoberlose.anotherwidget.ui.activities.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.collapse
+import com.tommasoberlose.anotherwidget.utils.expand
 import kotlinx.android.synthetic.main.fragment_weather_settings.*
 import kotlinx.android.synthetic.main.fragment_weather_settings.scrollView
 import kotlinx.coroutines.delay
@@ -87,11 +89,6 @@ class WeatherTabFragment : Fragment() {
     ) {
         binding.isWeatherVisible = Preferences.showWeather
 
-        viewModel.showWeatherWarning.observe(viewLifecycleOwner, Observer {
-            weather_warning?.isVisible = it
-            checkLocationPermission()
-        })
-
         viewModel.showWeather.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
                 show_weather_label?.text =
@@ -100,6 +97,7 @@ class WeatherTabFragment : Fragment() {
                 binding.isWeatherVisible = it
             }
             checkLocationPermission()
+            checkWeatherProviderConfig()
         })
 
         viewModel.weatherProvider.observe(viewLifecycleOwner, Observer {
@@ -174,7 +172,7 @@ class WeatherTabFragment : Fragment() {
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             location_permission_alert?.isVisible = true
-            background_location_warning.isVisible = false
+            background_location_warning.isVisible = true
             location_permission_alert?.setOnClickListener {
                 MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
                     .setPositiveButton(getString(android.R.string.ok)) {
@@ -188,18 +186,22 @@ class WeatherTabFragment : Fragment() {
     }
 
     private fun checkWeatherProviderConfig() {
-        weather_provider_error.isVisible = Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-"
+        if (Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-" && !location_permission_alert.isVisible) {
+            weather_provider_error.expand()
+        } else {
+            weather_provider_error.collapse()
+        }
         weather_provider_error?.text = Preferences.weatherProviderError
 
-        weather_provider_location_error.isVisible = Preferences.weatherProviderLocationError != ""
+        if (Preferences.showWeather && Preferences.weatherProviderLocationError != "" && !location_permission_alert.isVisible) {
+            weather_provider_location_error.expand()
+        } else {
+            weather_provider_location_error.collapse()
+        }
         weather_provider_location_error?.text = Preferences.weatherProviderLocationError
     }
 
     private fun setupListener() {
-        action_hide_weather_warning.setOnClickListener {
-            Preferences.showWeatherWarning = false
-        }
-
         action_show_weather.setOnClickListener {
             Preferences.showWeather = !Preferences.showWeather
         }

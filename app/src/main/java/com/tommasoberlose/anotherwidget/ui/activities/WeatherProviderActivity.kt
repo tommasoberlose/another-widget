@@ -66,6 +66,10 @@ class WeatherProviderActivity : AppCompatActivity() {
                 injector
                     .text(R.id.text, WeatherHelper.getProviderName(this, provider))
                     .clicked(R.id.item) {
+                        if (Preferences.weatherProvider != provider.value) {
+                            Preferences.weatherProviderError = "-"
+                            Preferences.weatherProviderLocationError = ""
+                        }
                         val oldValue = Preferences.weatherProvider
                         Preferences.weatherProvider = provider.value
                         updateListItem(oldValue)
@@ -77,6 +81,10 @@ class WeatherProviderActivity : AppCompatActivity() {
                         }
                     }
                     .clicked(R.id.radioButton) {
+                        if (Preferences.weatherProvider != provider.value) {
+                            Preferences.weatherProviderError = "-"
+                            Preferences.weatherProviderLocationError = ""
+                        }
                         val oldValue = Preferences.weatherProvider
                         Preferences.weatherProvider = provider.value
                         updateListItem(oldValue)

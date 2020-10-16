@@ -1,12 +1,11 @@
 package com.tommasoberlose.anotherwidget.utils
 
+import android.animation.*
 import android.content.pm.PackageManager
 import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.Toast
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.WallpaperManager
 import android.content.*
@@ -23,10 +22,20 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.ViewPropertyAnimator
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.core.animation.addListener
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
+import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
+import kotlinx.android.synthetic.main.fragment_app_main.*
+import kotlinx.android.synthetic.main.the_widget_sans.*
 import java.util.*
 
 
@@ -68,55 +77,72 @@ fun View.reveal(initialX: Int? = null, initialY: Int? = null) {
 }
 
 
-fun View.expand() {
-    if (visibility != View.VISIBLE) {
-        measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        val targetHeight = measuredHeight
+fun View.expand(duration: Long = 500L) {
+    clearAnimation()
+    try {
+        val animator = (tag as ValueAnimator)
+        animator.removeAllListeners()
+        animator.cancel()
+    } catch (ex: java.lang.Exception) {}
 
-        layoutParams.height = 0
-        visibility = View.VISIBLE
-        val a = object : Animation() {
-            protected override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
-                layoutParams.height = if (interpolatedTime == 1f)
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                else
-                    (targetHeight * interpolatedTime).toInt()
-                translationY = 0f
-                requestLayout()
-            }
-
-            override fun willChangeBounds(): Boolean {
-                return true
-            }
-        }
-
-        a.duration = 500L
-        startAnimation(a)
+    layoutParams = layoutParams.apply {
+        height = RelativeLayout.LayoutParams.WRAP_CONTENT
     }
+    measure(0, 0)
+
+    val initialHeight = measuredHeight
+    val anim = ValueAnimator.ofFloat(
+        alpha,
+        1f
+    ).apply {
+        this.duration = duration
+        addUpdateListener {
+            val animatedValue = animatedValue as Float
+            layoutParams = layoutParams.apply {
+                height = (initialHeight * animatedValue).toInt()
+            }
+            translationY = (initialHeight * animatedValue - initialHeight)
+            alpha = animatedValue
+        }
+        addListener(
+            onStart = {
+                isVisible = true
+            }
+        )
+    }
+    tag = anim
+    anim.start()
 }
 
 fun View.collapse(duration: Long = 500L) {
-    if (visibility != View.GONE) {
-        val initialHeight = measuredHeight
-
-        val a = object : Animation() {
-            protected override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
-                if (interpolatedTime == 1f) {
-                    visibility = View.GONE
-                } else {
-                    layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
-                    requestLayout()
-                }
+    clearAnimation()
+    try {
+        val animator = (tag as ValueAnimator)
+        animator.removeAllListeners()
+        animator.cancel()
+    } catch (ex: java.lang.Exception) {}
+    val initialHeight = measuredHeight
+    val anim = ValueAnimator.ofFloat(
+        alpha,
+        0f
+    ).apply {
+        this.duration = duration
+        addUpdateListener {
+            val animatedValue = animatedValue as Float
+            layoutParams = layoutParams.apply {
+                height = (initialHeight * animatedValue).toInt()
             }
-
-            override fun willChangeBounds(): Boolean {
-                return true
-            }
+            translationY = (initialHeight * animatedValue - initialHeight)
+            alpha = animatedValue
         }
-
-        a.duration = duration //(initialHeight / v.context.resources.displayMetrics.density).toLong()
-        startAnimation(a)
+        addListener(
+            onEnd = {
+                isVisible = false
+            }
+        )
     }
+    tag = anim
+    anim.start()
 }
 
 fun Context.openURI(url: String) {

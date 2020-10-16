@@ -354,6 +354,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
                         ) != true)
                     || (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-")
+                    || (Preferences.weatherProviderLocationError != "")
         } else {
             false
         }

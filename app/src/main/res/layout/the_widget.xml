@@ -78,12 +78,21 @@
             android:layout_height="wrap_content"
             android:layoutDirection="locale"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/action_previous"
-                android:src="@drawable/round_chevron_left" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/action_previous_shadow"
+                    android:src="@drawable/round_chevron_right" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/action_previous"
+                    android:src="@drawable/round_chevron_right" />
+            </RelativeLayout>
             <TextView
                 android:id="@+id/next_event"
                 android:layout_width="0dp"
@@ -107,12 +116,21 @@
                     android:includeFontPadding="false"
                     style="@style/AnotherWidget.Widget.Title" />
             </LinearLayout>
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/action_next"
-                android:src="@drawable/round_chevron_right" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/action_next_shadow"
+                    android:src="@drawable/round_chevron_right" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/action_next"
+                    android:src="@drawable/round_chevron_right" />
+            </RelativeLayout>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -134,8 +152,8 @@
                     android:layout_height="28dp"
                     android:paddingEnd="4dp"
                     android:paddingStart="4dp"
-                    android:id="@+id/special_weather_icon"
-                    android:layout_marginEnd="4dp"/>
+                    android:layout_marginEnd="4dp"
+                    android:id="@+id/special_weather_icon"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -178,13 +196,28 @@
                 android:gravity="center_vertical"
                 android:id="@+id/second_row"
                 android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:cropToPadding="false"
+                    android:clipChildren="false"
                     android:layout_marginEnd="4dp"
-                    android:layout_marginStart="4dp"
-                    android:id="@+id/second_row_icon"
-                    android:src="@drawable/round_today"/>
+                    android:layout_marginStart="4dp">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:cropToPadding="false"
+                        android:clipChildren="false"
+                        android:id="@+id/second_row_icon_shadow"
+                        android:src="@drawable/round_today"/>
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:cropToPadding="false"
+                        android:clipChildren="false"
+                        android:id="@+id/second_row_icon"
+                        android:src="@drawable/round_today"/>
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/next_event_date"
                     android:layout_width="wrap_content"
@@ -217,11 +250,11 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:id="@+id/weather_icon"
-                    android:layout_marginEnd="4dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:adjustViewBounds="true"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="2dp"
                     android:src="@drawable/clear_night"/>
                 <TextView
                     android:layout_width="wrap_content"

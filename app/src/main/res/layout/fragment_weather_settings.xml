@@ -21,45 +21,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:orientation="vertical">
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="9dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:id="@+id/weather_warning"
-                android:backgroundTint="@color/disabledButtonBackground"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:duplicateParentState="true"
-                        android:id="@+id/label"
-                        android:textSize="16sp"
-                        android:text="@string/weather_warning"
-                        android:textColor="@color/colorPrimaryText"
-                        android:letterSpacing="0"
-                        android:textAppearance="@style/AnotherWidget.Settings.Title"
-                        app:textAllCaps="false" />
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:text="@android:string/ok"
-                        android:id="@+id/action_hide_weather_warning"
-                        android:textColor="@color/colorPrimaryText"
-                        android:layout_gravity="end" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -215,24 +176,21 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/label_custom_location"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:letterSpacing="0"
-                            android:textAllCaps="false"
-                            android:clickable="true"
-                            android:layout_marginStart="-8dp"
-                            android:layout_marginBottom="-8dp"
-                            android:paddingBottom="0dp"
-                            android:paddingTop="0dp"
-                            android:focusable="true"
-                            android:visibility="gone"
-                            android:id="@+id/location_permission_alert"
-                            android:textColor="@color/errorColorText"
-                            android:text="@string/action_grant_permission"/>
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:duplicateParentState="true"
+                    android:textSize="14sp"
+                    android:id="@+id/weather_provider_location_error"
+                    android:textColor="@color/errorColorText"
+                    android:letterSpacing="0"
+                    android:fontFamily="@font/google_sans_bold"
+                    android:textStyle="bold"
+                    android:layout_marginStart="64dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                    app:textAllCaps="false" />
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -247,22 +205,22 @@
                     android:fontFamily="@font/google_sans"
                     android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
                     app:textAllCaps="false" />
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:duplicateParentState="true"
-                    android:textSize="14sp"
-                    android:paddingStart="64dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
-                    android:visibility="gone"
-                    android:id="@+id/weather_provider_location_error"
-                    android:textColor="@color/errorColorText"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:letterSpacing="0"
-                    android:fontFamily="@font/google_sans_bold"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-                    app:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="64dp"
+                    app:rippleColor="@color/errorColorText_op10"
+                    app:backgroundTint="@color/errorColorText_op10"
+                    android:id="@+id/location_permission_alert"
+                    android:textColor="@color/errorColorText"
+                    android:visibility="gone"
+                    android:text="@string/action_grant_permission"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

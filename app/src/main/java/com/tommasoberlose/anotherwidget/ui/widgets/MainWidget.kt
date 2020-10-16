@@ -29,6 +29,7 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
+import com.tommasoberlose.anotherwidget.helpers.ImageHelper.applyShadow
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
@@ -715,7 +716,6 @@ class MainWidget : AppWidgetProvider() {
                             if (Preferences.customNotes.isNotEmpty()) {
                                 v.second_row_icon.isVisible = false
                                 v.next_event_date.text = Preferences.customNotes
-                                v.next_event_date.gravity
                                 v.next_event_date.maxLines = 2
                                 showSomething = true
                                 break@loop
@@ -804,9 +804,9 @@ class MainWidget : AppWidgetProvider() {
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.value) {
-                listOf<ImageView>(v.second_row_icon)
+                listOf<ImageView>(v.second_row_icon, v.second_row_icon_shadow)
             } else {
-                listOf<ImageView>(v.second_row_icon, v.weather_icon)
+                listOf<ImageView>(v.second_row_icon, v.weather_icon, v.second_row_icon_shadow)
             }.forEach {
                 it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
                 it.alpha =
@@ -888,6 +888,38 @@ class MainWidget : AppWidgetProvider() {
             ).forEach {
                 it.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
             }
+
+            // Icons shadow
+
+            listOf(
+                Pair(v.second_row_icon, v.second_row_icon_shadow),
+            ).forEach {
+                if ((if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) == 0) {
+                    it.second.isVisible = false
+                } else {
+                    it.second.isVisible = it.first.isVisible
+                    it.second.scaleX = it.first.scaleX
+                    it.second.scaleY = it.first.scaleY
+                    it.second.applyShadow(it.first)
+                }
+            }
+
+            listOf(
+                Pair(v.action_next, v.action_next_shadow),
+                Pair(v.action_previous, v.action_previous_shadow),
+            ).forEach {
+                if ((if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) == 0) {
+                    it.second.isVisible = false
+                } else {
+                    it.second.isVisible = it.first.isVisible
+                    it.second.scaleX = it.first.scaleX
+                    it.second.scaleY = it.first.scaleY
+                    it.second.applyShadow(it.first, 0.6f)
+                }
+            }
+
+            v.action_previous.scaleX = v.action_previous.scaleX * -1
+            v.action_previous_shadow.scaleX = v.action_previous_shadow.scaleX * -1
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {

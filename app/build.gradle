@@ -28,6 +28,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "GOOGLE_API_KEY", apikeyProperties['GOOGLE_API_KEY'])
+
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
