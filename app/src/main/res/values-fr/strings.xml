@@ -76,7 +76,7 @@
     <string name="settings_attendee_status_title">Statut de présence</string>
     <string name="settings_attendee_status_subtitle">Filtrer les évmts acceptés ou refusés</string>
     <string name="settings_busy_events_title">Événements pertinents</string>
-    <string name="settings_busy_events_subtitle">Afficher uniquement les évmts\nqui vous occupent</string>
+    <string name="settings_busy_events_subtitle">N\'afficher que les évmts \"Occupé\"</string>
     <string name="attendee_status_accepted">Événements acceptés</string>
     <string name="attendee_status_invited">Invitations à des évmts</string>
     <string name="attendee_status_declined">Événements refusés</string>
@@ -178,8 +178,8 @@
     <string name="settings_sort_glance_providers_title">Priorité des sources de données</string>
     <string name="settings_sort_glance_providers_subtitle">Glissez-déposez les fournisseurs de la liste pour modifier l\'ordre de priorité de leur affichage.</string>
     <string name="settings_custom_notes_title">Notes personnalisées</string>
-    <string name="settings_low_battery_level_title">Batterie (en charge/faible)</string>
-    <string name="settings_daily_steps_title">Nombre de pas quotidiens</string>
+    <string name="settings_low_battery_level_title">Batterie</string>
+    <string name="settings_daily_steps_title">Nombre de pas</string>
     <string name="battery_low_warning">Batterie faible</string>
     <string name="daily_steps_counter">%d pas jusqu\'à présent</string>
     <string name="charging">Batterie en charge</string>
@@ -240,7 +240,7 @@
     <string name="settings_feedback_subtitle">N\'hésitez pas à aider notre projet !</string>
     <string name="settings_feedback_title">Commentaires et suggestions</string>
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
-    <string name="xiaomi_warning_message">Veuillez activer l\'option \'\'Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\'\' dans la section \'\'Autres autorisations\'\' des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune autre app en tapant sur le widget.</string>
+    <string name="xiaomi_warning_message">Veuillez activer l\'option \"Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\" dans la section \"Autres autorisations\" des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune autre app en tapant sur le widget.</string>
     <string name="action_ignore">Ignorer</string>
     <string name="action_grant_permission">Ouvrir les Paramètres</string>
     <string name="settings_title">Paramètres</string>
