@@ -847,8 +847,8 @@ class MainWidget : AppWidgetProvider() {
             v.action_previous.scaleX = Preferences.textMainSize / 28f
             v.action_previous.scaleY = Preferences.textMainSize / 28f
 
-            v.special_weather_icon.scaleX = Preferences.textMainSize / 20f
-            v.special_weather_icon.scaleY = Preferences.textMainSize / 20f
+            v.special_weather_icon.scaleX = Preferences.textMainSize / 18f
+            v.special_weather_icon.scaleY = Preferences.textMainSize / 18f
 
 
             // Shadows
