@@ -80,4 +80,27 @@ object CalendarHelper {
             .filter { (!Preferences.showOnlyBusyEvents || it.availability != CalendarContract.EventsEntity.AVAILABILITY_FREE) }
             .toList()
     }
+
+    fun List<Event>.sortEvents(): List<Event> {
+        return sortedWith { event: Event, event1: Event ->
+            val date = Calendar.getInstance().apply { timeInMillis = event.startDate }
+            val date1 = Calendar.getInstance().apply { timeInMillis = event1.startDate }
+
+            if (date.get(Calendar.DAY_OF_YEAR) == date1.get(Calendar.DAY_OF_YEAR) && date.get(
+                    Calendar.YEAR) == date1.get(Calendar.YEAR)
+            ) {
+                if (event.allDay && event1.allDay) {
+                    event.startDate.compareTo(event1.startDate)
+                } else if (event.allDay) {
+                    1
+                } else if (event1.allDay) {
+                    -1
+                } else {
+                    event.startDate.compareTo(event1.startDate)
+                }
+            } else {
+                event.startDate.compareTo(event1.startDate)
+            }
+        }
+    }
 }

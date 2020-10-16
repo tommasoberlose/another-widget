@@ -205,7 +205,7 @@
     <string name="battery_low_warning">Low battery level</string>
     <string name="daily_steps_counter">%d steps so far</string>
     <string name="charging">Charging</string>
-    <string name="charged">Charged</string>
+    <string name="charged">Fully charged</string>
     <string name="providers">Providers</string>
     <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
     <string name="settings_music_players_filter_title">Music Players</string>

@@ -22,7 +22,8 @@
         android:id="@+id/empty_layout">
         <TextView
             android:id="@+id/empty_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:lines="1"
             android:textColor="@color/colorPrimary"
@@ -36,7 +37,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="gone"
-            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
             android:id="@+id/weather">
             <TextView
                 android:layout_width="wrap_content"
@@ -118,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone"
-                android:layout_marginStart="8dp"
+                android:paddingStart="8dp"
                 android:id="@+id/special_weather">
                 <TextView
                     android:layout_width="wrap_content"

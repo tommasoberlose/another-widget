@@ -10,6 +10,7 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.applyFilters
+import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.sortEvents
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
@@ -44,8 +45,17 @@ class UpdateCalendarJob : JobIntentService() {
                 set(Calendar.HOUR_OF_DAY, 0)
             }
             val limit = Calendar.getInstance().apply {
-                timeInMillis = begin.timeInMillis
-                add(Calendar.DAY_OF_YEAR, 2)
+                when (Preferences.showUntil) {
+                    0 -> add(Calendar.HOUR, 3)
+                    1 -> add(Calendar.HOUR, 6)
+                    2 -> add(Calendar.HOUR, 12)
+                    3 -> add(Calendar.DAY_OF_MONTH, 1)
+                    4 -> add(Calendar.DAY_OF_MONTH, 3)
+                    5 -> add(Calendar.DAY_OF_MONTH, 7)
+                    6 -> add(Calendar.MINUTE, 30)
+                    7 -> add(Calendar.HOUR, 1)
+                    else -> add(Calendar.HOUR, 6)
+                }
             }
 
             if (!checkGrantedPermission(
@@ -95,34 +105,16 @@ class UpdateCalendarJob : JobIntentService() {
                         }
                     }
 
-                    val filteredEventList = eventList
+                    val sortedEvents = eventList.sortEvents()
+                    val filteredEventList = sortedEvents
                         .applyFilters()
 
                     if (filteredEventList.isEmpty()) {
                         eventRepository.resetNextEventData()
                         eventRepository.clearEvents()
                     } else {
-                        eventList.sortWith(Comparator { event: Event, event1: Event ->
-                            val date = Calendar.getInstance().apply { timeInMillis = event.startDate }
-                            val date1 = Calendar.getInstance().apply { timeInMillis = event1.startDate }
-
-                            if (date.get(Calendar.DAY_OF_YEAR) == date1.get(Calendar.DAY_OF_YEAR) && date.get(Calendar.YEAR) == date1.get(Calendar.YEAR)) {
-                                if (event.allDay && event1.allDay) {
-                                    event.startDate.compareTo(event1.startDate)
-                                } else if (event.allDay) {
-                                    1
-                                } else if (event1.allDay) {
-                                    -1
-                                } else {
-                                    event.startDate.compareTo(event1.startDate)
-                                }
-                            } else {
-                                event.startDate.compareTo(event1.startDate)
-                            }
-                        })
-
                         eventRepository.saveEvents(
-                            eventList
+                            sortedEvents
                         )
                         eventRepository.saveNextEventData(filteredEventList.first())
                     }

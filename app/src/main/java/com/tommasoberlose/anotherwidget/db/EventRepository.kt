@@ -18,7 +18,7 @@ import kotlin.collections.ArrayList
 class EventRepository(val context: Context) {
     private val realm by lazy { Realm.getDefaultInstance() }
 
-    fun saveEvents(eventList: ArrayList<Event>) {
+    fun saveEvents(eventList: List<Event>) {
         realm.executeTransaction { realm ->
             realm.where(Event::class.java).findAll().deleteAllFromRealm()
             realm.copyToRealm(eventList)

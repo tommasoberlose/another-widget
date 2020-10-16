@@ -350,8 +350,12 @@ class MainWidget : AppWidgetProvider() {
                             Constants.GlanceProviderId.NOTIFICATIONS -> {
                                 if (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) {
                                     try {
-                                        val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
-                                        val icon = ContextCompat.getDrawable(remotePackageContext, Preferences.lastNotificationIcon)
+                                        if (Preferences.lastNotificationIcon != 0) {
+                                            val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
+                                            ContextCompat.getDrawable(
+                                                remotePackageContext,
+                                                Preferences.lastNotificationIcon)
+                                        }
                                         val notificationIntent = PendingIntent.getActivity(
                                             context,
                                             widgetID,
@@ -606,7 +610,7 @@ class MainWidget : AppWidgetProvider() {
                             dayDiff++
                         } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(
                                 Calendar.MINUTE
-                            ) >= endCal.get(Calendar.MINUTE)
+                            ) > endCal.get(Calendar.MINUTE)
                         ) {
                             dayDiff++
                         }
@@ -618,8 +622,14 @@ class MainWidget : AppWidgetProvider() {
                                 context.getString(R.string.day_char)
                             )
                         }
-                        v.next_event_date.text =
-                            String.format("%s - %s%s", startHour, endHour, multipleDay)
+
+                        if (nextEvent.startDate != nextEvent.endDate) {
+                            v.next_event_date.text =
+                                String.format("%s - %s%s", startHour, endHour, multipleDay)
+                        } else {
+                            v.next_event_date.text =
+                                String.format("%s", startHour)
+                        }
 
                     } else {
                         val flags: Int =
@@ -724,8 +734,8 @@ class MainWidget : AppWidgetProvider() {
                         Constants.GlanceProviderId.NOTIFICATIONS -> {
                             if (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) {
                                 try {
-                                    val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
                                     if (Preferences.lastNotificationIcon != 0) {
+                                        val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
                                         val icon = ContextCompat.getDrawable(remotePackageContext,
                                             Preferences.lastNotificationIcon)
                                         v.second_row_icon.isVisible = true

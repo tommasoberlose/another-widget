@@ -37,9 +37,6 @@ object GlanceProviderHelper {
                 }
             }
         })
-
-        Log.d("ciao", providers.toList().toString())
-
         return ArrayList(providers.toList())
     }
 
