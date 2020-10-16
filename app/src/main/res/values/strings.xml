@@ -117,9 +117,9 @@
     <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured.</string>
     <string name="api_key_hint">OpenWeatherMap API Key</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Google Awareness weather has been deprecated. It\'s now required an OpenWeatherMap API key to show the weather in the widget.</string>
+    <string name="weather_warning">Google Awareness API is now deprecated. It is now required to have an API key from a third-party provider to display the weather in the widget.</string>
     <string name="api_key_title_1">Register for an OpenWeatherMap Account</string>
-    <string name="api_key_subtitle_1">Register a free account on OpenWeather. It will only take a few minutes.</string>
+    <string name="api_key_subtitle_1">Register a free account on OpenWeatherMap. It will only take a few minutes.</string>
     <string name="api_key_title_2">Copy your API Key</string>
     <string name="api_key_subtitle_2">Find the API keys menu from your account settings and copy the default key.</string>
     <string name="api_key_title_3">Enter the key to the app</string>
@@ -215,8 +215,8 @@
     <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after finishing a walk or a run.</string>
     <string name="settings_show_next_alarm_subtitle">View your next clock alarm, check if your default clock app is the only one setting device alarms.</string>
     <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
-    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong.</string>
-    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct.</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct</string>
     <string name="settings_show_notifications_title">Lastest notifications</string>
     <string name="settings_show_notifications_subtitle">Check out the lastest notifications that showed up on your device.</string>
     <string name="settings_show_greetings_title">Greetings</string>
