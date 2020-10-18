@@ -262,7 +262,6 @@ class GlanceTabFragment : Fragment() {
                         list[toPos] = this
                     }
                     GlanceProviderHelper.saveGlanceProviderOrder(list)
-                    Log.d("ciao", list.toString())
                     super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
                 }
 

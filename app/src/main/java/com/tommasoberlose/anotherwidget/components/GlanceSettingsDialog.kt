@@ -25,6 +25,7 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
+import com.tommasoberlose.anotherwidget.helpers.GreetingsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.AppNotificationsFilterActivity
@@ -95,11 +96,24 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
 
         /* NOTIFICATIONS */
         view.action_filter_notifications_app.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
+        view.action_change_notification_timer.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
         if (provider == Constants.GlanceProviderId.NOTIFICATIONS) {
             checkLastNotificationsPermission(view)
+            val stringArray = context.resources.getStringArray(R.array.glance_notifications_timeout)
             view.action_filter_notifications_app.setOnClickListener {
                 dismiss()
                 context.startActivityForResult(Intent(context, AppNotificationsFilterActivity::class.java), 0)
+            }
+            view.notification_timer_label.text = stringArray[Preferences.hideNotificationAfter]
+            view.action_change_notification_timer.setOnClickListener {
+                val dialog = BottomSheetMenu<Int>(context, header = context.getString(R.string.glance_notification_hide_timeout_title)).setSelectedValue(Preferences.hideNotificationAfter)
+                Constants.GlanceNotificationTimer.values().forEachIndexed { index, timeout ->
+                    dialog.addItem(stringArray[index], timeout.value)
+                }
+                dialog.addOnSelectItemListener { value ->
+                    Preferences.hideNotificationAfter = value
+                    this.show()
+                }.show()
             }
         }
 
@@ -146,6 +160,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         }
                         Constants.GlanceProviderId.GREETINGS -> {
                             Preferences.showGreetings = isChecked
+                            GreetingsHelper.toggleGreetings(context)
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (isChecked) {

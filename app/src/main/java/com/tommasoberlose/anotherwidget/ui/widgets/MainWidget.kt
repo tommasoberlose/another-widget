@@ -372,6 +372,12 @@ class MainWidget : AppWidgetProvider() {
                                     } catch (ex: Exception) {}
                                 }
                             }
+                            Constants.GlanceProviderId.GREETINGS -> {
+                                if (Preferences.showGreetings && GreetingsHelper.showGreetings() && GreetingsHelper.getRandomString(context).isNotBlank()) {
+                                    showSomething = true
+                                    break@loop
+                                }
+                            }
                         }
                     }
 
@@ -747,6 +753,16 @@ class MainWidget : AppWidgetProvider() {
                                     showSomething = true
                                     break@loop
                                 } catch (ex: Exception) {}
+                            }
+                        }
+                        Constants.GlanceProviderId.GREETINGS -> {
+                            val greetingsText = GreetingsHelper.getRandomString(context)
+                            if (Preferences.showGreetings && GreetingsHelper.showGreetings() && greetingsText.isNotBlank()) {
+                                v.next_event_date.text = greetingsText
+                                v.next_event_date.maxLines = 2
+                                v.second_row_icon.isVisible = false
+                                showSomething = true
+                                break@loop
                             }
                         }
                     }

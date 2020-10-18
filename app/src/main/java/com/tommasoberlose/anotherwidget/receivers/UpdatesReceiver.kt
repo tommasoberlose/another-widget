@@ -52,6 +52,9 @@ class UpdatesReceiver : BroadcastReceiver() {
                 ActiveNotificationsHelper.clearLastNotification(context)
                 MainWidget.updateWidget(context)
             }
+            Actions.ACTION_UPDATE_GREETINGS -> {
+                MainWidget.updateWidget(context)
+            }
         }
     }
 

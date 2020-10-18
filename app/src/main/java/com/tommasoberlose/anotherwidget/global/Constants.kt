@@ -61,6 +61,20 @@ object Constants {
         }
     }
 
+    enum class GlanceNotificationTimer(val value: Int) {
+        HALF_MINUTE(0),
+        ONE_MINUTE(1),
+        FIVE_MINUTES(2),
+        TEN_MINUTES(3),
+        FIFTEEN_MINUTES(4),
+        WHEN_DISMISSED(5);
+
+        companion object {
+            private val map = values().associateBy(GlanceNotificationTimer::value)
+            fun fromInt(type: Int) = map[type]
+        }
+    }
+
     enum class WeatherIconPack(val value: Int) {
         DEFAULT(0),
         MINIMAL(1),

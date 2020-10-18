@@ -125,6 +125,7 @@ object Preferences : KotprefModel() {
     var showDailySteps by booleanPref(default = false)
     var showGreetings by booleanPref(default = false)
     var showNotifications by booleanPref(default = false)
+    var hideNotificationAfter by intPref(default = Constants.GlanceNotificationTimer.ONE_MINUTE.value)
 
     var lastNotificationId by intPref(default = -1)
     var lastNotificationTitle by stringPref(default = "")

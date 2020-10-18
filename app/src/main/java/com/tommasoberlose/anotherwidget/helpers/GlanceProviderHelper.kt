@@ -18,7 +18,6 @@ object GlanceProviderHelper {
             .filter {
                 context.checkIfFitInstalled() || it != Constants.GlanceProviderId.GOOGLE_FIT_STEPS
             }
-            .filterNot { it.id == Constants.GlanceProviderId.GREETINGS.id }
             .toTypedArray()
 
         providers.sortWith(Comparator { p1, p2 ->
@@ -102,7 +101,8 @@ object GlanceProviderHelper {
                 (MediaPlayerHelper.isSomeonePlaying(context)) ||
                 (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                 (Preferences.customNotes.isNotEmpty()) ||
-                (Preferences.showDailySteps && Preferences.googleFitSteps > 0)
+                (Preferences.showDailySteps && Preferences.googleFitSteps > 0) ||
+                (Preferences.showGreetings && GreetingsHelper.showGreetings())
             )
         eventRepository.close()
         return showGlance

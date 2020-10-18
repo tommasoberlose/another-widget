@@ -9,6 +9,7 @@ import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Actions
+import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
@@ -78,16 +79,26 @@ class NotificationListener : NotificationListenerService() {
                 action = Actions.ACTION_CLEAR_NOTIFICATION
             }
             cancel(PendingIntent.getBroadcast(context, 28943, intent, 0))
-            setExact(
-                AlarmManager.RTC,
-                Calendar.getInstance().timeInMillis + 30 * 1000,
-                PendingIntent.getBroadcast(
-                    context,
-                    5,
-                    intent,
-                    0
+            val timeoutPref = Constants.GlanceNotificationTimer.fromInt(Preferences.hideNotificationAfter)
+            if (timeoutPref != Constants.GlanceNotificationTimer.WHEN_DISMISSED) {
+                setExact(
+                    AlarmManager.RTC,
+                    Calendar.getInstance().timeInMillis + when (timeoutPref) {
+                        Constants.GlanceNotificationTimer.HALF_MINUTE -> 30 * 1000
+                        Constants.GlanceNotificationTimer.ONE_MINUTE -> 60 * 1000
+                        Constants.GlanceNotificationTimer.FIVE_MINUTES -> 5 * 60 * 1000
+                        Constants.GlanceNotificationTimer.TEN_MINUTES -> 10 * 60 * 1000
+                        Constants.GlanceNotificationTimer.FIFTEEN_MINUTES -> 15 * 60 * 1000
+                        else -> 0
+                    },
+                    PendingIntent.getBroadcast(
+                        context,
+                        5,
+                        intent,
+                        0
+                    )
                 )
-            )
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Add Widget</string>
 
@@ -228,6 +228,33 @@
     <string name="action_disconnect">Disconnect</string>
     <string name="applications_filter_title">Applications</string>
     <string name="applications_filter_subtitle">Choose which notifications to view</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>Have a good day!</item>
+        <item>Good morning!</item>
+        <item>Ready to go?</item>
+        <item>Rise and shine.</item>
+        <item>Don\'t forget your breakfast!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Good evening!</item>
+        <item>How did your day go?</item>
+        <item>How was your day?</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Sleep well!</item>
+        <item>See you tomorrow!</item>
+        <item>Good night!</item>
+        <item>Don\'t stay up too late!</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Hide the notification after</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>it\'s dismissed</item>
+    </string-array>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="add_widget">Aggiungi</string>
 
     <!-- Display -->
@@ -211,6 +211,28 @@
     <string name="action_disconnect">Scollega</string>
     <string name="applications_filter_title">Applicazioni</string>
     <string name="applications_filter_subtitle">Scegli le notifiche che vuoi vedere</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>Buona giornata!</item>
+        <item>Non dimenticare la colazione!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Buona serata!</item>
+        <item>Com\'è andata la giornata?</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Non fare troppo tardi!</item>
+        <item>A domani!</item>
+        <item>Buonanotte!</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Nascondi la notifica dopo</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 secondi</item>
+        <item>1 minuto</item>
+        <item>5 minuti</item>
+        <item>10 minuti</item>
+        <item>15 minuti</item>
+        <item>che viene eliminata</item>
+    </string-array>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>
