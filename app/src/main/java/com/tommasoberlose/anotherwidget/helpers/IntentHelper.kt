@@ -66,7 +66,6 @@ object IntentHelper {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                 } catch (e: Exception) {
-                    context.toast(context.getString(R.string.error_opening_app))
                     Intent()
                 }
             }
@@ -96,7 +95,6 @@ object IntentHelper {
                         data = calendarUri
                     }
                 } catch (e: Exception) {
-                    context.toast(context.getString(R.string.error_opening_app))
                     Intent()
                 }
             }
@@ -181,7 +179,6 @@ object IntentHelper {
                         addCategory(Intent.CATEGORY_LAUNCHER)
                     }
                 } catch (e: Exception) {
-                    context.toast(context.getString(R.string.error_opening_app))
                     Intent()
                 }
             }
@@ -204,7 +201,6 @@ object IntentHelper {
                         addCategory(Intent.CATEGORY_LAUNCHER)
                     }
                 } catch (e: Exception) {
-                    context.toast(context.getString(R.string.error_opening_app))
                     Intent()
                 }
             }
@@ -218,7 +214,6 @@ object IntentHelper {
                 addCategory(Intent.CATEGORY_LAUNCHER)
             }
         } catch (e: Exception) {
-            context.toast(context.getString(R.string.error_opening_app))
             Intent()
         }
     }
@@ -230,7 +225,6 @@ object IntentHelper {
                 addCategory(Intent.CATEGORY_LAUNCHER)
             }
         } catch (e: Exception) {
-            context.toast(context.getString(R.string.error_opening_app))
             Intent()
         }
     }

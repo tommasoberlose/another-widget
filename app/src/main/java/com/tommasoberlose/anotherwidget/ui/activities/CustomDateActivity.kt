@@ -90,7 +90,7 @@ class CustomDateActivity  : AppCompatActivity() {
                         ERROR_STRING
                     }
                 } else {
-                    "__"
+                    ERROR_STRING
                 }
 
                 if (viewModel.isDateCapitalize.value == true) {
@@ -102,7 +102,6 @@ class CustomDateActivity  : AppCompatActivity() {
                 }
 
                 withContext(Dispatchers.Main) {
-                    action_save.isVisible = text != ERROR_STRING
                     loader.visibility = View.INVISIBLE
                     date_format_value.text = text
                 }
@@ -143,15 +142,6 @@ class CustomDateActivity  : AppCompatActivity() {
             onBackPressed()
         }
 
-        action_save.setOnClickListener {
-            Preferences.blockingBulk {
-                dateFormat = viewModel.dateInput.value ?: ""
-                isDateCapitalize = viewModel.isDateCapitalize.value ?: true
-                isDateUppercase = viewModel.isDateUppercase.value ?: false
-            }
-            finish()
-        }
-
         action_capitalize.setOnClickListener {
             when {
                 viewModel.isDateUppercase.value == true -> {
@@ -177,6 +167,15 @@ class CustomDateActivity  : AppCompatActivity() {
         action_date_format_info.setOnClickListener {
             openURI("https://developer.android.com/reference/java/text/SimpleDateFormat")
         }
+    }
+
+    override fun onBackPressed() {
+        Preferences.blockingBulk {
+            dateFormat = viewModel.dateInput.value ?: ""
+            isDateCapitalize = viewModel.isDateCapitalize.value ?: true
+            isDateUppercase = viewModel.isDateUppercase.value ?: false
+        }
+        super.onBackPressed()
     }
 
     companion object {

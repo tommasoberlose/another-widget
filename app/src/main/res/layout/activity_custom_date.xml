@@ -29,7 +29,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:layout_marginTop="2dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/action_back"
                     app:tint="@color/colorPrimaryText"
@@ -39,6 +40,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/custom_date_format"
+                    android:paddingStart="8dp"
                     android:layout_marginEnd="48dp"
                     android:gravity="center"
                     style="@style/AnotherWidget.Main.Title"/>
@@ -102,11 +104,16 @@
             app:cardElevation="2dp"
             app:cardCornerRadius="0dp"
             app:cardBackgroundColor="@color/colorPrimary">
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp">
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="48dp"
                     android:id="@+id/date_format_value"
                     android:textAppearance="@style/AnotherWidget.Settings.Title"
@@ -115,31 +122,25 @@
                     android:textSize="18sp"
                     app:textAllCaps="false"
                     android:gravity="center_vertical|start"
-                    android:paddingEnd="32dp"
-                    android:layout_centerVertical="true"
                     android:textAlignment="viewStart"
                     android:maxLines="1"
                     android:lines="1"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginRight="32dp" />
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="5dp"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_capitalize"
-                    android:layout_alignParentEnd="true"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:tint="@color/colorPrimaryText"
                     android:layout_marginEnd="20dp"
                     android:id="@+id/action_capitalize" />
-            </RelativeLayout>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -160,19 +161,6 @@
                 android:paddingTop="16dp"
                 android:clipToPadding="false"
                 android:id="@+id/list_view" />
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:layout_margin="16dp"
-                app:backgroundTint="@color/colorAccent"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/action_save"
-                android:layout_alignParentRight="true"
-                android:text="@string/action_save" />
         </RelativeLayout>
     </LinearLayout>
 
