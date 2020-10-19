@@ -106,7 +106,7 @@
     <string name="weather_warning">La météo de Google Awareness est obsolète. Il faut désormais une clé API d'un fournisseur tiers pour afficher la météo dans le widget.</string>
     <string name="settings_weather_icon_pack_title">Pack d\'icônes</string>
     <string name="settings_weather_icon_pack_default">Pack d\'icônes %d</string>
-    <string name="background_location_warning">Lorsque la Géolocalisation est sélectionnée, nous collectons les données de localisation pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas ces données autrement que mentionné.</string>
+    <string name="background_location_warning">Lorsque Géolocalisation est sélectionné, nous collectons les données de localisation pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas ces données autrement que mentionné.</string>
     <string name="settings_weather_provider_api">Fournisseur météo</string>
     
     <string name="weather_provider_info_open_weather_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
