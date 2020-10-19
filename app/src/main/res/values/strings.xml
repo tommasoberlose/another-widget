@@ -108,7 +108,7 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 hours</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
     <string name="settings_custom_location_title">Location</string>
-    <string name="custom_location_gps">Geolocation by GPS</string>
+    <string name="custom_location_gps">Geolocation</string>
     <string name="show_weather_visible">Weather info is visible</string>
     <string name="show_weather_not_visible">Weather info is hidden</string>
     <string name="settings_weather_app_title">Tap on weather opens</string>
@@ -120,7 +120,7 @@
     <string name="weather_warning">Google Awareness API is now deprecated. It is now required to have an API key from a third-party provider to show weather in the widget.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
-    <string name="background_location_warning">When GPS is activated, we collect location data to update weather info even when the app is closed.\nWe will not use these data otherwise.</string>
+    <string name="background_location_warning">When Geolocation is selected, we collect location data to update weather info even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
     <string name="settings_weather_provider_api">Weather provider</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
@@ -263,7 +263,7 @@
     <string name="loading_text">Loading Data...</string>
     <string name="error_opening_app">Error opening app.</string>
     <string name="default_name">Default app</string>
-    <string name="action_save" translatable="false">OK</string>
+    <string name="action_save">SAVE</string>
     <string name="settings_visible">Visible</string>
     <string name="settings_not_visible">Hidden</string>
     <string name="support_translations_title">Help with translations</string>
