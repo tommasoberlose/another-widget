@@ -238,7 +238,7 @@
         <item>Good night!</item>
         <item>Sleep well!</item>
         <item>Sweet dreams till sunbeams find you!</item>
-        <item>See you tomorrow.</item>
+        <item>See you tomorrow...</item>
         <item>Don\'t stay up too late!</item>
     </string-array>
     <string name="glance_notification_hide_timeout_title">Hide the notification after</string>
