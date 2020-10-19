@@ -230,8 +230,8 @@
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
         <item>Good evening!</item>
         <item>How did your day go?</item>
-        <item>How was your day?</item>
-        <item>Hope your day was good.</item>
+        <item>Did you have a nice day?</item>
+        <item>After effort comes comfort.</item>
         <item>Don\'t forget to have dinner!</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
