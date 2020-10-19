@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="add_widget">Ajouter</string>
 
     <!-- Display -->
@@ -103,15 +103,7 @@
     <string name="settings_weather_provider_api_key_subtitle_not_set">Le fournisseur météo doit être configuré.</string>
     <string name="api_key_hint">Clé API OpenWeatherMap</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">La météo de Google Awareness est obsolète. Il faut désormais une clé API OpenWeather pour afficher la météo dans le widget.</string>
-    <string name="api_key_title_1">Inscrivez-vous sur OpenWeatherMap</string>
-    <string name="api_key_subtitle_1">Créez un compte gratuit sur OpenWeatherMap. \nCela ne prendra que quelques minutes.</string>
-    <string name="api_key_title_2">Copiez votre clé API</string>
-    <string name="api_key_subtitle_2">Recherchez la clé API dans vos paramètres du compte et copiez la clé par défaut.</string>
-    <string name="api_key_title_3">Saisissez la clé API dans l\'app</string>
-    <string name="api_key_subtitle_3">Collez la clé dans le champ ci-dessus et enregistrez-la. Une fois la clé activée, la météo deviendra visible.</string>
-    <string name="action_open_provider">Aller sur OpenWeatherMap.org</string>
-    <string name="api_key_info_all_set">Cela peut prendre jusqu\'à 10 minutes avant que votre clé API soit activée. La météo sera mise à jour dès qu\'elle sera disponible !</string>
+    <string name="weather_warning">La météo de Google Awareness est obsolète. Il faut désormais une clé API d'un fournisseur tiers pour afficher la météo dans le widget.</string>
     <string name="settings_weather_icon_pack_title">Pack d\'icônes</string>
     <string name="settings_weather_icon_pack_default">Pack d\'icônes %d</string>
     <string name="background_location_warning">Lorsque le GPS est activé, nous collectons les données GPS pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas ces données autrement que mentionné.</string>
@@ -145,7 +137,7 @@
     <string name="us_only_message">USA uniquement</string>
     <string name="celsius_only_message">Unité Celsius uniquement</string>
     <string name="weather_select_a_provider">Sélectionner un fournisseur</string>
-    <string name="weather_provider_activity_subtitle">Sélectionnez un fournisseur météo dans la liste.\nCertains fournisseurs ont besoin d\'un compte\npersonnel gratuit pour fonctionner,\nmais ils sont généralement plus précis.</string>
+    <string name="weather_provider_activity_subtitle">Sélectionnez un fournisseur météo dans la liste.\nCertains fournisseurs ont besoin d\'un\ncompte personnel gratuit pour fonctionner,\nmais ils sont généralement plus précis.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Horloge</string>
@@ -171,17 +163,17 @@
     <string name="settings_show_music_title">Musique en cours de lecture</string>
     <string name="settings_request_notification_access">Nous avons besoin d\'accéder aux notifications pour vérifier la musique en cours de lecture.</string>
     <string name="settings_request_last_notification_access">Nous avons besoin d\'accéder aux notifications pour vérifier vos dernières notifications.</string>
-    <string name="settings_request_fitness_access">Nous avons besoin de quelques autorisations pour obtenir vos nombres de pas quotidiens depuis Google Fit.</string>
+    <string name="settings_request_fitness_access">Nous avons besoin de quelques autorisations pour obtenir votre nombre de pas depuis Google Fit.</string>
     <string name="title_show_glance">Afficher les coups d\'œil</string>
     <string name="description_show_glance_visible">Services activés</string>
     <string name="description_show_glance_not_visible">Services désactivés</string>
     <string name="settings_sort_glance_providers_title">Priorité des sources de données</string>
     <string name="settings_sort_glance_providers_subtitle">Glissez-déposez les fournisseurs de la liste pour modifier l\'ordre de priorité de leur affichage.</string>
     <string name="settings_custom_notes_title">Notes personnalisées</string>
-    <string name="settings_low_battery_level_title">Batterie</string>
     <string name="settings_daily_steps_title">Nombre de pas</string>
-    <string name="battery_low_warning">Batterie faible</string>
     <string name="daily_steps_counter">%d pas jusqu\'à présent</string>
+    <string name="settings_low_battery_level_title">Batterie</string>
+    <string name="battery_low_warning">Batterie faible</string>
     <string name="charging">Batterie en charge</string>
     <string name="providers">Fournisseurs</string>
     <string name="glance_info">Les coups d\'œil n\'apparaîtront que si aucun événement n\'est affiché et uniquement lorsque certaines conditions sont vérifiées.</string>
@@ -190,7 +182,7 @@
         
     <string name="settings_show_music_subtitle">Nous utilisons la notification des lecteurs de musique pour afficher la chanson en cours de lecture.</string>
     <string name="settings_low_battery_level_subtitle">Soyez averti lorsque la batterie de l\'appareil est faible ou en charge.</string>
-    <string name="settings_daily_steps_subtitle">Affiche vos pas quotidiens pendant un bref instant après avoir fini une marche ou une course.</string>
+    <string name="settings_daily_steps_subtitle">Affiche votre nombre de pas pendant un bref instant après avoir fini une marche ou une course.</string>
     <string name="settings_show_next_alarm_subtitle">Affiche votre prochaine alarme.\nVérifiez si votre app d\'horloge par défaut est la seule à définir les alarmes sur votre appareil.</string>
     <string name="settings_show_next_alarm_app_title">Alarme réglée par %s</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">La prochaine alarme semble erronée</string>
@@ -206,6 +198,38 @@
     <string name="action_disconnect">DÉCONNECTER</string>
     <string name="applications_filter_title">Applications</string>
     <string name="applications_filter_subtitle">Choisissez les notifications à afficher</string>
+    
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>Bonjour !</item>
+        <item>Bonne journée !</item>
+        <item>Prêt à partir ?</item>
+        <item>Tu brilles de mille feux.</item>
+        <item>N\'oublie pas ton petit-déjeuner!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Bonsoir !</item>
+        <item>Comment a été ta journée ?</item>
+        <item>Tu as passé une bonne journée ?</item>
+        <item>Après l'effort, le réconfort.</item>
+        <item>N\'oublie pas de dîner !</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Bonne nuit !</item>
+        <item>Dors bien !</item>
+        <item>Fais de beaux rêves !</item>
+        <item>À demain...</item>
+        <item>Ne te couche pas trop tard !</item>
+    </string-array>
+    
+    <string name="glance_notification_hide_timeout_title">Cacher la notification après</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 secondes</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>Suppression</item>
+    </string-array>
 
     <!-- Settings -->
     <string name="action_share">Partager</string>
@@ -241,15 +265,15 @@
     <string name="settings_feedback_title">Commentaires et suggestions</string>
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
     <string name="xiaomi_warning_message">Veuillez activer l\'option \"Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\" dans la section \"Autres autorisations\" des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune autre app en tapant sur le widget.</string>
-    <string name="action_ignore">Ignorer</string>
-    <string name="action_grant_permission">Ouvrir les Paramètres</string>
+    <string name="action_ignore">IGNORER</string>
+    <string name="action_grant_permission">PARAMÉTRER</string>
     <string name="settings_title">Paramètres</string>
     <string name="style_header">Style</string>
     <string name="actions_header">Actions</string>
     <string name="provider_header">Configuration</string>
     <string name="appearance_header">Apparence</string>
     <string name="preferences_header">Préférences</string>
-    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]> (EN)</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Légal et confidentialité]]> (Anglais)</string>
     <string name="settings_privacy_policy_subtitle">Voir la politique de confidentialité de l\'app</string>
     <string name="project_header">Projet open-source</string>
     <string name="information_header">Informations</string>
@@ -268,6 +292,6 @@
     <string name="settings_title_integrations">Intégrations</string>
     <string name="label_count_installed_integrations">%d intégrations installées</string>
     <string name="nothing">Rien</string>
-    <string name="action_dismiss">Refuser</string>
-    <string name="action_accept">Accepter</string>
+    <string name="action_dismiss">REFUSER</string>
+    <string name="action_accept">ACCEPTER</string>
 </resources>
