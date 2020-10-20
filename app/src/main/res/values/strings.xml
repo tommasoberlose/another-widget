@@ -216,8 +216,8 @@
     <string name="google_fit_account_connected">Account linked</string>
     <string name="google_fit_account_not_connected">Account not linked</string>
     <string name="google_fit">Google Fit</string>
-    <string name="action_connect">CONNECT</string>
-    <string name="action_disconnect">DISCONNECT</string>
+    <string name="action_connect">Connect</string>
+    <string name="action_disconnect">Disconnect</string>
     <string name="applications_filter_title">Applications</string>
     <string name="applications_filter_subtitle">Choose which notifications to view</string>
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
@@ -287,8 +287,8 @@
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Devices</string>
     <string name="xiaomi_warning_message">Enable the permission to display pop-up windows when running in the background inside the "Other permission" section of the app settings. Otherwise, you will not able to open any applications tapping on the widget.</string>
-    <string name="action_ignore">IGNORE</string>
-    <string name="action_grant_permission">GRANT PERMISSION</string>
+    <string name="action_ignore">Ignore</string>
+    <string name="action_grant_permission">Grant permission</string>
     <string name="settings_title">Settings</string>
     <string name="style_header">Style</string>
     <string name="actions_header">Actions</string>
@@ -314,6 +314,6 @@
     <string name="settings_title_integrations">Integrations</string>
     <string name="label_count_installed_integrations">%d installed integrations</string>
     <string name="nothing">Nothing</string>
-    <string name="action_dismiss">DISMISS</string>
-    <string name="action_accept">ACCEPT</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_accept">Accept</string>
 </resources>
