@@ -233,6 +233,10 @@
         <item>15 minuti</item>
         <item>che viene eliminata</item>
     </string-array>
+    <string name="settings_show_events_as_glance_provider_title">Eventi</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Mostra il dettaglio dell\'evento avendo sempre la data visibile.</string>
+    <string name="settings_show_events_as_glance_provider_error">Attiva la visualizzazione degli eventi e concedi il permesso necessario per accedere al calendario.</string>
+    <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
     <string name="action_share">Condividi</string>

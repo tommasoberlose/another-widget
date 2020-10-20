@@ -217,8 +217,8 @@
     <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong</string>
     <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct</string>
-    <string name="settings_show_notifications_title">Lastest notifications</string>
-    <string name="settings_show_notifications_subtitle">Check out the lastest notifications that showed up on your device.</string>
+    <string name="settings_show_notifications_title">Latest notifications</string>
+    <string name="settings_show_notifications_subtitle">Check out the latest notifications that showed up on your device.</string>
     <string name="settings_show_greetings_title">Greetings</string>
     <string name="settings_show_greetings_subtitle">View some cool phrase when you don\'t expect it.</string>
     <string name="google_fit_account_connected">Account connected</string>
@@ -255,6 +255,10 @@
         <item>15 minutes</item>
         <item>it\'s dismissed</item>
     </string-array>
+    <string name="settings_show_events_as_glance_provider_title">Events</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">View a sneak peek of your calendar events and always show the current date.</string>
+    <string name="settings_show_events_as_glance_provider_error">Please enable the show of the events in the calendar tab and grant the required permission.</string>
+    <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

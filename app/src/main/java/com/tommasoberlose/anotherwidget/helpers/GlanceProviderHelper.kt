@@ -1,5 +1,6 @@
 package com.tommasoberlose.anotherwidget.helpers
 
+import android.Manifest
 import android.content.Context
 import android.util.Log
 import com.tommasoberlose.anotherwidget.R
@@ -7,6 +8,7 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.GlanceProvider
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.checkIfFitInstalled
 import java.util.ArrayList
 
@@ -20,7 +22,7 @@ object GlanceProviderHelper {
             }
             .toTypedArray()
 
-        providers.sortWith(Comparator { p1, p2 ->
+        return ArrayList(providers.filter { enabledProviders.contains(it.id) }.sortedWith(Comparator { p1, p2 ->
             when {
                 enabledProviders.contains(p1.id) && enabledProviders.contains(p2.id) -> {
                     enabledProviders.indexOf(p1.id).compareTo(enabledProviders.indexOf(p2.id))
@@ -35,8 +37,7 @@ object GlanceProviderHelper {
                     p1.id.compareTo(p2.id)
                 }
             }
-        })
-        return ArrayList(providers.toList())
+        }) + providers.filter { !enabledProviders.contains(it.id) })
     }
 
     fun getGlanceProviderById(context: Context, providerId: Constants.GlanceProviderId): GlanceProvider? {
@@ -83,10 +84,16 @@ object GlanceProviderHelper {
                     R.drawable.round_history_edu
                 )
             }
+            Constants.GlanceProviderId.EVENTS -> {
+                GlanceProvider(providerId.id,
+                    context.getString(R.string.settings_show_events_as_glance_provider_title),
+                    R.drawable.round_event_note
+                )
+            }
         }
     }
 
-    fun saveGlanceProviderOrder(list: ArrayList<Constants.GlanceProviderId>) {
+    fun saveGlanceProviderOrder(list: List<Constants.GlanceProviderId>) {
         Preferences.enabledGlanceProviderOrder = list.joinToString(separator = ",")
     }
 
@@ -94,7 +101,7 @@ object GlanceProviderHelper {
         val eventRepository = EventRepository(context)
         BatteryHelper.updateBatteryInfo(context)
 
-        val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents)
+        val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents || Preferences.showEventsAsGlanceProvider)
             && (
                 (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) ||
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||
@@ -102,7 +109,9 @@ object GlanceProviderHelper {
                 (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                 (Preferences.customNotes.isNotEmpty()) ||
                 (Preferences.showDailySteps && Preferences.googleFitSteps > 0) ||
-                (Preferences.showGreetings && GreetingsHelper.showGreetings())
+                (Preferences.showGreetings && GreetingsHelper.showGreetings()) ||
+                        (Preferences.showEventsAsGlanceProvider && Preferences.showEvents && context.checkGrantedPermission(
+                            Manifest.permission.READ_CALENDAR) && eventRepository.getNextEvent() != null)
             )
         eventRepository.close()
         return showGlance

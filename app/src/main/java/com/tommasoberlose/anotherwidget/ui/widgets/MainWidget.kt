@@ -172,7 +172,7 @@ class MainWidget : AppWidgetProvider() {
                 val nextEvent = eventRepository.getNextEvent()
                 val nextAlarm = AlarmHelper.getNextAlarm(context)
 
-                if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
+                if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                     if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
                         views.setImageViewBitmap(
                             R.id.action_next_rect,
@@ -378,6 +378,26 @@ class MainWidget : AppWidgetProvider() {
                                     break@loop
                                 }
                             }
+                            Constants.GlanceProviderId.EVENTS -> {
+                                if (Preferences.showEventsAsGlanceProvider&& Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
+                                    val pIntentDetail = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getEventIntent(
+                                            context,
+                                            nextEvent,
+                                            forceEventDetails = true
+                                        ),
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                    )
+                                    views.setOnClickPendingIntent(
+                                        R.id.second_row_rect,
+                                        pIntentDetail
+                                    )
+                                    showSomething = true
+                                    break@loop
+                                }
+                            }
                         }
                     }
 
@@ -552,7 +572,7 @@ class MainWidget : AppWidgetProvider() {
             val nextEvent = eventRepository.getNextEvent()
             val nextAlarm = AlarmHelper.getNextAlarm(context)
 
-            if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
+            if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
                 v.action_next.isVisible =
                     Preferences.showNextEvent && eventRepository.getEventsCount() > 1
@@ -761,6 +781,35 @@ class MainWidget : AppWidgetProvider() {
                                 v.next_event_date.text = greetingsText
                                 v.next_event_date.maxLines = 2
                                 v.second_row_icon.isVisible = false
+                                showSomething = true
+                                break@loop
+                            }
+                        }
+                        Constants.GlanceProviderId.EVENTS -> {
+                            if (Preferences.showEventsAsGlanceProvider && Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
+                                v.next_event_date.text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
+                                     if (!nextEvent.allDay) {
+                                        SettingsStringHelper.getDifferenceText(
+                                            context,
+                                            now.timeInMillis,
+                                            nextEvent.startDate
+                                        )
+                                            .toLowerCase(Locale.getDefault())
+                                    } else {
+                                        SettingsStringHelper.getAllDayEventDifferenceText(
+                                            context,
+                                            now.timeInMillis,
+                                            nextEvent.startDate
+                                        ).toLowerCase(Locale.getDefault())
+                                    }
+                                } else "").trimEnd()
+                                v.second_row_icon.isVisible = true
+                                v.second_row_icon.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        R.drawable.round_today
+                                    )
+                                )
                                 showSomething = true
                                 break@loop
                             }

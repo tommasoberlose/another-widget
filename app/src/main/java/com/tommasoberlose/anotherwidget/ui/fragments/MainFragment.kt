@@ -365,7 +365,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             badgeGravity = BadgeDrawable.TOP_END
         }?.isVisible = ((Preferences.showMusic || Preferences.showNotifications) && !ActiveNotificationsHelper.checkNotificationAccess(requireContext())) ||
                 (Preferences.showDailySteps && !(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION))) ||
-                (AlarmHelper.isAlarmProbablyWrong(requireContext()))
+                (AlarmHelper.isAlarmProbablyWrong(requireContext())) ||
+                (Preferences.showEventsAsGlanceProvider && (!Preferences.showEvents || !requireContext().checkGrantedPermission(Manifest.permission.READ_CALENDAR)))
     }
 
     override fun onResume() {
@@ -396,6 +397,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     }
 
     class UpdateUiMessageEvent
+    class ChangeTabEvent(val page: Int)
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(ignore: UpdateUiMessageEvent?) {
@@ -405,6 +407,13 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             withContext(Dispatchers.Main) {
                 updateUI()
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: ChangeTabEvent?) {
+        event?.let {
+            pager.setCurrentItem(event.page, true)
         }
     }
 }

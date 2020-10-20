@@ -141,6 +141,8 @@ object Preferences : KotprefModel() {
     var musicPlayersFilter by stringPref(default = "")
     var appNotificationsFilter by stringPref(default = "")
 
+    var showEventsAsGlanceProvider by booleanPref(default = false)
+
     // Integrations
     var installedIntegrations by intPref(default = 0)
 }

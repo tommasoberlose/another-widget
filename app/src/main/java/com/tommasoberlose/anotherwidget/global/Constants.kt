@@ -32,7 +32,8 @@ object Constants {
         CUSTOM_INFO("CUSTOM_INFO"),
         GOOGLE_FIT_STEPS("GOOGLE_FIT_STEPS"),
         NOTIFICATIONS("NOTIFICATIONS"),
-        GREETINGS("GREETINGS");
+        GREETINGS("GREETINGS"),
+        EVENTS("EVENTS");
 
         companion object {
             private val map = GlanceProviderId.values().associateBy(GlanceProviderId::id)

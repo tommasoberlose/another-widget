@@ -33,9 +33,9 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_LOCALE_CHANGED,
             Intent.ACTION_DATE_CHANGED,
             Actions.ACTION_CALENDAR_UPDATE -> {
-                CalendarHelper.updateEventList(context)
                 ActiveNotificationsHelper.clearLastNotification(context)
                 MediaPlayerHelper.updatePlayingMediaInfo(context)
+                CalendarHelper.updateEventList(context)
             }
 
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",

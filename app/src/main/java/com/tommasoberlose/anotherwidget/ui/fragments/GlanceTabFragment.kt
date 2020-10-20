@@ -15,7 +15,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
@@ -51,7 +50,6 @@ import kotlinx.android.synthetic.main.fragment_glance_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
-import java.util.*
 
 
 class GlanceTabFragment : Fragment() {
@@ -63,6 +61,7 @@ class GlanceTabFragment : Fragment() {
     private var dialog: GlanceSettingsDialog? = null
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: MainViewModel
+    private lateinit var list: ArrayList<Constants.GlanceProviderId>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +82,8 @@ class GlanceTabFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        list = GlanceProviderHelper.getGlanceProviders(requireContext())
 
         return binding.root
     }
@@ -107,7 +108,9 @@ class GlanceTabFragment : Fragment() {
                     .clicked(R.id.item) {
                         if (Preferences.showGlance) {
                             if (provider == Constants.GlanceProviderId.CUSTOM_INFO) {
-                                CustomNotesDialog(requireContext()).show()
+                                CustomNotesDialog(requireContext()){
+                                    adapter.notifyItemRangeChanged(0, adapter.data.size)
+                                }.show()
                             } else {
                                 dialog = GlanceSettingsDialog(requireActivity(), provider) {
                                     adapter.notifyItemRangeChanged(0, adapter.data.size)
@@ -119,6 +122,7 @@ class GlanceTabFragment : Fragment() {
                             }
                         }
                     }
+                var isVisible = false
                 when (provider) {
                     Constants.GlanceProviderId.PLAYING_SONG -> {
                         when {
@@ -129,16 +133,19 @@ class GlanceTabFragment : Fragment() {
                                 injector.text(R.id.label,
                                     if (Preferences.showMusic) getString(R.string.settings_visible) else getString(
                                         R.string.settings_not_visible))
+                                isVisible = Preferences.showMusic
                             }
                             Preferences.showMusic -> {
                                 injector.visibility(R.id.error_icon, View.VISIBLE)
                                 injector.visibility(R.id.info_icon, View.GONE)
                                 injector.text(R.id.label, getString(R.string.settings_not_visible))
+                                isVisible = false
                             }
                             else -> {
                                 injector.visibility(R.id.error_icon, View.GONE)
                                 injector.visibility(R.id.info_icon, View.VISIBLE)
                                 injector.text(R.id.label, getString(R.string.settings_not_visible))
+                                isVisible = false
                             }
                         }
                     }
@@ -156,6 +163,8 @@ class GlanceTabFragment : Fragment() {
                             if (!(Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(
                                     requireContext()))
                             ) View.VISIBLE else View.GONE)
+                        isVisible = !(Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(
+                            requireContext()))
                     }
                     Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                         injector.text(R.id.label,
@@ -163,6 +172,7 @@ class GlanceTabFragment : Fragment() {
                                 R.string.settings_not_visible))
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
+                        isVisible = Preferences.showBatteryCharging
                     }
                     Constants.GlanceProviderId.NOTIFICATIONS -> {
                         when {
@@ -172,16 +182,19 @@ class GlanceTabFragment : Fragment() {
                                 injector.text(R.id.label,
                                     if (Preferences.showNotifications) getString(
                                         R.string.settings_visible) else getString(R.string.settings_not_visible))
+                                isVisible = Preferences.showNotifications
                             }
                             Preferences.showNotifications -> {
                                 injector.visibility(R.id.error_icon, View.VISIBLE)
                                 injector.visibility(R.id.info_icon, View.GONE)
                                 injector.text(R.id.label, getString(R.string.settings_not_visible))
+                                isVisible = false
                             }
                             else -> {
                                 injector.visibility(R.id.error_icon, View.GONE)
                                 injector.visibility(R.id.info_icon, View.VISIBLE)
                                 injector.text(R.id.label, getString(R.string.settings_not_visible))
+                                isVisible = false
                             }
                         }
                     }
@@ -191,6 +204,7 @@ class GlanceTabFragment : Fragment() {
                                 R.string.settings_not_visible))
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
+                        isVisible = Preferences.showGreetings
                     }
                     Constants.GlanceProviderId.CUSTOM_INFO -> {
                         injector.text(R.id.label,
@@ -198,6 +212,7 @@ class GlanceTabFragment : Fragment() {
                                 R.string.settings_not_visible))
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
+                        isVisible = Preferences.customNotes != ""
                     }
                     Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                         val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
@@ -209,19 +224,34 @@ class GlanceTabFragment : Fragment() {
                                     R.string.settings_not_visible))
                             injector.visibility(R.id.error_icon, View.GONE)
                             injector.visibility(R.id.info_icon, View.VISIBLE)
+                            isVisible = Preferences.showDailySteps
                         } else if (Preferences.showDailySteps) {
                             ActivityDetectionReceiver.unregisterFence(requireContext())
                             injector.visibility(R.id.error_icon, View.VISIBLE)
                             injector.visibility(R.id.info_icon, View.GONE)
                             injector.text(R.id.label, getString(R.string.settings_not_visible))
+                            isVisible = false
                         } else {
                             ActivityDetectionReceiver.unregisterFence(requireContext())
                             injector.text(R.id.label, getString(R.string.settings_not_visible))
                             injector.visibility(R.id.error_icon, View.GONE)
                             injector.visibility(R.id.info_icon, View.VISIBLE)
+                            isVisible = false
                         }
                     }
+                    Constants.GlanceProviderId.EVENTS -> {
+                        isVisible = Preferences.showEventsAsGlanceProvider && Preferences.showEvents && requireContext().checkGrantedPermission(Manifest.permission.READ_CALENDAR)
+                        injector.text(R.id.label,
+                            if (isVisible) getString(R.string.settings_visible) else getString(
+                                R.string.settings_not_visible))
+                        injector.visibility(R.id.error_icon, if (isVisible) View.GONE else View.VISIBLE)
+                        injector.visibility(R.id.info_icon, if (isVisible) View.VISIBLE else View.GONE)
+                    }
                 }
+
+                injector.alpha(R.id.title, if (isVisible) 1f else .25f)
+                injector.alpha(R.id.label, if (isVisible) 1f else .25f)
+                injector.alpha(R.id.icon, if (isVisible) 1f else .25f)
             }
             .attachTo(providers_list)
 
@@ -230,8 +260,6 @@ class GlanceTabFragment : Fragment() {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 0
             ) {
-
-                val list = GlanceProviderHelper.getGlanceProviders(requireContext())
 
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -244,10 +272,6 @@ class GlanceTabFragment : Fragment() {
                     return true
                 }
 
-                override fun isItemViewSwipeEnabled(): Boolean {
-                    return false
-                }
-
                 override fun onMoved(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -257,12 +281,26 @@ class GlanceTabFragment : Fragment() {
                     x: Int,
                     y: Int
                 ) {
-                    with(list[fromPos]) {
-                        list[fromPos] = list[toPos]
-                        list[toPos] = this
+                    with(list[toPos]) {
+                        list[toPos] = list[fromPos]
+                        list[fromPos] = this
                     }
-                    GlanceProviderHelper.saveGlanceProviderOrder(list)
                     super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
+                }
+
+                override fun isItemViewSwipeEnabled(): Boolean {
+                    return false
+                }
+
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
+                    super.clearView(recyclerView, viewHolder)
+                    GlanceProviderHelper.saveGlanceProviderOrder(
+                        list
+                    )
+                    adapter.updateData(list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) })
                 }
 
                 override fun onChildDraw(
@@ -305,10 +343,7 @@ class GlanceTabFragment : Fragment() {
             })
 
         mIth.attachToRecyclerView(providers_list)
-        adapter.updateData(
-            GlanceProviderHelper.getGlanceProviders(requireContext())
-                .mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) }
-        )
+        adapter.updateData(list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) })
         providers_list.isNestedScrollingEnabled = false
 
         setupListener()
@@ -337,6 +372,11 @@ class GlanceTabFragment : Fragment() {
 
         show_glance_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showGlance = enabled
+        }
+
+        action_show_glance.setOnLongClickListener {
+            Preferences.enabledGlanceProviderOrder = ""
+            true
         }
     }
 

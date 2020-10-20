@@ -9,6 +9,7 @@ import com.chibatching.kotpref.Kotpref
 import com.chibatching.kotpref.blockingBulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.receivers.NotificationListener
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 
 object ActiveNotificationsHelper {
     fun showLastNotification(): Boolean {
@@ -23,6 +24,7 @@ object ActiveNotificationsHelper {
             remove(Preferences::lastNotificationPackage)
             remove(Preferences::lastNotificationIcon)
         }
+        MainWidget.updateWidget(context)
     }
 
     fun checkNotificationAccess(context: Context): Boolean {

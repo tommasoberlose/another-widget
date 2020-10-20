@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.EventLog
 import android.util.Log
 import android.view.View
 import androidx.core.app.NotificationManagerCompat
@@ -30,9 +31,11 @@ import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.AppNotificationsFilterActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity
+import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.android.synthetic.main.glance_provider_settings_layout.view.*
 import kotlinx.coroutines.*
+import org.greenrobot.eventbus.EventBus
 
 class GlanceSettingsDialog(val context: Activity, val provider: Constants.GlanceProviderId, private val statusCallback: (() -> Unit)?) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
@@ -48,6 +51,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> context.getString(R.string.settings_daily_steps_title)
             Constants.GlanceProviderId.NOTIFICATIONS -> context.getString(R.string.settings_show_notifications_title)
             Constants.GlanceProviderId.GREETINGS -> context.getString(R.string.settings_show_greetings_title)
+            Constants.GlanceProviderId.EVENTS -> context.getString(R.string.settings_show_events_as_glance_provider_title)
         }
 
         /* SUBTITLE*/
@@ -59,6 +63,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> context.getString(R.string.settings_daily_steps_subtitle)
             Constants.GlanceProviderId.NOTIFICATIONS -> context.getString(R.string.settings_show_notifications_subtitle)
             Constants.GlanceProviderId.GREETINGS -> context.getString(R.string.settings_show_greetings_subtitle)
+            Constants.GlanceProviderId.EVENTS -> context.getString(R.string.settings_show_events_as_glance_provider_subtitle)
         }
 
         /* SONG */
@@ -124,6 +129,13 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             view.divider.isVisible = false
         }
 
+        /* EVENTS */
+        if (provider == Constants.GlanceProviderId.EVENTS) {
+            view.header.isVisible = false
+            view.divider.isVisible = false
+            checkCalendarConfig(view)
+        }
+
         /* TOGGLE */
         view.provider_switch.isChecked = when (provider) {
             Constants.GlanceProviderId.PLAYING_SONG -> Preferences.showMusic
@@ -133,6 +145,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> Preferences.showDailySteps
             Constants.GlanceProviderId.NOTIFICATIONS -> Preferences.showNotifications
             Constants.GlanceProviderId.GREETINGS -> Preferences.showGreetings
+            Constants.GlanceProviderId.EVENTS -> Preferences.showEventsAsGlanceProvider
         }
 
         var job: Job? = null
@@ -188,6 +201,9 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                             checkFitnessPermission(view)
                             checkGoogleFitConnection(view)
                         }
+                        Constants.GlanceProviderId.EVENTS -> {
+                            Preferences.showEventsAsGlanceProvider = isChecked
+                        }
                         else -> {
                         }
                     }
@@ -218,6 +234,19 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             }
         }
         statusCallback?.invoke()
+    }
+
+    private fun checkCalendarConfig(view: View) {
+        if (!Preferences.showEvents || !context.checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
+            view.warning_container.isVisible = true
+            view.warning_title.text = context.getString(R.string.settings_show_events_as_glance_provider_error)
+            view.warning_container.setOnClickListener {
+                dismiss()
+                EventBus.getDefault().post(MainFragment.ChangeTabEvent(1))
+            }
+        } else {
+            view.warning_container.isVisible = false
+        }
     }
 
     private fun checkNotificationPermission(view: View) {
