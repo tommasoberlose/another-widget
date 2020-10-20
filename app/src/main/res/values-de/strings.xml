@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="add_widget">Hinzufügen</string>
 
     <!-- Display -->
@@ -198,7 +198,7 @@
     <string name="settings_show_notifications_title">Letzte Benachrichtigungen</string>
     <string name="settings_show_notifications_subtitle">Zeigt die letzten Benachrichtigungen an, die auf Ihrem Gerät empfangen wurden.</string>
     <string name="settings_show_greetings_title">Grüße</string>
-    <string name="settings_show_greetings_subtitle">Zeigt einen netten Satz an, wenn Sie es gerade nicht erwarten.</string>
+    <string name="settings_show_greetings_subtitle">Zeigt einen netten Satz, der zur Tageszeit passt.</string>
     <string name="google_fit_account_connected">Konto verbunden</string>
     <string name="google_fit_account_not_connected">Konto nicht verbunden</string>
     <string name="google_fit">Google Fit</string>
@@ -206,6 +206,36 @@
     <string name="action_disconnect">Trennen</string>
     <string name="applications_filter_title">Anwendungen</string>
     <string name="applications_filter_subtitle">Wähle die Benachrichtigungen, die angezeigt werden sollen</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>Ich wünsche dir einen schönen Tag!</item>
+        <item>Guten Morgen!</item>
+        <item>Bereit für den Start in den Tag?</item>
+        <item>Raus aus den Federn!</item>
+        <item>Vergiss dein Frühstück nicht.</item>
+        <item>Ein guten Start in den Tag!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Guten Abend!</item>
+        <item>Wie war dein Tag?</item>
+        <item>Ich wünsche dir einen schönen Abend!</item>
+        <item>Wie wäre es mit einem Fernsehabend?</item>
+        <item>Hattest du einen schönen Tag?</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Schlaf gut!</item>
+        <item>Bis morgen!</item>
+        <item>Gute Nacht!</item>
+        <item>Bleibe nicht zu lange wach.</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Benachrichtigung ausblenden nach</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 Sekunden</item>
+        <item>1 Minute</item>
+        <item>5 Minuten</item>
+        <item>10 Minuten</item>
+        <item>15 Minuten</item>
+        <item>dem Entfernen</item>
+    </string-array>
 
     <!-- Settings -->
     <string name="action_share">Teilen</string>

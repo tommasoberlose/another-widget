@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Añadir</string>
 
     <!-- Display -->
     <string name="settings_general_title">Pantalla</string>
+    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Color del texto</string>
     <string name="settings_secondary_font_color_title">Color del texto</string>
     <string name="settings_background_color_title">Color del fondo</string>
@@ -25,6 +27,19 @@
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Capitalizar la fecha</string>
     <string name="settings_date_format_title">Formato de fecha</string>
+    <string name="header_widget_background">Fondo del Widget</string>
+    <string name="settings_secondary_row_top_margin_title">Margen</string>
+    <string name="action_custom_font_to_search">Fuente personalizada...</string>
+    
+    <string name="font_100" translatable="false">Thin</string>
+    <string name="font_200" translatable="false">Light</string>
+    <string name="font_300" translatable="false">Book</string>
+    <string name="font_400" translatable="false">Regular</string>
+    <string name="font_500" translatable="false">Medium</string>
+    <string name="font_600" translatable="false">Semi-bold</string>
+    <string name="font_700" translatable="false">Bold</string>
+    <string name="font_800" translatable="false">Black</string>
+    <string name="font_900" translatable="false">Heavy</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendario</string>
@@ -70,12 +85,21 @@
     <string name="settings_widget_update_frequency_high">Alta</string>
     <string name="filters_header">Filtros</string>
     <string name="event_detail_header">Detalles del evento</string>
+    <string name="settings_attendee_status_title">En espera</string>
+    <string name="settings_attendee_status_subtitle">Filtrar eventos aceptados o rechazados</string>
+    <string name="settings_busy_events_title">Eventos relevantes</string>
+    <string name="settings_busy_events_subtitle">Solo mostrar eventos que mantengan ocupado</string>
+    <string name="attendee_status_accepted">Eventos aceptados</string>
+    <string name="attendee_status_invited">Invitaciones a eventos</string>
+    <string name="attendee_status_declined">Eventos rechazados</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Clima</string>
     <string name="title_permission_location">Mostrar el clima</string>
     <string name="description_permission_location">Permite el acceso a tu ubicación\npara ver el clima en tu widget.</string>
     <string name="settings_unit_title">Unidad de medición</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Frecuencia de refresco</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 minutos</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 hora</string>
@@ -104,6 +128,46 @@
     <string name="api_key_info_all_set">La activación de tu clave de API puede llegar a tomar unos diez minutos. El clima se actualizará tan pronto esté disponible.</string>
     <string name="settings_weather_icon_pack_title">Paquete de iconos</string>
     <string name="settings_weather_icon_pack_default">Paquete de iconos %d</string>
+    <string name="background_location_warning">Cuando el GPS está encendido, recolectamos los datos de la ubicación para actualizar la información del clima cuando la app está cerrada o no está en uso.\nNo usaremos esos datos en caso contrario.</string>
+    <string name="settings_weather_provider_api">Proveedor del clima</string>
+
+    <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
+    <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">WeatherAPI.com</string>
+    <string name="settings_weather_provider_here" translatable="false">HERE.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">AccuWeather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
+
+    <string name="weather_provider_info_open_weather_title">Este proveedor del clima necesita\nuna clave de API para funcionar correctamente.</string>
+    <string name="weather_provider_info_weatherbit_title">Este proveedor del clima necesita\nuna clave de API para funcionar correctamente.</string>
+    <string name="weather_provider_info_weatherapi_title">Este proveedor del clima necesita\nuna clave de API para funcionar correctamente.</string>
+    <string name="weather_provider_info_here_title">Este proveedor del clima necesita\nuna clave de API para funcionar correctamente.</string>
+    <string name="weather_provider_info_accuweather_title">Este proveedor del clima necesita\nuna clave de API para funcionar correctamente.</string>
+    <string name="weather_provider_info_weather_gov_title">Este proveedor del clima solo funciona\npara ubicaciones dentro de EEUU.</string>
+    <string name="weather_provider_info_yr_title">Este proveedor del clima solo permite\nla unidad de temperatura Celsius.</string>
+
+    <string name="weather_provider_info_open_weather_subtitle">Abre el sitio web del proveedor, crea una cuenta personal y copia aquí la clave predeterminada.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Abre el sitio web del proveedor, crea una cuenta personal y copia aquí la clave predeterminada.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Abre el sitio web del proveedor, crea una cuenta personal y copia aquí la clave predeterminada.</string>
+    <string name="weather_provider_info_here_subtitle">Abre el sitio web del proveedor, crea una cuenta personal y copia aquí la clave predeterminada.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Abre el sitio web del proveedor, crea una cuenta personal y copia aquí la clave predeterminada.</string>
+    <string name="weather_provider_info_weather_gov_subtitle">\n</string>
+    <string name="weather_provider_info_yr_subtitle">\n</string>
+
+    <string name="weather_provider_error_missing_key">El proveedor del clima que has seleccionado requiere de una clave de API.</string>
+    <string name="weather_provider_error_wrong_location">La ubicación actual no está soportada.</string>
+    <string name="weather_provider_error_missing_location">Por favor selecciona una ubicación válida.</string>
+    <string name="weather_provider_error_expired_key">Parece que tu clave de API ha expirado.</string>
+    <string name="weather_provider_error_invalid_key">Clave de API no válida, o aún no activada.</string>
+    <string name="weather_provider_error_misconfigured">El proveedor del clima está mal configurado.</string>
+    <string name="weather_provider_error_connection">Error de conexión.</string>
+    <string name="weather_provider_error_generic">Algo salió mal, verifica la configuración del proveedor del clima.</string>
+    <string name="api_key_required_message">Cuenta requerida</string>
+    <string name="us_only_message">Solo EEUU</string>
+    <string name="celsius_only_message">Solo Unidad Métrica</string>
+    <string name="weather_select_a_provider">Seleccionar un proveedor</string>
+    <string name="weather_provider_activity_subtitle">Elige un proveedor del clima de la lista.\nAlgunos proveedores necesitan una cuenta personal gratuita,\npero suelen ser más precisos.</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Reloj</string>
@@ -125,10 +189,10 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Próxima alarma del reloj</string>
-    <string name="next_alarm_warning">La próxima alarma del reloj parece estar mal.\nFue establecoda por %s.</string>
     <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_show_music_title">Canción en reproducción</string>
     <string name="settings_request_notification_access">Necesitamos el permiso de acceso a las notificaciones para poder ver qué canción está siendo reproducida.</string>
+    <string name="settings_request_last_notification_access">Necesitamos el permiso de acceso a las notificaciones para poder ver tus últimas notificaciones.</string>
     <string name="settings_request_fitness_access">Necesitamos unos permisos para obtener tus pastos diarios de Google Fit.</string>
     <string name="title_show_glance">Mostrar en la información de Glance</string>
     <string name="description_show_glance_visible">Servicio habilitado</string>
@@ -141,8 +205,56 @@
     <string name="battery_low_warning">Nivel de batería bajo</string>
     <string name="daily_steps_counter">%d pasos hechos</string>
     <string name="charging">Cargando</string>
+    <string name="charged">Completamente cargado</string>
     <string name="providers">Proveedores</string>
     <string name="glance_info">La información de Glance solo se mostrará cuando no haya ningún evento visible y se cumplan algunas condiciones.</string>
+    <string name="settings_music_players_filter_title">Reproductores de Música</string>
+    <string name="settings_music_players_filter_subtitle">Elige tus reproductores de música más relevantes</string>
+    <string name="settings_show_music_subtitle">Usamos las notificaciones de los reproductores de música para mostrar la canción en reproducción.</string>
+    <string name="settings_low_battery_level_subtitle">Entérate el dispositivo tiene batería baja o está cargando.</string>
+    <string name="settings_daily_steps_subtitle">Mira tus pasos diarios por un breve momento después de terminar de caminar o correr.</string>
+    <string name="settings_show_next_alarm_subtitle">Mira tu próxima próxima alarma del reloj, verifica si tu app predeterminada de reloj es la única estableciendo las alarmas del dispositivo.</string>
+    <string name="settings_show_next_alarm_app_title">Alarma establecida a las %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">La próxima alarma del reloj parece estar mal</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">La próxima alarma del reloj parece estar bien</string>
+    <string name="settings_show_notifications_title">Últimas notificaciones</string>
+    <string name="settings_show_notifications_subtitle">Revisa las últimas notificaciones que se muestren en tu dispositivo.</string>
+    <string name="settings_show_greetings_title">Saludos</string>
+    <string name="settings_show_greetings_subtitle">Ver algunas frases geniales cuando menos te lo esperes.</string>
+    <string name="google_fit_account_connected">Cuenta conectada</string>
+    <string name="google_fit_account_not_connected">Cuenta no conectada</string>
+    <string name="google_fit">Google Fit</string>
+    <string name="action_connect">Conectar</string>
+    <string name="action_disconnect">Desconectar</string>
+    <string name="applications_filter_title">Aplicaciones</string>
+    <string name="applications_filter_subtitle">Elige qué notificaciones ver</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>¡Que tengas un buen día!</item>
+        <item>¡Buen día!</item>
+        <item>¿Listo para irnos?</item>
+        <item>Levántate y brilla.</item>
+        <item>¡No olvides tu desayuno!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>¡Buenas noches!</item>
+        <item>¿Cómo te fue en tu día?</item>
+        <item>¿Cómo estuvo tu día?</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>¡Que duermas bien!</item>
+        <item>¡Hasta mañana!</item>
+        <item>¡Buenas noches!</item>
+        <item>¡No te quedes hasta muy tarde!</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Ocultar la notificación después de</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 segundos</item>
+        <item>1 minuto</item>
+        <item>5 minutos</item>
+        <item>10 minutos</item>
+        <item>15 minutos</item>
+        <item>se descarte</item>
+    </string-array>
 
     <!-- Settings -->
     <string name="action_share">Compartir</string>
@@ -176,6 +288,7 @@
     <string name="support_refresh_widget_subtitle">Forzar el reinicio del servicio del widget</string>
     <string name="settings_feedback_subtitle">Este es un proyecto de código abierto, siéntete libre de ayudar.</string>
     <string name="settings_feedback_title">Comentarios y solicitudes de funciones</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Dispositivos Xiaomi</string>
     <string name="xiaomi_warning_message">Habilita el permiso para mostrar ventanas emergentes mientras está ejecutándose en segundo plano dentro de la sección "Otros permisos" en la app de ajustes. De lo contrario, no podrás abrir ninguna aplicación tocando en el widget.</string>
     <string name="action_ignore">Ignorar</string>
@@ -186,6 +299,10 @@
     <string name="provider_header">Proveedor</string>
     <string name="appearance_header">Apariencia</string>
     <string name="preferences_header">Preferencias</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
+    <string name="settings_privacy_policy_subtitle">Ver las polítcas de privacidad de la app</string>
+    <string name="project_header">Proyecti de Código Abierto</string>
+    <string name="information_header">Información</string>
 
     <!-- Activities -->
     <string name="action_choose_application">Elegir aplicación</string>
@@ -201,5 +318,6 @@
     <string name="settings_title_integrations">Integraciones</string>
     <string name="label_count_installed_integrations">%d integraciones instaladas</string>
     <string name="nothing">Nada</string>
-    <string name="header_widget_background">Widget en segundo plano</string>
+    <string name="action_dismiss">Descartar</string>
+    <string name="action_accept">Aceptar</string>
 </resources>
