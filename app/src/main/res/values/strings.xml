@@ -85,7 +85,7 @@
     <string name="settings_widget_update_frequency_high">High</string>
     <string name="filters_header">Filters</string>
     <string name="event_detail_header">Event detail</string>
-    <string name="settings_attendee_status_title">Attendee Status</string>
+    <string name="settings_attendee_status_title">Attendee status</string>
     <string name="settings_attendee_status_subtitle">Filter accepted or declined events</string>
     <string name="settings_busy_events_title">Relevant events</string>
     <string name="settings_busy_events_subtitle">Show only events that keep busy</string>
@@ -117,18 +117,10 @@
     <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured.</string>
     <string name="api_key_hint">OpenWeatherMap API Key</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Google Awareness API is now deprecated. It is now required to have an API key from a third-party provider to display the weather in the widget.</string>
-    <string name="api_key_title_1">Register for an OpenWeatherMap Account</string>
-    <string name="api_key_subtitle_1">Register a free account on OpenWeatherMap. It will only take a few minutes.</string>
-    <string name="api_key_title_2">Copy your API Key</string>
-    <string name="api_key_subtitle_2">Find the API keys menu from your account settings and copy the default key.</string>
-    <string name="api_key_title_3">Enter the key to the app</string>
-    <string name="api_key_subtitle_3">Paste the key into the field above and save it. Once the key is activated the weather will become visible.</string>
-    <string name="action_open_provider">Go to OpenWeatherMap.org</string>
-    <string name="api_key_info_all_set">It may take up to ten minutes before your API key is activated. The weather will be updated as soon as it is available.</string>
+    <string name="weather_warning">Google Awareness API is now deprecated. It is now required to have an API key from a third-party provider to show weather in the widget.</string>
     <string name="settings_weather_icon_pack_title">Icon pack</string>
     <string name="settings_weather_icon_pack_default">Icon pack %d</string>
-    <string name="background_location_warning">When GPS is on, we collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
+    <string name="background_location_warning">When Geolocation is selected, we collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
     <string name="settings_weather_provider_api">Weather provider</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
@@ -147,11 +139,11 @@
     <string name="weather_provider_info_weather_gov_title">This weather provider only works\nfor locations inside the USA.</string>
     <string name="weather_provider_info_yr_title">This weather provider only allows\nCelsius temperature unit.</string>
 
-    <string name="weather_provider_info_open_weather_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_weatherbit_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_weatherapi_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_here_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
-    <string name="weather_provider_info_accuweather_subtitle">Open the provider website, create a personal account and copy here the default key.</string>
+    <string name="weather_provider_info_open_weather_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
+    <string name="weather_provider_info_here_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
     <string name="weather_provider_info_weather_gov_subtitle">\n</string>
     <string name="weather_provider_info_yr_subtitle">\n</string>
 
@@ -184,7 +176,7 @@
     <string name="settings_clock_bottom_margin_subtitle_large">Large</string>
     <string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the Display section.</string>
     <string name="settings_clock_text_color_title">Text color</string>
-    <string name="settings_ampm_indicator_title">Show AM/PM Indicator</string>
+    <string name="settings_ampm_indicator_title">Show AM/PM indicator</string>
     <string name="clock_text_header">Clock text style</string>
 
     <!-- Glance -->
@@ -200,10 +192,10 @@
     <string name="settings_sort_glance_providers_title">Data source priority</string>
     <string name="settings_sort_glance_providers_subtitle">Change the data provider priority by sorting the list below with the drag-and-drop icons.</string>
     <string name="settings_custom_notes_title">Custom notes</string>
-    <string name="settings_low_battery_level_title">Battery</string>
     <string name="settings_daily_steps_title">Daily steps</string>
-    <string name="battery_low_warning">Low battery level</string>
     <string name="daily_steps_counter">%d steps so far</string>
+    <string name="settings_low_battery_level_title">Battery</string>
+    <string name="battery_low_warning">Low battery level</string>
     <string name="charging">Charging</string>
     <string name="charged">Fully charged</string>
     <string name="providers">Providers</string>
@@ -211,26 +203,26 @@
     <string name="settings_music_players_filter_title">Music Players</string>
     <string name="settings_music_players_filter_subtitle">Choose your relevant music players</string>
     <string name="settings_show_music_subtitle">We use the music players\' notification to show the current playing song.</string>
-    <string name="settings_low_battery_level_subtitle">Get notified when the device has the battery low or is charging.</string>
+    <string name="settings_low_battery_level_subtitle">Get advised when the device has the battery low or is charging.</string>
     <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after finishing a walk or a run.</string>
-    <string name="settings_show_next_alarm_subtitle">View your next clock alarm, check if your default clock app is the only one setting device alarms.</string>
+    <string name="settings_show_next_alarm_subtitle">View your next clock alarm.\nCheck if your default clock app is the only one setting alarms.</string>
     <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong</string>
     <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct</string>
     <string name="settings_show_notifications_title">Lastest notifications</string>
     <string name="settings_show_notifications_subtitle">Check out the lastest notifications that showed up on your device.</string>
     <string name="settings_show_greetings_title">Greetings</string>
-    <string name="settings_show_greetings_subtitle">View some cool phrase when you don\'t expect it.</string>
-    <string name="google_fit_account_connected">Account connected</string>
-    <string name="google_fit_account_not_connected">Account not connected</string>
+    <string name="settings_show_greetings_subtitle">View some cool phrase to lighten your day when you don\'t expect it.</string>
+    <string name="google_fit_account_connected">Account linked</string>
+    <string name="google_fit_account_not_connected">Account not linked</string>
     <string name="google_fit">Google Fit</string>
     <string name="action_connect">Connect</string>
     <string name="action_disconnect">Disconnect</string>
     <string name="applications_filter_title">Applications</string>
     <string name="applications_filter_subtitle">Choose which notifications to view</string>
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Have a good day!</item>
         <item>Good morning!</item>
+        <item>Have a good day!</item>
         <item>Ready to go?</item>
         <item>Rise and shine.</item>
         <item>Don\'t forget your breakfast!</item>
@@ -238,12 +230,15 @@
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
         <item>Good evening!</item>
         <item>How did your day go?</item>
-        <item>How was your day?</item>
+        <item>Did you have a nice day?</item>
+        <item>After effort comes comfort.</item>
+        <item>Don\'t forget to have dinner!</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
-        <item>Sleep well!</item>
-        <item>See you tomorrow!</item>
         <item>Good night!</item>
+        <item>Sleep well!</item>
+        <item>Sweet dreams till sunbeams find you!</item>
+        <item>See you tomorrow...</item>
         <item>Don\'t stay up too late!</item>
     </string-array>
     <string name="glance_notification_hide_timeout_title">Hide the notification after</string>
@@ -253,7 +248,7 @@
         <item>5 minutes</item>
         <item>10 minutes</item>
         <item>15 minutes</item>
-        <item>it\'s dismissed</item>
+        <item>Dismissal</item>
     </string-array>
 
     <!-- Settings -->
@@ -265,10 +260,10 @@
     <string name="action_refresh_widget">Refresh widget</string>
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
-    <string name="loading_text">Loading Data…</string>
+    <string name="loading_text">Loading Data...</string>
     <string name="error_opening_app">Error opening app.</string>
     <string name="default_name">Default app</string>
-    <string name="action_save">Save</string>
+    <string name="action_save">SAVE</string>
     <string name="settings_visible">Visible</string>
     <string name="settings_not_visible">Hidden</string>
     <string name="support_translations_title">Help with translations</string>
@@ -280,14 +275,14 @@
     <string name="support_main_subtitle">Devs always need a lot of coffee</string>
     <string name="settings_subtitle_dark_theme_light">Light</string>
     <string name="settings_subtitle_dark_theme_dark">Dark</string>
-    <string name="settings_subtitle_dark_theme_by_battery_saver">Set by Battery Saver</string>
+    <string name="settings_subtitle_dark_theme_by_battery_saver">Set by battery saver</string>
     <string name="settings_subtitle_dark_theme_follow_system">Follow the system theme</string>
     <string name="settings_subtitle_dark_theme_default">Default</string>
     <string name="search">Search</string>
     <string name="settings_app_version_title">App version</string>
     <string name="settings_title_show_wallpaper">Show wallpaper</string>
     <string name="support_refresh_widget_subtitle">Force the restart of the widget service</string>
-    <string name="settings_feedback_subtitle">Feel free to help our project</string>
+    <string name="settings_feedback_subtitle">Feel free to help our project!</string>
     <string name="settings_feedback_title">Feedback and feature requests</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Devices</string>
