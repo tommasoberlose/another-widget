@@ -94,7 +94,7 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 heures</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 heures</string>
     <string name="settings_custom_location_title">Localisation</string>
-    <string name="custom_location_gps">Utiliser le GPS</string>
+    <string name="custom_location_gps">Géolocalisation</string>
     <string name="show_weather_visible">Infos météo visibles</string>
     <string name="show_weather_not_visible">Infos météo non visibles</string>
     <string name="settings_weather_app_title">Taper sur la météo ouvre</string>
@@ -106,7 +106,7 @@
     <string name="weather_warning">La météo de Google Awareness est obsolète. Il faut désormais une clé API d'un fournisseur tiers pour afficher la météo dans le widget.</string>
     <string name="settings_weather_icon_pack_title">Pack d\'icônes</string>
     <string name="settings_weather_icon_pack_default">Pack d\'icônes %d</string>
-    <string name="background_location_warning">Lorsque le GPS est activé, nous collectons les données GPS pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas ces données autrement que mentionné.</string>
+    <string name="background_location_warning">Lorsque Géolocalisation est sélectionné, nous collectons les données de localisation pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas ces données autrement que mentionné.</string>
     <string name="settings_weather_provider_api">Fournisseur météo</string>
     
     <string name="weather_provider_info_open_weather_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
@@ -203,22 +203,22 @@
         <item>Bonjour !</item>
         <item>Bonne journée !</item>
         <item>Prêt à partir ?</item>
-        <item>Tu brilles de mille feux.</item>
-        <item>N\'oublie pas ton petit-déjeuner!</item>
+        <item>Levez-vous et brillez.</item>
+        <item>N\'oubliez pas votre petit-déjeuner!</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
         <item>Bonsoir !</item>
-        <item>Comment a été ta journée ?</item>
-        <item>Tu as passé une bonne journée ?</item>
+        <item>Comment a été votre journée ?</item>
+        <item>Avez-vous passé une bonne journée ?</item>
         <item>Après l'effort, le réconfort.</item>
-        <item>N\'oublie pas de dîner !</item>
+        <item>N\'oubliez pas de dîner !</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
         <item>Bonne nuit !</item>
-        <item>Dors bien !</item>
-        <item>Fais de beaux rêves !</item>
+        <item>Dormez bien !</item>
+        <item>Faites de beaux rêves !</item>
         <item>À demain...</item>
-        <item>Ne te couche pas trop tard !</item>
+        <item>Ne vous couchez pas trop tard !</item>
     </string-array>
     
     <string name="glance_notification_hide_timeout_title">Cacher la notification après</string>
@@ -248,7 +248,7 @@
     <string name="support_translations_title">Aider à traduire</string>
     <string name="support_translations_subtitle">Ouvrir une pull-request sur GitHub</string>
     <string name="support_website_title">Consulter mes autres projets</string>
-    <string name="support_website_subtitle">Un seul développeur, plusieurs possibilités</string>
+    <string name="support_website_subtitle">Un développeur, plusieurs possibilités</string>
     <string name="error">Oups, quelque chose s\'est mal passé !</string>
     <string name="settings_theme_title">Thème</string>
     <string name="support_main_subtitle">On a toujours besoin de beaucoup de café</string>
