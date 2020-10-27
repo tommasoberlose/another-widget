@@ -43,7 +43,7 @@ class NotificationListener : NotificationListenerService() {
                         } catch (ex: Exception) {
                             Preferences.lastNotificationIcon = 0
                         }
-                        Preferences.lastNotificationPackage = sbn.notification.smallIcon.resPackage
+                        Preferences.lastNotificationPackage = sbn.packageName
                     } else {
                         try {
                             Preferences.lastNotificationIcon = sbn.notification.icon
