@@ -184,7 +184,7 @@
     <string name="settings_at_a_glance_title">Glance</string>
     <string name="settings_show_music_title">Música em reprodução</string>
     <string name="settings_request_notification_access">Precisamos da permissão de acesso a notificações para verificar a música em reprodução.</string>
-    <string name="settings_request_last_notification_access"Precisamos da permissão de acesso a notificações para verificar suas últimas notificações.</string>
+    <string name="settings_request_last_notification_access">Precisamos da permissão de acesso a notificações para verificar suas últimas notificações.</string>
     <string name="settings_request_fitness_access">Precisamos de algumas permissões para receber seus pasos diários do Google Fit.</string>
     <string name="title_show_glance">Mostrar as informações do at a glance</string>
     <string name="description_show_glance_visible">Serviço ativado</string>

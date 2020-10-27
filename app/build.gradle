@@ -23,7 +23,7 @@ android {
         applicationId "com.tommasoberlose.anotherwidget"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 109
+        versionCode 110
         versionName "2.0.15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -89,8 +89,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
 
     // Other
     implementation 'androidx.multidex:multidex:2.0.1'
