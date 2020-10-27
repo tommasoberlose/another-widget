@@ -25,8 +25,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:clickable="true"
@@ -81,7 +81,6 @@
                     android:textAlignment="viewStart"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textSize="16sp"
                     android:textColor="@color/colorAccent"
                     android:textAppearance="@style/AnotherWidget.Settings.Header"
                     app:textAllCaps="false" />
@@ -92,6 +91,7 @@
                     android:paddingRight="20dp"
                     android:textColor="@color/colorSecondaryText"
                     android:layout_marginBottom="16dp"
+                    android:textSize="13sp"
                     android:text="@string/settings_sort_glance_providers_subtitle"
                     android:textAppearance="@style/AnotherWidget.Settings.Header"/>
                 <androidx.recyclerview.widget.RecyclerView

@@ -69,7 +69,7 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_daily_steps_title),
-                   R.drawable.round_near_me
+                   R.drawable.round_favorite_border
                )
             }
             Constants.GlanceProviderId.NOTIFICATIONS -> {

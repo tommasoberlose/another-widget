@@ -192,7 +192,7 @@
     <string name="settings_sort_glance_providers_title">Data source priority</string>
     <string name="settings_sort_glance_providers_subtitle">Change the data provider priority by sorting the list below with the drag-and-drop icons.</string>
     <string name="settings_custom_notes_title">Custom notes</string>
-    <string name="settings_daily_steps_title">Daily steps</string>
+    <string name="settings_daily_steps_title">Fitness</string>
     <string name="daily_steps_counter">%d steps so far</string>
     <string name="settings_low_battery_level_title">Battery</string>
     <string name="battery_low_warning">Low battery level</string>
