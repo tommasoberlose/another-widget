@@ -200,25 +200,25 @@
     <string name="applications_filter_subtitle">Choisissez les notifications à afficher</string>
     
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Bonjour !</item>
-        <item>Bonne journée !</item>
-        <item>Prêt à partir ?</item>
+        <item>Bonjour !</item>
+        <item>Bonne journée !</item>
+        <item>Prêt à partir ?</item>
         <item>Levez-vous et brillez.</item>
-        <item>N\'oubliez pas votre petit-déjeuner!</item>
+        <item>N\'oubliez pas votre petit-déjeuner !</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
-        <item>Bonsoir!</item>
-        <item>Comment a été votre journée?</item>
-        <item>Avez-vous passé une bonne journée?</item>
+        <item>Bonsoir !</item>
+        <item>Comment a été votre journée ?</item>
+        <item>Avez-vous passé une bonne journée ?</item>
         <item>Après l\'effort, le réconfort.</item>
-        <item>N\'oubliez pas de dîner!</item>
+        <item>N\'oubliez pas de dîner !</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
-        <item>Bonne nuit!</item>
-        <item>Dormez bien!</item>
-        <item>Faites de beaux rêves!</item>
+        <item>Bonne nuit !</item>
+        <item>Dormez bien !</item>
+        <item>Faites de beaux rêves !</item>
         <item>À demain...</item>
-        <item>Ne vous couchez pas trop tard!</item>
+        <item>Ne vous couchez pas trop tard !</item>
     </string-array>
     
     <string name="glance_notification_hide_timeout_title">Cacher la notification après</string>
@@ -249,7 +249,7 @@
     <string name="support_translations_subtitle">Ouvrir une pull-request sur GitHub</string>
     <string name="support_website_title">Consulter mes autres projets</string>
     <string name="support_website_subtitle">Un développeur, plusieurs possibilités</string>
-    <string name="error">Oups, quelque chose s\'est mal passé !</string>
+    <string name="error">Oups, quelque chose s\'est mal passé !</string>
     <string name="settings_theme_title">Thème</string>
     <string name="support_main_subtitle">On a toujours besoin de beaucoup de café</string>
     <string name="settings_subtitle_dark_theme_light">Clair</string>
@@ -261,7 +261,7 @@
     <string name="settings_app_version_title">Version de l\'app</string>
     <string name="settings_title_show_wallpaper">Afficher le fond d\'écran</string>
     <string name="support_refresh_widget_subtitle">Forcer le redémarrage des services du widget</string>
-    <string name="settings_feedback_subtitle">N\'hésitez pas à aider notre projet !</string>
+    <string name="settings_feedback_subtitle">N\'hésitez pas à aider notre projet !</string>
     <string name="settings_feedback_title">Commentaires et suggestions</string>
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
     <string name="xiaomi_warning_message">Veuillez activer l\'option \"Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\" dans la section \"Autres autorisations\" des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune autre app en tapant sur le widget.</string>
@@ -281,14 +281,14 @@
     <!-- Activities -->
     <string name="action_choose_application">Choisir l\'app</string>
     <string name="support_main_title">Soutenir le développeur</string>
-    <string name="thanks">Merci de m\'avoir soutenu !</string>
+    <string name="thanks">Merci de m\'avoir soutenu !</string>
     <string name="donation_coffee">Un café italien</string>
     <string name="donation_donuts">Quelques donuts glacés</string>
     <string name="donation_dinner">Un dîner chic</string>
     <string name="donation_breakfast">Un petit-déjeuner anglais</string>
     <string name="donation_lunch">Un déjeuner rapide</string>
     <string name="action_show_widget_preview">Afficher l\'aperçu du widget</string>
-    <string name="support_dev_subtitle">Ceci est le projet d\'un unique développeur,\ndonc merci pour le soutien !</string>
+    <string name="support_dev_subtitle">Ceci est le projet d\'un unique développeur,\ndonc merci pour le soutien !</string>
     <string name="settings_title_integrations">Intégrations</string>
     <string name="label_count_installed_integrations">%d intégrations installées</string>
     <string name="nothing">Rien</string>
