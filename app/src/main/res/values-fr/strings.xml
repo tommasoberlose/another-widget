@@ -170,7 +170,7 @@
     <string name="settings_sort_glance_providers_title">Priorité des sources de données</string>
     <string name="settings_sort_glance_providers_subtitle">Glissez-déposez les fournisseurs de la liste pour modifier l\'ordre de priorité de leur affichage.</string>
     <string name="settings_custom_notes_title">Notes personnalisées</string>
-    <string name="settings_daily_steps_title">Nombre de pas</string>
+    <string name="settings_daily_steps_title">Activité physique</string>
     <string name="daily_steps_counter">%d pas jusqu\'à présent</string>
     <string name="settings_low_battery_level_title">Batterie</string>
     <string name="battery_low_warning">Batterie faible</string>
