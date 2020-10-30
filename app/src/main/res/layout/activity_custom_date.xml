@@ -34,7 +34,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/action_back"
                     app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_arrow_back" />
+                    android:src="@drawable/round_arrow_back_24" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -87,7 +87,7 @@
                         android:layout_height="40dp"
                         android:padding="8dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/round_help_outline"
+                        android:src="@drawable/round_help_outline_24"
                         android:layout_alignParentEnd="true"
                         android:clickable="true"
                         android:focusable="true"

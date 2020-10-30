@@ -81,6 +81,6 @@
         android:focusable="true"
         android:id="@+id/action_configure"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/round_settings"
+        android:src="@drawable/round_settings_24"
         app:tint="@color/colorPrimaryText" />
 </LinearLayout>

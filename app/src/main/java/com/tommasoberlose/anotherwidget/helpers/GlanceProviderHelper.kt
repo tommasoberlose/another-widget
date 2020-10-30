@@ -45,49 +45,49 @@ object GlanceProviderHelper {
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_show_next_alarm_title),
-                   R.drawable.round_access_alarm
+                   R.drawable.round_access_alarm_24
                )
             }
             Constants.GlanceProviderId.PLAYING_SONG -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_show_music_title),
-                   R.drawable.round_music_note
+                   R.drawable.round_music_note_24
                )
             }
             Constants.GlanceProviderId.CUSTOM_INFO -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_custom_notes_title),
-                   R.drawable.round_sticky_note_2
+                   R.drawable.round_sticky_note_2_24
                )
             }
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_low_battery_level_title),
-                   R.drawable.round_battery_charging_full
+                   R.drawable.round_battery_charging_full_24
                )
             }
             Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                GlanceProvider(providerId.id,
                    context.getString(R.string.settings_daily_steps_title),
-                   R.drawable.round_favorite_border
+                   R.drawable.round_favorite_border_24
                )
             }
             Constants.GlanceProviderId.NOTIFICATIONS -> {
                 GlanceProvider(providerId.id,
                     context.getString(R.string.settings_show_notifications_title),
-                    R.drawable.round_notifications
+                    R.drawable.round_notifications_24
                 )
             }
             Constants.GlanceProviderId.GREETINGS -> {
                 GlanceProvider(providerId.id,
                     context.getString(R.string.settings_show_greetings_title),
-                    R.drawable.round_history_edu
+                    R.drawable.round_history_edu_24
                 )
             }
             Constants.GlanceProviderId.EVENTS -> {
                 GlanceProvider(providerId.id,
                     context.getString(R.string.settings_show_events_as_glance_provider_title),
-                    R.drawable.round_event_note
+                    R.drawable.round_event_note_24
                 )
             }
         }

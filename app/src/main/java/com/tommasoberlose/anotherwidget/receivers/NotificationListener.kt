@@ -37,21 +37,16 @@ class NotificationListener : NotificationListenerService() {
                 if (bundle.containsKey(Notification.EXTRA_TITLE) && !isGroupHeader && !isOngoing && ActiveNotificationsHelper.isAppAccepted(sbn.packageName) && !sbn.packageName.contains("com.android.systemui")) {
                     Preferences.lastNotificationId = sbn.id
                     Preferences.lastNotificationTitle = bundle.getString(Notification.EXTRA_TITLE) ?: ""
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        try {
+                    try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             Preferences.lastNotificationIcon = sbn.notification.smallIcon.resId
-                        } catch (ex: Exception) {
-                            Preferences.lastNotificationIcon = 0
-                        }
-                        Preferences.lastNotificationPackage = sbn.notification.smallIcon.resPackage
-                    } else {
-                        try {
+                        } else {
                             Preferences.lastNotificationIcon = sbn.notification.icon
-                        } catch (ex: Exception) {
-                            Preferences.lastNotificationIcon = 0
                         }
-                        Preferences.lastNotificationPackage = sbn.packageName
+                    } catch (ex: Exception) {
+                        Preferences.lastNotificationIcon = 0
                     }
+                    Preferences.lastNotificationPackage = sbn.packageName
                     MainWidget.updateWidget(this)
                     setTimeout(this)
                 }

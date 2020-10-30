@@ -29,7 +29,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:layout_marginTop="2dp"
-                    android:src="@drawable/round_arrow_back"
+                    android:src="@drawable/round_arrow_back_24"
                     app:tint="@color/colorPrimaryText"
                     android:layout_centerVertical="true"
                     android:clickable="true"
@@ -125,7 +125,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="11dp"
-                        android:src="@drawable/round_compare"
+                        android:src="@drawable/round_compare_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -214,7 +214,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_extension"
+                        android:src="@drawable/round_extension_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -299,7 +299,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_translate"
+                        android:src="@drawable/round_translate_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -337,7 +337,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_group_work"
+                        android:src="@drawable/round_group_work_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -375,7 +375,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_widgets"
+                        android:src="@drawable/round_widgets_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -413,7 +413,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_favorite"
+                        android:src="@drawable/round_favorite_24"
                         app:tint="@color/errorColorText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -461,7 +461,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_privacy_tip"
+                        android:src="@drawable/round_privacy_tip_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -40,7 +40,7 @@
                     android:padding="12dp"
                     android:id="@+id/weather_icon_pack"
                     app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_brightness_5"/>
+                    android:src="@drawable/round_brightness_5_24"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -102,7 +102,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_language"
+                        android:src="@drawable/round_language_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -156,7 +156,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_place"
+                        android:src="@drawable/round_place_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -285,7 +285,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="10dp"
-                        android:src="@drawable/round_text_format"
+                        android:src="@drawable/round_text_format_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -322,7 +322,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_design_services"
+                        android:src="@drawable/round_design_services_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -370,7 +370,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_add_to_home_screen"
+                        android:src="@drawable/round_add_to_home_screen_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"

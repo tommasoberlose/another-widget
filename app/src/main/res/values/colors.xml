@@ -25,8 +25,8 @@
     <color name="black_op50">#80000000</color>
     <color name="black_op60">#99000000</color>
     <color name="black_op80">#CC000000</color>
-    <color name="colorPrimaryText">#000000</color>
-    <color name="colorSecondaryText">#99000000</color>
+    <color name="colorPrimaryText">#222222</color>
+    <color name="colorSecondaryText">#99222222</color>
     <color name="errorColorBackground">#FBD8D8</color>
     <color name="errorColorText">#E93B3B</color>
     <color name="errorColorText_op10">#1AE93B3B</color>

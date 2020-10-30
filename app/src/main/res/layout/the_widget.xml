@@ -86,12 +86,12 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:id="@+id/action_previous_shadow"
-                    android:src="@drawable/round_chevron_right" />
+                    android:src="@drawable/round_chevron_right_24" />
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:id="@+id/action_previous"
-                    android:src="@drawable/round_chevron_right" />
+                    android:src="@drawable/round_chevron_right_24" />
             </RelativeLayout>
             <TextView
                 android:id="@+id/next_event"
@@ -124,12 +124,12 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:id="@+id/action_next_shadow"
-                    android:src="@drawable/round_chevron_right" />
+                    android:src="@drawable/round_chevron_right_24" />
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:id="@+id/action_next"
-                    android:src="@drawable/round_chevron_right" />
+                    android:src="@drawable/round_chevron_right_24" />
             </RelativeLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -208,14 +208,14 @@
                         android:cropToPadding="false"
                         android:clipChildren="false"
                         android:id="@+id/second_row_icon_shadow"
-                        android:src="@drawable/round_today"/>
+                        android:src="@drawable/round_today_24"/>
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:cropToPadding="false"
                         android:clipChildren="false"
                         android:id="@+id/second_row_icon"
-                        android:src="@drawable/round_today"/>
+                        android:src="@drawable/round_today_24"/>
                 </RelativeLayout>
                 <TextView
                     android:id="@+id/next_event_date"

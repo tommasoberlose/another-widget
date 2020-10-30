@@ -91,7 +91,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="10dp"
-                    android:src="@drawable/round_arrow_circle_down"
+                    android:src="@drawable/round_arrow_circle_down_24"
                     android:rotation="-90"
                     app:tint="@color/errorColorText" />
             </LinearLayout>

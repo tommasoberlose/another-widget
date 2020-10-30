@@ -605,7 +605,7 @@ class MainWidget : AppWidgetProvider() {
                     v.second_row_icon.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.round_place
+                            R.drawable.round_place_24
                         )
                     )
                     v.next_event_date.text = nextEvent.address
@@ -613,7 +613,7 @@ class MainWidget : AppWidgetProvider() {
                     v.second_row_icon.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.round_today
+                            R.drawable.round_today_24
                         )
                     )
                     if (!nextEvent.allDay) {
@@ -694,7 +694,7 @@ class MainWidget : AppWidgetProvider() {
                                 v.second_row_icon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
-                                        R.drawable.round_music_note
+                                        R.drawable.round_music_note_24
                                     )
                                 )
                                 v.next_event_date.text = MediaPlayerHelper.getMediaInfo()
@@ -707,7 +707,7 @@ class MainWidget : AppWidgetProvider() {
                                 v.second_row_icon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
-                                        R.drawable.round_alarm
+                                        R.drawable.round_alarm_24
                                     )
                                 )
                                 v.next_event_date.text = AlarmHelper.getNextAlarm(context)
@@ -807,7 +807,7 @@ class MainWidget : AppWidgetProvider() {
                                 v.second_row_icon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
-                                        R.drawable.round_today
+                                        R.drawable.round_today_24
                                     )
                                 )
                                 showSomething = true

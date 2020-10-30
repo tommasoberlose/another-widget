@@ -53,7 +53,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
             .register<String>(R.layout.application_info_layout) { _, injector ->
                 injector
                     .text(R.id.text, getString(R.string.default_name))
-                    .image(R.id.icon, R.drawable.round_add_to_home_screen)
+                    .image(R.id.icon, R.drawable.round_add_to_home_screen_24)
                     .with<ImageView>(R.id.icon) {
                         it.scaleX = 0.8f
                         it.scaleY = 0.8f

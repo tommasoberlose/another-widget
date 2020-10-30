@@ -43,7 +43,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_today"/>
+                    android:src="@drawable/round_today_24"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -120,7 +120,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_filter_list"
+                        android:src="@drawable/round_filter_list_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -157,7 +157,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_date_range"
+                        android:src="@drawable/round_date_range_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -201,7 +201,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_event_busy"
+                        android:src="@drawable/round_event_busy_24"
                         app:tint="@color/colorPrimaryText" />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -238,7 +238,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_work_outline"
+                        android:src="@drawable/round_work_outline_24"
                         app:tint="@color/colorPrimaryText" />
                     <LinearLayout
                         android:layout_width="0dp"
@@ -282,7 +282,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_redo"
+                        android:src="@drawable/round_redo_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -412,7 +412,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_low_priority"
+                        android:src="@drawable/round_low_priority_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -460,7 +460,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_code"
+                        android:src="@drawable/round_code_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -504,7 +504,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_event_note"
+                        android:src="@drawable/round_event_note_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -541,7 +541,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_add_to_home_screen"
+                        android:src="@drawable/round_add_to_home_screen_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="match_parent"

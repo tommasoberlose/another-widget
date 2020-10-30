@@ -16,7 +16,7 @@
         android:layout_height="48dp"
         android:padding="12dp"
         android:id="@+id/icon"
-        android:src="@drawable/calendar"/>
+        android:src="@drawable/round_today_24"/>
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"

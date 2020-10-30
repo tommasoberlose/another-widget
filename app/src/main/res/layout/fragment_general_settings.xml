@@ -50,7 +50,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_text_fields"
+                    android:src="@drawable/round_text_fields_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_palette"
+                    android:src="@drawable/round_palette_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -146,7 +146,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="10dp"
-                    android:src="@drawable/round_text_format"
+                    android:src="@drawable/round_text_format_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -194,7 +194,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_text_fields"
+                    android:src="@drawable/round_text_fields_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -231,7 +231,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_palette"
+                    android:src="@drawable/round_palette_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -338,7 +338,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_texture"
+                    android:src="@drawable/round_texture_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -397,7 +397,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_font_download"
+                    android:src="@drawable/round_font_download_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -434,7 +434,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_vertical_align_center"
+                    android:src="@drawable/round_vertical_align_center_24"
                     android:rotation="90"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
@@ -490,7 +490,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_aspect_ratio"
+                    android:src="@drawable/round_aspect_ratio_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="0dp"
