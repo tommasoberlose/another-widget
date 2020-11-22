@@ -273,7 +273,7 @@
     <string name="provider_header">Configuration</string>
     <string name="appearance_header">Apparence</string>
     <string name="preferences_header">Préférences</string>
-    <string name="settings_privacy_policy_title"><![CDATA[Légal et confidentialité]]> (Anglais)</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Avis légal et confidentialité]]></string>
     <string name="settings_privacy_policy_subtitle">Voir la politique de confidentialité de l\'app</string>
     <string name="project_header">Projet open-source</string>
     <string name="information_header">Informations</string>
