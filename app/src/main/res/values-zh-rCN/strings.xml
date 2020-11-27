@@ -224,21 +224,21 @@
         <item>一日之计在于晨</item>
         <item>准备好一天的旅程了吗?</item>
         <item>红日初升，其道大光</item>
-        <item>不要忘了吃早餐！</item>
+        <item>不要忘了吃早餐哦~</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
         <item>晚上好！</item>
         <item>今天过得怎么样?</item>
         <item>今天事事都还顺心吗?</item>
-        <item>努力才有回报.</item>
-        <item>不要忘了吃晚餐!</item>
+        <item>努力才有回报</item>
+        <item>不要忘了吃晚餐哦~</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
         <item>晚安!</item>
-        <item>好梦!</item>
-        <item>野旷天低树，江清月近人</item>
-        <item>明天见...</item>
-        <item>不要睡得太晚了!</item>
+        <item>好梦~</item>
+        <item>明月松间照，清泉石上流</item>
+        <item>明天见！</item>
+        <item>不要睡得太晚了哦~</item>
     </string-array>
     <string name="glance_notification_hide_timeout_title">多久后隐藏通知</string>
     <string-array name="glance_notifications_timeout">
