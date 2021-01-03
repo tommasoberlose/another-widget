@@ -10,6 +10,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
+import com.tommasoberlose.anotherwidget.services.LocationService
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
@@ -31,26 +32,8 @@ object WeatherHelper {
         val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
-        } else if (context.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION)) {
-            LocationServices.getFusedLocationProviderClient(context).lastLocation.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val location = task.result
-                    if (location != null) {
-                        Preferences.customLocationLat = location.latitude.toString()
-                        Preferences.customLocationLon = location.longitude.toString()
-                    }
-
-                    CoroutineScope(Dispatchers.IO).launch {
-                        networkApi.updateWeather()
-                    }
-                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
-                } else {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        networkApi.updateWeather()
-                    }
-                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
-                }
-            }
+        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            LocationService.requestNewLocation(context)
         }
     }
 

@@ -13,6 +13,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:cardCornerRadius="24dp"
+        app:strokeColor="@color/disabledButtonBackground"
         app:cardElevation="0dp"
         android:id="@+id/color"
         app:cardBackgroundColor="@color/colorNightDark">

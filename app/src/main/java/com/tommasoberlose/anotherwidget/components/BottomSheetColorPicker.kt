@@ -24,6 +24,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.utils.expand
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.reveal
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import com.warkiz.widget.IndicatorSeekBar
@@ -93,6 +94,7 @@ class BottomSheetColorPicker(
                     injector
                         .with<MaterialCardView>(R.id.color) {
                             it.setCardBackgroundColor(ColorStateList.valueOf(item))
+                            it.strokeWidth = if ((colors.indexOf(item) == 0 && !context.isDarkTheme()) || (colors.indexOf(item) == 10 && context.isDarkTheme())) 2 else 0
                         }
                         .with<AppCompatImageView>(R.id.check) {
                             if (getSelected?.invoke() == item) {
