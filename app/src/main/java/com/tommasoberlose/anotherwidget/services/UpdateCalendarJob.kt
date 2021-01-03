@@ -85,6 +85,24 @@ class UpdateCalendarJob : JobIntentService() {
                                         instance.end =
                                             end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
                                     }
+
+                                    // Check all day events
+                                    val startDate = Calendar.getInstance()
+                                    startDate.timeInMillis = instance.begin
+                                    val endDate = Calendar.getInstance()
+                                    endDate.timeInMillis = instance.end
+
+                                    val isAllDay = e.allDay || (
+                                            startDate.get(Calendar.MILLISECOND) == 0
+                                                    && startDate.get(Calendar.SECOND) == 0
+                                                    && startDate.get(Calendar.MINUTE) == 0
+                                                    && startDate.get(Calendar.HOUR_OF_DAY) == 0
+                                                    && endDate.get(Calendar.MILLISECOND) == 0
+                                                    && endDate.get(Calendar.SECOND) == 0
+                                                    && endDate.get(Calendar.MINUTE) == 0
+                                                    && endDate.get(Calendar.HOUR_OF_DAY) == 0
+                                            )
+
                                     eventList.add(
                                         Event(
                                             id = instance.id,
@@ -93,7 +111,7 @@ class UpdateCalendarJob : JobIntentService() {
                                             startDate = instance.begin,
                                             endDate = instance.end,
                                             calendarID = e.calendarId.toInt(),
-                                            allDay = e.allDay,
+                                            allDay = isAllDay,
                                             address = e.eventLocation ?: "",
                                             selfAttendeeStatus = e.selfAttendeeStatus.toInt(),
                                             availability = e.availability
