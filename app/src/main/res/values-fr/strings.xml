@@ -16,7 +16,7 @@
     <string name="settings_custom_font_title">Police du widget</string>
     <string name="custom_font_subtitle_0">Police de l\'appareil</string>
     <string name="custom_font_subtitle_1">Google Sans</string>
-    <string name="custom_date_format">Format personnalisé</string>
+    <string name="custom_date_format">Format personnalisé...</string>
     <string name="alpha">Opacité </string>
     <string name="transparent">Transparent</string>
     <string name="settings_show_dividers_title">Séparateur de texte</string>
@@ -27,7 +27,7 @@
     <string name="settings_date_format_title">Format de date</string>
     <string name="header_widget_background">Arrière-plan du widget</string>
     <string name="settings_secondary_row_top_margin_title">Marge intermédiaire</string>
-    <string name="action_custom_font_to_search">Police personnalisée</string>
+    <string name="action_custom_font_to_search">Police personnalisée...</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendrier</string>
@@ -170,7 +170,7 @@
     <string name="settings_sort_glance_providers_title">Priorité des sources de données</string>
     <string name="settings_sort_glance_providers_subtitle">Glissez-déposez les fournisseurs de la liste pour modifier l\'ordre de priorité de leur affichage.</string>
     <string name="settings_custom_notes_title">Notes personnalisées</string>
-    <string name="settings_daily_steps_title">Nombre de pas</string>
+    <string name="settings_daily_steps_title">Activité physique</string>
     <string name="daily_steps_counter">%d pas jusqu\'à présent</string>
     <string name="settings_low_battery_level_title">Batterie</string>
     <string name="battery_low_warning">Batterie faible</string>
@@ -200,25 +200,25 @@
     <string name="applications_filter_subtitle">Choisissez les notifications à afficher</string>
     
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Bonjour !</item>
-        <item>Bonne journée !</item>
-        <item>Prêt à partir ?</item>
+        <item>Bonjour !</item>
+        <item>Bonne journée !</item>
+        <item>Prêt à partir ?</item>
         <item>Levez-vous et brillez.</item>
-        <item>N\'oubliez pas votre petit-déjeuner!</item>
+        <item>N\'oubliez pas votre petit-déjeuner !</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
-        <item>Bonsoir!</item>
-        <item>Comment a été votre journée?</item>
-        <item>Avez-vous passé une bonne journée?</item>
+        <item>Bonsoir !</item>
+        <item>Comment a été votre journée ?</item>
+        <item>Avez-vous passé une bonne journée ?</item>
         <item>Après l\'effort, le réconfort.</item>
-        <item>N\'oubliez pas de dîner!</item>
+        <item>N\'oubliez pas de dîner !</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
-        <item>Bonne nuit!</item>
-        <item>Dormez bien!</item>
-        <item>Faites de beaux rêves!</item>
+        <item>Bonne nuit !</item>
+        <item>Dormez bien !</item>
+        <item>Faites de beaux rêves !</item>
         <item>À demain...</item>
-        <item>Ne vous couchez pas trop tard!</item>
+        <item>Ne vous couchez pas trop tard !</item>
     </string-array>
     
     <string name="glance_notification_hide_timeout_title">Cacher la notification après</string>
@@ -249,7 +249,7 @@
     <string name="support_translations_subtitle">Ouvrir une pull-request sur GitHub</string>
     <string name="support_website_title">Consulter mes autres projets</string>
     <string name="support_website_subtitle">Un développeur, plusieurs possibilités</string>
-    <string name="error">Oups, quelque chose s\'est mal passé !</string>
+    <string name="error">Oups, quelque chose s\'est mal passé !</string>
     <string name="settings_theme_title">Thème</string>
     <string name="support_main_subtitle">On a toujours besoin de beaucoup de café</string>
     <string name="settings_subtitle_dark_theme_light">Clair</string>
@@ -261,7 +261,7 @@
     <string name="settings_app_version_title">Version de l\'app</string>
     <string name="settings_title_show_wallpaper">Afficher le fond d\'écran</string>
     <string name="support_refresh_widget_subtitle">Forcer le redémarrage des services du widget</string>
-    <string name="settings_feedback_subtitle">N\'hésitez pas à aider notre projet !</string>
+    <string name="settings_feedback_subtitle">N\'hésitez pas à aider notre projet !</string>
     <string name="settings_feedback_title">Commentaires et suggestions</string>
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
     <string name="xiaomi_warning_message">Veuillez activer l\'option \"Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\" dans la section \"Autres autorisations\" des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune autre app en tapant sur le widget.</string>
@@ -273,7 +273,7 @@
     <string name="provider_header">Configuration</string>
     <string name="appearance_header">Apparence</string>
     <string name="preferences_header">Préférences</string>
-    <string name="settings_privacy_policy_title"><![CDATA[Légal et confidentialité]]> (Anglais)</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Avis légal et confidentialité]]></string>
     <string name="settings_privacy_policy_subtitle">Voir la politique de confidentialité de l\'app</string>
     <string name="project_header">Projet open-source</string>
     <string name="information_header">Informations</string>
@@ -281,14 +281,14 @@
     <!-- Activities -->
     <string name="action_choose_application">Choisir l\'app</string>
     <string name="support_main_title">Soutenir le développeur</string>
-    <string name="thanks">Merci de m\'avoir soutenu !</string>
+    <string name="thanks">Merci de m\'avoir soutenu !</string>
     <string name="donation_coffee">Un café italien</string>
     <string name="donation_donuts">Quelques donuts glacés</string>
     <string name="donation_dinner">Un dîner chic</string>
     <string name="donation_breakfast">Un petit-déjeuner anglais</string>
     <string name="donation_lunch">Un déjeuner rapide</string>
     <string name="action_show_widget_preview">Afficher l\'aperçu du widget</string>
-    <string name="support_dev_subtitle">Ceci est le projet d\'un unique développeur,\ndonc merci pour le soutien !</string>
+    <string name="support_dev_subtitle">Ceci est le projet d\'un unique développeur,\ndonc merci pour le soutien !</string>
     <string name="settings_title_integrations">Intégrations</string>
     <string name="label_count_installed_integrations">%d intégrations installées</string>
     <string name="nothing">Rien</string>
