@@ -30,13 +30,15 @@ class LocationService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        startForeground(LOCATION_ACCESS_NOTIFICATION_ID, getLocationAccessNotification())
+    }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            startForeground(LOCATION_ACCESS_NOTIFICATION_ID, getLocationAccessNotification())
 
             jobs += GlobalScope.launch(Dispatchers.IO) {
                 LocationServices.getFusedLocationProviderClient(this@LocationService).lastLocation.addOnCompleteListener { task ->
@@ -51,7 +53,7 @@ class LocationService : Service() {
                         CoroutineScope(Dispatchers.IO).launch {
                             networkApi.updateWeather()
                             withContext(Dispatchers.Main) {
-                                stopForeground(true)
+                                stopSelf()
                             }
                         }
                         EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
@@ -59,7 +61,7 @@ class LocationService : Service() {
                         CoroutineScope(Dispatchers.IO).launch {
                             networkApi.updateWeather()
                             withContext(Dispatchers.Main) {
-                                stopForeground(true)
+                                stopSelf()
                             }
                         }
                         EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
@@ -67,8 +69,9 @@ class LocationService : Service() {
                 }
             }
         } else {
-            stopForeground(true)
+            stopSelf()
         }
+        return START_STICKY
     }
 
     override fun onDestroy() {
