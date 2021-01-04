@@ -161,12 +161,7 @@ class WeatherTabFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        // Background permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && activity?.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) == true && activity?.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != true) {
-            requirePermission()
-        }
-
-        if (activity?.checkGrantedPermission(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION) == true) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             location_permission_alert?.isVisible = false
             background_location_warning.isVisible = Preferences.customLocationAdd == ""
             WeatherReceiver.setUpdates(requireContext())
@@ -299,7 +294,7 @@ class WeatherTabFragment : Fragment() {
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {

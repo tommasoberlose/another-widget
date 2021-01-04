@@ -37,7 +37,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/action_back"
                     app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_arrow_back" />
+                    android:src="@drawable/round_arrow_back_24" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -55,7 +55,7 @@
                     android:layout_alignParentRight="true"
                     android:visibility="gone"
                     app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_filter_list" />
+                    android:src="@drawable/round_filter_list_24" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView

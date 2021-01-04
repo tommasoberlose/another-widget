@@ -86,7 +86,7 @@
     </style>
 
     <style name="AnotherWidget.Settings.Subtitle" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:fontFamily">@font/google_sans</item>
     </style>

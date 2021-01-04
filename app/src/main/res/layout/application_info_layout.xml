@@ -47,7 +47,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding="12dp"
-        android:src="@drawable/round_check_circle_outline"
+        android:src="@drawable/round_check_circle_outline_24"
         android:visibility="gone"
         app:tint="@color/colorPrimaryText"
         android:id="@+id/selected_icon" />

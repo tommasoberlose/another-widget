@@ -351,7 +351,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         }?.isVisible = if (Preferences.showWeather) {
             (WeatherHelper.isKeyRequired() && WeatherHelper.getApiKey() == "")
                     || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else Manifest.permission.ACCESS_FINE_LOCATION
+                            Manifest.permission.ACCESS_FINE_LOCATION
                         ) != true)
                     || (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-")
                     || (Preferences.weatherProviderLocationError != "")

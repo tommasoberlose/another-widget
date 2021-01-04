@@ -27,6 +27,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorAccent"
-        app:icon="@drawable/round_add"
+        app:icon="@drawable/round_add_24"
         app:iconTint="@android:color/white"/>
 </RelativeLayout>

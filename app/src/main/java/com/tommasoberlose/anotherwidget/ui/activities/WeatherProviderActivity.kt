@@ -129,7 +129,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                             it.isVisible = false
                         }
                     }
-                    .image(R.id.action_configure, ContextCompat.getDrawable(this, if (WeatherHelper.isKeyRequired(provider)) R.drawable.round_settings else R.drawable.outline_info_white))
+                    .image(R.id.action_configure, ContextCompat.getDrawable(this, if (WeatherHelper.isKeyRequired(provider)) R.drawable.round_settings_24 else R.drawable.outline_info_24))
             }.attachTo(list_view)
 
         adapter.updateData(

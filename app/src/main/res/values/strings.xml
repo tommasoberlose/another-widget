@@ -161,6 +161,12 @@
     <string name="weather_select_a_provider">Select a provider</string>
     <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they are usually more accurate.</string>
 
+    <string name="location_access_notification_channel_id" translatable="false">location-access</string>
+    <string name="location_access_notification_channel_name">Background service</string>
+    <string name="location_access_notification_channel_description">Service used to update the weather based on the current location of the user.</string>
+    <string name="location_access_notification_title">Weather update</string>
+    <string name="location_access_notification_subtitle">We\'re updating the weather based on your current location.</string>
+
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>
     <string name="settings_clock_app_title">Tap on clock opens</string>
