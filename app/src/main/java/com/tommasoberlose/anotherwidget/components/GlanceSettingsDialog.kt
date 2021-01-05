@@ -228,9 +228,11 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                 }
                 view.alarm_set_by_title.text = context.getString(R.string.settings_show_next_alarm_app_title).format(appNameOrPackage)
                 view.alarm_set_by_subtitle.text = if (AlarmHelper.isAlarmProbablyWrong(context)) context.getString(R.string.settings_show_next_alarm_app_subtitle_wrong) else context.getString(R.string.settings_show_next_alarm_app_subtitle_correct)
-                view.alarm_set_by_title.isVisible = true
+                view.alarm_set_by_container.isVisible = true
             } else {
-                view.alarm_set_by_title.isVisible = false
+                view.alarm_set_by_container.isVisible = false
+                view.header.isVisible = false
+                view.divider.isVisible = false
             }
         }
         statusCallback?.invoke()

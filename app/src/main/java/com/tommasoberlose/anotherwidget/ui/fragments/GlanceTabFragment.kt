@@ -47,7 +47,10 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
+import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_glance_settings.*
+import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
+import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
@@ -320,10 +323,12 @@ class GlanceTabFragment : Fragment() {
                         ViewCompat.setElevation(view, 2f.convertDpToPixel(requireContext()))
                         view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
                             R.color.colorPrimary))
+                        view.strokeWidth = 0
                     } else {
                         ViewCompat.setElevation(view, 0f)
                         view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
                             R.color.colorPrimaryDark))
+                        view.strokeWidth = 1
                     }
 
                     val topEdge = if ((view.top == 0 && dY < 0) || ((view.top + view.height >= recyclerView.height - 32f.convertDpToPixel(requireContext())) && dY > 0)) 0f else dY
@@ -350,6 +355,10 @@ class GlanceTabFragment : Fragment() {
         providers_list.isNestedScrollingEnabled = false
 
         setupListener()
+
+        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        }
     }
 
     private fun subscribeUi(

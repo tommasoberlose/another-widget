@@ -9,6 +9,7 @@
         <item name="android:windowLightStatusBar">@bool/is_not_dark_theme</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/black_10</item>
         <item  name="android:windowActivityTransitions">true</item>
     </style>
 
@@ -72,10 +73,15 @@
     </style>
 
     <style name="AnotherWidget.Settings.Header" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/google_sans</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
     </style>
 
     <style name="AnotherWidget.Settings.Title" parent="TextAppearance.AppCompat.Medium">
@@ -137,6 +143,7 @@
 
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
+        <item name="colorControlHighlight">@color/badgeBackground</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
@@ -146,6 +153,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:fontFamily">@font/google_sans</item>
+        <item name="colorControlHighlight">@color/badgeBackground</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
@@ -158,8 +166,20 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopRight">0dp</item>
         <item name="cornerSizeTopLeft">0dp</item>
-        <item name="cornerSizeBottomRight">24dp</item>
-        <item name="cornerSizeBottomLeft">24dp</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+    </style>
+
+    <style name="SecondaryCustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.Cut.Alt</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialCardView.Cut.Alt" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">24dp</item>
+        <item name="cornerSizeTopLeft">24dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
 </resources>

@@ -39,6 +39,8 @@ import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_calendar_settings.scrollView
+import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.Comparator
@@ -82,6 +84,10 @@ class CalendarTabFragment : Fragment() {
         show_multiple_events_toggle.isChecked = Preferences.showNextEvent
 
         setupListener()
+
+        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        }
     }
 
     private fun subscribeUi(
@@ -215,91 +221,73 @@ class CalendarTabFragment : Fragment() {
         }
 
         action_show_all_day.setOnClickListener {
-            if (Preferences.showEvents) {
-                show_all_day_toggle.isChecked = !show_all_day_toggle.isChecked
-            }
+            show_all_day_toggle.isChecked = !show_all_day_toggle.isChecked
         }
 
         show_all_day_toggle.setOnCheckedChangeListener { _, isChecked ->
-            if (Preferences.showEvents) {
-                Preferences.calendarAllDay = isChecked
-                updateCalendar()
-            }
+            Preferences.calendarAllDay = isChecked
+            updateCalendar()
         }
 
         action_change_attendee_filter.setOnClickListener {
-            if (Preferences.showEvents) {
-                val selectedValues = emptyList<Int>().toMutableList()
-                if (Preferences.showDeclinedEvents) {
-                    selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
-                }
-                if (Preferences.showInvitedEvents) {
-                    selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_INVITED)
-                }
-                if (Preferences.showAcceptedEvents) {
-                    selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED)
-                }
-
-                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_attendee_status_title), isMultiSelection = true)
-                    .setSelectedValues(selectedValues)
-
-                dialog.addItem(
-                    getString(R.string.attendee_status_invited),
-                    CalendarContract.Attendees.ATTENDEE_STATUS_INVITED
-                )
-                dialog.addItem(
-                    getString(R.string.attendee_status_accepted),
-                    CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED
-                )
-                dialog.addItem(
-                    getString(R.string.attendee_status_declined),
-                    CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED
-                )
-
-                dialog.addOnMultipleSelectItemListener { values ->
-                    Preferences.showDeclinedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
-                    Preferences.showAcceptedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED)
-                    Preferences.showInvitedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_INVITED)
-                    updateCalendar()
-                }.show()
+            val selectedValues = emptyList<Int>().toMutableList()
+            if (Preferences.showDeclinedEvents) {
+                selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
             }
+            if (Preferences.showInvitedEvents) {
+                selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_INVITED)
+            }
+            if (Preferences.showAcceptedEvents) {
+                selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED)
+            }
+
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_attendee_status_title), isMultiSelection = true)
+                .setSelectedValues(selectedValues)
+
+            dialog.addItem(
+                getString(R.string.attendee_status_invited),
+                CalendarContract.Attendees.ATTENDEE_STATUS_INVITED
+            )
+            dialog.addItem(
+                getString(R.string.attendee_status_accepted),
+                CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED
+            )
+            dialog.addItem(
+                getString(R.string.attendee_status_declined),
+                CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED
+            )
+
+            dialog.addOnMultipleSelectItemListener { values ->
+                Preferences.showDeclinedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
+                Preferences.showAcceptedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED)
+                Preferences.showInvitedEvents = values.contains(CalendarContract.Attendees.ATTENDEE_STATUS_INVITED)
+                updateCalendar()
+            }.show()
         }
 
         action_show_only_busy_events.setOnClickListener {
-            if (Preferences.showEvents) {
-                show_only_busy_events_toggle.isChecked = !show_only_busy_events_toggle.isChecked
-            }
+            show_only_busy_events_toggle.isChecked = !show_only_busy_events_toggle.isChecked
         }
 
         show_only_busy_events_toggle.setOnCheckedChangeListener { _, isChecked ->
-            if (Preferences.showEvents) {
-                Preferences.showOnlyBusyEvents = isChecked
-                updateCalendar()
-            }
+            Preferences.showOnlyBusyEvents = isChecked
+            updateCalendar()
         }
 
         action_show_multiple_events.setOnClickListener {
-            if (Preferences.showEvents) {
-                show_multiple_events_toggle.isChecked = !show_multiple_events_toggle.isChecked
-            }
+            show_multiple_events_toggle.isChecked = !show_multiple_events_toggle.isChecked
         }
 
         show_multiple_events_toggle.setOnCheckedChangeListener { _, isChecked ->
-            if (Preferences.showEvents) {
-                Preferences.showNextEvent = isChecked
-            }
+            Preferences.showNextEvent = isChecked
         }
 
         action_show_diff_time.setOnClickListener {
-            if (Preferences.showEvents) {
-                show_diff_time_toggle.isChecked = !show_diff_time_toggle.isChecked
-            }
+            show_diff_time_toggle.isChecked = !show_diff_time_toggle.isChecked
         }
 
         show_diff_time_toggle.setOnCheckedChangeListener { _, isChecked ->
-            if (Preferences.showEvents) {
-                Preferences.showDiffTime = isChecked
-            }
+            Preferences.showDiffTime = isChecked
         }
 
         action_widget_update_frequency.setOnClickListener {
@@ -315,38 +303,33 @@ class CalendarTabFragment : Fragment() {
         }
 
         action_second_row_info.setOnClickListener {
-            if (Preferences.showEvents) {
-                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_second_row_info_title)).setSelectedValue(Preferences.secondRowInformation)
-                (0 .. 1).forEach {
-                    dialog.addItem(getString(SettingsStringHelper.getSecondRowInfoString(it)), it)
-                }
-                dialog.addOnSelectItemListener { value ->
-                        Preferences.secondRowInformation = value
-                    }.show()
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_second_row_info_title)).setSelectedValue(Preferences.secondRowInformation)
+            (0 .. 1).forEach {
+                dialog.addItem(getString(SettingsStringHelper.getSecondRowInfoString(it)), it)
             }
+            dialog.addOnSelectItemListener { value ->
+                Preferences.secondRowInformation = value
+            }.show()
         }
 
         action_show_until.setOnClickListener {
-            if (Preferences.showEvents) {
-                val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_until_title)).setSelectedValue(Preferences.showUntil)
-                intArrayOf(6,7,0,1,2,3, 4, 5).forEach {
-                    dialog.addItem(getString(SettingsStringHelper.getShowUntilString(it)), it)
-                }
-                dialog.addOnSelectItemListener { value ->
-                        Preferences.showUntil = value
-                    }.show()
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_until_title)).setSelectedValue(Preferences.showUntil)
+            intArrayOf(6,7,0,1,2,3, 4, 5).forEach {
+                dialog.addItem(getString(SettingsStringHelper.getShowUntilString(it)), it)
             }
+            dialog.addOnSelectItemListener { value ->
+                Preferences.showUntil = value
+            }.show()
         }
 
         action_open_event_details.setOnClickListener {
-            if (Preferences.showEvents) {
-                BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_event_app_title)).setSelectedValue(Preferences.openEventDetails)
-                    .addItem(getString(R.string.default_event_app), true)
-                    .addItem(getString(R.string.default_calendar_app), false)
-                    .addOnSelectItemListener { value ->
-                        Preferences.openEventDetails = value
-                    }.show()
-            }
+            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_event_app_title)).setSelectedValue(Preferences.openEventDetails)
+                .addItem(getString(R.string.default_event_app), true)
+                .addItem(getString(R.string.default_calendar_app), false)
+                .addOnSelectItemListener { value ->
+                    Preferences.openEventDetails = value
+                }
+                .show()
         }
 
         action_calendar_app.setOnClickListener {

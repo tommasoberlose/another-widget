@@ -42,5 +42,12 @@
         <action
             android:id="@+id/action_tabSelectorFragment_to_clockTabFragment"
             app:destination="@id/clockTabFragment" />
+        <action
+            android:id="@+id/action_tabSelectorFragment_to_typographyTabFragment"
+            app:destination="@id/typographyTabFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/typographyTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.TypographyTabFragment"
+        android:label="TypographyTabFragment" />
 </navigation>

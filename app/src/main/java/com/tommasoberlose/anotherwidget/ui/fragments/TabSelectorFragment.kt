@@ -39,6 +39,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.*
+import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.android.synthetic.main.fragment_tab_selector.scrollView
 import kotlinx.coroutines.delay
@@ -79,6 +80,10 @@ class TabSelectorFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupListener()
+
+        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        }
     }
 
     private fun subscribeUi(
@@ -126,6 +131,10 @@ class TabSelectorFragment : Fragment() {
     }
 
     private fun setupListener() {
+
+        action_typography.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_typographyTabFragment)
+        }
 
         action_general_settings.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_generalTabFragment)

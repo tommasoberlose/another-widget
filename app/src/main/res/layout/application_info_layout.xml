@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/selectableItemBackground"
-    android:focusable="true"
+    android:layout_height="wrap_content"
     android:clickable="true"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp"
-    android:orientation="horizontal"
+    android:focusable="true"
+    app:cardElevation="0dp"
     android:id="@+id/item"
-    android:gravity="center_vertical|start">
-    <ImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:src="@mipmap/ic_launcher_foreground"
-        android:contentDescription="icon"
-        android:id="@+id/icon"
-        tools:ignore="HardcodedText" />
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|start"
-        android:paddingEnd="24dp"
-        android:lines="1"
-        android:textAlignment="viewStart"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/colorPrimaryText"
-        style="@style/AnotherWidget.Settings.Title"/>
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_width="wrap_content"
+    app:strokeWidth="1dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    app:strokeColor="@color/cardBorder"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox"
-        android:visibility="gone"
-        android:layout_gravity="center_vertical" />
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
-        android:src="@drawable/round_check_circle_outline_24"
-        android:visibility="gone"
-        app:tint="@color/colorPrimaryText"
-        android:id="@+id/selected_icon" />
-</LinearLayout>
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|start">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/ic_launcher_foreground"
+            android:contentDescription="icon"
+            android:id="@+id/icon"
+            tools:ignore="HardcodedText" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|start"
+            android:paddingEnd="24dp"
+            android:paddingStart="0dp"
+            android:lines="1"
+            android:textAlignment="viewStart"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorPrimaryText"
+            style="@style/AnotherWidget.Settings.Title"/>
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/round_check_circle_outline_24"
+            android:visibility="gone"
+            app:tint="@color/colorPrimaryText"
+            android:id="@+id/selected_icon" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -45,6 +45,8 @@ import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.collapse
 import com.tommasoberlose.anotherwidget.utils.expand
+import kotlinx.android.synthetic.main.fragment_calendar_settings.*
+import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.android.synthetic.main.fragment_weather_settings.*
 import kotlinx.android.synthetic.main.fragment_weather_settings.scrollView
 import kotlinx.coroutines.delay
@@ -83,6 +85,10 @@ class WeatherTabFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupListener()
+
+        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        }
     }
 
     private fun subscribeUi(
@@ -190,66 +196,54 @@ class WeatherTabFragment : Fragment() {
     private fun setupListener() {
 
         action_weather_provider.setOnClickListener {
-            if (Preferences.showWeather) {
-                startActivityForResult(
-                    Intent(requireContext(), WeatherProviderActivity::class.java),
-                    RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code
-                )
-            }
+            startActivityForResult(
+                Intent(requireContext(), WeatherProviderActivity::class.java),
+                RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code
+            )
         }
 
         action_custom_location.setOnClickListener {
-            if (Preferences.showWeather) {
-                startActivityForResult(
-                    Intent(requireContext(), CustomLocationActivity::class.java),
-                    Constants.RESULT_CODE_CUSTOM_LOCATION
-                )
-            }
+            startActivityForResult(
+                Intent(requireContext(), CustomLocationActivity::class.java),
+                Constants.RESULT_CODE_CUSTOM_LOCATION
+            )
         }
 
         action_change_unit.setOnClickListener {
-            if (Preferences.showWeather) {
-                BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_unit_title)).setSelectedValue(Preferences.weatherTempUnit)
-                    .addItem(getString(R.string.fahrenheit), "F")
-                    .addItem(getString(R.string.celsius), "C")
-                    .addOnSelectItemListener { value ->
-                        if (value != Preferences.weatherTempUnit) {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                WeatherHelper.updateWeather(requireContext())
-                            }
+            BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_unit_title)).setSelectedValue(Preferences.weatherTempUnit)
+                .addItem(getString(R.string.fahrenheit), "F")
+                .addItem(getString(R.string.celsius), "C")
+                .addOnSelectItemListener { value ->
+                    if (value != Preferences.weatherTempUnit) {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            WeatherHelper.updateWeather(requireContext())
                         }
-                        Preferences.weatherTempUnit = value
-                    }.show()
-            }
+                    }
+                    Preferences.weatherTempUnit = value
+                }.show()
         }
 
         action_weather_refresh_period.setOnClickListener {
-            if (Preferences.showWeather) {
-                val dialog =
-                    BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_refresh_period_title)).setSelectedValue(Preferences.weatherRefreshPeriod)
-                (5 downTo 0).forEach {
-                    dialog.addItem(getString(SettingsStringHelper.getRefreshPeriodString(it)), it)
-                }
-                dialog
-                    .addOnSelectItemListener { value ->
-                        Preferences.weatherRefreshPeriod = value
-                    }.show()
+            val dialog =
+                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_refresh_period_title)).setSelectedValue(Preferences.weatherRefreshPeriod)
+            (5 downTo 0).forEach {
+                dialog.addItem(getString(SettingsStringHelper.getRefreshPeriodString(it)), it)
             }
+            dialog
+                .addOnSelectItemListener { value ->
+                    Preferences.weatherRefreshPeriod = value
+                }.show()
         }
 
         action_weather_icon_pack.setOnClickListener {
-            if (Preferences.showWeather) {
-                IconPackSelector(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).show()
-            }
+            IconPackSelector(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).show()
         }
 
         action_weather_app.setOnClickListener {
-            if (Preferences.showWeather) {
-                startActivityForResult(
-                    Intent(requireContext(), ChooseApplicationActivity::class.java),
-                    RequestCode.WEATHER_APP_REQUEST_CODE.code
-                )
-            }
+            startActivityForResult(
+                Intent(requireContext(), ChooseApplicationActivity::class.java),
+                RequestCode.WEATHER_APP_REQUEST_CODE.code
+            )
         }
     }
 

@@ -63,7 +63,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="2dp"
-            style="@style/CustomCardViewStyle"
             app:cardBackgroundColor="@color/colorPrimary">
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

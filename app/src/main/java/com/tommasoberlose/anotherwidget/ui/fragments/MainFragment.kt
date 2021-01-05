@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
@@ -103,6 +105,15 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     startActivity(intent)
                 }
                 .show()
+        }
+
+//        Navigation.findNavController(settings_fragment).addOnDestinationChangedListener { controller, destination, _ ->
+//            action_back?.isVisible = destination.id != R.id.tabSelectorFragment
+//            Log.d("ciao", "${controller.currentDestination?.displayName} ${destination.id} - ${R.id.tabSelectorFragment}")
+//        }
+
+        viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
+            toolbar?.cardElevation = if (it > 0) 24f else 0f
         }
     }
 
@@ -313,12 +324,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             }
         })
 
-        logo.setOnClickListener {
-//            startActivity(Intent(this, SupportDevActivity::class.java))
-        }
-
         action_settings.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment)
+            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment, null, null, FragmentNavigatorExtras(fragment_title to "settings_title"))
         }
     }
 

@@ -33,7 +33,7 @@
         android:layout_height="30dp"
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/colorAccent_op30"
+        app:cardBackgroundColor="@color/colorAccent_op10"
         app:cardPreventCornerOverlap="true">
         <TextView
             android:layout_width="wrap_content"

@@ -44,9 +44,13 @@
                     android:id="@+id/subtitle"
                     android:text=""/>
             </LinearLayout>
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.kyleduo.switchbutton.SwitchButton
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
+                app:kswThumbWidth="16sp"
+                app:kswThumbHeight="16sp"
+                app:kswBackRadius="16dp"
+                app:kswTintColor="@color/colorAccent"
                 android:id="@+id/provider_switch" />
         </LinearLayout>
         <LinearLayout
@@ -135,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="@string/settings_music_players_filter_subtitle"
+                        android:text="@string/settings_show_next_alarm_app_subtitle_correct"
                         android:id="@+id/alarm_set_by_subtitle"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>

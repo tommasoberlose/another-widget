@@ -68,7 +68,7 @@ class CustomLocationActivity : AppCompatActivity() {
             .register<String>(R.layout.custom_location_item) { _, injector ->
                 injector
                     .text(R.id.text, getString(R.string.custom_location_gps))
-                    .clicked(R.id.text) {
+                    .clicked(R.id.item) {
                         MaterialBottomSheetDialog(this, message = getString(R.string.background_location_warning))
                             .setPositiveButton(getString(android.R.string.ok)) {
                                 requirePermission()
@@ -78,7 +78,7 @@ class CustomLocationActivity : AppCompatActivity() {
             }
             .register<Address>(R.layout.custom_location_item) { item, injector ->
                 injector.text(R.id.text, item.getAddressLine(0))
-                injector.clicked(R.id.text) {
+                injector.clicked(R.id.item) {
                     Preferences.bulk {
                         customLocationLat = item.latitude.toString()
                         customLocationLon = item.longitude.toString()

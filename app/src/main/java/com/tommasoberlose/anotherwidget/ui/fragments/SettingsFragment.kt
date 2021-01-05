@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.transition.TransitionInflater
 import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -27,13 +27,13 @@ import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.FragmentSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
-import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
-import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.activities.IntegrationsActivity
+import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.SupportDevActivity
+import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -51,17 +51,21 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+//        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentSettingsBinding>(inflater, R.layout.fragment_settings, container, false)
+        val binding = DataBindingUtil.inflate<FragmentSettingsBinding>(inflater,
+            R.layout.fragment_settings,
+            container,
+            false)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -84,10 +88,14 @@ class SettingsFragment : Fragment() {
         setupListener()
 
         app_version.text = "v%s (%s)".format(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
+
+        scrollView.viewTreeObserver.addOnScrollChangedListener {
+            toolbar?.cardElevation = if (scrollView.scrollY > 0) 24f else 0f
+        }
     }
 
     private fun subscribeUi(
-        viewModel: MainViewModel
+        viewModel: MainViewModel,
     ) {
         viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
             AppCompatDelegate.setDefaultNightMode(it)
@@ -103,7 +111,9 @@ class SettingsFragment : Fragment() {
         })
 
         viewModel.installedIntegrations.observe(viewLifecycleOwner, Observer {
-            integrations_count_label?.text = getString(R.string.label_count_installed_integrations).format(it)
+            integrations_count_label?.text =
+                getString(R.string.label_count_installed_integrations).format(
+                    it)
         })
 
         viewModel.showPreview.observe(viewLifecycleOwner, Observer {
@@ -150,7 +160,8 @@ class SettingsFragment : Fragment() {
 
         action_change_theme.setOnClickListener {
             maintainScrollPosition {
-                BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_theme_title))
+                BottomSheetMenu<Int>(requireContext(),
+                    header = getString(R.string.settings_theme_title))
                     .setSelectedValue(Preferences.darkThemePreference)
                     .addItem(
                         getString(R.string.settings_subtitle_dark_theme_light),
@@ -213,7 +224,7 @@ class SettingsFragment : Fragment() {
         Dexter.withContext(requireContext())
             .withPermissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE
-            ).withListener(object: MultiplePermissionsListener {
+            ).withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
                         if (report.areAllPermissionsGranted()) {
@@ -223,9 +234,10 @@ class SettingsFragment : Fragment() {
                         }
                     }
                 }
+
                 override fun onPermissionRationaleShouldBeShown(
                     permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
+                    token: PermissionToken?,
                 ) {
                     // Remember to invoke this method when the custom rationale is closed
                     // or just by default if you don't want to use any custom rationale.

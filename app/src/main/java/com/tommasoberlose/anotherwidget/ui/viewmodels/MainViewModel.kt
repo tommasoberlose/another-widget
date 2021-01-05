@@ -88,4 +88,7 @@ class MainViewModel : ViewModel() {
     val showWallpaper = Preferences.asLiveData(Preferences::showWallpaper)
     val showPreview = Preferences.asLiveData(Preferences::showPreview)
     val installedIntegrations = Preferences.asLiveData(Preferences::installedIntegrations)
+
+    // UI
+    val fragmentScrollY = MutableLiveData<Int>()
 }

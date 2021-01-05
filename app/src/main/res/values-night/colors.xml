@@ -26,4 +26,5 @@
     <color name="disabledButtonBackground">#33000000</color>
     <color name="badgeBackground">#202020</color>
     <color name="cardBorder">#252525</color>
+    <color name="rippleColor">#202020</color>
 </resources>
