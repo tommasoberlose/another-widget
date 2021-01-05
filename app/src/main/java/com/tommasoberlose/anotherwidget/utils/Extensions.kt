@@ -258,3 +258,10 @@ fun Intent.isDefaultSet(context: Context): Boolean {
         false
     }
 }
+
+fun Locale.isMetric(): Boolean {
+    return when (country.toUpperCase(this)) {
+        "US", "LR", "MM", "GB" -> false
+        else -> true
+    }
+}

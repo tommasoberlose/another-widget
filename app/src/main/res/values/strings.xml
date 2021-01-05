@@ -164,7 +164,7 @@
     <string name="location_access_notification_channel_id" translatable="false">location-access</string>
     <string name="location_access_notification_channel_name">Background service</string>
     <string name="location_access_notification_channel_description">Service used to update the weather based on the current location of the user.</string>
-    <string name="location_access_notification_title">Weather update</string>
+    <string name="location_access_notification_title">Updating the weather…</string>
     <string name="location_access_notification_subtitle">We\'re updating the weather based on your current location.</string>
 
     <!-- Clock -->

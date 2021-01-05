@@ -2,7 +2,10 @@ package com.tommasoberlose.anotherwidget.global
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.core.os.ConfigurationCompat
 import com.chibatching.kotpref.KotprefModel
+import com.tommasoberlose.anotherwidget.utils.isMetric
+import java.util.*
 
 object Preferences : KotprefModel() {
     override val commitAllPropertiesByDefault: Boolean = true
@@ -14,8 +17,8 @@ object Preferences : KotprefModel() {
     var showWeather by booleanPref(key = "PREF_SHOW_WEATHER", default = false)
     var weatherIcon by stringPref(key = "PREF_WEATHER_ICON", default = "")
     var weatherTemp by floatPref(key = "PREF_WEATHER_TEMP", default = 0f)
-    var weatherTempUnit by stringPref(key = "PREF_WEATHER_TEMP_UNIT", default = "F")
-    var weatherRealTempUnit by stringPref(key = "PREF_WEATHER_REAL_TEMP_UNIT", default = "F")
+    var weatherTempUnit by stringPref(key = "PREF_WEATHER_TEMP_UNIT", default = if (ConfigurationCompat.getLocales(context.resources.configuration)[0].isMetric()) "C" else "F")
+    var weatherRealTempUnit by stringPref(key = "PREF_WEATHER_REAL_TEMP_UNIT", default = if (ConfigurationCompat.getLocales(context.resources.configuration)[0].isMetric()) "C" else "F")
     var calendarAllDay by booleanPref(key = "PREF_CALENDAR_ALL_DAY", default = true)
     var calendarFilter by stringPref(key = "PREF_CALENDAR_FILTER", default = "")
 
@@ -43,7 +46,7 @@ object Preferences : KotprefModel() {
     var weatherProviderApiWeatherApi by stringPref(default = "")
     var weatherProviderApiWeatherBit by stringPref(default = "")
     var weatherProviderApiAccuweather by stringPref(default = "")
-    var weatherProvider by intPref(default = Constants.WeatherProvider.OPEN_WEATHER.value)
+    var weatherProvider by intPref(default = if (ConfigurationCompat.getLocales(context.resources.configuration)[0].isMetric()) Constants.WeatherProvider.YR.value else Constants.WeatherProvider.WEATHER_GOV.value)
     var weatherProviderError by stringPref(default = "")
     var weatherProviderLocationError by stringPref(default = "")
     var eventAppName by stringPref(key = "PREF_EVENT_APP_NAME", default = "")
