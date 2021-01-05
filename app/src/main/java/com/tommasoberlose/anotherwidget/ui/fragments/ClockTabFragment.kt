@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.chibatching.kotpref.bulk
+import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
@@ -58,6 +59,8 @@ class ClockTabFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(
@@ -101,14 +104,6 @@ class ClockTabFragment : Fragment() {
         viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
             large_clock_warning?.isVisible = it
             small_clock_warning?.isVisible = !it
-        })
-
-        viewModel.showClock.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_clock_label?.text =
-                    if (it) getString(R.string.show_clock_visible) else getString(R.string.show_clock_not_visible)
-                binding.isClockVisible = it
-            }
         })
 
         viewModel.clockTextSize.observe(viewLifecycleOwner, Observer {
@@ -199,14 +194,6 @@ class ClockTabFragment : Fragment() {
     private fun setupListener() {
         action_hide_large_clock_warning.setOnClickListener {
             Preferences.showBigClockWarning = false
-        }
-
-        action_show_clock.setOnClickListener {
-            Preferences.showClock = !Preferences.showClock
-        }
-
-        show_clock_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
-            Preferences.showClock = enabled
         }
 
         action_clock_text_size.setOnClickListener {

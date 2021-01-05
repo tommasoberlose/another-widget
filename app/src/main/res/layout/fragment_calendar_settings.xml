@@ -28,69 +28,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_show_events"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="12dp"
-                    app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_today_24"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/title_permission_calendar"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/show_events_label"
-                        android:text="@string/description_permission_calendar"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:letterSpacing="0"
-                        android:textAllCaps="false"
-                        android:clickable="true"
-                        android:layout_marginStart="-8dp"
-                        android:layout_marginBottom="-8dp"
-                        android:paddingBottom="0dp"
-                        android:paddingTop="0dp"
-                        android:focusable="true"
-                        android:id="@+id/read_calendar_permission_alert"
-                        android:textColor="@color/errorColorText"
-                        android:text="@string/action_grant_permission"/>
-                </LinearLayout>
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="@{isCalendarEnabled}"
-                    android:id="@+id/show_events_switch"
-                    android:buttonTint="@color/colorAccent" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/calendar_settings"
-                android:alpha="@{isCalendarEnabled ? 1f : 0.2f, default=1}"
+                android:alpha="@{isCalendarEnabled ? 1f : 1f, default=1}"
                 android:orientation="vertical">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"

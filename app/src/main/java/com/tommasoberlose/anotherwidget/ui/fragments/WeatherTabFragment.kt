@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.chibatching.kotpref.bulk
+import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -59,6 +60,8 @@ class WeatherTabFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(
@@ -79,7 +82,6 @@ class WeatherTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         setupListener()
     }
 
@@ -88,17 +90,6 @@ class WeatherTabFragment : Fragment() {
         viewModel: MainViewModel
     ) {
         binding.isWeatherVisible = Preferences.showWeather
-
-        viewModel.showWeather.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                show_weather_label?.text =
-                    if (it) getString(R.string.show_weather_visible) else getString(R.string.show_weather_not_visible)
-                checkWeatherProviderConfig()
-                binding.isWeatherVisible = it
-            }
-            checkLocationPermission()
-            checkWeatherProviderConfig()
-        })
 
         viewModel.weatherProvider.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
@@ -197,13 +188,6 @@ class WeatherTabFragment : Fragment() {
     }
 
     private fun setupListener() {
-        action_show_weather.setOnClickListener {
-            Preferences.showWeather = !Preferences.showWeather
-        }
-
-        show_weather_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
-            Preferences.showWeather = enabled
-        }
 
         action_weather_provider.setOnClickListener {
             if (Preferences.showWeather) {

@@ -34,5 +34,6 @@
     <color name="disabledButtonBackground">#efefef</color>
     <color name="success">#43A047</color>
     <color name="badgeBackground">#efefef</color>
+    <color name="cardBorder">#DADADA</color>
 
 </resources>

@@ -24,55 +24,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_show_weather"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="12dp"
-                    android:id="@+id/weather_icon_pack"
-                    app:tint="@color/colorPrimaryText"
-                    android:src="@drawable/round_brightness_5_24"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/title_permission_location"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/show_weather_label"
-                        android:text="@string/description_permission_location"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="@{isWeatherVisible}"
-                    android:id="@+id/show_weather_switch"
-                    android:buttonTint="@color/colorAccent" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/weather_settings"
-                android:alpha="@{isWeatherVisible ? 1f : 0.2f, default=1}"
+                android:alpha="@{isWeatherVisible ? 1f : 1f, default=1}"
                 android:orientation="vertical">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"

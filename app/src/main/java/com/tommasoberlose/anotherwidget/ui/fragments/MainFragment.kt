@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
@@ -72,20 +73,6 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Viewpager
-        pager.adapter = ViewPagerAdapter(requireActivity())
-        pager.offscreenPageLimit = 4
-        TabLayoutMediator(tabs, pager) { tab, position ->
-            tab.text = when (position) {
-                0 -> getString(R.string.settings_general_title)
-                1 -> getString(R.string.settings_calendar_title)
-                2 -> getString(R.string.settings_weather_title)
-                3 -> getString(R.string.settings_clock_title)
-                4 -> getString(R.string.settings_at_a_glance_title)
-                else -> ""
-            }
-        }.attach()
-
         // Init clock
         if (Preferences.showClock) {
             time.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
@@ -126,6 +113,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 
         preview?.clearAnimation()
         time_container?.clearAnimation()
+        bottom_padding.isVisible = Preferences.showPreview
 
         if (Preferences.showPreview) {
             preview?.setCardBackgroundColor(
@@ -293,9 +281,6 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 }.start()
             }
         }
-
-        showErrorBadge()
-
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
@@ -337,43 +322,10 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         }
     }
 
-    private fun showErrorBadge() {
-        // Calendar error indicator
-        tabs?.getTabAt(1)?.orCreateBadge?.apply {
-            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
-            badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = Preferences.showEvents && activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) != true
-
-        // Weather error indicator
-        tabs?.getTabAt(2)?.orCreateBadge?.apply {
-            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
-            badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = if (Preferences.showWeather) {
-            (WeatherHelper.isKeyRequired() && WeatherHelper.getApiKey() == "")
-                    || (Preferences.customLocationAdd == "" && activity?.checkGrantedPermission(
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) != true)
-                    || (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-")
-                    || (Preferences.weatherProviderLocationError != "")
-        } else {
-            false
-        }
-
-        // Glance error indicator
-        tabs?.getTabAt(4)?.orCreateBadge?.apply {
-            backgroundColor = ContextCompat.getColor(requireContext(), R.color.errorColorText)
-            badgeGravity = BadgeDrawable.TOP_END
-        }?.isVisible = ((Preferences.showMusic || Preferences.showNotifications) && !ActiveNotificationsHelper.checkNotificationAccess(requireContext())) ||
-                (Preferences.showDailySteps && !(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION))) ||
-                (AlarmHelper.isAlarmProbablyWrong(requireContext())) ||
-                (Preferences.showEventsAsGlanceProvider && (!Preferences.showEvents || !requireContext().checkGrantedPermission(Manifest.permission.READ_CALENDAR)))
-    }
-
     override fun onResume() {
         super.onResume()
         Preferences.preferences.registerOnSharedPreferenceChangeListener(this)
         EventBus.getDefault().register(this)
-        showErrorBadge()
         updateUI()
     }
 
@@ -407,13 +359,6 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             withContext(Dispatchers.Main) {
                 updateUI()
             }
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: ChangeTabEvent?) {
-        event?.let {
-            pager.setCurrentItem(event.page, true)
         }
     }
 }

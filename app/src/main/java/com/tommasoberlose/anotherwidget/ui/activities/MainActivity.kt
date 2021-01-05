@@ -68,6 +68,12 @@ class MainActivity : AppCompatActivity() {
             R.id.content_fragment
         )
     }
+    private val settingsNavController: NavController? by lazy {
+        Navigation.findNavController(
+            this,
+            R.id.settings_fragment
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,11 +89,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (mainNavController?.currentDestination?.id == R.id.appMainFragment) {
-            if (mAppWidgetId > 0) {
-                addNewWidget()
-            } else {
-                setResult(Activity.RESULT_OK)
-                finish()
+            if (settingsNavController?.navigateUp() == false) {
+                if (mAppWidgetId > 0) {
+                    addNewWidget()
+                } else {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
         } else {
             super.onBackPressed()

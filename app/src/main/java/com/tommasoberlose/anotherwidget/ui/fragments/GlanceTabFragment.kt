@@ -29,6 +29,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.CustomNotesDialog
 import com.tommasoberlose.anotherwidget.components.GlanceSettingsDialog
@@ -65,6 +66,8 @@ class GlanceTabFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(
@@ -354,30 +357,9 @@ class GlanceTabFragment : Fragment() {
         viewModel: MainViewModel,
     ) {
         binding.isGlanceVisible = Preferences.showGlance
-
-        viewModel.showGlance.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                binding.isGlanceVisible = it
-                show_glance_label.text =
-                    if (it) getString(R.string.description_show_glance_visible) else getString(
-                        R.string.description_show_glance_not_visible)
-            }
-        })
     }
 
     private fun setupListener() {
-        action_show_glance.setOnClickListener {
-            Preferences.showGlance = !Preferences.showGlance
-        }
-
-        show_glance_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
-            Preferences.showGlance = enabled
-        }
-
-        action_show_glance.setOnLongClickListener {
-            Preferences.enabledGlanceProviderOrder = ""
-            true
-        }
     }
 
     private val nextAlarmChangeBroadcastReceiver = object : BroadcastReceiver() {

@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.chibatching.kotpref.bulk
+import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -52,6 +53,8 @@ class CalendarTabFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onCreateView(
@@ -87,21 +90,6 @@ class CalendarTabFragment : Fragment() {
     ) {
         binding.isCalendarEnabled = Preferences.showEvents
         binding.isDiffEnabled = Preferences.showDiffTime || !Preferences.showEvents
-
-        viewModel.showEvents.observe(viewLifecycleOwner, Observer {
-            maintainScrollPosition {
-                binding.isCalendarEnabled = it
-
-                if (it) {
-                    CalendarHelper.setEventUpdatesAndroidN(requireContext())
-                } else {
-                    CalendarHelper.removeEventUpdatesAndroidN(requireContext())
-                }
-                binding.isDiffEnabled = Preferences.showDiffTime || !it
-            }
-            checkReadEventsPermission()
-            updateCalendar()
-        })
 
         viewModel.calendarAllDay.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
@@ -174,20 +162,6 @@ class CalendarTabFragment : Fragment() {
     }
 
     private fun setupListener() {
-
-        action_show_events.setOnClickListener {
-            Preferences.showEvents = !Preferences.showEvents
-            if (Preferences.showEvents) {
-                requirePermission()
-            }
-        }
-
-        show_events_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
-            Preferences.showEvents = enabled
-            if (Preferences.showEvents) {
-                requirePermission()
-            }
-        }
 
         action_filter_calendar.setOnClickListener {
             val calendarSelectorList: List<CalendarSelector> = CalendarHelper.getCalendarList(requireContext()).map {
@@ -380,49 +354,10 @@ class CalendarTabFragment : Fragment() {
         }
     }
 
-    private fun checkReadEventsPermission(showEvents: Boolean = Preferences.showEvents) {
-        if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
-            show_events_label?.text = if (showEvents) getString(R.string.show_events_visible) else getString(R.string.show_events_not_visible)
-            read_calendar_permission_alert?.isVisible = false
-        } else {
-            show_events_label?.text = if (showEvents) getString(R.string.description_permission_calendar) else getString(R.string.show_events_not_visible)
-            read_calendar_permission_alert?.isVisible = showEvents
-            read_calendar_permission_alert?.setOnClickListener {
-                requirePermission()
-            }
-        }
-    }
-
     private fun updateCalendar() {
         if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
             CalendarHelper.updateEventList(requireContext())
         }
-    }
-
-    private fun requirePermission() {
-        Dexter.withContext(requireContext())
-            .withPermissions(
-                Manifest.permission.READ_CALENDAR
-            ).withListener(object: MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    report?.let {
-                        if (report.areAllPermissionsGranted()){
-                            checkReadEventsPermission()
-                        } else {
-                            Preferences.showEvents = false
-                        }
-                    }
-                }
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    // Remember to invoke this method when the custom rationale is closed
-                    // or just by default if you don't want to use any custom rationale.
-                    token?.continuePermissionRequest()
-                }
-            })
-            .check()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -30,7 +30,6 @@
                 android:textAlignment="viewStart"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/colorAccent"
                 android:textAppearance="@style/AnotherWidget.Settings.Header"
                 app:textAllCaps="false" />
             <LinearLayout
@@ -51,7 +50,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_text_fields_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,7 +87,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_palette_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -147,7 +146,7 @@
                     android:layout_height="48dp"
                     android:padding="10dp"
                     android:src="@drawable/round_text_format_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -174,7 +173,6 @@
                 android:textAlignment="viewStart"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/colorAccent"
                 android:textAppearance="@style/AnotherWidget.Settings.Header"
                 app:textAllCaps="false" />
             <LinearLayout
@@ -195,7 +193,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_text_fields_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -232,7 +230,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_palette_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -291,7 +289,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_format_line_spacing"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -318,7 +316,6 @@
                 android:textAlignment="viewStart"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/colorAccent"
                 android:textAppearance="@style/AnotherWidget.Settings.Header"
                 app:textAllCaps="false" />
             <LinearLayout
@@ -339,7 +336,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_texture_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -398,7 +395,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_font_download_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -436,7 +433,7 @@
                     android:padding="12dp"
                     android:src="@drawable/round_vertical_align_center_24"
                     android:rotation="90"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -470,7 +467,6 @@
                 android:textAlignment="viewStart"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/colorAccent"
                 android:textAppearance="@style/AnotherWidget.Settings.Header"
                 app:textAllCaps="false" />
             <LinearLayout
@@ -491,7 +487,7 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/round_aspect_ratio_24"
-                    app:tint="@color/colorPrimaryText"/>
+                    app:tint="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"

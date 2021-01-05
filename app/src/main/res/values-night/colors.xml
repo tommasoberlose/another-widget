@@ -25,4 +25,5 @@
 <!--    <color name="disabledButtonBackground">#131D28</color>-->
     <color name="disabledButtonBackground">#33000000</color>
     <color name="badgeBackground">#202020</color>
+    <color name="cardBorder">#252525</color>
 </resources>
