@@ -117,7 +117,6 @@ class WeatherTabFragment : Fragment() {
 
         viewModel.customLocationAdd.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                background_location_warning.isVisible = it == ""
                 label_custom_location?.text =
                     if (it == "") getString(R.string.custom_location_gps) else it
             }
@@ -163,11 +162,9 @@ class WeatherTabFragment : Fragment() {
     private fun checkLocationPermission() {
         if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             location_permission_alert?.isVisible = false
-            background_location_warning.isVisible = Preferences.customLocationAdd == ""
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             location_permission_alert?.isVisible = true
-            background_location_warning.isVisible = true
             location_permission_alert?.setOnClickListener {
                 MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
                     .setPositiveButton(getString(android.R.string.ok)) {
