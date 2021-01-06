@@ -10,6 +10,7 @@
         android:id="@+id/content_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
+        android:background="@color/colorPrimary"
         app:navGraph="@navigation/nav_graph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

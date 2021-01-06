@@ -124,7 +124,7 @@
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="true"
         app:cardCornerRadius="0dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardBackgroundColor="@color/colorPrimary"
         android:orientation="vertical">
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/settings_fragment"
