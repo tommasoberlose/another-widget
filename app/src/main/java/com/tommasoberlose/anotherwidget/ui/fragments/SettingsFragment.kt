@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -82,16 +84,12 @@ class SettingsFragment : Fragment() {
             Navigation.findNavController(it).popBackStack()
         }
 
-        show_widget_preview_toggle.isChecked = Preferences.showPreview
-        show_wallpaper_toggle.isChecked = Preferences.showWallpaper
+        show_widget_preview_toggle.setCheckedImmediatelyNoEvent(Preferences.showPreview)
+        show_wallpaper_toggle.setCheckedImmediatelyNoEvent(Preferences.showWallpaper)
 
         setupListener()
 
         app_version.text = "v%s (%s)".format(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
-
-        scrollView.viewTreeObserver.addOnScrollChangedListener {
-            toolbar?.cardElevation = if (scrollView.scrollY > 0) 24f else 0f
-        }
     }
 
     private fun subscribeUi(
@@ -202,12 +200,18 @@ class SettingsFragment : Fragment() {
         }
 
         action_refresh_widget.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                WeatherHelper.updateWeather(requireContext())
-            }
-            CalendarHelper.updateEventList(requireContext())
-            MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
-            ActiveNotificationsHelper.clearLastNotification(requireContext())
+            action_refresh_icon
+                .animate()
+                .rotation((action_refresh_icon.rotation - action_refresh_icon.rotation % 360f) + 360f)
+                .withEndAction {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                        WeatherHelper.updateWeather(requireContext())
+                        CalendarHelper.updateEventList(requireContext())
+                        MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
+                        ActiveNotificationsHelper.clearLastNotification(requireContext())
+                    }
+                }
+                .start()
         }
     }
 

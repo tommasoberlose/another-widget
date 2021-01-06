@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/colorPrimary"
-        android:scrollbarThumbVertical="@color/colorPrimaryDark">
+        android:scrollbarThumbVertical="@color/colorPrimary">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,24 +30,19 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/providers"
-                    android:textAlignment="viewStart"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:paddingTop="16dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorSecondaryText"
                     android:layout_marginBottom="16dp"
-                    android:textSize="13sp"
                     android:text="@string/settings_sort_glance_providers_subtitle"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"/>
+                    android:textAppearance="@style/AnotherWidget.Settings.SubHeader"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

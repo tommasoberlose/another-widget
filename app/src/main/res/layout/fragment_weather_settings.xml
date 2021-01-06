@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/colorPrimary"
         android:scrollbarThumbVertical="@color/colorPrimaryDark">
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,14 +29,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/provider_header"
-                    android:textAlignment="viewStart"
+                    android:paddingTop="16dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -143,20 +139,6 @@
                     android:layout_marginStart="64dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     app:textAllCaps="false" />
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:duplicateParentState="true"
-                    android:layout_marginTop="8dp"
-                    android:paddingStart="64dp"
-                    android:paddingEnd="16dp"
-                    android:id="@+id/background_location_warning"
-                    android:text="@string/background_location_warning"
-                    android:textColor="@color/colorSecondaryText"
-                    android:letterSpacing="0"
-                    android:fontFamily="@font/google_sans"
-                    android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
-                    app:textAllCaps="false" />
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -176,14 +158,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/preferences_header"
-                    android:textAlignment="viewStart"
+                    android:paddingTop="16dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -298,14 +277,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/actions_header"
-                    android:textAlignment="viewStart"
+                    android:paddingTop="16dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

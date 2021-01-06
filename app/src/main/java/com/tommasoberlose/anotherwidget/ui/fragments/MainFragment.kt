@@ -111,10 +111,6 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 //            action_back?.isVisible = destination.id != R.id.tabSelectorFragment
 //            Log.d("ciao", "${controller.currentDestination?.displayName} ${destination.id} - ${R.id.tabSelectorFragment}")
 //        }
-
-        viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
-            toolbar?.cardElevation = if (it > 0) 24f else 0f
-        }
     }
 
     private var uiJob: Job? = null
@@ -325,7 +321,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         })
 
         action_settings.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment, null, null, FragmentNavigatorExtras(fragment_title to "settings_title"))
+            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment)
         }
     }
 

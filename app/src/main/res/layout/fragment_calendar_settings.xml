@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
@@ -13,12 +14,10 @@
     </data>
 
     <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/colorPrimary"
-        android:scrollbarThumbVertical="@color/colorPrimaryDark">
+        android:scrollbarThumbVertical="@color/colorPrimary">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,14 +33,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/filters_header"
-                    android:textAlignment="viewStart"
+                    android:paddingTop="16dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -252,14 +248,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/event_detail_header"
-                    android:textAlignment="viewStart"
+                    android:paddingTop="16dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -386,14 +379,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:text="@string/actions_header"
-                    android:textAlignment="viewStart"
+                    android:paddingTop="16dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header"
-                    app:textAllCaps="false" />
+                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -455,12 +445,14 @@
                     android:gravity="center_vertical"
                     android:id="@+id/action_open_event_details"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
                         android:src="@drawable/round_event_note_24"
-                        app:tint="@color/colorPrimaryText"/>
+                        app:tint="@color/colorPrimaryText" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

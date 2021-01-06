@@ -9,3 +9,6 @@
 /tasksintegration/build
 /app/google-services.json
 apikey.properties
+./.idea/*
+app/release/*
+/app/release/*

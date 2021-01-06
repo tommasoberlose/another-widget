@@ -74,14 +74,18 @@
 
     <style name="AnotherWidget.Settings.Header" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/google_sans</item>
-        <item name="android:paddingTop">16dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/google_sans_bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="AnotherWidget.Settings.SubHeader" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/google_sans_medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textAlignment">viewStart</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
     </style>
 
     <style name="AnotherWidget.Settings.Title" parent="TextAppearance.AppCompat.Medium">

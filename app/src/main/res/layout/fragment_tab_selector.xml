@@ -35,12 +35,9 @@
                 android:layout_height="wrap_content"
                 android:text="Look &amp; feel"
                 android:paddingTop="16dp"
-                android:textAlignment="viewStart"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textColor="@color/colorAccent"
-                android:textAppearance="@style/AnotherWidget.Settings.Header"
-                app:textAllCaps="false" />
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,9 +52,9 @@
                 android:id="@+id/action_typography"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:src="@drawable/round_text_fields_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
@@ -78,12 +75,6 @@
                         android:text="Change the text design"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="8dp"
-                    android:src="@drawable/round_chevron_right_24"
-                    app:tint="@color/colorPrimaryText"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,9 +90,9 @@
                 android:id="@+id/action_general_settings"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:src="@drawable/round_palette_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
@@ -122,24 +113,15 @@
                         android:text="Change the widget design"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="8dp"
-                    android:src="@drawable/round_chevron_right_24"
-                    app:tint="@color/colorPrimaryText"/>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
                 android:text="Content"
-                android:textColor="@color/colorAccent"
-                android:textAlignment="viewStart"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textAppearance="@style/AnotherWidget.Settings.Header"
-                app:textAllCaps="false" />
+                android:paddingTop="16dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,7 +134,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="0dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:clickable="true"
@@ -194,7 +176,7 @@
                 <com.kyleduo.switchbutton.SwitchButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginStart="16dp"
                     app:kswThumbWidth="16sp"
                     app:kswThumbHeight="16sp"
@@ -216,7 +198,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="0dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:clickable="true"
@@ -259,7 +241,7 @@
                 <com.kyleduo.switchbutton.SwitchButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginStart="16dp"
                     app:kswThumbWidth="16sp"
                     app:kswThumbHeight="16sp"
@@ -281,7 +263,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="0dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:clickable="true"
@@ -323,7 +305,7 @@
                 <com.kyleduo.switchbutton.SwitchButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginStart="16dp"
                     app:kswThumbWidth="16sp"
                     app:kswThumbHeight="16sp"
@@ -345,7 +327,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="0dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:clickable="true"
@@ -387,7 +369,7 @@
                 <com.kyleduo.switchbutton.SwitchButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginStart="16dp"
                     app:kswThumbWidth="16sp"
                     app:kswThumbHeight="16sp"

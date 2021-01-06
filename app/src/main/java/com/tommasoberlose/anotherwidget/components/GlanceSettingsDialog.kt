@@ -137,7 +137,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         }
 
         /* TOGGLE */
-        view.provider_switch.isChecked = when (provider) {
+        view.provider_switch.setCheckedImmediatelyNoEvent(when (provider) {
             Constants.GlanceProviderId.PLAYING_SONG -> Preferences.showMusic
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> Preferences.showNextAlarm
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> Preferences.showBatteryCharging
@@ -146,7 +146,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.NOTIFICATIONS -> Preferences.showNotifications
             Constants.GlanceProviderId.GREETINGS -> Preferences.showGreetings
             Constants.GlanceProviderId.EVENTS -> Preferences.showEventsAsGlanceProvider
-        }
+        })
 
         var job: Job? = null
 

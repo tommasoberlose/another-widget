@@ -51,6 +51,7 @@ import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.getCurrentWallpaper
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.android.synthetic.main.the_widget_sans.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
@@ -96,6 +97,8 @@ class MainActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
+            } else {
+                viewModel.fragmentScrollY.value = 0
             }
         } else {
             super.onBackPressed()

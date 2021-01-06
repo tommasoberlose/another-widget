@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/colorPrimary"
-        android:scrollbarThumbVertical="@color/colorPrimaryDark">
+        android:scrollbarThumbVertical="@color/colorPrimary">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,14 +24,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
                 android:text="@string/preferences_header"
-                android:textAlignment="viewStart"
+                android:paddingTop="16dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/colorAccent"
-                android:textAppearance="@style/AnotherWidget.Settings.Header"
-                app:textAllCaps="false" />
+                android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,14 +154,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
                 android:text="@string/header_widget_background"
-                android:textAlignment="viewStart"
+                android:paddingTop="16dp"
                 android:paddingLeft="20dp"
-                android:textColor="@color/colorAccent"
                 android:paddingRight="20dp"
-                android:textAppearance="@style/AnotherWidget.Settings.Header"
-                app:textAllCaps="false" />
+                android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

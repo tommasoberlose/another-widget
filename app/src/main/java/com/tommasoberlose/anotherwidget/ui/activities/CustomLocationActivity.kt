@@ -68,12 +68,8 @@ class CustomLocationActivity : AppCompatActivity() {
             .register<String>(R.layout.custom_location_item) { _, injector ->
                 injector
                     .text(R.id.text, getString(R.string.custom_location_gps))
-                    .clicked(R.id.item) {
-                        MaterialBottomSheetDialog(this, message = getString(R.string.background_location_warning))
-                            .setPositiveButton(getString(android.R.string.ok)) {
-                                requirePermission()
-                            }
-                            .show()
+                    .clicked(R.id.text) {
+                        requirePermission()
                     }
             }
             .register<Address>(R.layout.custom_location_item) { item, injector ->

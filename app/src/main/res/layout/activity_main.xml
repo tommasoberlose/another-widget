@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorPrimary"
+    android:background="?android:attr/colorPrimaryDark"
     tools:context=".ui.activities.MainActivity">
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/content_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         app:navGraph="@navigation/nav_graph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

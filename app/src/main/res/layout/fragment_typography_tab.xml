@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/colorPrimary"
-        android:scrollbarThumbVertical="@color/colorPrimaryDark">
+        android:scrollbarThumbVertical="@color/colorPrimary">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,6 +25,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/first_row_header"
+                android:paddingTop="16dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,6 +147,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/second_row_header"
+                android:paddingTop="16dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -263,6 +268,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/preferences_header"
+                android:paddingTop="16dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"

@@ -106,7 +106,6 @@ class TabSelectorFragment : Fragment() {
                 }
             }
             checkReadEventsPermission()
-            updateCalendar()
         })
 
         viewModel.showWeather.observe(viewLifecycleOwner, Observer {
@@ -223,28 +222,6 @@ class TabSelectorFragment : Fragment() {
                 }
                 .show()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RequestCode.CALENDAR_APP_REQUEST_CODE.code -> {
-                    Preferences.bulk {
-                        calendarAppName = data?.getStringExtra(Constants.RESULT_APP_NAME) ?: getString(
-                            R.string.default_calendar_app)
-                        calendarAppPackage = data?.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: ""
-                    }
-                }
-                RequestCode.EVENT_APP_REQUEST_CODE.code -> {
-                    Preferences.bulk {
-                        eventAppName = data?.getStringExtra(Constants.RESULT_APP_NAME) ?: getString(
-                            R.string.default_event_app)
-                        eventAppPackage = data?.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: ""
-                    }
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

@@ -320,7 +320,7 @@ class GlanceTabFragment : Fragment() {
                 ) {
                     val view = viewHolder.itemView as MaterialCardView
                     if (isCurrentlyActive) {
-                        ViewCompat.setElevation(view, 2f.convertDpToPixel(requireContext()))
+                        ViewCompat.setElevation(view, 8f.convertDpToPixel(requireContext()))
                         view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
                             R.color.colorPrimary))
                         view.strokeWidth = 0
