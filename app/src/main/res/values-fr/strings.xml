@@ -93,7 +93,7 @@
     <string name="settings_weather_refresh_period_subtitle_3">6 heures</string>
     <string name="settings_weather_refresh_period_subtitle_4">12 heures</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 heures</string>
-    <string name="settings_custom_location_title">Localisation</string>
+    <string name="settings_custom_location_title">Emplacement</string>
     <string name="custom_location_gps">Géolocalisation</string>
     <string name="show_weather_visible">Infos météo visibles</string>
     <string name="show_weather_not_visible">Infos météo non visibles</string>
@@ -139,6 +139,12 @@
     <string name="weather_select_a_provider">Sélectionner un fournisseur</string>
     <string name="weather_provider_activity_subtitle">Sélectionnez un fournisseur météo dans la liste.\nCertains fournisseurs ont besoin d\'un\ncompte personnel gratuit pour fonctionner,\nmais ils sont généralement plus précis.</string>
 
+    <string name="location_access_notification_channel_id" translatable="false">location-access</string>
+    <string name="location_access_notification_channel_name">Arrière-plan</string>
+    <string name="location_access_notification_channel_description">Service utilisé pour actualiser la météo en fonction de l\'emplacement actuel de l\'utilisateur.</string>
+    <string name="location_access_notification_title">Actualisation de la météo...</string>
+    <string name="location_access_notification_subtitle">Nous actualisons la météo en fonction de votre emplacement actuel.</string>
+    
     <!-- Clock -->
     <string name="settings_clock_title">Horloge</string>
     <string name="settings_clock_app_title">Taper sur l\'horloge ouvre</string>
@@ -230,6 +236,11 @@
         <item>15 minutes</item>
         <item>Suppression</item>
     </string-array>
+    
+    <string name="settings_show_events_as_glance_provider_title">Événements</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Affiche un petit aperçu des événements de votre calendrier toujours en affichant la date actuelle.</string>
+    <string name="settings_show_events_as_glance_provider_error">Veuillez activer l'affichage des événements dans la section Calendrier et accorder l'autorisation requise.</string>
+    <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
     <string name="action_share">Partager</string>
