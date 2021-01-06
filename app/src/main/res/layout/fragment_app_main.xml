@@ -23,13 +23,12 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
+                android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="10dp"
+                    android:padding="12dp"
+                    android:layout_marginTop="2dp"
                     android:src="@drawable/round_arrow_back_24"
                     android:clickable="true"
                     android:focusable="true"
@@ -37,7 +36,9 @@
                     app:tint="@color/colorPrimaryText"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
-                    android:visibility="gone"
+                    android:alpha="0"
+                    android:layout_marginLeft="8dp"
+                    android:translationX="4dp"
                     android:id="@+id/action_back"/>
                 <LinearLayout
                     android:layout_width="wrap_content"

@@ -26,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
@@ -107,10 +108,16 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 .show()
         }
 
-//        Navigation.findNavController(settings_fragment).addOnDestinationChangedListener { controller, destination, _ ->
-//            action_back?.isVisible = destination.id != R.id.tabSelectorFragment
-//            Log.d("ciao", "${controller.currentDestination?.displayName} ${destination.id} - ${R.id.tabSelectorFragment}")
-//        }
+        val navHost = childFragmentManager.findFragmentById(R.id.settings_fragment) as? NavHostFragment?
+        navHost?.navController?.addOnDestinationChangedListener { controller, destination, _ ->
+            val show = destination.id != R.id.tabSelectorFragment
+            action_back?.animate()?.alpha(if (show) 1f else 0f)?.setDuration(200)?.translationX((if (show) 0f else 4f).convertDpToPixel(requireContext()))?.start()
+            action_back?.setOnClickListener {
+                controller.navigateUp()
+            }
+            action_settings?.animate()?.alpha(if (!show) 1f else 0f)?.setDuration(200)?.translationX((if (!show) 0f else -4f).convertDpToPixel(requireContext()))?.start()
+            fragment_title?.text = if (show) destination.label.toString() else getString(R.string.app_name)
+        }
     }
 
     private var uiJob: Job? = null
