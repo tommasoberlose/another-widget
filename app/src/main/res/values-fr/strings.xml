@@ -158,7 +158,7 @@
     <string name="settings_clock_bottom_margin_subtitle_small">Petite</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">Moyenne</string>
     <string name="settings_clock_bottom_margin_subtitle_large">Grande</string>
-    <string name="clock_warning">En raison de limitations technologiques, l\'horloge n\'aura pas la police personnalisée et les ombres de texte sélectionnées dans la section Affichage.</string>
+    <string name="clock_warning">En raison de limitations technologiques, l\'horloge n\'aura pas la police personnalisée et les ombres de texte sélectionnées dans l\'onglet <b>Affichage</b>.</string>
     <string name="settings_clock_text_color_title">Couleur du texte</string>
     <string name="settings_ampm_indicator_title">Afficher l\'indicateur AM/PM</string>
     <string name="clock_text_header">Style du texte</string>
@@ -238,8 +238,8 @@
     </string-array>
     
     <string name="settings_show_events_as_glance_provider_title">Événements</string>
-    <string name="settings_show_events_as_glance_provider_subtitle">Affiche un petit aperçu des événements de votre calendrier toujours en affichant la date actuelle.</string>
-    <string name="settings_show_events_as_glance_provider_error">Veuillez activer l'affichage des événements dans la section Calendrier et accorder l'autorisation requise.</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Affiche un petit aperçu des événements de votre calendrier, tout en affichant toujours la date actuelle.</string>
+    <string name="settings_show_events_as_glance_provider_error">Veuillez activer l\'affichage des événements dans l\'onglet <b>Calendrier</b> et accorder l\'autorisation requise.</string>
     <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
@@ -299,7 +299,7 @@
     <string name="donation_breakfast">Un petit-déjeuner anglais</string>
     <string name="donation_lunch">Un déjeuner rapide</string>
     <string name="action_show_widget_preview">Afficher l\'aperçu du widget</string>
-    <string name="support_dev_subtitle">Ceci est le projet d\'un unique développeur,\ndonc merci pour le soutien !</string>
+    <string name="support_dev_subtitle">Ceci est le projet d\'un développeur unique,\ndonc merci pour le soutien !</string>
     <string name="settings_title_integrations">Intégrations</string>
     <string name="label_count_installed_integrations">%d intégrations installées</string>
     <string name="nothing">Rien</string>
