@@ -184,14 +184,14 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                         binding.widgetDetail.clockBottomMarginLarge.isVisible =
                             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
 
-                        if ((Preferences.showClock && (binding.widgetDetail.time.alpha ?: 1f < 1f)) || (!Preferences.showClock && (binding.widgetDetail.time.alpha ?: 0f > 0f))) {
+                        if ((Preferences.showClock && (binding.widgetDetail.time.alpha < 1f)) || (!Preferences.showClock && (binding.widgetDetail.time.alpha > 0f))) {
                             if (Preferences.showClock) {
                                 binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
                                     height = RelativeLayout.LayoutParams.WRAP_CONTENT
                                 }
                                 binding.widgetDetail.timeContainer.measure(0, 0)
                             }
-                            val initialHeight = binding.widgetDetail.timeContainer.measuredHeight ?: 0
+                            val initialHeight = binding.widgetDetail.timeContainer.measuredHeight
                             ValueAnimator.ofFloat(
                                 if (Preferences.showClock) 0f else 1f,
                                 if (Preferences.showClock) 1f else 0f

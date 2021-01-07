@@ -101,7 +101,7 @@ object GlanceProviderHelper {
         val eventRepository = EventRepository(context)
         BatteryHelper.updateBatteryInfo(context)
 
-        val showGlance = Preferences.showGlance && (eventRepository.getEventsCount() == 0 || !Preferences.showEvents || Preferences.showEventsAsGlanceProvider)
+        val showGlance = (eventRepository.getEventsCount() == 0 || !Preferences.showEvents || Preferences.showEventsAsGlanceProvider)
             && (
                 (Preferences.showNotifications && ActiveNotificationsHelper.showLastNotification()) ||
                 (Preferences.showNextAlarm && AlarmHelper.getNextAlarm(context) != "") ||

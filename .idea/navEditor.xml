@@ -87,6 +87,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="gesturesFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="703" />
+                            <option name="y" value="14" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="glanceTabFragment">
                     <value>
                       <LayoutPositions>
@@ -126,6 +138,11 @@
                               </value>
                             </entry>
                             <entry key="action_tabSelectorFragment_to_glanceTabFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_tabSelectorFragment_to_typographyTabFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

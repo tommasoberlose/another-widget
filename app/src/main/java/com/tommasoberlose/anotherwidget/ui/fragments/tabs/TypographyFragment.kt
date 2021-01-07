@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
@@ -22,9 +23,11 @@ import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
+import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomFontActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
@@ -32,6 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class TypographyFragment : Fragment() {
 
@@ -234,6 +238,12 @@ class TypographyFragment : Fragment() {
                 MainWidget.updateWidget(requireContext())
             }
         }
+
+        viewModel.dateFormat.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                binding.dateFormatLabel.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
+            }
+        }
     }
 
     private fun setupListener() {
@@ -350,6 +360,35 @@ class TypographyFragment : Fragment() {
                         customFontFile = ""
                         customFontName = ""
                         customFontVariant = ""
+                    }
+                }
+            }.show()
+        }
+
+        binding.actionDateFormat.setOnClickListener {
+            val now = Calendar.getInstance()
+            val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
+
+            dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
+            if (Preferences.dateFormat != "") {
+                dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
+            }
+            dialog.addItem(getString(R.string.custom_date_format), "-")
+
+            dialog.addOnSelectItemListener { value ->
+                when (value) {
+                    "-" -> {
+                        startActivity(Intent(requireContext(), CustomDateActivity::class.java))
+                    }
+                    "" -> {
+                        Preferences.blockingBulk {
+                            isDateCapitalize = false
+                            isDateUppercase = false
+                        }
+                        Preferences.dateFormat = value
+                    }
+                    else -> {
+                        Preferences.dateFormat = value
                     }
                 }
             }.show()

@@ -75,7 +75,6 @@ class MainViewModel : ViewModel() {
     val weatherProviderLocationError = Preferences.asLiveData(Preferences::weatherProviderLocationError)
 
     // Glance
-    val showGlance = Preferences.asLiveData(Preferences::showGlance)
     val showMusic = Preferences.asLiveData(Preferences::showMusic)
     val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
     val showBatteryCharging = Preferences.asLiveData(Preferences::showBatteryCharging)

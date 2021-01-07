@@ -94,7 +94,7 @@ class SettingsFragment : Fragment() {
         viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
             AppCompatDelegate.setDefaultNightMode(it)
             maintainScrollPosition {
-                binding.theme?.text = when (it) {
+                binding.theme.text = when (it) {
                     AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.settings_subtitle_dark_theme_light)
                     AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.settings_subtitle_dark_theme_dark)
                     AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> getString(R.string.settings_subtitle_dark_theme_by_battery_saver)
@@ -105,7 +105,7 @@ class SettingsFragment : Fragment() {
         })
 
         viewModel.installedIntegrations.observe(viewLifecycleOwner, Observer {
-            binding.integrationsCountLabel?.text =
+            binding.integrationsCountLabel.text =
                 getString(R.string.label_count_installed_integrations).format(
                     it)
         })

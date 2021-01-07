@@ -18,7 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentClockBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentTabClockBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
@@ -45,7 +45,7 @@ class ClockFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var colors: IntArray
-    private lateinit var binding: FragmentClockBinding
+    private lateinit var binding: FragmentTabClockBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +59,7 @@ class ClockFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        binding = FragmentClockBinding.inflate(inflater)
+        binding = FragmentTabClockBinding.inflate(inflater)
 
         subscribeUi(viewModel)
 
@@ -93,11 +93,6 @@ class ClockFragment : Fragment() {
         binding.isClockVisible = Preferences.showClock
         binding.is24Format = DateFormat.is24HourFormat(requireContext())
         binding.isDarkModeEnabled = activity?.isDarkTheme() == true
-
-        viewModel.showBigClockWarning.observe(viewLifecycleOwner) {
-            binding.largeClockWarning.isVisible = it
-            binding.smallClockWarning.isVisible = !it
-        }
 
         viewModel.clockTextSize.observe(viewLifecycleOwner) {
             maintainScrollPosition {
@@ -154,40 +149,9 @@ class ClockFragment : Fragment() {
                 }
             }
         }
-
-        viewModel.clockBottomMargin.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.clockBottomMarginLabel.text = when (it) {
-                    Constants.ClockBottomMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
-                    Constants.ClockBottomMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
-                    Constants.ClockBottomMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
-                    else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
-                }
-            }
-        }
-
-        viewModel.clockAppName.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.clockAppLabel.text = when {
-                    Preferences.clockAppName != "" -> Preferences.clockAppName
-                    else -> {
-                        if (IntentHelper.getClockIntent(requireContext()).isDefaultSet(requireContext())) {
-                            getString(
-                                R.string.default_clock_app
-                            )
-                        } else {
-                            getString(R.string.nothing)
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun setupListener() {
-        binding.actionHideLargeClockWarning.setOnClickListener {
-            Preferences.showBigClockWarning = false
-        }
 
         binding.actionClockTextSize.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(
@@ -235,39 +199,6 @@ class ClockFragment : Fragment() {
                     }
                 }
             ).show()
-        }
-
-        binding.actionClockBottomMarginSize.setOnClickListener {
-            BottomSheetMenu<Int>(
-                requireContext(),
-                header = getString(R.string.settings_clock_bottom_margin_title)
-            ).setSelectedValue(Preferences.clockBottomMargin)
-                .addItem(
-                    getString(R.string.settings_clock_bottom_margin_subtitle_none),
-                    Constants.ClockBottomMargin.NONE.value
-                )
-                .addItem(
-                    getString(R.string.settings_clock_bottom_margin_subtitle_small),
-                    Constants.ClockBottomMargin.SMALL.value
-                )
-                .addItem(
-                    getString(R.string.settings_clock_bottom_margin_subtitle_medium),
-                    Constants.ClockBottomMargin.MEDIUM.value
-                )
-                .addItem(
-                    getString(R.string.settings_clock_bottom_margin_subtitle_large),
-                    Constants.ClockBottomMargin.LARGE.value
-                )
-                .addOnSelectItemListener { value ->
-                    Preferences.clockBottomMargin = value
-                }.show()
-        }
-
-        binding.actionClockApp.setOnClickListener {
-            startActivityForResult(
-                Intent(requireContext(), ChooseApplicationActivity::class.java),
-                RequestCode.CLOCK_APP_REQUEST_CODE.code
-            )
         }
     }
 

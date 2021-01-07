@@ -76,7 +76,7 @@ class CustomFontActivity : AppCompatActivity() {
 
                 injector.clicked(R.id.text) {
                     val dialog = BottomSheetMenu<String>(this, header = item)
-                    listOf("100", "200", "regular", "500", "700", "800").forEachIndexed { index, s ->
+                    listOf("100", "200", "regular", "500", "700", "800").forEachIndexed { _, s ->
                         dialog.addItem(SettingsStringHelper.getVariantLabel(this, s), s)
                     }
                     dialog.addOnSelectItemListener { value ->

@@ -77,7 +77,6 @@ class PreferencesFragment : Fragment() {
         binding.isCalendarEnabled = Preferences.showEvents
         binding.isWeatherVisible = Preferences.showWeather
         binding.isClockVisible = Preferences.showClock
-        binding.isGlanceVisible = Preferences.showGlance
 
         viewModel.showEvents.observe(viewLifecycleOwner) {
             maintainScrollPosition {
@@ -104,13 +103,6 @@ class PreferencesFragment : Fragment() {
                 binding.isClockVisible = it
             }
         }
-
-        viewModel.showGlance.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.isGlanceVisible = it
-            }
-        }
-
     }
 
     private fun setupListener() {
@@ -149,12 +141,13 @@ class PreferencesFragment : Fragment() {
         binding.showClockSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showClock = enabled
         }
+
         binding.actionShowGlance.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_glanceTabFragment)
         }
 
-        binding.showGlanceSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
-            Preferences.showGlance = enabled
+        binding.actionTabDefaultApp.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_gesturesFragment)
         }
     }
 

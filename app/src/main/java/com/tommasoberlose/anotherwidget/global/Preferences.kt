@@ -117,10 +117,9 @@ object Preferences : KotprefModel() {
     var showXiaomiWarning by booleanPref(default = true)
 
     // Glance
-    var showGlance by booleanPref(default = true)
     var enabledGlanceProviderOrder by stringPref(default = "")
     var customNotes by stringPref(default = "")
-    var showNextAlarm by booleanPref(default = true)
+    var showNextAlarm by booleanPref(default = false)
     var showBatteryCharging by booleanPref(default = false)
     var isBatteryLevelLow by booleanPref(default = false)
     var isCharging by booleanPref(default = false)

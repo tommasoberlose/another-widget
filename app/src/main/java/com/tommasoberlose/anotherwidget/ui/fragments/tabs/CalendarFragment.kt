@@ -72,7 +72,6 @@ class CalendarFragment : Fragment() {
         binding.showAllDayToggle.setCheckedImmediatelyNoEvent(Preferences.calendarAllDay)
         binding.showOnlyBusyEventsToggle.setCheckedImmediatelyNoEvent(Preferences.showOnlyBusyEvents)
         binding.showDiffTimeToggle.setCheckedImmediatelyNoEvent(Preferences.showDiffTime)
-        binding.showMultipleEventsToggle.setCheckedImmediatelyNoEvent(Preferences.showNextEvent)
 
         setupListener()
 
@@ -123,36 +122,6 @@ class CalendarFragment : Fragment() {
                 binding.showUntilLabel.text = getString(SettingsStringHelper.getShowUntilString(it))
             }
             updateCalendar()
-        }
-
-        viewModel.showNextEvent.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.showMultipleEventsLabel.text =
-                    if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
-            }
-        }
-
-        viewModel.calendarAppName.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.calendarAppLabel.text = when {
-                    Preferences.calendarAppName != "" -> Preferences.calendarAppName
-                    else -> {
-                        if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
-                            getString(
-                                R.string.default_calendar_app
-                            )
-                        } else {
-                            getString(R.string.nothing)
-                        }
-                    }
-                }
-            }
-        }
-
-        viewModel.openEventDetails.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.openEventDetailsLabel.text = if (it) getString(R.string.default_event_app) else getString(R.string.default_calendar_app)
-            }
         }
 
     }
@@ -264,14 +233,6 @@ class CalendarFragment : Fragment() {
             updateCalendar()
         }
 
-        binding.actionShowMultipleEvents.setOnClickListener {
-            binding.showMultipleEventsToggle.isChecked = !binding.showMultipleEventsToggle.isChecked
-        }
-
-        binding.showMultipleEventsToggle.setOnCheckedChangeListener { _, isChecked ->
-            Preferences.showNextEvent = isChecked
-        }
-
         binding.actionShowDiffTime.setOnClickListener {
             binding.showDiffTimeToggle.isChecked = !binding.showDiffTimeToggle.isChecked
         }
@@ -310,20 +271,6 @@ class CalendarFragment : Fragment() {
             dialog.addOnSelectItemListener { value ->
                 Preferences.showUntil = value
             }.show()
-        }
-
-        binding.actionOpenEventDetails.setOnClickListener {
-            BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_event_app_title)).setSelectedValue(Preferences.openEventDetails)
-                .addItem(getString(R.string.default_event_app), true)
-                .addItem(getString(R.string.default_calendar_app), false)
-                .addOnSelectItemListener { value ->
-                    Preferences.openEventDetails = value
-                }
-                .show()
-        }
-
-        binding.actionCalendarApp.setOnClickListener {
-            startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java), RequestCode.CALENDAR_APP_REQUEST_CODE.code)
         }
     }
 

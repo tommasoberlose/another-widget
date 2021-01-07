@@ -14,9 +14,6 @@
         <variable
             name="isClockVisible"
             type="Boolean" />
-        <variable
-            name="isGlanceVisible"
-            type="Boolean" />
         <import type="android.view.View" />
     </data>
     <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
@@ -358,26 +355,7 @@
                             android:text="Change glace info"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/cardBorder"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:alpha="0.6" />
                 </LinearLayout>
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="16dp"
-                    app:kswThumbWidth="16sp"
-                    app:kswThumbHeight="16sp"
-                    app:kswBackRadius="16dp"
-                    app:kswTintColor="@color/colorAccent"
-                    android:checked="@{isGlanceVisible}"
-                    android:id="@+id/show_glance_switch"
-                    android:buttonTint="@color/colorAccent" />
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"

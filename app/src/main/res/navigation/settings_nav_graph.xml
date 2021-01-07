@@ -45,9 +45,16 @@
         <action
             android:id="@+id/action_tabSelectorFragment_to_typographyTabFragment"
             app:destination="@id/typographyTabFragment" />
+        <action
+            android:id="@+id/action_tabSelectorFragment_to_gesturesFragment"
+            app:destination="@id/gesturesFragment" />
     </fragment>
     <fragment
         android:id="@+id/typographyTabFragment"
         android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.TypographyFragment"
         android:label="TypographyTabFragment" />
+    <fragment
+        android:id="@+id/gesturesFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.GesturesFragment"
+        android:label="GesturesFragment" />
 </navigation>

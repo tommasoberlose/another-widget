@@ -132,13 +132,6 @@ class WeatherFragment : Fragment() {
             }
             checkLocationPermission()
         }
-
-        viewModel.weatherAppName.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.weatherAppLabel.text =
-                    if (it != "") it else getString(R.string.default_weather_app)
-            }
-        }
     }
 
     private fun checkLocationPermission() {
@@ -219,13 +212,6 @@ class WeatherFragment : Fragment() {
 
         binding.actionWeatherIconPack.setOnClickListener {
             IconPackSelector(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).show()
-        }
-
-        binding.actionWeatherApp.setOnClickListener {
-            startActivityForResult(
-                Intent(requireContext(), ChooseApplicationActivity::class.java),
-                RequestCode.WEATHER_APP_REQUEST_CODE.code
-            )
         }
     }
 

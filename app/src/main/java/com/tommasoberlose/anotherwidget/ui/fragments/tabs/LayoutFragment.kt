@@ -102,6 +102,17 @@ class LayoutFragment : Fragment() {
             }
         }
 
+        viewModel.clockBottomMargin.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                binding.clockBottomMarginLabel.text = when (it) {
+                    Constants.ClockBottomMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
+                    Constants.ClockBottomMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
+                    Constants.ClockBottomMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
+                    else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
+                }
+            }
+        }
+
         viewModel.backgroundCardColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlpha == "00") {
@@ -146,12 +157,6 @@ class LayoutFragment : Fragment() {
             }
         }
 
-        viewModel.dateFormat.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.dateFormatLabel.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
-            }
-        }
-
         viewModel.showDividers.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.showDividersLabel.text =
@@ -188,33 +193,30 @@ class LayoutFragment : Fragment() {
                 }.show()
         }
 
-        binding.actionDateFormat.setOnClickListener {
-            val now = Calendar.getInstance()
-            val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
-
-            dialog.addItem(DateHelper.getDefaultDateText(requireContext(), now), "")
-            if (Preferences.dateFormat != "") {
-                dialog.addItem(DateHelper.getDateText(requireContext(), now), Preferences.dateFormat)
-            }
-            dialog.addItem(getString(R.string.custom_date_format), "-")
-
-            dialog.addOnSelectItemListener { value ->
-                when (value) {
-                    "-" -> {
-                        startActivity(Intent(requireContext(), CustomDateActivity::class.java))
-                    }
-                    "" -> {
-                        Preferences.blockingBulk {
-                            isDateCapitalize = false
-                            isDateUppercase = false
-                        }
-                        Preferences.dateFormat = value
-                    }
-                    else -> {
-                        Preferences.dateFormat = value
-                    }
-                }
-            }.show()
+        binding.actionClockBottomMarginSize.setOnClickListener {
+            BottomSheetMenu<Int>(
+                requireContext(),
+                header = getString(R.string.settings_clock_bottom_margin_title)
+            ).setSelectedValue(Preferences.clockBottomMargin)
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_none),
+                    Constants.ClockBottomMargin.NONE.value
+                )
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_small),
+                    Constants.ClockBottomMargin.SMALL.value
+                )
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_medium),
+                    Constants.ClockBottomMargin.MEDIUM.value
+                )
+                .addItem(
+                    getString(R.string.settings_clock_bottom_margin_subtitle_large),
+                    Constants.ClockBottomMargin.LARGE.value
+                )
+                .addOnSelectItemListener { value ->
+                    Preferences.clockBottomMargin = value
+                }.show()
         }
 
         binding.actionBackgroundColor.setOnClickListener {

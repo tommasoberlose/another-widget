@@ -104,20 +104,18 @@ class GlanceTabFragment : Fragment() {
                         it.setImageDrawable(ContextCompat.getDrawable(requireContext(), item.icon))
                     }
                     .clicked(R.id.item) {
-                        if (Preferences.showGlance) {
-                            if (provider == Constants.GlanceProviderId.CUSTOM_INFO) {
-                                CustomNotesDialog(requireContext()){
-                                    adapter.notifyItemRangeChanged(0, adapter.data.size)
-                                }.show()
-                            } else {
-                                dialog = GlanceSettingsDialog(requireActivity(), provider) {
-                                    adapter.notifyItemRangeChanged(0, adapter.data.size)
-                                }
-                                dialog?.setOnDismissListener {
-                                    dialog = null
-                                }
-                                dialog?.show()
+                        if (provider == Constants.GlanceProviderId.CUSTOM_INFO) {
+                            CustomNotesDialog(requireContext()){
+                                adapter.notifyItemRangeChanged(0, adapter.data.size)
+                            }.show()
+                        } else {
+                            dialog = GlanceSettingsDialog(requireActivity(), provider) {
+                                adapter.notifyItemRangeChanged(0, adapter.data.size)
                             }
+                            dialog?.setOnDismissListener {
+                                dialog = null
+                            }
+                            dialog?.show()
                         }
                     }
                 var isVisible = false
@@ -356,7 +354,6 @@ class GlanceTabFragment : Fragment() {
     private fun subscribeUi(
         viewModel: MainViewModel,
     ) {
-        binding.isGlanceVisible = Preferences.showGlance
     }
 
     private fun setupListener() {

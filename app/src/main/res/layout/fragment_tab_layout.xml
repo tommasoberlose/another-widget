@@ -24,48 +24,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/preferences_header"
+                android:text="Spacing"
                 android:paddingTop="16dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textAppearance="@style/AnotherWidget.Settings.Header" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_date_format"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:src="@drawable/round_text_format_24"
-                    app:tint="@color/colorPrimaryText"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_date_format_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/date_format_label"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -114,12 +77,58 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
+                android:id="@+id/action_clock_bottom_margin_size"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_format_line_spacing"
+                    app:tint="@color/colorPrimaryText"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="@string/settings_clock_bottom_margin_title"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clock_bottom_margin_label"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                </LinearLayout>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/preferences_header"
+                android:paddingTop="16dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textAppearance="@style/AnotherWidget.Settings.Header" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
                 android:id="@+id/action_show_dividers"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
+                    android:rotation="90"
                     android:src="@drawable/round_vertical_align_center_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
@@ -151,14 +160,6 @@
                     android:id="@+id/show_dividers_toggle"
                     android:buttonTint="@color/colorAccent" />
             </LinearLayout>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/header_widget_background"
-                android:paddingTop="16dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
