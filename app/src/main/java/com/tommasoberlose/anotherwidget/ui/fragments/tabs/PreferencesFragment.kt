@@ -66,6 +66,10 @@ class PreferencesFragment : Fragment() {
 
         setupListener()
 
+        binding.showEventsSwitch.setCheckedImmediatelyNoEvent(Preferences.showEvents)
+        binding.showWeatherSwitch.setCheckedImmediatelyNoEvent(Preferences.showWeather)
+        binding.showClockSwitch.setCheckedImmediatelyNoEvent(Preferences.showClock)
+
         binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
             viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
@@ -74,9 +78,6 @@ class PreferencesFragment : Fragment() {
     private fun subscribeUi(
         viewModel: MainViewModel
     ) {
-        binding.isCalendarEnabled = Preferences.showEvents
-        binding.isWeatherVisible = Preferences.showWeather
-        binding.isClockVisible = Preferences.showClock
 
         viewModel.showEvents.observe(viewLifecycleOwner) {
             maintainScrollPosition {

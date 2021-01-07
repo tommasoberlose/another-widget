@@ -7,26 +7,41 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 class MainViewModel : ViewModel() {
 
     // General Settings
-    val textGlobalColor = Preferences.asLiveData(Preferences::textGlobalColor)
-    val textGlobalAlpha = Preferences.asLiveData(Preferences::textGlobalAlpha)
-    val textSecondaryColor = Preferences.asLiveData(Preferences::textSecondaryColor)
-    val textSecondaryAlpha = Preferences.asLiveData(Preferences::textSecondaryAlpha)
-    val backgroundCardColor = Preferences.asLiveData(Preferences::backgroundCardColor)
-    val backgroundCardAlpha = Preferences.asLiveData(Preferences::backgroundCardAlpha)
-    val textGlobalColorDark = Preferences.asLiveData(Preferences::textGlobalColorDark)
-    val textGlobalAlphaDark = Preferences.asLiveData(Preferences::textGlobalAlphaDark)
-    val textSecondaryColorDark = Preferences.asLiveData(Preferences::textSecondaryColorDark)
-    val textSecondaryAlphaDark = Preferences.asLiveData(Preferences::textSecondaryAlphaDark)
-    val backgroundCardColorDark = Preferences.asLiveData(Preferences::backgroundCardColorDark)
-    val backgroundCardAlphaDark = Preferences.asLiveData(Preferences::backgroundCardAlphaDark)
+    val textGlobalColor = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::textGlobalColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textGlobalAlpha)) { value = true }
+    }
+    val textSecondaryColor = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::textSecondaryColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondaryAlpha)) { value = true }
+    }
+    val backgroundCardColor = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::backgroundCardColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::backgroundCardAlpha)) { value = true }
+    }
+    val textGlobalColorDark = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::textGlobalColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textGlobalAlphaDark)) { value = true }
+    }
+    val textSecondaryColorDark = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::textSecondaryColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondaryAlphaDark)) { value = true }
+    }
+    val backgroundCardColorDark = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::backgroundCardColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::backgroundCardAlphaDark)) { value = true }
+    }
     val textMainSize = Preferences.asLiveData(Preferences::textMainSize)
     val textSecondSize = Preferences.asLiveData(Preferences::textSecondSize)
     val textShadow = Preferences.asLiveData(Preferences::textShadow)
     val textShadowDark = Preferences.asLiveData(Preferences::textShadowDark)
-    val customFont = Preferences.asLiveData(Preferences::customFont)
-    val customFontFile = Preferences.asLiveData(Preferences::customFontFile)
-    val customFontName = Preferences.asLiveData(Preferences::customFontName)
-    val customFontVariant = Preferences.asLiveData(Preferences::customFontVariant)
+    val font = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::customFont)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFontFile)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFontName)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFontVariant)) { value = true }
+    }
+
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
     val showDividers = Preferences.asLiveData(Preferences::showDividers)
     val secondRowTopMargin = Preferences.asLiveData(Preferences::secondRowTopMargin)
@@ -36,27 +51,27 @@ class MainViewModel : ViewModel() {
     val calendarAllDay = Preferences.asLiveData(Preferences::calendarAllDay)
     val showUntil = Preferences.asLiveData(Preferences::showUntil)
     val showDiffTime = Preferences.asLiveData(Preferences::showDiffTime)
-    val showDeclinedEvents = Preferences.asLiveData(Preferences::showDeclinedEvents)
     val showNextEvent = Preferences.asLiveData(Preferences::showNextEvent)
     val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
     val widgetUpdateFrequency = Preferences.asLiveData(Preferences::widgetUpdateFrequency)
-    val showOnlyBusyEvents = Preferences.asLiveData(Preferences::showOnlyBusyEvents)
 
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
     val clockTextSize = Preferences.asLiveData(Preferences::clockTextSize)
-    val clockTextColor = Preferences.asLiveData(Preferences::clockTextColor)
-    val clockTextAlpha = Preferences.asLiveData(Preferences::clockTextAlpha)
-    val clockTextColorDark = Preferences.asLiveData(Preferences::clockTextColorDark)
-    val clockTextAlphaDark = Preferences.asLiveData(Preferences::clockTextAlphaDark)
+    val clockTextColor = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::clockTextColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextAlpha)) { value = true }
+    }
+    val clockTextColorDark = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::clockTextColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextAlphaDark)) { value = true }
+    }
     val showAMPMIndicator = Preferences.asLiveData(Preferences::showAMPMIndicator)
 
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
     val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
     val clockBottomMargin = Preferences.asLiveData(Preferences::clockBottomMargin)
-
-    val showBigClockWarning = Preferences.asLiveData(Preferences::showBigClockWarning)
 
     // Weather Settings
     val showWeather = Preferences.asLiveData(Preferences::showWeather)
@@ -64,23 +79,13 @@ class MainViewModel : ViewModel() {
     val weatherRefreshPeriod = Preferences.asLiveData(Preferences::weatherRefreshPeriod)
 
     val weatherAppName = Preferences.asLiveData(Preferences::weatherAppName)
-    val weatherProviderApi = Preferences.asLiveData(Preferences::weatherProviderApiOpen)
 
     val customLocationAdd = Preferences.asLiveData(Preferences::customLocationAdd)
 
-    val showWeatherWarning = Preferences.asLiveData(Preferences::showWeatherWarning)
     val weatherIconPack = Preferences.asLiveData(Preferences::weatherIconPack)
     val weatherProvider = Preferences.asLiveData(Preferences::weatherProvider)
     val weatherProviderError = Preferences.asLiveData(Preferences::weatherProviderError)
     val weatherProviderLocationError = Preferences.asLiveData(Preferences::weatherProviderLocationError)
-
-    // Glance
-    val showMusic = Preferences.asLiveData(Preferences::showMusic)
-    val showNextAlarm = Preferences.asLiveData(Preferences::showNextAlarm)
-    val showBatteryCharging = Preferences.asLiveData(Preferences::showBatteryCharging)
-    val showDailySteps = Preferences.asLiveData(Preferences::showDailySteps)
-    val customInfo = Preferences.asLiveData(Preferences::customNotes)
-    val musicPlayersFilter = Preferences.asLiveData(Preferences::musicPlayersFilter)
 
     // Advanced Settings
     val darkThemePreference = Preferences.asLiveData(Preferences::darkThemePreference)

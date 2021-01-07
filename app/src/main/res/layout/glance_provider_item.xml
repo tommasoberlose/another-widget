@@ -14,7 +14,7 @@
     android:layout_marginRight="16dp"
     app:strokeColor="@color/cardBorder"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardBackgroundColor="@color/colorPrimary"
     app:cardCornerRadius="8dp">
     <LinearLayout
         android:layout_width="match_parent"

@@ -16,24 +16,26 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             app:cardBackgroundColor="@color/colorPrimary"
-            app:cardElevation="2dp"
+            app:cardElevation="0dp"
             app:cardCornerRadius="0dp"
             android:background="@color/colorPrimary"
             android:transitionName="toolbar"
             android:id="@+id/toolbar">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp">
+                android:layout_height="56dp"
+                android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:src="@drawable/round_arrow_back_24"
                     app:tint="@color/colorPrimaryText"
                     android:layout_centerVertical="true"
                     android:clickable="true"
                     android:focusable="true"
+                    android:transitionName="action_back"
                     android:layout_marginEnd="8dp"
                     android:layout_alignParentLeft="true"
                     android:layout_marginStart="8dp"
@@ -46,7 +48,8 @@
                     android:text="@string/settings_title"
                     android:textColor="@color/colorPrimaryText"
                     android:gravity="center"
-                    android:transitionName="settings_title"
+                    android:paddingBottom="6dp"
+                    android:transitionName="fragment_title"
                     android:textAppearance="@style/AnotherWidget.Main.Title"
                     tools:ignore="RelativeOverlap" />
             </RelativeLayout>
@@ -56,13 +59,13 @@
             android:layout_height="match_parent"
             android:id="@+id/scrollView"
             android:scrollbarThumbVertical="@color/colorPrimary"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorPrimary">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:paddingBottom="48dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

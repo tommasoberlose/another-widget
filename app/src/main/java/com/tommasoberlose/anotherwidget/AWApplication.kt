@@ -8,6 +8,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.global.Preferences
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import net.danlew.android.joda.JodaTimeAndroid
 
 class AWApplication : Application() {
     override fun onCreate() {

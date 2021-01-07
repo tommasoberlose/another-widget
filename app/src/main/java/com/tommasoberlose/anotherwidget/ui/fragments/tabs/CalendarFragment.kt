@@ -175,7 +175,7 @@ class CalendarFragment : Fragment() {
                     updateCalendar()
                 }.show()
             } else {
-                activity?.toast(getString(R.string.calendar_settings_list_error))
+                requireActivity().toast(getString(R.string.calendar_settings_list_error))
             }
         }
 
@@ -275,7 +275,7 @@ class CalendarFragment : Fragment() {
     }
 
     private fun updateCalendar() {
-        if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
             CalendarHelper.updateEventList(requireContext())
         }
     }

@@ -62,7 +62,7 @@ class LayoutFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.isDarkModeEnabled = activity?.isDarkTheme() == true
+        binding.isDarkModeEnabled = requireActivity().isDarkTheme()
 
         return binding.root
     }
@@ -119,7 +119,7 @@ class LayoutFragment : Fragment() {
                     binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
                     binding.backgroundColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(requireActivity().isDarkTheme()))).toUpperCase()
                 }
             }
         }
@@ -130,29 +130,7 @@ class LayoutFragment : Fragment() {
                     binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
                     binding.backgroundColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.backgroundCardAlpha.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.backgroundCardAlpha == "00") {
-                    binding.backgroundColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.backgroundColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.backgroundCardAlphaDark.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.backgroundCardAlphaDark == "00") {
-                    binding.backgroundColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.backgroundColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(requireActivity().isDarkTheme()))).toUpperCase()
                 }
             }
         }
@@ -223,10 +201,10 @@ class LayoutFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_background_color_title),
-                getSelected = { ColorHelper.getBackgroundColorRgb(activity?.isDarkTheme() == true) },
+                getSelected = { ColorHelper.getBackgroundColorRgb(requireActivity().isDarkTheme()) },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
-                    if (activity?.isDarkTheme() == true) {
+                    if (requireActivity().isDarkTheme()) {
                         Preferences.backgroundCardColorDark =
                             "#" + if (colorString.length > 6) colorString.substring(2) else colorString
                     } else {
@@ -235,9 +213,9 @@ class LayoutFragment : Fragment() {
                     }
                 },
                 showAlphaSelector = true,
-                alpha = if (activity?.isDarkTheme() == true) Preferences.backgroundCardAlphaDark.toIntValue() else Preferences.backgroundCardAlpha.toIntValue(),
+                alpha = if (requireActivity().isDarkTheme()) Preferences.backgroundCardAlphaDark.toIntValue() else Preferences.backgroundCardAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
-                    if (activity?.isDarkTheme() == true) {
+                    if (requireActivity().isDarkTheme()) {
                         Preferences.backgroundCardAlphaDark = alpha.toHexValue()
                     } else {
                         Preferences.backgroundCardAlpha = alpha.toHexValue()

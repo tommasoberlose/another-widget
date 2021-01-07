@@ -312,13 +312,11 @@ class GlanceTabFragment : Fragment() {
                     if (isCurrentlyActive) {
                         ViewCompat.setElevation(view, 8f.convertDpToPixel(requireContext()))
                         view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
-                            R.color.colorPrimary))
-                        view.strokeWidth = 0
+                            R.color.cardBorder))
                     } else {
                         ViewCompat.setElevation(view, 0f)
                         view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
-                            R.color.colorPrimaryDark))
-                        view.strokeWidth = 1
+                            R.color.colorPrimary))
                     }
 
                     val topEdge = if ((view.top == 0 && dY < 0) || ((view.top + view.height >= recyclerView.height - 32f.convertDpToPixel(requireContext())) && dY > 0)) 0f else dY

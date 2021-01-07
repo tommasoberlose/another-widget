@@ -119,33 +119,43 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             binding.actionSettings.animate().alpha(if (!show) 1f else 0f).setDuration(200).translationX((if (!show) 0f else -4f).convertDpToPixel(requireContext())).start()
             binding.fragmentTitle.text = if (show) destination.label.toString() else getString(R.string.app_name)
         }
+
+        binding.actionSettings.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment, null, null, FragmentNavigatorExtras(
+                binding.actionBack to "action_back"
+            ))
+        }
     }
 
     private var uiJob: Job? = null
 
     private fun updateUI() {
+        Log.d("ciao", "UPDATE UI")
         uiJob?.cancel()
 
         binding.preview.clearAnimation()
         binding.widgetDetail.timeContainer.clearAnimation()
-        binding.bottomPadding.isVisible = Preferences.showPreview
 
         if (Preferences.showPreview) {
-            binding.preview.setCardBackgroundColor(
-                ContextCompat.getColor(
+            lifecycleScope.launch(Dispatchers.IO) {
+                val bgColor: Int = ContextCompat.getColor(
                     requireContext(),
                     if (ColorHelper.getFontColor(requireActivity().isDarkTheme())
                             .isColorDark()
                     ) android.R.color.white else R.color.colorAccent
                 )
-            )
-            binding.widgetDetail.widgetShapeBackground.setImageDrawable(
-                BitmapHelper.getTintedDrawable(
+
+                val wallpaperDrawable = BitmapHelper.getTintedDrawable(
                     requireContext(),
                     R.drawable.card_background,
                     ColorHelper.getBackgroundColor(requireActivity().isDarkTheme())
                 )
-            )
+
+                withContext(Dispatchers.Main) {
+                    binding.preview.setCardBackgroundColor(bgColor)
+                    binding.widgetDetail.widgetShapeBackground.setImageDrawable(wallpaperDrawable)
+                }
+            }
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
                     val generatedView = MainWidget.generateWidgetView(requireContext(), typeface).root
@@ -269,18 +279,9 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 }
             }
         } else {
-            ValueAnimator.ofInt(
-                binding.preview.height,
-                0
-            ).apply {
-                duration = 300L
-                addUpdateListener {
-                    val animatedValue = animatedValue as Int
-                    val layoutParams = binding.preview.layoutParams
-                    layoutParams.height = animatedValue
-                    binding.preview.layoutParams = layoutParams
-                }
-            }.start()
+            binding.preview.layoutParams = binding.preview.layoutParams.apply {
+                height = 0
+            }
         }
     }
 
@@ -312,10 +313,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                                     metrics.widthPixels to (wallpaper.intrinsicHeight) * metrics.widthPixels / (wallpaper.intrinsicWidth)
                                 }
 
-                            setMargins(
-                                if (dimensions.first >= dimensions.second) (-80).toPixel(
-                                    requireContext()) else 0,
-                                (-80).toPixel(requireContext()), 0, 0
+                            setMargins(0, (-80).toPixel(requireContext()), 0, 0
                             )
 
                             width = dimensions.first
@@ -327,8 +325,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             }
         }
 
-        binding.actionSettings.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment)
+        viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
+            binding.toolbar.cardElevation = if (it > 0) 24f else 0f
         }
     }
 
@@ -362,7 +360,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     class ChangeTabEvent(val page: Int)
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(ignore: UpdateUiMessageEvent?) {
+    fun onMessageEvent(ignore: UpdateUiMessageEvent) {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
             delay(300)
@@ -370,5 +368,11 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                 updateUI()
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onChangeTabEvent(ignore: ChangeTabEvent) {
+        val navHost = childFragmentManager.findFragmentById(R.id.settings_fragment) as? NavHostFragment?
+        navHost?.navController?.navigateUp()
     }
 }

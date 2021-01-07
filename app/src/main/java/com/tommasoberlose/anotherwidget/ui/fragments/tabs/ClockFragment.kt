@@ -127,28 +127,6 @@ class ClockFragment : Fragment() {
                 }
             }
         }
-
-        viewModel.clockTextAlpha.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.clockTextAlpha == "00") {
-                    binding.clockTextColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.clockTextColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.clockTextAlphaDark.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.clockTextAlphaDark == "00") {
-                    binding.clockTextColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.clockTextColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
     }
 
     private fun setupListener() {

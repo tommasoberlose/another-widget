@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/generalTabFragment"
         android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.LayoutFragment"
-        android:label="GeneralTabFragment" />
+        android:label="@string/layout_settings_title" />
     <fragment
         android:id="@+id/weatherTabFragment"
         android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.WeatherFragment"
@@ -52,9 +52,9 @@
     <fragment
         android:id="@+id/typographyTabFragment"
         android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.TypographyFragment"
-        android:label="TypographyTabFragment" />
+        android:label="@string/typography_settings_title" />
     <fragment
         android:id="@+id/gesturesFragment"
         android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.GesturesFragment"
-        android:label="GesturesFragment" />
+        android:label="@string/gestures_settings_title" />
 </navigation>

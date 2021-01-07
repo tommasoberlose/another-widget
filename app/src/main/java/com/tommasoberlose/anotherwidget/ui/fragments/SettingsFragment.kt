@@ -86,6 +86,10 @@ class SettingsFragment : Fragment() {
         setupListener()
 
         binding.appVersion.text = "v%s (%s)".format(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
+
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            binding.toolbar.cardElevation = if (binding.scrollView.scrollY > 0) 32f else 0f
+        }
     }
 
     private fun subscribeUi(

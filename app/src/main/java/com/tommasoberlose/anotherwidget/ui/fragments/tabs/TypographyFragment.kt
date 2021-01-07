@@ -111,7 +111,7 @@ class TypographyFragment : Fragment() {
                     binding.fontColorLabel.text = getString(R.string.transparent)
                 } else {
                     binding.fontColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(requireActivity().isDarkTheme()))).toUpperCase()
                 }
             }
         }
@@ -122,29 +122,7 @@ class TypographyFragment : Fragment() {
                     binding.fontColorLabelDark.text = getString(R.string.transparent)
                 } else {
                     binding.fontColorLabelDark.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.textGlobalAlpha.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.textGlobalAlpha == "00") {
-                    binding.fontColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.fontColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.textGlobalAlphaDark.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.textGlobalAlphaDark == "00") {
-                    binding.fontColorLabelDark.text = getString(R.string.transparent)
-                } else {
-                    binding.fontColorLabelDark.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(requireActivity().isDarkTheme()))).toUpperCase()
                 }
             }
         }
@@ -155,7 +133,7 @@ class TypographyFragment : Fragment() {
                     binding.secondaryFontColorLabel.text = getString(R.string.transparent)
                 } else {
                     binding.secondaryFontColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(requireActivity().isDarkTheme()))).toUpperCase()
                 }
             }
         }
@@ -166,29 +144,7 @@ class TypographyFragment : Fragment() {
                     binding.secondaryFontColorLabelDark.text = getString(R.string.transparent)
                 } else {
                     binding.secondaryFontColorLabelDark.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.textSecondaryAlpha.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.textSecondaryAlpha == "00") {
-                    binding.secondaryFontColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.secondaryFontColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
-                }
-            }
-        }
-
-        viewModel.textSecondaryAlphaDark.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.textSecondaryAlphaDark == "00") {
-                    binding.secondaryFontColorLabelDark.text = getString(R.string.transparent)
-                } else {
-                    binding.secondaryFontColorLabelDark.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
+                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(requireActivity().isDarkTheme()))).toUpperCase()
                 }
             }
         }
@@ -204,38 +160,16 @@ class TypographyFragment : Fragment() {
 
         viewModel.textShadowDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                if (activity?.isDarkTheme() == true) {
+                if (requireActivity().isDarkTheme()) {
                     binding.textShadowLabelDark.text =
                         getString(SettingsStringHelper.getTextShadowString(it))
                 }
             }
         }
 
-        viewModel.customFont.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), it)
-                MainWidget.updateWidget(requireContext())
-            }
-        }
-
-        viewModel.customFontFile.observe(viewLifecycleOwner) {
+        viewModel.font.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
-                MainWidget.updateWidget(requireContext())
-            }
-        }
-
-        viewModel.customFontName.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
-                MainWidget.updateWidget(requireContext())
-            }
-        }
-
-        viewModel.customFontVariant.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
-                MainWidget.updateWidget(requireContext())
             }
         }
 
@@ -273,19 +207,19 @@ class TypographyFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_font_color_title),
-                getSelected = { ColorHelper.getFontColorRgb(activity?.isDarkTheme() == true) },
+                getSelected = { ColorHelper.getFontColorRgb(requireActivity().isDarkTheme()) },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
-                    if (activity?.isDarkTheme() == true) {
+                    if (requireActivity().isDarkTheme()) {
                         Preferences.textGlobalColorDark = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
                     } else {
                         Preferences.textGlobalColor = "#" + if (colorString.length > 6) colorString.substring(2) else colorString
                     }
                 },
                 showAlphaSelector = true,
-                alpha = if (activity?.isDarkTheme() == true) Preferences.textGlobalAlphaDark.toIntValue() else Preferences.textGlobalAlpha.toIntValue(),
+                alpha = if (requireActivity().isDarkTheme()) Preferences.textGlobalAlphaDark.toIntValue() else Preferences.textGlobalAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
-                    if (activity?.isDarkTheme() == true) {
+                    if (requireActivity().isDarkTheme()) {
                         Preferences.textGlobalAlphaDark = alpha.toHexValue()
                     } else {
                         Preferences.textGlobalAlpha = alpha.toHexValue()
@@ -298,10 +232,10 @@ class TypographyFragment : Fragment() {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_secondary_font_color_title),
-                getSelected = { ColorHelper.getSecondaryFontColorRgb(activity?.isDarkTheme() == true) },
+                getSelected = { ColorHelper.getSecondaryFontColorRgb(requireActivity().isDarkTheme()) },
                 onColorSelected = { color: Int ->
                     val colorString = Integer.toHexString(color)
-                    if (activity?.isDarkTheme() == true) {
+                    if (requireActivity().isDarkTheme()) {
                         Preferences.textSecondaryColorDark =
                             "#" + if (colorString.length > 6) colorString.substring(2) else colorString
                     } else {
@@ -310,9 +244,9 @@ class TypographyFragment : Fragment() {
                     }
                 },
                 showAlphaSelector = true,
-                alpha = if (activity?.isDarkTheme() == true) Preferences.textSecondaryAlphaDark.toIntValue() else Preferences.textSecondaryAlpha.toIntValue(),
+                alpha = if (requireActivity().isDarkTheme()) Preferences.textSecondaryAlphaDark.toIntValue() else Preferences.textSecondaryAlpha.toIntValue(),
                 onAlphaChangeListener = { alpha ->
-                    if (activity?.isDarkTheme() == true) {
+                    if (requireActivity().isDarkTheme()) {
                         Preferences.textSecondaryAlphaDark = alpha.toHexValue()
                     } else {
                         Preferences.textSecondaryAlpha = alpha.toHexValue()
@@ -322,12 +256,12 @@ class TypographyFragment : Fragment() {
         }
 
         binding.actionTextShadow.setOnClickListener {
-            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.title_text_shadow)).setSelectedValue(if (activity?.isDarkTheme() == true) Preferences.textShadowDark else Preferences.textShadow)
+            val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.title_text_shadow)).setSelectedValue(if (requireActivity().isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow)
             (2 downTo 0).forEach {
                 dialog.addItem(getString(SettingsStringHelper.getTextShadowString(it)), it)
             }
             dialog.addOnSelectItemListener { value ->
-                if (activity?.isDarkTheme() == true) {
+                if (requireActivity().isDarkTheme()) {
                     Preferences.textShadowDark = value
                 } else {
                     Preferences.textShadow = value
