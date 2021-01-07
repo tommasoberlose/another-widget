@@ -30,7 +30,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Look &amp; feel"
+                android:text="@string/look_and_feel_header"
                 android:paddingTop="16dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -65,11 +65,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="Typography"/>
+                        android:text="@string/typography_settings_title"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Text font, size and color"
+                        android:text="@string/typography_settings_subtitle"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>
@@ -103,11 +103,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="Layout"/>
+                        android:text="@string/layout_settings_title"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change the widget design"
+                        android:text="@string/layout_settings_subtitle"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>
@@ -151,7 +151,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Change the clock "
+                            android:text="@string/clock_settings_subtitle"
                             style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                     <LinearLayout
@@ -178,8 +178,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Smart content"
+                android:text="@string/smart_content_header"
                 android:paddingTop="16dp"
+                android:paddingBottom="12dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textAppearance="@style/AnotherWidget.Settings.Header" />
@@ -192,8 +193,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="0dp"
                     android:orientation="horizontal"
@@ -220,11 +221,6 @@
                             android:layout_height="wrap_content"
                             style="@style/AnotherWidget.Settings.Title"
                             android:text="@string/settings_calendar_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Change the widget design"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="1dp"
@@ -256,8 +252,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="0dp"
                     android:orientation="horizontal"
@@ -285,11 +281,6 @@
                             android:layout_height="wrap_content"
                             style="@style/AnotherWidget.Settings.Title"
                             android:text="@string/settings_weather_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Change the widget design"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="1dp"
@@ -321,8 +312,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="0dp"
                     android:orientation="horizontal"
@@ -334,9 +325,9 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="10dp"
+                        android:padding="12dp"
                         app:tint="@color/colorPrimaryText"
-                        android:src="@drawable/round_pageview"/>
+                        android:src="@drawable/round_whatshot_24"/>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -349,18 +340,13 @@
                             android:layout_height="wrap_content"
                             style="@style/AnotherWidget.Settings.Title"
                             android:text="@string/settings_at_a_glance_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Change glace info"
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gestures &amp; input"
+                android:text="@string/gestures_amp_input_header"
                 android:paddingTop="16dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -395,11 +381,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="Gestures"/>
+                        android:text="@string/gestures_settings_title"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change the widget design"
+                        android:text="@string/gestures_settings_subtitle"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>

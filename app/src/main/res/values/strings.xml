@@ -187,7 +187,7 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Next clock alarm</string>
-    <string name="settings_at_a_glance_title">Glance</string>
+    <string name="settings_at_a_glance_title">At a glance</string>
     <string name="settings_show_music_title">Current playing song</string>
     <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
     <string name="settings_request_last_notification_access">We need the notification access permission to check your last notifications.</string>
@@ -326,4 +326,16 @@
     <string name="nothing">Nothing</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_accept">Accept</string>
+
+    <!-- More -->
+    <string name="look_and_feel_header"><![CDATA[Look & feel]]></string>
+    <string name="typography_settings_title">Typography</string>
+    <string name="typography_settings_subtitle">Set text font, size and color</string>
+    <string name="layout_settings_title">Layout</string>
+    <string name="gestures_settings_subtitle">Actions, behaviour and shortcuts</string>
+    <string name="gestures_settings_title">Gestures</string>
+    <string name="gestures_amp_input_header"><![CDATA[Gestures & input]]></string>
+    <string name="clock_settings_subtitle">Set size, color and time zones</string>
+    <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
+    <string name="smart_content_header">Smart content</string>
 </resources>
