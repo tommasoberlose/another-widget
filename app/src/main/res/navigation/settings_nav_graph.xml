@@ -5,27 +5,27 @@
 
     <fragment
         android:id="@+id/calendarTabFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.CalendarTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.CalendarFragment"
         android:label="@string/settings_calendar_title" />
     <fragment
         android:id="@+id/clockTabFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.ClockTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.ClockFragment"
         android:label="@string/settings_clock_title" />
     <fragment
         android:id="@+id/glanceTabFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.GlanceTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.GlanceTabFragment"
         android:label="@string/settings_at_a_glance_title" />
     <fragment
         android:id="@+id/generalTabFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.GeneralTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.LayoutFragment"
         android:label="GeneralTabFragment" />
     <fragment
         android:id="@+id/weatherTabFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.WeatherTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.WeatherFragment"
         android:label="@string/settings_weather_title" />
     <fragment
         android:id="@+id/tabSelectorFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.TabSelectorFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.PreferencesFragment"
         android:label="TabSelectorFragment" >
         <action
             android:id="@+id/action_tabSelectorFragment_to_generalTabFragment"
@@ -48,6 +48,6 @@
     </fragment>
     <fragment
         android:id="@+id/typographyTabFragment"
-        android:name="com.tommasoberlose.anotherwidget.ui.fragments.TypographyTabFragment"
+        android:name="com.tommasoberlose.anotherwidget.ui.fragments.tabs.TypographyFragment"
         android:label="TypographyTabFragment" />
 </navigation>

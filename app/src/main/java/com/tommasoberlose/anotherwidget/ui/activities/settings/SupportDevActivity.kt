@@ -1,13 +1,7 @@
-package com.tommasoberlose.anotherwidget.ui.activities
+package com.tommasoberlose.anotherwidget.ui.activities.settings
 
-import android.app.Activity
-import android.content.Intent
-import android.location.Address
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -17,10 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
-import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivitySupportDevBinding
-import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.ui.viewmodels.SupportDevViewModel
 import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.android.synthetic.main.activity_support_dev.*

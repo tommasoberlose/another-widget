@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.ui.activities
+package com.tommasoberlose.anotherwidget.ui.activities.settings
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

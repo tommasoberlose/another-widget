@@ -1,16 +1,12 @@
-package com.tommasoberlose.anotherwidget.ui.fragments
+package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.os.BuildCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -32,30 +28,27 @@ import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBindi
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
-import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
-import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
-import com.tommasoberlose.anotherwidget.ui.activities.CustomLocationActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.ChooseApplicationActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomLocationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.activities.WeatherProviderActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.collapse
 import com.tommasoberlose.anotherwidget.utils.expand
-import kotlinx.android.synthetic.main.fragment_calendar_settings.*
-import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.android.synthetic.main.fragment_weather_settings.*
 import kotlinx.android.synthetic.main.fragment_weather_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WeatherTabFragment : Fragment() {
+class WeatherFragment : Fragment() {
 
     companion object {
-        fun newInstance() = WeatherTabFragment()
+        fun newInstance() = WeatherFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -72,7 +65,7 @@ class WeatherTabFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentWeatherSettingsBinding>(inflater, R.layout.fragment_weather_settings, container, false)
+        val binding = DataBindingUtil.inflate<FragmentWeatherSettingsBinding>(inflater, R.layout.fragment_tab_weather, container, false)
 
         subscribeUi(binding, viewModel)
 

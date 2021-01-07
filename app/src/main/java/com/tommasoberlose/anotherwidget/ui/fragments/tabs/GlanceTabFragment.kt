@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.ui.fragments
+package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.Manifest
 import android.app.Activity
@@ -10,7 +10,6 @@ import android.content.IntentFilter
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -80,7 +78,7 @@ class GlanceTabFragment : Fragment() {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
         val binding = DataBindingUtil.inflate<FragmentGlanceSettingsBinding>(inflater,
-            R.layout.fragment_glance_settings,
+            R.layout.fragment_tab_glance,
             container,
             false)
 

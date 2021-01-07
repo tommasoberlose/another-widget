@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.ui.fragments
+package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,13 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.chibatching.kotpref.blockingBulk
 import com.chibatching.kotpref.bulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentGeneralSettingsBinding
 import com.tommasoberlose.anotherwidget.databinding.FragmentTypographyTabBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -24,28 +22,23 @@ import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
-import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
-import com.tommasoberlose.anotherwidget.ui.activities.CustomDateActivity
-import com.tommasoberlose.anotherwidget.ui.activities.CustomFontActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomFontActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import kotlinx.android.synthetic.main.fragment_calendar_settings.*
-import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.android.synthetic.main.fragment_typography_tab.*
 import kotlinx.android.synthetic.main.fragment_typography_tab.scrollView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
-class TypographyTabFragment : Fragment() {
+class TypographyFragment : Fragment() {
 
     companion object {
-        fun newInstance() = TypographyTabFragment()
+        fun newInstance() = TypographyFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -63,7 +56,7 @@ class TypographyTabFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentTypographyTabBinding>(inflater, R.layout.fragment_typography_tab, container, false)
+        val binding = DataBindingUtil.inflate<FragmentTypographyTabBinding>(inflater, R.layout.fragment_tab_typography, container, false)
 
         subscribeUi(viewModel)
 

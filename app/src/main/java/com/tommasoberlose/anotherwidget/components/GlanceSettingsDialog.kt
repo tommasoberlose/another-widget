@@ -7,10 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.EventLog
-import android.util.Log
 import android.view.View
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -29,8 +26,8 @@ import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.GreetingsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
-import com.tommasoberlose.anotherwidget.ui.activities.AppNotificationsFilterActivity
-import com.tommasoberlose.anotherwidget.ui.activities.MusicPlayersFilterActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.AppNotificationsFilterActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.android.synthetic.main.glance_provider_settings_layout.view.*

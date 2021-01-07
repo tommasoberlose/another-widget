@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/colorPrimaryDark"
-        tools:context="com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity">
+        tools:context="com.tommasoberlose.anotherwidget.ui.activities.tabs.ChooseApplicationActivity">
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

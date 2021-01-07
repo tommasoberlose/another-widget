@@ -1,22 +1,16 @@
-package com.tommasoberlose.anotherwidget.ui.fragments
+package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import com.chibatching.kotpref.bulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -24,31 +18,23 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
-import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentTabSelectorBinding
-import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
-import com.tommasoberlose.anotherwidget.helpers.IntentHelper
-import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
-import com.tommasoberlose.anotherwidget.models.CalendarSelector
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
-import com.tommasoberlose.anotherwidget.ui.activities.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.*
-import kotlinx.android.synthetic.main.fragment_calendar_settings.*
 import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.android.synthetic.main.fragment_tab_selector.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TabSelectorFragment : Fragment() {
+class PreferencesFragment : Fragment() {
 
     companion object {
-        fun newInstance() = TabSelectorFragment()
+        fun newInstance() = PreferencesFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -66,7 +52,7 @@ class TabSelectorFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentTabSelectorBinding>(inflater, R.layout.fragment_tab_selector, container, false)
+        val binding = DataBindingUtil.inflate<FragmentTabSelectorBinding>(inflater, R.layout.fragment_preferences, container, false)
 
         subscribeUi(binding, viewModel)
 

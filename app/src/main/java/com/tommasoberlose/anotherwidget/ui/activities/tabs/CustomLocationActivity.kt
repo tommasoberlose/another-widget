@@ -1,19 +1,12 @@
-package com.tommasoberlose.anotherwidget.ui.activities
+package com.tommasoberlose.anotherwidget.ui.activities.tabs
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.location.Address
 import android.location.Geocoder
-import android.os.Build
 import android.os.Bundle
 import com.tommasoberlose.anotherwidget.R
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.view.Window
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -22,18 +15,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chibatching.kotpref.bulk
-import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
-import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomLocationBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomLocationViewModel
 import kotlinx.android.synthetic.main.activity_custom_location.*
 import kotlinx.android.synthetic.main.activity_custom_location.action_back
@@ -43,9 +31,6 @@ import kotlinx.android.synthetic.main.activity_custom_location.loader
 import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.ThreadMode
-import org.greenrobot.eventbus.Subscribe
 
 class CustomLocationActivity : AppCompatActivity() {
 

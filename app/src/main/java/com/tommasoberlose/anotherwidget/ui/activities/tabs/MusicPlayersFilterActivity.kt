@@ -1,16 +1,11 @@
-package com.tommasoberlose.anotherwidget.ui.activities
+package com.tommasoberlose.anotherwidget.ui.activities.tabs
 
-import android.app.Activity
 import android.os.Bundle
 import com.tommasoberlose.anotherwidget.R
-import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.ResolveInfo
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -18,55 +13,32 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
-import com.tommasoberlose.anotherwidget.global.Constants
-import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
-import kotlinx.android.synthetic.main.activity_choose_application.*
-import kotlinx.android.synthetic.main.activity_choose_application.action_back
-import kotlinx.android.synthetic.main.activity_choose_application.clear_search
-import kotlinx.android.synthetic.main.activity_choose_application.list_view
-import kotlinx.android.synthetic.main.activity_choose_application.loader
-import kotlinx.android.synthetic.main.activity_choose_application.search
+import com.tommasoberlose.anotherwidget.databinding.ActivityMusicPlayersFilterBinding
+import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
+import com.tommasoberlose.anotherwidget.ui.viewmodels.MusicPlayersFilterViewModel
 import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
-import net.idik.lib.slimadapter.SlimAdapterEx
 
 
-class ChooseApplicationActivity : AppCompatActivity() {
+class MusicPlayersFilterActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
-    private lateinit var viewModel: ChooseApplicationViewModel
+    private lateinit var viewModel: MusicPlayersFilterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(ChooseApplicationViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityChooseApplicationBinding>(this, R.layout.activity_choose_application)
+        viewModel = ViewModelProvider(this).get(MusicPlayersFilterViewModel::class.java)
+        val binding = DataBindingUtil.setContentView<ActivityMusicPlayersFilterBinding>(this, R.layout.activity_music_players_filter)
 
         list_view.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
         list_view.layoutManager = mLayoutManager
 
-        adapter = SlimAdapterEx.create()
+        adapter = SlimAdapter.create()
         adapter
-            .register<String>(R.layout.application_info_layout) { _, injector ->
-                injector
-                    .text(R.id.text, getString(R.string.default_name))
-                    .image(R.id.icon, R.drawable.round_add_to_home_screen_24)
-                    .with<ImageView>(R.id.icon) {
-                        it.scaleX = 0.8f
-                        it.scaleY = 0.8f
-                        it.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryText), android.graphics.PorterDuff.Mode.MULTIPLY)
-                    }
-                    .clicked(R.id.item) {
-                    val resultIntent = Intent()
-                    resultIntent.putExtra(Constants.RESULT_APP_NAME, "")
-                    resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, "")
-                    setResult(Activity.RESULT_OK, resultIntent)
-                    finish()
-                }
-            }
             .register<ResolveInfo>(R.layout.application_info_layout) { item, injector ->
                 injector
                     .text(R.id.text, item.loadLabel(viewModel.pm))
@@ -77,10 +49,16 @@ class ChooseApplicationActivity : AppCompatActivity() {
                             .centerCrop()
                             .into(it)
                     }
-
-                injector.clicked(R.id.item) {
-                    saveApp(item)
-                }
+                    .visible(R.id.checkBox)
+                    .clicked(R.id.item) {
+                        toggleApp(item)
+                        adapter.notifyItemRangeChanged(0, adapter.data.size)
+                    }
+                    .clicked(R.id.checkBox) {
+                        toggleApp(item)
+                        adapter.notifyItemRangeChanged(0, adapter.data.size)
+                    }
+                    .checked(R.id.checkBox, MediaPlayerHelper.isMusicPlayerAccepted(item.activityInfo.packageName))
             }
             .attachTo(list_view)
 
@@ -92,7 +70,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     private var filterJob: Job? = null
 
-    private fun subscribeUi(binding: ActivityChooseApplicationBinding, viewModel: ChooseApplicationViewModel) {
+    private fun subscribeUi(binding: ActivityMusicPlayersFilterBinding, viewModel: MusicPlayersFilterViewModel) {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -104,6 +82,11 @@ class ChooseApplicationActivity : AppCompatActivity() {
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
             clear_search.isVisible = search.isNotBlank()
+        })
+
+        viewModel.musicPlayersFilter.observe(this, {
+            updateList()
+            clear_selection.isVisible = Preferences.musicPlayersFilter != ""
         })
     }
 
@@ -119,9 +102,21 @@ class ChooseApplicationActivity : AppCompatActivity() {
                     list.filter {
                         it.loadLabel(viewModel.pm).contains(search, true)
                     }
+                }.sortedWith { app1, app2 ->
+                    if (MediaPlayerHelper.isMusicPlayerAccepted(app1.activityInfo.packageName) && MediaPlayerHelper.isMusicPlayerAccepted(app2.activityInfo.packageName)) {
+                        app1.loadLabel(viewModel.pm).toString().compareTo(app2.loadLabel(viewModel.pm).toString(), ignoreCase = true)
+                    } else if (MediaPlayerHelper.isMusicPlayerAccepted(app1.activityInfo.packageName)) {
+                        -1
+                    } else if (MediaPlayerHelper.isMusicPlayerAccepted(app2.activityInfo.packageName)) {
+                        1
+                    } else {
+                        app1.loadLabel(viewModel.pm).toString().compareTo(app2.loadLabel(viewModel.pm).toString(), ignoreCase = true)
+                    }
                 }
+
+
                 withContext(Dispatchers.Main) {
-                    adapter.updateData(listOf("Default") + filteredList)
+                    adapter.updateData(filteredList)
                     loader.visibility = View.INVISIBLE
                 }
             }
@@ -136,13 +131,13 @@ class ChooseApplicationActivity : AppCompatActivity() {
         clear_search.setOnClickListener {
             viewModel.searchInput.value = ""
         }
+
+        clear_selection.setOnClickListener {
+            Preferences.musicPlayersFilter = ""
+        }
     }
 
-    private fun saveApp(app: ResolveInfo) {
-        val resultIntent = Intent()
-        resultIntent.putExtra(Constants.RESULT_APP_NAME, app.loadLabel(viewModel.pm))
-        resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, app.activityInfo.packageName)
-        setResult(Activity.RESULT_OK, resultIntent)
-        finish()
+    private fun toggleApp(app: ResolveInfo) {
+        MediaPlayerHelper.toggleMusicPlayerFilter(app.activityInfo.packageName)
     }
 }

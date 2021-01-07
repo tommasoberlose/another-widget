@@ -1,24 +1,18 @@
-package com.tommasoberlose.anotherwidget.ui.activities
+package com.tommasoberlose.anotherwidget.ui.activities.tabs
 
-import android.app.Activity
-import android.location.Address
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chibatching.kotpref.blockingBulk
-import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomDateBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomDateViewModel
 import com.tommasoberlose.anotherwidget.utils.getCapWordString
 import com.tommasoberlose.anotherwidget.utils.openURI
@@ -53,7 +47,8 @@ class CustomDateActivity  : AppCompatActivity() {
             .register<String>(R.layout.custom_date_example_item) { item, injector ->
                 injector
                     .text(R.id.custom_date_example_format, item)
-                    .text(R.id.custom_date_example_value, SimpleDateFormat(item, Locale.getDefault()).format(DATE.time))
+                    .text(R.id.custom_date_example_value, SimpleDateFormat(item, Locale.getDefault()).format(
+                        DATE.time))
             }
             .attachTo(list_view)
 

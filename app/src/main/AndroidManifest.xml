@@ -31,15 +31,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.ChooseApplicationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.CustomFontActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.CustomLocationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.WeatherProviderActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.CustomDateActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.IntegrationsActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.MusicPlayersFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.AppNotificationsFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.ChooseApplicationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.CustomFontActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.CustomLocationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.WeatherProviderActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.settings.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.CustomDateActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.settings.IntegrationsActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.MusicPlayersFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.AppNotificationsFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
 
 
         <receiver android:name=".ui.widgets.MainWidget">

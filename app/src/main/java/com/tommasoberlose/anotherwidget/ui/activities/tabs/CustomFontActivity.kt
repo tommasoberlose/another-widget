@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.ui.activities
+package com.tommasoberlose.anotherwidget.ui.activities.tabs
 
 import android.app.Activity
 import android.content.Intent
@@ -25,7 +25,6 @@ import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomFontBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.helpers.DateHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomFontViewModel
 import kotlinx.android.synthetic.main.activity_choose_application.*
