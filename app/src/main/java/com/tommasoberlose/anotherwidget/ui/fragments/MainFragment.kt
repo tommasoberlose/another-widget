@@ -32,6 +32,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
+import com.tommasoberlose.anotherwidget.databinding.FragmentAppMainBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
@@ -42,8 +43,6 @@ import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.*
-import kotlinx.android.synthetic.main.fragment_app_main.*
-import kotlinx.android.synthetic.main.the_widget_sans.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -57,6 +56,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: FragmentAppMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +70,8 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_app_main, container, false)
+        binding = FragmentAppMainBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -78,16 +79,16 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 
         // Init clock
         if (Preferences.showClock) {
-            time.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-            time.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+            binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+            binding.widgetDetail.time.setTextSize(TypedValue.COMPLEX_UNIT_SP,
                 Preferences.clockTextSize.toPixel(requireContext()))
-            time_am_pm.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-            time_am_pm.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+            binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+            binding.widgetDetail.timeAmPm.setTextSize(TypedValue.COMPLEX_UNIT_SP,
                 Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2)
         }
-        time_container.isVisible = Preferences.showClock
+        binding.widgetDetail.timeContainer.isVisible = Preferences.showClock
 
-        preview.layoutParams = preview.layoutParams.apply {
+        binding.preview.layoutParams = binding.preview.layoutParams.apply {
             height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(requireContext()) else 0
         }
         subscribeUi(viewModel)
@@ -111,12 +112,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         val navHost = childFragmentManager.findFragmentById(R.id.settings_fragment) as? NavHostFragment?
         navHost?.navController?.addOnDestinationChangedListener { controller, destination, _ ->
             val show = destination.id != R.id.tabSelectorFragment
-            action_back?.animate()?.alpha(if (show) 1f else 0f)?.setDuration(200)?.translationX((if (show) 0f else 4f).convertDpToPixel(requireContext()))?.start()
-            action_back?.setOnClickListener {
+            binding.actionBack.animate().alpha(if (show) 1f else 0f).setDuration(200).translationX((if (show) 0f else 4f).convertDpToPixel(requireContext())).start()
+            binding.actionBack.setOnClickListener {
                 controller.navigateUp()
             }
-            action_settings?.animate()?.alpha(if (!show) 1f else 0f)?.setDuration(200)?.translationX((if (!show) 0f else -4f).convertDpToPixel(requireContext()))?.start()
-            fragment_title?.text = if (show) destination.label.toString() else getString(R.string.app_name)
+            binding.actionSettings.animate().alpha(if (!show) 1f else 0f).setDuration(200).translationX((if (!show) 0f else -4f).convertDpToPixel(requireContext())).start()
+            binding.fragmentTitle.text = if (show) destination.label.toString() else getString(R.string.app_name)
         }
     }
 
@@ -125,76 +126,72 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     private fun updateUI() {
         uiJob?.cancel()
 
-        preview?.clearAnimation()
-        time_container?.clearAnimation()
-        bottom_padding.isVisible = Preferences.showPreview
+        binding.preview.clearAnimation()
+        binding.widgetDetail.timeContainer.clearAnimation()
+        binding.bottomPadding.isVisible = Preferences.showPreview
 
         if (Preferences.showPreview) {
-            preview?.setCardBackgroundColor(
+            binding.preview.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    if (ColorHelper.getFontColor(activity?.isDarkTheme() == true)
+                    if (ColorHelper.getFontColor(requireActivity().isDarkTheme())
                             .isColorDark()
                     ) android.R.color.white else R.color.colorAccent
                 )
             )
-            widget_shape_background?.setImageDrawable(
+            binding.widgetDetail.widgetShapeBackground.setImageDrawable(
                 BitmapHelper.getTintedDrawable(
                     requireContext(),
                     R.drawable.card_background,
-                    ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true)
+                    ColorHelper.getBackgroundColor(requireActivity().isDarkTheme())
                 )
             )
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
-                    val generatedView = MainWidget.generateWidgetView(requireContext(), typeface)
+                    val generatedView = MainWidget.generateWidgetView(requireContext(), typeface).root
 
                     withContext(Dispatchers.Main) {
                         generatedView.measure(0, 0)
-                        preview?.measure(0, 0)
+                        binding.preview.measure(0, 0)
                     }
 
-                    val bitmap = if (preview != null) {
-                        BitmapHelper.getBitmapFromView(
-                            generatedView,
-                            if (preview.width > 0) preview.width else generatedView.measuredWidth,
-                            generatedView.measuredHeight
-                        )
-                    } else {
-                        null
-                    }
+                    val bitmap = BitmapHelper.getBitmapFromView(
+                        generatedView,
+                        if (binding.preview.width > 0) binding.preview.width else generatedView.measuredWidth,
+                        generatedView.measuredHeight
+                    )
                     withContext(Dispatchers.Main) {
                         // Clock
-                        time?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-                        time_am_pm?.setTextColor(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))
-                        time?.setTextSize(
+                        binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+                        binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+                        binding.widgetDetail.time.setTextSize(
                             TypedValue.COMPLEX_UNIT_SP,
                             Preferences.clockTextSize.toPixel(requireContext())
                         )
-                        time_am_pm?.setTextSize(
+                        binding.widgetDetail.timeAmPm.setTextSize(
                             TypedValue.COMPLEX_UNIT_SP,
                             Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
                         )
-                        time_am_pm?.isVisible = Preferences.showAMPMIndicator
+                        binding.widgetDetail.timeAmPm.isVisible = Preferences.showAMPMIndicator
 
                         // Clock bottom margin
-                        clock_bottom_margin_none?.isVisible =
+                        binding.widgetDetail.clockBottomMarginNone.isVisible =
                             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
-                        clock_bottom_margin_small?.isVisible =
+                        binding.widgetDetail.clockBottomMarginSmall.isVisible =
                             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
-                        clock_bottom_margin_medium?.isVisible =
+                        binding.widgetDetail.clockBottomMarginMedium.isVisible =
                             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
-                        clock_bottom_margin_large?.isVisible =
+                        binding.widgetDetail.clockBottomMarginLarge.isVisible =
                             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
 
-                        if ((Preferences.showClock && (time?.alpha ?: 1f < 1f)) || (!Preferences.showClock && (time?.alpha ?: 0f > 0f))) {
+                        if ((Preferences.showClock && (binding.widgetDetail.time.alpha ?: 1f < 1f)) || (!Preferences.showClock && (binding.widgetDetail.time.alpha ?: 0f > 0f))) {
                             if (Preferences.showClock) {
-                                time_container?.layoutParams = time_container.layoutParams.apply {
+                                binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
                                     height = RelativeLayout.LayoutParams.WRAP_CONTENT
                                 }
-                                time_container?.measure(0, 0)
+                                binding.widgetDetail.timeContainer.measure(0, 0)
                             }
-                            val initialHeight = time_container?.measuredHeight ?: 0
+                            val initialHeight = binding.widgetDetail.timeContainer.measuredHeight ?: 0
                             ValueAnimator.ofFloat(
                                 if (Preferences.showClock) 0f else 1f,
                                 if (Preferences.showClock) 1f else 0f
@@ -202,121 +199,122 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                                 duration = 500L
                                 addUpdateListener {
                                     val animatedValue = animatedValue as Float
-                                    time_container?.layoutParams =
-                                        time_container.layoutParams.apply {
+                                    binding.widgetDetail.timeContainer.layoutParams =
+                                        binding.widgetDetail.timeContainer.layoutParams.apply {
                                             height = (initialHeight * animatedValue).toInt()
                                         }
-                                    time?.alpha = animatedValue
+                                    binding.widgetDetail.time.alpha = animatedValue
                                 }
                                 addListener(
                                     onStart = {
                                         if (Preferences.showClock) {
-                                            time_container?.isVisible = true
+                                            binding.widgetDetail.timeContainer.isVisible = true
                                         }
                                     },
                                     onEnd = {
                                         if (!Preferences.showClock) {
-                                            time_container?.isVisible = false
+                                            binding.widgetDetail.timeContainer.isVisible = false
                                         }
                                     }
                                 )
                             }.start()
 
-                            if (preview != null) {
-                                ValueAnimator.ofInt(
-                                    preview.height,
-                                    PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
-                                        requireContext()
-                                    ) else 0
-                                ).apply {
-                                    duration = 500L
-                                    addUpdateListener {
-                                        if (preview != null) {
-                                            val animatedValue = animatedValue as Int
-                                            val layoutParams = preview.layoutParams
-                                            layoutParams.height = animatedValue
-                                            preview.layoutParams = layoutParams
-                                        }
-                                    }
-                                }.start()
-                            }
+                            ValueAnimator.ofInt(
+                                binding.preview.height,
+                                PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
+                                    requireContext()
+                                ) else 0
+                            ).apply {
+                                duration = 500L
+                                addUpdateListener {
+                                    val animatedValue = animatedValue as Int
+                                    val layoutParams = binding.preview.layoutParams
+                                    layoutParams.height = animatedValue
+                                    binding.preview.layoutParams = layoutParams
+                                }
+                            }.start()
                         } else {
-                            time_container?.layoutParams = time_container.layoutParams.apply {
+                            binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
                                 height = RelativeLayout.LayoutParams.WRAP_CONTENT
                             }
-                            time_container?.measure(0, 0)
+                            binding.widgetDetail.timeContainer.measure(0, 0)
                         }
 
-                        if (preview != null && preview.height == 0) {
+                        if (binding.preview.height == 0) {
                             ValueAnimator.ofInt(
-                                preview.height,
+                                binding.preview.height,
                                 PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
                                     requireContext()
                                 ) else 0
                             ).apply {
                                 duration = 300L
                                 addUpdateListener {
-                                    if (preview != null) {
-                                        val animatedValue = animatedValue as Int
-                                        val layoutParams = preview.layoutParams
-                                        layoutParams.height = animatedValue
-                                        preview?.layoutParams = layoutParams
-                                    }
+                                    val animatedValue = animatedValue as Int
+                                    val layoutParams = binding.preview.layoutParams
+                                    layoutParams.height = animatedValue
+                                    binding.preview.layoutParams = layoutParams
                                 }
                             }.start()
                         }
 
-                        widget_loader?.animate()?.scaleX(0f)?.scaleY(0f)?.alpha(0f)
-                            ?.setDuration(200L)?.start()
-                        bitmap_container?.apply {
+                        binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
+                            .setDuration(200L).start()
+                        binding.widgetDetail.bitmapContainer.apply {
                             setImageBitmap(bitmap)
                             scaleX = 0.9f
                             scaleY = 0.9f
                         }
-                        widget?.animate()?.alpha(1f)?.start()
+                        binding.widget.animate().alpha(1f).start()
                     }
                 }
             }
         } else {
-            if (preview != null) {
-                ValueAnimator.ofInt(
-                    preview.height,
-                    0
-                ).apply {
-                    duration = 300L
-                    addUpdateListener {
-                        if (preview != null) {
-                            val animatedValue = animatedValue as Int
-                            val layoutParams = preview.layoutParams
-                            layoutParams.height = animatedValue
-                            preview.layoutParams = layoutParams
-                        }
-                    }
-                }.start()
-            }
+            ValueAnimator.ofInt(
+                binding.preview.height,
+                0
+            ).apply {
+                duration = 300L
+                addUpdateListener {
+                    val animatedValue = animatedValue as Int
+                    val layoutParams = binding.preview.layoutParams
+                    layoutParams.height = animatedValue
+                    binding.preview.layoutParams = layoutParams
+                }
+            }.start()
         }
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
-        viewModel.showWallpaper.observe(viewLifecycleOwner, Observer {
-            activity?.let { act ->
-                val wallpaper = act.getCurrentWallpaper()
-                widget_bg.setImageDrawable(if (it) wallpaper else null)
+        viewModel.showWallpaper.observe(viewLifecycleOwner) {
+            if (it) {
+                val wallpaper = requireActivity().getCurrentWallpaper()
+                binding.widgetBg.setImageDrawable(if (it) wallpaper else null)
                 if (wallpaper != null) {
-                    widget_bg.layoutParams =
-                        (widget_bg.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                    binding.widgetBg.layoutParams =
+                        (binding.widgetBg.layoutParams as ViewGroup.MarginLayoutParams).apply {
 
                             val metrics = DisplayMetrics()
-                            act.windowManager.defaultDisplay.getMetrics(metrics)
 
-                            val dimensions: Pair<Int, Int> = if (wallpaper.intrinsicWidth >= wallpaper.intrinsicHeight) {
-                                metrics.heightPixels to (wallpaper.intrinsicWidth) * metrics.heightPixels / (wallpaper.intrinsicHeight)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                val display = requireActivity().display
+                                display?.getRealMetrics(metrics)
                             } else {
-                                metrics.widthPixels to (wallpaper.intrinsicHeight) * metrics.widthPixels / (wallpaper.intrinsicWidth)
+                                @Suppress("DEPRECATION")
+                                val display = requireActivity().windowManager.defaultDisplay
+                                @Suppress("DEPRECATION")
+                                display.getMetrics(metrics)
                             }
 
+                            val dimensions: Pair<Int, Int> =
+                                if (wallpaper.intrinsicWidth >= wallpaper.intrinsicHeight) {
+                                    metrics.heightPixels to (wallpaper.intrinsicWidth) * metrics.heightPixels / (wallpaper.intrinsicHeight)
+                                } else {
+                                    metrics.widthPixels to (wallpaper.intrinsicHeight) * metrics.widthPixels / (wallpaper.intrinsicWidth)
+                                }
+
                             setMargins(
-                                if (dimensions.first >= dimensions.second) (-80).toPixel(requireContext()) else 0,
+                                if (dimensions.first >= dimensions.second) (-80).toPixel(
+                                    requireContext()) else 0,
                                 (-80).toPixel(requireContext()), 0, 0
                             )
 
@@ -324,10 +322,12 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                             height = dimensions.second
                         }
                 }
+            } else {
+                binding.widgetBg.setImageDrawable(null)
             }
-        })
+        }
 
-        action_settings.setOnClickListener {
+        binding.actionSettings.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment)
         }
     }
@@ -350,7 +350,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     override fun onSharedPreferenceChanged(preferences: SharedPreferences, p1: String) {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
-            delay(200)
+            delay(300)
             withContext(Dispatchers.Main) {
                 updateUI()
             }
@@ -365,7 +365,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     fun onMessageEvent(ignore: UpdateUiMessageEvent?) {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
-            delay(200)
+            delay(300)
             withContext(Dispatchers.Main) {
                 updateUI()
             }

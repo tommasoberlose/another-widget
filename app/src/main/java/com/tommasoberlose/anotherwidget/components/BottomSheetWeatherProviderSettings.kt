@@ -5,32 +5,33 @@ import android.view.View
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.databinding.WeatherProviderSettingsLayoutBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.utils.openURI
-import kotlinx.android.synthetic.main.weather_provider_settings_layout.view.*
 
 class BottomSheetWeatherProviderSettings(context: Context, callback: () -> Unit) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
+    private var binding: WeatherProviderSettingsLayoutBinding = WeatherProviderSettingsLayoutBinding.inflate(android.view.LayoutInflater.from(context))
+
     init {
-        val view = View.inflate(context, R.layout.weather_provider_settings_layout, null)
-        view.api_key_container.isVisible = WeatherHelper.isKeyRequired()
-        view.action_save_key.isVisible = WeatherHelper.isKeyRequired()
+        binding.apiKeyContainer.isVisible = WeatherHelper.isKeyRequired()
+        binding.actionSaveKey.isVisible = WeatherHelper.isKeyRequired()
 
         WeatherHelper.getProviderInfoTitle(context).let { title ->
-            view.info_title.text = title
-            view.info_title.isVisible = title != ""
+            binding.infoTitle.text = title
+            binding.infoTitle.isVisible = title != ""
         }
 
         WeatherHelper.getProviderInfoSubtitle(context).let { subtitle ->
-            view.info_subtitle.text = subtitle
-            view.info_subtitle.isVisible = subtitle != ""
+            binding.infoSubtitle.text = subtitle
+            binding.infoSubtitle.isVisible = subtitle != ""
         }
 
-        view.info_provider.text = WeatherHelper.getProviderName(context)
+        binding.infoProvider.text = WeatherHelper.getProviderName(context)
 
-        view.api_key.editText?.setText(when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
+        binding.apiKey.editText?.setText(when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
             Constants.WeatherProvider.OPEN_WEATHER -> Preferences.weatherProviderApiOpen
             Constants.WeatherProvider.WEATHER_BIT -> Preferences.weatherProviderApiWeatherBit
             Constants.WeatherProvider.WEATHER_API -> Preferences.weatherProviderApiWeatherApi
@@ -41,12 +42,12 @@ class BottomSheetWeatherProviderSettings(context: Context, callback: () -> Unit)
             null -> ""
         })
 
-        view.action_open_provider.setOnClickListener {
+        binding.actionOpenProvider.setOnClickListener {
             context.openURI(WeatherHelper.getProviderLink())
         }
 
-        view.action_save_key.setOnClickListener {
-            val key = view.api_key.editText?.text.toString()
+        binding.actionSaveKey.setOnClickListener {
+            val key = binding.apiKey.editText?.text.toString()
             when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
                 Constants.WeatherProvider.OPEN_WEATHER -> Preferences.weatherProviderApiOpen = key
                 Constants.WeatherProvider.WEATHER_BIT -> Preferences.weatherProviderApiWeatherBit = key
@@ -59,6 +60,6 @@ class BottomSheetWeatherProviderSettings(context: Context, callback: () -> Unit)
             dismiss()
         }
 
-        setContentView(view)
+        setContentView(binding.root)
     }
 }

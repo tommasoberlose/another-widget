@@ -19,13 +19,6 @@ import com.bumptech.glide.Glide
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
-import kotlinx.android.synthetic.main.activity_choose_application.*
-import kotlinx.android.synthetic.main.activity_choose_application.action_back
-import kotlinx.android.synthetic.main.activity_choose_application.clear_search
-import kotlinx.android.synthetic.main.activity_choose_application.list_view
-import kotlinx.android.synthetic.main.activity_choose_application.loader
-import kotlinx.android.synthetic.main.activity_choose_application.search
-import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import net.idik.lib.slimadapter.SlimAdapterEx
@@ -35,16 +28,17 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: ChooseApplicationViewModel
+    private lateinit var binding: ActivityChooseApplicationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(ChooseApplicationViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityChooseApplicationBinding>(this, R.layout.activity_choose_application)
+        binding = ActivityChooseApplicationBinding.inflate(layoutInflater)
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapterEx.create()
         adapter
@@ -80,12 +74,14 @@ class ChooseApplicationActivity : AppCompatActivity() {
                     saveApp(item)
                 }
             }
-            .attachTo(list_view)
+            .attachTo(binding.listView)
 
         setupListener()
         subscribeUi(binding, viewModel)
 
-        search.requestFocus()
+        binding.search.requestFocus()
+
+        setContentView(binding.root)
     }
 
     private var filterJob: Job? = null
@@ -96,17 +92,17 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
         viewModel.appList.observe(this, Observer {
             updateList(list = it)
-            loader.visibility = View.INVISIBLE
+            binding.loader.visibility = View.INVISIBLE
         })
 
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
-            clear_search.isVisible = search.isNotBlank()
+            binding.clearSearch.isVisible = search.isNotBlank()
         })
     }
 
     private fun updateList(list: List<ResolveInfo>? = viewModel.appList.value, search: String? = viewModel.searchInput.value) {
-        loader.visibility = View.VISIBLE
+        binding.loader.visibility = View.VISIBLE
         filterJob?.cancel()
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
             if (list != null && list.isNotEmpty()) {
@@ -120,18 +116,18 @@ class ChooseApplicationActivity : AppCompatActivity() {
                 }
                 withContext(Dispatchers.Main) {
                     adapter.updateData(listOf("Default") + filteredList)
-                    loader.visibility = View.INVISIBLE
+                    binding.loader.visibility = View.INVISIBLE
                 }
             }
         }
     }
 
     private fun setupListener() {
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
 
-        clear_search.setOnClickListener {
+        binding.clearSearch.setOnClickListener {
             viewModel.searchInput.value = ""
         }
     }

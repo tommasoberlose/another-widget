@@ -2,7 +2,6 @@ package com.tommasoberlose.anotherwidget.utils
 
 import android.animation.*
 import android.content.pm.PackageManager
-import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.Toast
@@ -21,22 +20,12 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.TypedValue
-import android.view.ViewPropertyAnimator
-import android.view.animation.Animation
-import android.view.animation.Transformation
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.core.animation.addListener
-import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R
-import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
-import kotlinx.android.synthetic.main.fragment_app_main.*
-import kotlinx.android.synthetic.main.the_widget_sans.*
 import java.util.*
 
 
@@ -149,7 +138,7 @@ fun View.collapse(duration: Long = 500L) {
 fun Context.openURI(url: String) {
     try {
         val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
-        builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        builder.setDefaultColorSchemeParams(CustomTabColorSchemeParams.Builder().setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary)).build())
         val customTabsIntent: CustomTabsIntent = builder.build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
     } catch (e: Exception) {

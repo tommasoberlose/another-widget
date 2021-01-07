@@ -1,43 +1,42 @@
 package com.tommasoberlose.anotherwidget.components
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.databinding.BottomSheetMenuBinding
+import com.tommasoberlose.anotherwidget.databinding.IconPackMenuItemBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
-import kotlinx.android.synthetic.main.bottom_sheet_menu.view.*
-import kotlinx.android.synthetic.main.bottom_sheet_menu.view.header
-import kotlinx.android.synthetic.main.fragment_weather_settings.*
-import kotlinx.android.synthetic.main.icon_pack_menu_item.view.*
 
 class IconPackSelector(context: Context, private val header: String? = null) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
+    private var binding = BottomSheetMenuBinding.inflate(LayoutInflater.from(context))
+    private var itemBinding = IconPackMenuItemBinding.inflate(LayoutInflater.from(context))
+
     override fun show() {
-        val view = View.inflate(context, R.layout.bottom_sheet_menu, null)
-
         // Header
-        view.header.isVisible = header != null
-        view.header_text.text = header ?: ""
+        binding.header.isVisible = header != null
+        binding.headerText.text = header ?: ""
 
-        view.warning_text.isVisible = false
+        binding.warningText.isVisible = false
 
         // Menu
         for (item in Constants.WeatherIconPack.values()) {
-            val itemView = View.inflate(context, R.layout.icon_pack_menu_item, null)
-            itemView.label.text = context.getString(R.string.settings_weather_icon_pack_default).format(item.value + 1)
-            itemView.isSelected = item.value == Preferences.weatherIconPack
+            itemBinding.label.text = context.getString(R.string.settings_weather_icon_pack_default).format(item.value + 1)
+            itemBinding.root.isSelected = item.value == Preferences.weatherIconPack
 
-            itemView.icon_1.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01d", item.value)))
-            itemView.icon_2.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01n", item.value)))
-            itemView.icon_3.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "10d", item.value)))
-            itemView.icon_4.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "09n", item.value)))
+            itemBinding.icon1.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01d", item.value)))
+            itemBinding.icon2.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01n", item.value)))
+            itemBinding.icon3.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "10d", item.value)))
+            itemBinding.icon4.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "09n", item.value)))
 
-            listOf<ImageView>(itemView.icon_1, itemView.icon_2, itemView.icon_3, itemView.icon_4).forEach {
+            listOf<ImageView>(itemBinding.icon1, itemBinding.icon2, itemBinding.icon3, itemBinding.icon4).forEach {
                 if (item == Constants.WeatherIconPack.MINIMAL) {
                     it.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryText))
                 } else {
@@ -45,13 +44,13 @@ class IconPackSelector(context: Context, private val header: String? = null) : B
                 }
             }
 
-            itemView.setOnClickListener {
+            itemBinding.root.setOnClickListener {
                 Preferences.weatherIconPack = item.value
                 this.dismiss()
             }
-            view.menu.addView(itemView)
+            binding.menu.addView(itemBinding.root)
         }
-        setContentView(view)
+        setContentView(binding.root)
         super.show()
     }
 }

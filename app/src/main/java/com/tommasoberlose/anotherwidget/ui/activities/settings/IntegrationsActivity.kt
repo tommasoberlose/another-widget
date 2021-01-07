@@ -8,23 +8,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivityIntegrationsBinding
 import com.tommasoberlose.anotherwidget.ui.viewmodels.IntegrationsViewModel
-import kotlinx.android.synthetic.main.activity_integrations.*
 import net.idik.lib.slimadapter.SlimAdapter
 
 class IntegrationsActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: IntegrationsViewModel
+    private lateinit var binding: ActivityIntegrationsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(IntegrationsViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityIntegrationsBinding>(this, R.layout.activity_integrations)
+        binding = ActivityIntegrationsBinding.inflate(layoutInflater)
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
@@ -33,10 +33,12 @@ class IntegrationsActivity : AppCompatActivity() {
                     .text(R.id.text, getString(R.string.default_name))
 
             }
-            .attachTo(list_view)
+            .attachTo(binding.listView)
 
         setupListener()
         subscribeUi(binding, viewModel)
+
+        setContentView(binding.root)
     }
 
     private fun subscribeUi(binding: ActivityIntegrationsBinding, viewModel: IntegrationsViewModel) {
@@ -45,7 +47,7 @@ class IntegrationsActivity : AppCompatActivity() {
     }
 
     private fun setupListener() {
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
     }

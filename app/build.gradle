@@ -6,7 +6,6 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'realm-android'
 
@@ -55,11 +54,11 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
-    dataBinding {
-        enabled = true
-    }
 
-    viewBinding.enabled = true
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {

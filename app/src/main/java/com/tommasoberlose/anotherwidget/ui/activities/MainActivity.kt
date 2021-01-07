@@ -16,18 +16,18 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.databinding.ActivityMainBinding
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity() {
 
     private var mAppWidgetId: Int = -1
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: ActivityMainBinding
     private val mainNavController: NavController? by lazy {
         Navigation.findNavController(
             this,
@@ -43,14 +43,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         controlExtras(intent)
         if (Preferences.showWallpaper) {
             requirePermission()
         }
+
+        setContentView(binding.root)
     }
 
     override fun onBackPressed() {
@@ -86,8 +88,8 @@ class MainActivity : AppCompatActivity() {
                 AppWidgetManager.INVALID_APPWIDGET_ID)
 
             if (mAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-                action_add_widget.visibility = View.VISIBLE
-                action_add_widget.setOnClickListener {
+                binding.actionAddWidget.visibility = View.VISIBLE
+                binding.actionAddWidget.setOnClickListener {
                     addNewWidget()
                 }
             }

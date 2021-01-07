@@ -17,7 +17,6 @@ import com.tommasoberlose.anotherwidget.databinding.ActivityAppNotificationsFilt
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.AppNotificationsViewModel
-import kotlinx.android.synthetic.main.activity_app_notifications_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -26,16 +25,17 @@ class AppNotificationsFilterActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: AppNotificationsViewModel
+    private lateinit var binding: ActivityAppNotificationsFilterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(AppNotificationsViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityAppNotificationsFilterBinding>(this, R.layout.activity_app_notifications_filter)
+        binding = ActivityAppNotificationsFilterBinding.inflate(layoutInflater)
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
@@ -60,12 +60,14 @@ class AppNotificationsFilterActivity : AppCompatActivity() {
                     }
                     .checked(R.id.checkBox, ActiveNotificationsHelper.isAppAccepted(item.activityInfo.packageName))
             }
-            .attachTo(list_view)
+            .attachTo(binding.listView)
 
         setupListener()
         subscribeUi(binding, viewModel)
 
-        search.requestFocus()
+        binding.search.requestFocus()
+
+        setContentView(binding.root)
     }
 
     private var filterJob: Job? = null
@@ -76,22 +78,22 @@ class AppNotificationsFilterActivity : AppCompatActivity() {
 
         viewModel.appList.observe(this, Observer {
             updateList(list = it)
-            loader.visibility = View.INVISIBLE
+            binding.loader.visibility = View.INVISIBLE
         })
 
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
-            clear_search.isVisible = search.isNotBlank()
+            binding.clearSearch.isVisible = search.isNotBlank()
         })
 
         viewModel.appNotificationsFilter.observe(this, {
             updateList()
-            clear_selection.isVisible = Preferences.appNotificationsFilter != ""
+            binding.clearSelection.isVisible = Preferences.appNotificationsFilter != ""
         })
     }
 
     private fun updateList(list: List<ResolveInfo>? = viewModel.appList.value, search: String? = viewModel.searchInput.value) {
-        loader.visibility = View.VISIBLE
+        binding.loader.visibility = View.VISIBLE
         filterJob?.cancel()
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
             if (list != null && list.isNotEmpty()) {
@@ -117,22 +119,22 @@ class AppNotificationsFilterActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     adapter.updateData(filteredList)
-                    loader.visibility = View.INVISIBLE
+                    binding.loader.visibility = View.INVISIBLE
                 }
             }
         }
     }
 
     private fun setupListener() {
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
 
-        clear_search.setOnClickListener {
+        binding.clearSearch.setOnClickListener {
             viewModel.searchInput.value = ""
         }
 
-        clear_selection.setOnClickListener {
+        binding.clearSelection.setOnClickListener {
             Preferences.appNotificationsFilter = ""
         }
     }

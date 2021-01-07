@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetWeatherProviderSettings
+import com.tommasoberlose.anotherwidget.databinding.ActivityWeatherProviderBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.viewmodels.WeatherProviderViewModel
-import kotlinx.android.synthetic.main.activity_weather_provider.*
 import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus
@@ -29,16 +29,17 @@ class WeatherProviderActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: WeatherProviderViewModel
+    private lateinit var binding: ActivityWeatherProviderBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weather_provider)
 
         viewModel = ViewModelProvider(this).get(WeatherProviderViewModel::class.java)
+        binding = ActivityWeatherProviderBinding.inflate(layoutInflater)
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
@@ -54,7 +55,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         Preferences.weatherProvider = provider.value
                         updateListItem(oldValue)
                         updateListItem()
-                        loader.isVisible = true
+                        binding.loader.isVisible = true
 
                         lifecycleScope.launch {
                             WeatherHelper.updateWeather(this@WeatherProviderActivity)
@@ -69,7 +70,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         Preferences.weatherProvider = provider.value
                         updateListItem(oldValue)
                         updateListItem()
-                        loader.isVisible = true
+                        binding.loader.isVisible = true
 
                         lifecycleScope.launch {
                             WeatherHelper.updateWeather(this@WeatherProviderActivity)
@@ -92,7 +93,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                     .clicked(R.id.action_configure) {
                         BottomSheetWeatherProviderSettings(this) {
                             lifecycleScope.launch {
-                                loader.isVisible = true
+                                binding.loader.isVisible = true
                                 WeatherHelper.updateWeather(this@WeatherProviderActivity)
                             }
                         }.show()
@@ -110,7 +111,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         }
                     }
                     .image(R.id.action_configure, ContextCompat.getDrawable(this, if (WeatherHelper.isKeyRequired(provider)) R.drawable.round_settings_24 else R.drawable.outline_info_24))
-            }.attachTo(list_view)
+            }.attachTo(binding.listView)
 
         adapter.updateData(
             Constants.WeatherProvider.values().asList()
@@ -120,6 +121,8 @@ class WeatherProviderActivity : AppCompatActivity() {
 
         setupListener()
         subscribeUi(viewModel)
+
+        setContentView(binding.root)
     }
 
     private fun subscribeUi(viewModel: WeatherProviderViewModel) {
@@ -141,7 +144,7 @@ class WeatherProviderActivity : AppCompatActivity() {
     }
 
     private fun setupListener() {
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
     }
@@ -163,9 +166,9 @@ class WeatherProviderActivity : AppCompatActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(ignore: MainFragment.UpdateUiMessageEvent?) {
-        loader.isVisible = Preferences.weatherProviderError == "-"
+        binding.loader.isVisible = Preferences.weatherProviderError == "-"
         if (Preferences.weatherProviderError == "" && Preferences.weatherProviderLocationError == "") {
-            Snackbar.make(list_view, getString(R.string.settings_weather_provider_api_key_subtitle_all_set), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.listView, getString(R.string.settings_weather_provider_api_key_subtitle_all_set), Snackbar.LENGTH_LONG).show()
         }
     }
 }

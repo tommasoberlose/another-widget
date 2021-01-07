@@ -24,7 +24,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.BuildConfig
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentAppSettingsBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
@@ -36,7 +36,6 @@ import com.tommasoberlose.anotherwidget.ui.activities.settings.SupportDevActivit
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,6 +48,7 @@ class SettingsFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: FragmentAppSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,10 +63,7 @@ class SettingsFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentSettingsBinding>(inflater,
-            R.layout.fragment_app_settings,
-            container,
-            false)
+        binding = FragmentAppSettingsBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -79,16 +76,16 @@ class SettingsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             Navigation.findNavController(it).popBackStack()
         }
 
-        show_widget_preview_toggle.setCheckedImmediatelyNoEvent(Preferences.showPreview)
-        show_wallpaper_toggle.setCheckedImmediatelyNoEvent(Preferences.showWallpaper)
+        binding.showWidgetPreviewToggle.setCheckedImmediatelyNoEvent(Preferences.showPreview)
+        binding.showWallpaperToggle.setCheckedImmediatelyNoEvent(Preferences.showWallpaper)
 
         setupListener()
 
-        app_version.text = "v%s (%s)".format(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
+        binding.appVersion.text = "v%s (%s)".format(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
     }
 
     private fun subscribeUi(
@@ -97,7 +94,7 @@ class SettingsFragment : Fragment() {
         viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
             AppCompatDelegate.setDefaultNightMode(it)
             maintainScrollPosition {
-                theme?.text = when (it) {
+                binding.theme?.text = when (it) {
                     AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.settings_subtitle_dark_theme_light)
                     AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.settings_subtitle_dark_theme_dark)
                     AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> getString(R.string.settings_subtitle_dark_theme_by_battery_saver)
@@ -108,21 +105,21 @@ class SettingsFragment : Fragment() {
         })
 
         viewModel.installedIntegrations.observe(viewLifecycleOwner, Observer {
-            integrations_count_label?.text =
+            binding.integrationsCountLabel?.text =
                 getString(R.string.label_count_installed_integrations).format(
                     it)
         })
 
         viewModel.showPreview.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_widget_preview_label?.text =
+                binding.showWidgetPreviewLabel.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
         })
 
         viewModel.showWallpaper.observe(viewLifecycleOwner, Observer {
             maintainScrollPosition {
-                show_wallpaper_label?.text =
+                binding.showWallpaperLabel.text =
                     if (it && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true) getString(
                         R.string.settings_visible
                     ) else getString(R.string.settings_not_visible)
@@ -131,19 +128,19 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupListener() {
-        action_show_widget_preview.setOnClickListener {
-            show_widget_preview_toggle.isChecked = !show_widget_preview_toggle.isChecked
+        binding.actionShowWidgetPreview.setOnClickListener {
+            binding.showWidgetPreviewToggle.isChecked = !binding.showWidgetPreviewToggle.isChecked
         }
 
-        show_widget_preview_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showWidgetPreviewToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showPreview = isChecked
         }
 
-        action_show_wallpaper.setOnClickListener {
-            show_wallpaper_toggle.isChecked = !show_wallpaper_toggle.isChecked
+        binding.actionShowWallpaper.setOnClickListener {
+            binding.showWallpaperToggle.isChecked = !binding.showWallpaperToggle.isChecked
         }
 
-        show_wallpaper_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showWallpaperToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 requirePermission()
             } else {
@@ -151,11 +148,11 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        action_integrations.setOnClickListener {
+        binding.actionIntegrations.setOnClickListener {
             startActivity(Intent(requireContext(), IntegrationsActivity::class.java))
         }
 
-        action_change_theme.setOnClickListener {
+        binding.actionChangeTheme.setOnClickListener {
             maintainScrollPosition {
                 BottomSheetMenu<Int>(requireContext(),
                     header = getString(R.string.settings_theme_title))
@@ -178,30 +175,30 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        action_translate.setOnClickListener {
+        binding.actionTranslate.setOnClickListener {
             activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
         }
 
-        action_website.setOnClickListener {
+        binding.actionWebsite.setOnClickListener {
             activity?.openURI("http://tommasoberlose.com/")
         }
 
-        action_feedback.setOnClickListener {
+        binding.actionFeedback.setOnClickListener {
             activity?.openURI("https://github.com/tommasoberlose/another-widget/issues")
         }
 
-        action_privacy_policy.setOnClickListener {
+        binding.actionPrivacyPolicy.setOnClickListener {
             activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/privacy-policy.md")
         }
 
-        action_help_dev.setOnClickListener {
+        binding.actionHelpDev.setOnClickListener {
             startActivity(Intent(requireContext(), SupportDevActivity::class.java))
         }
 
-        action_refresh_widget.setOnClickListener {
-            action_refresh_icon
+        binding.actionRefreshWidget.setOnClickListener {
+            binding.actionRefreshIcon
                 .animate()
-                .rotation((action_refresh_icon.rotation - action_refresh_icon.rotation % 360f) + 360f)
+                .rotation((binding.actionRefreshIcon.rotation - binding.actionRefreshIcon.rotation % 360f) + 360f)
                 .withEndAction {
                     viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                         WeatherHelper.updateWeather(requireContext())
@@ -215,11 +212,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 
@@ -233,7 +230,7 @@ class SettingsFragment : Fragment() {
                         if (report.areAllPermissionsGranted()) {
                             Preferences.showWallpaper = true
                         } else {
-                            show_wallpaper_toggle?.isChecked = false
+                            binding.showWallpaperToggle.isChecked = false
                         }
                     }
                 }

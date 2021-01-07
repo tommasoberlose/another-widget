@@ -27,13 +27,6 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomFontViewModel
-import kotlinx.android.synthetic.main.activity_choose_application.*
-import kotlinx.android.synthetic.main.activity_choose_application.action_back
-import kotlinx.android.synthetic.main.activity_choose_application.clear_search
-import kotlinx.android.synthetic.main.activity_choose_application.list_view
-import kotlinx.android.synthetic.main.activity_choose_application.loader
-import kotlinx.android.synthetic.main.activity_choose_application.search
-import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import net.idik.lib.slimadapter.diff.DefaultDiffCallback
@@ -43,19 +36,17 @@ class CustomFontActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: CustomFontViewModel
+    private lateinit var binding: ActivityCustomFontBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(CustomFontViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityCustomFontBinding>(
-            this,
-            R.layout.activity_custom_font
-        )
+        binding = ActivityCustomFontBinding.inflate(layoutInflater)
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter.enableDiff(object: DefaultDiffCallback() {
@@ -145,12 +136,14 @@ class CustomFontActivity : AppCompatActivity() {
                     }.show()
                 }
             }
-            .attachTo(list_view)
+            .attachTo(binding.listView)
 
         setupListener()
         subscribeUi(binding, viewModel)
 
-        search.requestFocus()
+        binding.search.requestFocus()
+
+        setContentView(binding.root)
     }
 
     private var filterJob: Job? = null
@@ -161,12 +154,12 @@ class CustomFontActivity : AppCompatActivity() {
 
         viewModel.fontList.observe(this, Observer {
             updateList(list = it)
-            loader.visibility = View.INVISIBLE
+            binding.loader.visibility = View.INVISIBLE
         })
 
         viewModel.searchInput.observe(this, Observer { search ->
             updateList(search = search)
-            clear_search.isVisible = search.isNotBlank()
+            binding.clearSearch.isVisible = search.isNotBlank()
         })
     }
 
@@ -174,7 +167,7 @@ class CustomFontActivity : AppCompatActivity() {
         list: ArrayList<Font>? = viewModel.fontList.value,
         search: String? = viewModel.searchInput.value
     ) {
-        loader.visibility = View.VISIBLE
+        binding.loader.visibility = View.VISIBLE
         filterJob?.cancel()
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
             if (list != null && list.isNotEmpty()) {
@@ -208,18 +201,18 @@ class CustomFontActivity : AppCompatActivity() {
                 }
                 withContext(Dispatchers.Main) {
                     adapter.updateData(filteredList)
-                    loader.visibility = View.INVISIBLE
+                    binding.loader.visibility = View.INVISIBLE
                 }
             }
         }
     }
 
     private fun setupListener() {
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
 
-        clear_search.setOnClickListener {
+        binding.clearSearch.setOnClickListener {
             viewModel.searchInput.value = ""
         }
     }

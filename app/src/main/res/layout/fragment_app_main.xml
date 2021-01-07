@@ -99,7 +99,7 @@
                         android:id="@+id/widget"
                         android:alpha="0"
                         android:gravity="center">
-                        <include layout="@layout/the_widget_sans" />
+                        <include layout="@layout/the_widget_sans" android:id="@+id/widget_detail" />
                     </LinearLayout>
                     <ProgressBar
                         android:layout_width="32dp"

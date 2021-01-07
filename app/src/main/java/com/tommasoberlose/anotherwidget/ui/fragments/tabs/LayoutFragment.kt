@@ -16,7 +16,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentGeneralSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentTabLayoutBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
@@ -27,10 +27,6 @@ import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import kotlinx.android.synthetic.main.fragment_calendar_settings.*
-import kotlinx.android.synthetic.main.fragment_clock_settings.*
-import kotlinx.android.synthetic.main.fragment_general_settings.*
-import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,6 +42,7 @@ class LayoutFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var colors: IntArray
+    private lateinit var binding: FragmentTabLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +56,7 @@ class LayoutFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentGeneralSettingsBinding>(inflater, R.layout.fragment_tab_layout, container, false)
+        binding = FragmentTabLayoutBinding.inflate(inflater)
 
         subscribeUi(viewModel)
 
@@ -73,7 +70,7 @@ class LayoutFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        show_dividers_toggle.isChecked = Preferences.showDividers
+        binding.showDividersToggle.setCheckedImmediatelyNoEvent(Preferences.showDividers)
 
         setupListener()
         lifecycleScope.launch(Dispatchers.IO) {
@@ -83,8 +80,8 @@ class LayoutFragment : Fragment() {
             }
         }
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver?.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
@@ -94,78 +91,78 @@ class LayoutFragment : Fragment() {
         viewModel: MainViewModel
     ) {
 
-        viewModel.secondRowTopMargin.observe(viewLifecycleOwner, Observer {
+        viewModel.secondRowTopMargin.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                second_row_top_margin_label?.text = when (it) {
+                binding.secondRowTopMarginLabel.text = when (it) {
                     Constants.SecondRowTopMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
                     Constants.SecondRowTopMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
                     Constants.SecondRowTopMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
                     else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
                 }
             }
-        })
+        }
 
-        viewModel.backgroundCardColor.observe(viewLifecycleOwner, Observer {
+        viewModel.backgroundCardColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlpha == "00") {
-                    background_color_label?.text = getString(R.string.transparent)
+                    binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
-                    background_color_label?.text =
+                    binding.backgroundColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.backgroundCardColorDark.observe(viewLifecycleOwner, Observer {
+        viewModel.backgroundCardColorDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlphaDark == "00") {
-                    background_color_label?.text = getString(R.string.transparent)
+                    binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
-                    background_color_label?.text =
+                    binding.backgroundColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.backgroundCardAlpha.observe(viewLifecycleOwner, Observer {
+        viewModel.backgroundCardAlpha.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlpha == "00") {
-                    background_color_label?.text = getString(R.string.transparent)
+                    binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
-                    background_color_label?.text =
+                    binding.backgroundColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.backgroundCardAlphaDark.observe(viewLifecycleOwner, Observer {
+        viewModel.backgroundCardAlphaDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.backgroundCardAlphaDark == "00") {
-                    background_color_label?.text = getString(R.string.transparent)
+                    binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
-                    background_color_label?.text =
+                    binding.backgroundColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.dateFormat.observe(viewLifecycleOwner, Observer {
+        viewModel.dateFormat.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                date_format_label?.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
+                binding.dateFormatLabel.text = DateHelper.getDateText(requireContext(), Calendar.getInstance())
             }
-        })
+        }
 
-        viewModel.showDividers.observe(viewLifecycleOwner, Observer {
+        viewModel.showDividers.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                show_dividers_label?.text =
+                binding.showDividersLabel.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-        })
+        }
     }
 
     private fun setupListener() {
 
-        action_second_row_top_margin_size.setOnClickListener {
+        binding.actionSecondRowTopMarginSize.setOnClickListener {
             BottomSheetMenu<Int>(
                 requireContext(),
                 header = getString(R.string.settings_secondary_row_top_margin_title)
@@ -191,7 +188,7 @@ class LayoutFragment : Fragment() {
                 }.show()
         }
 
-        action_date_format.setOnClickListener {
+        binding.actionDateFormat.setOnClickListener {
             val now = Calendar.getInstance()
             val dialog = BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_date_format_title)).setSelectedValue(Preferences.dateFormat)
 
@@ -220,7 +217,7 @@ class LayoutFragment : Fragment() {
             }.show()
         }
 
-        action_background_color.setOnClickListener {
+        binding.actionBackgroundColor.setOnClickListener {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_background_color_title),
@@ -247,21 +244,21 @@ class LayoutFragment : Fragment() {
             ).show()
         }
 
-        action_show_dividers.setOnClickListener {
-            show_dividers_toggle.isChecked = !show_dividers_toggle.isChecked
+        binding.actionShowDividers.setOnClickListener {
+            binding.showDividersToggle.isChecked = !binding.showDividersToggle.isChecked
         }
 
-        show_dividers_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showDividersToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showDividers = isChecked
         }
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 }

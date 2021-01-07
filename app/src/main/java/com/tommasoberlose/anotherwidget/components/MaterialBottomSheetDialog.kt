@@ -1,11 +1,11 @@
 package com.tommasoberlose.anotherwidget.components
 
 import android.content.Context
-import android.view.View
+import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tommasoberlose.anotherwidget.R
-import kotlinx.android.synthetic.main.bottom_sheet_dialog.view.*
+import com.tommasoberlose.anotherwidget.databinding.BottomSheetDialogBinding
 
 typealias DialogCallback = () -> Unit
 
@@ -20,6 +20,8 @@ class MaterialBottomSheetDialog(
     private var positiveCallback: DialogCallback? = null
     private var negativeCallback: DialogCallback? = null
 
+    private var binding = BottomSheetDialogBinding.inflate(LayoutInflater.from(context))
+
     fun setPositiveButton(label: String? = context.getString(android.R.string.ok), callback: DialogCallback? = null): MaterialBottomSheetDialog {
         positiveButtonLabel = label
         positiveCallback = callback
@@ -33,30 +35,28 @@ class MaterialBottomSheetDialog(
     }
 
     override fun show() {
-        val view = View.inflate(context, R.layout.bottom_sheet_dialog, null)
-
         // Header
-        view.title.isVisible = title != null
-        view.title.text = title ?: ""
+        binding.title.isVisible = title != null
+        binding.title.text = title ?: ""
 
-        view.message.isVisible = message != null
-        view.message.text = message ?: ""
+        binding.message.isVisible = message != null
+        binding.message.text = message ?: ""
 
-        view.action_positive.isVisible = positiveButtonLabel != null
-        view.action_positive.text = positiveButtonLabel ?: ""
-        view.action_positive.setOnClickListener {
+        binding.actionPositive.isVisible = positiveButtonLabel != null
+        binding.actionPositive.text = positiveButtonLabel ?: ""
+        binding.actionPositive.setOnClickListener {
             positiveCallback?.invoke()
             this.dismiss()
         }
 
-        view.action_negative.isVisible = negativeButtonLabel != null
-        view.action_negative.text = negativeButtonLabel ?: ""
-        view.action_negative.setOnClickListener {
+        binding.actionNegative.isVisible = negativeButtonLabel != null
+        binding.actionNegative.text = negativeButtonLabel ?: ""
+        binding.actionNegative.setOnClickListener {
             negativeCallback?.invoke()
             this.dismiss()
         }
 
-        setContentView(view)
+        setContentView(binding.root)
         super.show()
     }
 

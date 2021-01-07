@@ -19,15 +19,13 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
-import com.tommasoberlose.anotherwidget.databinding.FragmentTabSelectorBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentPreferencesBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.*
-import kotlinx.android.synthetic.main.fragment_tab_selector.*
-import kotlinx.android.synthetic.main.fragment_tab_selector.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -38,6 +36,7 @@ class PreferencesFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: FragmentPreferencesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +51,9 @@ class PreferencesFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentTabSelectorBinding>(inflater, R.layout.fragment_preferences, container, false)
+        binding = FragmentPreferencesBinding.inflate(inflater)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -67,13 +66,12 @@ class PreferencesFragment : Fragment() {
 
         setupListener()
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
     private fun subscribeUi(
-        binding: FragmentTabSelectorBinding,
         viewModel: MainViewModel
     ) {
         binding.isCalendarEnabled = Preferences.showEvents
@@ -81,7 +79,7 @@ class PreferencesFragment : Fragment() {
         binding.isClockVisible = Preferences.showClock
         binding.isGlanceVisible = Preferences.showGlance
 
-        viewModel.showEvents.observe(viewLifecycleOwner, Observer {
+        viewModel.showEvents.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.isCalendarEnabled = it
 
@@ -92,70 +90,70 @@ class PreferencesFragment : Fragment() {
                 }
             }
             checkReadEventsPermission()
-        })
+        }
 
-        viewModel.showWeather.observe(viewLifecycleOwner, Observer {
+        viewModel.showWeather.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.isWeatherVisible = it
             }
             checkLocationPermission()
-        })
+        }
 
-        viewModel.showClock.observe(viewLifecycleOwner, Observer {
+        viewModel.showClock.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.isClockVisible = it
             }
-        })
+        }
 
-        viewModel.showGlance.observe(viewLifecycleOwner, Observer {
+        viewModel.showGlance.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.isGlanceVisible = it
             }
-        })
+        }
 
     }
 
     private fun setupListener() {
 
-        action_typography.setOnClickListener {
+        binding.actionTypography.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_typographyTabFragment)
         }
 
-        action_general_settings.setOnClickListener {
+        binding.actionGeneralSettings.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_generalTabFragment)
         }
 
-        action_show_events.setOnClickListener {
+        binding.actionShowEvents.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_calendarTabFragment)
         }
 
-        show_events_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+        binding.showEventsSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showEvents = enabled
             if (Preferences.showEvents) {
                 requirePermission()
             }
         }
 
-        action_show_weather.setOnClickListener {
+        binding.actionShowWeather.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_weatherTabFragment)
         }
 
-        show_weather_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+        binding.showWeatherSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showWeather = enabled
         }
 
-        action_show_clock.setOnClickListener {
+        binding.actionShowClock.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_clockTabFragment)
         }
 
-        show_clock_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+        binding.showClockSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showClock = enabled
         }
-        action_show_glance.setOnClickListener {
+        binding.actionShowGlance.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_glanceTabFragment)
         }
 
-        show_glance_switch.setOnCheckedChangeListener { _, enabled: Boolean ->
+        binding.showGlanceSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showGlance = enabled
         }
     }
@@ -211,11 +209,11 @@ class PreferencesFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 }

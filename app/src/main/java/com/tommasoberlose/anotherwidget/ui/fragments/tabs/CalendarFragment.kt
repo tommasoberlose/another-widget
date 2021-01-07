@@ -18,7 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.models.CalendarSelector
-import com.tommasoberlose.anotherwidget.databinding.FragmentCalendarSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentTabCalendarBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
@@ -31,8 +31,6 @@ import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import com.tommasoberlose.anotherwidget.utils.toast
-import kotlinx.android.synthetic.main.fragment_calendar_settings.*
-import kotlinx.android.synthetic.main.fragment_calendar_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.Comparator
@@ -44,6 +42,7 @@ class CalendarFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: FragmentTabCalendarBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +56,9 @@ class CalendarFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentCalendarSettingsBinding>(inflater, R.layout.fragment_tab_calendar, container, false)
+        binding = FragmentTabCalendarBinding.inflate(inflater)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -70,73 +69,72 @@ class CalendarFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        show_all_day_toggle.isChecked = Preferences.calendarAllDay
-        show_only_busy_events_toggle.isChecked = Preferences.showOnlyBusyEvents
-        show_diff_time_toggle.isChecked = Preferences.showDiffTime
-        show_multiple_events_toggle.isChecked = Preferences.showNextEvent
+        binding.showAllDayToggle.setCheckedImmediatelyNoEvent(Preferences.calendarAllDay)
+        binding.showOnlyBusyEventsToggle.setCheckedImmediatelyNoEvent(Preferences.showOnlyBusyEvents)
+        binding.showDiffTimeToggle.setCheckedImmediatelyNoEvent(Preferences.showDiffTime)
+        binding.showMultipleEventsToggle.setCheckedImmediatelyNoEvent(Preferences.showNextEvent)
 
         setupListener()
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
     private fun subscribeUi(
-        binding: FragmentCalendarSettingsBinding,
         viewModel: MainViewModel
     ) {
         binding.isCalendarEnabled = Preferences.showEvents
         binding.isDiffEnabled = Preferences.showDiffTime || !Preferences.showEvents
 
-        viewModel.calendarAllDay.observe(viewLifecycleOwner, Observer {
+        viewModel.calendarAllDay.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                all_day_label?.text =
+                binding.allDayLabel.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-        })
+        }
 
-        viewModel.secondRowInformation.observe(viewLifecycleOwner, Observer {
+        viewModel.secondRowInformation.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                second_row_info_label?.text = getString(SettingsStringHelper.getSecondRowInfoString(it))
+                binding.secondRowInfoLabel.text = getString(SettingsStringHelper.getSecondRowInfoString(it))
             }
-        })
+        }
 
-        viewModel.showDiffTime.observe(viewLifecycleOwner, Observer {
+        viewModel.showDiffTime.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                show_diff_time_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                binding.showDiffTimeLabel.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
                 binding.isDiffEnabled = it || !Preferences.showEvents
             }
-        })
+        }
 
-        viewModel.widgetUpdateFrequency.observe(viewLifecycleOwner, Observer {
+        viewModel.widgetUpdateFrequency.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                widget_update_frequency_label?.text = when (it) {
+                binding.widgetUpdateFrequencyLabel.text = when (it) {
                     Constants.WidgetUpdateFrequency.HIGH.value -> getString(R.string.settings_widget_update_frequency_high)
                     Constants.WidgetUpdateFrequency.DEFAULT.value -> getString(R.string.settings_widget_update_frequency_default)
                     Constants.WidgetUpdateFrequency.LOW.value -> getString(R.string.settings_widget_update_frequency_low)
                     else -> ""
                 }
             }
-        })
+        }
 
-        viewModel.showUntil.observe(viewLifecycleOwner, Observer {
+        viewModel.showUntil.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                show_until_label?.text = getString(SettingsStringHelper.getShowUntilString(it))
+                binding.showUntilLabel.text = getString(SettingsStringHelper.getShowUntilString(it))
             }
             updateCalendar()
-        })
+        }
 
-        viewModel.showNextEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.showNextEvent.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                show_multiple_events_label?.text =
+                binding.showMultipleEventsLabel.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-        })
+        }
 
-        viewModel.calendarAppName.observe(viewLifecycleOwner, Observer {
+        viewModel.calendarAppName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                calendar_app_label?.text = when {
+                binding.calendarAppLabel.text = when {
                     Preferences.calendarAppName != "" -> Preferences.calendarAppName
                     else -> {
                         if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
@@ -149,19 +147,19 @@ class CalendarFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
 
-        viewModel.openEventDetails.observe(viewLifecycleOwner, Observer {
+        viewModel.openEventDetails.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                open_event_details_label?.text = if (it) getString(R.string.default_event_app) else getString(R.string.default_calendar_app)
+                binding.openEventDetailsLabel.text = if (it) getString(R.string.default_event_app) else getString(R.string.default_calendar_app)
             }
-        })
+        }
 
     }
 
     private fun setupListener() {
 
-        action_filter_calendar.setOnClickListener {
+        binding.actionFilterCalendar.setOnClickListener {
             val calendarSelectorList: List<CalendarSelector> = CalendarHelper.getCalendarList(requireContext()).map {
                 CalendarSelector(
                     it.id,
@@ -212,16 +210,16 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        action_show_all_day.setOnClickListener {
-            show_all_day_toggle.isChecked = !show_all_day_toggle.isChecked
+        binding.actionShowAllDay.setOnClickListener {
+            binding.showAllDayToggle.isChecked = !binding.showAllDayToggle.isChecked
         }
 
-        show_all_day_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showAllDayToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.calendarAllDay = isChecked
             updateCalendar()
         }
 
-        action_change_attendee_filter.setOnClickListener {
+        binding.actionChangeAttendeeFilter.setOnClickListener {
             val selectedValues = emptyList<Int>().toMutableList()
             if (Preferences.showDeclinedEvents) {
                 selectedValues.add(CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED)
@@ -257,32 +255,32 @@ class CalendarFragment : Fragment() {
             }.show()
         }
 
-        action_show_only_busy_events.setOnClickListener {
-            show_only_busy_events_toggle.isChecked = !show_only_busy_events_toggle.isChecked
+        binding.actionShowOnlyBusyEvents.setOnClickListener {
+            binding.showOnlyBusyEventsToggle.isChecked = !binding.showOnlyBusyEventsToggle.isChecked
         }
 
-        show_only_busy_events_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showOnlyBusyEventsToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showOnlyBusyEvents = isChecked
             updateCalendar()
         }
 
-        action_show_multiple_events.setOnClickListener {
-            show_multiple_events_toggle.isChecked = !show_multiple_events_toggle.isChecked
+        binding.actionShowMultipleEvents.setOnClickListener {
+            binding.showMultipleEventsToggle.isChecked = !binding.showMultipleEventsToggle.isChecked
         }
 
-        show_multiple_events_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showMultipleEventsToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showNextEvent = isChecked
         }
 
-        action_show_diff_time.setOnClickListener {
-            show_diff_time_toggle.isChecked = !show_diff_time_toggle.isChecked
+        binding.actionShowDiffTime.setOnClickListener {
+            binding.showDiffTimeToggle.isChecked = !binding.showDiffTimeToggle.isChecked
         }
 
-        show_diff_time_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.showDiffTimeToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showDiffTime = isChecked
         }
 
-        action_widget_update_frequency.setOnClickListener {
+        binding.actionWidgetUpdateFrequency.setOnClickListener {
             if (Preferences.showEvents && Preferences.showDiffTime) {
                 BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_widget_update_frequency_title), message = getString(R.string.settings_widget_update_frequency_subtitle)).setSelectedValue(Preferences.widgetUpdateFrequency)
                     .addItem(getString(R.string.settings_widget_update_frequency_high), Constants.WidgetUpdateFrequency.HIGH.value)
@@ -294,7 +292,7 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        action_second_row_info.setOnClickListener {
+        binding.actionSecondRowInfo.setOnClickListener {
             val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_second_row_info_title)).setSelectedValue(Preferences.secondRowInformation)
             (0 .. 1).forEach {
                 dialog.addItem(getString(SettingsStringHelper.getSecondRowInfoString(it)), it)
@@ -304,7 +302,7 @@ class CalendarFragment : Fragment() {
             }.show()
         }
 
-        action_show_until.setOnClickListener {
+        binding.actionShowUntil.setOnClickListener {
             val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_show_until_title)).setSelectedValue(Preferences.showUntil)
             intArrayOf(6,7,0,1,2,3, 4, 5).forEach {
                 dialog.addItem(getString(SettingsStringHelper.getShowUntilString(it)), it)
@@ -314,7 +312,7 @@ class CalendarFragment : Fragment() {
             }.show()
         }
 
-        action_open_event_details.setOnClickListener {
+        binding.actionOpenEventDetails.setOnClickListener {
             BottomSheetMenu<Boolean>(requireContext(), header = getString(R.string.settings_event_app_title)).setSelectedValue(Preferences.openEventDetails)
                 .addItem(getString(R.string.default_event_app), true)
                 .addItem(getString(R.string.default_calendar_app), false)
@@ -324,7 +322,7 @@ class CalendarFragment : Fragment() {
                 .show()
         }
 
-        action_calendar_app.setOnClickListener {
+        binding.actionCalendarApp.setOnClickListener {
             startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java), RequestCode.CALENDAR_APP_REQUEST_CODE.code)
         }
     }
@@ -356,11 +354,11 @@ class CalendarFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 }

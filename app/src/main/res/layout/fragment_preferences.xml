@@ -72,7 +72,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change the text design"
+                        android:text="Text font, size and color"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>
@@ -93,7 +93,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
-                    android:src="@drawable/round_palette_24"
+                    android:src="@drawable/round_dashboard_24"
                     app:tint="@color/colorPrimaryText"/>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -106,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/appearance_header"/>
+                        android:text="Layout"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -114,10 +114,74 @@
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="0dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:id="@+id/action_show_clock">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        app:tint="@color/colorPrimaryText"
+                        android:src="@drawable/round_schedule_24"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_clock_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Change the clock "
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/cardBorder"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:alpha="0.6" />
+                </LinearLayout>
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    app:kswThumbWidth="16sp"
+                    app:kswThumbHeight="16sp"
+                    app:kswBackRadius="16dp"
+                    app:kswTintColor="@color/colorAccent"
+                    android:checked="@{isClockVisible}"
+                    android:id="@+id/show_clock_switch"
+                    android:buttonTint="@color/colorAccent" />
+            </LinearLayout>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Content"
+                android:text="Smart content"
                 android:paddingTop="16dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -269,70 +333,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackground"
-                    android:id="@+id/action_show_clock">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        app:tint="@color/colorPrimaryText"
-                        android:src="@drawable/round_schedule_24"/>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/AnotherWidget.Settings.Title"
-                            android:text="@string/settings_clock_title"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Change the clock "
-                            style="@style/AnotherWidget.Settings.Subtitle"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/cardBorder"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:alpha="0.6" />
-                </LinearLayout>
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="16dp"
-                    app:kswThumbWidth="16sp"
-                    app:kswThumbHeight="16sp"
-                    app:kswBackRadius="16dp"
-                    app:kswTintColor="@color/colorAccent"
-                    android:checked="@{isClockVisible}"
-                    android:id="@+id/show_clock_switch"
-                    android:buttonTint="@color/colorAccent" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="0dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/action_show_glance">
                     <ImageView
                         android:layout_width="48dp"
@@ -378,6 +378,52 @@
                     android:checked="@{isGlanceVisible}"
                     android:id="@+id/show_glance_switch"
                     android:buttonTint="@color/colorAccent" />
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gestures &amp; input"
+                android:paddingTop="16dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textAppearance="@style/AnotherWidget.Settings.Header" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:id="@+id/action_tab_default_app"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_add_to_home_screen_24"
+                    app:tint="@color/colorPrimaryText"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:text="Gestures"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change the widget design"
+                        style="@style/AnotherWidget.Settings.Subtitle"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </com.tommasoberlose.anotherwidget.components.FixedFocusScrollView>

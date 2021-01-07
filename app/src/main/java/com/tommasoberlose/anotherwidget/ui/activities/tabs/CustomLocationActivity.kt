@@ -23,12 +23,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.databinding.ActivityCustomLocationBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.ui.viewmodels.CustomLocationViewModel
-import kotlinx.android.synthetic.main.activity_custom_location.*
-import kotlinx.android.synthetic.main.activity_custom_location.action_back
-import kotlinx.android.synthetic.main.activity_custom_location.clear_search
-import kotlinx.android.synthetic.main.activity_custom_location.list_view
-import kotlinx.android.synthetic.main.activity_custom_location.loader
-import kotlinx.android.synthetic.main.activity_music_players_filter.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -36,17 +30,18 @@ class CustomLocationActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: CustomLocationViewModel
+    private lateinit var binding: ActivityCustomLocationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(CustomLocationViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityCustomLocationBinding>(this, R.layout.activity_custom_location)
+        binding = ActivityCustomLocationBinding.inflate(layoutInflater)
 
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
@@ -69,7 +64,7 @@ class CustomLocationActivity : AppCompatActivity() {
                     }
                 }
             }
-            .attachTo(list_view)
+            .attachTo(binding.listView)
 
 
         viewModel.addresses.observe(this, Observer {
@@ -79,9 +74,11 @@ class CustomLocationActivity : AppCompatActivity() {
         setupListener()
         subscribeUi(binding, viewModel)
 
-        location.requestFocus()
+        binding.location.requestFocus()
 
+        setContentView(binding.root)
     }
+
     private var searchJob: Job? = null
 
     private fun subscribeUi(binding: ActivityCustomLocationBinding, viewModel: CustomLocationViewModel) {
@@ -90,11 +87,11 @@ class CustomLocationActivity : AppCompatActivity() {
 
         viewModel.addresses.observe(this, Observer {
             adapter.updateData(listOf("Default") + it)
-            loader.visibility = View.INVISIBLE
+            binding.loader.visibility = View.INVISIBLE
         })
 
         viewModel.locationInput.observe(this, Observer { location ->
-            loader.visibility = View.VISIBLE
+            binding.loader.visibility = View.VISIBLE
             searchJob?.cancel()
             searchJob = lifecycleScope.launch(Dispatchers.IO) {
                 delay(200)
@@ -110,11 +107,11 @@ class CustomLocationActivity : AppCompatActivity() {
                 }
                 withContext(Dispatchers.Main) {
                     viewModel.addresses.value = list
-                    loader.visibility = View.INVISIBLE
+                    binding.loader.visibility = View.INVISIBLE
                 }
 
             }
-            clear_search.isVisible = location.isNotBlank()
+            binding.clearSearch.isVisible = location.isNotBlank()
         })
     }
 
@@ -149,11 +146,11 @@ class CustomLocationActivity : AppCompatActivity() {
     }
 
     private fun setupListener() {
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
 
-        clear_search.setOnClickListener {
+        binding.clearSearch.setOnClickListener {
             viewModel.locationInput.value = ""
         }
     }

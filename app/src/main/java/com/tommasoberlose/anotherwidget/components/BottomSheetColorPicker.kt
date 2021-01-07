@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.GridLayout
 import android.widget.ImageView
@@ -21,6 +22,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.databinding.BottomSheetMenuHorBinding
+import com.tommasoberlose.anotherwidget.databinding.BottomSheetMenuListBinding
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.utils.expand
@@ -30,10 +33,6 @@ import com.tommasoberlose.anotherwidget.utils.toPixel
 import com.warkiz.widget.IndicatorSeekBar
 import com.warkiz.widget.OnSeekChangeListener
 import com.warkiz.widget.SeekParams
-import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.*
-import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.view.*
-import kotlinx.android.synthetic.main.bottom_sheet_menu_hor.view.color_loader
-import kotlinx.android.synthetic.main.color_picker_menu_item.view.*
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import java.lang.Exception
@@ -53,23 +52,24 @@ class BottomSheetColorPicker(
     private var loadingJobs: ArrayList<Job> = ArrayList()
     private lateinit var adapter: SlimAdapter
 
-    override fun show() {
-        val view = View.inflate(context, R.layout.bottom_sheet_menu_hor, null)
+    private var binding: BottomSheetMenuHorBinding = BottomSheetMenuHorBinding.inflate(LayoutInflater.from(context))
+    private var listBinding: BottomSheetMenuListBinding = BottomSheetMenuListBinding.inflate(LayoutInflater.from(context))
 
+    override fun show() {
         window?.setDimAmount(0f)
 
         // Header
-        view.header.isVisible = header != null
-        view.header_text.text = header ?: ""
+        binding.header.isVisible = header != null
+        binding.headerText.text = header ?: ""
 
         // Alpha
-        view.alpha_selector_container.isVisible = showAlphaSelector
-        view.alpha_selector.setProgress(alpha.toFloat())
-        view.text_alpha.text = "%s: %s%%".format(context.getString(R.string.alpha), alpha)
-        view.alpha_selector.onSeekChangeListener = object : OnSeekChangeListener {
+        binding.alphaSelectorContainer.isVisible = showAlphaSelector
+        binding.alphaSelector.setProgress(alpha.toFloat())
+        binding.textAlpha.text = "%s: %s%%".format(context.getString(R.string.alpha), alpha)
+        binding.alphaSelector.onSeekChangeListener = object : OnSeekChangeListener {
             override fun onSeeking(seekParams: SeekParams?) {
                 seekParams?.let {
-                    view.text_alpha.text = "%s: %s%%".format(context.getString(R.string.alpha), it.progress)
+                    binding.textAlpha.text = "%s: %s%%".format(context.getString(R.string.alpha), it.progress)
                     onAlphaChangeListener?.invoke(it.progress)
                 }
             }
@@ -84,10 +84,9 @@ class BottomSheetColorPicker(
         adapter = SlimAdapter.create()
 
         loadingJobs.add(GlobalScope.launch(Dispatchers.IO) {
-            val listView = View.inflate(context, R.layout.bottom_sheet_menu_list, null) as RecyclerView
-            listView.setHasFixedSize(true)
+            listBinding.root.setHasFixedSize(true)
             val mLayoutManager = GridLayoutManager(context, 6)
-            listView.layoutManager = mLayoutManager
+            listBinding.root.layoutManager = mLayoutManager
 
             adapter
                 .register<Int>(R.layout.color_picker_menu_item) { item, injector ->
@@ -115,22 +114,22 @@ class BottomSheetColorPicker(
                             onColorSelected?.invoke(item)
                             val position = adapter.data.indexOf(item)
                             adapter.notifyItemChanged(position)
-                            (listView.layoutManager as GridLayoutManager).scrollToPositionWithOffset(position,0)
+                            (listBinding.root.layoutManager as GridLayoutManager).scrollToPositionWithOffset(position,0)
                         }
                 }
-                .attachTo(listView)
+                .attachTo(listBinding.root)
 
             adapter.updateData(colors.toList())
 
             withContext(Dispatchers.Main) {
-                view.color_loader.isVisible = false
-                view.list_container.addView(listView)
+                binding.colorLoader.isVisible = false
+                binding.listContainer.addView(listBinding.root)
                 this@BottomSheetColorPicker.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                view.list_container.isVisible = true
+                binding.listContainer.isVisible = true
             }
         })
 
-        setContentView(view)
+        setContentView(binding.root)
         super.show()
     }
 

@@ -31,7 +31,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.CustomNotesDialog
 import com.tommasoberlose.anotherwidget.components.GlanceSettingsDialog
-import com.tommasoberlose.anotherwidget.databinding.FragmentGlanceSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentTabGlanceBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
@@ -45,10 +45,6 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
-import kotlinx.android.synthetic.main.fragment_calendar_settings.*
-import kotlinx.android.synthetic.main.fragment_glance_settings.*
-import kotlinx.android.synthetic.main.fragment_glance_settings.scrollView
-import kotlinx.android.synthetic.main.fragment_tab_selector.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
@@ -64,6 +60,7 @@ class GlanceTabFragment : Fragment() {
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var list: ArrayList<Constants.GlanceProviderId>
+    private lateinit var binding: FragmentTabGlanceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,12 +74,9 @@ class GlanceTabFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentGlanceSettingsBinding>(inflater,
-            R.layout.fragment_tab_glance,
-            container,
-            false)
+        binding = FragmentTabGlanceBinding.inflate(inflater)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -96,9 +90,9 @@ class GlanceTabFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // List
-        providers_list.setHasFixedSize(true)
+        binding.providersList.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(context)
-        providers_list.layoutManager = mLayoutManager
+        binding.providersList.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
@@ -257,7 +251,7 @@ class GlanceTabFragment : Fragment() {
                 injector.alpha(R.id.label, if (isVisible) 1f else .25f)
                 injector.alpha(R.id.icon, if (isVisible) 1f else .25f)
             }
-            .attachTo(providers_list)
+            .attachTo(binding.providersList)
 
         val mIth = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -348,19 +342,18 @@ class GlanceTabFragment : Fragment() {
                 }
             })
 
-        mIth.attachToRecyclerView(providers_list)
+        mIth.attachToRecyclerView(binding.providersList)
         adapter.updateData(list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) })
-        providers_list.isNestedScrollingEnabled = false
+        binding.providersList.isNestedScrollingEnabled = false
 
         setupListener()
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
     private fun subscribeUi(
-        binding: FragmentGlanceSettingsBinding,
         viewModel: MainViewModel,
     ) {
         binding.isGlanceVisible = Preferences.showGlance
@@ -432,11 +425,11 @@ class GlanceTabFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 

@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.RemoteViews
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.gson.Gson
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.databinding.TheWidgetBinding
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -34,7 +36,6 @@ import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toPixel
-import kotlinx.android.synthetic.main.the_widget.view.*
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -133,13 +134,13 @@ class MainWidget : AppWidgetProvider() {
             // Setup listener
             try {
 
-                val generatedView = generateWidgetView(context, typeface)
+                val generatedBinding = generateWidgetView(context, typeface)
                 views.setImageViewBitmap(
                     R.id.bitmap_container,
-                    BitmapHelper.getBitmapFromView(generatedView, width = w)
+                    BitmapHelper.getBitmapFromView(generatedBinding.root, width = w)
                 )
-                views = updateCalendarView(context, generatedView, views, appWidgetId)
-                views = updateWeatherView(context, generatedView, views, appWidgetId)
+                views = updateCalendarView(context, generatedBinding, views, appWidgetId)
+                views = updateWeatherView(context, generatedBinding, views, appWidgetId)
             } catch (ex: Exception) {
                 ex.printStackTrace()
                 CrashlyticsReceiver.sendCrash(context, ex)
@@ -148,12 +149,12 @@ class MainWidget : AppWidgetProvider() {
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
-        private fun updateCalendarView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
+        private fun updateCalendarView(context: Context, bindingView: TheWidgetBinding, views: RemoteViews, widgetID: Int): RemoteViews {
             val eventRepository = EventRepository(context)
             try {
                 views.setImageViewBitmap(
                     R.id.empty_date_rect,
-                    BitmapHelper.getBitmapFromView(v.empty_date, draw = false)
+                    BitmapHelper.getBitmapFromView(bindingView.emptyDate, draw = false)
                 )
 
                 views.setViewVisibility(R.id.empty_layout_rect, View.VISIBLE)
@@ -176,7 +177,7 @@ class MainWidget : AppWidgetProvider() {
                     if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
                         views.setImageViewBitmap(
                             R.id.action_next_rect,
-                            BitmapHelper.getBitmapFromView(v.action_next, draw = false)
+                            BitmapHelper.getBitmapFromView(bindingView.actionNext, draw = false)
                         )
                         views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
                         views.setOnClickPendingIntent(
@@ -194,7 +195,7 @@ class MainWidget : AppWidgetProvider() {
 
                         views.setImageViewBitmap(
                             R.id.action_previous_rect,
-                            BitmapHelper.getBitmapFromView(v.action_previous, draw = false)
+                            BitmapHelper.getBitmapFromView(bindingView.actionPrevious, draw = false)
                         )
                         views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
                         views.setOnClickPendingIntent(
@@ -227,7 +228,7 @@ class MainWidget : AppWidgetProvider() {
                         views.setImageViewBitmap(
                             R.id.next_event_difference_time_rect,
                             BitmapHelper.getBitmapFromView(
-                                v.next_event_difference_time,
+                                bindingView.nextEventDifferenceTime,
                                 draw = false
                             )
                         )
@@ -260,12 +261,12 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setImageViewBitmap(
                         R.id.next_event_rect,
-                        BitmapHelper.getBitmapFromView(v.next_event, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false)
                     )
 
                     views.setImageViewBitmap(
                         R.id.second_row_rect,
-                        BitmapHelper.getBitmapFromView(v.second_row, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.secondRow, draw = false)
                     )
                     views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
 
@@ -284,7 +285,7 @@ class MainWidget : AppWidgetProvider() {
                         R.id.second_row_top_margin_large_sans,
                         if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
                     )
-                } else if (GlanceProviderHelper.showGlanceProviders(context) && v.calendar_layout.isVisible) {
+                } else if (GlanceProviderHelper.showGlanceProviders(context) && bindingView.calendarLayout.isVisible) {
                     var showSomething = false
                     loop@ for (provider:Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                         when (provider) {
@@ -405,12 +406,12 @@ class MainWidget : AppWidgetProvider() {
                     if (showSomething) {
                         views.setImageViewBitmap(
                             R.id.next_event_rect,
-                            BitmapHelper.getBitmapFromView(v.next_event, draw = false)
+                            BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false)
                         )
 
                         views.setImageViewBitmap(
                             R.id.second_row_rect,
-                            BitmapHelper.getBitmapFromView(v.second_row, draw = false)
+                            BitmapHelper.getBitmapFromView(bindingView.secondRow, draw = false)
                         )
 
                         views.setViewVisibility(R.id.second_row_rect, View.VISIBLE)
@@ -443,7 +444,7 @@ class MainWidget : AppWidgetProvider() {
             return views
         }
 
-        private fun updateWeatherView(context: Context, v: View, views: RemoteViews, widgetID: Int): RemoteViews {
+        private fun updateWeatherView(context: Context, bindingView: TheWidgetBinding, views: RemoteViews, widgetID: Int): RemoteViews {
             try {
                 if (Preferences.showWeather && Preferences.weatherIcon != "") {
                     views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
@@ -460,17 +461,17 @@ class MainWidget : AppWidgetProvider() {
 
                     views.setImageViewBitmap(
                         R.id.weather_rect,
-                        BitmapHelper.getBitmapFromView(v.weather, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.weather, draw = false)
                     )
 
                     views.setImageViewBitmap(
                         R.id.calendar_weather_rect,
-                        BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.calendarWeather, draw = false)
                     )
 
                     views.setImageViewBitmap(
                         R.id.special_weather_rect,
-                        BitmapHelper.getBitmapFromView(v.calendar_weather, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.calendarWeather, draw = false)
                     )
 
                     if (GlanceProviderHelper.showGlanceProviders(context)) {
@@ -550,39 +551,39 @@ class MainWidget : AppWidgetProvider() {
 
 
         // Generates the widget bitmap from the view
-        fun generateWidgetView(context: Context, typeface: Typeface? = null): View {
+        fun generateWidgetView(context: Context, typeface: Typeface? = null): TheWidgetBinding {
             val eventRepository = EventRepository(context)
-            val v = View.inflate(context, R.layout.the_widget, null)
+            val bindingView = TheWidgetBinding.inflate(LayoutInflater.from(context))
 
-            v.loader.isVisible = false
+            bindingView.loader.isVisible = false
 
             val now = Calendar.getInstance().apply {
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
 
-            v.empty_layout.visibility = View.VISIBLE
-            v.calendar_layout.visibility = View.GONE
-            v.next_event_difference_time.visibility = View.GONE
-            v.action_next.isVisible = false
-            v.action_previous.isVisible = false
+            bindingView.emptyLayout.visibility = View.VISIBLE
+            bindingView.calendarLayout.visibility = View.GONE
+            bindingView.nextEventDifferenceTime.visibility = View.GONE
+            bindingView.actionNext.isVisible = false
+            bindingView.actionPrevious.isVisible = false
 
-            v.empty_date.text = DateHelper.getDateText(context, now)
+            bindingView.emptyDate.text = DateHelper.getDateText(context, now)
 
             val nextEvent = eventRepository.getNextEvent()
             val nextAlarm = AlarmHelper.getNextAlarm(context)
 
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
-                v.action_next.isVisible =
+                bindingView.actionNext.isVisible =
                     Preferences.showNextEvent && eventRepository.getEventsCount() > 1
-                v.action_previous.isVisible =
+                bindingView.actionPrevious.isVisible =
                     Preferences.showNextEvent && eventRepository.getEventsCount() > 1
 
-                v.next_event.text = nextEvent.title
+                bindingView.nextEvent.text = nextEvent.title
 
                 if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
-                    v.next_event_difference_time.text = if (!nextEvent.allDay) {
+                    bindingView.nextEventDifferenceTime.text = if (!nextEvent.allDay) {
                         SettingsStringHelper.getDifferenceText(
                             context,
                             now.timeInMillis,
@@ -596,21 +597,21 @@ class MainWidget : AppWidgetProvider() {
                             nextEvent.startDate
                         ).toLowerCase(Locale.getDefault())
                     }
-                    v.next_event_difference_time.visibility = View.VISIBLE
+                    bindingView.nextEventDifferenceTime.visibility = View.VISIBLE
                 } else {
-                    v.next_event_difference_time.visibility = View.GONE
+                    bindingView.nextEventDifferenceTime.visibility = View.GONE
                 }
 
                 if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    v.second_row_icon.setImageDrawable(
+                    bindingView.secondRowIcon.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.round_place_24
                         )
                     )
-                    v.next_event_date.text = nextEvent.address
+                    bindingView.nextEventDate.text = nextEvent.address
                 } else {
-                    v.second_row_icon.setImageDrawable(
+                    bindingView.secondRowIcon.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.round_today_24
@@ -651,10 +652,10 @@ class MainWidget : AppWidgetProvider() {
                         }
 
                         if (nextEvent.startDate != nextEvent.endDate) {
-                            v.next_event_date.text =
+                            bindingView.nextEventDate.text =
                                 String.format("%s - %s%s", startHour, endHour, multipleDay)
                         } else {
-                            v.next_event_date.text =
+                            bindingView.nextEventDate.text =
                                 String.format("%s", startHour)
                         }
 
@@ -663,7 +664,7 @@ class MainWidget : AppWidgetProvider() {
                             DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
                         val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
 
-                        v.next_event_date.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
+                        bindingView.nextEventDate.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
                             DateUtils.formatDateTime(context, nextEvent.startDate, flags)
                         } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(Calendar.YEAR) > start.get(Calendar.YEAR)) {
                             DateUtils.formatDateTime(context, now.timeInMillis, flags)
@@ -673,17 +674,17 @@ class MainWidget : AppWidgetProvider() {
                     }
                 }
 
-                v.empty_layout.visibility = View.GONE
-                v.calendar_layout.visibility = View.VISIBLE
+                bindingView.emptyLayout.visibility = View.GONE
+                bindingView.calendarLayout.visibility = View.VISIBLE
 
-                v.second_row_top_margin_small.visibility =
+                bindingView.secondRowTopMarginSmall.visibility =
                     if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
-                v.second_row_top_margin_medium.visibility =
+                bindingView.secondRowTopMarginMedium.visibility =
                     if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
-                v.second_row_top_margin_large.visibility =
+                bindingView.secondRowTopMarginLarge.visibility =
                     if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
-                v.second_row_icon.isVisible = true
+                bindingView.secondRowIcon.isVisible = true
                 var showSomething = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(
                     context
@@ -691,26 +692,26 @@ class MainWidget : AppWidgetProvider() {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
-                                v.second_row_icon.setImageDrawable(
+                                bindingView.secondRowIcon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
                                         R.drawable.round_music_note_24
                                     )
                                 )
-                                v.next_event_date.text = MediaPlayerHelper.getMediaInfo()
+                                bindingView.nextEventDate.text = MediaPlayerHelper.getMediaInfo()
                                 showSomething = true
                                 break@loop
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                             if (Preferences.showNextAlarm && nextAlarm != "") {
-                                v.second_row_icon.setImageDrawable(
+                                bindingView.secondRowIcon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
                                         R.drawable.round_alarm_24
                                     )
                                 )
-                                v.next_event_date.text = AlarmHelper.getNextAlarm(context)
+                                bindingView.nextEventDate.text = AlarmHelper.getNextAlarm(context)
                                 showSomething = true
                                 break@loop
                             }
@@ -719,19 +720,19 @@ class MainWidget : AppWidgetProvider() {
                             if (Preferences.showBatteryCharging) {
                                 BatteryHelper.updateBatteryInfo(context)
                                 if (Preferences.isCharging) {
-                                    v.second_row_icon.isVisible = false
+                                    bindingView.secondRowIcon.isVisible = false
                                     val batteryLevel = BatteryHelper.getBatteryLevel(context)
                                     if (batteryLevel != 100) {
-                                        v.next_event_date.text = context.getString(R.string.charging)
+                                        bindingView.nextEventDate.text = context.getString(R.string.charging)
                                     } else {
-                                        v.next_event_date.text =
+                                        bindingView.nextEventDate.text =
                                             context.getString(R.string.charged)
                                     }
                                     showSomething = true
                                     break@loop
                                 } else if (Preferences.isBatteryLevelLow) {
-                                    v.second_row_icon.isVisible = false
-                                    v.next_event_date.text =
+                                    bindingView.secondRowIcon.isVisible = false
+                                    bindingView.nextEventDate.text =
                                         context.getString(R.string.battery_low_warning)
                                     showSomething = true
                                     break@loop
@@ -740,17 +741,17 @@ class MainWidget : AppWidgetProvider() {
                         }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {
                             if (Preferences.customNotes.isNotEmpty()) {
-                                v.second_row_icon.isVisible = false
-                                v.next_event_date.text = Preferences.customNotes
-                                v.next_event_date.maxLines = 2
+                                bindingView.secondRowIcon.isVisible = false
+                                bindingView.nextEventDate.text = Preferences.customNotes
+                                bindingView.nextEventDate.maxLines = 2
                                 showSomething = true
                                 break@loop
                             }
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                v.second_row_icon.isVisible = false
-                                v.next_event_date.text =
+                                bindingView.secondRowIcon.isVisible = false
+                                bindingView.nextEventDate.text =
                                     context.getString(R.string.daily_steps_counter)
                                         .format(Preferences.googleFitSteps)
                                 showSomething = true
@@ -764,12 +765,12 @@ class MainWidget : AppWidgetProvider() {
                                         val remotePackageContext = context.createPackageContext(Preferences.lastNotificationPackage, 0)
                                         val icon = ContextCompat.getDrawable(remotePackageContext,
                                             Preferences.lastNotificationIcon)
-                                        v.second_row_icon.isVisible = true
-                                        v.second_row_icon.setImageDrawable(icon)
+                                        bindingView.secondRowIcon.isVisible = true
+                                        bindingView.secondRowIcon.setImageDrawable(icon)
                                     } else {
-                                        v.second_row_icon.isVisible = false
+                                        bindingView.secondRowIcon.isVisible = false
                                     }
-                                    v.next_event_date.text = Preferences.lastNotificationTitle
+                                    bindingView.nextEventDate.text = Preferences.lastNotificationTitle
                                     showSomething = true
                                     break@loop
                                 } catch (ex: Exception) {}
@@ -778,16 +779,16 @@ class MainWidget : AppWidgetProvider() {
                         Constants.GlanceProviderId.GREETINGS -> {
                             val greetingsText = GreetingsHelper.getRandomString(context)
                             if (Preferences.showGreetings && GreetingsHelper.showGreetings() && greetingsText.isNotBlank()) {
-                                v.next_event_date.text = greetingsText
-                                v.next_event_date.maxLines = 2
-                                v.second_row_icon.isVisible = false
+                                bindingView.nextEventDate.text = greetingsText
+                                bindingView.nextEventDate.maxLines = 2
+                                bindingView.secondRowIcon.isVisible = false
                                 showSomething = true
                                 break@loop
                             }
                         }
                         Constants.GlanceProviderId.EVENTS -> {
                             if (Preferences.showEventsAsGlanceProvider && Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null) {
-                                v.next_event_date.text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
+                                bindingView.nextEventDate.text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
                                      if (!nextEvent.allDay) {
                                         SettingsStringHelper.getDifferenceText(
                                             context,
@@ -803,8 +804,8 @@ class MainWidget : AppWidgetProvider() {
                                         ).toLowerCase(Locale.getDefault())
                                     }
                                 } else "").trimEnd()
-                                v.second_row_icon.isVisible = true
-                                v.second_row_icon.setImageDrawable(
+                                bindingView.secondRowIcon.isVisible = true
+                                bindingView.secondRowIcon.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         context,
                                         R.drawable.round_today_24
@@ -818,43 +819,43 @@ class MainWidget : AppWidgetProvider() {
                 }
 
                 if (showSomething) {
-                    v.next_event.text = DateHelper.getDateText(context, now)
-                    v.empty_layout.visibility = View.GONE
-                    v.calendar_layout.visibility = View.VISIBLE
+                    bindingView.nextEvent.text = DateHelper.getDateText(context, now)
+                    bindingView.emptyLayout.visibility = View.GONE
+                    bindingView.calendarLayout.visibility = View.VISIBLE
 
-                    v.second_row_top_margin_small.visibility =
+                    bindingView.secondRowTopMarginSmall.visibility =
                         if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.value) View.VISIBLE else View.GONE
-                    v.second_row_top_margin_medium.visibility =
+                    bindingView.secondRowTopMarginMedium.visibility =
                         if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.value) View.VISIBLE else View.GONE
-                    v.second_row_top_margin_large.visibility =
+                    bindingView.secondRowTopMarginLarge.visibility =
                         if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.value) View.VISIBLE else View.GONE
                 } else {
-                    v.second_row_icon.isVisible = false
+                    bindingView.secondRowIcon.isVisible = false
                 }
             }
 
 
             // Color
             listOf<TextView>(
-                v.empty_date,
-                v.divider1,
-                v.temp,
-                v.next_event,
-                v.next_event_difference_time,
-                v.divider3,
-                v.special_temp
+                bindingView.emptyDate,
+                bindingView.divider1,
+                bindingView.temp,
+                bindingView.nextEvent,
+                bindingView.nextEventDifferenceTime,
+                bindingView.divider3,
+                bindingView.specialTemp
             ).forEach {
                 it.setTextColor(ColorHelper.getFontColor(context.applicationContext.isDarkTheme()))
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.value) {
-                listOf<ImageView>(v.action_next, v.action_previous)
+                listOf<ImageView>(bindingView.actionNext, bindingView.actionPrevious)
             } else {
                 listOf<ImageView>(
-                    v.action_next,
-                    v.action_previous,
-                    v.empty_weather_icon,
-                    v.special_weather_icon
+                    bindingView.actionNext,
+                    bindingView.actionPrevious,
+                    bindingView.emptyWeatherIcon,
+                    bindingView.specialWeatherIcon
                 )
             }.forEach {
                 it.setColorFilter(ColorHelper.getFontColorRgb(context.applicationContext.isDarkTheme()))
@@ -864,14 +865,14 @@ class MainWidget : AppWidgetProvider() {
                         .toFloat()) / 100
             }
 
-            listOf<TextView>(v.next_event_date, v.divider2, v.calendar_temp).forEach {
+            listOf<TextView>(bindingView.nextEventDate, bindingView.divider2, bindingView.calendarTemp).forEach {
                 it.setTextColor(ColorHelper.getSecondaryFontColor(context.applicationContext.isDarkTheme()))
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.value) {
-                listOf<ImageView>(v.second_row_icon, v.second_row_icon_shadow)
+                listOf<ImageView>(bindingView.secondRowIcon, bindingView.secondRowIconShadow)
             } else {
-                listOf<ImageView>(v.second_row_icon, v.weather_icon, v.second_row_icon_shadow)
+                listOf<ImageView>(bindingView.secondRowIcon, bindingView.weatherIcon, bindingView.secondRowIconShadow)
             }.forEach {
                 it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
                 it.alpha =
@@ -882,38 +883,38 @@ class MainWidget : AppWidgetProvider() {
 
             // Text Size
             listOf<Pair<TextView, Float>>(
-                v.empty_date to Preferences.textMainSize,
-                v.divider1 to (Preferences.textMainSize - 2),
-                v.temp to Preferences.textMainSize,
-                v.next_event to Preferences.textMainSize,
-                v.next_event_difference_time to Preferences.textMainSize,
-                v.next_event_date to Preferences.textSecondSize,
-                v.divider2 to (Preferences.textSecondSize - 2),
-                v.calendar_temp to Preferences.textSecondSize,
-                v.divider3 to (Preferences.textMainSize - 2),
-                v.special_temp to Preferences.textMainSize
+                bindingView.emptyDate to Preferences.textMainSize,
+                bindingView.divider1 to (Preferences.textMainSize - 2),
+                bindingView.temp to Preferences.textMainSize,
+                bindingView.nextEvent to Preferences.textMainSize,
+                bindingView.nextEventDifferenceTime to Preferences.textMainSize,
+                bindingView.nextEventDate to Preferences.textSecondSize,
+                bindingView.divider2 to (Preferences.textSecondSize - 2),
+                bindingView.calendarTemp to Preferences.textSecondSize,
+                bindingView.divider3 to (Preferences.textMainSize - 2),
+                bindingView.specialTemp to Preferences.textMainSize
             ).forEach {
                 it.first.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.second)
             }
 
             // Icons scale
-            v.second_row_icon.scaleX = Preferences.textSecondSize / 18f
-            v.second_row_icon.scaleY = Preferences.textSecondSize / 18f
+            bindingView.secondRowIcon.scaleX = Preferences.textSecondSize / 18f
+            bindingView.secondRowIcon.scaleY = Preferences.textSecondSize / 18f
 
-            v.weather_icon.scaleX = Preferences.textSecondSize / 14f
-            v.weather_icon.scaleY = Preferences.textSecondSize / 14f
+            bindingView.weatherIcon.scaleX = Preferences.textSecondSize / 14f
+            bindingView.weatherIcon.scaleY = Preferences.textSecondSize / 14f
 
-            v.empty_weather_icon.scaleX = Preferences.textMainSize / 18f
-            v.empty_weather_icon.scaleY = Preferences.textMainSize / 18f
+            bindingView.emptyWeatherIcon.scaleX = Preferences.textMainSize / 18f
+            bindingView.emptyWeatherIcon.scaleY = Preferences.textMainSize / 18f
 
-            v.action_next.scaleX = Preferences.textMainSize / 28f
-            v.action_next.scaleY = Preferences.textMainSize / 28f
+            bindingView.actionNext.scaleX = Preferences.textMainSize / 28f
+            bindingView.actionNext.scaleY = Preferences.textMainSize / 28f
 
-            v.action_previous.scaleX = Preferences.textMainSize / 28f
-            v.action_previous.scaleY = Preferences.textMainSize / 28f
+            bindingView.actionPrevious.scaleX = Preferences.textMainSize / 28f
+            bindingView.actionPrevious.scaleY = Preferences.textMainSize / 28f
 
-            v.special_weather_icon.scaleX = Preferences.textMainSize / 18f
-            v.special_weather_icon.scaleY = Preferences.textMainSize / 18f
+            bindingView.specialWeatherIcon.scaleX = Preferences.textMainSize / 18f
+            bindingView.specialWeatherIcon.scaleY = Preferences.textMainSize / 18f
 
 
             // Shadows
@@ -940,16 +941,16 @@ class MainWidget : AppWidgetProvider() {
                 }
 
             listOf<TextView>(
-                v.empty_date,
-                v.divider1,
-                v.temp,
-                v.next_event,
-                v.next_event_difference_time,
-                v.next_event_date,
-                v.divider2,
-                v.calendar_temp,
-                v.divider3,
-                v.special_temp
+                bindingView.emptyDate,
+                bindingView.divider1,
+                bindingView.temp,
+                bindingView.nextEvent,
+                bindingView.nextEventDifferenceTime,
+                bindingView.nextEventDate,
+                bindingView.divider2,
+                bindingView.calendarTemp,
+                bindingView.divider3,
+                bindingView.specialTemp
             ).forEach {
                 it.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
             }
@@ -957,7 +958,7 @@ class MainWidget : AppWidgetProvider() {
             // Icons shadow
 
             listOf(
-                Pair(v.second_row_icon, v.second_row_icon_shadow),
+                Pair(bindingView.secondRowIcon, bindingView.secondRowIconShadow),
             ).forEach {
                 if ((if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) == 0) {
                     it.second.isVisible = false
@@ -970,8 +971,8 @@ class MainWidget : AppWidgetProvider() {
             }
 
             listOf(
-                Pair(v.action_next, v.action_next_shadow),
-                Pair(v.action_previous, v.action_previous_shadow),
+                Pair(bindingView.actionNext, bindingView.actionNextShadow),
+                Pair(bindingView.actionPrevious, bindingView.actionPreviousShadow),
             ).forEach {
                 if ((if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) == 0) {
                     it.second.isVisible = false
@@ -983,8 +984,8 @@ class MainWidget : AppWidgetProvider() {
                 }
             }
 
-            v.action_previous.scaleX = v.action_previous.scaleX * -1
-            v.action_previous_shadow.scaleX = v.action_previous_shadow.scaleX * -1
+            bindingView.actionPrevious.scaleX = bindingView.actionPrevious.scaleX * -1
+            bindingView.actionPreviousShadow.scaleX = bindingView.actionPreviousShadow.scaleX * -1
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
@@ -998,31 +999,31 @@ class MainWidget : AppWidgetProvider() {
                 }
 
                 listOf<TextView>(
-                    v.empty_date,
-                    v.divider1,
-                    v.temp,
-                    v.next_event,
-                    v.next_event_difference_time,
-                    v.next_event_date,
-                    v.divider2,
-                    v.calendar_temp,
-                    v.divider3,
-                    v.special_temp
+                    bindingView.emptyDate,
+                    bindingView.divider1,
+                    bindingView.temp,
+                    bindingView.nextEvent,
+                    bindingView.nextEventDifferenceTime,
+                    bindingView.nextEventDate,
+                    bindingView.divider2,
+                    bindingView.calendarTemp,
+                    bindingView.divider3,
+                    bindingView.specialTemp
                 ).forEach {
                     it.typeface = googleSans
                 }
             } else if (Preferences.customFont == Constants.CUSTOM_FONT_DOWNLOADED && typeface != null) {
                 listOf<TextView>(
-                    v.empty_date,
-                    v.divider1,
-                    v.temp,
-                    v.next_event,
-                    v.next_event_difference_time,
-                    v.next_event_date,
-                    v.divider2,
-                    v.calendar_temp,
-                    v.divider3,
-                    v.special_temp
+                    bindingView.emptyDate,
+                    bindingView.divider1,
+                    bindingView.temp,
+                    bindingView.nextEvent,
+                    bindingView.nextEventDifferenceTime,
+                    bindingView.nextEventDate,
+                    bindingView.divider2,
+                    bindingView.calendarTemp,
+                    bindingView.divider3,
+                    bindingView.specialTemp
                 ).forEach {
                     it.typeface = typeface
                 }
@@ -1030,9 +1031,9 @@ class MainWidget : AppWidgetProvider() {
 
             // Weather
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
-                v.weather.visibility = View.VISIBLE
-                v.calendar_weather.visibility = View.VISIBLE
-                v.special_weather.visibility = View.VISIBLE
+                bindingView.weather.visibility = View.VISIBLE
+                bindingView.calendarWeather.visibility = View.VISIBLE
+                bindingView.specialWeather.visibility = View.VISIBLE
                 val currentTemp = String.format(
                     Locale.getDefault(),
                     "%d °%s",
@@ -1042,41 +1043,41 @@ class MainWidget : AppWidgetProvider() {
 
                 val icon: String = Preferences.weatherIcon
                 if (icon == "") {
-                    v.weather_icon.visibility = View.GONE
-                    v.empty_weather_icon.visibility = View.GONE
-                    v.special_weather_icon.visibility = View.GONE
+                    bindingView.weatherIcon.visibility = View.GONE
+                    bindingView.emptyWeatherIcon.visibility = View.GONE
+                    bindingView.specialWeatherIcon.visibility = View.GONE
                 } else {
-                    v.weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
-                    v.empty_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
-                    v.special_weather_icon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
-                    v.weather_icon.visibility = View.VISIBLE
-                    v.empty_weather_icon.visibility = View.VISIBLE
-                    v.special_weather_icon.visibility = View.VISIBLE
+                    bindingView.weatherIcon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    bindingView.emptyWeatherIcon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    bindingView.specialWeatherIcon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                    bindingView.weatherIcon.visibility = View.VISIBLE
+                    bindingView.emptyWeatherIcon.visibility = View.VISIBLE
+                    bindingView.specialWeatherIcon.visibility = View.VISIBLE
                 }
 
-                v.temp.text = currentTemp
-                v.calendar_temp.text = currentTemp
-                v.special_temp.text = currentTemp
+                bindingView.temp.text = currentTemp
+                bindingView.calendarTemp.text = currentTemp
+                bindingView.specialTemp.text = currentTemp
 
                 if (GlanceProviderHelper.showGlanceProviders(context)) {
-                    v.calendar_weather.visibility = View.GONE
+                    bindingView.calendarWeather.visibility = View.GONE
                 } else {
-                    v.special_weather.visibility = View.GONE
+                    bindingView.specialWeather.visibility = View.GONE
                 }
             } else {
-                v.weather.visibility = View.GONE
-                v.calendar_weather.visibility = View.GONE
-                v.special_weather.visibility = View.GONE
+                bindingView.weather.visibility = View.GONE
+                bindingView.calendarWeather.visibility = View.GONE
+                bindingView.specialWeather.visibility = View.GONE
             }
 
             // Dividers
-            arrayOf(v.divider1, v.divider2, v.divider3).forEach {
+            arrayOf(bindingView.divider1, bindingView.divider2, bindingView.divider3).forEach {
                 it.isVisible = Preferences.showDividers
             }
 
             eventRepository.close()
 
-            return v
+            return bindingView
         }
     }
 }

@@ -7,6 +7,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,7 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentClockSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentClockBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
@@ -30,8 +31,6 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
-import kotlinx.android.synthetic.main.fragment_clock_settings.*
-import kotlinx.android.synthetic.main.fragment_clock_settings.scrollView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +45,7 @@ class ClockFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var colors: IntArray
-    private lateinit var binding: FragmentClockSettingsBinding
+    private lateinit var binding: FragmentClockBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +59,9 @@ class ClockFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        binding = DataBindingUtil.inflate<FragmentClockSettingsBinding>(inflater, R.layout.fragment_clock, container, false)
+        binding = FragmentClockBinding.inflate(inflater)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -73,7 +72,7 @@ class ClockFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        ampm_indicator_toggle.isChecked = Preferences.showAMPMIndicator
+        binding.ampmIndicatorToggle.setCheckedImmediatelyNoEvent(Preferences.showAMPMIndicator)
 
         lifecycleScope.launch(Dispatchers.IO) {
             val lazyColors = requireContext().resources.getIntArray(R.array.material_colors)
@@ -83,94 +82,93 @@ class ClockFragment : Fragment() {
         }
         setupListener()
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver?.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
     private fun subscribeUi(
-        binding: FragmentClockSettingsBinding,
         viewModel: MainViewModel
     ) {
         binding.isClockVisible = Preferences.showClock
         binding.is24Format = DateFormat.is24HourFormat(requireContext())
         binding.isDarkModeEnabled = activity?.isDarkTheme() == true
 
-        viewModel.showBigClockWarning.observe(viewLifecycleOwner, Observer {
-            large_clock_warning?.isVisible = it
-            small_clock_warning?.isVisible = !it
-        })
+        viewModel.showBigClockWarning.observe(viewLifecycleOwner) {
+            binding.largeClockWarning.isVisible = it
+            binding.smallClockWarning.isVisible = !it
+        }
 
-        viewModel.clockTextSize.observe(viewLifecycleOwner, Observer {
+        viewModel.clockTextSize.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                clock_text_size_label?.text = String.format("%.0fsp", it)
+                binding.clockTextSizeLabel.text = String.format("%.0fsp", it)
             }
-        })
+        }
 
-        viewModel.showAMPMIndicator.observe(viewLifecycleOwner, Observer {
+        viewModel.showAMPMIndicator.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                ampm_indicator_label?.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
+                binding.ampmIndicatorLabel.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-        })
+        }
 
-        viewModel.clockTextColor.observe(viewLifecycleOwner, Observer {
+        viewModel.clockTextColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.clockTextAlpha == "00") {
-                    clock_text_color_label?.text = getString(R.string.transparent)
+                    binding.clockTextColorLabel.text = getString(R.string.transparent)
                 } else {
-                    clock_text_color_label?.text =
+                    binding.clockTextColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.clockTextColorDark.observe(viewLifecycleOwner, Observer {
+        viewModel.clockTextColorDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.clockTextAlphaDark == "00") {
-                    clock_text_color_label?.text = getString(R.string.transparent)
+                    binding.clockTextColorLabel.text = getString(R.string.transparent)
                 } else {
-                    clock_text_color_label?.text =
+                    binding.clockTextColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.clockTextAlpha.observe(viewLifecycleOwner, Observer {
+        viewModel.clockTextAlpha.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.clockTextAlpha == "00") {
-                    clock_text_color_label?.text = getString(R.string.transparent)
+                    binding.clockTextColorLabel.text = getString(R.string.transparent)
                 } else {
-                    clock_text_color_label?.text =
+                    binding.clockTextColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.clockTextAlphaDark.observe(viewLifecycleOwner, Observer {
+        viewModel.clockTextAlphaDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.clockTextAlphaDark == "00") {
-                    clock_text_color_label?.text = getString(R.string.transparent)
+                    binding.clockTextColorLabel.text = getString(R.string.transparent)
                 } else {
-                    clock_text_color_label?.text =
+                    binding.clockTextColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getClockFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
-        })
+        }
 
-        viewModel.clockBottomMargin.observe(viewLifecycleOwner, Observer {
+        viewModel.clockBottomMargin.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                clock_bottom_margin_label?.text = when (it) {
+                binding.clockBottomMarginLabel.text = when (it) {
                     Constants.ClockBottomMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
                     Constants.ClockBottomMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
                     Constants.ClockBottomMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
                     else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
                 }
             }
-        })
+        }
 
-        viewModel.clockAppName.observe(viewLifecycleOwner, Observer {
+        viewModel.clockAppName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                clock_app_label?.text = when {
+                binding.clockAppLabel.text = when {
                     Preferences.clockAppName != "" -> Preferences.clockAppName
                     else -> {
                         if (IntentHelper.getClockIntent(requireContext()).isDefaultSet(requireContext())) {
@@ -183,15 +181,15 @@ class ClockFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun setupListener() {
-        action_hide_large_clock_warning.setOnClickListener {
+        binding.actionHideLargeClockWarning.setOnClickListener {
             Preferences.showBigClockWarning = false
         }
 
-        action_clock_text_size.setOnClickListener {
+        binding.actionClockTextSize.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(
                 requireContext(),
                 header = getString(R.string.settings_clock_text_size_title)
@@ -204,15 +202,15 @@ class ClockFragment : Fragment() {
             }.show()
         }
 
-        action_ampm_indicator_size.setOnClickListener {
-            ampm_indicator_toggle.isChecked = !ampm_indicator_toggle.isChecked
+        binding.actionAmpmIndicatorSize.setOnClickListener {
+            binding.ampmIndicatorToggle.isChecked = !binding.ampmIndicatorToggle.isChecked
         }
 
-        ampm_indicator_toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.ampmIndicatorToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showAMPMIndicator = isChecked
         }
 
-        action_clock_text_color.setOnClickListener {
+        binding.actionClockTextColor.setOnClickListener {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_font_color_title),
@@ -239,7 +237,7 @@ class ClockFragment : Fragment() {
             ).show()
         }
 
-        action_clock_bottom_margin_size.setOnClickListener {
+        binding.actionClockBottomMarginSize.setOnClickListener {
             BottomSheetMenu<Int>(
                 requireContext(),
                 header = getString(R.string.settings_clock_bottom_margin_title)
@@ -265,7 +263,7 @@ class ClockFragment : Fragment() {
                 }.show()
         }
 
-        action_clock_app.setOnClickListener {
+        binding.actionClockApp.setOnClickListener {
             startActivityForResult(
                 Intent(requireContext(), ChooseApplicationActivity::class.java),
                 RequestCode.CLOCK_APP_REQUEST_CODE.code
@@ -289,11 +287,11 @@ class ClockFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 }

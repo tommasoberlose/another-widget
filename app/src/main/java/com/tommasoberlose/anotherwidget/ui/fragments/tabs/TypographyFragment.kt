@@ -15,7 +15,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
-import com.tommasoberlose.anotherwidget.databinding.FragmentTypographyTabBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentTabTypographyBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
@@ -28,8 +28,6 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import kotlinx.android.synthetic.main.fragment_typography_tab.*
-import kotlinx.android.synthetic.main.fragment_typography_tab.scrollView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -44,6 +42,8 @@ class TypographyFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var colors: IntArray
 
+    private lateinit var binding: FragmentTabTypographyBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -56,7 +56,7 @@ class TypographyFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentTypographyTabBinding>(inflater, R.layout.fragment_tab_typography, container, false)
+        binding = FragmentTabTypographyBinding.inflate(inflater)
 
         subscribeUi(viewModel)
 
@@ -78,8 +78,8 @@ class TypographyFragment : Fragment() {
             }
         }
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
@@ -91,22 +91,22 @@ class TypographyFragment : Fragment() {
 
         viewModel.textMainSize.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                main_text_size_label?.text = String.format("%.0fsp", it)
+                binding.mainTextSizeLabel.text = String.format("%.0fsp", it)
             }
         }
 
         viewModel.textSecondSize.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                second_text_size_label?.text = String.format("%.0fsp", it)
+                binding.secondTextSizeLabel.text = String.format("%.0fsp", it)
             }
         }
 
         viewModel.textGlobalColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textGlobalAlpha == "00") {
-                    font_color_label?.text = getString(R.string.transparent)
+                    binding.fontColorLabel.text = getString(R.string.transparent)
                 } else {
-                    font_color_label?.text =
+                    binding.fontColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -115,9 +115,9 @@ class TypographyFragment : Fragment() {
         viewModel.textGlobalColorDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textGlobalAlphaDark == "00") {
-                    font_color_label_dark?.text = getString(R.string.transparent)
+                    binding.fontColorLabelDark.text = getString(R.string.transparent)
                 } else {
-                    font_color_label_dark?.text =
+                    binding.fontColorLabelDark.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -126,9 +126,9 @@ class TypographyFragment : Fragment() {
         viewModel.textGlobalAlpha.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textGlobalAlpha == "00") {
-                    font_color_label?.text = getString(R.string.transparent)
+                    binding.fontColorLabel.text = getString(R.string.transparent)
                 } else {
-                    font_color_label?.text =
+                    binding.fontColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -137,9 +137,9 @@ class TypographyFragment : Fragment() {
         viewModel.textGlobalAlphaDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textGlobalAlphaDark == "00") {
-                    font_color_label_dark?.text = getString(R.string.transparent)
+                    binding.fontColorLabelDark.text = getString(R.string.transparent)
                 } else {
-                    font_color_label_dark?.text =
+                    binding.fontColorLabelDark.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -148,9 +148,9 @@ class TypographyFragment : Fragment() {
         viewModel.textSecondaryColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textSecondaryAlpha == "00") {
-                    secondary_font_color_label?.text = getString(R.string.transparent)
+                    binding.secondaryFontColorLabel.text = getString(R.string.transparent)
                 } else {
-                    secondary_font_color_label?.text =
+                    binding.secondaryFontColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -159,9 +159,9 @@ class TypographyFragment : Fragment() {
         viewModel.textSecondaryColorDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textSecondaryAlphaDark == "00") {
-                    secondary_font_color_label_dark?.text = getString(R.string.transparent)
+                    binding.secondaryFontColorLabelDark.text = getString(R.string.transparent)
                 } else {
-                    secondary_font_color_label_dark?.text =
+                    binding.secondaryFontColorLabelDark.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -170,9 +170,9 @@ class TypographyFragment : Fragment() {
         viewModel.textSecondaryAlpha.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textSecondaryAlpha == "00") {
-                    secondary_font_color_label?.text = getString(R.string.transparent)
+                    binding.secondaryFontColorLabel.text = getString(R.string.transparent)
                 } else {
-                    secondary_font_color_label?.text =
+                    binding.secondaryFontColorLabel.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -181,9 +181,9 @@ class TypographyFragment : Fragment() {
         viewModel.textSecondaryAlphaDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textSecondaryAlphaDark == "00") {
-                    secondary_font_color_label_dark?.text = getString(R.string.transparent)
+                    binding.secondaryFontColorLabelDark.text = getString(R.string.transparent)
                 } else {
-                    secondary_font_color_label_dark?.text =
+                    binding.secondaryFontColorLabelDark.text =
                         "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(activity?.isDarkTheme() == true))).toUpperCase()
                 }
             }
@@ -192,7 +192,7 @@ class TypographyFragment : Fragment() {
         viewModel.textShadow.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (activity?.isDarkTheme() != true) {
-                    text_shadow_label?.text =
+                    binding.textShadowLabel.text =
                         getString(SettingsStringHelper.getTextShadowString(it))
                 }
             }
@@ -201,7 +201,7 @@ class TypographyFragment : Fragment() {
         viewModel.textShadowDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (activity?.isDarkTheme() == true) {
-                    text_shadow_label_dark?.text =
+                    binding.textShadowLabelDark.text =
                         getString(SettingsStringHelper.getTextShadowString(it))
                 }
             }
@@ -209,35 +209,35 @@ class TypographyFragment : Fragment() {
 
         viewModel.customFont.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), it)
+                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), it)
                 MainWidget.updateWidget(requireContext())
             }
         }
 
         viewModel.customFontFile.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
+                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
                 MainWidget.updateWidget(requireContext())
             }
         }
 
         viewModel.customFontName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
+                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
                 MainWidget.updateWidget(requireContext())
             }
         }
 
         viewModel.customFontVariant.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                custom_font_label?.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
+                binding.customFontLabel.text = SettingsStringHelper.getCustomFontLabel(requireContext(), Preferences.customFont)
                 MainWidget.updateWidget(requireContext())
             }
         }
     }
 
     private fun setupListener() {
-        action_main_text_size.setOnClickListener {
+        binding.actionMainTextSize.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_main_text_size)).setSelectedValue(
                 Preferences.textMainSize)
             (40 downTo 10).filter { it % 2 == 0 }.forEach {
@@ -248,7 +248,7 @@ class TypographyFragment : Fragment() {
             }.show()
         }
 
-        action_second_text_size.setOnClickListener {
+        binding.actionSecondTextSize.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_second_text_size)).setSelectedValue(
                 Preferences.textSecondSize)
             (40 downTo 10).filter { it % 2 == 0 }.forEach {
@@ -259,7 +259,7 @@ class TypographyFragment : Fragment() {
             }.show()
         }
 
-        action_font_color.setOnClickListener {
+        binding.actionFontColor.setOnClickListener {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_font_color_title),
@@ -284,7 +284,7 @@ class TypographyFragment : Fragment() {
             ).show()
         }
 
-        action_secondary_font_color.setOnClickListener {
+        binding.actionSecondaryFontColor.setOnClickListener {
             BottomSheetColorPicker(requireContext(),
                 colors = colors,
                 header = getString(R.string.settings_secondary_font_color_title),
@@ -311,7 +311,7 @@ class TypographyFragment : Fragment() {
             ).show()
         }
 
-        action_text_shadow.setOnClickListener {
+        binding.actionTextShadow.setOnClickListener {
             val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.title_text_shadow)).setSelectedValue(if (activity?.isDarkTheme() == true) Preferences.textShadowDark else Preferences.textShadow)
             (2 downTo 0).forEach {
                 dialog.addItem(getString(SettingsStringHelper.getTextShadowString(it)), it)
@@ -325,7 +325,7 @@ class TypographyFragment : Fragment() {
             }.show()
         }
 
-        action_custom_font.setOnClickListener {
+        binding.actionCustomFont.setOnClickListener {
             val dialog = BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_custom_font_title)).setSelectedValue(
                 Preferences.customFont)
             dialog.addItem(SettingsStringHelper.getCustomFontLabel(requireContext(), 0), 0)
@@ -357,11 +357,11 @@ class TypographyFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 }

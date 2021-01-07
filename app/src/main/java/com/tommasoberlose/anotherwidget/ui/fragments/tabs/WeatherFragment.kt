@@ -24,7 +24,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
 import com.tommasoberlose.anotherwidget.components.IconPackSelector
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
-import com.tommasoberlose.anotherwidget.databinding.FragmentWeatherSettingsBinding
+import com.tommasoberlose.anotherwidget.databinding.FragmentTabWeatherBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
@@ -40,8 +40,6 @@ import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.collapse
 import com.tommasoberlose.anotherwidget.utils.expand
-import kotlinx.android.synthetic.main.fragment_weather_settings.*
-import kotlinx.android.synthetic.main.fragment_weather_settings.scrollView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -52,6 +50,7 @@ class WeatherFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: FragmentTabWeatherBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +64,9 @@ class WeatherFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-        val binding = DataBindingUtil.inflate<FragmentWeatherSettingsBinding>(inflater, R.layout.fragment_tab_weather, container, false)
+        binding = FragmentTabWeatherBinding.inflate(inflater)
 
-        subscribeUi(binding, viewModel)
+        subscribeUi(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -79,83 +78,76 @@ class WeatherFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupListener()
 
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            viewModel.fragmentScrollY.value = scrollView?.scrollY ?: 0
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
     }
 
     private fun subscribeUi(
-        binding: FragmentWeatherSettingsBinding,
         viewModel: MainViewModel
     ) {
         binding.isWeatherVisible = Preferences.showWeather
 
-        viewModel.weatherProvider.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherProvider.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                label_weather_provider.text = WeatherHelper.getProviderName(requireContext(), Constants.WeatherProvider.fromInt(it)!!)
+                binding.labelWeatherProvider.text = WeatherHelper.getProviderName(requireContext(), Constants.WeatherProvider.fromInt(it)!!)
                 checkWeatherProviderConfig()
             }
-        })
+        }
 
-        viewModel.weatherProviderError.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherProviderError.observe(viewLifecycleOwner) {
             checkWeatherProviderConfig()
-        })
+        }
 
-        viewModel.weatherProviderLocationError.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherProviderLocationError.observe(viewLifecycleOwner) {
             checkWeatherProviderConfig()
-        })
+        }
 
-        viewModel.customLocationAdd.observe(viewLifecycleOwner, Observer {
+        viewModel.customLocationAdd.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                label_custom_location?.text =
+                binding.labelCustomLocation.text =
                     if (it == "") getString(R.string.custom_location_gps) else it
             }
             checkLocationPermission()
-        })
+        }
 
-        viewModel.weatherTempUnit.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherTempUnit.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                temp_unit?.text =
+                binding.tempUnit.text =
                     if (it == "F") getString(R.string.fahrenheit) else getString(R.string.celsius)
             }
             checkLocationPermission()
-        })
+        }
 
-        viewModel.weatherRefreshPeriod.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherRefreshPeriod.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                label_weather_refresh_period?.text = getString(SettingsStringHelper.getRefreshPeriodString(it))
+                binding.labelWeatherRefreshPeriod.text = getString(SettingsStringHelper.getRefreshPeriodString(it))
             }
             checkLocationPermission()
-        })
+        }
 
-        viewModel.weatherIconPack.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherIconPack.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                label_weather_icon_pack?.text = getString(R.string.settings_weather_icon_pack_default).format((it + 1))
-//                weather_icon_pack.setImageDrawable(ContextCompat.getDrawable(requireContext(), WeatherHelper.getWeatherIconResource("02d")))
-//                if (it == Constants.WeatherIconPack.MINIMAL.value) {
-//                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText))
-//                } else {
-//                    weather_icon_pack.setColorFilter(ContextCompat.getColor(requireContext(), android.R.color.transparent))
-//                }
+                binding.labelWeatherIconPack.text = getString(R.string.settings_weather_icon_pack_default).format((it + 1))
             }
             checkLocationPermission()
-        })
+        }
 
-        viewModel.weatherAppName.observe(viewLifecycleOwner, Observer {
+        viewModel.weatherAppName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                weather_app_label?.text =
+                binding.weatherAppLabel.text =
                     if (it != "") it else getString(R.string.default_weather_app)
             }
-        })
+        }
     }
 
     private fun checkLocationPermission() {
         if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            location_permission_alert?.isVisible = false
+            binding.locationPermissionAlert.isVisible = false
             WeatherReceiver.setUpdates(requireContext())
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
-            location_permission_alert?.isVisible = true
-            location_permission_alert?.setOnClickListener {
+            binding.locationPermissionAlert.isVisible = true
+            binding.locationPermissionAlert.setOnClickListener {
                 MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
                     .setPositiveButton(getString(android.R.string.ok)) {
                         requirePermission()
@@ -163,43 +155,43 @@ class WeatherFragment : Fragment() {
                     .show()
             }
         } else {
-            location_permission_alert?.isVisible = false
+            binding.locationPermissionAlert.isVisible = false
         }
     }
 
     private fun checkWeatherProviderConfig() {
-        if (Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-" && !location_permission_alert.isVisible) {
-            weather_provider_error.expand()
+        if (Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-" && !binding.locationPermissionAlert.isVisible) {
+            binding.weatherProviderError.expand()
         } else {
-            weather_provider_error.collapse()
+            binding.weatherProviderError.collapse()
         }
-        weather_provider_error?.text = Preferences.weatherProviderError
+        binding.weatherProviderError.text = Preferences.weatherProviderError
 
-        if (Preferences.showWeather && Preferences.weatherProviderLocationError != "" && !location_permission_alert.isVisible) {
-            weather_provider_location_error.expand()
+        if (Preferences.showWeather && Preferences.weatherProviderLocationError != "" && !binding.locationPermissionAlert.isVisible) {
+            binding.weatherProviderLocationError.expand()
         } else {
-            weather_provider_location_error.collapse()
+            binding.weatherProviderLocationError.collapse()
         }
-        weather_provider_location_error?.text = Preferences.weatherProviderLocationError
+        binding.weatherProviderLocationError.text = Preferences.weatherProviderLocationError
     }
 
     private fun setupListener() {
 
-        action_weather_provider.setOnClickListener {
+        binding.actionWeatherProvider.setOnClickListener {
             startActivityForResult(
                 Intent(requireContext(), WeatherProviderActivity::class.java),
                 RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code
             )
         }
 
-        action_custom_location.setOnClickListener {
+        binding.actionCustomLocation.setOnClickListener {
             startActivityForResult(
                 Intent(requireContext(), CustomLocationActivity::class.java),
                 Constants.RESULT_CODE_CUSTOM_LOCATION
             )
         }
 
-        action_change_unit.setOnClickListener {
+        binding.actionChangeUnit.setOnClickListener {
             BottomSheetMenu<String>(requireContext(), header = getString(R.string.settings_unit_title)).setSelectedValue(Preferences.weatherTempUnit)
                 .addItem(getString(R.string.fahrenheit), "F")
                 .addItem(getString(R.string.celsius), "C")
@@ -213,7 +205,7 @@ class WeatherFragment : Fragment() {
                 }.show()
         }
 
-        action_weather_refresh_period.setOnClickListener {
+        binding.actionWeatherRefreshPeriod.setOnClickListener {
             val dialog =
                 BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_weather_refresh_period_title)).setSelectedValue(Preferences.weatherRefreshPeriod)
             (5 downTo 0).forEach {
@@ -225,11 +217,11 @@ class WeatherFragment : Fragment() {
                 }.show()
         }
 
-        action_weather_icon_pack.setOnClickListener {
+        binding.actionWeatherIconPack.setOnClickListener {
             IconPackSelector(requireContext(), header = getString(R.string.settings_weather_icon_pack_title)).show()
         }
 
-        action_weather_app.setOnClickListener {
+        binding.actionWeatherApp.setOnClickListener {
             startActivityForResult(
                 Intent(requireContext(), ChooseApplicationActivity::class.java),
                 RequestCode.WEATHER_APP_REQUEST_CODE.code
@@ -284,11 +276,11 @@ class WeatherFragment : Fragment() {
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {
-        scrollView.isScrollable = false
+        binding.scrollView.isScrollable = false
         callback.invoke()
         lifecycleScope.launch {
             delay(200)
-            scrollView.isScrollable = true
+            binding.scrollView.isScrollable = true
         }
     }
 }

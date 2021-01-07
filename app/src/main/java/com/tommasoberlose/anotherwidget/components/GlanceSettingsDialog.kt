@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,6 +20,7 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.databinding.GlanceProviderSettingsLayoutBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
@@ -30,17 +32,17 @@ import com.tommasoberlose.anotherwidget.ui.activities.tabs.AppNotificationsFilte
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import kotlinx.android.synthetic.main.glance_provider_settings_layout.view.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 
 class GlanceSettingsDialog(val context: Activity, val provider: Constants.GlanceProviderId, private val statusCallback: (() -> Unit)?) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
+    private var binding: GlanceProviderSettingsLayoutBinding = GlanceProviderSettingsLayoutBinding.inflate(LayoutInflater.from(context))
+
     override fun show() {
-        val view = View.inflate(context, R.layout.glance_provider_settings_layout, null)
 
         /* TITLE */
-        view.title.text = when (provider) {
+        binding.title.text = when (provider) {
             Constants.GlanceProviderId.PLAYING_SONG -> context.getString(R.string.settings_show_music_title)
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> context.getString(R.string.settings_show_next_alarm_title)
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> context.getString(R.string.settings_low_battery_level_title)
@@ -52,7 +54,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         }
 
         /* SUBTITLE*/
-        view.subtitle.text = when (provider) {
+        binding.subtitle.text = when (provider) {
             Constants.GlanceProviderId.PLAYING_SONG -> context.getString(R.string.settings_show_music_subtitle)
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> context.getString(R.string.settings_show_next_alarm_subtitle)
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> context.getString(R.string.settings_low_battery_level_subtitle)
@@ -64,50 +66,50 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         }
 
         /* SONG */
-        view.action_filter_music_players.isVisible = provider == Constants.GlanceProviderId.PLAYING_SONG
+        binding.actionFilterMusicPlayers.isVisible = provider == Constants.GlanceProviderId.PLAYING_SONG
         if (provider == Constants.GlanceProviderId.PLAYING_SONG) {
-            view.action_filter_music_players.setOnClickListener {
+            binding.actionFilterMusicPlayers.setOnClickListener {
                 dismiss()
                 context.startActivityForResult(Intent(context, MusicPlayersFilterActivity::class.java), 0)
             }
-            checkNotificationPermission(view)
+            checkNotificationPermission()
         }
 
         /* ALARM */
-        view.alarm_set_by_container.isVisible = provider == Constants.GlanceProviderId.NEXT_CLOCK_ALARM
+        binding.alarmSetByContainer.isVisible = provider == Constants.GlanceProviderId.NEXT_CLOCK_ALARM
         if (provider == Constants.GlanceProviderId.NEXT_CLOCK_ALARM) {
-            view.header.text = context.getString(R.string.information_header)
-            view.warning_container.isVisible = false
-            checkNextAlarm(view)
+            binding.header.text = context.getString(R.string.information_header)
+            binding.warningContainer.isVisible = false
+            checkNextAlarm()
         }
 
         /* GOOGLE STEPS */
-        view.action_toggle_google_fit.isVisible = provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS
+        binding.actionToggleGoogleFit.isVisible = provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS
         if (provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS) {
-            view.warning_container.isVisible = false
-            checkFitnessPermission(view)
-            checkGoogleFitConnection(view)
+            binding.warningContainer.isVisible = false
+            checkFitnessPermission()
+            checkGoogleFitConnection()
         }
 
         /* BATTERY INFO */
         if (provider == Constants.GlanceProviderId.BATTERY_LEVEL_LOW) {
-            view.warning_container.isVisible = false
-            view.header.isVisible = false
-            view.divider.isVisible = false
+            binding.warningContainer.isVisible = false
+            binding.header.isVisible = false
+            binding.divider.isVisible = false
         }
 
         /* NOTIFICATIONS */
-        view.action_filter_notifications_app.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
-        view.action_change_notification_timer.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
+        binding.actionFilterNotificationsApp.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
+        binding.actionChangeNotificationTimer.isVisible = provider == Constants.GlanceProviderId.NOTIFICATIONS
         if (provider == Constants.GlanceProviderId.NOTIFICATIONS) {
-            checkLastNotificationsPermission(view)
+            checkLastNotificationsPermission()
             val stringArray = context.resources.getStringArray(R.array.glance_notifications_timeout)
-            view.action_filter_notifications_app.setOnClickListener {
+            binding.actionFilterNotificationsApp.setOnClickListener {
                 dismiss()
                 context.startActivityForResult(Intent(context, AppNotificationsFilterActivity::class.java), 0)
             }
-            view.notification_timer_label.text = stringArray[Preferences.hideNotificationAfter]
-            view.action_change_notification_timer.setOnClickListener {
+            binding.notificationTimerLabel.text = stringArray[Preferences.hideNotificationAfter]
+            binding.actionChangeNotificationTimer.setOnClickListener {
                 val dialog = BottomSheetMenu<Int>(context, header = context.getString(R.string.glance_notification_hide_timeout_title)).setSelectedValue(Preferences.hideNotificationAfter)
                 Constants.GlanceNotificationTimer.values().forEachIndexed { index, timeout ->
                     dialog.addItem(stringArray[index], timeout.value)
@@ -121,20 +123,20 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
 
         /* GREETINGS */
         if (provider == Constants.GlanceProviderId.GREETINGS) {
-            view.warning_container.isVisible = false
-            view.header.isVisible = false
-            view.divider.isVisible = false
+            binding.warningContainer.isVisible = false
+            binding.header.isVisible = false
+            binding.divider.isVisible = false
         }
 
         /* EVENTS */
         if (provider == Constants.GlanceProviderId.EVENTS) {
-            view.header.isVisible = false
-            view.divider.isVisible = false
-            checkCalendarConfig(view)
+            binding.header.isVisible = false
+            binding.divider.isVisible = false
+            checkCalendarConfig()
         }
 
         /* TOGGLE */
-        view.provider_switch.setCheckedImmediatelyNoEvent(when (provider) {
+        binding.providerSwitch.setCheckedImmediatelyNoEvent(when (provider) {
             Constants.GlanceProviderId.PLAYING_SONG -> Preferences.showMusic
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> Preferences.showNextAlarm
             Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> Preferences.showBatteryCharging
@@ -147,7 +149,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
 
         var job: Job? = null
 
-        view.provider_switch.setOnCheckedChangeListener { _, isChecked ->
+        binding.providerSwitch.setOnCheckedChangeListener { _, isChecked ->
             job?.cancel()
             job = GlobalScope.launch(Dispatchers.IO) {
                 delay(300)
@@ -155,18 +157,18 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             Preferences.showMusic = isChecked
-                            checkNotificationPermission(view)
+                            checkNotificationPermission()
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                             Preferences.showNextAlarm = isChecked
-                            checkNextAlarm(view)
+                            checkNextAlarm()
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                             Preferences.showBatteryCharging = isChecked
                         }
                         Constants.GlanceProviderId.NOTIFICATIONS -> {
                             Preferences.showNotifications = isChecked
-                            checkLastNotificationsPermission(view)
+                            checkLastNotificationsPermission()
                         }
                         Constants.GlanceProviderId.GREETINGS -> {
                             Preferences.showGreetings = isChecked
@@ -194,9 +196,9 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                                 Preferences.showDailySteps = false
                             }
 
-                            view.warning_container.isVisible = false
-                            checkFitnessPermission(view)
-                            checkGoogleFitConnection(view)
+                            binding.warningContainer.isVisible = false
+                            checkFitnessPermission()
+                            checkGoogleFitConnection()
                         }
                         Constants.GlanceProviderId.EVENTS -> {
                             Preferences.showEventsAsGlanceProvider = isChecked
@@ -209,11 +211,11 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             }
         }
 
-        setContentView(view)
+        setContentView(binding.root)
         super.show()
     }
     
-    private fun checkNextAlarm(view: View) {
+    private fun checkNextAlarm() {
         with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
             val alarm = nextAlarmClock
             if (alarm != null && alarm.showIntent != null) {
@@ -223,71 +225,71 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                 } catch (e: Exception) {
                     alarm.showIntent?.creatorPackage ?: ""
                 }
-                view.alarm_set_by_title.text = context.getString(R.string.settings_show_next_alarm_app_title).format(appNameOrPackage)
-                view.alarm_set_by_subtitle.text = if (AlarmHelper.isAlarmProbablyWrong(context)) context.getString(R.string.settings_show_next_alarm_app_subtitle_wrong) else context.getString(R.string.settings_show_next_alarm_app_subtitle_correct)
-                view.alarm_set_by_container.isVisible = true
+                binding.alarmSetByTitle.text = context.getString(R.string.settings_show_next_alarm_app_title).format(appNameOrPackage)
+                binding.alarmSetBySubtitle.text = if (AlarmHelper.isAlarmProbablyWrong(context)) context.getString(R.string.settings_show_next_alarm_app_subtitle_wrong) else context.getString(R.string.settings_show_next_alarm_app_subtitle_correct)
+                binding.alarmSetByContainer.isVisible = true
             } else {
-                view.alarm_set_by_container.isVisible = false
-                view.header.isVisible = false
-                view.divider.isVisible = false
+                binding.alarmSetByContainer.isVisible = false
+                binding.header.isVisible = false
+                binding.divider.isVisible = false
             }
         }
         statusCallback?.invoke()
     }
 
-    private fun checkCalendarConfig(view: View) {
+    private fun checkCalendarConfig() {
         if (!Preferences.showEvents || !context.checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
-            view.warning_container.isVisible = true
-            view.warning_title.text = context.getString(R.string.settings_show_events_as_glance_provider_error)
-            view.warning_container.setOnClickListener {
+            binding.warningContainer.isVisible = true
+            binding.warningTitle.text = context.getString(R.string.settings_show_events_as_glance_provider_error)
+            binding.warningContainer.setOnClickListener {
                 dismiss()
                 EventBus.getDefault().post(MainFragment.ChangeTabEvent(1))
             }
         } else {
-            view.warning_container.isVisible = false
+            binding.warningContainer.isVisible = false
         }
     }
 
-    private fun checkNotificationPermission(view: View) {
+    private fun checkNotificationPermission() {
         when {
             ActiveNotificationsHelper.checkNotificationAccess(context) -> {
-                view.warning_container.isVisible = false
+                binding.warningContainer.isVisible = false
                 MediaPlayerHelper.updatePlayingMediaInfo(context)
             }
             Preferences.showMusic -> {
-                view.warning_container.isVisible = true
-                view.warning_title.text = context.getString(R.string.settings_request_notification_access)
-                view.warning_container.setOnClickListener {
+                binding.warningContainer.isVisible = true
+                binding.warningTitle.text = context.getString(R.string.settings_request_notification_access)
+                binding.warningContainer.setOnClickListener {
                     context.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
                 }
             }
             else -> {
-                view.warning_container.isVisible = false
+                binding.warningContainer.isVisible = false
             }
         }
         statusCallback?.invoke()
     }
 
-    private fun checkLastNotificationsPermission(view: View) {
+    private fun checkLastNotificationsPermission() {
         when {
             ActiveNotificationsHelper.checkNotificationAccess(context) -> {
-                view.warning_container.isVisible = false
+                binding.warningContainer.isVisible = false
             }
             Preferences.showNotifications -> {
-                view.warning_container.isVisible = true
-                view.warning_title.text = context.getString(R.string.settings_request_last_notification_access)
-                view.warning_container.setOnClickListener {
+                binding.warningContainer.isVisible = true
+                binding.warningTitle.text = context.getString(R.string.settings_request_last_notification_access)
+                binding.warningContainer.setOnClickListener {
                     context.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
                 }
             }
             else -> {
-                view.warning_container.isVisible = false
+                binding.warningContainer.isVisible = false
             }
         }
         statusCallback?.invoke()
     }
 
-    private fun checkFitnessPermission(view: View) {
+    private fun checkFitnessPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(
                 Manifest.permission.ACTIVITY_RECOGNITION)
         ) {
@@ -298,10 +300,10 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             }
         } else if (Preferences.showDailySteps) {
             ActivityDetectionReceiver.unregisterFence(context)
-            view.warning_container.isVisible = true
-            view.warning_title.text = context.getString(R.string.settings_request_fitness_access)
-            view.warning_container.setOnClickListener {
-                requireFitnessPermission(view)
+            binding.warningContainer.isVisible = true
+            binding.warningTitle.text = context.getString(R.string.settings_request_fitness_access)
+            binding.warningContainer.setOnClickListener {
+                requireFitnessPermission()
             }
         } else {
             ActivityDetectionReceiver.unregisterFence(context)
@@ -309,36 +311,36 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         statusCallback?.invoke()
     }
 
-    private fun checkGoogleFitConnection(view: View) {
+    private fun checkGoogleFitConnection() {
         val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
         if (!GoogleSignIn.hasPermissions(account,
                 ActivityDetectionReceiver.FITNESS_OPTIONS
             )) {
-            view.warning_container.isVisible = true
-            view.warning_title.text = context.getString(R.string.settings_request_fitness_access)
-            view.warning_container.setOnClickListener {
+            binding.warningContainer.isVisible = true
+            binding.warningTitle.text = context.getString(R.string.settings_request_fitness_access)
+            binding.warningContainer.setOnClickListener {
                 GoogleSignIn.requestPermissions(
                     context,
                     1,
                     account,
                     ActivityDetectionReceiver.FITNESS_OPTIONS)
             }
-            view.action_connect_to_google_fit.isVisible = true
-            view.action_disconnect_to_google_fit.isVisible = false
-            view.action_connect_to_google_fit.setOnClickListener {
+            binding.actionConnectToGoogleFit.isVisible = true
+            binding.actionDisconnectToGoogleFit.isVisible = false
+            binding.actionConnectToGoogleFit.setOnClickListener {
                 GoogleSignIn.requestPermissions(
                     context,
                     1,
                     account,
                     ActivityDetectionReceiver.FITNESS_OPTIONS)
             }
-            view.action_disconnect_to_google_fit.setOnClickListener(null)
-            view.google_fit_status_label.text = context.getString(R.string.google_fit_account_not_connected)
+            binding.actionDisconnectToGoogleFit.setOnClickListener(null)
+            binding.googleFitStatusLabel.text = context.getString(R.string.google_fit_account_not_connected)
         } else {
-            view.action_connect_to_google_fit.isVisible = false
-            view.action_disconnect_to_google_fit.isVisible = true
-            view.action_connect_to_google_fit.setOnClickListener(null)
-            view.action_disconnect_to_google_fit.setOnClickListener {
+            binding.actionConnectToGoogleFit.isVisible = false
+            binding.actionDisconnectToGoogleFit.isVisible = true
+            binding.actionConnectToGoogleFit.setOnClickListener(null)
+            binding.actionDisconnectToGoogleFit.setOnClickListener {
                 GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
                     GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(
                     ActivityDetectionReceiver.FITNESS_OPTIONS
@@ -346,11 +348,11 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                     show()
                 }
             }
-            view.google_fit_status_label.text = context.getString(R.string.google_fit_account_connected)
+            binding.googleFitStatusLabel.text = context.getString(R.string.google_fit_account_connected)
         }
     }
 
-    private fun requireFitnessPermission(view: View) {
+    private fun requireFitnessPermission() {
         Dexter.withContext(context)
             .withPermissions(
                 "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
@@ -358,7 +360,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACTIVITY_RECOGNITION else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    checkFitnessPermission(view)
+                    checkFitnessPermission()
                 }
                 override fun onPermissionRationaleShouldBeShown(
                     permissions: MutableList<PermissionRequest>?,

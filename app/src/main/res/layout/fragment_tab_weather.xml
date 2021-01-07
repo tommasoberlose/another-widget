@@ -51,7 +51,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="12dp"
-                        android:src="@drawable/round_language_24"
+                        android:src="@drawable/round_travel_explore_24"
                         app:tint="@color/colorPrimaryText"/>
                     <LinearLayout
                         android:layout_width="0dp"

@@ -15,25 +15,25 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivitySupportDevBinding
 import com.tommasoberlose.anotherwidget.ui.viewmodels.SupportDevViewModel
 import com.tommasoberlose.anotherwidget.utils.toast
-import kotlinx.android.synthetic.main.activity_support_dev.*
 import net.idik.lib.slimadapter.SlimAdapter
 
 class SupportDevActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
     private lateinit var viewModel: SupportDevViewModel
     private lateinit var adapter: SlimAdapter
+    private lateinit var binding: ActivitySupportDevBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(SupportDevViewModel::class.java)
         viewModel.billingClient = BillingClient.newBuilder(this).enablePendingPurchases().setListener(this).build()
-        DataBindingUtil.setContentView<ActivitySupportDevBinding>(this, R.layout.activity_support_dev)
+        binding = ActivitySupportDevBinding.inflate(layoutInflater)
 
 
-        list_view.setHasFixedSize(true)
+        binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
-        list_view.layoutManager = mLayoutManager
+        binding.listView.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
@@ -54,20 +54,22 @@ class SupportDevActivity : AppCompatActivity(), PurchasesUpdatedListener {
                         viewModel.purchase(this, item)
                     }
             }
-            .attachTo(list_view)
+            .attachTo(binding.listView)
 
         viewModel.openConnection()
         subscribeUi(viewModel)
 
-        action_back.setOnClickListener {
+        binding.actionBack.setOnClickListener {
             onBackPressed()
         }
+
+        setContentView(binding.root)
     }
 
     private fun subscribeUi(viewModel: SupportDevViewModel) {
         viewModel.products.observe(this, Observer {
             if (it.isNotEmpty()) {
-                loader.isVisible = false
+                binding.loader.isVisible = false
             }
             adapter.updateData(it.sortedWith(compareBy(SkuDetails::getPriceAmountMicros)))
         })
