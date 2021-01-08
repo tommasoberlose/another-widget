@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -81,17 +82,17 @@ class PreferencesFragment : Fragment() {
 
         viewModel.showEvents.observe(viewLifecycleOwner) {
             maintainScrollPosition {
+                binding.showEventsSwitch.setCheckedImmediatelyNoEvent(it)
                 if (it) {
                     CalendarHelper.setEventUpdatesAndroidN(requireContext())
                 } else {
                     CalendarHelper.removeEventUpdatesAndroidN(requireContext())
                 }
             }
-            checkReadEventsPermission()
         }
 
         viewModel.showWeather.observe(viewLifecycleOwner) {
-            checkLocationPermission()
+            checkWeatherProviderConfig()
         }
 
         viewModel.showClock.observe(viewLifecycleOwner) {
@@ -113,9 +114,13 @@ class PreferencesFragment : Fragment() {
         }
 
         binding.showEventsSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
-            Preferences.showEvents = enabled
-            if (Preferences.showEvents) {
-                requirePermission()
+            if (enabled) {
+                if (!requireActivity().checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
+                    binding.showEventsSwitch.setCheckedImmediatelyNoEvent(false)
+                }
+                requireCalendarPermission()
+            } else {
+                Preferences.showEvents = enabled
             }
         }
 
@@ -125,6 +130,11 @@ class PreferencesFragment : Fragment() {
 
         binding.showWeatherSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showWeather = enabled
+            if (enabled) {
+                WeatherReceiver.setUpdates(requireContext())
+            } else {
+                WeatherReceiver.removeUpdates(requireContext())
+            }
         }
 
         binding.actionShowClock.setOnClickListener {
@@ -144,29 +154,17 @@ class PreferencesFragment : Fragment() {
         }
     }
 
-    private fun checkReadEventsPermission(showEvents: Boolean = Preferences.showEvents) {
-        if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
-        } else {
-        }
-    }
-
-    private fun updateCalendar() {
-        if (activity?.checkGrantedPermission(Manifest.permission.READ_CALENDAR) == true) {
-            CalendarHelper.updateEventList(requireContext())
-        }
-    }
-
-    private fun requirePermission() {
+    private fun requireCalendarPermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
                 Manifest.permission.READ_CALENDAR
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
-                        if (report.areAllPermissionsGranted()){
-                            checkReadEventsPermission()
-                        } else {
-                            Preferences.showEvents = false
+                        val granted = report.areAllPermissionsGranted()
+                        Preferences.showEvents = granted
+                        if (granted) {
+                            CalendarHelper.updateEventList(requireContext())
                         }
                     }
                 }
@@ -182,16 +180,20 @@ class PreferencesFragment : Fragment() {
             .check()
     }
 
-    private fun checkLocationPermission() {
-        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            WeatherReceiver.setUpdates(requireContext())
-        } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
-            MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
-                .setPositiveButton(getString(android.R.string.ok)) {
-                    requirePermission()
-                }
-                .show()
+    private fun checkWeatherProviderConfig() {
+        if (Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-" && !binding.weatherProviderError.isVisible) {
+            binding.weatherProviderError.expand()
+        } else {
+            binding.weatherProviderError.collapse()
         }
+        binding.weatherProviderError.text = Preferences.weatherProviderError
+
+        if (Preferences.showWeather && Preferences.weatherProviderLocationError != "" && !binding.weatherProviderError.isVisible) {
+            binding.weatherProviderLocationError.expand()
+        } else {
+            binding.weatherProviderLocationError.collapse()
+        }
+        binding.weatherProviderLocationError.text = Preferences.weatherProviderLocationError
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

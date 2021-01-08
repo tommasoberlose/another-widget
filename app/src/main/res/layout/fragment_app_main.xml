@@ -76,7 +76,6 @@
                 android:id="@+id/preview"
                 android:animateLayoutChanges="true"
                 app:cardBackgroundColor="@color/colorPrimary"
-                android:layout_marginBottom="4dp"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp">
                 <androidx.appcompat.widget.AppCompatImageView

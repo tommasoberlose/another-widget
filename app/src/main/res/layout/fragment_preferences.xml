@@ -270,6 +270,35 @@
                             android:layout_height="wrap_content"
                             style="@style/AnotherWidget.Settings.Title"
                             android:text="@string/settings_weather_title"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:textSize="14sp"
+                            android:paddingStart="64dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:visibility="gone"
+                            android:id="@+id/weather_provider_error"
+                            android:textColor="@color/errorColorText"
+                            android:letterSpacing="0"
+                            android:fontFamily="@font/google_sans_bold"
+                            android:textStyle="bold"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                            app:textAllCaps="false" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:textSize="14sp"
+                            android:id="@+id/weather_provider_location_error"
+                            android:textColor="@color/errorColorText"
+                            android:letterSpacing="0"
+                            android:fontFamily="@font/google_sans_bold"
+                            android:textStyle="bold"
+                            android:layout_marginStart="64dp"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                            app:textAllCaps="false" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="1dp"

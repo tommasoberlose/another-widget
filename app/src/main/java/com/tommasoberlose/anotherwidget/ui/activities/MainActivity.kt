@@ -22,6 +22,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 
 class MainActivity : AppCompatActivity() {
 
@@ -130,5 +131,13 @@ class MainActivity : AppCompatActivity() {
                 }
             })
             .check()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (Preferences.showEvents && !checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
+            Preferences.showEvents = false
+        }
     }
 }

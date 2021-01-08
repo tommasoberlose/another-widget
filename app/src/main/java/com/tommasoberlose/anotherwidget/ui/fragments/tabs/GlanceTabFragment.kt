@@ -59,7 +59,9 @@ class GlanceTabFragment : Fragment() {
     private var dialog: GlanceSettingsDialog? = null
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: MainViewModel
-    private lateinit var list: ArrayList<Constants.GlanceProviderId>
+    private val list: ArrayList<Constants.GlanceProviderId> by lazy {
+        GlanceProviderHelper.getGlanceProviders(requireContext())
+    }
     private lateinit var binding: FragmentTabGlanceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,8 +83,6 @@ class GlanceTabFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        list = GlanceProviderHelper.getGlanceProviders(requireContext())
-
         return binding.root
     }
 
@@ -96,6 +96,10 @@ class GlanceTabFragment : Fragment() {
 
         adapter = SlimAdapter.create()
         adapter
+            .register<String>(R.layout.glance_providers_list_ornament) { item, injector ->
+                injector.visibility(R.id.footer, if(item == "footer") View.VISIBLE else View.GONE)
+                injector.visibility(R.id.header, if(item == "header") View.VISIBLE else View.GONE)
+            }
             .register<GlanceProvider>(R.layout.glance_provider_item) { item, injector ->
                 val provider = Constants.GlanceProviderId.from(item.id)!!
                 injector
@@ -212,8 +216,8 @@ class GlanceTabFragment : Fragment() {
                     }
                     Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                         val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-                        if (GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || activity?.checkGrantedPermission(
-                                Manifest.permission.ACTIVITY_RECOGNITION) == true)
+                        if (GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(
+                                Manifest.permission.ACTIVITY_RECOGNITION))
                         ) {
                             injector.text(R.id.label,
                                 if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(
@@ -296,7 +300,7 @@ class GlanceTabFragment : Fragment() {
                     GlanceProviderHelper.saveGlanceProviderOrder(
                         list
                     )
-                    adapter.updateData(list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) })
+                    adapter.updateData(listOf("header") + list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) } + listOf("footer"))
                 }
 
                 override fun onChildDraw(
@@ -339,7 +343,6 @@ class GlanceTabFragment : Fragment() {
             })
 
         mIth.attachToRecyclerView(binding.providersList)
-        adapter.updateData(list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) })
         binding.providersList.isNestedScrollingEnabled = false
 
         setupListener()
@@ -347,6 +350,9 @@ class GlanceTabFragment : Fragment() {
         binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
             viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
+
+        
+        adapter.updateData(listOf("header") + list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) } + listOf("footer"))
     }
 
     private fun subscribeUi(
@@ -365,7 +371,7 @@ class GlanceTabFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        activity?.registerReceiver(nextAlarmChangeBroadcastReceiver,
+        requireActivity().registerReceiver(nextAlarmChangeBroadcastReceiver,
             IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED))
         if (dialog != null) {
             dialog?.show()
@@ -373,7 +379,7 @@ class GlanceTabFragment : Fragment() {
     }
 
     override fun onStop() {
-        activity?.unregisterReceiver(nextAlarmChangeBroadcastReceiver)
+        requireActivity().unregisterReceiver(nextAlarmChangeBroadcastReceiver)
         super.onStop()
     }
 
@@ -430,7 +436,7 @@ class GlanceTabFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.notifyItemRangeChanged(0, adapter.data.size)
+        adapter.notifyItemRangeChanged(0, adapter.data?.size ?: 0)
         if (dialog != null) {
             dialog?.show()
         }

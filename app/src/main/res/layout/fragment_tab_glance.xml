@@ -15,70 +15,15 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:scrollbarThumbVertical="@color/colorPrimary">
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="48dp"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/calendar_settings"
-                android:alpha="@{isGlanceVisible ? 1f : 1f, default=1}"
-                android:orientation="vertical">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/providers"
-                    android:paddingTop="16dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:textAppearance="@style/AnotherWidget.Settings.Header" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/settings_sort_glance_providers_subtitle"
-                    android:textAppearance="@style/AnotherWidget.Settings.SubHeader"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingBottom="8dp"
-                    android:id="@+id/providers_list" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="24dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:src="@drawable/outline_info_24"
-                        app:tint="@color/colorSecondaryText"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:duplicateParentState="true"
-                        android:layout_marginTop="8dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="@string/glance_info"
-                        android:textColor="@color/colorSecondaryText"
-                        android:letterSpacing="0"
-                        android:fontFamily="@font/google_sans"
-                        android:textAppearance="@style/AnotherWidget.Settings.Subtitle"
-                        app:textAllCaps="false" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:id="@+id/providers_list" />
     </com.tommasoberlose.anotherwidget.components.FixedFocusScrollView>
 </layout>

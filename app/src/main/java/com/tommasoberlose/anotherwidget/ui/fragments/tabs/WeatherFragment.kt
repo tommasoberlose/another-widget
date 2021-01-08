@@ -141,11 +141,7 @@ class WeatherFragment : Fragment() {
         } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
             binding.locationPermissionAlert.isVisible = true
             binding.locationPermissionAlert.setOnClickListener {
-                MaterialBottomSheetDialog(requireContext(), message = getString(R.string.background_location_warning))
-                    .setPositiveButton(getString(android.R.string.ok)) {
-                        requirePermission()
-                    }
-                    .show()
+                requirePermission()
             }
         } else {
             binding.locationPermissionAlert.isVisible = false
@@ -169,7 +165,6 @@ class WeatherFragment : Fragment() {
     }
 
     private fun setupListener() {
-
         binding.actionWeatherProvider.setOnClickListener {
             startActivityForResult(
                 Intent(requireContext(), WeatherProviderActivity::class.java),
