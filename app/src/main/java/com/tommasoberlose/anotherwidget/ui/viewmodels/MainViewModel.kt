@@ -55,6 +55,7 @@ class MainViewModel : ViewModel() {
     val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
     val widgetUpdateFrequency = Preferences.asLiveData(Preferences::widgetUpdateFrequency)
+    val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
 
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
@@ -70,7 +71,6 @@ class MainViewModel : ViewModel() {
     val showAMPMIndicator = Preferences.asLiveData(Preferences::showAMPMIndicator)
 
     val clockAppName = Preferences.asLiveData(Preferences::clockAppName)
-    val dateFormat = Preferences.asLiveData(Preferences::dateFormat)
     val clockBottomMargin = Preferences.asLiveData(Preferences::clockBottomMargin)
 
     // Weather Settings
@@ -95,4 +95,49 @@ class MainViewModel : ViewModel() {
 
     // UI
     val fragmentScrollY = MutableLiveData<Int>()
+    val clockPreferencesUpdate = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::showClock)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextSize)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextAlpha)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockTextAlphaDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showAMPMIndicator)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::clockBottomMargin)) { value = true }
+    }
+    val widgetPreferencesUpdate = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::textGlobalColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textGlobalAlpha)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondaryColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondaryAlpha)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::backgroundCardColor)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::backgroundCardAlpha)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textGlobalColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textGlobalAlphaDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::dateFormat)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondaryColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondaryAlphaDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::backgroundCardColorDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::backgroundCardAlphaDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textMainSize)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textSecondSize)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textShadow)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::textShadowDark)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFont)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFontFile)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFontName)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::customFontVariant)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::secondRowInformation)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showDividers)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::secondRowTopMargin)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showEvents)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::calendarAllDay)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showDiffTime)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showNextEvent)) { value = true }
+
+        addSource(Preferences.asLiveData(Preferences::showWeather)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::weatherTempUnit)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::weatherIconPack)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showPreview)) { value = true }
+    }
 }

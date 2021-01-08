@@ -48,7 +48,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainFragment  : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -77,21 +77,15 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Init clock
-        if (Preferences.showClock) {
-            binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
-            binding.widgetDetail.time.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                Preferences.clockTextSize.toPixel(requireContext()))
-            binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
-            binding.widgetDetail.timeAmPm.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2)
-        }
-        binding.widgetDetail.timeContainer.isVisible = Preferences.showClock
-
-        binding.preview.layoutParams = binding.preview.layoutParams.apply {
-            height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(requireContext()) else 0
-        }
         subscribeUi(viewModel)
+
+        if (binding.preview.height == 0) {
+            binding.preview.layoutParams = binding.preview.layoutParams.apply {
+                height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
+                    requireContext()
+                ) else 0
+            }
+        }
 
         // Warnings
         if (getString(R.string.xiaomi_manufacturer).equals(Build.MANUFACTURER, ignoreCase = true) && Preferences.showXiaomiWarning) {
@@ -130,11 +124,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
     private var uiJob: Job? = null
 
     private fun updateUI() {
-        Log.d("ciao", "UPDATE UI")
         uiJob?.cancel()
-
-        binding.preview.clearAnimation()
-        binding.widgetDetail.timeContainer.clearAnimation()
 
         if (Preferences.showPreview) {
             lifecycleScope.launch(Dispatchers.IO) {
@@ -156,6 +146,7 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                     binding.widgetDetail.widgetShapeBackground.setImageDrawable(wallpaperDrawable)
                 }
             }
+
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
                     val generatedView = MainWidget.generateWidgetView(requireContext(), typeface).root
@@ -170,110 +161,18 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
                         if (binding.preview.width > 0) binding.preview.width else generatedView.measuredWidth,
                         generatedView.measuredHeight
                     )
+
                     withContext(Dispatchers.Main) {
-                        // Clock
-                        binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
-                        binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
-                        binding.widgetDetail.time.setTextSize(
-                            TypedValue.COMPLEX_UNIT_SP,
-                            Preferences.clockTextSize.toPixel(requireContext())
-                        )
-                        binding.widgetDetail.timeAmPm.setTextSize(
-                            TypedValue.COMPLEX_UNIT_SP,
-                            Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
-                        )
-                        binding.widgetDetail.timeAmPm.isVisible = Preferences.showAMPMIndicator
+                        binding.widget.animate().alpha(0f).start()
+                        binding.widgetLoader.animate().scaleX(1f).scaleY(1f).alpha(1f)
 
-                        // Clock bottom margin
-                        binding.widgetDetail.clockBottomMarginNone.isVisible =
-                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
-                        binding.widgetDetail.clockBottomMarginSmall.isVisible =
-                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
-                        binding.widgetDetail.clockBottomMarginMedium.isVisible =
-                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
-                        binding.widgetDetail.clockBottomMarginLarge.isVisible =
-                            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
-
-                        if ((Preferences.showClock && (binding.widgetDetail.time.alpha < 1f)) || (!Preferences.showClock && (binding.widgetDetail.time.alpha > 0f))) {
-                            if (Preferences.showClock) {
-                                binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
-                                    height = RelativeLayout.LayoutParams.WRAP_CONTENT
-                                }
-                                binding.widgetDetail.timeContainer.measure(0, 0)
-                            }
-                            val initialHeight = binding.widgetDetail.timeContainer.measuredHeight
-                            ValueAnimator.ofFloat(
-                                if (Preferences.showClock) 0f else 1f,
-                                if (Preferences.showClock) 1f else 0f
-                            ).apply {
-                                duration = 500L
-                                addUpdateListener {
-                                    val animatedValue = animatedValue as Float
-                                    binding.widgetDetail.timeContainer.layoutParams =
-                                        binding.widgetDetail.timeContainer.layoutParams.apply {
-                                            height = (initialHeight * animatedValue).toInt()
-                                        }
-                                    binding.widgetDetail.time.alpha = animatedValue
-                                }
-                                addListener(
-                                    onStart = {
-                                        if (Preferences.showClock) {
-                                            binding.widgetDetail.timeContainer.isVisible = true
-                                        }
-                                    },
-                                    onEnd = {
-                                        if (!Preferences.showClock) {
-                                            binding.widgetDetail.timeContainer.isVisible = false
-                                        }
-                                    }
-                                )
-                            }.start()
-
-                            ValueAnimator.ofInt(
-                                binding.preview.height,
-                                PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
-                                    requireContext()
-                                ) else 0
-                            ).apply {
-                                duration = 500L
-                                addUpdateListener {
-                                    val animatedValue = animatedValue as Int
-                                    val layoutParams = binding.preview.layoutParams
-                                    layoutParams.height = animatedValue
-                                    binding.preview.layoutParams = layoutParams
-                                }
-                            }.start()
-                        } else {
-                            binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
-                                height = RelativeLayout.LayoutParams.WRAP_CONTENT
-                            }
-                            binding.widgetDetail.timeContainer.measure(0, 0)
-                        }
-
-                        if (binding.preview.height == 0) {
-                            ValueAnimator.ofInt(
-                                binding.preview.height,
-                                PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
-                                    requireContext()
-                                ) else 0
-                            ).apply {
-                                duration = 300L
-                                addUpdateListener {
-                                    val animatedValue = animatedValue as Int
-                                    val layoutParams = binding.preview.layoutParams
-                                    layoutParams.height = animatedValue
-                                    binding.preview.layoutParams = layoutParams
-                                }
-                            }.start()
+                            .setDuration(200L).start()
+                        binding.widgetDetail.bitmapContainer.apply {
+                            setImageBitmap(bitmap)
                         }
 
                         binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
                             .setDuration(200L).start()
-                        binding.widgetDetail.bitmapContainer.apply {
-                            setImageBitmap(bitmap)
-                            scaleX = 0.9f
-                            scaleY = 0.9f
-                        }
                         binding.widget.animate().alpha(1f).start()
                     }
                 }
@@ -282,6 +181,43 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
             binding.preview.layoutParams = binding.preview.layoutParams.apply {
                 height = 0
             }
+        }
+    }
+
+    private fun updateClock() {
+        // Clock
+        binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+        binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+        binding.widgetDetail.time.setTextSize(
+            TypedValue.COMPLEX_UNIT_SP,
+            Preferences.clockTextSize.toPixel(requireContext())
+        )
+        binding.widgetDetail.timeAmPm.setTextSize(
+            TypedValue.COMPLEX_UNIT_SP,
+            Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
+        )
+        binding.widgetDetail.timeAmPm.isVisible = Preferences.showAMPMIndicator
+
+        // Clock bottom margin
+        binding.widgetDetail.clockBottomMarginNone.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
+        binding.widgetDetail.clockBottomMarginSmall.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
+        binding.widgetDetail.clockBottomMarginMedium.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
+        binding.widgetDetail.clockBottomMarginLarge.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
+
+        if (Preferences.showClock) {
+            binding.widgetDetail.timeContainer.expand()
+        } else {
+            binding.widgetDetail.timeContainer.collapse()
+        }
+
+        binding.preview.layoutParams = binding.preview.layoutParams.apply {
+            height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
+                requireContext()
+            ) else 0
         }
     }
 
@@ -328,39 +264,34 @@ class MainFragment  : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
             binding.toolbar.cardElevation = if (it > 0) 24f else 0f
         }
+
+        viewModel.clockPreferencesUpdate.observe(viewLifecycleOwner) {
+            updateClock()
+        }
+
+        viewModel.widgetPreferencesUpdate.observe(viewLifecycleOwner) {
+            onUpdateUiEvent(null)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        Preferences.preferences.registerOnSharedPreferenceChangeListener(this)
         EventBus.getDefault().register(this)
         updateUI()
     }
 
     override fun onPause() {
-        Preferences.preferences.unregisterOnSharedPreferenceChangeListener(this)
         EventBus.getDefault().unregister(this)
         super.onPause()
     }
 
     private var delayJob: Job? = null
 
-    override fun onSharedPreferenceChanged(preferences: SharedPreferences, p1: String) {
-        delayJob?.cancel()
-        delayJob = lifecycleScope.launch(Dispatchers.IO) {
-            delay(300)
-            withContext(Dispatchers.Main) {
-                updateUI()
-            }
-        }
-        MainWidget.updateWidget(requireContext())
-    }
-
     class UpdateUiMessageEvent
     class ChangeTabEvent(val page: Int)
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(ignore: UpdateUiMessageEvent) {
+    fun onUpdateUiEvent(ignore: UpdateUiMessageEvent?) {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
             delay(300)

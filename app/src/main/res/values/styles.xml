@@ -11,6 +11,7 @@
         <item name="android:colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/black_20</item>
         <item  name="android:windowActivityTransitions">true</item>
+        <item name="android:windowShowWallpaper">true</item>
     </style>
 
     <style name="AppTheme.Main" parent="AppTheme">

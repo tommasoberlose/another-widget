@@ -28,6 +28,7 @@ import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import com.tommasoberlose.anotherwidget.utils.toast
@@ -185,7 +186,7 @@ class CalendarFragment : Fragment() {
 
         binding.showAllDayToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.calendarAllDay = isChecked
-            updateCalendar()
+            MainWidget.updateWidget(requireContext())
         }
 
         binding.actionChangeAttendeeFilter.setOnClickListener {
@@ -230,7 +231,7 @@ class CalendarFragment : Fragment() {
 
         binding.showOnlyBusyEventsToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showOnlyBusyEvents = isChecked
-            updateCalendar()
+            MainWidget.updateWidget(requireContext())
         }
 
         binding.actionShowDiffTime.setOnClickListener {

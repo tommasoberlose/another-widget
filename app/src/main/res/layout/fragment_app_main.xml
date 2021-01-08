@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?android:attr/colorPrimaryDark"
     tools:context=".ui.activities.MainActivity">
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -88,7 +87,8 @@
                     android:id="@+id/widget_bg" />
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -97,6 +97,7 @@
                         android:orientation="vertical"
                         android:id="@+id/widget"
                         android:alpha="0"
+                        android:animateLayoutChanges="true"
                         android:gravity="center">
                         <include layout="@layout/the_widget_sans" android:id="@+id/widget_detail" />
                     </LinearLayout>

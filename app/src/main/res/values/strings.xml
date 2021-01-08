@@ -169,12 +169,12 @@
 
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>
-    <string name="settings_clock_app_title">Tap on clock opens</string>
+    <string name="settings_clock_app_title">Clock</string>
     <string name="title_show_clock">Show Clock</string>
     <string name="show_clock_visible">Clock is visible</string>
     <string name="show_clock_not_visible">Clock is hidden</string>
     <string name="settings_clock_text_size_title">Text size</string>
-    <string name="default_clock_app">Clock</string>
+    <string name="default_clock_app">Default clock app</string>
     <string name="settings_clock_bottom_margin_title">Clock bottom margin</string>
     <string name="settings_clock_bottom_margin_subtitle_none">None</string>
     <string name="settings_clock_bottom_margin_subtitle_small">Small</string>
