@@ -81,8 +81,6 @@ class PreferencesFragment : Fragment() {
 
         viewModel.showEvents.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                binding.isCalendarEnabled = it
-
                 if (it) {
                     CalendarHelper.setEventUpdatesAndroidN(requireContext())
                 } else {
@@ -93,16 +91,10 @@ class PreferencesFragment : Fragment() {
         }
 
         viewModel.showWeather.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.isWeatherVisible = it
-            }
             checkLocationPermission()
         }
 
         viewModel.showClock.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                binding.isClockVisible = it
-            }
         }
     }
 

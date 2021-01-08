@@ -21,14 +21,14 @@
     <string name="custom_date_format">Custom date format</string>
     <string name="alpha">Alpha</string>
     <string name="transparent">Transparent</string>
-    <string name="settings_show_dividers_title">Show text dividers</string>
+    <string name="settings_show_dividers_title">Text separators</string>
     <string name="first_row_header">Primary Text</string>
     <string name="second_row_header">Secondary Text</string>
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Capitalize the date</string>
     <string name="settings_date_format_title">Date format</string>
     <string name="header_widget_background">Widget background</string>
-    <string name="settings_secondary_row_top_margin_title">Margin</string>
+    <string name="settings_secondary_row_top_margin_title">Rows spacing</string>
     <string name="action_custom_font_to_search">Custom font…</string>
     
     <string name="font_100" translatable="false">Thin</string>
@@ -63,7 +63,7 @@
     <string name="settings_show_until_subtitle_5">7 days later</string>
     <string name="settings_show_until_title">Show events at least</string>
     <string name="day_char">d</string>
-    <string name="settings_calendar_app_title">Calendar default application</string>
+    <string name="settings_calendar_app_title">Calendar</string>
     <string name="error_no_calendar">No calendars found.</string>
     <string name="tomorrow">tomorrow</string>
     <string name="today">today</string>
@@ -111,7 +111,7 @@
     <string name="custom_location_gps">Geolocation</string>
     <string name="show_weather_visible">Weather info is visible</string>
     <string name="show_weather_not_visible">Weather info is hidden</string>
-    <string name="settings_weather_app_title">Tap on weather opens</string>
+    <string name="settings_weather_app_title">Weather</string>
     <string name="settings_weather_provider_api_key_title">Weather API key</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly.</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured.</string>
@@ -174,7 +174,7 @@
     <string name="show_clock_visible">Clock is visible</string>
     <string name="show_clock_not_visible">Clock is hidden</string>
     <string name="settings_clock_text_size_title">Text size</string>
-    <string name="default_clock_app">Default clock app</string>
+    <string name="default_clock_app">Clock</string>
     <string name="settings_clock_bottom_margin_title">Clock bottom margin</string>
     <string name="settings_clock_bottom_margin_subtitle_none">None</string>
     <string name="settings_clock_bottom_margin_subtitle_small">Small</string>
@@ -338,4 +338,5 @@
     <string name="clock_settings_subtitle">Set size, color and time zones</string>
     <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
     <string name="smart_content_header">Smart content</string>
+    <string name="font_family_settings_title">Font family</string>
 </resources>

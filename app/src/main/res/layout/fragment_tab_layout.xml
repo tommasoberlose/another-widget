@@ -30,6 +30,43 @@
                 android:paddingRight="20dp"
                 android:textAppearance="@style/AnotherWidget.Settings.Header" />
             <LinearLayout
+                android:id="@+id/action_clock_bottom_margin_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="12dp">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/round_format_line_spacing"
+                    app:tint="@color/colorPrimaryText" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+                    <TextView
+                        style="@style/AnotherWidget.Settings.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_clock_bottom_margin_title" />
+                    <TextView
+                        android:id="@+id/clock_bottom_margin_label"
+                        style="@style/AnotherWidget.Settings.Subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="12dp"
@@ -63,43 +100,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/second_row_top_margin_label"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_clock_bottom_margin_size"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="12dp"
-                    android:src="@drawable/round_format_line_spacing"
-                    app:tint="@color/colorPrimaryText"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_clock_bottom_margin_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/clock_bottom_margin_label"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
             </LinearLayout>

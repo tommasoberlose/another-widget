@@ -7,6 +7,7 @@
     <color name="colorPrimaryLight">#DAEAF6</color>
     <color name="black_50">#80000000</color>
     <color name="black_30">#48000000</color>
+    <color name="black_20">#33000000</color>
     <color name="black_10">#1A000000</color>
     <color name="white_80">#CCFFFFFF</color>
     <color name="white_50">#80FFFFFF</color>

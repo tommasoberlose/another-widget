@@ -5,15 +5,6 @@
         <variable
             name="viewModel"
             type="com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel" />
-        <variable
-            name="isCalendarEnabled"
-            type="Boolean" />
-        <variable
-            name="isWeatherVisible"
-            type="Boolean" />
-        <variable
-            name="isClockVisible"
-            type="Boolean" />
         <import type="android.view.View" />
     </data>
     <com.tommasoberlose.anotherwidget.components.FixedFocusScrollView
@@ -171,7 +162,6 @@
                     app:kswThumbHeight="16sp"
                     app:kswBackRadius="16dp"
                     app:kswTintColor="@color/colorAccent"
-                    android:checked="@{isClockVisible}"
                     android:id="@+id/show_clock_switch"
                     android:buttonTint="@color/colorAccent" />
             </LinearLayout>
@@ -237,7 +227,6 @@
                     android:layout_marginStart="16dp"
                     app:kswThumbWidth="16sp"
                     app:kswThumbHeight="16sp"
-                    android:checked="@{isCalendarEnabled}"
                     app:kswBackRadius="16dp"
                     app:kswTintColor="@color/colorAccent"
                     android:id="@+id/show_events_switch"
@@ -299,7 +288,6 @@
                     app:kswThumbHeight="16sp"
                     app:kswBackRadius="16dp"
                     app:kswTintColor="@color/colorAccent"
-                    android:checked="@{isWeatherVisible}"
                     android:id="@+id/show_weather_switch"
                     android:buttonTint="@color/colorAccent" />
             </LinearLayout>

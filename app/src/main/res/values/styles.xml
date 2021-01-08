@@ -9,7 +9,7 @@
         <item name="android:windowLightStatusBar">@bool/is_not_dark_theme</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/black_10</item>
+        <item name="colorControlHighlight">@color/black_20</item>
         <item  name="android:windowActivityTransitions">true</item>
     </style>
 
