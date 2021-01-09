@@ -116,17 +116,6 @@ class TypographyFragment : Fragment() {
             }
         }
 
-        viewModel.textGlobalColorDark.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.textGlobalAlphaDark == "00") {
-                    binding.fontColorLabelDark.text = getString(R.string.transparent)
-                } else {
-                    binding.fontColorLabelDark.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getFontColor(requireActivity().isDarkTheme()))).toUpperCase()
-                }
-            }
-        }
-
         viewModel.textSecondaryColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (Preferences.textSecondaryAlpha == "00") {
@@ -138,20 +127,18 @@ class TypographyFragment : Fragment() {
             }
         }
 
-        viewModel.textSecondaryColorDark.observe(viewLifecycleOwner) {
+        viewModel.textShadow.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                if (Preferences.textSecondaryAlphaDark == "00") {
-                    binding.secondaryFontColorLabelDark.text = getString(R.string.transparent)
-                } else {
-                    binding.secondaryFontColorLabelDark.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getSecondaryFontColor(requireActivity().isDarkTheme()))).toUpperCase()
+                if (requireActivity().isDarkTheme()) {
+                    binding.textShadowLabel.text =
+                        getString(SettingsStringHelper.getTextShadowString(it))
                 }
             }
         }
 
         viewModel.textShadow.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                if (activity?.isDarkTheme() != true) {
+                if (!requireActivity().isDarkTheme()) {
                     binding.textShadowLabel.text =
                         getString(SettingsStringHelper.getTextShadowString(it))
                 }
@@ -161,7 +148,7 @@ class TypographyFragment : Fragment() {
         viewModel.textShadowDark.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 if (requireActivity().isDarkTheme()) {
-                    binding.textShadowLabelDark.text =
+                    binding.textShadowLabel.text =
                         getString(SettingsStringHelper.getTextShadowString(it))
                 }
             }

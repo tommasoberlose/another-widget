@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.tommasoberlose.anotherwidget.databinding.ActivityMusicPlayersFilterBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
-import com.tommasoberlose.anotherwidget.ui.viewmodels.MusicPlayersFilterViewModel
+import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.MusicPlayersFilterViewModel
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -76,20 +75,20 @@ class MusicPlayersFilterActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.appList.observe(this, Observer {
+        viewModel.appList.observe(this) {
             updateList(list = it)
             binding.loader.visibility = View.INVISIBLE
-        })
+        }
 
-        viewModel.searchInput.observe(this, Observer { search ->
+        viewModel.searchInput.observe(this) { search ->
             updateList(search = search)
             binding.clearSearch.isVisible = search.isNotBlank()
-        })
+        }
 
-        viewModel.musicPlayersFilter.observe(this, {
+        viewModel.musicPlayersFilter.observe(this) {
             updateList()
             binding.clearSelection.isVisible = Preferences.musicPlayersFilter != ""
-        })
+        }
     }
 
     private fun updateList(list: List<ResolveInfo>? = viewModel.appList.value, search: String? = viewModel.searchInput.value) {

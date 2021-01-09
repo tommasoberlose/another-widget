@@ -124,17 +124,6 @@ class LayoutFragment : Fragment() {
             }
         }
 
-        viewModel.backgroundCardColorDark.observe(viewLifecycleOwner) {
-            maintainScrollPosition {
-                if (Preferences.backgroundCardAlphaDark == "00") {
-                    binding.backgroundColorLabel.text = getString(R.string.transparent)
-                } else {
-                    binding.backgroundColorLabel.text =
-                        "#%s".format(Integer.toHexString(ColorHelper.getBackgroundColor(requireActivity().isDarkTheme()))).toUpperCase()
-                }
-            }
-        }
-
         viewModel.showDividers.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.showDividersLabel.text =

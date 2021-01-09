@@ -2,14 +2,16 @@ package com.tommasoberlose.anotherwidget.helpers
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Preferences
 import kotlin.math.roundToInt
 
 object ColorHelper {
     fun getFontColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format(if (!isDark) Preferences.textGlobalAlpha else Preferences.textGlobalAlphaDark, (if (!isDark) Preferences.textGlobalColor else Preferences.textGlobalColorDark).replace("#", "")))
+            Color.parseColor("#%s%s".format(if (!isDark) Preferences.textGlobalAlpha else Preferences.textGlobalAlphaDark,
+                (if (!isDark) Preferences.textGlobalColor else Preferences.textGlobalColorDark).replace(
+                    "#",
+                    "")))
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
@@ -33,7 +35,10 @@ object ColorHelper {
 
     fun getSecondaryFontColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format((if (!isDark) Preferences.textSecondaryAlpha else Preferences.textSecondaryAlphaDark), (if (!isDark) Preferences.textSecondaryColor else Preferences.textSecondaryColorDark).replace("#", "")))
+            Color.parseColor("#%s%s".format((if (!isDark) Preferences.textSecondaryAlpha else Preferences.textSecondaryAlphaDark),
+                (if (!isDark) Preferences.textSecondaryColor else Preferences.textSecondaryColorDark).replace(
+                    "#",
+                    "")))
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
@@ -57,7 +62,10 @@ object ColorHelper {
 
     fun getClockFontColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format((if (!isDark) Preferences.clockTextAlpha else Preferences.clockTextAlphaDark), (if (!isDark) Preferences.clockTextColor else Preferences.clockTextColorDark).replace("#", "")))
+            Color.parseColor("#%s%s".format((if (!isDark) Preferences.clockTextAlpha else Preferences.clockTextAlphaDark),
+                (if (!isDark) Preferences.clockTextColor else Preferences.clockTextColorDark).replace(
+                    "#",
+                    "")))
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
@@ -81,7 +89,10 @@ object ColorHelper {
 
     fun getBackgroundColor(isDark: Boolean): Int {
         return try {
-            Color.parseColor("#%s%s".format((if (!isDark) Preferences.backgroundCardAlpha else Preferences.backgroundCardAlphaDark), (if (!isDark) Preferences.backgroundCardColor else Preferences.backgroundCardColorDark).replace("#", "")))
+            Color.parseColor("#%s%s".format((if (!isDark) Preferences.backgroundCardAlpha else Preferences.backgroundCardAlphaDark),
+                (if (!isDark) Preferences.backgroundCardColor else Preferences.backgroundCardColorDark).replace(
+                    "#",
+                    "")))
         } catch (e: Exception) {
             Color.parseColor("#00000000")
         }
@@ -122,5 +133,15 @@ object ColorHelper {
     fun String.toIntValue(): Int {
         val hexValue = this.toInt(16).toDouble()
         return (hexValue * 100 / 255).roundToInt()
+    }
+
+    fun String.isColor(): Boolean {
+        return try {
+            Color.parseColor(this)
+            true
+        } catch (iae: IllegalArgumentException) {
+            iae.printStackTrace()
+            false
+        }
     }
 }

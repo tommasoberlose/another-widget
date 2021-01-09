@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tommasoberlose.anotherwidget.ui.viewmodels.IntegrationsViewModel" />
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.settings.IntegrationsViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -119,10 +119,10 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="4dp"
                         android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
+                        app:cardCornerRadius="16dp"
                         android:layout_gravity="center_vertical"
-                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardBackgroundColor="@color/cardBorder"
                         android:layout_marginEnd="8dp"
                         app:cardElevation="0dp">
                         <androidx.appcompat.widget.AppCompatTextView
@@ -132,8 +132,8 @@
                             android:textSize="12sp"
                             android:paddingTop="4dp"
                             android:paddingBottom="4dp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Button"
                             android:text="@string/settings_subtitle_dark_theme_dark"/>
                     </androidx.cardview.widget.CardView>
@@ -145,6 +145,7 @@
                     android:paddingTop="16dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
+                    android:visibility="@{is24Format ? View.GONE : View.VISIBLE, default=visible}"
                     android:textAppearance="@style/AnotherWidget.Settings.Header" />
                 <LinearLayout
                     android:layout_width="match_parent"

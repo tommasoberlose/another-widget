@@ -2,12 +2,11 @@ package com.tommasoberlose.anotherwidget.ui.activities.settings
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivityIntegrationsBinding
-import com.tommasoberlose.anotherwidget.ui.viewmodels.IntegrationsViewModel
+import com.tommasoberlose.anotherwidget.ui.viewmodels.settings.IntegrationsViewModel
 import net.idik.lib.slimadapter.SlimAdapter
 
 class IntegrationsActivity : AppCompatActivity() {

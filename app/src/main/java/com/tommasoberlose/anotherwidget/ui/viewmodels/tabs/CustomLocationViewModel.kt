@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.ui.viewmodels
+package com.tommasoberlose.anotherwidget.ui.viewmodels.tabs
 
 import android.app.Application
 import android.content.pm.ApplicationInfo

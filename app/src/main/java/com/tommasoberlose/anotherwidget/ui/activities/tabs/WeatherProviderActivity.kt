@@ -18,7 +18,7 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
-import com.tommasoberlose.anotherwidget.ui.viewmodels.WeatherProviderViewModel
+import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.WeatherProviderViewModel
 import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
 import org.greenrobot.eventbus.EventBus

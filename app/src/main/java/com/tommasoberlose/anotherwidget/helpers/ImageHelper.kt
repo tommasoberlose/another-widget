@@ -30,7 +30,7 @@ object ImageHelper {
                 canvas.drawColor(Color.TRANSPARENT)
                 canvas.save()
                 val rect = Rect()
-                val bounds = originalView.drawable.copyBounds()
+//                val bounds = originalView.drawable.copyBounds()
                 canvas.getClipBounds(rect)
                 rect.inset(-2 * getBlurRadius(context, cElevation).toInt(), -2 * getBlurRadius(context, cElevation).toInt())
                 canvas.save()

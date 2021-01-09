@@ -94,9 +94,6 @@ class PreferencesFragment : Fragment() {
         viewModel.showWeather.observe(viewLifecycleOwner) {
             checkWeatherProviderConfig()
         }
-
-        viewModel.showClock.observe(viewLifecycleOwner) {
-        }
     }
 
     private fun setupListener() {
@@ -115,9 +112,6 @@ class PreferencesFragment : Fragment() {
 
         binding.showEventsSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             if (enabled) {
-                if (!requireActivity().checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
-                    binding.showEventsSwitch.setCheckedImmediatelyNoEvent(false)
-                }
                 requireCalendarPermission()
             } else {
                 Preferences.showEvents = enabled
@@ -194,6 +188,11 @@ class PreferencesFragment : Fragment() {
             binding.weatherProviderLocationError.collapse()
         }
         binding.weatherProviderLocationError.text = Preferences.weatherProviderLocationError
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.showEventsSwitch.setCheckedNoEvent(Preferences.showEvents && requireActivity().checkGrantedPermission(Manifest.permission.READ_CALENDAR))
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

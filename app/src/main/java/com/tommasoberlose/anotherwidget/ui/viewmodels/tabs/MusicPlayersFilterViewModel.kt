@@ -1,11 +1,9 @@
-package com.tommasoberlose.anotherwidget.ui.viewmodels
+package com.tommasoberlose.anotherwidget.ui.viewmodels.tabs
 
 import android.app.Application
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
-import android.util.Log
 import androidx.lifecycle.*
 import com.chibatching.kotpref.livedata.asLiveData
 import com.tommasoberlose.anotherwidget.global.Preferences

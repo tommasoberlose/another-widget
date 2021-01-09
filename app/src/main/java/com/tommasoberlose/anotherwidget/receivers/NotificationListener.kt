@@ -41,6 +41,7 @@ class NotificationListener : NotificationListenerService() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             Preferences.lastNotificationIcon = sbn.notification.smallIcon.resId
                         } else {
+                            @Suppress("DEPRECATION")
                             Preferences.lastNotificationIcon = sbn.notification.icon
                         }
                     } catch (ex: Exception) {

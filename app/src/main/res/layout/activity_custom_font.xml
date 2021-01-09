@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tommasoberlose.anotherwidget.ui.viewmodels.CustomFontViewModel" />
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.CustomFontViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

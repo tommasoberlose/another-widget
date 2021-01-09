@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tommasoberlose.anotherwidget.ui.viewmodels.MusicPlayersFilterViewModel" />
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.MusicPlayersFilterViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -10,7 +10,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.global.Constants
-import com.tommasoberlose.anotherwidget.ui.viewmodels.ChooseApplicationViewModel
+import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.ChooseApplicationViewModel
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
 import net.idik.lib.slimadapter.SlimAdapterEx
@@ -90,15 +89,15 @@ class ChooseApplicationActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.appList.observe(this, Observer {
+        viewModel.appList.observe(this) {
             updateList(list = it)
             binding.loader.visibility = View.INVISIBLE
-        })
+        }
 
-        viewModel.searchInput.observe(this, Observer { search ->
+        viewModel.searchInput.observe(this) { search ->
             updateList(search = search)
             binding.clearSearch.isVisible = search.isNotBlank()
-        })
+        }
     }
 
     private fun updateList(list: List<ResolveInfo>? = viewModel.appList.value, search: String? = viewModel.searchInput.value) {

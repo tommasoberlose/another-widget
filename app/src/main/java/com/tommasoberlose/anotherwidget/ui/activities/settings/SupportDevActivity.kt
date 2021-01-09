@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,7 @@ import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivitySupportDevBinding
-import com.tommasoberlose.anotherwidget.ui.viewmodels.SupportDevViewModel
+import com.tommasoberlose.anotherwidget.ui.viewmodels.settings.SupportDevViewModel
 import com.tommasoberlose.anotherwidget.utils.toast
 import net.idik.lib.slimadapter.SlimAdapter
 

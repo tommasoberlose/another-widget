@@ -13,10 +13,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -45,8 +46,9 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
+import com.tommasoberlose.anotherwidget.utils.expand
+import com.tommasoberlose.anotherwidget.utils.reveal
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
 
 
@@ -78,8 +80,6 @@ class GlanceTabFragment : Fragment() {
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
         binding = FragmentTabGlanceBinding.inflate(inflater)
 
-        subscribeUi(viewModel)
-
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -90,16 +90,12 @@ class GlanceTabFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // List
-        binding.providersList.setHasFixedSize(true)
+        binding.providersList.hasFixedSize()
         val mLayoutManager = LinearLayoutManager(context)
         binding.providersList.layoutManager = mLayoutManager
 
         adapter = SlimAdapter.create()
         adapter
-            .register<String>(R.layout.glance_providers_list_ornament) { item, injector ->
-                injector.visibility(R.id.footer, if(item == "footer") View.VISIBLE else View.GONE)
-                injector.visibility(R.id.header, if(item == "header") View.VISIBLE else View.GONE)
-            }
             .register<GlanceProvider>(R.layout.glance_provider_item) { item, injector ->
                 val provider = Constants.GlanceProviderId.from(item.id)!!
                 injector
@@ -130,9 +126,12 @@ class GlanceTabFragment : Fragment() {
                                 MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
                                 injector.visibility(R.id.error_icon, View.GONE)
                                 injector.visibility(R.id.info_icon, View.VISIBLE)
-                                injector.text(R.id.label,
+                                injector.text(
+                                    R.id.label,
                                     if (Preferences.showMusic) getString(R.string.settings_visible) else getString(
-                                        R.string.settings_not_visible))
+                                        R.string.settings_not_visible
+                                    )
+                                )
                                 isVisible = Preferences.showMusic
                             }
                             Preferences.showMusic -> {
@@ -150,26 +149,40 @@ class GlanceTabFragment : Fragment() {
                         }
                     }
                     Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                        injector.text(R.id.label,
+                        injector.text(
+                            R.id.label,
                             if (Preferences.showNextAlarm && !AlarmHelper.isAlarmProbablyWrong(
-                                    requireContext())
+                                    requireContext()
+                                )
                             ) getString(R.string.settings_visible) else getString(
-                                R.string.settings_not_visible))
-                        injector.visibility(R.id.error_icon,
+                                R.string.settings_not_visible
+                            )
+                        )
+                        injector.visibility(
+                            R.id.error_icon,
                             if (Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(
-                                    requireContext())
-                            ) View.VISIBLE else View.GONE)
-                        injector.visibility(R.id.info_icon,
+                                    requireContext()
+                                )
+                            ) View.VISIBLE else View.GONE
+                        )
+                        injector.visibility(
+                            R.id.info_icon,
                             if (!(Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(
-                                    requireContext()))
-                            ) View.VISIBLE else View.GONE)
+                                    requireContext()
+                                ))
+                            ) View.VISIBLE else View.GONE
+                        )
                         isVisible = !(Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(
-                            requireContext()))
+                            requireContext()
+                        ))
                     }
                     Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
-                        injector.text(R.id.label,
+                        injector.text(
+                            R.id.label,
                             if (Preferences.showBatteryCharging) getString(R.string.settings_visible) else getString(
-                                R.string.settings_not_visible))
+                                R.string.settings_not_visible
+                            )
+                        )
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
                         isVisible = Preferences.showBatteryCharging
@@ -179,9 +192,12 @@ class GlanceTabFragment : Fragment() {
                             ActiveNotificationsHelper.checkNotificationAccess(requireContext()) -> {
                                 injector.visibility(R.id.error_icon, View.GONE)
                                 injector.visibility(R.id.info_icon, View.VISIBLE)
-                                injector.text(R.id.label,
+                                injector.text(
+                                    R.id.label,
                                     if (Preferences.showNotifications) getString(
-                                        R.string.settings_visible) else getString(R.string.settings_not_visible))
+                                        R.string.settings_visible
+                                    ) else getString(R.string.settings_not_visible)
+                                )
                                 isVisible = Preferences.showNotifications
                             }
                             Preferences.showNotifications -> {
@@ -199,29 +215,44 @@ class GlanceTabFragment : Fragment() {
                         }
                     }
                     Constants.GlanceProviderId.GREETINGS -> {
-                        injector.text(R.id.label,
+                        injector.text(
+                            R.id.label,
                             if (Preferences.showGreetings) getString(R.string.settings_visible) else getString(
-                                R.string.settings_not_visible))
+                                R.string.settings_not_visible
+                            )
+                        )
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
                         isVisible = Preferences.showGreetings
                     }
                     Constants.GlanceProviderId.CUSTOM_INFO -> {
-                        injector.text(R.id.label,
+                        injector.text(
+                            R.id.label,
                             if (Preferences.customNotes != "") getString(R.string.settings_visible) else getString(
-                                R.string.settings_not_visible))
+                                R.string.settings_not_visible
+                            )
+                        )
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
                         isVisible = Preferences.customNotes != ""
                     }
                     Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-                        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-                        if (GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(
-                                Manifest.permission.ACTIVITY_RECOGNITION))
+                        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(
+                            context
+                        )
+                        if (GoogleSignIn.hasPermissions(
+                                account,
+                                FITNESS_OPTIONS
+                            ) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(
+                                Manifest.permission.ACTIVITY_RECOGNITION
+                            ))
                         ) {
-                            injector.text(R.id.label,
+                            injector.text(
+                                R.id.label,
                                 if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(
-                                    R.string.settings_not_visible))
+                                    R.string.settings_not_visible
+                                )
+                            )
                             injector.visibility(R.id.error_icon, View.GONE)
                             injector.visibility(R.id.info_icon, View.VISIBLE)
                             isVisible = Preferences.showDailySteps
@@ -240,12 +271,24 @@ class GlanceTabFragment : Fragment() {
                         }
                     }
                     Constants.GlanceProviderId.EVENTS -> {
-                        isVisible = Preferences.showEventsAsGlanceProvider && Preferences.showEvents && requireContext().checkGrantedPermission(Manifest.permission.READ_CALENDAR)
-                        injector.text(R.id.label,
+                        isVisible =
+                            Preferences.showEventsAsGlanceProvider && Preferences.showEvents && requireContext().checkGrantedPermission(
+                                Manifest.permission.READ_CALENDAR
+                            )
+                        injector.text(
+                            R.id.label,
                             if (isVisible) getString(R.string.settings_visible) else getString(
-                                R.string.settings_not_visible))
-                        injector.visibility(R.id.error_icon, if (isVisible) View.GONE else View.VISIBLE)
-                        injector.visibility(R.id.info_icon, if (isVisible) View.VISIBLE else View.GONE)
+                                R.string.settings_not_visible
+                            )
+                        )
+                        injector.visibility(
+                            R.id.error_icon,
+                            if (isVisible) View.GONE else View.VISIBLE
+                        )
+                        injector.visibility(
+                            R.id.info_icon,
+                            if (isVisible) View.VISIBLE else View.GONE
+                        )
                     }
                 }
 
@@ -300,7 +343,12 @@ class GlanceTabFragment : Fragment() {
                     GlanceProviderHelper.saveGlanceProviderOrder(
                         list
                     )
-                    adapter.updateData(listOf("header") + list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) } + listOf("footer"))
+                    adapter.updateData(listOf("header") + list.mapNotNull {
+                        GlanceProviderHelper.getGlanceProviderById(
+                            requireContext(),
+                            it
+                        )
+                    } + listOf("footer"))
                 }
 
                 override fun onChildDraw(
@@ -315,23 +363,37 @@ class GlanceTabFragment : Fragment() {
                     val view = viewHolder.itemView as MaterialCardView
                     if (isCurrentlyActive) {
                         ViewCompat.setElevation(view, 8f.convertDpToPixel(requireContext()))
-                        view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
-                            R.color.cardBorder))
+                        view.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.cardBorder
+                            )
+                        )
                     } else {
                         ViewCompat.setElevation(view, 0f)
-                        view.setCardBackgroundColor(ContextCompat.getColor(requireContext(),
-                            R.color.colorPrimary))
+                        view.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorPrimary
+                            )
+                        )
                     }
 
-                    val topEdge = if ((view.top == 0 && dY < 0) || ((view.top + view.height >= recyclerView.height - 32f.convertDpToPixel(requireContext())) && dY > 0)) 0f else dY
+                    val topEdge =
+                        if ((view.top == 0 && dY < 0) || ((view.top + view.height >= recyclerView.height - 32f.convertDpToPixel(
+                                requireContext()
+                            )) && dY > 0)
+                        ) 0f else dY
 
-                    super.onChildDraw(c,
+                    super.onChildDraw(
+                        c,
                         recyclerView,
                         viewHolder,
                         dX,
                         topEdge,
                         actionState,
-                        isCurrentlyActive)
+                        isCurrentlyActive
+                    )
                 }
 
                 override fun onSwiped(
@@ -343,7 +405,6 @@ class GlanceTabFragment : Fragment() {
             })
 
         mIth.attachToRecyclerView(binding.providersList)
-        binding.providersList.isNestedScrollingEnabled = false
 
         setupListener()
 
@@ -351,13 +412,16 @@ class GlanceTabFragment : Fragment() {
             viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
 
-        
-        adapter.updateData(listOf("header") + list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(requireContext(), it) } + listOf("footer"))
-    }
-
-    private fun subscribeUi(
-        viewModel: MainViewModel,
-    ) {
+        adapter.updateData(emptyList<Constants.GlanceProviderId>())
+        lifecycleScope.launchWhenResumed {
+            delay(800)
+            val l = list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(
+                requireContext(),
+                it
+            ) }
+            adapter.updateData(l)
+            binding.listContainer.expand()
+        }
     }
 
     private fun setupListener() {
@@ -371,8 +435,10 @@ class GlanceTabFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        requireActivity().registerReceiver(nextAlarmChangeBroadcastReceiver,
-            IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED))
+        requireActivity().registerReceiver(
+            nextAlarmChangeBroadcastReceiver,
+            IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED)
+        )
         if (dialog != null) {
             dialog?.show()
         }
@@ -403,13 +469,15 @@ class GlanceTabFragment : Fragment() {
             2 -> {
                 try {
                     val account: GoogleSignInAccount? = GoogleSignIn.getSignedInAccountFromIntent(
-                        data).getResult(ApiException::class.java)
+                        data
+                    ).getResult(ApiException::class.java)
                     if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
                         GoogleSignIn.requestPermissions(
                             requireActivity(),
                             1,
                             account,
-                            FITNESS_OPTIONS)
+                            FITNESS_OPTIONS
+                        )
                     } else {
                         adapter.notifyItemRangeChanged(0, adapter.data.size)
                     }
@@ -425,18 +493,9 @@ class GlanceTabFragment : Fragment() {
         }
     }
 
-    private fun maintainScrollPosition(callback: () -> Unit) {
-        binding.scrollView.isScrollable = false
-        callback.invoke()
-        lifecycleScope.launch {
-            delay(200)
-            binding.scrollView.isScrollable = true
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-        adapter.notifyItemRangeChanged(0, adapter.data?.size ?: 0)
+        adapter.notifyItemRangeChanged(1, adapter.data?.size ?: 0)
         if (dialog != null) {
             dialog?.show()
         }

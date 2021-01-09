@@ -56,8 +56,6 @@ class BottomSheetColorPicker(
     private var listBinding: BottomSheetMenuListBinding = BottomSheetMenuListBinding.inflate(LayoutInflater.from(context))
 
     override fun show() {
-        window?.setDimAmount(0f)
-
         // Header
         binding.header.isVisible = header != null
         binding.headerText.text = header ?: ""

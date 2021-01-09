@@ -149,44 +149,27 @@
                         android:id="@+id/font_color_label"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_font_color_dark"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="12dp"
-                    android:src="@drawable/round_palette_24"
-                    app:tint="@color/colorPrimaryText"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
+                    app:cardCornerRadius="16dp"
+                    android:layout_gravity="center_vertical"
+                    app:cardBackgroundColor="@color/cardBorder"
+                    android:layout_marginEnd="8dp"
+                    app:cardElevation="0dp">
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_font_color_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/font_color_label_dark"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:text="@string/settings_subtitle_dark_theme_dark"/>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -270,44 +253,27 @@
                         android:id="@+id/secondary_font_color_label"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_secondary_font_color_dark"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="12dp"
-                    android:src="@drawable/round_palette_24"
-                    app:tint="@color/colorPrimaryText"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
+                    app:cardCornerRadius="16dp"
+                    android:layout_gravity="center_vertical"
+                    app:cardBackgroundColor="@color/cardBorder"
+                    android:layout_marginEnd="8dp"
+                    app:cardElevation="0dp">
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/settings_secondary_font_color_title"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/secondary_font_color_label_dark"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:text="@string/settings_subtitle_dark_theme_dark"/>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -354,45 +320,27 @@
                         android:id="@+id/text_shadow_label"
                         style="@style/AnotherWidget.Settings.Subtitle"/>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:id="@+id/action_text_shadow_dark"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="12dp"
-                    android:visibility="invisible"
-                    android:src="@drawable/round_texture_24"
-                    app:tint="@color/colorPrimaryText"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:orientation="vertical">
-                    <TextView
+                    android:visibility="@{isDarkModeEnabled ? View.VISIBLE : View.GONE}"
+                    app:cardCornerRadius="16dp"
+                    android:layout_gravity="center_vertical"
+                    app:cardBackgroundColor="@color/cardBorder"
+                    android:layout_marginEnd="8dp"
+                    app:cardElevation="0dp">
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/AnotherWidget.Settings.Title"
-                        android:text="@string/title_text_shadow"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/text_shadow_label_dark"
-                        style="@style/AnotherWidget.Settings.Subtitle"/>
-                </LinearLayout>
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:text="@string/settings_subtitle_dark_theme_dark"/>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

@@ -344,7 +344,7 @@ class WeatherNetworkApi(val context: Context) {
 
     private suspend fun useAccuweatherProvider(context: Context) {
         if (Preferences.weatherProviderApiAccuweather != "") {
-                val repository = AccuweatherRepository()
+//                val repository = AccuweatherRepository()
 
     //            when (val response = repository.getWeather()) {
     //                is NetworkResponse.Success -> {

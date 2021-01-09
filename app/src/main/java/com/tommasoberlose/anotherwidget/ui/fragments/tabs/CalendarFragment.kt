@@ -85,7 +85,7 @@ class CalendarFragment : Fragment() {
         viewModel: MainViewModel
     ) {
         binding.isCalendarEnabled = Preferences.showEvents
-        binding.isDiffEnabled = Preferences.showDiffTime || !Preferences.showEvents
+        binding.isDiffEnabled = Preferences.showDiffTime
 
         viewModel.calendarAllDay.observe(viewLifecycleOwner) {
             maintainScrollPosition {
@@ -122,7 +122,6 @@ class CalendarFragment : Fragment() {
             maintainScrollPosition {
                 binding.showUntilLabel.text = getString(SettingsStringHelper.getShowUntilString(it))
             }
-            updateCalendar()
         }
 
     }
@@ -136,7 +135,7 @@ class CalendarFragment : Fragment() {
                     it.displayName,
                     it.accountName
                 )
-            }.sortedWith(Comparator { cal1, cal2 ->
+            }.sortedWith { cal1, cal2 ->
                 when {
                     cal1.accountName != cal2.accountName -> {
                         cal1.accountName.compareTo(cal2.accountName)
@@ -151,7 +150,7 @@ class CalendarFragment : Fragment() {
                         cal1.name.compareTo(cal2.name)
                     }
                 }
-            })
+            }
 
             if (calendarSelectorList.isNotEmpty()) {
                 val filteredCalendarIds = CalendarHelper.getFilteredCalendarIdList()
@@ -271,6 +270,7 @@ class CalendarFragment : Fragment() {
             }
             dialog.addOnSelectItemListener { value ->
                 Preferences.showUntil = value
+                updateCalendar()
             }.show()
         }
     }

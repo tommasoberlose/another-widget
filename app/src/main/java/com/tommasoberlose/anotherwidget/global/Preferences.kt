@@ -111,8 +111,6 @@ object Preferences : KotprefModel() {
 
     // Settings
     var showWallpaper by booleanPref(default = true)
-    var showBigClockWarning by booleanPref(default = true)
-    var showWeatherWarning by booleanPref(default = true)
     var showPreview by booleanPref(default = true)
     var showXiaomiWarning by booleanPref(default = true)
 

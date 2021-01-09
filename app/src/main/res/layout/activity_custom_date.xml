@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tommasoberlose.anotherwidget.ui.viewmodels.CustomDateViewModel" />
+            type="com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.CustomDateViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

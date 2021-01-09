@@ -1,4 +1,4 @@
-package com.tommasoberlose.anotherwidget.ui.viewmodels
+package com.tommasoberlose.anotherwidget.ui.viewmodels.settings
 
 import android.app.Activity
 import android.content.Context

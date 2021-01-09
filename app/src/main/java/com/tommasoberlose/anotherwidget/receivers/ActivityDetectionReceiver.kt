@@ -138,10 +138,8 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                 val endTime: Long = cal.timeInMillis
                 
                 val readRequest = DataReadRequest.Builder()
-                    .aggregate(
-                        DataType.TYPE_STEP_COUNT_DELTA,
-                        DataType.AGGREGATE_STEP_COUNT_DELTA
-                    )
+                    .aggregate(DataType.TYPE_STEP_COUNT_DELTA)
+                    .aggregate(DataType.AGGREGATE_STEP_COUNT_DELTA)
                     .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                     .bucketByTime(1, TimeUnit.DAYS)
                     .build()

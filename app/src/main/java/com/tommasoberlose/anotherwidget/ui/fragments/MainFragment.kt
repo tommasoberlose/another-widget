@@ -119,100 +119,6 @@ class MainFragment  : Fragment() {
                 binding.actionBack to "action_back"
             ))
         }
-    }
-
-    private var uiJob: Job? = null
-
-    private fun updateUI() {
-        uiJob?.cancel()
-
-        if (Preferences.showPreview) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val bgColor: Int = ContextCompat.getColor(
-                    requireContext(),
-                    if (ColorHelper.getFontColor(requireActivity().isDarkTheme())
-                            .isColorDark()
-                    ) android.R.color.white else R.color.colorAccent
-                )
-
-                val wallpaperDrawable = BitmapHelper.getTintedDrawable(
-                    requireContext(),
-                    R.drawable.card_background,
-                    ColorHelper.getBackgroundColor(requireActivity().isDarkTheme())
-                )
-
-                withContext(Dispatchers.Main) {
-                    binding.preview.setCardBackgroundColor(bgColor)
-                    binding.widgetDetail.widgetShapeBackground.setImageDrawable(wallpaperDrawable)
-                }
-            }
-
-            WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
-                uiJob = lifecycleScope.launch(Dispatchers.IO) {
-                    val generatedView = MainWidget.generateWidgetView(requireContext(), typeface).root
-
-                    withContext(Dispatchers.Main) {
-                        generatedView.measure(0, 0)
-                        binding.preview.measure(0, 0)
-                    }
-
-                    val bitmap = BitmapHelper.getBitmapFromView(
-                        generatedView,
-                        if (binding.preview.width > 0) binding.preview.width else generatedView.measuredWidth,
-                        generatedView.measuredHeight
-                    )
-
-                    withContext(Dispatchers.Main) {
-                        binding.widget.animate().alpha(0f).start()
-                        binding.widgetLoader.animate().scaleX(1f).scaleY(1f).alpha(1f)
-
-                            .setDuration(200L).start()
-                        binding.widgetDetail.bitmapContainer.apply {
-                            setImageBitmap(bitmap)
-                        }
-
-                        binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
-                            .setDuration(200L).start()
-                        binding.widget.animate().alpha(1f).start()
-                    }
-                }
-            }
-        } else {
-            binding.preview.layoutParams = binding.preview.layoutParams.apply {
-                height = 0
-            }
-        }
-    }
-
-    private fun updateClock() {
-        // Clock
-        binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
-        binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
-        binding.widgetDetail.time.setTextSize(
-            TypedValue.COMPLEX_UNIT_SP,
-            Preferences.clockTextSize.toPixel(requireContext())
-        )
-        binding.widgetDetail.timeAmPm.setTextSize(
-            TypedValue.COMPLEX_UNIT_SP,
-            Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
-        )
-        binding.widgetDetail.timeAmPm.isVisible = Preferences.showAMPMIndicator
-
-        // Clock bottom margin
-        binding.widgetDetail.clockBottomMarginNone.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
-        binding.widgetDetail.clockBottomMarginSmall.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
-        binding.widgetDetail.clockBottomMarginMedium.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
-        binding.widgetDetail.clockBottomMarginLarge.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
-
-        if (Preferences.showClock) {
-            binding.widgetDetail.timeContainer.expand()
-        } else {
-            binding.widgetDetail.timeContainer.collapse()
-        }
 
         binding.preview.layoutParams = binding.preview.layoutParams.apply {
             height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
@@ -272,6 +178,120 @@ class MainFragment  : Fragment() {
         viewModel.widgetPreferencesUpdate.observe(viewLifecycleOwner) {
             onUpdateUiEvent(null)
         }
+
+        viewModel.showClock.observe(viewLifecycleOwner) {
+            updateClockVisibility(it)
+        }
+    }
+
+    private var uiJob: Job? = null
+
+    private fun updateUI() {
+        uiJob?.cancel()
+
+        if (Preferences.showPreview) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val bgColor: Int = ContextCompat.getColor(
+                    requireContext(),
+                    if (ColorHelper.getFontColor(requireActivity().isDarkTheme())
+                            .isColorDark()
+                    ) android.R.color.white else R.color.colorAccent
+                )
+
+                val wallpaperDrawable = BitmapHelper.getTintedDrawable(
+                    requireContext(),
+                    R.drawable.card_background,
+                    ColorHelper.getBackgroundColor(requireActivity().isDarkTheme())
+                )
+
+                withContext(Dispatchers.Main) {
+                    binding.preview.setCardBackgroundColor(bgColor)
+                    binding.widgetDetail.widgetShapeBackground.setImageDrawable(wallpaperDrawable)
+                }
+            }
+
+            WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
+                uiJob = lifecycleScope.launch(Dispatchers.IO) {
+                    val generatedView = MainWidget.generateWidgetView(requireContext(), typeface).root
+
+                    withContext(Dispatchers.Main) {
+                        generatedView.measure(0, 0)
+                        binding.preview.measure(0, 0)
+                    }
+
+                    val bitmap = BitmapHelper.getBitmapFromView(
+                        generatedView,
+                        if (binding.preview.width > 0) binding.preview.width else generatedView.measuredWidth,
+                        generatedView.measuredHeight
+                    )
+
+                    withContext(Dispatchers.Main) {
+                        binding.widgetDetail.bitmapContainer.apply {
+                            setImageBitmap(bitmap)
+                        }
+
+                        binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
+                            .setDuration(200L).start()
+                        binding.widget.animate().alpha(1f).start()
+                    }
+                }
+            }
+        } else {
+            binding.preview.layoutParams = binding.preview.layoutParams.apply {
+                height = 0
+            }
+        }
+    }
+
+    private fun updateClock() {
+        // Clock
+        binding.widgetDetail.time.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+        binding.widgetDetail.timeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+        binding.widgetDetail.time.setTextSize(
+            TypedValue.COMPLEX_UNIT_SP,
+            Preferences.clockTextSize.toPixel(requireContext())
+        )
+        binding.widgetDetail.timeAmPm.setTextSize(
+            TypedValue.COMPLEX_UNIT_SP,
+            Preferences.clockTextSize.toPixel(requireContext()) / 5 * 2
+        )
+        binding.widgetDetail.timeAmPm.isVisible = Preferences.showAMPMIndicator
+
+        // Clock bottom margin
+        binding.widgetDetail.clockBottomMarginNone.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
+        binding.widgetDetail.clockBottomMarginSmall.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
+        binding.widgetDetail.clockBottomMarginMedium.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
+        binding.widgetDetail.clockBottomMarginLarge.isVisible =
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
+
+    }
+
+    private fun updateClockVisibility(showClock: Boolean) {
+        binding.preview.animation?.cancel()
+
+        val clockInitialHeight = binding.widgetDetail.timeContainer.measuredHeight.toFloat()
+        ValueAnimator.ofFloat(
+            if (Preferences.showClock) 0f else 1f,
+            if (Preferences.showClock) 1f else 0f
+        ).apply {
+            this.duration = 500L
+            addUpdateListener {
+                val animatedValue = animatedValue as Float
+
+                binding.preview.layoutParams = binding.preview.layoutParams.apply {
+                    height = (PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + 100.toPixel(requireContext()) * animatedValue).toInt()
+                }
+
+                binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
+                    height = (clockInitialHeight * animatedValue).toInt()
+                }
+                binding.widgetDetail.timeContainer.translationY = (clockInitialHeight * animatedValue - clockInitialHeight)
+                binding.widgetDetail.timeContainer.alpha = animatedValue
+            }
+        }.start()
     }
 
     override fun onResume() {
