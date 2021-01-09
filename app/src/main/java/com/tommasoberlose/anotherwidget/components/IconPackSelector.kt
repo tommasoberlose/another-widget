@@ -17,7 +17,6 @@ import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 class IconPackSelector(context: Context, private val header: String? = null) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
 
     private var binding = BottomSheetMenuBinding.inflate(LayoutInflater.from(context))
-    private var itemBinding = IconPackMenuItemBinding.inflate(LayoutInflater.from(context))
 
     override fun show() {
         // Header
@@ -28,6 +27,7 @@ class IconPackSelector(context: Context, private val header: String? = null) : B
 
         // Menu
         for (item in Constants.WeatherIconPack.values()) {
+            val itemBinding = IconPackMenuItemBinding.inflate(LayoutInflater.from(context))
             itemBinding.label.text = context.getString(R.string.settings_weather_icon_pack_default).format(item.value + 1)
             itemBinding.root.isSelected = item.value == Preferences.weatherIconPack
 
