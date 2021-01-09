@@ -94,6 +94,14 @@ class PreferencesFragment : Fragment() {
         viewModel.showWeather.observe(viewLifecycleOwner) {
             checkWeatherProviderConfig()
         }
+
+        viewModel.weatherProviderError.observe(viewLifecycleOwner) {
+            checkWeatherProviderConfig()
+        }
+
+        viewModel.weatherProviderLocationError.observe(viewLifecycleOwner) {
+            checkWeatherProviderConfig()
+        }
     }
 
     private fun setupListener() {
@@ -175,18 +183,10 @@ class PreferencesFragment : Fragment() {
     }
 
     private fun checkWeatherProviderConfig() {
-        if (Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-" && !binding.weatherProviderError.isVisible) {
-            binding.weatherProviderError.expand()
-        } else {
-            binding.weatherProviderError.collapse()
-        }
+        binding.weatherProviderError.isVisible = Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-"
         binding.weatherProviderError.text = Preferences.weatherProviderError
 
-        if (Preferences.showWeather && Preferences.weatherProviderLocationError != "" && !binding.weatherProviderError.isVisible) {
-            binding.weatherProviderLocationError.expand()
-        } else {
-            binding.weatherProviderLocationError.collapse()
-        }
+        binding.weatherProviderLocationError.isVisible = Preferences.showWeather && Preferences.weatherProviderLocationError != ""
         binding.weatherProviderLocationError.text = Preferences.weatherProviderLocationError
     }
 

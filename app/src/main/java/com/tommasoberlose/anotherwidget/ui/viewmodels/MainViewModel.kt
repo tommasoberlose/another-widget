@@ -154,9 +154,6 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::customLocationLon)) { value = true }
         addSource(Preferences.asLiveData(Preferences::customLocationAdd)) { value = true }
 
-        addSource(Preferences.asLiveData(Preferences::showPreview)) { value = true }
-
-
         addSource(Preferences.asLiveData(Preferences::enabledGlanceProviderOrder)) { value = true }
         addSource(Preferences.asLiveData(Preferences::customNotes)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showNextAlarm)) { value = true }

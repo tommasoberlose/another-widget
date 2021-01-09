@@ -80,12 +80,12 @@
                     android:paddingStart="64dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
-                    android:visibility="gone"
                     android:id="@+id/weather_provider_error"
                     android:textColor="@color/errorColorText"
                     android:letterSpacing="0"
                     android:fontFamily="@font/google_sans_bold"
                     android:textStyle="bold"
+                    android:text="@string/weather_provider_error_missing_key"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     app:textAllCaps="false" />
                 <LinearLayout

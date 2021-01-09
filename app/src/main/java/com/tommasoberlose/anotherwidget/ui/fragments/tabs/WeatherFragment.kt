@@ -149,18 +149,10 @@ class WeatherFragment : Fragment() {
     }
 
     private fun checkWeatherProviderConfig() {
-        if (Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-" && !binding.locationPermissionAlert.isVisible) {
-            binding.weatherProviderError.expand()
-        } else {
-            binding.weatherProviderError.collapse()
-        }
+        binding.weatherProviderError.isVisible = Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-"
         binding.weatherProviderError.text = Preferences.weatherProviderError
 
-        if (Preferences.showWeather && Preferences.weatherProviderLocationError != "" && !binding.locationPermissionAlert.isVisible) {
-            binding.weatherProviderLocationError.expand()
-        } else {
-            binding.weatherProviderLocationError.collapse()
-        }
+        binding.weatherProviderLocationError.isVisible = Preferences.showWeather && Preferences.weatherProviderLocationError != ""
         binding.weatherProviderLocationError.text = Preferences.weatherProviderLocationError
     }
 

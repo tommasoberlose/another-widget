@@ -18,6 +18,7 @@ import android.view.animation.LayoutAnimationController
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -44,11 +45,11 @@ import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
-import com.tommasoberlose.anotherwidget.utils.expand
-import com.tommasoberlose.anotherwidget.utils.reveal
+import com.tommasoberlose.anotherwidget.utils.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.idik.lib.slimadapter.SlimAdapter
 
 
@@ -91,6 +92,7 @@ class GlanceTabFragment : Fragment() {
 
         // List
         binding.providersList.hasFixedSize()
+        binding.providersList.isNestedScrollingEnabled = false
         val mLayoutManager = LinearLayoutManager(context)
         binding.providersList.layoutManager = mLayoutManager
 
@@ -172,7 +174,7 @@ class GlanceTabFragment : Fragment() {
                                 ))
                             ) View.VISIBLE else View.GONE
                         )
-                        isVisible = !(Preferences.showNextAlarm && AlarmHelper.isAlarmProbablyWrong(
+                        isVisible = (Preferences.showNextAlarm && !AlarmHelper.isAlarmProbablyWrong(
                             requireContext()
                         ))
                     }
@@ -343,12 +345,12 @@ class GlanceTabFragment : Fragment() {
                     GlanceProviderHelper.saveGlanceProviderOrder(
                         list
                     )
-                    adapter.updateData(listOf("header") + list.mapNotNull {
+                    adapter.updateData(list.mapNotNull {
                         GlanceProviderHelper.getGlanceProviderById(
                             requireContext(),
                             it
                         )
-                    } + listOf("footer"))
+                    })
                 }
 
                 override fun onChildDraw(
@@ -412,15 +414,22 @@ class GlanceTabFragment : Fragment() {
             viewModel.fragmentScrollY.value = binding.scrollView.scrollY
         }
 
-        adapter.updateData(emptyList<Constants.GlanceProviderId>())
-        lifecycleScope.launchWhenResumed {
-            delay(800)
+        lifecycleScope.launch(Dispatchers.IO) {
+            delay(500)
             val l = list.mapNotNull { GlanceProviderHelper.getGlanceProviderById(
                 requireContext(),
                 it
             ) }
-            adapter.updateData(l)
-            binding.listContainer.expand()
+            withContext(Dispatchers.Main) {
+                binding.loader.animate().scaleX(0f).scaleY(0f).alpha(0f).start()
+                adapter.updateData(l)
+                val controller =
+                    AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
+
+                binding.providersList.layoutAnimation = controller
+                adapter.notifyDataSetChanged()
+                binding.providersList.scheduleLayoutAnimation()
+            }
         }
     }
 
@@ -495,7 +504,7 @@ class GlanceTabFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.notifyItemRangeChanged(1, adapter.data?.size ?: 0)
+        adapter.notifyItemRangeChanged(0, adapter.data?.size ?: 0)
         if (dialog != null) {
             dialog?.show()
         }

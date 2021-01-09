@@ -14,6 +14,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import androidx.core.animation.addListener
 import androidx.core.app.NotificationManagerCompat
@@ -28,6 +29,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
@@ -48,7 +50,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainFragment  : Fragment() {
+class MainFragment : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -71,21 +73,6 @@ class MainFragment  : Fragment() {
     ): View {
         viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
         binding = FragmentAppMainBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        subscribeUi(viewModel)
-
-        if (binding.preview.height == 0) {
-            binding.preview.layoutParams = binding.preview.layoutParams.apply {
-                height = PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + if (Preferences.showClock) 100.toPixel(
-                    requireContext()
-                ) else 0
-            }
-        }
 
         // Warnings
         if (getString(R.string.xiaomi_manufacturer).equals(Build.MANUFACTURER, ignoreCase = true) && Preferences.showXiaomiWarning) {
@@ -125,6 +112,10 @@ class MainFragment  : Fragment() {
                 requireContext()
             ) else 0
         }
+
+        subscribeUi(viewModel)
+
+        return binding.root
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
@@ -169,6 +160,10 @@ class MainFragment  : Fragment() {
 
         viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
             binding.toolbar.cardElevation = if (it > 0) 24f else 0f
+        }
+
+        viewModel.showPreview.observe(viewLifecycleOwner) {
+            updatePreviewVisibility()
         }
 
         viewModel.clockPreferencesUpdate.observe(viewLifecycleOwner) {
@@ -236,10 +231,6 @@ class MainFragment  : Fragment() {
                     }
                 }
             }
-        } else {
-            binding.preview.layoutParams = binding.preview.layoutParams.apply {
-                height = 0
-            }
         }
     }
 
@@ -270,28 +261,57 @@ class MainFragment  : Fragment() {
     }
 
     private fun updateClockVisibility(showClock: Boolean) {
-        binding.preview.animation?.cancel()
+        binding.widgetDetail.timeContainer.clearAnimation()
+        binding.widgetDetail.time.clearAnimation()
 
-        val clockInitialHeight = binding.widgetDetail.timeContainer.measuredHeight.toFloat()
-        ValueAnimator.ofFloat(
-            if (Preferences.showClock) 0f else 1f,
-            if (Preferences.showClock) 1f else 0f
-        ).apply {
-            this.duration = 500L
-            addUpdateListener {
-                val animatedValue = animatedValue as Float
+        updatePreviewVisibility()
 
-                binding.preview.layoutParams = binding.preview.layoutParams.apply {
-                    height = (PREVIEW_BASE_HEIGHT.toPixel(requireContext()) + 100.toPixel(requireContext()) * animatedValue).toInt()
-                }
-
-                binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
-                    height = (clockInitialHeight * animatedValue).toInt()
-                }
-                binding.widgetDetail.timeContainer.translationY = (clockInitialHeight * animatedValue - clockInitialHeight)
-                binding.widgetDetail.timeContainer.alpha = animatedValue
+        if (showClock) {
+            binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
+                height = RelativeLayout.LayoutParams.WRAP_CONTENT
             }
-        }.start()
+            binding.widgetDetail.timeContainer.measure(0, 0)
+        }
+
+        if ((Preferences.showClock && binding.widgetDetail.time.alpha != 1f) || (!Preferences.showClock && binding.widgetDetail.time.alpha != 0f)) {
+            val initialHeight = binding.widgetDetail.timeContainer.measuredHeight
+            ValueAnimator.ofFloat(
+                if (showClock) 0f else 1f,
+                if (showClock) 1f else 0f
+            ).apply {
+                duration = 300L
+                addUpdateListener {
+                    val animatedValue = animatedValue as Float
+                    binding.widgetDetail.timeContainer.layoutParams =
+                        binding.widgetDetail.timeContainer.layoutParams.apply {
+                            height = (initialHeight * animatedValue).toInt()
+                        }
+                    binding.widgetDetail.time.alpha = animatedValue
+                }
+            }.start()
+        }
+    }
+
+    private fun updatePreviewVisibility() {
+        binding.preview.clearAnimation()
+        if (binding.preview.layoutParams.height != (if (Preferences.showPreview) PREVIEW_BASE_HEIGHT.toPixel(requireContext()) else 0) + (if (Preferences.showClock) 100.toPixel(
+                requireContext()
+            ) else 0)) {
+            ValueAnimator.ofInt(
+                binding.preview.height,
+                (if (Preferences.showPreview) PREVIEW_BASE_HEIGHT.toPixel(requireContext()) else 0) + (if (Preferences.showClock) 100.toPixel(
+                    requireContext()
+                ) else 0)
+            ).apply {
+                duration = 300L
+                addUpdateListener {
+                    val animatedValue = animatedValue as Int
+                    val layoutParams = binding.preview.layoutParams
+                    layoutParams.height = animatedValue
+                    binding.preview.layoutParams = layoutParams
+                }
+            }.start()
+        }
     }
 
     override fun onResume() {

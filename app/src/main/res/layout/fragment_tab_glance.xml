@@ -43,22 +43,34 @@
                     android:text="@string/settings_sort_glance_providers_subtitle"
                     android:textAppearance="@style/AnotherWidget.Settings.SubHeader"/>
             </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:alpha="0"
-                android:id="@+id/list_container"
-                android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
+                android:layout_height="wrap_content"
+                android:minHeight="64dp">
+                <ProgressBar
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="16dp"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="@color/colorAccent"
+                    android:indeterminate="true"
+                    android:id="@+id/loader" />
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:id="@+id/providers_list" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:id="@+id/list_container">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layoutAnimation="@anim/layout_animation_fall_down"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:background="@color/colorPrimary"
+                        android:id="@+id/providers_list" />
+                </RelativeLayout>
+            </RelativeLayout>
             <LinearLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/footer"

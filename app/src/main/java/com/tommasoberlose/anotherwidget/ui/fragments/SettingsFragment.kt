@@ -95,7 +95,7 @@ class SettingsFragment : Fragment() {
     private fun subscribeUi(
         viewModel: MainViewModel,
     ) {
-        viewModel.darkThemePreference.observe(viewLifecycleOwner, Observer {
+        viewModel.darkThemePreference.observe(viewLifecycleOwner) {
             AppCompatDelegate.setDefaultNightMode(it)
             maintainScrollPosition {
                 binding.theme.text = when (it) {
@@ -106,29 +106,29 @@ class SettingsFragment : Fragment() {
                     else -> ""
                 }
             }
-        })
+        }
 
-        viewModel.installedIntegrations.observe(viewLifecycleOwner, Observer {
+        viewModel.installedIntegrations.observe(viewLifecycleOwner) {
             binding.integrationsCountLabel.text =
                 getString(R.string.label_count_installed_integrations).format(
                     it)
-        })
+        }
 
-        viewModel.showPreview.observe(viewLifecycleOwner, Observer {
+        viewModel.showPreview.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.showWidgetPreviewLabel.text =
                     if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
             }
-        })
+        }
 
-        viewModel.showWallpaper.observe(viewLifecycleOwner, Observer {
+        viewModel.showWallpaper.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.showWallpaperLabel.text =
-                    if (it && activity?.checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == true) getString(
+                    if (it && requireActivity().checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) getString(
                         R.string.settings_visible
                     ) else getString(R.string.settings_not_visible)
             }
-        })
+        }
     }
 
     private fun setupListener() {
@@ -180,19 +180,19 @@ class SettingsFragment : Fragment() {
         }
 
         binding.actionTranslate.setOnClickListener {
-            activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
+            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml")
         }
 
         binding.actionWebsite.setOnClickListener {
-            activity?.openURI("http://tommasoberlose.com/")
+            requireActivity().openURI("http://tommasoberlose.com/")
         }
 
         binding.actionFeedback.setOnClickListener {
-            activity?.openURI("https://github.com/tommasoberlose/another-widget/issues")
+            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/issues")
         }
 
         binding.actionPrivacyPolicy.setOnClickListener {
-            activity?.openURI("https://github.com/tommasoberlose/another-widget/blob/master/privacy-policy.md")
+            requireActivity().openURI("https://github.com/tommasoberlose/another-widget/blob/master/privacy-policy.md")
         }
 
         binding.actionHelpDev.setOnClickListener {
@@ -224,6 +224,11 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.showWallpaperToggle.setCheckedNoEvent(Preferences.showWallpaper && requireActivity().checkGrantedPermission(Manifest.permission.READ_EXTERNAL_STORAGE))
+    }
+
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
@@ -234,7 +239,7 @@ class SettingsFragment : Fragment() {
                         if (report.areAllPermissionsGranted()) {
                             Preferences.showWallpaper = true
                         } else {
-                            binding.showWallpaperToggle.isChecked = false
+                            binding.showWallpaperToggle.setCheckedNoEvent(false)
                         }
                     }
                 }
