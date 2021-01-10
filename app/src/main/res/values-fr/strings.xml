@@ -80,6 +80,11 @@
     <string name="attendee_status_accepted">Événements acceptés</string>
     <string name="attendee_status_invited">Invitations à des évmts</string>
     <string name="attendee_status_declined">Événements refusés</string>
+    
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+    <string name="calendar_sync_notification_channel_name">Service de synchronisation du calendrier</string>
+    <string name="calendar_sync_notification_channel_description">Service utilisé pour synchroniser les événements du calendrier.</string>
+    <string name="calendar_sync_notification_title">Synchronisation du calendrier...</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Météo</string>
@@ -140,7 +145,7 @@
     <string name="weather_provider_activity_subtitle">Sélectionnez un fournisseur météo dans la liste.\nCertains fournisseurs ont besoin d\'un\ncompte personnel gratuit pour fonctionner,\nmais ils sont généralement plus précis.</string>
 
     <string name="location_access_notification_channel_id" translatable="false">location-access</string>
-    <string name="location_access_notification_channel_name">Arrière-plan</string>
+    <string name="location_access_notification_channel_name">Service en arrière-plan</string>
     <string name="location_access_notification_channel_description">Service utilisé pour actualiser la météo en fonction de l\'emplacement actuel de l\'utilisateur.</string>
     <string name="location_access_notification_title">Actualisation de la météo...</string>
     <string name="location_access_notification_subtitle">Nous actualisons la météo en fonction de votre emplacement actuel.</string>
@@ -158,7 +163,7 @@
     <string name="settings_clock_bottom_margin_subtitle_small">Petite</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">Moyenne</string>
     <string name="settings_clock_bottom_margin_subtitle_large">Grande</string>
-    <string name="clock_warning">En raison de limitations technologiques, l\'horloge n\'aura pas la police personnalisée et les ombres de texte sélectionnées dans l\'onglet <b>Affichage</b>.</string>
+    <string name="clock_warning">En raison de limitations technologiques, l\'horloge n\'aura pas la police personnalisée et les ombres de texte sélectionnées dans le menu <b>Typographie</b>.</string>
     <string name="settings_clock_text_color_title">Couleur du texte</string>
     <string name="settings_ampm_indicator_title">Afficher l\'indicateur AM/PM</string>
     <string name="clock_text_header">Style du texte</string>
@@ -239,7 +244,7 @@
     
     <string name="settings_show_events_as_glance_provider_title">Événements</string>
     <string name="settings_show_events_as_glance_provider_subtitle">Affiche un petit aperçu des événements de votre calendrier, tout en affichant toujours la date actuelle.</string>
-    <string name="settings_show_events_as_glance_provider_error">Veuillez activer l\'affichage des événements dans l\'onglet <b>Calendrier</b> et accorder l\'autorisation requise.</string>
+    <string name="settings_show_events_as_glance_provider_error">Veuillez activer l\'affichage des événements dans le menu <b>Calendrier</b> et accorder l\'autorisation requise.</string>
     <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
@@ -305,4 +310,18 @@
     <string name="nothing">Rien</string>
     <string name="action_dismiss">REFUSER</string>
     <string name="action_accept">ACCEPTER</string>
+    
+    <!-- More -->
+    <string name="look_and_feel_header"><![CDATA[Apparence du widget]]></string>
+    <string name="typography_settings_title">Typographie</string>
+    <string name="typography_settings_subtitle">Définir la police, la taille et la couleur du texte</string>
+    <string name="layout_settings_title">Mise en page</string>
+    <string name="gestures_settings_subtitle">Actions, comportements et raccourcis</string>
+    <string name="gestures_settings_title">Gestes</string>
+    <string name="gestures_amp_input_header"><![CDATA[Gestes et saisie]]></string>
+    <string name="clock_settings_subtitle">Définir la taille, la couleur et le fuseau horaire</string>
+    <string name="layout_settings_subtitle">Espacement et ajustements du widget</string>
+    <string name="smart_content_header">Contenu intelligent</string>
+    <string name="font_family_settings_title">Famille de polices</string>
+    
 </resources>
