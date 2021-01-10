@@ -63,8 +63,8 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onCreateView(
@@ -103,7 +103,7 @@ class MainFragment : Fragment() {
 
         binding.actionSettings.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment, null, null, FragmentNavigatorExtras(
-                binding.actionBack to "action_back"
+//                binding.fragmentTitle to "fragment_title"
             ))
         }
 

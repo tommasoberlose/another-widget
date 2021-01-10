@@ -24,6 +24,7 @@
             android:paddingRight="32dp"
             android:id="@+id/header_text"
             android:text=""
+            android:textSize="20sp"
             android:textColor="@color/colorPrimaryText"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:textAppearance="@style/AnotherWidget.Settings.Subtitle"

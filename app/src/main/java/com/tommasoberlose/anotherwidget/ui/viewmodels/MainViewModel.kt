@@ -96,7 +96,6 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
     val showWallpaper = Preferences.asLiveData(Preferences::showWallpaper)
     val showPreview = Preferences.asLiveData(Preferences::showPreview)
     val installedIntegrations = Preferences.asLiveData(Preferences::installedIntegrations)
-    var colorClipboard: ArrayList<String> = ArrayList()
 
     // UI
     val fragmentScrollY = MutableLiveData<Int>()
@@ -168,20 +167,5 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::showEventsAsGlanceProvider)) { value = true }
 
         addSource(Preferences.asLiveData(Preferences::installedIntegrations)) { value = true }
-    }
-
-    init {
-        with(context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager) {
-            if (hasPrimaryClip()) {
-                (0..primaryClip!!.itemCount).forEach {
-                    try {
-                        val color = primaryClip!!.getItemAt(it).text.toString()
-                        if (color.isColor()) {
-                            colorClipboard.add(color)
-                        }
-                    } catch (ex: Exception) {}
-                }
-            }
-        }
     }
 }

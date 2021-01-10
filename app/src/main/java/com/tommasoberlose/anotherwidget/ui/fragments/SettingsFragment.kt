@@ -52,9 +52,9 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-//        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+//        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onCreateView(

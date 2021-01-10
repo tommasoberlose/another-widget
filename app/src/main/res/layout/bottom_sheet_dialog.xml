@@ -38,7 +38,7 @@
             android:id="@+id/message"
             android:gravity="start"
             android:textAlignment="viewStart"
-            android:text="Messaggio molto lungo di cui voirre akjcbasaskdask flasdas fashbdfjah fahsbd ajsbd "
+            android:text=""
             android:textColor="@color/colorPrimaryText"/>
     </LinearLayout>
     <LinearLayout

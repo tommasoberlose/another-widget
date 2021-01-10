@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +28,6 @@ import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomFontActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
-import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
