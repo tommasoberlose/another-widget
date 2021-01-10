@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
@@ -30,8 +31,12 @@ class ChooseApplicationActivity : AppCompatActivity() {
     private lateinit var viewModel: ChooseApplicationViewModel
     private lateinit var binding: ActivityChooseApplicationBinding
 
+    private var selectedPackage: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        selectedPackage = intent.extras?.getString(Constants.RESULT_APP_PACKAGE)
 
         viewModel = ViewModelProvider(this).get(ChooseApplicationViewModel::class.java)
         binding = ActivityChooseApplicationBinding.inflate(layoutInflater)
@@ -60,6 +65,10 @@ class ChooseApplicationActivity : AppCompatActivity() {
                                 setResult(Activity.RESULT_OK, resultIntent)
                                 finish()
                             }
+                            .with<MaterialCardView>(R.id.item) {
+                                it.strokeColor = ContextCompat.getColor(this, if (selectedPackage == IntentHelper.DO_NOTHING_OPTION) R.color.colorAccent else R.color.cardBorder)
+                                it.setCardBackgroundColor(ContextCompat.getColor(this, if (selectedPackage == IntentHelper.DO_NOTHING_OPTION) R.color.colorAccent_op10 else R.color.colorPrimaryDark))
+                            }
                     }
                     IntentHelper.REFRESH_WIDGET_OPTION -> {
                         injector
@@ -76,6 +85,10 @@ class ChooseApplicationActivity : AppCompatActivity() {
                                 resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, IntentHelper.REFRESH_WIDGET_OPTION)
                                 setResult(Activity.RESULT_OK, resultIntent)
                                 finish()
+                            }
+                            .with<MaterialCardView>(R.id.item) {
+                                it.strokeColor = ContextCompat.getColor(this, if (selectedPackage == IntentHelper.REFRESH_WIDGET_OPTION) R.color.colorAccent else R.color.cardBorder)
+                                it.setCardBackgroundColor(ContextCompat.getColor(this, if (selectedPackage == IntentHelper.REFRESH_WIDGET_OPTION) R.color.colorAccent_op10 else R.color.colorPrimaryDark))
                             }
                     }
                     else -> {
@@ -94,6 +107,10 @@ class ChooseApplicationActivity : AppCompatActivity() {
                                 setResult(Activity.RESULT_OK, resultIntent)
                                 finish()
                             }
+                            .with<MaterialCardView>(R.id.item) {
+                                it.strokeColor = ContextCompat.getColor(this, if (selectedPackage == IntentHelper.DEFAULT_OPTION) R.color.colorAccent else R.color.cardBorder)
+                                it.setCardBackgroundColor(ContextCompat.getColor(this, if (selectedPackage == IntentHelper.DEFAULT_OPTION) R.color.colorAccent_op10 else R.color.colorPrimaryDark))
+                            }
                     }
                 }
             }
@@ -107,10 +124,13 @@ class ChooseApplicationActivity : AppCompatActivity() {
                             .centerCrop()
                             .into(it)
                     }
-
-                injector.clicked(R.id.item) {
-                    saveApp(item)
-                }
+                    .clicked(R.id.item) {
+                        saveApp(item)
+                    }
+                    .with<MaterialCardView>(R.id.item) {
+                        it.strokeColor = ContextCompat.getColor(this, if (selectedPackage == item.activityInfo.packageName) R.color.colorAccent else R.color.cardBorder)
+                        it.setCardBackgroundColor(ContextCompat.getColor(this, if (selectedPackage == item.activityInfo.packageName) R.color.colorAccent_op10 else R.color.colorPrimaryDark))
+                    }
             }
             .attachTo(binding.listView)
 

@@ -209,13 +209,6 @@ class WeatherFragment : Fragment() {
                     WeatherReceiver.setUpdates(requireContext())
                     checkLocationPermission()
                 }
-                RequestCode.WEATHER_APP_REQUEST_CODE.code -> {
-                    Preferences.bulk {
-                        weatherAppName = data?.getStringExtra(Constants.RESULT_APP_NAME) ?: getString(R.string.default_weather_app)
-                        weatherAppPackage = data?.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: ""
-                    }
-                    MainWidget.updateWidget(requireContext())
-                }
                 RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
                     checkLocationPermission()
                 }

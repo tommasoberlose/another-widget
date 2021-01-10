@@ -180,16 +180,6 @@ class ClockFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && requestCode ==  RequestCode.CLOCK_APP_REQUEST_CODE.code) {
-            Preferences.bulk {
-                clockAppName = data?.getStringExtra(Constants.RESULT_APP_NAME) ?: getString(R.string.default_clock_app)
-                clockAppPackage = data?.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: ""
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     override fun onResume() {
         binding.is24Format = DateFormat.is24HourFormat(requireContext())
         super.onResume()

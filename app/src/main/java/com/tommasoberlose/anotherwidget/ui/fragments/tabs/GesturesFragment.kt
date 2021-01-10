@@ -1,6 +1,7 @@
 package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.chibatching.kotpref.blockingBulk
+import com.chibatching.kotpref.bulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
@@ -30,6 +32,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +48,6 @@ class GesturesFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var colors: IntArray
     private lateinit var binding: FragmentTabGesturesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,14 +99,16 @@ class GesturesFragment : Fragment() {
         viewModel.calendarAppName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.calendarAppLabel.text = when {
-                    Preferences.calendarAppName != "" -> Preferences.calendarAppName
+                    it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
+                    it == IntentHelper.REFRESH_WIDGET_OPTION -> "None, the widget will be refreshed"
+                    it != IntentHelper.DEFAULT_OPTION -> it
                     else -> {
                         if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
                             getString(
                                 R.string.default_calendar_app
                             )
                         } else {
-                            getString(R.string.nothing)
+                            getString(R.string.gestures_do_nothing)
                         }
                     }
                 }
@@ -120,14 +124,16 @@ class GesturesFragment : Fragment() {
         viewModel.clockAppName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.clockAppLabel.text = when {
-                    Preferences.clockAppName != "" -> Preferences.clockAppName
+                    it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
+                    it == IntentHelper.REFRESH_WIDGET_OPTION -> "None, the widget will be refreshed"
+                    it != IntentHelper.DEFAULT_OPTION -> it
                     else -> {
                         if (IntentHelper.getClockIntent(requireContext()).isDefaultSet(requireContext())) {
                             getString(
                                 R.string.default_clock_app
                             )
                         } else {
-                            getString(R.string.nothing)
+                            getString(R.string.gestures_do_nothing)
                         }
                     }
                 }
@@ -136,8 +142,12 @@ class GesturesFragment : Fragment() {
 
         viewModel.weatherAppName.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                binding.weatherAppLabel.text =
-                    if (it != "") it else getString(R.string.default_weather_app)
+                binding.weatherAppLabel.text = when {
+                    it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
+                    it == IntentHelper.REFRESH_WIDGET_OPTION -> "None, the widget will be refreshed"
+                    it != IntentHelper.DEFAULT_OPTION -> it
+                    else -> getString(R.string.default_weather_app)
+                }
             }
         }
     }
@@ -163,19 +173,25 @@ class GesturesFragment : Fragment() {
         }
 
         binding.actionCalendarApp.setOnClickListener {
-            startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java), RequestCode.CALENDAR_APP_REQUEST_CODE.code)
+            startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java).apply {
+                putExtra(Constants.RESULT_APP_PACKAGE, Preferences.calendarAppPackage)
+            }, RequestCode.CALENDAR_APP_REQUEST_CODE.code)
         }
 
         binding.actionClockApp.setOnClickListener {
             startActivityForResult(
-                Intent(requireContext(), ChooseApplicationActivity::class.java),
+                Intent(requireContext(), ChooseApplicationActivity::class.java).apply {
+                    putExtra(Constants.RESULT_APP_PACKAGE, Preferences.clockAppPackage)
+                },
                 RequestCode.CLOCK_APP_REQUEST_CODE.code
             )
         }
 
         binding.actionWeatherApp.setOnClickListener {
             startActivityForResult(
-                Intent(requireContext(), ChooseApplicationActivity::class.java),
+                Intent(requireContext(), ChooseApplicationActivity::class.java).apply {
+                    putExtra(Constants.RESULT_APP_PACKAGE, Preferences.weatherAppPackage)
+                },
                 RequestCode.WEATHER_APP_REQUEST_CODE.code
             )
         }
@@ -188,5 +204,38 @@ class GesturesFragment : Fragment() {
             delay(200)
             binding.scrollView.isScrollable = true
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && data != null && data.hasExtra(Constants.RESULT_APP_NAME) && data.hasExtra(Constants.RESULT_APP_PACKAGE)) {
+            when (requestCode) {
+                RequestCode.CALENDAR_APP_REQUEST_CODE.code -> {
+                    Preferences.bulk {
+                        calendarAppName = data.getStringExtra(Constants.RESULT_APP_NAME) ?: IntentHelper.DEFAULT_OPTION
+                        calendarAppPackage = data.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: IntentHelper.DEFAULT_OPTION
+                    }
+                }
+                RequestCode.EVENT_APP_REQUEST_CODE.code -> {
+                    Preferences.bulk {
+                        eventAppName = data.getStringExtra(Constants.RESULT_APP_NAME) ?: IntentHelper.DEFAULT_OPTION
+                        eventAppPackage = data.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: IntentHelper.DEFAULT_OPTION
+                    }
+                }
+                RequestCode.WEATHER_APP_REQUEST_CODE.code -> {
+                    Preferences.bulk {
+                        weatherAppName = data.getStringExtra(Constants.RESULT_APP_NAME) ?: IntentHelper.DEFAULT_OPTION
+                        weatherAppPackage = data.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: IntentHelper.DEFAULT_OPTION
+                    }
+                }
+                RequestCode.CLOCK_APP_REQUEST_CODE.code -> {
+                    Preferences.bulk {
+                        clockAppName = data.getStringExtra(Constants.RESULT_APP_NAME) ?: IntentHelper.DEFAULT_OPTION
+                        clockAppPackage = data.getStringExtra(Constants.RESULT_APP_PACKAGE) ?: IntentHelper.DEFAULT_OPTION
+                    }
+                }
+            }
+            MainWidget.updateWidget(requireContext())
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
