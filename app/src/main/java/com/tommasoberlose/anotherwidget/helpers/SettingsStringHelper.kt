@@ -63,10 +63,20 @@ object SettingsStringHelper {
     }
 
     fun getVariantLabel(context: Context, variant: String): String = when {
+        variant == "italic" -> context.getString(R.string.font_italic)
+        variant.contains("100") && variant.contains("italic") -> context.getString(R.string.font_100_italic)
+        variant.contains("200") && variant.contains("italic") -> context.getString(R.string.font_200_italic)
+        variant.contains("300") && variant.contains("italic") -> context.getString(R.string.font_300_italic)
+        variant.contains("400") && variant.contains("italic") -> context.getString(R.string.font_400_italic)
+        variant.contains("500") && variant.contains("italic") -> context.getString(R.string.font_500_italic)
+        variant.contains("600") && variant.contains("italic") -> context.getString(R.string.font_600_italic)
+        variant.contains("700") && variant.contains("italic") -> context.getString(R.string.font_700_italic)
+        variant.contains("800") && variant.contains("italic") -> context.getString(R.string.font_800_italic)
+        variant.contains("900") && variant.contains("italic") -> context.getString(R.string.font_900_italic)
+        variant == "regular" || variant.contains("400") -> context.getString(R.string.font_400)
         variant.contains("100") -> context.getString(R.string.font_100)
         variant.contains("200") -> context.getString(R.string.font_200)
         variant.contains("300") -> context.getString(R.string.font_300)
-        variant.contains("regular") || variant.contains("400") -> context.getString(R.string.font_400)
         variant.contains("500") -> context.getString(R.string.font_500)
         variant.contains("600") -> context.getString(R.string.font_600)
         variant.contains("700") -> context.getString(R.string.font_700)

@@ -26,7 +26,7 @@ import kotlin.collections.ArrayList
 
 class LocationService : Service() {
 
-    private val jobs: ArrayList<Job> = ArrayList()
+    private var job: Job? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -34,13 +34,13 @@ class LocationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-
-            jobs += GlobalScope.launch(Dispatchers.IO) {
+        job?.cancel()
+        job = GlobalScope.launch(Dispatchers.IO) {
+            if (ActivityCompat.checkSelfPermission(
+                    this@LocationService,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 LocationServices.getFusedLocationProviderClient(this@LocationService).lastLocation.addOnCompleteListener { task ->
                     val networkApi = WeatherNetworkApi(this@LocationService)
                     if (task.isSuccessful) {
@@ -67,18 +67,17 @@ class LocationService : Service() {
                         EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                     }
                 }
+            } else {
+                stopSelf()
             }
-        } else {
-            stopSelf()
         }
         return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        jobs.forEach {
-            it.cancel()
-        }
+        job?.cancel()
+        job = null
     }
 
     companion object {

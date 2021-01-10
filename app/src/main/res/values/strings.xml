@@ -40,6 +40,16 @@
     <string name="font_700" translatable="false">Bold</string>
     <string name="font_800" translatable="false">Black</string>
     <string name="font_900" translatable="false">Heavy</string>
+    <string name="font_italic" translatable="false">Italic</string>
+    <string name="font_100_italic" translatable="false">Thin Italic</string>
+    <string name="font_200_italic" translatable="false">Light Italic</string>
+    <string name="font_300_italic" translatable="false">Book Italic</string>
+    <string name="font_400_italic" translatable="false">Regular Italic</string>
+    <string name="font_500_italic" translatable="false">Medium Italic</string>
+    <string name="font_600_italic" translatable="false">Semi-bold Italic</string>
+    <string name="font_700_italic" translatable="false">Bold Italic</string>
+    <string name="font_800_italic" translatable="false">Black Italic</string>
+    <string name="font_900_italic" translatable="false">Heavy Italic</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendar</string>

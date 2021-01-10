@@ -2,6 +2,7 @@ package com.tommasoberlose.anotherwidget.network
 
 import android.content.Context
 import android.util.Log
+import com.chibatching.kotpref.Kotpref
 import com.google.gson.internal.LinkedTreeMap
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
@@ -26,6 +27,7 @@ import java.util.*
 
 class WeatherNetworkApi(val context: Context) {
     suspend fun updateWeather() {
+        Kotpref.init(context)
         Preferences.weatherProviderError = "-"
         Preferences.weatherProviderLocationError = ""
 

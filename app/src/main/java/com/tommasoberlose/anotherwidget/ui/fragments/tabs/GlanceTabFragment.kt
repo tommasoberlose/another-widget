@@ -274,22 +274,23 @@ class GlanceTabFragment : Fragment() {
                     }
                     Constants.GlanceProviderId.EVENTS -> {
                         isVisible =
-                            Preferences.showEventsAsGlanceProvider && Preferences.showEvents && requireContext().checkGrantedPermission(
-                                Manifest.permission.READ_CALENDAR
-                            )
+                            Preferences.showEventsAsGlanceProvider
+                        val hasError = !Preferences.showEvents || !requireContext().checkGrantedPermission(
+                            Manifest.permission.READ_CALENDAR
+                        )
                         injector.text(
                             R.id.label,
-                            if (isVisible) getString(R.string.settings_visible) else getString(
+                            if (isVisible && !hasError) getString(R.string.settings_visible) else getString(
                                 R.string.settings_not_visible
                             )
                         )
                         injector.visibility(
                             R.id.error_icon,
-                            if (isVisible) View.GONE else View.VISIBLE
+                            if (isVisible && hasError) View.VISIBLE else View.GONE
                         )
                         injector.visibility(
                             R.id.info_icon,
-                            if (isVisible) View.VISIBLE else View.GONE
+                            if (!(isVisible && hasError)) View.VISIBLE else View.GONE
                         )
                     }
                 }

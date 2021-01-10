@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chibatching.kotpref.blockingBulk
+import com.google.gson.Gson
 import com.koolio.library.Font
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
@@ -125,7 +127,7 @@ class CustomFontActivity : AppCompatActivity() {
                     if (item.fontVariants.isEmpty()) {
                         dialog.addItem(SettingsStringHelper.getVariantLabel(this, "regular"), -1)
                     } else {
-                        item.fontVariants.filter { !it.contains("italic") }
+                        item.fontVariants
                             .forEachIndexed { index, s ->
                                 dialog.addItem(SettingsStringHelper.getVariantLabel(this, s), index)
                             }
