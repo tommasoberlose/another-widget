@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="add_widget">Hinzufügen</string>
+    <string name="add_widget">Widget hinzufügen</string>
 
     <!-- Display -->
     <string name="settings_general_title">Anzeige</string>
@@ -16,7 +16,7 @@
     <string name="settings_custom_font_title">Widget Schriftart</string>
     <string name="custom_font_subtitle_0">System Schriftart</string>
     <string name="custom_font_subtitle_1">Google Sans</string>
-    <string name="custom_date_format">Eigenes Format</string>
+    <string name="custom_date_format">Eigenes Datumsformat</string>
     <string name="alpha">Alpha</string>
     <string name="transparent">Transparent</string>
     <string name="settings_show_dividers_title">Texttrennlinien anzeigen</string>
@@ -26,8 +26,8 @@
     <string name="action_capitalize_the_date">Datum groß schreiben</string>
     <string name="settings_date_format_title">Datumsformat</string>
     <string name="header_widget_background">Widget Hintergrund</string>
-    <string name="settings_secondary_row_top_margin_title">Abstand</string>
-    <string name="action_custom_font_to_search">Benutzerdefinierte Schriftart...</string>
+    <string name="settings_secondary_row_top_margin_title">Zeilenabstand</string>
+    <string name="action_custom_font_to_search">Benutzerdefinierte Schriftart…</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Kalender</string>
@@ -51,7 +51,7 @@
     <string name="settings_show_until_subtitle_5">7 Tage vorher</string>
     <string name="settings_show_until_title">Zeige Termine mindestens</string>
     <string name="day_char">T.</string>
-    <string name="settings_calendar_app_title">Standard Kalender App</string>
+    <string name="settings_calendar_app_title">Kalender</string>
     <string name="error_no_calendar">Keine Kalender gefunden.</string>
     <string name="tomorrow">morgen</string>
     <string name="today">heute</string>
@@ -76,7 +76,7 @@
     <string name="settings_attendee_status_title">Teilnahmestatus</string>
     <string name="settings_attendee_status_subtitle">Akzeptierte oder abgelehnte Termine filtern</string>
     <string name="settings_busy_events_title">Relevante Termine</string>
-    <string name="settings_busy_events_subtitle">Nur Termine anzeigen, bei \ndenen Sie beschäftigt sind</string>
+    <string name="settings_busy_events_subtitle">Nur Termine anzeigen, bei denen Sie beschäftigt sind</string>
     <string name="attendee_status_accepted">Akzeptierte Termine</string>
     <string name="attendee_status_invited">Einladungen zu Terminen</string>
     <string name="attendee_status_declined">Abgelehnte Termine</string>
@@ -94,27 +94,19 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 Stunden</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 Stunden</string>
     <string name="settings_custom_location_title">Standort</string>
-    <string name="custom_location_gps">GPS-Standort verwenden</string>
+    <string name="custom_location_gps">GPS-Standort</string>
     <string name="show_weather_visible">Wetterinfos sind sichtbar</string>
     <string name="show_weather_not_visible">Wetterinfos sind ausgeblendet</string>
-    <string name="settings_weather_app_title">Klick auf das Wetter öffnet</string>
+    <string name="settings_weather_app_title">Wetter</string>
     <string name="settings_weather_provider_api_key_title">Wetter API Key</string>
-    <string name="settings_weather_provider_api_key_subtitle_all_set">Der Wetteranbieter ist korrekt konfiguriert</string>
-    <string name="settings_weather_provider_api_key_subtitle_not_set">Der Wetteranbieter muss konfiguriert werden</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Der Wetteranbieter ist korrekt konfiguriert.</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Der Wetteranbieter muss konfiguriert werden.</string>
     <string name="api_key_hint">OpenWeather API Schlüssel</string>
     <string name="default_weather_app">Google Weather</string>
     <string name="weather_warning">Google Awareness Wetter ist veraltet. Es wird nun ein API-Schlüssel von einem Drittanbieter benötigt, um das Wetter im Widget anzuzeigen.</string>
-    <string name="api_key_title_1">OpenWeatherMap Konto registrieren</string>
-    <string name="api_key_subtitle_1">Registriere ein kostenloses Konto bei OpenWeatherMap. Es sollte nur ein paar Minuten dauern.</string>
-    <string name="api_key_title_2">API-Schlüssel kopieren</string>
-    <string name="api_key_subtitle_2">Gehe in die Kontoeinstellungen und kopiere den Standardschlüssel im API-Schlüsselmenü.</string>
-    <string name="api_key_title_3">Schlüssel in die App eingeben</string>
-    <string name="api_key_subtitle_3">Füge den Schlüssel in das obere Feld ein und speicher ihn. Sobald der Schlüssel aktiviert ist, wird das Wetter angezeigt.</string>
-    <string name="action_open_provider">Öffne OpenWeatherMap.org</string>
-    <string name="api_key_info_all_set">Es kann bis zu zehn Minuten dauern, bis der API-Schlüssel aktiviert ist. Das Wetter wird aktualisiert, sobald es verfügbar ist.</string>
     <string name="settings_weather_icon_pack_title">Icon Pack</string>
     <string name="settings_weather_icon_pack_default">Icon Pack %d</string>
-    <string name="background_location_warning">Wenn GPS aktiviert ist, sammeln wir Standortdaten, um die Wetterinformationen zu aktualisieren, auch wenn die App geschlossen oder nicht in Gebrauch ist.\nDie Daten werden nicht für andere Zwecke verwendet.</string>
+    <string name="background_location_warning">Wenn GPS-Standort ausgewählt ist, sammeln wir Standortdaten, um die Wetterinformationen zu aktualisieren, auch wenn die App geschlossen oder nicht in Gebrauch ist.\nDie Daten werden nicht für andere Zwecke verwendet.</string>
     <string name="settings_weather_provider_api">Wetterdienst</string>
 
     <string name="weather_provider_info_open_weather_title">Dieser Wetteranbieter benötigt einen\nAPI-Schlüssel, um korrekt zu funktionieren.</string>
@@ -147,9 +139,14 @@
     <string name="weather_select_a_provider">Wählen einen Anbieter</string>
     <string name="weather_provider_activity_subtitle">Wählen Sie einen Wetterdienst aus der Liste aus.\nEinige Anbieter benötigen ein kostenloses\nBenutzerkonto, allerdings sind sie\ndafür in der Regel genauer.</string>
 
+    <string name="location_access_notification_channel_name">Hintergrunddienst</string>
+    <string name="location_access_notification_channel_description">Dienst zur Aktualisierung des Wetters anhand des aktuellen Standorts des Benutzers.</string>
+    <string name="location_access_notification_title">Wetter wird aktualisiert…</string>
+    <string name="location_access_notification_subtitle">Das Wetter wird basierend auf Ihrem aktuellen Standort aktualisiert.</string>
+
     <!-- Clock -->
     <string name="settings_clock_title">Uhr</string>
-    <string name="settings_clock_app_title">Klick auf die Uhr öffnet</string>
+    <string name="settings_clock_app_title">Uhr</string>
     <string name="title_show_clock">Uhr anzeigen</string>
     <string name="show_clock_visible">Uhr ist sichtbar</string>
     <string name="show_clock_not_visible">Uhr ist nicht sichtbar</string>
@@ -167,7 +164,7 @@
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Nächster Wecker</string>
-    <string name="settings_at_a_glance_title">Überblick</string>
+    <string name="settings_at_a_glance_title">Auf einen Blick</string>
     <string name="settings_show_music_title">Aktuell spielendes Lied</string>
     <string name="settings_request_notification_access">Wir benötigen Zugriff auf die Benachrichtigungen, um auf das aktuell abgespielte Lied zugreifen zu können.</string>
     <string name="settings_request_last_notification_access">Wir benötigen Zugriff auf die Benachrichtigungen, um Ihre letzten Benachrichtigungen sehen zu können.</string>
@@ -176,22 +173,22 @@
     <string name="description_show_glance_visible">Dienst ist aktiviert</string>
     <string name="description_show_glance_not_visible">Dienst ist deaktiviert</string>
     <string name="settings_sort_glance_providers_title">Priorität der Datenquelle</string>
-    <string name="settings_sort_glance_providers_subtitle">Priorität der jeweiligen Dienste ändern</string>
+    <string name="settings_sort_glance_providers_subtitle">Priorität der jeweiligen Dienste ändern, indem Sie die Liste per Drag-and-Drop sortieren.</string>
     <string name="settings_custom_notes_title">Benutzerdefinierte Notiz</string>
-    <string name="settings_low_battery_level_title">Akku</string>
     <string name="settings_daily_steps_title">Tägliche Schritte</string>
-    <string name="battery_low_warning">Niedriger Akkustand</string>
     <string name="daily_steps_counter">%d Schritte bis jetzt</string>
+    <string name="settings_low_battery_level_title">Akku</string>
+    <string name="battery_low_warning">Niedriger Akkustand</string>
     <string name="charging">Wird aufgeladen</string>
     <string name="charged">Aufgeladen</string>
     <string name="providers">Dienste</string>
-    <string name="glance_info">Überblick Informationen sind nur dann sichtbar, wenn keine Termine angezeigt werden und wenn einige Bedingungen erfüllt sind.</string>
+    <string name="glance_info">Informationen auf einen Blick sind nur dann sichtbar, wenn gerade keine Termine angezeigt werden und einige Bedingungen erfüllt sind.</string>
     <string name="settings_music_players_filter_title">Musik Player</string>
     <string name="settings_music_players_filter_subtitle">Wähle die gewünschten Musik Player aus</string>
     <string name="settings_show_music_subtitle">Wir verwenden die Benachrichtigung der Musik-Player, um das aktuell gespielte Lied anzuzeigen.</string>
-    <string name="settings_low_battery_level_subtitle">Darüber informieren, wenn der Akku schwach ist oder aufgeladen wird.</string>
+    <string name="settings_low_battery_level_subtitle">Darüber informiert werden, wenn der Akku schwach ist oder aufgeladen wird.</string>
     <string name="settings_daily_steps_subtitle">Zeigt die täglichen Schritte, nachdem Sie einen Spaziergang oder einen Lauf beendet haben.</string>
-    <string name="settings_show_next_alarm_subtitle">Zeigt den nächsten Alarm an. Stellen Sie sicher, dass Ihre standardmäßige Uhren-App die einzige ist, die Alarme auf dem Gerät einstellt.</string>
+    <string name="settings_show_next_alarm_subtitle">Zeigt den nächsten Alarm an.\nStellen Sie sicher, dass Ihre standardmäßige Uhren-App die einzige ist, die Alarme auf dem Gerät einstellt.</string>
     <string name="settings_show_next_alarm_app_title">Alarm gesetzt durch %s</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">Der nächste Wecker scheint falsch zu sein</string>
     <string name="settings_show_next_alarm_app_subtitle_correct">Der nächste Wecker scheint korrekt zu sein</string>
@@ -236,6 +233,10 @@
         <item>15 Minuten</item>
         <item>dem Entfernen</item>
     </string-array>
+    <string name="settings_show_events_as_glance_provider_title">Termine</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Zeigt eine Vorschau Ihrer Termine und lässt das aktuelle Datum angezeigt.</string>
+    <string name="settings_show_events_as_glance_provider_error">Bitte aktiviere die Anzeige der Termine im Kalender Menü und erteile die erforderlichen Berechtigungen</string>
+    <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
     <string name="action_share">Teilen</string>
@@ -267,7 +268,7 @@
     <string name="settings_app_version_title">App Version</string>
     <string name="settings_title_show_wallpaper">Hintergrundbild anzeigen</string>
     <string name="support_refresh_widget_subtitle">Neustart des Widget Dienstes erzwingen</string>
-    <string name="settings_feedback_subtitle">Dies ist ein Open-Source-Projekt, du kannst gerne helfen.</string>
+    <string name="settings_feedback_subtitle">Sie können gerne unserem Projekt helfen!</string>
     <string name="settings_feedback_title">Feedback und Vorschläge</string>
     <string name="xiaomi_warning_title">Xiaomi Geräte</string>
     <string name="xiaomi_warning_message">Aktiviere die Berechtigung zum Anzeigen von Popup-Fenstern, wenn die App im Hintergrund ausgeführt wird, unter \"Andere Berechtigungen\" in den App-Einstellungen. Andernfalls kann beim Klicken auf das Widget keine Anwendung geöffnet werden.</string>
@@ -276,10 +277,10 @@
     <string name="settings_title">Einstellungen</string>
     <string name="style_header">Stil</string>
     <string name="actions_header">Aktionen</string>
-    <string name="provider_header">Konfiguration</string>
+    <string name="provider_header">Provider</string>
     <string name="appearance_header">Erscheinungsbild</string>
     <string name="preferences_header">Präferenzen</string>
-    <string name="settings_privacy_policy_title"><![CDATA[AGB & Datenschutz]]></string>
+    <string name="settings_privacy_policy_title"><![CDATA[Rechtliches & Datenschutz]]></string>
     <string name="settings_privacy_policy_subtitle">Datenschutzrichtlinien der App anzeigen</string>
     <string name="project_header">Open-Source Projekt</string>
     <string name="information_header">Information</string>
@@ -300,4 +301,17 @@
     <string name="nothing">Nichts</string>
     <string name="action_dismiss">Verwerfen</string>
     <string name="action_accept">Akzeptieren</string>
+
+    <!-- More -->
+    <string name="look_and_feel_header"><![CDATA[Erscheinungsbild]]></string>
+    <string name="typography_settings_title">Typografie</string>
+    <string name="typography_settings_subtitle">Schriftart, Größe und Farbe des Textes einstellen</string>
+    <string name="layout_settings_title">Layout</string>
+    <string name="gestures_settings_subtitle">Aktionen, Verhalten und Verknüpfungen</string>
+    <string name="gestures_settings_title">Gesten</string>
+    <string name="gestures_amp_input_header"><![CDATA[Gesten & Bedienung]]></string>
+    <string name="clock_settings_subtitle">Größe, Farbe und Zeitzonen einstellen</string>
+    <string name="layout_settings_subtitle">Widget Abstände und Anpassungen</string>
+    <string name="smart_content_header">Smarte Inhalte</string>
+    <string name="font_family_settings_title">Schriftfamilie</string>
 </resources>
