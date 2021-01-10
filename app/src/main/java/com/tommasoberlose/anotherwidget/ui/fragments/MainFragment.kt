@@ -102,9 +102,7 @@ class MainFragment : Fragment() {
         }
 
         binding.actionSettings.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment, null, null, FragmentNavigatorExtras(
-//                binding.fragmentTitle to "fragment_title"
-            ))
+            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment,)
         }
 
         binding.preview.layoutParams = binding.preview.layoutParams.apply {

@@ -115,7 +115,6 @@ class LocationService : Service() {
             val builder = NotificationCompat.Builder(this@LocationService, getString(R.string.location_access_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_stat_notification)
                 .setContentTitle(getString(R.string.location_access_notification_title))
-                .setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.location_access_notification_subtitle)))
                 .setOngoing(true)
                 .setColor(ContextCompat.getColor(this@LocationService, R.color.colorAccent))
 

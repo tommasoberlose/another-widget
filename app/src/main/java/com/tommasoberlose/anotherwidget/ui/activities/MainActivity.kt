@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -22,9 +23,10 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.global.RequestCode
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.WeatherProviderActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
+import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var mAppWidgetId: Int = -1
     private lateinit var viewModel: MainViewModel
@@ -139,5 +141,19 @@ class MainActivity : AppCompatActivity() {
         if (Preferences.showEvents && !checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
             Preferences.showEvents = false
         }
+    }
+
+    override fun onStart() {
+        Preferences.preferences.registerOnSharedPreferenceChangeListener(this)
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Preferences.preferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        MainWidget.updateWidget(this)
     }
 }

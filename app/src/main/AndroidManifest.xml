@@ -152,7 +152,8 @@
         <service
             android:name=".services.UpdateCalendarService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
         <service
             android:name=".services.LocationService"
             android:enabled="true"

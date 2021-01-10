@@ -1,11 +1,15 @@
 package com.tommasoberlose.anotherwidget.services
 
 import android.Manifest
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
@@ -13,6 +17,7 @@ import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.applyFilters
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.sortEvents
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
@@ -28,9 +33,20 @@ import kotlin.collections.ArrayList
 class UpdateCalendarService : Service() {
 
     companion object {
+        const val CALENDAR_SYNC_NOTIFICATION_ID = 28466
         fun enqueueWork(context: Context) {
             context.startService(Intent(context, UpdateCalendarService::class.java))
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                context.startForegroundService(Intent(context, UpdateCalendarService::class.java))
+            } else {
+                context.startService(Intent(context, UpdateCalendarService::class.java))
+            }
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        startForeground(CALENDAR_SYNC_NOTIFICATION_ID, getCalendarSyncNotification())
     }
 
     private var job: Job? = null
@@ -170,5 +186,33 @@ class UpdateCalendarService : Service() {
         super.onDestroy()
         job?.cancel()
         job = null
+    }
+
+    private fun getCalendarSyncNotification(): Notification {
+        with(NotificationManagerCompat.from(this)) {
+            // Create channel
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                createNotificationChannel(
+                    NotificationChannel(
+                        getString(R.string.calendar_sync_notification_channel_id),
+                        getString(R.string.calendar_sync_notification_channel_name),
+                        NotificationManager.IMPORTANCE_LOW
+                    ).apply {
+                        description = getString(R.string.calendar_sync_notification_channel_description)
+                    }
+                )
+            }
+
+            val builder = NotificationCompat.Builder(this@UpdateCalendarService, getString(R.string.calendar_sync_notification_channel_id))
+                .setSmallIcon(R.drawable.ic_stat_notification)
+                .setContentTitle(getString(R.string.calendar_sync_notification_title))
+                .setOngoing(true)
+                .setColor(ContextCompat.getColor(this@UpdateCalendarService, R.color.colorAccent))
+
+            // Main intent that open the activity
+            builder.setContentIntent(PendingIntent.getActivity(this@UpdateCalendarService, 0, Intent(this@UpdateCalendarService, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
+
+            return builder.build()
+        }
     }
 }

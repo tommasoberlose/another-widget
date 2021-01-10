@@ -103,6 +103,11 @@
     <string name="attendee_status_invited">Events invitations</string>
     <string name="attendee_status_declined">Declined events</string>
 
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+    <string name="calendar_sync_notification_channel_name">Events sync service</string>
+    <string name="calendar_sync_notification_channel_description">Service used to synchronize the calendar events.</string>
+    <string name="calendar_sync_notification_title">Syncing calendar events…</string>
+
     <!-- Weather -->
     <string name="settings_weather_title">Weather</string>
     <string name="title_permission_location">Show the weather</string>
@@ -172,7 +177,7 @@
     <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they are usually more accurate.</string>
 
     <string name="location_access_notification_channel_id" translatable="false">location-access</string>
-    <string name="location_access_notification_channel_name">Background service</string>
+    <string name="location_access_notification_channel_name">Weather update service</string>
     <string name="location_access_notification_channel_description">Service used to update the weather based on the current location of the user.</string>
     <string name="location_access_notification_title">Updating the weather…</string>
     <string name="location_access_notification_subtitle">We\'re updating the weather based on your current location.</string>
