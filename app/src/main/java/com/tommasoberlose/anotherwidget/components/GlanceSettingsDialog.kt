@@ -30,6 +30,7 @@ import com.tommasoberlose.anotherwidget.helpers.GreetingsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.AppNotificationsFilterActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.MediaInfoFormatActivity
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.MusicPlayersFilterActivity
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
@@ -68,10 +69,15 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
 
         /* SONG */
         binding.actionFilterMusicPlayers.isVisible = provider == Constants.GlanceProviderId.PLAYING_SONG
+        binding.actionChangeMediaInfoFormat.isVisible = provider == Constants.GlanceProviderId.PLAYING_SONG
         if (provider == Constants.GlanceProviderId.PLAYING_SONG) {
             binding.actionFilterMusicPlayers.setOnClickListener {
                 dismiss()
                 context.startActivityForResult(Intent(context, MusicPlayersFilterActivity::class.java), 0)
+            }
+            binding.actionChangeMediaInfoFormat.setOnClickListener {
+                dismiss()
+                context.startActivityForResult(Intent(context, MediaInfoFormatActivity::class.java), 0)
             }
             checkNotificationPermission()
         }

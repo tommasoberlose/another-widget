@@ -15,14 +15,32 @@ import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import java.lang.Exception
 
 object MediaPlayerHelper {
+    const val MEDIA_INFO_TITLE = "%TITLE"
+    const val MEDIA_INFO_ARTIST = "%ARTIST"
+    const val MEDIA_INFO_ALBUM = "%ALBUM"
+
+    const val DEFAULT_MEDIA_INFO_FORMAT = "%TITLE, %ARTIST"
+
     fun isSomeonePlaying(context: Context) = Preferences.showMusic && ActiveNotificationsHelper.checkNotificationAccess(context) && Preferences.mediaPlayerTitle != ""
 
-    fun getMediaInfo(): String {
-      return if (Preferences.mediaPlayerArtist == "") {
-          Preferences.mediaPlayerTitle
-      } else {
-          "%s, %s".format(Preferences.mediaPlayerTitle, Preferences.mediaPlayerArtist)
-      }
+    fun getMediaInfo(format: String = Preferences.mediaInfoFormat, title: String = Preferences.mediaPlayerTitle, artist: String = Preferences.mediaPlayerArtist, album: String = Preferences.mediaPlayerAlbum): String {
+        return when (format) {
+            "",
+            DEFAULT_MEDIA_INFO_FORMAT -> {
+                if (Preferences.mediaPlayerArtist == "") {
+                    Preferences.mediaPlayerTitle
+                } else {
+                    DEFAULT_MEDIA_INFO_FORMAT.replace(MEDIA_INFO_TITLE, title)
+                        .replace(MEDIA_INFO_ARTIST, artist)
+                        .replace(MEDIA_INFO_ALBUM, album)
+                }
+            }
+            else -> {
+                format.replace(MEDIA_INFO_TITLE, title)
+                    .replace(MEDIA_INFO_ARTIST, artist)
+                    .replace(MEDIA_INFO_ALBUM, album)
+            }
+        }
     }
 
     fun updatePlayingMediaInfo(context: Context) {

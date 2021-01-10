@@ -22,7 +22,7 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CustomDateActivity  : AppCompatActivity() {
+class CustomDateActivity : AppCompatActivity() {
 
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: CustomDateViewModel

@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.os.ConfigurationCompat
 import com.chibatching.kotpref.KotprefModel
+import com.tommasoberlose.anotherwidget.helpers.IntentHelper
+import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.utils.isMetric
 import java.util.*
 
@@ -133,11 +135,11 @@ object Preferences : KotprefModel() {
     var lastNotificationPackage by stringPref(default = "")
 
     var showMusic by booleanPref(default = false)
-    var mediaInfoFormat by stringPref(default = "")
+    var mediaInfoFormat by stringPref(default = MediaPlayerHelper.DEFAULT_MEDIA_INFO_FORMAT)
     var mediaPlayerTitle by stringPref(default = "")
     var mediaPlayerAlbum by stringPref(default = "")
     var mediaPlayerArtist by stringPref(default = "")
-    var mediaPlayerPackage by stringPref(default = "")
+    var mediaPlayerPackage by stringPref(default = IntentHelper.DO_NOTHING_OPTION)
     var musicPlayersFilter by stringPref(default = "")
     var appNotificationsFilter by stringPref(default = "")
 

@@ -30,6 +30,7 @@
     <string name="header_widget_background">Widget background</string>
     <string name="settings_secondary_row_top_margin_title">Rows spacing</string>
     <string name="action_custom_font_to_search">Custom font…</string>
+    <string name="font_family_settings_title">Font family</string>
     
     <string name="font_100" translatable="false">Thin</string>
     <string name="font_200" translatable="false">Light</string>
@@ -341,6 +342,9 @@
     <string name="nothing">Nothing</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_accept">Accept</string>
+    <string name="gestures_do_nothing">None</string>
+    <string name="song_info_format_activity_title">Song info format</string>
+    <string name="song_info_format_activity_subtitle">Change the visible song info</string>
 
     <!-- More -->
     <string name="look_and_feel_header"><![CDATA[Look & feel]]></string>
@@ -353,5 +357,4 @@
     <string name="clock_settings_subtitle">Set size, color and time zones</string>
     <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
     <string name="smart_content_header">Smart content</string>
-    <string name="font_family_settings_title">Font family</string>
 </resources>

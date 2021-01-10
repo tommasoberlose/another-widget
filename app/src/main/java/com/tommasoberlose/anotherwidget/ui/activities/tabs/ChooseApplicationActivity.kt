@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.global.Constants
+import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.ChooseApplicationViewModel
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
@@ -41,21 +42,59 @@ class ChooseApplicationActivity : AppCompatActivity() {
 
         adapter = SlimAdapterEx.create()
         adapter
-            .register<String>(R.layout.application_info_layout) { _, injector ->
-                injector
-                    .text(R.id.text, getString(R.string.default_name))
-                    .image(R.id.icon, R.drawable.round_add_to_home_screen_24)
-                    .with<ImageView>(R.id.icon) {
-                        it.scaleX = 0.8f
-                        it.scaleY = 0.8f
-                        it.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryText), android.graphics.PorterDuff.Mode.MULTIPLY)
+            .register<String>(R.layout.application_info_layout) { item, injector ->
+                when (item) {
+                    IntentHelper.DO_NOTHING_OPTION -> {
+                        injector
+                            .text(R.id.text, getString(R.string.gestures_do_nothing))
+                            .image(R.id.icon, R.drawable.round_no_cell_24)
+                            .with<ImageView>(R.id.icon) {
+                                it.scaleX = 0.8f
+                                it.scaleY = 0.8f
+                                it.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryText), android.graphics.PorterDuff.Mode.MULTIPLY)
+                            }
+                            .clicked(R.id.item) {
+                                val resultIntent = Intent()
+                                resultIntent.putExtra(Constants.RESULT_APP_NAME, IntentHelper.DO_NOTHING_OPTION)
+                                resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, IntentHelper.DO_NOTHING_OPTION)
+                                setResult(Activity.RESULT_OK, resultIntent)
+                                finish()
+                            }
                     }
-                    .clicked(R.id.item) {
-                    val resultIntent = Intent()
-                    resultIntent.putExtra(Constants.RESULT_APP_NAME, "")
-                    resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, "")
-                    setResult(Activity.RESULT_OK, resultIntent)
-                    finish()
+                    IntentHelper.REFRESH_WIDGET_OPTION -> {
+                        injector
+                            .text(R.id.text, getString(R.string.action_refresh_widget))
+                            .image(R.id.icon, R.drawable.round_refresh)
+                            .with<ImageView>(R.id.icon) {
+                                it.scaleX = 0.8f
+                                it.scaleY = 0.8f
+                                it.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryText), android.graphics.PorterDuff.Mode.MULTIPLY)
+                            }
+                            .clicked(R.id.item) {
+                                val resultIntent = Intent()
+                                resultIntent.putExtra(Constants.RESULT_APP_NAME, IntentHelper.REFRESH_WIDGET_OPTION)
+                                resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, IntentHelper.REFRESH_WIDGET_OPTION)
+                                setResult(Activity.RESULT_OK, resultIntent)
+                                finish()
+                            }
+                    }
+                    else -> {
+                        injector
+                            .text(R.id.text, getString(R.string.default_name))
+                            .image(R.id.icon, R.drawable.round_add_to_home_screen_24)
+                            .with<ImageView>(R.id.icon) {
+                                it.scaleX = 0.8f
+                                it.scaleY = 0.8f
+                                it.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryText), android.graphics.PorterDuff.Mode.MULTIPLY)
+                            }
+                            .clicked(R.id.item) {
+                                val resultIntent = Intent()
+                                resultIntent.putExtra(Constants.RESULT_APP_NAME, IntentHelper.DEFAULT_OPTION)
+                                resultIntent.putExtra(Constants.RESULT_APP_PACKAGE, IntentHelper.DEFAULT_OPTION)
+                                setResult(Activity.RESULT_OK, resultIntent)
+                                finish()
+                            }
+                    }
                 }
             }
             .register<ResolveInfo>(R.layout.application_info_layout) { item, injector ->
@@ -114,7 +153,7 @@ class ChooseApplicationActivity : AppCompatActivity() {
                     }
                 }
                 withContext(Dispatchers.Main) {
-                    adapter.updateData(listOf("Default") + filteredList)
+                    adapter.updateData(listOf(IntentHelper.DO_NOTHING_OPTION, IntentHelper.DEFAULT_OPTION, IntentHelper.REFRESH_WIDGET_OPTION) + filteredList)
                     binding.loader.visibility = View.INVISIBLE
                 }
             }

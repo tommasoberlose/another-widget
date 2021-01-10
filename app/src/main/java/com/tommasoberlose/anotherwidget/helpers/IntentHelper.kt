@@ -21,6 +21,10 @@ import java.util.*
 
 object IntentHelper {
 
+    const val DEFAULT_OPTION = ""
+    const val DO_NOTHING_OPTION = "DO_NOTHING"
+    const val REFRESH_WIDGET_OPTION = "REFRESH_WIDGET"
+
     fun getWidgetUpdateIntent(context: Context): Intent {
         val widgetManager = AppWidgetManager.getInstance(context)
         val widgetComponent = ComponentName(context, MainWidget::class.java)
@@ -47,7 +51,7 @@ object IntentHelper {
 
     fun getWeatherIntent(context: Context): Intent {
         return when (Preferences.weatherAppPackage) {
-            "" -> {
+            DEFAULT_OPTION -> {
                 Intent(Intent.ACTION_VIEW).apply {
                     addCategory(Intent.CATEGORY_DEFAULT)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -55,8 +59,11 @@ object IntentHelper {
                     component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
                 }
             }
-            "_" -> {
+            DO_NOTHING_OPTION -> {
                 Intent()
+            }
+            REFRESH_WIDGET_OPTION -> {
+                getWidgetUpdateIntent(context)
             }
             else -> {
                 val pm: PackageManager = context.packageManager
@@ -79,13 +86,16 @@ object IntentHelper {
             .appendPath(Calendar.getInstance().timeInMillis.toString())
             .build()
         return when (Preferences.calendarAppPackage) {
-            "" -> {
+            DEFAULT_OPTION -> {
                 Intent(Intent.ACTION_VIEW).apply {
                     data = calendarUri
                 }
             }
-            "_" -> {
+            DO_NOTHING_OPTION -> {
                 Intent()
+            }
+            REFRESH_WIDGET_OPTION -> {
+                getWidgetUpdateIntent(context)
             }
             else -> {
                 val pm: PackageManager = context.packageManager
@@ -164,13 +174,16 @@ object IntentHelper {
 
     fun getClockIntent(context: Context): Intent {
         return when (Preferences.clockAppPackage) {
-            "" -> {
+            DEFAULT_OPTION -> {
                 Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
             }
-            "_" -> {
+            DO_NOTHING_OPTION -> {
                 Intent()
+            }
+            REFRESH_WIDGET_OPTION -> {
+                getWidgetUpdateIntent(context)
             }
             else -> {
                 val pm: PackageManager = context.packageManager
@@ -191,7 +204,7 @@ object IntentHelper {
 
     fun getMusicIntent(context: Context): Intent {
         return when (Preferences.mediaPlayerPackage) {
-            "" -> {
+            DO_NOTHING_OPTION -> {
                 Intent()
             }
             else -> {
