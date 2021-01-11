@@ -12,12 +12,12 @@ import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
-import com.tommasoberlose.anotherwidget.helpers.BatteryHelper
-import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
-import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
+import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.joda.time.Period
 import java.util.*
 
@@ -54,6 +54,16 @@ class UpdatesReceiver : BroadcastReceiver() {
             }
             Actions.ACTION_UPDATE_GREETINGS -> {
                 MainWidget.updateWidget(context)
+            }
+
+            Actions.ACTION_REFRESH -> {
+                ActiveNotificationsHelper.clearLastNotification(context)
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    CalendarHelper.updateEventList(context)
+                    MediaPlayerHelper.updatePlayingMediaInfo(context)
+                    WeatherHelper.updateWeather(context)
+                }
             }
         }
     }

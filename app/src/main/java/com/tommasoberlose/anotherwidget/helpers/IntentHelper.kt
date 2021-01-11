@@ -12,8 +12,10 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import android.util.Log
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.models.Event
+import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.toast
 import java.util.*
@@ -32,6 +34,12 @@ object IntentHelper {
         return Intent(context, MainWidget::class.java).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        }
+    }
+
+    private fun getWidgetRefreshIntent(context: Context): Intent {
+        return Intent(context, UpdatesReceiver::class.java).apply {
+            action = Actions.ACTION_REFRESH
         }
     }
 
@@ -63,7 +71,7 @@ object IntentHelper {
                 Intent()
             }
             REFRESH_WIDGET_OPTION -> {
-                getWidgetUpdateIntent(context)
+                getWidgetRefreshIntent(context)
             }
             else -> {
                 val pm: PackageManager = context.packageManager
@@ -95,7 +103,7 @@ object IntentHelper {
                 Intent()
             }
             REFRESH_WIDGET_OPTION -> {
-                getWidgetUpdateIntent(context)
+                getWidgetRefreshIntent(context)
             }
             else -> {
                 val pm: PackageManager = context.packageManager
@@ -183,7 +191,7 @@ object IntentHelper {
                 Intent()
             }
             REFRESH_WIDGET_OPTION -> {
-                getWidgetUpdateIntent(context)
+                getWidgetRefreshIntent(context)
             }
             else -> {
                 val pm: PackageManager = context.packageManager
