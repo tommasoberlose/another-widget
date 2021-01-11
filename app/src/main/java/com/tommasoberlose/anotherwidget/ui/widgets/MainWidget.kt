@@ -17,6 +17,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.TextView
@@ -34,6 +35,7 @@ import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.helpers.ImageHelper.applyShadow
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toPixel
 import java.text.DateFormat
@@ -1072,7 +1074,10 @@ class MainWidget : AppWidgetProvider() {
 
             // Dividers
             arrayOf(bindingView.divider1, bindingView.divider2, bindingView.divider3).forEach {
-                it.isVisible = Preferences.showDividers
+                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.INVISIBLE
+                it.layoutParams = (it.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                    this.marginEnd = if (Preferences.showDividers) 8f.convertDpToPixel(context).toInt() else 0
+                }
             }
 
             eventRepository.close()
