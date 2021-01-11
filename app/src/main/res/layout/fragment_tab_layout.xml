@@ -24,7 +24,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Spacing"
+                android:text="@string/spacing_settings_header"
                 android:paddingTop="16dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"

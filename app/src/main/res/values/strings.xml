@@ -196,7 +196,7 @@
     <string name="settings_clock_bottom_margin_subtitle_small">Small</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">Medium</string>
     <string name="settings_clock_bottom_margin_subtitle_large">Large</string>
-    <string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the Display section.</string>
+    <string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the typography section.</string>
     <string name="settings_clock_text_color_title">Text color</string>
     <string name="settings_ampm_indicator_title">Show AM/PM indicator</string>
     <string name="clock_text_header">Clock text style</string>
@@ -357,4 +357,5 @@
     <string name="clock_settings_subtitle">Set size, color and time zones</string>
     <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
     <string name="smart_content_header">Smart content</string>
+    <string name="spacing_settings_header">Spacing</string>
 </resources>
