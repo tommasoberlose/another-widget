@@ -97,7 +97,11 @@ class MainFragment : Fragment() {
             binding.actionBack.setOnClickListener {
                 controller.navigateUp()
             }
+            binding.actionBack.isClickable = show
+            binding.actionBack.isFocusable = show
             binding.actionSettings.animate().alpha(if (!show) 1f else 0f).setDuration(200).translationX((if (!show) 0f else -4f).convertDpToPixel(requireContext())).start()
+            binding.actionSettings.isClickable = !show
+            binding.actionSettings.isFocusable = !show
             binding.fragmentTitle.text = if (show) destination.label.toString() else getString(R.string.app_name)
         }
 

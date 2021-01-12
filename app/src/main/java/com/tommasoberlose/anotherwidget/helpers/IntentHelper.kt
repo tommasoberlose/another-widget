@@ -40,6 +40,7 @@ object IntentHelper {
     private fun getWidgetRefreshIntent(context: Context): Intent {
         return Intent(context, UpdatesReceiver::class.java).apply {
             action = Actions.ACTION_REFRESH
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
 
@@ -65,6 +66,7 @@ object IntentHelper {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     data = Uri.parse("dynact://velour/weather/ProxyActivity")
                     component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
+                    setClassName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
                 }
             }
             DO_NOTHING_OPTION -> {
