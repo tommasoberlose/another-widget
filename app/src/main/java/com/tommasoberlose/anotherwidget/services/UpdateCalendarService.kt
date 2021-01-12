@@ -35,7 +35,6 @@ class UpdateCalendarService : Service() {
     companion object {
         const val CALENDAR_SYNC_NOTIFICATION_ID = 28468
         fun enqueueWork(context: Context) {
-            context.startService(Intent(context, UpdateCalendarService::class.java))
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 context.startForegroundService(Intent(context, UpdateCalendarService::class.java))
             } else {
