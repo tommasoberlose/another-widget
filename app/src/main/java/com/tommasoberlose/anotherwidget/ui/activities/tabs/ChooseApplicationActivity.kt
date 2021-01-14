@@ -19,6 +19,7 @@ import com.google.android.material.card.MaterialCardView
 import com.tommasoberlose.anotherwidget.databinding.ActivityChooseApplicationBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
+import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.ChooseApplicationViewModel
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
@@ -170,6 +171,18 @@ class ChooseApplicationActivity : AppCompatActivity() {
                 } else {
                     list.filter {
                         it.loadLabel(viewModel.pm).contains(search, true)
+                    }
+                }.sortedWith { app1, app2 ->
+                    when (selectedPackage) {
+                        app1.activityInfo.packageName -> {
+                            -1
+                        }
+                        app2.activityInfo.packageName -> {
+                            1
+                        }
+                        else -> {
+                            app1.loadLabel(viewModel.pm).toString().compareTo(app2.loadLabel(viewModel.pm).toString(), ignoreCase = true)
+                        }
                     }
                 }
                 withContext(Dispatchers.Main) {
