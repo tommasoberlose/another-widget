@@ -35,11 +35,7 @@ class UpdateCalendarService : Service() {
     companion object {
         const val CALENDAR_SYNC_NOTIFICATION_ID = 28468
         fun enqueueWork(context: Context) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                context.startForegroundService(Intent(context, UpdateCalendarService::class.java))
-            } else {
-                context.startService(Intent(context, UpdateCalendarService::class.java))
-            }
+            ContextCompat.startForegroundService(context, Intent(context, UpdateCalendarService::class.java))
         }
     }
 
@@ -55,6 +51,7 @@ class UpdateCalendarService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForeground(CALENDAR_SYNC_NOTIFICATION_ID, getCalendarSyncNotification())
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.IO) {
 

@@ -57,8 +57,6 @@ class UpdatesReceiver : BroadcastReceiver() {
             }
 
             Actions.ACTION_REFRESH -> {
-                ActiveNotificationsHelper.clearLastNotification(context)
-
                 GlobalScope.launch(Dispatchers.IO) {
                     CalendarHelper.updateEventList(context)
                     MediaPlayerHelper.updatePlayingMediaInfo(context)

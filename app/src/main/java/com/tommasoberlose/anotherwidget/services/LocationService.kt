@@ -34,6 +34,7 @@ class LocationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForeground(LOCATION_ACCESS_NOTIFICATION_ID, getLocationAccessNotification())
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.IO) {
             if (ActivityCompat.checkSelfPermission(
@@ -85,11 +86,7 @@ class LocationService : Service() {
 
         @JvmStatic
         fun requestNewLocation(context: Context) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                context.startForegroundService(Intent(context, LocationService::class.java))
-            } else {
-                context.startService(Intent(context, LocationService::class.java))
-            }
+            ContextCompat.startForegroundService(context, Intent(context, LocationService::class.java))
         }
     }
 
