@@ -125,7 +125,7 @@
     <string name="settings_weather_refresh_period_subtitle_5">24 godziny</string>
     <string name="settings_custom_location_title">lokalizacja</string>
     <string name="custom_location_gps">Geolokalizacja</string>
-    <string name="show_weather_visible">Informavje o pogodzie są widoczne</string>
+    <string name="show_weather_visible">Informacje o pogodzie są widoczne</string>
     <string name="show_weather_not_visible">Informacje o pogodzie są ukryte</string>
     <string name="settings_weather_app_title">Pogoda</string>
     <string name="settings_weather_provider_api_key_title">Klucz API dostawcy pogody</string>
@@ -163,198 +163,198 @@
     <string name="weather_provider_info_weather_gov_subtitle">\n</string>
     <string name="weather_provider_info_yr_subtitle">\n</string>
 
-    <string name="weather_provider_error_missing_key">The weather provider that you\'ve selected requires an API key.</string>
-    <string name="weather_provider_error_wrong_location">The current location is not supported.</string>
-    <string name="weather_provider_error_missing_location">Please select a valid location.</string>
-    <string name="weather_provider_error_expired_key">It seems that your API key has expired.</string>
-    <string name="weather_provider_error_invalid_key">API key not valid, or not yet activated.</string>
-    <string name="weather_provider_error_misconfigured">The weather provider is wrongly configured.</string>
-    <string name="weather_provider_error_connection">Connection error.</string>
-    <string name="weather_provider_error_generic">Something went wrong, check the weather provider config.</string>
-    <string name="api_key_required_message">Account required</string>
-    <string name="us_only_message">USA Only</string>
-    <string name="celsius_only_message">Metric Unit Only</string>
-    <string name="weather_select_a_provider">Select a provider</string>
-    <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they are usually more accurate.</string>
+    <string name="weather_provider_error_missing_key">Dostawca pogody, którego wybrałeś wymaga klucza API.</string>
+    <string name="weather_provider_error_wrong_location">Aktualna lokalizacja nie jest wspierana.</string>
+    <string name="weather_provider_error_missing_location">Wybierz prawidłową lokalizację.</string>
+    <string name="weather_provider_error_expired_key">Wygląda na to że klucz API wygasł.</string>
+    <string name="weather_provider_error_invalid_key">Nieprawidłowy lub nieaktywowany klucz API.</string>
+    <string name="weather_provider_error_misconfigured">Dostawca pogody jest źle skonfigurowany.</string>
+    <string name="weather_provider_error_connection">Błąd połączenia.</string>
+    <string name="weather_provider_error_generic">Coś poszło nie tak, sprawdź konfigurację dostawcy pogody.</string>
+    <string name="api_key_required_message">Wymagane konto</string>
+    <string name="us_only_message">Tylko USA</string>
+    <string name="celsius_only_message">Tylko jednostki metryczne</string>
+    <string name="weather_select_a_provider">Wybierz dostawcę</string>
+    <string name="weather_provider_activity_subtitle">Wybierz dostawcę pogody z listy.\nNiektóre mogą wymagać darmowego konta,\nale zazwyczaj są dokładniejsze.</string>
 
     <string name="location_access_notification_channel_id" translatable="false">location-access</string>
-    <string name="location_access_notification_channel_name">Weather update service</string>
-    <string name="location_access_notification_channel_description">Service used to update the weather based on the current location of the user.</string>
-    <string name="location_access_notification_title">Updating the weather…</string>
-    <string name="location_access_notification_subtitle">We\'re updating the weather based on your current location.</string>
+    <string name="location_access_notification_channel_name">Usługa aktualizacji pogody</string>
+    <string name="location_access_notification_channel_description">Usługa używana do aktualizacji pogody opartej na lokalizacji użytkownika.</string>
+    <string name="location_access_notification_title">Aktualizowanie pogody…</string>
+    <string name="location_access_notification_subtitle">Aktualizujemy pogodę opierając się na twojeje lokalizacji.</string>
 
     <!-- Clock -->
-    <string name="settings_clock_title">Clock</string>
-    <string name="settings_clock_app_title">Clock</string>
-    <string name="title_show_clock">Show Clock</string>
-    <string name="show_clock_visible">Clock is visible</string>
-    <string name="show_clock_not_visible">Clock is hidden</string>
-    <string name="settings_clock_text_size_title">Text size</string>
-    <string name="default_clock_app">Default clock app</string>
-    <string name="settings_clock_bottom_margin_title">Clock bottom margin</string>
-    <string name="settings_clock_bottom_margin_subtitle_none">None</string>
-    <string name="settings_clock_bottom_margin_subtitle_small">Small</string>
-    <string name="settings_clock_bottom_margin_subtitle_medium">Medium</string>
-    <string name="settings_clock_bottom_margin_subtitle_large">Large</string>
-    <string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the Display section.</string>
-    <string name="settings_clock_text_color_title">Text color</string>
-    <string name="settings_ampm_indicator_title">Show AM/PM indicator</string>
-    <string name="clock_text_header">Clock text style</string>
+    <string name="settings_clock_title">Zegar</string>
+    <string name="settings_clock_app_title">Zegar</string>
+    <string name="title_show_clock">Pokaż zegar</string>
+    <string name="show_clock_visible">Zegar jest widoczny</string>
+    <string name="show_clock_not_visible">Zegar jest ukryty</string>
+    <string name="settings_clock_text_size_title">Rozmiar tekstu</string>
+    <string name="default_clock_app">Domyślna aplikacja zegara</string>
+    <string name="settings_clock_bottom_margin_title">Dolny margines zegara</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Brak</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Mały</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Średni</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Duży</string>
+    <string name="clock_warning">Z powodu ograniczeń technologicznych, zegar nie będzie miał niestandardowej czcionki i cienii tekstów wybranych w sekcji Wyświetlaj.</string>
+    <string name="settings_clock_text_color_title">Kolor tekstu</string>
+    <string name="settings_ampm_indicator_title">Pokaż wskaźnik AM/PM</string>
+    <string name="clock_text_header">Styl tekstu zegara</string>
 
     <!-- Glance -->
-    <string name="settings_show_next_alarm_title">Next clock alarm</string>
-    <string name="settings_at_a_glance_title">At a glance</string>
-    <string name="settings_show_music_title">Current playing song</string>
-    <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
-    <string name="settings_request_last_notification_access">We need the notification access permission to check your last notifications.</string>
-    <string name="settings_request_fitness_access">We need a few permissions to get your daily steps from Google Fit.</string>
-    <string name="title_show_glance">Show at a glance info</string>
-    <string name="description_show_glance_visible">Service enabled</string>
-    <string name="description_show_glance_not_visible">Service disabled</string>
-    <string name="settings_sort_glance_providers_title">Data source priority</string>
-    <string name="settings_sort_glance_providers_subtitle">Change the data provider priority by sorting the list below with the drag-and-drop icons.</string>
-    <string name="settings_custom_notes_title">Custom notes</string>
+    <string name="settings_show_next_alarm_title">Następny alarm</string>
+    <string name="settings_at_a_glance_title">W skrócie</string>
+    <string name="settings_show_music_title">Aktualnie odtwarzany utwór</string>
+    <string name="settings_request_notification_access">Potrzebujemy uprawnienia dostępu do powiadomień, aby wyświetlić aktuanie odtwarzany utwór.</string>
+    <string name="settings_request_last_notification_access">Potrzebujemy uprawnienia dostępu do powiadomień, aby wyświetlić powiadomienia.</string>
+    <string name="settings_request_fitness_access">Potrzebujemy parę uprawnień aby wyświetlić kroki z Google Fit.</string>
+    <string name="title_show_glance">Pokaż informacje w skrócie</string>
+    <string name="description_show_glance_visible">Usłuja włączona</string>
+    <string name="description_show_glance_not_visible">Usługa wyłączona</string>
+    <string name="settings_sort_glance_providers_title">Priorytet wyświetlania</string>
+    <string name="settings_sort_glance_providers_subtitle">Zmień priorytet źródeł danych sortując tą listę (przeciągnij i upuść).</string>
+    <string name="settings_custom_notes_title">Niestandardowe notatki</string>
     <string name="settings_daily_steps_title">Fitness</string>
-    <string name="daily_steps_counter">%d steps so far</string>
-    <string name="settings_low_battery_level_title">Battery</string>
-    <string name="battery_low_warning">Low battery level</string>
-    <string name="charging">Charging</string>
-    <string name="charged">Fully charged</string>
-    <string name="providers">Providers</string>
-    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
-    <string name="settings_music_players_filter_title">Music Players</string>
-    <string name="settings_music_players_filter_subtitle">Choose your relevant music players</string>
-    <string name="settings_show_music_subtitle">We use the music players\' notification to show the current playing song.</string>
-    <string name="settings_low_battery_level_subtitle">Get advised when the device has the battery low or is charging.</string>
-    <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after finishing a walk or a run.</string>
-    <string name="settings_show_next_alarm_subtitle">View your next clock alarm.\nCheck if your default clock app is the only one setting alarms.</string>
-    <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
-    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong</string>
-    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct</string>
-    <string name="settings_show_notifications_title">Latest notifications</string>
-    <string name="settings_show_notifications_subtitle">Check out the latest notifications that showed up on your device.</string>
-    <string name="settings_show_greetings_title">Greetings</string>
-    <string name="settings_show_greetings_subtitle">View some cool phrase to lighten your day when you don\'t expect it.</string>
-    <string name="google_fit_account_connected">Account linked</string>
-    <string name="google_fit_account_not_connected">Account not linked</string>
+    <string name="daily_steps_counter">%d kroków</string>
+    <string name="settings_low_battery_level_title">Bateria</string>
+    <string name="battery_low_warning">Niski poziom baterii</string>
+    <string name="charging">Ładowanie</string>
+    <string name="charged">Naładowano</string>
+    <string name="providers">Dostawcy</string>
+    <string name="glance_info">Informacje pokażą się tylko, jeśli nie wyświetlają się wydarzenia oraz spełnione jest kilka warunków.</string>
+    <string name="settings_music_players_filter_title">Odtwarzacze muzyki</string>
+    <string name="settings_music_players_filter_subtitle">Wybierz swoje odtwarzacze muzyki</string>
+    <string name="settings_show_music_subtitle">Używamy powiadomień odtwarzaczy, aby wyświetlić aktualnie odtwarzany utwór.</string>
+    <string name="settings_low_battery_level_subtitle">Zostań ponformowany, gdy urządzenie ma mało baterii lub się ładuje.</string>
+    <string name="settings_daily_steps_subtitle">Wyświetl swoje dzienne kroki na krótką chwilę po ukończeniu spaceru lub biegu.</string>
+    <string name="settings_show_next_alarm_subtitle">Zobacz swój następny alarm.\nSprawdź czy twoja domyślna aplikacja zegara jest jedyną, wktórej ustawiono alarmt.</string>
+    <string name="settings_show_next_alarm_app_title">Ustawiono alarm przez %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">Następny alarm wygląda na nieprawidłowy</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">Następny alarm wygląda na prawidłowy</string>
+    <string name="settings_show_notifications_title">Ostatnie powiadomienie</string>
+    <string name="settings_show_notifications_subtitle">Zobacz swoje ostatnie powiadomienia.</string>
+    <string name="settings_show_greetings_title">Pozdrowienia</string>
+    <string name="settings_show_greetings_subtitle">Wyświetlaj ciekawe zdania, które umilą ci dziań gdy się tego nie spodziewasz.</string>
+    <string name="google_fit_account_connected">Połączono konto</string>
+    <string name="google_fit_account_not_connected">Nie połączono konta</string>
     <string name="google_fit">Google Fit</string>
-    <string name="action_connect">Connect</string>
-    <string name="action_disconnect">Disconnect</string>
-    <string name="applications_filter_title">Applications</string>
-    <string name="applications_filter_subtitle">Choose which notifications to view</string>
+    <string name="action_connect">Połącz</string>
+    <string name="action_disconnect">Rozłącz</string>
+    <string name="applications_filter_title">Aplikacje</string>
+    <string name="applications_filter_subtitle">Wybierz które powiadomienia wyświetlać</string>
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Good morning!</item>
-        <item>Have a good day!</item>
-        <item>Ready to go?</item>
-        <item>Rise and shine.</item>
-        <item>Don\'t forget your breakfast!</item>
+        <item>Dzień dobry!</item>
+        <item>Miłego dnia!</item>
+        <item>Gotowy?</item>
+        <item>Wznoś się i świeć.</item>
+        <item>Nie zapomnij o śniadaniu!</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
-        <item>Good evening!</item>
-        <item>How did your day go?</item>
-        <item>Did you have a nice day?</item>
-        <item>After effort comes comfort.</item>
-        <item>Don\'t forget to have dinner!</item>
+        <item>Dobry wieczór!</item>
+        <item>Jak ci minął dzień?</item>
+        <item>Czy miałeś miły dzień?</item>
+        <item>Po wysiłku przychodzi komfort.</item>
+        <item>Nie zapomnij o kolacji!</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
-        <item>Good night!</item>
-        <item>Sleep well!</item>
-        <item>Sweet dreams till sunbeams find you!</item>
-        <item>See you tomorrow...</item>
-        <item>Don\'t stay up too late!</item>
+        <item>Dobrej nocy!</item>
+        <item>Śpij dobrze!</item>
+        <item>Słodkich snów, dopóki nie znajdą cię promienie słońca!</item>
+        <item>Widzimy się jutro...</item>
+        <item>Nie siedź za długo!</item>
     </string-array>
-    <string name="glance_notification_hide_timeout_title">Hide the notification after</string>
+    <string name="glance_notification_hide_timeout_title">Ukryj powiadomienie po</string>
     <string-array name="glance_notifications_timeout">
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>15 minutes</item>
-        <item>Dismissal</item>
+        <item>30 sekund</item>
+        <item>1 minuta</item>
+        <item>5 minuty</item>
+        <item>10 minuty</item>
+        <item>15 minuty</item>
+        <item>Odrzuceniu</item>
     </string-array>
-    <string name="settings_show_events_as_glance_provider_title">Events</string>
-    <string name="settings_show_events_as_glance_provider_subtitle">View a sneak peek of your calendar events and always show the current date.</string>
-    <string name="settings_show_events_as_glance_provider_error">Please enable the show of the events in the calendar tab and grant the required permission.</string>
+    <string name="settings_show_events_as_glance_provider_title">Wydarzenia</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Wyświetl podgląd twoich wydarzeń i pokazuj aktualną datę.</string>
+    <string name="settings_show_events_as_glance_provider_error">Włącz, aby wyświetlić wydarzenia w kalendarzu i przyznać wymagane uprawnienia.</string>
     <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
-    <string name="action_share">Share</string>
-    <string name="action_rate">Rate app</string>
-    <string name="action_support">Support me</string>
+    <string name="action_share">Udostępnij</string>
+    <string name="action_rate">Oceń aplikację</string>
+    <string name="action_support">Wspomóż mnie</string>
     <string name="action_feedback">Feedback</string>
-    <string name="action_about">About</string>
-    <string name="action_refresh_widget">Refresh widget</string>
+    <string name="action_about">O aplikacji</string>
+    <string name="action_refresh_widget">Odśwież widget</string>
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
-    <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
-    <string name="loading_text">Loading Data...</string>
-    <string name="error_opening_app">Error opening app.</string>
-    <string name="default_name">Default app</string>
-    <string name="action_save">Save</string>
-    <string name="settings_visible">Visible</string>
-    <string name="settings_not_visible">Hidden</string>
-    <string name="support_translations_title">Help with translations</string>
-    <string name="support_translations_subtitle">Open a pull request on GitHub</string>
-    <string name="support_website_title">Check my other projects</string>
-    <string name="support_website_subtitle">Same developer, many possibilities</string>
-    <string name="error">Ooops, something went wrong!</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="support_main_subtitle">Devs always need a lot of coffee</string>
-    <string name="settings_subtitle_dark_theme_light">Light</string>
-    <string name="settings_subtitle_dark_theme_dark">Dark</string>
-    <string name="settings_subtitle_dark_theme_by_battery_saver">Set by battery saver</string>
-    <string name="settings_subtitle_dark_theme_follow_system">Follow the system theme</string>
-    <string name="settings_subtitle_dark_theme_default">Default</string>
-    <string name="search">Search</string>
-    <string name="settings_app_version_title">App version</string>
-    <string name="settings_title_show_wallpaper">Show wallpaper</string>
-    <string name="support_refresh_widget_subtitle">Force the restart of the widget service</string>
-    <string name="settings_feedback_subtitle">Feel free to help our project!</string>
-    <string name="settings_feedback_title">Feedback and feature requests</string>
+    <string name="error_opening_uri">Błąd otwierania adresu URL: Link skopiowany do schowka.</string>
+    <string name="loading_text">Ładowanie danych...</string>
+    <string name="error_opening_app">Błąd otwierania aplikacji.</string>
+    <string name="default_name">Domyślna aplikacja</string>
+    <string name="action_save">Zapisz</string>
+    <string name="settings_visible">Widoczne</string>
+    <string name="settings_not_visible">Ukryte</string>
+    <string name="support_translations_title">Pomóż przetłumaczyć aplikację</string>
+    <string name="support_translations_subtitle">Otwórz pull request na GitHub</string>
+    <string name="support_website_title">Sprawdź moje inne projekty</string>
+    <string name="support_website_subtitle">Ten sam developer, dużo możliwości</string>
+    <string name="error">Ooops, coś poszło nie tak!</string>
+    <string name="settings_theme_title">Motyw</string>
+    <string name="support_main_subtitle">Deweloperzy zawsze potrzebują dużo kawy</string>
+    <string name="settings_subtitle_dark_theme_light">Jasny</string>
+    <string name="settings_subtitle_dark_theme_dark">Ciemny</string>
+    <string name="settings_subtitle_dark_theme_by_battery_saver">Zgodnie z oszczędzaniem bateriiSet by battery saver</string>
+    <string name="settings_subtitle_dark_theme_follow_system">Podążaj za systemem</string>
+    <string name="settings_subtitle_dark_theme_default">Domyślny</string>
+    <string name="search">Szukaj</string>
+    <string name="settings_app_version_title">Wersja aplikacji</string>
+    <string name="settings_title_show_wallpaper">Pokaż tapetę</string>
+    <string name="support_refresh_widget_subtitle">Wymuś zresetowanie usługi widgetu</string>
+    <string name="settings_feedback_subtitle">Zapraszam do pomocy w naszym projekcie!</string>
+    <string name="settings_feedback_title">Opinia i pomysły na funkcje</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
-    <string name="xiaomi_warning_title">Xiaomi Devices</string>
-    <string name="xiaomi_warning_message">Enable the permission to display pop-up windows when running in the background inside the "Other permission" section of the app settings. Otherwise, you will not able to open any applications tapping on the widget.</string>
-    <string name="action_ignore">Ignore</string>
-    <string name="action_grant_permission">Grant permission</string>
-    <string name="settings_title">Settings</string>
-    <string name="style_header">Style</string>
-    <string name="actions_header">Actions</string>
-    <string name="provider_header">Provider</string>
-    <string name="appearance_header">Appearance</string>
-    <string name="preferences_header">Preferences</string>
+    <string name="xiaomi_warning_title">Urządzenia Xiaomi</string>
+    <string name="xiaomi_warning_message">Włącz uprawnienie aby wyświetlać pop-upu w tle ("Inne Ustawienia" w ustawieniach aplikacji). Inaczej nie będziesz mógł otworzyć aplikacji klikając w widget.</string>
+    <string name="action_ignore">Ignoruj</string>
+    <string name="action_grant_permission">Przyznaj uprawnienie</string>
+    <string name="settings_title">Ustawienia</string>
+    <string name="style_header">Styl</string>
+    <string name="actions_header">Akcje</string>
+    <string name="provider_header">Dostawca</string>
+    <string name="appearance_header">Wygląd</string>
+    <string name="preferences_header">Preferencje</string>
     <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
-    <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
-    <string name="project_header">Open-source project</string>
-    <string name="information_header">Information</string>
+    <string name="settings_privacy_policy_subtitle">Zobacz politykę prywatności aplikacji</string>
+    <string name="project_header">Projekt open-source</string>
+    <string name="information_header">Informacje</string>
 
     <!-- Activities -->
-    <string name="action_choose_application">Choose application</string>
-    <string name="support_main_title">Support the developer</string>
-    <string name="thanks">Thanks for supporting me!</string>
-    <string name="donation_coffee">An italian coffee</string>
-    <string name="donation_donuts">Some glazed donuts</string>
-    <string name="donation_dinner">An expensive dinner</string>
-    <string name="donation_breakfast">An english breakfast</string>
-    <string name="donation_lunch">A quick lunch</string>
-    <string name="action_show_widget_preview">Show widget preview</string>
-    <string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
-    <string name="settings_title_integrations">Integrations</string>
-    <string name="label_count_installed_integrations">%d installed integrations</string>
-    <string name="nothing">Nothing</string>
-    <string name="action_dismiss">Dismiss</string>
-    <string name="action_accept">Accept</string>
-    <string name="gestures_do_nothing">None</string>
-    <string name="song_info_format_activity_title">Song info format</string>
-    <string name="song_info_format_activity_subtitle">Change the visible song info</string>
+    <string name="action_choose_application">Wybierz aplikację</string>
+    <string name="support_main_title">Wspomóż dewelopera</string>
+    <string name="thanks">Dziękuję za wsparcie!</string>
+    <string name="donation_coffee">Włoska kawa</string>
+    <string name="donation_donuts">Kilka glazurowanych pączków</string>
+    <string name="donation_dinner">Droga kolacja</string>
+    <string name="donation_breakfast">Angielskie śniadanie</string>
+    <string name="donation_lunch">Szybki lunch</string>
+    <string name="action_show_widget_preview">Pokaż podgląd widgetu</string>
+    <string name="support_dev_subtitle">To jest projekt jednego dewelopera,\nwięc dziękuję za wsparcie!</string>
+    <string name="settings_title_integrations">Integracje</string>
+    <string name="label_count_installed_integrations">%d zainstalowanych integracji</string>
+    <string name="nothing">Nic</string>
+    <string name="action_dismiss">Odrzuć</string>
+    <string name="action_accept">Akceptuj</string>
+    <string name="gestures_do_nothing">Nic</string>
+    <string name="song_info_format_activity_title">Format informacji o utworze</string>
+    <string name="song_info_format_activity_subtitle">Zmień widoczne informacje o utworze</string>
 
     <!-- More -->
-    <string name="look_and_feel_header"><![CDATA[Look & feel]]></string>
-    <string name="typography_settings_title">Typography</string>
-    <string name="typography_settings_subtitle">Set text font, size and color</string>
-    <string name="layout_settings_title">Layout</string>
-    <string name="gestures_settings_subtitle">Actions, behaviour and shortcuts</string>
-    <string name="gestures_settings_title">Gestures</string>
-    <string name="gestures_amp_input_header"><![CDATA[Gestures & input]]></string>
-    <string name="clock_settings_subtitle">Set size, color and time zones</string>
-    <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
-    <string name="smart_content_header">Smart content</string>
+    <string name="look_and_feel_header"><![CDATA[Wygląd & zachowanie]]></string>
+    <string name="typography_settings_title">Typografia</string>
+    <string name="typography_settings_subtitle">Zmień czcionkę, wielkość i kolor</string>
+    <string name="layout_settings_title">Układ</string>
+    <string name="gestures_settings_subtitle">Akcje, zachowanie i skróty</string>
+    <string name="gestures_settings_title">Gesty</string>
+    <string name="gestures_amp_input_header"><![CDATA[Gesty i wprowadzanie]]></string>
+    <string name="clock_settings_subtitle">Ustaw wielkość, kolor i strefę czasową</string>
+    <string name="layout_settings_subtitle">Odstępy w widgecie i poprawki</string>
+    <string name="smart_content_header">Inteligentna zawartość</string>
 </resources>
