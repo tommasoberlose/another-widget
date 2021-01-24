@@ -100,7 +100,7 @@ class GesturesFragment : Fragment() {
             maintainScrollPosition {
                 binding.calendarAppLabel.text = when {
                     it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
-                    it == IntentHelper.REFRESH_WIDGET_OPTION -> "None, the widget will be refreshed"
+                    it == IntentHelper.REFRESH_WIDGET_OPTION -> getString(R.string.gestures_refresh_widget)
                     it != IntentHelper.DEFAULT_OPTION -> it
                     else -> {
                         if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
@@ -125,7 +125,7 @@ class GesturesFragment : Fragment() {
             maintainScrollPosition {
                 binding.clockAppLabel.text = when {
                     it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
-                    it == IntentHelper.REFRESH_WIDGET_OPTION -> "None, the widget will be refreshed"
+                    it == IntentHelper.REFRESH_WIDGET_OPTION -> getString(R.string.gestures_refresh_widget)
                     it != IntentHelper.DEFAULT_OPTION -> it
                     else -> {
                         if (IntentHelper.getClockIntent(requireContext()).isDefaultSet(requireContext())) {
@@ -144,7 +144,7 @@ class GesturesFragment : Fragment() {
             maintainScrollPosition {
                 binding.weatherAppLabel.text = when {
                     it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
-                    it == IntentHelper.REFRESH_WIDGET_OPTION -> "None, the widget will be refreshed"
+                    it == IntentHelper.REFRESH_WIDGET_OPTION -> getString(R.string.gestures_refresh_widget)
                     it != IntentHelper.DEFAULT_OPTION -> it
                     else -> getString(R.string.default_weather_app)
                 }

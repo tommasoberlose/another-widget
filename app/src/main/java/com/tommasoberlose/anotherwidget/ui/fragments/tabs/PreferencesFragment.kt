@@ -106,15 +106,15 @@ class PreferencesFragment : Fragment() {
 
     private fun setupListener() {
 
-        binding.actionTypography.setOnClickListener {
+        binding.actionTypography.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_typographyTabFragment)
         }
 
-        binding.actionGeneralSettings.setOnClickListener {
+        binding.actionGeneralSettings.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_generalTabFragment)
         }
 
-        binding.actionShowEvents.setOnClickListener {
+        binding.actionShowEvents.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_calendarTabFragment)
         }
 
@@ -126,7 +126,7 @@ class PreferencesFragment : Fragment() {
             }
         }
 
-        binding.actionShowWeather.setOnClickListener {
+        binding.actionShowWeather.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_weatherTabFragment)
         }
 
@@ -139,7 +139,7 @@ class PreferencesFragment : Fragment() {
             }
         }
 
-        binding.actionShowClock.setOnClickListener {
+        binding.actionShowClock.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_clockTabFragment)
         }
 
@@ -147,11 +147,11 @@ class PreferencesFragment : Fragment() {
             Preferences.showClock = enabled
         }
 
-        binding.actionShowGlance.setOnClickListener {
+        binding.actionShowGlance.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_glanceTabFragment)
         }
 
-        binding.actionTabDefaultApp.setOnClickListener {
+        binding.actionTabDefaultApp.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_tabSelectorFragment_to_gesturesFragment)
         }
     }

@@ -94,7 +94,7 @@ class MainFragment : Fragment() {
         navHost?.navController?.addOnDestinationChangedListener { controller, destination, _ ->
             val show = destination.id != R.id.tabSelectorFragment
             binding.actionBack.animate().alpha(if (show) 1f else 0f).setDuration(200).translationX((if (show) 0f else 4f).convertDpToPixel(requireContext())).start()
-            binding.actionBack.setOnClickListener {
+            binding.actionBack.setOnSingleClickListener {
                 controller.navigateUp()
             }
             binding.actionBack.isClickable = show
@@ -105,7 +105,7 @@ class MainFragment : Fragment() {
             binding.fragmentTitle.text = if (show) destination.label.toString() else getString(R.string.app_name)
         }
 
-        binding.actionSettings.setOnClickListener {
+        binding.actionSettings.setOnSingleClickListener {
             Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment,)
         }
 

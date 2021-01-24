@@ -36,6 +36,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.settings.SupportDevActivit
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.openURI
+import com.tommasoberlose.anotherwidget.utils.setOnSingleClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -76,7 +77,7 @@ class SettingsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        binding.actionBack.setOnClickListener {
+        binding.actionBack.setOnSingleClickListener {
             Navigation.findNavController(it).popBackStack()
         }
 

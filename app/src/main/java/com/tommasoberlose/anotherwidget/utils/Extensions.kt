@@ -26,6 +26,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.core.animation.addListener
 import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R
+import com.tommasoberlose.anotherwidget.components.OnSingleClickListener
 import java.util.*
 
 
@@ -253,4 +254,12 @@ fun Locale.isMetric(): Boolean {
         "US", "LR", "MM", "GB" -> false
         else -> true
     }
+}
+
+fun View.setOnSingleClickListener(l: View.OnClickListener) {
+    setOnClickListener(OnSingleClickListener(l))
+}
+
+fun View.setOnSingleClickListener(l: (View) -> Unit) {
+    setOnClickListener(OnSingleClickListener(l))
 }

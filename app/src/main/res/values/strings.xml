@@ -358,4 +358,5 @@
     <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
     <string name="smart_content_header">Smart content</string>
     <string name="spacing_settings_header">Spacing</string>
+    <string name="gestures_refresh_widget">None, the widget will be refreshed</string>
 </resources>
