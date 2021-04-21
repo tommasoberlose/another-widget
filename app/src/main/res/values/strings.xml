@@ -243,7 +243,7 @@
     <string name="applications_filter_title">Applications</string>
     <string name="applications_filter_subtitle">Choose which notifications to view</string>
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Good morning!</item>
+        <item>Доброе утро!</item>
         <item>Have a good day!</item>
         <item>Ready to go?</item>
         <item>Rise and shine.</item>
