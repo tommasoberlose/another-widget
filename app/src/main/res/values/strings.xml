@@ -243,14 +243,14 @@
     <string name="applications_filter_title">Applications</string>
     <string name="applications_filter_subtitle">Choose which notifications to view</string>
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Good morning!</item>
-        <item>Have a good day!</item>
-        <item>Ready to go?</item>
-        <item>Rise and shine.</item>
-        <item>Don\'t forget your breakfast!</item>
+        <item>Доброе утро!</item>
+        <item>Хорошего дня!</item>
+        <item>Готовы идти?</item>
+        <item>Восстань и сияй.</item>
+        <item>Не забудь позавтракать!</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
-        <item>Good evening!</item>
+        <item>Добрый вечер!</item>
         <item>How did your day go?</item>
         <item>Did you have a nice day?</item>
         <item>After effort comes comfort.</item>
