@@ -1,7 +1,5 @@
 package com.tommasoberlose.anotherwidget.global
 
-import java.text.SimpleDateFormat
-
 object Constants {
     const val RESULT_CODE_CUSTOM_LOCATION = 45
     const val RESULT_APP_NAME = "RESULT_APP_NAME"
@@ -11,14 +9,14 @@ object Constants {
     const val CUSTOM_FONT_DOWNLOADED = 2
     const val CUSTOM_FONT_DOWNLOAD_NEW = 3
 
-    enum class ClockBottomMargin(val value: Int) {
+    enum class ClockBottomMargin(val rawValue: Int) {
         NONE(0),
         SMALL(1),
         MEDIUM(2),
         LARGE(3)
     }
 
-    enum class SecondRowTopMargin(val value: Int) {
+    enum class SecondRowTopMargin(val rawValue: Int) {
         NONE(0),
         SMALL(1),
         MEDIUM(2),
@@ -41,13 +39,13 @@ object Constants {
         }
     }
 
-    enum class WidgetUpdateFrequency(val value: Int) {
+    enum class WidgetUpdateFrequency(val rawValue: Int) {
         LOW(0),
         DEFAULT(1),
         HIGH(2)
     }
 
-    enum class WeatherProvider(val value: Int) {
+    enum class WeatherProvider(val rawValue: Int) {
         OPEN_WEATHER(0),
         WEATHER_BIT(1),
         WEATHER_API(2),
@@ -57,12 +55,12 @@ object Constants {
         YR(6);
 
         companion object {
-            private val map = WeatherProvider.values().associateBy(WeatherProvider::value)
+            private val map = WeatherProvider.values().associateBy(WeatherProvider::rawValue)
             fun fromInt(type: Int) = map[type]
         }
     }
 
-    enum class GlanceNotificationTimer(val value: Int) {
+    enum class GlanceNotificationTimer(val rawValue: Int) {
         HALF_MINUTE(0),
         ONE_MINUTE(1),
         FIVE_MINUTES(2),
@@ -71,15 +69,21 @@ object Constants {
         WHEN_DISMISSED(5);
 
         companion object {
-            private val map = values().associateBy(GlanceNotificationTimer::value)
+            private val map = values().associateBy(GlanceNotificationTimer::rawValue)
             fun fromInt(type: Int) = map[type]
         }
     }
 
-    enum class WeatherIconPack(val value: Int) {
+    enum class WeatherIconPack(val rawValue: Int) {
         DEFAULT(0),
         MINIMAL(1),
         COOL(2),
         GOOGLE_NEWS(3)
+    }
+
+    enum class WidgetAlign(val rawValue: Int) {
+        LEFT(0),
+        RIGHT(1),
+        CENTER(2)
     }
 }

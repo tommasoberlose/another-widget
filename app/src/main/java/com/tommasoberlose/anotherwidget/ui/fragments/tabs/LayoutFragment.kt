@@ -1,17 +1,14 @@
 package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.chibatching.kotpref.blockingBulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
@@ -22,8 +19,6 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toHexValue
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
-import com.tommasoberlose.anotherwidget.helpers.DateHelper
-import com.tommasoberlose.anotherwidget.ui.activities.tabs.CustomDateActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
@@ -31,7 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 
 class LayoutFragment : Fragment() {
@@ -94,10 +88,21 @@ class LayoutFragment : Fragment() {
         viewModel.secondRowTopMargin.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.secondRowTopMarginLabel.text = when (it) {
-                    Constants.SecondRowTopMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
-                    Constants.SecondRowTopMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
-                    Constants.SecondRowTopMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
+                    Constants.SecondRowTopMargin.NONE.rawValue -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
+                    Constants.SecondRowTopMargin.SMALL.rawValue -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
+                    Constants.SecondRowTopMargin.LARGE.rawValue -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
                     else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
+                }
+            }
+        }
+
+        viewModel.widgetAlign.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                binding.widgetAlignLabel.text = when (it) {
+                    Constants.WidgetAlign.LEFT.rawValue -> getString(R.string.settings_widget_align_left_subtitle)
+                    Constants.WidgetAlign.RIGHT.rawValue -> getString(R.string.settings_widget_align_right_subtitle)
+                    Constants.WidgetAlign.CENTER.rawValue -> getString(R.string.settings_widget_align_center_subtitle)
+                    else -> getString(R.string.settings_widget_align_center_subtitle)
                 }
             }
         }
@@ -105,9 +110,9 @@ class LayoutFragment : Fragment() {
         viewModel.clockBottomMargin.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.clockBottomMarginLabel.text = when (it) {
-                    Constants.ClockBottomMargin.NONE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
-                    Constants.ClockBottomMargin.SMALL.value -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
-                    Constants.ClockBottomMargin.LARGE.value -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
+                    Constants.ClockBottomMargin.NONE.rawValue -> getString(R.string.settings_clock_bottom_margin_subtitle_none)
+                    Constants.ClockBottomMargin.SMALL.rawValue -> getString(R.string.settings_clock_bottom_margin_subtitle_small)
+                    Constants.ClockBottomMargin.LARGE.rawValue -> getString(R.string.settings_clock_bottom_margin_subtitle_large)
                     else -> getString(R.string.settings_clock_bottom_margin_subtitle_medium)
                 }
             }
@@ -115,7 +120,7 @@ class LayoutFragment : Fragment() {
 
         viewModel.backgroundCardColor.observe(viewLifecycleOwner) {
             maintainScrollPosition {
-                if (Preferences.backgroundCardAlpha == "00") {
+                if (ColorHelper.getBackgroundAlpha(requireActivity().isDarkTheme()) == 0) {
                     binding.backgroundColorLabel.text = getString(R.string.transparent)
                 } else {
                     binding.backgroundColorLabel.text =
@@ -141,19 +146,19 @@ class LayoutFragment : Fragment() {
             ).setSelectedValue(Preferences.secondRowTopMargin)
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_none),
-                    Constants.SecondRowTopMargin.NONE.value
+                    Constants.SecondRowTopMargin.NONE.rawValue
                 )
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_small),
-                    Constants.SecondRowTopMargin.SMALL.value
+                    Constants.SecondRowTopMargin.SMALL.rawValue
                 )
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_medium),
-                    Constants.SecondRowTopMargin.MEDIUM.value
+                    Constants.SecondRowTopMargin.MEDIUM.rawValue
                 )
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_large),
-                    Constants.SecondRowTopMargin.LARGE.value
+                    Constants.SecondRowTopMargin.LARGE.rawValue
                 )
                 .addOnSelectItemListener { value ->
                     Preferences.secondRowTopMargin = value
@@ -167,22 +172,44 @@ class LayoutFragment : Fragment() {
             ).setSelectedValue(Preferences.clockBottomMargin)
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_none),
-                    Constants.ClockBottomMargin.NONE.value
+                    Constants.ClockBottomMargin.NONE.rawValue
                 )
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_small),
-                    Constants.ClockBottomMargin.SMALL.value
+                    Constants.ClockBottomMargin.SMALL.rawValue
                 )
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_medium),
-                    Constants.ClockBottomMargin.MEDIUM.value
+                    Constants.ClockBottomMargin.MEDIUM.rawValue
                 )
                 .addItem(
                     getString(R.string.settings_clock_bottom_margin_subtitle_large),
-                    Constants.ClockBottomMargin.LARGE.value
+                    Constants.ClockBottomMargin.LARGE.rawValue
                 )
                 .addOnSelectItemListener { value ->
                     Preferences.clockBottomMargin = value
+                }.show()
+        }
+
+        binding.actionWidgetAlign.setOnClickListener {
+            BottomSheetMenu<Int>(
+                requireContext(),
+                header = getString(R.string.settings_widget_align_title)
+            ).setSelectedValue(Preferences.widgetAlign)
+                .addItem(
+                    getString(R.string.settings_widget_align_center_subtitle),
+                    Constants.WidgetAlign.CENTER.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_align_left_subtitle),
+                    Constants.WidgetAlign.LEFT.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_align_right_subtitle),
+                    Constants.WidgetAlign.RIGHT.rawValue
+                )
+                .addOnSelectItemListener { value ->
+                    Preferences.widgetAlign = value
                 }.show()
         }
 

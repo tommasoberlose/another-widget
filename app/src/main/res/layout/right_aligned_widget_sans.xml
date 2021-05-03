@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_vertical|end"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:id="@+id/main_layout"
@@ -21,8 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/time_container"
-            android:gravity="center_horizontal"
-            android:layoutDirection="locale"
             android:orientation="horizontal">
             <TextClock
                 android:id="@+id/time"
@@ -74,115 +72,102 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter"
-                android:layout_centerInParent="true"
-                android:id="@+id/bitmap_container"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:orientation="vertical">
+                android:gravity="center_vertical|end"
+                android:alpha="0"
+                android:orientation="vertical"
+                android:id="@+id/empty_layout_rect">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/empty_date_rect"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/weather_rect" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/calendar_layout_rect"
+                android:alpha="0"
+                android:gravity="center_vertical|end">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:alpha="0"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layoutDirection="locale"
-                    android:id="@+id/first_line_rect">
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/action_previous_rect" />
+                        <ImageView
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/next_event_rect" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/next_event_difference_time_rect" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/action_next_rect" />
+                    </LinearLayout>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/date_rect"/>
+                        android:id="@+id/calendar_weather_rect" />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:id="@+id/weather_rect" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="locale"
-                    android:visibility="gone"
-                    android:id="@+id/calendar_layout_rect"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/action_previous_rect" />
-                    <ImageView
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:id="@+id/next_event_rect" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:id="@+id/next_event_difference_time_rect" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/action_next_rect" />
+                        android:id="@+id/special_weather_rect" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="4dp"
                     android:visibility="gone"
                     android:orientation="horizontal"
-                    android:id="@+id/sub_line_top_margin_small_sans" />
+                    android:id="@+id/second_row_top_margin_small_sans" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
                     android:visibility="gone"
                     android:orientation="horizontal"
-                    android:id="@+id/sub_line_top_margin_medium_sans" />
+                    android:id="@+id/second_row_top_margin_medium_sans" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="12dp"
                     android:visibility="gone"
                     android:orientation="horizontal"
-                    android:id="@+id/sub_line_top_margin_large_sans" />
+                    android:id="@+id/second_row_top_margin_large_sans" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layoutDirection="locale"
-                    android:gravity="center">
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/sub_line_rect" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:id="@+id/weather_sub_line_rect" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:id="@+id/second_row_rect" />
                 </LinearLayout>
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:id="@+id/bitmap_container"/>
+
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

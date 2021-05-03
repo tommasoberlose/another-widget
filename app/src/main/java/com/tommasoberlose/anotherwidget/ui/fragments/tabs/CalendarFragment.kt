@@ -1,19 +1,14 @@
 package com.tommasoberlose.anotherwidget.ui.fragments.tabs
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.chibatching.kotpref.bulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
@@ -21,20 +16,15 @@ import com.tommasoberlose.anotherwidget.models.CalendarSelector
 import com.tommasoberlose.anotherwidget.databinding.FragmentTabCalendarBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.global.RequestCode
-import com.tommasoberlose.anotherwidget.ui.activities.tabs.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
-import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.helpers.SettingsStringHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.isDefaultSet
 import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.Comparator
 
 class CalendarFragment : Fragment() {
 
@@ -110,9 +100,9 @@ class CalendarFragment : Fragment() {
         viewModel.widgetUpdateFrequency.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.widgetUpdateFrequencyLabel.text = when (it) {
-                    Constants.WidgetUpdateFrequency.HIGH.value -> getString(R.string.settings_widget_update_frequency_high)
-                    Constants.WidgetUpdateFrequency.DEFAULT.value -> getString(R.string.settings_widget_update_frequency_default)
-                    Constants.WidgetUpdateFrequency.LOW.value -> getString(R.string.settings_widget_update_frequency_low)
+                    Constants.WidgetUpdateFrequency.HIGH.rawValue -> getString(R.string.settings_widget_update_frequency_high)
+                    Constants.WidgetUpdateFrequency.DEFAULT.rawValue -> getString(R.string.settings_widget_update_frequency_default)
+                    Constants.WidgetUpdateFrequency.LOW.rawValue -> getString(R.string.settings_widget_update_frequency_low)
                     else -> ""
                 }
             }
@@ -244,9 +234,9 @@ class CalendarFragment : Fragment() {
         binding.actionWidgetUpdateFrequency.setOnClickListener {
             if (Preferences.showEvents && Preferences.showDiffTime) {
                 BottomSheetMenu<Int>(requireContext(), header = getString(R.string.settings_widget_update_frequency_title), message = getString(R.string.settings_widget_update_frequency_subtitle)).setSelectedValue(Preferences.widgetUpdateFrequency)
-                    .addItem(getString(R.string.settings_widget_update_frequency_high), Constants.WidgetUpdateFrequency.HIGH.value)
-                    .addItem(getString(R.string.settings_widget_update_frequency_default), Constants.WidgetUpdateFrequency.DEFAULT.value)
-                    .addItem(getString(R.string.settings_widget_update_frequency_low), Constants.WidgetUpdateFrequency.LOW.value)
+                    .addItem(getString(R.string.settings_widget_update_frequency_high), Constants.WidgetUpdateFrequency.HIGH.rawValue)
+                    .addItem(getString(R.string.settings_widget_update_frequency_default), Constants.WidgetUpdateFrequency.DEFAULT.rawValue)
+                    .addItem(getString(R.string.settings_widget_update_frequency_low), Constants.WidgetUpdateFrequency.LOW.rawValue)
                     .addOnSelectItemListener { value ->
                         Preferences.widgetUpdateFrequency = value
                     }.show()

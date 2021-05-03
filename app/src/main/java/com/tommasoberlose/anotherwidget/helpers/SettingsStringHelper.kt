@@ -96,13 +96,13 @@ object SettingsStringHelper {
             difference <= 0 -> {
                 return ""
             }
-            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.HIGH.value && TimeUnit.MILLISECONDS.toMinutes(difference) > 5 -> {
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.HIGH.rawValue && TimeUnit.MILLISECONDS.toMinutes(difference) > 5 -> {
                 return DateUtils.getRelativeTimeSpanString(start, start - 1000 * 60 * (TimeUnit.MILLISECONDS.toMinutes(difference) - 1 - (TimeUnit.MILLISECONDS.toMinutes(difference) - 1) % 5), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
             }
-            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.DEFAULT.value && TimeUnit.MILLISECONDS.toMinutes(difference) > 5 -> {
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.DEFAULT.rawValue && TimeUnit.MILLISECONDS.toMinutes(difference) > 5 -> {
                 return DateUtils.getRelativeTimeSpanString(start, start - 1000 * 60 * (TimeUnit.MILLISECONDS.toMinutes(difference) - 1 - (TimeUnit.MILLISECONDS.toMinutes(difference) - 1) % 15), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
             }
-            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.LOW.value -> {
+            TimeUnit.MILLISECONDS.toHours(difference) < 1 && Preferences.widgetUpdateFrequency == Constants.WidgetUpdateFrequency.LOW.rawValue -> {
                 return context.getString(R.string.soon)
             }
             TimeUnit.MILLISECONDS.toHours(difference) < 1 -> {

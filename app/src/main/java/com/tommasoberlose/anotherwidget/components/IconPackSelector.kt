@@ -2,7 +2,6 @@ package com.tommasoberlose.anotherwidget.components
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -28,13 +27,13 @@ class IconPackSelector(context: Context, private val header: String? = null) : B
         // Menu
         for (item in Constants.WeatherIconPack.values()) {
             val itemBinding = IconPackMenuItemBinding.inflate(LayoutInflater.from(context))
-            itemBinding.label.text = context.getString(R.string.settings_weather_icon_pack_default).format(item.value + 1)
-            itemBinding.root.isSelected = item.value == Preferences.weatherIconPack
+            itemBinding.label.text = context.getString(R.string.settings_weather_icon_pack_default).format(item.rawValue + 1)
+            itemBinding.root.isSelected = item.rawValue == Preferences.weatherIconPack
 
-            itemBinding.icon1.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01d", item.value)))
-            itemBinding.icon2.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01n", item.value)))
-            itemBinding.icon3.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "10d", item.value)))
-            itemBinding.icon4.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "09n", item.value)))
+            itemBinding.icon1.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01d", item.rawValue)))
+            itemBinding.icon2.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "01n", item.rawValue)))
+            itemBinding.icon3.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "10d", item.rawValue)))
+            itemBinding.icon4.setImageDrawable(ContextCompat.getDrawable(context, WeatherHelper.getWeatherIconResource(context, "09n", item.rawValue)))
 
             listOf<ImageView>(itemBinding.icon1, itemBinding.icon2, itemBinding.icon3, itemBinding.icon4).forEach {
                 if (item == Constants.WeatherIconPack.MINIMAL) {
@@ -45,7 +44,7 @@ class IconPackSelector(context: Context, private val header: String? = null) : B
             }
 
             itemBinding.root.setOnClickListener {
-                Preferences.weatherIconPack = item.value
+                Preferences.weatherIconPack = item.rawValue
                 this.dismiss()
             }
             binding.menu.addView(itemBinding.root)

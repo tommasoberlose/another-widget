@@ -49,6 +49,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
     val showDividers = Preferences.asLiveData(Preferences::showDividers)
     val secondRowTopMargin = Preferences.asLiveData(Preferences::secondRowTopMargin)
+    val widgetAlign = Preferences.asLiveData(Preferences::widgetAlign)
 
     // Calendar Settings
     val showEvents = Preferences.asLiveData(Preferences::showEvents)

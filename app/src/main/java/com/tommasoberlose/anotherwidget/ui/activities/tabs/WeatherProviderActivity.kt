@@ -47,12 +47,12 @@ class WeatherProviderActivity : AppCompatActivity() {
                 injector
                     .text(R.id.text, WeatherHelper.getProviderName(this, provider))
                     .clicked(R.id.item) {
-                        if (Preferences.weatherProvider != provider.value) {
+                        if (Preferences.weatherProvider != provider.rawValue) {
                             Preferences.weatherProviderError = "-"
                             Preferences.weatherProviderLocationError = ""
                         }
                         val oldValue = Preferences.weatherProvider
-                        Preferences.weatherProvider = provider.value
+                        Preferences.weatherProvider = provider.rawValue
                         updateListItem(oldValue)
                         updateListItem()
                         binding.loader.isVisible = true
@@ -62,12 +62,12 @@ class WeatherProviderActivity : AppCompatActivity() {
                         }
                     }
                     .clicked(R.id.radioButton) {
-                        if (Preferences.weatherProvider != provider.value) {
+                        if (Preferences.weatherProvider != provider.rawValue) {
                             Preferences.weatherProviderError = "-"
                             Preferences.weatherProviderLocationError = ""
                         }
                         val oldValue = Preferences.weatherProvider
-                        Preferences.weatherProvider = provider.value
+                        Preferences.weatherProvider = provider.rawValue
                         updateListItem(oldValue)
                         updateListItem()
                         binding.loader.isVisible = true
@@ -76,7 +76,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                             WeatherHelper.updateWeather(this@WeatherProviderActivity)
                         }
                     }
-                    .checked(R.id.radioButton, provider.value == Preferences.weatherProvider)
+                    .checked(R.id.radioButton, provider.rawValue == Preferences.weatherProvider)
                     .with<TextView>(R.id.text2) {
                         if (WeatherHelper.isKeyRequired(provider)) {
                             it.text = getString(R.string.api_key_required_message)
@@ -98,14 +98,14 @@ class WeatherProviderActivity : AppCompatActivity() {
                             }
                         }.show()
                     }
-                    .visibility(R.id.action_configure, if (/*WeatherHelper.isKeyRequired(provider) && */provider.value == Preferences.weatherProvider) View.VISIBLE else View.GONE)
+                    .visibility(R.id.action_configure, if (/*WeatherHelper.isKeyRequired(provider) && */provider.rawValue == Preferences.weatherProvider) View.VISIBLE else View.GONE)
                     .with<TextView>(R.id.provider_error) {
                         if (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-") {
                             it.text = Preferences.weatherProviderError
-                            it.isVisible = provider.value == Preferences.weatherProvider
+                            it.isVisible = provider.rawValue == Preferences.weatherProvider
                         } else if (Preferences.weatherProviderLocationError != "") {
                             it.text = Preferences.weatherProviderLocationError
-                            it.isVisible = provider.value == Preferences.weatherProvider
+                            it.isVisible = provider.rawValue == Preferences.weatherProvider
                         } else {
                             it.isVisible = false
                         }
@@ -137,7 +137,7 @@ class WeatherProviderActivity : AppCompatActivity() {
 
     private fun updateListItem(provider: Int = Preferences.weatherProvider) {
         (adapter.data).forEachIndexed { index, item ->
-            if (item is Constants.WeatherProvider && item.value == provider) {
+            if (item is Constants.WeatherProvider && item.rawValue == provider) {
                 adapter.notifyItemChanged(index)
             }
         }
