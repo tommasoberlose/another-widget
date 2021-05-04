@@ -99,7 +99,6 @@ class MainWidget : AppWidgetProvider() {
             WidgetHelper.runWithCustomTypeface(context) {
                 val views = when (Preferences.widgetAlign) {
                     Constants.WidgetAlign.LEFT.rawValue -> LeftAlignedWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
-                    Constants.WidgetAlign.RIGHT.rawValue -> LeftAlignedWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
                     else -> StandardWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
                 }
                 appWidgetManager.updateAppWidget(appWidgetId, views)
@@ -109,7 +108,6 @@ class MainWidget : AppWidgetProvider() {
         fun getWidgetView(context: Context, typeface: Typeface?): ViewBinding {
             return when (Preferences.widgetAlign) {
                 Constants.WidgetAlign.LEFT.rawValue -> LeftAlignedWidget(context).generateWidgetView(typeface)
-                Constants.WidgetAlign.RIGHT.rawValue -> LeftAlignedWidget(context).generateWidgetView(typeface)
                 else -> StandardWidget(context).generateWidgetView(typeface)
             }
         }

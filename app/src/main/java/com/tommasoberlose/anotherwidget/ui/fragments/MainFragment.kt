@@ -9,9 +9,11 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -42,7 +44,8 @@ class MainFragment : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
-        private var PREVIEW_BASE_HEIGHT: Int = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) 120 else 200
+        private val PREVIEW_BASE_HEIGHT: Int
+            get() = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) 120 else 200
     }
 
     private lateinit var viewModel: MainViewModel
@@ -154,6 +157,10 @@ class MainFragment : Fragment() {
 
         viewModel.widgetAlign.observe(viewLifecycleOwner) {
             updatePreviewVisibility()
+            lifecycleScope.launch {
+                delay(350)
+                updateClock()
+            }
         }
 
         viewModel.showPreview.observe(viewLifecycleOwner) {
@@ -252,6 +259,10 @@ class MainFragment : Fragment() {
         binding.widgetDetail.clockBottomMarginLarge.isVisible =
             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.rawValue
 
+        // Align
+        binding.widgetDetail.timeContainer.layoutParams = (binding.widgetDetail.timeContainer.layoutParams as LinearLayout.LayoutParams).apply {
+            gravity = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) Gravity.CENTER_HORIZONTAL else Gravity.NO_GRAVITY
+        }
     }
 
     private fun updateClockVisibility(showClock: Boolean) {
@@ -261,7 +272,7 @@ class MainFragment : Fragment() {
         updatePreviewVisibility()
 
         if (showClock) {
-            binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
+            binding.widgetDetail.timeContainer.layoutParams = (binding.widgetDetail.timeContainer.layoutParams as LinearLayout.LayoutParams).apply {
                 height = RelativeLayout.LayoutParams.WRAP_CONTENT
             }
             binding.widgetDetail.timeContainer.measure(0, 0)

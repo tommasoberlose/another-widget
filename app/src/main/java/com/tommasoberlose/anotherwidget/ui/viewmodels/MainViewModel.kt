@@ -132,6 +132,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::customFontName)) { value = true }
         addSource(Preferences.asLiveData(Preferences::customFontVariant)) { value = true }
         addSource(Preferences.asLiveData(Preferences::secondRowInformation)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::widgetAlign)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showDividers)) { value = true }
         addSource(Preferences.asLiveData(Preferences::secondRowTopMargin)) { value = true }
         addSource(Preferences.asLiveData(Preferences::isDateCapitalize)) { value = true }

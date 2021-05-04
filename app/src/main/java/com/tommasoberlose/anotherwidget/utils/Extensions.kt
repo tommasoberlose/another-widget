@@ -21,7 +21,9 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.animation.AlphaAnimation
 import android.widget.RelativeLayout
+import androidx.annotation.UiThread
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.core.animation.addListener
 import androidx.core.view.isVisible

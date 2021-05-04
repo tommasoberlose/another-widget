@@ -129,7 +129,13 @@ class StandardWidget(val context: Context) {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
-            views.setViewVisibility(R.id.date_layout, View.VISIBLE)
+            views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
+
+            // Second row
+            views.setImageViewBitmap(
+                R.id.sub_line_rect,
+                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
+            )
 
             val nextEvent = eventRepository.getNextEvent()
             val nextAlarm = AlarmHelper.getNextAlarm(context)
@@ -207,7 +213,7 @@ class StandardWidget(val context: Context) {
                 views.setViewVisibility(R.id.next_event_rect, View.VISIBLE)
 
                 // Event time difference
-                if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < (nextEvent.startDate - 1000 * 60 * 60)) {
+                if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < nextEvent.startDate) {
                     views.setImageViewBitmap(
                         R.id.next_event_difference_time_rect,
                         BitmapHelper.getBitmapFromView(
@@ -249,13 +255,11 @@ class StandardWidget(val context: Context) {
                     BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false)
                 )
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
-
-                // Second row
-                views.setImageViewBitmap(
-                    R.id.sub_line_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
-                )
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.VISIBLE)
+
+                views.setViewVisibility(R.id.first_line_rect, View.GONE)
+
             } else if (GlanceProviderHelper.showGlanceProviders(context) && bindingView.calendarLayout.isVisible) {
                 var showSomething = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
@@ -383,9 +387,9 @@ class StandardWidget(val context: Context) {
                     )
 
                     views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
-                    views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
 
+                    views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
                 } else {
                     // Spacing

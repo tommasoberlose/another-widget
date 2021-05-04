@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.format.DateUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateMargins
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.LeftAlignedWidgetBinding
 import com.tommasoberlose.anotherwidget.db.EventRepository
@@ -127,7 +129,7 @@ class LeftAlignedWidget(val context: Context) {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
-            views.setViewVisibility(R.id.date_layout, View.VISIBLE)
+            views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
 
             val nextEvent = eventRepository.getNextEvent()
             val nextAlarm = AlarmHelper.getNextAlarm(context)
@@ -184,7 +186,7 @@ class LeftAlignedWidget(val context: Context) {
                 views.setViewVisibility(R.id.next_event_rect, View.VISIBLE)
 
                 // Event time difference
-                if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < (nextEvent.startDate - 1000 * 60 * 60)) {
+                if (Preferences.showDiffTime && Calendar.getInstance().timeInMillis < nextEvent.startDate) {
                     views.setImageViewBitmap(
                         R.id.next_event_difference_time_rect,
                         BitmapHelper.getBitmapFromView(
@@ -192,8 +194,9 @@ class LeftAlignedWidget(val context: Context) {
                             draw = false
                         )
                     )
-                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+
                     views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, eventIntent)
+                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
                 } else {
                     views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
                 }
@@ -227,12 +230,14 @@ class LeftAlignedWidget(val context: Context) {
                 )
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
 
-                // Second row
-                views.setImageViewBitmap(
-                    R.id.sub_line_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
-                )
+                views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.first_line_rect, View.GONE)
+
+                views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             } else if (GlanceProviderHelper.showGlanceProviders(context) && bindingView.calendarLayout.isVisible) {
                 var showSomething = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
@@ -354,15 +359,11 @@ class LeftAlignedWidget(val context: Context) {
 
 
                 if (showSomething) {
-                    views.setImageViewBitmap(
-                        R.id.sub_line_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
-                    )
-
                     views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
-                    views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
+                    views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
                     views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
 
+                    views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
                     views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
                 } else {
                     // Spacing
@@ -371,6 +372,12 @@ class LeftAlignedWidget(val context: Context) {
                     views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
                 }
             }
+
+            // Second row
+            views.setImageViewBitmap(
+                R.id.sub_line_rect,
+                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
+            )
         } catch (ex: Exception) {
             ex.printStackTrace()
             CrashlyticsReceiver.sendCrash(context, ex)
@@ -542,12 +549,9 @@ class LeftAlignedWidget(val context: Context) {
             bindingView.subLine.isVisible = true
             bindingView.weatherSubLine.isVisible = true
 
-            bindingView.subLineTopMarginSmall.visibility =
-                if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.rawValue) View.VISIBLE else View.GONE
-            bindingView.subLineTopMarginMedium.visibility =
-                if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.rawValue) View.VISIBLE else View.GONE
-            bindingView.subLineTopMarginLarge.visibility =
-                if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.rawValue) View.VISIBLE else View.GONE
+            bindingView.subLineTopMarginSmall.visibility = View.GONE
+            bindingView.subLineTopMarginMedium.visibility = View.GONE
+            bindingView.subLineTopMarginLarge.visibility = View.GONE
         } else if (GlanceProviderHelper.showGlanceProviders(context)) {
             bindingView.subLineIcon.isVisible = true
             var showSomething = false

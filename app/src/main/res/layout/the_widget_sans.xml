@@ -74,26 +74,34 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitCenter"
                 android:layout_centerInParent="true"
-                android:id="@+id/bitmap_container"/>
+                android:paddingTop="4dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/bitmap_container"/>
+            </RelativeLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:alpha="0"
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:alpha="0"
                     android:visibility="gone"
+                    android:background="@color/colorNightDark"
                     android:orientation="horizontal"
                     android:layoutDirection="locale"
+                    android:layout_marginBottom="4dp"
                     android:id="@+id/first_line_rect">
                     <ImageView
                         android:layout_width="wrap_content"
@@ -110,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layoutDirection="locale"
                     android:visibility="gone"
+                    android:background="@color/colorNightDark"
                     android:id="@+id/calendar_layout_rect"
                     android:orientation="horizontal">
                     <ImageView
@@ -168,6 +177,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@color/colorNightDark"
                             android:id="@+id/sub_line_rect" />
                     </LinearLayout>
                     <LinearLayout
@@ -179,6 +189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
+                            android:background="@color/colorAccent"
                             android:id="@+id/weather_sub_line_rect" />
                     </LinearLayout>
                 </LinearLayout>

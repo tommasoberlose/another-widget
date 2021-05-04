@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:visibility="gone"
-            android:layout_marginBottom="8dp"
+            android:paddingBottom="8dp"
             android:orientation="vertical"
             android:layoutDirection="locale"
             android:id="@+id/date_layout">
