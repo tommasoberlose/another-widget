@@ -45,7 +45,7 @@ class MainFragment : Fragment() {
     companion object {
         fun newInstance() = MainFragment()
         private val PREVIEW_BASE_HEIGHT: Int
-            get() = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) 120 else 200
+            get() = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) 120 else 180
     }
 
     private lateinit var viewModel: MainViewModel

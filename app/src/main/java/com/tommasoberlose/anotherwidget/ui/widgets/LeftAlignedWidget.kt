@@ -238,7 +238,7 @@ class LeftAlignedWidget(val context: Context) {
                 views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
                 views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
                 views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
-            } else if (GlanceProviderHelper.showGlanceProviders(context) && bindingView.calendarLayout.isVisible) {
+            } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 var showSomething = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                     when (provider) {

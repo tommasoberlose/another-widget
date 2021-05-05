@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.format.DateUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -260,7 +261,7 @@ class StandardWidget(val context: Context) {
 
                 views.setViewVisibility(R.id.first_line_rect, View.GONE)
 
-            } else if (GlanceProviderHelper.showGlanceProviders(context) && bindingView.calendarLayout.isVisible) {
+            } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 var showSomething = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                     when (provider) {

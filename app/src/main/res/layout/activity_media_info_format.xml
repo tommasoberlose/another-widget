@@ -110,10 +110,7 @@
                     app:textAllCaps="false"
                     android:gravity="center_vertical|start"
                     android:textAlignment="viewStart"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
-                    android:ellipsize="end"
+                    android:maxLines="2"
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="32dp" />
             </LinearLayout>
