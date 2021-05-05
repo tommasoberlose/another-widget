@@ -1,9 +1,7 @@
 package com.tommasoberlose.anotherwidget.ui.fragments
 
-import android.Manifest
 import android.animation.ValueAnimator
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,26 +9,19 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.core.animation.addListener
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
@@ -39,11 +30,10 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
-import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.adapters.ViewPagerAdapter
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.ui.widgets.StandardWidget
 import com.tommasoberlose.anotherwidget.utils.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
@@ -54,7 +44,8 @@ class MainFragment : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
-        private const val PREVIEW_BASE_HEIGHT = 120
+        private val PREVIEW_BASE_HEIGHT: Int
+            get() = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) 120 else 180
     }
 
     private lateinit var viewModel: MainViewModel
@@ -164,6 +155,14 @@ class MainFragment : Fragment() {
             binding.toolbar.cardElevation = if (it > 0) 24f else 0f
         }
 
+        viewModel.widgetAlign.observe(viewLifecycleOwner) {
+            updatePreviewVisibility()
+            lifecycleScope.launch {
+                delay(350)
+                updateClock()
+            }
+        }
+
         viewModel.showPreview.observe(viewLifecycleOwner) {
             updatePreviewVisibility()
         }
@@ -209,7 +208,7 @@ class MainFragment : Fragment() {
 
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
-                    val generatedView = MainWidget.generateWidgetView(requireContext(), typeface).root
+                    val generatedView = MainWidget.getWidgetView(requireContext(), typeface).root
 
                     withContext(Dispatchers.Main) {
                         generatedView.measure(0, 0)
@@ -252,14 +251,18 @@ class MainFragment : Fragment() {
 
         // Clock bottom margin
         binding.widgetDetail.clockBottomMarginNone.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.value
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.rawValue
         binding.widgetDetail.clockBottomMarginSmall.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.value
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.SMALL.rawValue
         binding.widgetDetail.clockBottomMarginMedium.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.value
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.MEDIUM.rawValue
         binding.widgetDetail.clockBottomMarginLarge.isVisible =
-            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.value
+            Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.rawValue
 
+        // Align
+        binding.widgetDetail.timeContainer.layoutParams = (binding.widgetDetail.timeContainer.layoutParams as LinearLayout.LayoutParams).apply {
+            gravity = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) Gravity.CENTER_HORIZONTAL else Gravity.NO_GRAVITY
+        }
     }
 
     private fun updateClockVisibility(showClock: Boolean) {
@@ -269,7 +272,7 @@ class MainFragment : Fragment() {
         updatePreviewVisibility()
 
         if (showClock) {
-            binding.widgetDetail.timeContainer.layoutParams = binding.widgetDetail.timeContainer.layoutParams.apply {
+            binding.widgetDetail.timeContainer.layoutParams = (binding.widgetDetail.timeContainer.layoutParams as LinearLayout.LayoutParams).apply {
                 height = RelativeLayout.LayoutParams.WRAP_CONTENT
             }
             binding.widgetDetail.timeContainer.measure(0, 0)

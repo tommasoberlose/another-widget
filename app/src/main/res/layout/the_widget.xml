@@ -4,79 +4,80 @@
     android:layout_gravity="center"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:orientation="vertical"
     android:id="@+id/main_layout">
     <ProgressBar
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:indeterminate="true"
+        android:layout_centerInParent="true"
         android:indeterminateTint="@color/colorPrimary"
         android:id="@+id/loader" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:orientation="horizontal"
-        android:layoutDirection="locale"
-        android:id="@+id/empty_layout">
-        <TextView
-            android:id="@+id/empty_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:textColor="@color/colorPrimary"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:includeFontPadding="false"
-            style="@style/AnotherWidget.Widget.Title"/>
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="gone"
-            android:paddingStart="8dp"
-            android:id="@+id/weather">
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layoutDirection="locale"
+            android:id="@+id/date_layout">
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:id="@+id/divider1"
-                android:text="@string/divider"
-                android:includeFontPadding="false"
-                style="@style/AnotherWidget.Widget.Subtitle"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:id="@+id/empty_weather_icon"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="8dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AnotherWidget.Widget.Date.Big"
+                android:lines="1"
+                android:textColor="@color/colorPrimary"
                 android:maxLines="1"
+                android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:id="@+id/temp"/>
+                style="@style/AnotherWidget.Widget.Title"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginStart="4dp"
+                android:id="@+id/weather_date_line">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:id="@+id/weather_date_line_divider"
+                    android:text="@string/divider"
+                    android:includeFontPadding="false"
+                    style="@style/AnotherWidget.Widget.Subtitle"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/weather_date_line_weather_icon"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AnotherWidget.Widget.Date.Big"
+                    android:maxLines="1"
+                    android:includeFontPadding="false"
+                    android:id="@+id/weather_date_line_temperature"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/calendar_layout"
-        android:visibility="gone"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:gravity="center">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layoutDirection="locale"
+            android:layout_gravity="center"
+            android:id="@+id/calendar_layout"
+            android:visibility="gone"
             android:orientation="horizontal">
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -131,60 +132,31 @@
                     android:id="@+id/action_next"
                     android:src="@drawable/round_chevron_right_24" />
             </RelativeLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:visibility="gone"
-                android:paddingStart="8dp"
-                android:id="@+id/special_weather">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:id="@+id/divider3"
-                    android:text="@string/divider"
-                    android:includeFontPadding="false"
-                    style="@style/AnotherWidget.Widget.Subtitle"/>
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:paddingEnd="4dp"
-                    android:paddingStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:id="@+id/special_weather_icon"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Widget.Date.Big"
-                    android:maxLines="1"
-                    android:includeFontPadding="false"
-                    android:id="@+id/special_temp"/>
-            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:visibility="gone"
             android:orientation="horizontal"
-            android:id="@+id/second_row_top_margin_small" />
+            android:id="@+id/sub_line_top_margin_small" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:visibility="gone"
             android:orientation="horizontal"
-            android:id="@+id/second_row_top_margin_medium" />
+            android:id="@+id/sub_line_top_margin_medium" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="12dp"
             android:visibility="gone"
             android:orientation="horizontal"
-            android:id="@+id/second_row_top_margin_large" />
+            android:id="@+id/sub_line_top_margin_large" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_gravity="center"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:layoutDirection="locale"
@@ -194,7 +166,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:id="@+id/second_row"
+                android:id="@+id/sub_line"
+                android:visibility="gone"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -207,18 +180,18 @@
                         android:layout_height="16dp"
                         android:cropToPadding="false"
                         android:clipChildren="false"
-                        android:id="@+id/second_row_icon_shadow"
+                        android:id="@+id/sub_line_icon_shadow"
                         android:src="@drawable/round_today_24"/>
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:cropToPadding="false"
                         android:clipChildren="false"
-                        android:id="@+id/second_row_icon"
+                        android:id="@+id/sub_line_icon"
                         android:src="@drawable/round_today_24"/>
                 </RelativeLayout>
                 <TextView
-                    android:id="@+id/next_event_date"
+                    android:id="@+id/sub_line_text"
                     android:layout_width="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
@@ -230,42 +203,33 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:layout_marginStart="8dp"
-                android:id="@+id/calendar_weather">
+                android:layout_marginStart="4dp"
+                android:id="@+id/weather_sub_line">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:id="@+id/divider2"
+                    android:id="@+id/weather_sub_line_divider"
                     android:text="@string/divider"
                     android:includeFontPadding="false"
                     style="@style/AnotherWidget.Widget.Subtitle"/>
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:id="@+id/weather_icon"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:adjustViewBounds="true"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/clear_night"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/weather_sub_line_weather_icon"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="8dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Widget.Date"
-                    android:layout_marginStart="8dp"
-                    android:ellipsize="marquee"
-                    android:layout_marginEnd="4dp"
+                    style="@style/AnotherWidget.Widget.Date.Big"
+                    android:maxLines="1"
                     android:includeFontPadding="false"
-                    android:id="@+id/calendar_temp"/>
+                    android:id="@+id/weather_sub_line_temperature"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>

@@ -8,9 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.view.LayoutInflater
-import android.view.View
 import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -119,7 +117,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             binding.actionChangeNotificationTimer.setOnClickListener {
                 val dialog = BottomSheetMenu<Int>(context, header = context.getString(R.string.glance_notification_hide_timeout_title)).setSelectedValue(Preferences.hideNotificationAfter)
                 Constants.GlanceNotificationTimer.values().forEachIndexed { index, timeout ->
-                    dialog.addItem(stringArray[index], timeout.value)
+                    dialog.addItem(stringArray[index], timeout.rawValue)
                 }
                 dialog.addOnSelectItemListener { value ->
                     Preferences.hideNotificationAfter = value

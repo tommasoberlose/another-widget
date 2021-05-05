@@ -5,9 +5,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import androidx.core.app.AlarmManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -110,7 +107,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                         if (diff.hours == 0) {
                             var minutes = 0
                             when (Preferences.widgetUpdateFrequency) {
-                                Constants.WidgetUpdateFrequency.DEFAULT.value -> {
+                                Constants.WidgetUpdateFrequency.DEFAULT.rawValue -> {
                                     minutes = when {
                                         diff.minutes > 50 -> 50
                                         diff.minutes > 30 -> 30
@@ -118,7 +115,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                                         else -> 0
                                     }
                                 }
-                                Constants.WidgetUpdateFrequency.HIGH.value -> {
+                                Constants.WidgetUpdateFrequency.HIGH.rawValue -> {
                                     minutes = diff.minutes - (diff.minutes % 5)
                                 }
                             }

@@ -37,6 +37,10 @@
     <string name="font_700">Grassetto</string>
     <string name="font_800">Nero</string>
     <string name="font_900">Molto nero</string>
+    <string name="settings_widget_align_title">Allineamento widget</string>
+    <string name="settings_widget_align_left_subtitle">Sinistra</string>
+    <string name="settings_widget_align_right_subtitle">Destra</string>
+    <string name="settings_widget_align_center_subtitle">Centro</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendario</string>

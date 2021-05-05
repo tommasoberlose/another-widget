@@ -1,13 +1,11 @@
 package com.tommasoberlose.anotherwidget.global
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.os.ConfigurationCompat
 import com.chibatching.kotpref.KotprefModel
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.utils.isMetric
-import java.util.*
 
 object Preferences : KotprefModel() {
     override val commitAllPropertiesByDefault: Boolean = true
@@ -48,14 +46,14 @@ object Preferences : KotprefModel() {
     var weatherProviderApiWeatherApi by stringPref(default = "")
     var weatherProviderApiWeatherBit by stringPref(default = "")
     var weatherProviderApiAccuweather by stringPref(default = "")
-    var weatherProvider by intPref(default = if (ConfigurationCompat.getLocales(context.resources.configuration)[0].isMetric()) Constants.WeatherProvider.YR.value else Constants.WeatherProvider.WEATHER_GOV.value)
+    var weatherProvider by intPref(default = if (ConfigurationCompat.getLocales(context.resources.configuration)[0].isMetric()) Constants.WeatherProvider.YR.rawValue else Constants.WeatherProvider.WEATHER_GOV.rawValue)
     var weatherProviderError by stringPref(default = "")
     var weatherProviderLocationError by stringPref(default = "")
     var eventAppName by stringPref(key = "PREF_EVENT_APP_NAME", default = "")
     var eventAppPackage by stringPref(key = "PREF_EVENT_APP_PACKAGE", default = "")
     var openEventDetails by booleanPref(default = true)
 
-    var widgetUpdateFrequency by intPref(default = Constants.WidgetUpdateFrequency.DEFAULT.value)
+    var widgetUpdateFrequency by intPref(default = Constants.WidgetUpdateFrequency.DEFAULT.rawValue)
 
     var textGlobalColor by stringPref(key = "PREF_TEXT_COLOR", default = "#FFFFFF")
     var textGlobalAlpha by stringPref(default = "FF")
@@ -84,14 +82,14 @@ object Preferences : KotprefModel() {
 
     var showAMPMIndicator by booleanPref(default = true)
 
-    var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.value)
+    var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.rawValue)
 
     // Global
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
     var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)
     var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 90f)
-    var clockBottomMargin by intPref(default = Constants.ClockBottomMargin.MEDIUM.value)
-    var secondRowTopMargin by intPref(default = Constants.SecondRowTopMargin.NONE.value)
+    var clockBottomMargin by intPref(default = Constants.ClockBottomMargin.MEDIUM.rawValue)
+    var secondRowTopMargin by intPref(default = Constants.SecondRowTopMargin.NONE.rawValue)
     var showClock by booleanPref(key = "PREF_SHOW_CLOCK", default = false)
     var clockAppName by stringPref(key = "PREF_CLOCK_APP_NAME", default = "")
     var clockAppPackage by stringPref(key = "PREF_CLOCK_APP_PACKAGE", default = "")
@@ -111,6 +109,8 @@ object Preferences : KotprefModel() {
 
     var showDividers by booleanPref(default = true)
 
+    var widgetAlign by intPref(default = Constants.WidgetAlign.CENTER.rawValue)
+
     // Settings
     var showWallpaper by booleanPref(default = true)
     var showPreview by booleanPref(default = true)
@@ -127,7 +127,7 @@ object Preferences : KotprefModel() {
     var showDailySteps by booleanPref(default = false)
     var showGreetings by booleanPref(default = false)
     var showNotifications by booleanPref(default = false)
-    var hideNotificationAfter by intPref(default = Constants.GlanceNotificationTimer.ONE_MINUTE.value)
+    var hideNotificationAfter by intPref(default = Constants.GlanceNotificationTimer.ONE_MINUTE.rawValue)
 
     var lastNotificationId by intPref(default = -1)
     var lastNotificationTitle by stringPref(default = "")

@@ -33,12 +33,14 @@ object MediaPlayerHelper {
                     DEFAULT_MEDIA_INFO_FORMAT.replace(MEDIA_INFO_TITLE, title)
                         .replace(MEDIA_INFO_ARTIST, artist)
                         .replace(MEDIA_INFO_ALBUM, album)
+                        .replace("\\n", System.getProperty("line.separator") ?: " ")
                 }
             }
             else -> {
                 format.replace(MEDIA_INFO_TITLE, title)
                     .replace(MEDIA_INFO_ARTIST, artist)
                     .replace(MEDIA_INFO_ALBUM, album)
+                    .replace("\\n", System.getProperty("line.separator") ?: " ")
             }
         }
     }

@@ -20,7 +20,7 @@ object ImageHelper {
             else -> 0f * factor
         }, resources.displayMetrics)
 
-        if (originalView.drawable != null) {
+        if (originalView.drawable != null && originalView.drawable.intrinsicWidth > 0 && originalView.drawable.intrinsicHeight > 0) {
             val btm = originalView.drawable.toBitmap().copy(Bitmap.Config.ARGB_8888, true)
             val comb = Bitmap.createBitmap(btm)
             val shadowBitmap = generateShadowBitmap(context, cElevation, btm, factor)

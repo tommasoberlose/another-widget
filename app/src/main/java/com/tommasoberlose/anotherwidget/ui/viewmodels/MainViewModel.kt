@@ -49,6 +49,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
     val secondRowInformation = Preferences.asLiveData(Preferences::secondRowInformation)
     val showDividers = Preferences.asLiveData(Preferences::showDividers)
     val secondRowTopMargin = Preferences.asLiveData(Preferences::secondRowTopMargin)
+    val widgetAlign = Preferences.asLiveData(Preferences::widgetAlign)
 
     // Calendar Settings
     val showEvents = Preferences.asLiveData(Preferences::showEvents)
@@ -131,6 +132,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::customFontName)) { value = true }
         addSource(Preferences.asLiveData(Preferences::customFontVariant)) { value = true }
         addSource(Preferences.asLiveData(Preferences::secondRowInformation)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::widgetAlign)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showDividers)) { value = true }
         addSource(Preferences.asLiveData(Preferences::secondRowTopMargin)) { value = true }
         addSource(Preferences.asLiveData(Preferences::isDateCapitalize)) { value = true }
