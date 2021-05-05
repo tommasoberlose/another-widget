@@ -24,6 +24,7 @@ class ClockWidget(val context: Context) {
                 views.setViewVisibility(R.id.clock_bottom_margin_small, View.GONE)
                 views.setViewVisibility(R.id.clock_bottom_margin_medium, View.GONE)
                 views.setViewVisibility(R.id.clock_bottom_margin_large, View.GONE)
+                views.setViewVisibility(R.id.timezones_container, View.GONE)
             } else {
                 views.setTextColor(R.id.time, ColorHelper.getClockFontColor(context.isDarkTheme()))
                 views.setTextColor(R.id.time_am_pm, ColorHelper.getClockFontColor(context.isDarkTheme()))

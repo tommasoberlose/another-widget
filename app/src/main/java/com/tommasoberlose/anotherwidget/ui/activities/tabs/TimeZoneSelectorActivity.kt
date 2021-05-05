@@ -74,7 +74,11 @@ class TimeZoneSelectorActivity : AppCompatActivity() {
                         if (id != null) {
                             Preferences.bulk {
                                 altTimezoneId = id
-                                altTimezoneLabel = item.locality
+                                altTimezoneLabel = try {
+                                    item.locality
+                                } catch (ex: Exception) {
+                                    item.getAddressLine(0)
+                                }
                             }
                             MainWidget.updateWidget(this@TimeZoneSelectorActivity)
                             setResult(Activity.RESULT_OK)
