@@ -28,6 +28,7 @@ import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.ChooseApplicationActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
+import com.tommasoberlose.anotherwidget.ui.activities.tabs.TimeZoneSelectorActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.isDefaultSet
@@ -100,6 +101,17 @@ class ClockFragment : Fragment() {
             }
         }
 
+        viewModel.altTimezoneLabel.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                if (it != "") {
+                    binding.altTimezoneClockLabel.text =
+                        String.format("%s (%s)", it, Preferences.altTimezoneId)
+                } else {
+                    binding.altTimezoneClockLabel.text = getString(R.string.no_time_zone_label)
+                }
+            }
+        }
+
         viewModel.showAMPMIndicator.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.ampmIndicatorLabel.text = if (it) getString(R.string.settings_visible) else getString(R.string.settings_not_visible)
@@ -142,6 +154,10 @@ class ClockFragment : Fragment() {
             dialog.addOnSelectItemListener { value ->
                 Preferences.clockTextSize = value
             }.show()
+        }
+
+        binding.actionAltTimezoneClock.setOnClickListener {
+            startActivity(Intent(requireContext(), TimeZoneSelectorActivity::class.java))
         }
 
         binding.actionAmpmIndicatorSize.setOnClickListener {

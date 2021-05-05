@@ -65,6 +65,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
     // Clock Settings
     val showClock = Preferences.asLiveData(Preferences::showClock)
     val clockTextSize = Preferences.asLiveData(Preferences::clockTextSize)
+    val altTimezoneLabel = Preferences.asLiveData(Preferences::altTimezoneLabel)
     val clockTextColor = MediatorLiveData<Boolean>().apply {
         addSource(Preferences.asLiveData(Preferences::clockTextColor)) { value = true }
         addSource(Preferences.asLiveData(Preferences::clockTextAlpha)) { value = true }
@@ -108,6 +109,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::clockTextAlphaDark)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showAMPMIndicator)) { value = true }
         addSource(Preferences.asLiveData(Preferences::clockBottomMargin)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::altTimezoneLabel)) { value = true }
     }
     val widgetPreferencesUpdate = MediatorLiveData<Boolean>().apply {
         addSource(Preferences.asLiveData(Preferences::textGlobalColor)) { value = true }

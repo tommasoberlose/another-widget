@@ -84,6 +84,10 @@ object Preferences : KotprefModel() {
 
     var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.rawValue)
 
+    // Clock
+    var altTimezoneLabel by stringPref(default = "")
+    var altTimezoneId by stringPref(default = "")
+
     // Global
     var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
     var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)

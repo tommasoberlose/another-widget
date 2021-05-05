@@ -204,6 +204,11 @@
     <string name="settings_clock_text_color_title">Text color</string>
     <string name="settings_ampm_indicator_title">Show AM/PM indicator</string>
     <string name="clock_text_header">Clock text style</string>
+    <string name="time_zones_header">Time Zones</string>
+    <string name="settings_alt_timezone_title">Multiple clock</string>
+    <string name="no_time_zone_label">None</string>
+    <string name="time_zone_search_error_message">Error searching the time zone.</string>
+    <string name="geoname_credit">Service available thanks to <a href="http://www.geonames.org/">GeoName</a>.</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Next clock alarm</string>

@@ -64,6 +64,38 @@ class ClockWidget(val context: Context) {
                     R.id.clock_bottom_margin_large,
                     if (Preferences.clockBottomMargin == Constants.ClockBottomMargin.LARGE.rawValue) View.VISIBLE else View.GONE
                 )
+
+
+                // Timezones
+                if (Preferences.altTimezoneId != "" && Preferences.altTimezoneLabel != "") {
+                    views.setString(R.id.alt_timezone_time, "setTimeZone", Preferences.altTimezoneId)
+                    views.setString(R.id.alt_timezone_time_am_pm, "setTimeZone", Preferences.altTimezoneId)
+                    views.setTextViewText(R.id.alt_timezone_label, Preferences.altTimezoneLabel)
+
+                    views.setTextColor(R.id.alt_timezone_time, ColorHelper.getClockFontColor(context.isDarkTheme()))
+                    views.setTextColor(R.id.alt_timezone_time_am_pm, ColorHelper.getClockFontColor(context.isDarkTheme()))
+                    views.setTextColor(R.id.alt_timezone_label, ColorHelper.getClockFontColor(context.isDarkTheme()))
+                    views.setTextViewTextSize(
+                        R.id.alt_timezone_time,
+                        TypedValue.COMPLEX_UNIT_SP,
+                        Preferences.clockTextSize.toPixel(context) / 3
+                    )
+                    views.setTextViewTextSize(
+                        R.id.alt_timezone_time_am_pm,
+                        TypedValue.COMPLEX_UNIT_SP,
+                        (Preferences.clockTextSize.toPixel(context) / 3) / 5 * 2
+                    )
+                    views.setTextViewTextSize(
+                        R.id.alt_timezone_label,
+                        TypedValue.COMPLEX_UNIT_SP,
+                        (Preferences.clockTextSize.toPixel(context) / 3) / 5 * 2
+                    )
+
+                    views.setOnClickPendingIntent(R.id.timezones_container, clockPIntent)
+                    views.setViewVisibility(R.id.timezones_container, View.VISIBLE)
+                } else {
+                    views.setViewVisibility(R.id.timezones_container, View.GONE)
+                }
             }
         } catch (ex: Exception) {
             ex.printStackTrace()

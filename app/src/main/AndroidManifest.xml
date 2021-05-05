@@ -41,6 +41,7 @@
         <activity android:name=".ui.activities.tabs.MusicPlayersFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.AppNotificationsFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.MediaInfoFormatActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.tabs.TimeZoneSelectorActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
 
         <receiver android:name=".ui.widgets.MainWidget">
             <intent-filter>

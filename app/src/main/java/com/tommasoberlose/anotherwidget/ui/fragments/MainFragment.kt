@@ -249,6 +249,32 @@ class MainFragment : Fragment() {
         )
         binding.widgetDetail.timeAmPm.isVisible = Preferences.showAMPMIndicator
 
+        // Timezones
+        if (Preferences.altTimezoneId != "" && Preferences.altTimezoneLabel != "") {
+            // Clock
+            binding.widgetDetail.altTimezoneTime.timeZone = Preferences.altTimezoneId
+            binding.widgetDetail.altTimezoneTimeAmPm.timeZone = Preferences.altTimezoneId
+            binding.widgetDetail.altTimezoneLabel.text = Preferences.altTimezoneLabel
+            binding.widgetDetail.altTimezoneTime.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+            binding.widgetDetail.altTimezoneTimeAmPm.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+            binding.widgetDetail.altTimezoneLabel.setTextColor(ColorHelper.getClockFontColor(requireActivity().isDarkTheme()))
+            binding.widgetDetail.altTimezoneTime.setTextSize(
+                TypedValue.COMPLEX_UNIT_SP,
+                Preferences.clockTextSize.toPixel(requireContext()) / 3
+            )
+            binding.widgetDetail.altTimezoneTimeAmPm.setTextSize(
+                TypedValue.COMPLEX_UNIT_SP,
+                (Preferences.clockTextSize.toPixel(requireContext()) / 3) / 5 * 2
+            )
+            binding.widgetDetail.altTimezoneLabel.setTextSize(
+                TypedValue.COMPLEX_UNIT_SP,
+                (Preferences.clockTextSize.toPixel(requireContext()) / 3) / 5 * 2
+            )
+            binding.widgetDetail.timezonesContainer.isVisible = true
+        } else {
+            binding.widgetDetail.timezonesContainer.isVisible = false
+        }
+
         // Clock bottom margin
         binding.widgetDetail.clockBottomMarginNone.isVisible =
             Preferences.showClock && Preferences.clockBottomMargin == Constants.ClockBottomMargin.NONE.rawValue
