@@ -26,8 +26,6 @@
         android:paddingBottom="8dp"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:focusable="true"
-        android:clickable="true"
         android:textAlignment="viewStart"
         android:background="?attr/selectableItemBackground"
         android:textColor="@color/colorPrimaryText"

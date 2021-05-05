@@ -5,6 +5,7 @@ import android.app.Activity
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import com.tommasoberlose.anotherwidget.R
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity

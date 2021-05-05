@@ -401,7 +401,7 @@ class LeftAlignedWidget(val context: Context) {
             bindingView.weatherDateLine.isVisible = true
             val currentTemp = String.format(
                 Locale.getDefault(),
-                "%d °%s",
+                "%d°%s",
                 Preferences.weatherTemp.roundToInt(),
                 Preferences.weatherRealTempUnit
             )
