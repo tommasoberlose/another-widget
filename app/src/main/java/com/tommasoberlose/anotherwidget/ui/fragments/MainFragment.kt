@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -183,8 +184,6 @@ class MainFragment : Fragment() {
     private var uiJob: Job? = null
 
     private fun updateUI() {
-        uiJob?.cancel()
-
         if (Preferences.showPreview) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val bgColor: Int = ContextCompat.getColor(
@@ -207,24 +206,19 @@ class MainFragment : Fragment() {
             }
 
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
+                uiJob?.cancel()
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
                     val generatedView = MainWidget.getWidgetView(requireContext(), typeface).root
 
                     withContext(Dispatchers.Main) {
-                        generatedView.measure(0, 0)
-                        binding.preview.measure(0, 0)
-                    }
 
-                    val bitmap = BitmapHelper.getBitmapFromView(
-                        generatedView,
-                        if (binding.preview.width > 0) binding.preview.width else generatedView.measuredWidth,
-                        generatedView.measuredHeight
-                    )
-
-                    withContext(Dispatchers.Main) {
-                        binding.widgetDetail.bitmapContainer.apply {
-                            setImageBitmap(bitmap)
+                        binding.widgetDetail.content.removeAllViews()
+                        val container = LinearLayout(requireContext()).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                         }
+                        container.gravity = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) Gravity.CENTER else Gravity.NO_GRAVITY
+                        container.addView(generatedView)
+                        binding.widgetDetail.content.addView(container)
 
                         binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
                             .setDuration(200L).start()
@@ -310,7 +304,7 @@ class MainFragment : Fragment() {
                 if (showClock) 0f else 1f,
                 if (showClock) 1f else 0f
             ).apply {
-                duration = 300L
+                duration = 500L
                 addUpdateListener {
                     val animatedValue = animatedValue as Float
                     binding.widgetDetail.timeContainer.layoutParams =
@@ -318,6 +312,10 @@ class MainFragment : Fragment() {
                             height = (initialHeight * animatedValue).toInt()
                         }
                     binding.widgetDetail.time.alpha = animatedValue
+                    binding.widgetDetail.timeAmPm.alpha = animatedValue
+                    binding.widgetDetail.altTimezoneTime.alpha = animatedValue
+                    binding.widgetDetail.altTimezoneTimeAmPm.alpha = animatedValue
+                    binding.widgetDetail.altTimezoneLabel.alpha = animatedValue
                 }
             }.start()
         }
@@ -334,7 +332,7 @@ class MainFragment : Fragment() {
                     requireContext()
                 ) else 0)
             ).apply {
-                duration = 300L
+                duration = 500L
                 addUpdateListener {
                     val animatedValue = animatedValue as Int
                     val layoutParams = binding.preview.layoutParams

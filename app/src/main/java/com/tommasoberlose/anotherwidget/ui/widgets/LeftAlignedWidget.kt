@@ -88,6 +88,10 @@ class LeftAlignedWidget(val context: Context) {
 
     private fun updateGridView(bindingView: LeftAlignedWidgetBinding, views: RemoteViews, widgetID: Int): RemoteViews {
         val eventRepository = EventRepository(context)
+        val nextEvent = eventRepository.getNextEvent()
+        val eventsCount = eventRepository.getEventsCount()
+        eventRepository.close()
+
         try {
             // Weather
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
@@ -131,7 +135,6 @@ class LeftAlignedWidget(val context: Context) {
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
             views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
 
-            val nextEvent = eventRepository.getNextEvent()
             val nextAlarm = AlarmHelper.getNextAlarm(context)
 
             // Spacing
@@ -149,7 +152,7 @@ class LeftAlignedWidget(val context: Context) {
             )
 
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
-                if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
+                if (Preferences.showNextEvent && eventsCount > 1) {
 
                     // Action next event
                     views.setImageViewBitmap(
@@ -381,8 +384,6 @@ class LeftAlignedWidget(val context: Context) {
         } catch (ex: Exception) {
             ex.printStackTrace()
             CrashlyticsReceiver.sendCrash(context, ex)
-        } finally {
-            eventRepository.close()
         }
 
         return views
@@ -392,6 +393,10 @@ class LeftAlignedWidget(val context: Context) {
     // Generates the widget bitmap from the view
     fun generateWidgetView(typeface: Typeface? = null): LeftAlignedWidgetBinding {
         val eventRepository = EventRepository(context)
+        val nextEvent = eventRepository.getNextEvent()
+        val eventsCount = eventRepository.getEventsCount()
+        eventRepository.close()
+
         val bindingView = LeftAlignedWidgetBinding.inflate(LayoutInflater.from(context))
 
         bindingView.loader.isVisible = false
@@ -440,13 +445,12 @@ class LeftAlignedWidget(val context: Context) {
 
         bindingView.date.text = DateHelper.getDateText(context, now)
 
-        val nextEvent = eventRepository.getNextEvent()
         val nextAlarm = AlarmHelper.getNextAlarm(context)
 
         if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
             // Multiple counter
             bindingView.actionNext.isVisible =
-                Preferences.showNextEvent && eventRepository.getEventsCount() > 1
+                Preferences.showNextEvent && eventsCount > 1
 
             bindingView.nextEvent.text = nextEvent.title
 
@@ -882,8 +886,6 @@ class LeftAlignedWidget(val context: Context) {
                 this.marginEnd = if (Preferences.showDividers) 8f.convertDpToPixel(context).toInt() else 0
             }
         }
-
-        eventRepository.close()
 
         return bindingView
     }

@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:format12Hour="h:mm"
                 android:padding="0dp"
+                android:includeFontPadding="false"
                 android:lines="1"
                 android:maxLines="1"
                 style="@style/AnotherWidget.Widget.Title"
@@ -39,6 +40,7 @@
                 android:format12Hour="a"
                 android:format24Hour=""
                 android:padding="0dp"
+                android:includeFontPadding="false"
                 android:lines="1"
                 android:maxLines="1"
                 style="@style/AnotherWidget.Widget.Title"
@@ -62,6 +64,7 @@
                         android:layout_height="wrap_content"
                         android:format12Hour="h:mm"
                         android:padding="0dp"
+                        android:includeFontPadding="false"
                         android:lines="1"
                         android:maxLines="1"
                         style="@style/AnotherWidget.Widget.Title"
@@ -72,6 +75,7 @@
                         android:layout_height="wrap_content"
                         android:format12Hour="a"
                         android:format24Hour=""
+                        android:includeFontPadding="false"
                         android:padding="0dp"
                         android:lines="1"
                         android:maxLines="1"
@@ -116,7 +120,8 @@
             android:id="@+id/clock_bottom_margin_large" />
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/content">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

@@ -89,6 +89,10 @@ class StandardWidget(val context: Context) {
 
     private fun updateGridView(bindingView: TheWidgetBinding, views: RemoteViews, widgetID: Int): RemoteViews {
         val eventRepository = EventRepository(context)
+        val nextEvent = eventRepository.getNextEvent()
+        val eventsCount = eventRepository.getEventsCount()
+        eventRepository.close()
+
         try {
             // Weather
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
@@ -138,7 +142,6 @@ class StandardWidget(val context: Context) {
                 BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
             )
 
-            val nextEvent = eventRepository.getNextEvent()
             val nextAlarm = AlarmHelper.getNextAlarm(context)
 
             // Spacing
@@ -156,7 +159,7 @@ class StandardWidget(val context: Context) {
             )
 
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
-                if (Preferences.showNextEvent && eventRepository.getEventsCount() > 1) {
+                if (Preferences.showNextEvent && eventsCount > 1) {
 
                     // Action next event
                     views.setImageViewBitmap(
@@ -402,8 +405,6 @@ class StandardWidget(val context: Context) {
         } catch (ex: Exception) {
             ex.printStackTrace()
             CrashlyticsReceiver.sendCrash(context, ex)
-        } finally {
-            eventRepository.close()
         }
 
         return views
@@ -413,6 +414,10 @@ class StandardWidget(val context: Context) {
     // Generates the widget bitmap from the view
     fun generateWidgetView(typeface: Typeface? = null): TheWidgetBinding {
         val eventRepository = EventRepository(context)
+        val nextEvent = eventRepository.getNextEvent()
+        val eventsCount = eventRepository.getEventsCount()
+        eventRepository.close()
+
         val bindingView = TheWidgetBinding.inflate(LayoutInflater.from(context))
 
         bindingView.loader.isVisible = false
@@ -462,15 +467,14 @@ class StandardWidget(val context: Context) {
 
         bindingView.date.text = DateHelper.getDateText(context, now)
 
-        val nextEvent = eventRepository.getNextEvent()
         val nextAlarm = AlarmHelper.getNextAlarm(context)
 
         if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
             // Multiple counter
             bindingView.actionNext.isVisible =
-                Preferences.showNextEvent && eventRepository.getEventsCount() > 1
+                Preferences.showNextEvent && eventsCount > 1
             bindingView.actionPrevious.isVisible =
-                Preferences.showNextEvent && eventRepository.getEventsCount() > 1
+                Preferences.showNextEvent && eventsCount > 1
 
             bindingView.nextEvent.text = nextEvent.title
 
@@ -923,7 +927,6 @@ class StandardWidget(val context: Context) {
             }
         }
 
-        eventRepository.close()
 
         return bindingView
     }
