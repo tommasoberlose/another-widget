@@ -28,6 +28,11 @@
     <string name="header_widget_background">Widget Hintergrund</string>
     <string name="settings_secondary_row_top_margin_title">Zeilenabstand</string>
     <string name="action_custom_font_to_search">Benutzerdefinierte Schriftart…</string>
+    <string name="font_family_settings_title">Schriftfamilie</string>
+    <string name="settings_widget_align_title">Widget Ausrichtung</string>
+    <string name="settings_widget_align_left_subtitle">Links</string>
+    <string name="settings_widget_align_right_subtitle">Rechts</string>
+    <string name="settings_widget_align_center_subtitle">Zentriert</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Kalender</string>
@@ -80,6 +85,10 @@
     <string name="attendee_status_accepted">Akzeptierte Termine</string>
     <string name="attendee_status_invited">Einladungen zu Terminen</string>
     <string name="attendee_status_declined">Abgelehnte Termine</string>
+
+    <string name="calendar_sync_notification_channel_name">Termine Synchronisierungsdienst</string>
+    <string name="calendar_sync_notification_channel_description">Dienst, der zum Synchronisieren der Kalendertermine verwendet wird.</string>
+    <string name="calendar_sync_notification_title">Synchronisiere Kalendertermine…</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Wetter</string>
@@ -139,7 +148,7 @@
     <string name="weather_select_a_provider">Wählen einen Anbieter</string>
     <string name="weather_provider_activity_subtitle">Wählen Sie einen Wetterdienst aus der Liste aus.\nEinige Anbieter benötigen ein kostenloses\nBenutzerkonto, allerdings sind sie\ndafür in der Regel genauer.</string>
 
-    <string name="location_access_notification_channel_name">Hintergrunddienst</string>
+    <string name="location_access_notification_channel_name">Wetter Aktualisierungsdienst</string>
     <string name="location_access_notification_channel_description">Dienst zur Aktualisierung des Wetters anhand des aktuellen Standorts des Benutzers.</string>
     <string name="location_access_notification_title">Wetter wird aktualisiert…</string>
     <string name="location_access_notification_subtitle">Das Wetter wird basierend auf Ihrem aktuellen Standort aktualisiert.</string>
@@ -161,6 +170,11 @@
     <string name="settings_clock_text_color_title">Schriftfarbe</string>
     <string name="settings_ampm_indicator_title">Zeige AM/PM</string>
     <string name="clock_text_header">Uhr Textstil</string>
+    <string name="time_zones_header">Zeitzonen</string>
+    <string name="settings_alt_timezone_title">Mehrere Uhren</string>
+    <string name="no_time_zone_label">Keine</string>
+    <string name="time_zone_search_error_message">Fehler beim Suchen der Zeitzone.</string>
+    <string name="geoname_credit">Service verfügbar dank <a href="http://www.geonames.org/">GeoName</a>.</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Nächster Wecker</string>
@@ -301,6 +315,9 @@
     <string name="nothing">Nichts</string>
     <string name="action_dismiss">Verwerfen</string>
     <string name="action_accept">Akzeptieren</string>
+    <string name="gestures_do_nothing">Nichts</string>
+    <string name="song_info_format_activity_title">Songinfo-Format</string>
+    <string name="song_info_format_activity_subtitle">Ändere das Songinfo-Format</string>
 
     <!-- More -->
     <string name="look_and_feel_header"><![CDATA[Erscheinungsbild]]></string>
@@ -313,5 +330,6 @@
     <string name="clock_settings_subtitle">Größe, Farbe und Zeitzonen einstellen</string>
     <string name="layout_settings_subtitle">Widget Abstände und Anpassungen</string>
     <string name="smart_content_header">Smarte Inhalte</string>
-    <string name="font_family_settings_title">Schriftfamilie</string>
+    <string name="spacing_settings_header">Abstände</string>
+    <string name="gestures_refresh_widget">Keine, das Widget wird aktualisiert.</string>
 </resources>
