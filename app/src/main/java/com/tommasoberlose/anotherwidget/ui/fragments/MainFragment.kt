@@ -208,21 +208,31 @@ class MainFragment : Fragment() {
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
                 uiJob?.cancel()
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
-                    val generatedView = MainWidget.getWidgetView(requireContext(), typeface).root
+                    val generatedView = MainWidget.getWidgetView(requireContext(), typeface)?.root
 
-                    withContext(Dispatchers.Main) {
+                    if (generatedView != null) {
+                        withContext(Dispatchers.Main) {
 
-                        binding.widgetDetail.content.removeAllViews()
-                        val container = LinearLayout(requireContext()).apply {
-                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                            binding.widgetDetail.content.removeAllViews()
+                            val container = LinearLayout(requireContext()).apply {
+                                layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                            }
+                            container.gravity = when (Preferences.widgetAlign) {
+                                Constants.WidgetAlign.CENTER.rawValue -> Gravity.CENTER_HORIZONTAL
+                                Constants.WidgetAlign.LEFT.rawValue -> Gravity.START
+                                Constants.WidgetAlign.RIGHT.rawValue -> Gravity.END
+                                else -> Gravity.NO_GRAVITY
+                            }
+                            container.addView(generatedView)
+                            binding.widgetDetail.content.addView(container)
+
+                            binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
+                                .setDuration(200L).start()
+                            binding.widget.animate().alpha(1f).start()
                         }
-                        container.gravity = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) Gravity.CENTER else Gravity.NO_GRAVITY
-                        container.addView(generatedView)
-                        binding.widgetDetail.content.addView(container)
-
-                        binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
-                            .setDuration(200L).start()
-                        binding.widget.animate().alpha(1f).start()
                     }
                 }
             }
@@ -281,7 +291,35 @@ class MainFragment : Fragment() {
 
         // Align
         binding.widgetDetail.timeContainer.layoutParams = (binding.widgetDetail.timeContainer.layoutParams as LinearLayout.LayoutParams).apply {
-            gravity = if (Preferences.widgetAlign == Constants.WidgetAlign.CENTER.rawValue) Gravity.CENTER_HORIZONTAL else Gravity.NO_GRAVITY
+            gravity = when (Preferences.widgetAlign) {
+                Constants.WidgetAlign.CENTER.rawValue -> Gravity.CENTER_HORIZONTAL
+                Constants.WidgetAlign.LEFT.rawValue -> Gravity.START
+                Constants.WidgetAlign.RIGHT.rawValue -> Gravity.END
+                else -> Gravity.NO_GRAVITY
+            }
+        }
+        if (Preferences.widgetAlign == Constants.WidgetAlign.RIGHT.rawValue) {
+            with (binding.widgetDetail.timeContainer) {
+                val child = getChildAt(2)
+                if (child.id == R.id.timezones_container) {
+                    removeViewAt(2)
+                    child.layoutParams = (child.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                        marginEnd = 16f.convertDpToPixel(requireContext()).toInt()
+                    }
+                    addView(child, 0)
+                }
+            }
+        } else {
+            with (binding.widgetDetail.timeContainer) {
+                val child = getChildAt(0)
+                if (child.id == R.id.timezones_container) {
+                    removeViewAt(0)
+                    child.layoutParams = (child.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                        marginEnd = 0
+                    }
+                    addView(child, 2)
+                }
+            }
         }
     }
 

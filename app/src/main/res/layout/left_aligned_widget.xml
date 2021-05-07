@@ -16,11 +16,11 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/main_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:visibility="gone"
             android:paddingBottom="8dp"
             android:orientation="vertical"
@@ -63,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layoutDirection="locale"
-            android:layout_gravity="center_vertical"
             android:id="@+id/calendar_layout"
             android:visibility="gone"
             android:orientation="horizontal">
@@ -129,10 +128,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:baselineAligned="false"
-            android:layout_gravity="center_vertical"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:id="@+id/sub_line_container"
             android:layoutDirection="locale"
             android:gravity="center_vertical">
             <LinearLayout

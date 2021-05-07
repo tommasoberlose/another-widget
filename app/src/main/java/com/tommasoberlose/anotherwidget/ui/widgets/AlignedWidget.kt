@@ -2,7 +2,6 @@ package com.tommasoberlose.anotherwidget.ui.widgets
 
 import android.Manifest
 import android.app.PendingIntent
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -10,16 +9,16 @@ import android.graphics.Typeface
 import android.text.format.DateUtils
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RemoteViews
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateMargins
 import com.tommasoberlose.anotherwidget.R
-import com.tommasoberlose.anotherwidget.databinding.TheWidgetBinding
+import com.tommasoberlose.anotherwidget.databinding.LeftAlignedWidgetBinding
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -33,16 +32,15 @@ import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import com.tommasoberlose.anotherwidget.utils.toPixel
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
-class StandardWidget(val context: Context) {
+class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
     fun generateWidget(appWidgetId: Int, w: Int, typeface: Typeface? = null): RemoteViews? {
 
-        var views = RemoteViews(context.packageName, R.layout.the_widget_sans)
+        var views = RemoteViews(context.packageName, if (!rightAligned) R.layout.left_aligned_widget_sans else R.layout.right_aligned_widget_sans)
 
         try {
             // Background
@@ -88,7 +86,7 @@ class StandardWidget(val context: Context) {
         return views
     }
 
-    private fun updateGridView(bindingView: TheWidgetBinding, views: RemoteViews, widgetID: Int): RemoteViews {
+    private fun updateGridView(bindingView: LeftAlignedWidgetBinding, views: RemoteViews, widgetID: Int): RemoteViews {
         try {
             val eventRepository = EventRepository(context)
             val nextEvent = eventRepository.getNextEvent()
@@ -137,12 +135,6 @@ class StandardWidget(val context: Context) {
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
             views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
 
-            // Second row
-            views.setImageViewBitmap(
-                R.id.sub_line_rect,
-                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
-            )
-
             val nextAlarm = AlarmHelper.getNextAlarm(context)
 
             // Spacing
@@ -181,30 +173,9 @@ class StandardWidget(val context: Context) {
                         )
                     )
 
-                    // Action previous event
-                    views.setImageViewBitmap(
-                        R.id.action_previous_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.actionPrevious, draw = false)
-                    )
-                    views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
-                    views.setOnClickPendingIntent(
-                        R.id.action_previous_rect,
-                        PendingIntent.getBroadcast(
-                            context,
-                            widgetID,
-                            Intent(
-                                context,
-                                NewCalendarEventReceiver::class.java
-                            ).apply { action = Actions.ACTION_GO_TO_PREVIOUS_EVENT },
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                        )
-                    )
-
                     views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
-                    views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
                 } else {
                     views.setViewVisibility(R.id.action_next_rect, View.GONE)
-                    views.setViewVisibility(R.id.action_previous_rect, View.GONE)
                 }
 
                 // Event intent
@@ -226,8 +197,9 @@ class StandardWidget(val context: Context) {
                             draw = false
                         )
                     )
-                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+
                     views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, eventIntent)
+                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
                 } else {
                     views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
                 }
@@ -260,11 +232,15 @@ class StandardWidget(val context: Context) {
                     BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false)
                 )
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
+
+                views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.weather_sub_line_rect, View.VISIBLE)
-
                 views.setViewVisibility(R.id.first_line_rect, View.GONE)
 
+                views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 var showSomething = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
@@ -386,12 +362,8 @@ class StandardWidget(val context: Context) {
 
 
                 if (showSomething) {
-                    views.setImageViewBitmap(
-                        R.id.sub_line_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
-                    )
-
                     views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
+                    views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
                     views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
 
                     views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
@@ -403,6 +375,12 @@ class StandardWidget(val context: Context) {
                     views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
                 }
             }
+
+            // Second row
+            views.setImageViewBitmap(
+                R.id.sub_line_rect,
+                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
+            )
         } catch (ex: Exception) {
             ex.printStackTrace()
             CrashlyticsReceiver.sendCrash(context, ex)
@@ -413,14 +391,14 @@ class StandardWidget(val context: Context) {
 
 
     // Generates the widget bitmap from the view
-    fun generateWidgetView(typeface: Typeface? = null): TheWidgetBinding? {
+    fun generateWidgetView(typeface: Typeface? = null): LeftAlignedWidgetBinding? {
         try {
             val eventRepository = EventRepository(context)
             val nextEvent = eventRepository.getNextEvent()
             val eventsCount = eventRepository.getEventsCount()
             eventRepository.close()
 
-            val bindingView = TheWidgetBinding.inflate(LayoutInflater.from(context))
+            val bindingView = LeftAlignedWidgetBinding.inflate(LayoutInflater.from(context))
 
             bindingView.loader.isVisible = false
 
@@ -465,7 +443,6 @@ class StandardWidget(val context: Context) {
             bindingView.calendarLayout.isVisible = false
             bindingView.nextEventDifferenceTime.isVisible = false
             bindingView.actionNext.isVisible = false
-            bindingView.actionPrevious.isVisible = false
 
             bindingView.date.text = DateHelper.getDateText(context, now)
 
@@ -474,8 +451,6 @@ class StandardWidget(val context: Context) {
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
                 bindingView.actionNext.isVisible =
-                    Preferences.showNextEvent && eventsCount > 1
-                bindingView.actionPrevious.isVisible =
                     Preferences.showNextEvent && eventsCount > 1
 
                 bindingView.nextEvent.text = nextEvent.title
@@ -579,12 +554,9 @@ class StandardWidget(val context: Context) {
                 bindingView.subLine.isVisible = true
                 bindingView.weatherSubLine.isVisible = true
 
-                bindingView.subLineTopMarginSmall.visibility =
-                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.rawValue) View.VISIBLE else View.GONE
-                bindingView.subLineTopMarginMedium.visibility =
-                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.rawValue) View.VISIBLE else View.GONE
-                bindingView.subLineTopMarginLarge.visibility =
-                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.rawValue) View.VISIBLE else View.GONE
+                bindingView.subLineTopMarginSmall.visibility = View.GONE
+                bindingView.subLineTopMarginMedium.visibility = View.GONE
+                bindingView.subLineTopMarginLarge.visibility = View.GONE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 bindingView.subLineIcon.isVisible = true
                 var showSomething = false
@@ -743,7 +715,6 @@ class StandardWidget(val context: Context) {
             // Color
             listOf<TextView>(
                 bindingView.date,
-                bindingView.weatherDateLineDivider,
                 bindingView.weatherDateLineTemperature,
                 bindingView.nextEvent,
                 bindingView.nextEventDifferenceTime,
@@ -752,11 +723,10 @@ class StandardWidget(val context: Context) {
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.rawValue) {
-                listOf<ImageView>(bindingView.actionNext, bindingView.actionPrevious)
+                listOf<ImageView>(bindingView.actionNext)
             } else {
                 listOf<ImageView>(
                     bindingView.actionNext,
-                    bindingView.actionPrevious,
                     bindingView.weatherDateLineWeatherIcon,
                     bindingView.weatherSubLineWeatherIcon
                 )
@@ -787,8 +757,7 @@ class StandardWidget(val context: Context) {
             // Text Size
             listOf<Pair<TextView, Float>>(
                 bindingView.date to Preferences.textMainSize,
-                bindingView.weatherDateLineDivider to (Preferences.textMainSize - 2),
-                bindingView.weatherDateLineTemperature to Preferences.textMainSize,
+                bindingView.weatherDateLineTemperature to ((Preferences.textMainSize + Preferences.textSecondSize) / 2),
                 bindingView.nextEvent to Preferences.textMainSize,
                 bindingView.nextEventDifferenceTime to Preferences.textMainSize,
                 bindingView.subLineText to Preferences.textSecondSize,
@@ -805,14 +774,11 @@ class StandardWidget(val context: Context) {
             bindingView.weatherSubLineWeatherIcon.scaleX = Preferences.textSecondSize / 18f
             bindingView.weatherSubLineWeatherIcon.scaleY = Preferences.textSecondSize / 18f
 
-            bindingView.weatherDateLineWeatherIcon.scaleX = Preferences.textMainSize / 18f
-            bindingView.weatherDateLineWeatherIcon.scaleY = Preferences.textMainSize / 18f
+            bindingView.weatherDateLineWeatherIcon.scaleX = ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 20f
+            bindingView.weatherDateLineWeatherIcon.scaleY = ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 20f
 
             bindingView.actionNext.scaleX = Preferences.textMainSize / 28f
             bindingView.actionNext.scaleY = Preferences.textMainSize / 28f
-
-            bindingView.actionPrevious.scaleX = Preferences.textMainSize / 28f
-            bindingView.actionPrevious.scaleY = Preferences.textMainSize / 28f
 
 
             // Shadows
@@ -840,7 +806,6 @@ class StandardWidget(val context: Context) {
 
             listOf<TextView>(
                 bindingView.date,
-                bindingView.weatherDateLineDivider,
                 bindingView.weatherDateLineTemperature,
                 bindingView.nextEvent,
                 bindingView.nextEventDifferenceTime,
@@ -868,7 +833,6 @@ class StandardWidget(val context: Context) {
 
             listOf(
                 Pair(bindingView.actionNext, bindingView.actionNextShadow),
-                Pair(bindingView.actionPrevious, bindingView.actionPreviousShadow),
             ).forEach {
                 if ((if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) == 0) {
                     it.second.isVisible = false
@@ -879,9 +843,6 @@ class StandardWidget(val context: Context) {
                     it.second.applyShadow(it.first, 0.6f)
                 }
             }
-
-            bindingView.actionPrevious.scaleX = bindingView.actionPrevious.scaleX * -1
-            bindingView.actionPreviousShadow.scaleX = bindingView.actionPreviousShadow.scaleX * -1
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
@@ -896,7 +857,6 @@ class StandardWidget(val context: Context) {
 
                 listOf<TextView>(
                     bindingView.date,
-                    bindingView.weatherDateLineDivider,
                     bindingView.weatherDateLineTemperature,
                     bindingView.nextEvent,
                     bindingView.nextEventDifferenceTime,
@@ -909,7 +869,6 @@ class StandardWidget(val context: Context) {
             } else if (Preferences.customFont == Constants.CUSTOM_FONT_DOWNLOADED && typeface != null) {
                 listOf<TextView>(
                     bindingView.date,
-                    bindingView.weatherDateLineDivider,
                     bindingView.weatherDateLineTemperature,
                     bindingView.nextEvent,
                     bindingView.nextEventDifferenceTime,
@@ -922,16 +881,25 @@ class StandardWidget(val context: Context) {
             }
 
             // Dividers
-            arrayOf(bindingView.weatherDateLineDivider, bindingView.weatherSubLineDivider).forEach {
+            arrayOf(bindingView.weatherSubLineDivider).forEach {
                 it.visibility = if (Preferences.showDividers) View.VISIBLE else View.INVISIBLE
                 it.layoutParams = (it.layoutParams as ViewGroup.MarginLayoutParams).apply {
                     this.marginEnd = if (Preferences.showDividers) 8f.convertDpToPixel(context).toInt() else 0
                 }
             }
 
+            // Right Aligned
+            if (rightAligned) {
+                bindingView.mainContent.layoutParams = (bindingView.mainContent.layoutParams as RelativeLayout.LayoutParams).apply {
+                    addRule(RelativeLayout.ALIGN_PARENT_END)
+                }
+                bindingView.mainContent.gravity = Gravity.END
+                bindingView.dateLayout.gravity = Gravity.END
+                bindingView.calendarLayout.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                bindingView.subLineContainer.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+            }
 
             return bindingView
-
         } catch (ex: Exception) {
             ex.printStackTrace()
             CrashlyticsReceiver.sendCrash(context, ex)

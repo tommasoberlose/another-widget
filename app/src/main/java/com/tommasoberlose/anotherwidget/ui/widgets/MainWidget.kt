@@ -1,47 +1,19 @@
 package com.tommasoberlose.anotherwidget.ui.widgets
 
-import android.Manifest
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.format.DateUtils
-import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RemoteViews
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
-import com.tommasoberlose.anotherwidget.R
-import com.tommasoberlose.anotherwidget.databinding.LeftAlignedWidgetBinding
-import com.tommasoberlose.anotherwidget.databinding.TheWidgetBinding
-import com.tommasoberlose.anotherwidget.db.EventRepository
-import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
-import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
-import com.tommasoberlose.anotherwidget.helpers.ImageHelper.applyShadow
 import com.tommasoberlose.anotherwidget.receivers.*
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
-import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toPixel
-import java.text.DateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 
 class MainWidget : AppWidgetProvider() {
@@ -98,16 +70,18 @@ class MainWidget : AppWidgetProvider() {
 
             WidgetHelper.runWithCustomTypeface(context) {
                 val views = when (Preferences.widgetAlign) {
-                    Constants.WidgetAlign.LEFT.rawValue -> LeftAlignedWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
+                    Constants.WidgetAlign.LEFT.rawValue -> AlignedWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
+                    Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(context, rightAligned = true).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
                     else -> StandardWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
                 }
-                appWidgetManager.updateAppWidget(appWidgetId, views)
+                if (views != null) appWidgetManager.updateAppWidget(appWidgetId, views)
             }
         }
 
-        fun getWidgetView(context: Context, typeface: Typeface?): ViewBinding {
+        fun getWidgetView(context: Context, typeface: Typeface?): ViewBinding? {
             return when (Preferences.widgetAlign) {
-                Constants.WidgetAlign.LEFT.rawValue -> LeftAlignedWidget(context).generateWidgetView(typeface)
+                Constants.WidgetAlign.LEFT.rawValue -> AlignedWidget(context).generateWidgetView(typeface)
+                Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(context, rightAligned = true).generateWidgetView(typeface)
                 else -> StandardWidget(context).generateWidgetView(typeface)
             }
         }
