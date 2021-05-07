@@ -57,6 +57,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
     val showUntil = Preferences.asLiveData(Preferences::showUntil)
     val showDiffTime = Preferences.asLiveData(Preferences::showDiffTime)
     val showNextEvent = Preferences.asLiveData(Preferences::showNextEvent)
+    val showNextEventOnMultipleLines = Preferences.asLiveData(Preferences::showNextEventOnMultipleLines)
     val openEventDetails = Preferences.asLiveData(Preferences::openEventDetails)
     val calendarAppName = Preferences.asLiveData(Preferences::calendarAppName)
     val widgetUpdateFrequency = Preferences.asLiveData(Preferences::widgetUpdateFrequency)
@@ -144,6 +145,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::calendarAllDay)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showDiffTime)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showNextEvent)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showNextEventOnMultipleLines)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showDeclinedEvents)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showInvitedEvents)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showAcceptedEvents)) { value = true }

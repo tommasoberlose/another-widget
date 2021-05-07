@@ -41,6 +41,35 @@
                 android:id="@+id/header_text"
                 android:text="@string/settings_font_color_title"
                 android:textColor="@color/colorPrimaryText"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:id="@+id/action_container">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tint="@color/colorPrimaryText"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:id="@+id/action_copy"
+                    android:src="@drawable/round_content_copy_24" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tint="@color/colorPrimaryText"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:id="@+id/action_paste"
+                    android:src="@drawable/round_content_paste_24" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/alpha_selector_container"
+        android:visibility="gone"
         android:layout_marginTop="-2dp"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
@@ -115,6 +145,6 @@
             android:indeterminate="true"
             android:layout_margin="32dp"
             android:layout_centerInParent="true"
-            android:id="@+id/color_loader" />
+            android:id="@+id/loader" />
     </RelativeLayout>
 </LinearLayout>

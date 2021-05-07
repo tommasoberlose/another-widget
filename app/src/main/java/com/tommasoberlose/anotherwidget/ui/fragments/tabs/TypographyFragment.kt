@@ -15,6 +15,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
+import com.tommasoberlose.anotherwidget.components.BottomSheetPicker
 import com.tommasoberlose.anotherwidget.databinding.FragmentTabTypographyBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -167,20 +168,21 @@ class TypographyFragment : Fragment() {
 
     private fun setupListener() {
         binding.actionMainTextSize.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_main_text_size)).setSelectedValue(
-                Preferences.textMainSize)
-            (40 downTo 10).filter { it % 2 == 0 }.forEach {
-                dialog.addItem("${it}sp", it.toFloat())
-            }
-            dialog.addOnSelectItemListener { value ->
-                Preferences.textMainSize = value
-            }.show()
+            BottomSheetPicker(
+                requireContext(),
+                items = (40 downTo 10).map { BottomSheetPicker.MenuItem("${it}sp", it.toFloat()) },
+                getSelected = { Preferences.textMainSize },
+                header = getString(R.string.title_main_text_size),
+                onItemSelected = {value ->
+                    if (value != null) Preferences.textMainSize = value
+                }
+            ).show()
         }
 
         binding.actionSecondTextSize.setOnClickListener {
             val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_second_text_size)).setSelectedValue(
                 Preferences.textSecondSize)
-            (40 downTo 10).filter { it % 2 == 0 }.forEach {
+            (40 downTo 10).forEach {
                 dialog.addItem("${it}sp", it.toFloat())
             }
             dialog.addOnSelectItemListener { value ->
@@ -209,7 +211,7 @@ class TypographyFragment : Fragment() {
                     } else {
                         Preferences.textGlobalAlpha = alpha.toHexValue()
                     }
-                }
+                },
             ).show()
         }
 
@@ -236,7 +238,7 @@ class TypographyFragment : Fragment() {
                     } else {
                         Preferences.textSecondaryAlpha = alpha.toHexValue()
                     }
-                }
+                },
             ).show()
         }
 

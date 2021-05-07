@@ -53,12 +53,12 @@ class CustomLocationActivity : AppCompatActivity() {
                     }
             }
             .register<Address>(R.layout.custom_location_item) { item, injector ->
-                injector.text(R.id.text, item.getAddressLine(0))
+                injector.text(R.id.text, item.getAddressLine(0) ?: "")
                 injector.clicked(R.id.item) {
                     Preferences.bulk {
                         customLocationLat = item.latitude.toString()
                         customLocationLon = item.longitude.toString()
-                        customLocationAdd = item.getAddressLine(0)
+                        customLocationAdd = item.getAddressLine(0) ?: ""
                         setResult(Activity.RESULT_OK)
                         finish()
                     }

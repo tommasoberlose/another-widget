@@ -10,6 +10,7 @@ import android.graphics.Typeface
 import android.text.format.DateUtils
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,12 +110,12 @@ class StandardWidget(val context: Context) {
 
                 views.setImageViewBitmap(
                     R.id.weather_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.weatherDateLine, draw = false)
+                    BitmapHelper.getBitmapFromView(bindingView.weatherDateLine, draw = false, width = bindingView.weatherDateLine.width, height = bindingView.weatherDateLine.height)
                 )
 
                 views.setImageViewBitmap(
                     R.id.weather_sub_line_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.weatherSubLine, draw = false)
+                    BitmapHelper.getBitmapFromView(bindingView.weatherSubLine, draw = false, width = bindingView.weatherSubLine.width, height = bindingView.weatherSubLine.height)
                 )
             } else {
                 views.setViewVisibility(R.id.weather_rect, View.GONE)
@@ -125,7 +126,7 @@ class StandardWidget(val context: Context) {
             // Calendar
             views.setImageViewBitmap(
                 R.id.date_rect,
-                BitmapHelper.getBitmapFromView(bindingView.date, draw = false)
+                BitmapHelper.getBitmapFromView(bindingView.date, draw = false, width = bindingView.date.width, height = bindingView.date.height)
             )
 
             val calPIntent = PendingIntent.getActivity(
@@ -140,7 +141,7 @@ class StandardWidget(val context: Context) {
             // Second row
             views.setImageViewBitmap(
                 R.id.sub_line_rect,
-                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
+                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false, width = bindingView.subLine.width, height = bindingView.subLine.height)
             )
 
             val nextAlarm = AlarmHelper.getNextAlarm(context)
@@ -165,7 +166,7 @@ class StandardWidget(val context: Context) {
                     // Action next event
                     views.setImageViewBitmap(
                         R.id.action_next_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.actionNext, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.actionNext, draw = false, width = bindingView.actionNext.width, height = bindingView.actionNext.height)
                     )
                     views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
                     views.setOnClickPendingIntent(
@@ -184,7 +185,7 @@ class StandardWidget(val context: Context) {
                     // Action previous event
                     views.setImageViewBitmap(
                         R.id.action_previous_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.actionPrevious, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.actionPrevious, draw = false, width = bindingView.actionPrevious.width, height = bindingView.actionPrevious.height)
                     )
                     views.setViewVisibility(R.id.action_previous_rect, View.VISIBLE)
                     views.setOnClickPendingIntent(
@@ -223,11 +224,18 @@ class StandardWidget(val context: Context) {
                         R.id.next_event_difference_time_rect,
                         BitmapHelper.getBitmapFromView(
                             bindingView.nextEventDifferenceTime,
-                            draw = false
+                            draw = false,
+                            width = bindingView.nextEventDifferenceTime.width,
+                            height = bindingView.nextEventDifferenceTime.height
                         )
                     )
-                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+
                     views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, eventIntent)
+                    if (!Preferences.showNextEventOnMultipleLines) {
+                        views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+                    } else {
+                        views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
+                    }
                 } else {
                     views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
                 }
@@ -257,7 +265,7 @@ class StandardWidget(val context: Context) {
 
                 views.setImageViewBitmap(
                     R.id.next_event_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false)
+                    BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false, width = bindingView.nextEvent.width, height = bindingView.nextEvent.height)
                 )
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
@@ -388,7 +396,7 @@ class StandardWidget(val context: Context) {
                 if (showSomething) {
                     views.setImageViewBitmap(
                         R.id.sub_line_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false, width = bindingView.subLine.width, height = bindingView.subLine.height)
                     )
 
                     views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
@@ -402,6 +410,17 @@ class StandardWidget(val context: Context) {
                     views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
                     views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
                 }
+            } else {
+                views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
+
+                views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
+                views.setViewVisibility(R.id.sub_line_rect, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
+                // Spacing
+                views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -480,8 +499,16 @@ class StandardWidget(val context: Context) {
 
                 bindingView.nextEvent.text = nextEvent.title
 
+                if (Preferences.showNextEventOnMultipleLines) {
+                    bindingView.nextEvent.apply {
+                        isSingleLine = false
+                        maxLines = 3
+                        gravity = Gravity.CENTER
+                    }
+                }
+
                 if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
-                    bindingView.nextEventDifferenceTime.text = if (!nextEvent.allDay) {
+                    val diffTime = if (!nextEvent.allDay) {
                         SettingsStringHelper.getDifferenceText(
                             context,
                             now.timeInMillis,
@@ -495,7 +522,14 @@ class StandardWidget(val context: Context) {
                             nextEvent.startDate
                         ).toLowerCase(Locale.getDefault())
                     }
-                    bindingView.nextEventDifferenceTime.isVisible = true
+                    bindingView.nextEventDifferenceTime.text = diffTime
+
+                    if (!Preferences.showNextEventOnMultipleLines) {
+                        bindingView.nextEventDifferenceTime.isVisible = true
+                    } else {
+                        bindingView.nextEvent.text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, diffTime)
+                        bindingView.nextEventDifferenceTime.isVisible = false
+                    }
                 } else {
                     bindingView.nextEventDifferenceTime.isVisible = false
                 }

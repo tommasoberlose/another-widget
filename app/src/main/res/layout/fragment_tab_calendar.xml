@@ -264,6 +264,55 @@
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
+                    android:id="@+id/action_show_next_event_on_multiple_lines"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        android:scaleY="-1"
+                        android:src="@drawable/round_subtitles_24"
+                        app:tint="@color/colorPrimaryText"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AnotherWidget.Settings.Title"
+                            android:text="@string/settings_show_next_event_on_multiple_lines_title"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/show_next_event_on_multiple_lines_label"
+                            style="@style/AnotherWidget.Settings.Subtitle"/>
+                    </LinearLayout>
+                    <com.kyleduo.switchbutton.SwitchButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:kswThumbWidth="16sp"
+                        app:kswThumbHeight="16sp"
+                        app:kswBackRadius="16dp"
+                        app:kswTintColor="@color/colorAccent"
+                        android:layout_marginEnd="16dp"
+                        android:id="@+id/show_next_event_on_multiple_lines_toggle"
+                        android:buttonTint="@color/colorAccent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
                     android:id="@+id/action_show_diff_time"
                     android:orientation="horizontal">
                     <ImageView

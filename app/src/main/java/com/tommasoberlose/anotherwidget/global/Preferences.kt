@@ -110,6 +110,7 @@ object Preferences : KotprefModel() {
     var customFontName by stringPref(default = "")
     var customFontVariant by stringPref(default = "regular")
     var showNextEvent by booleanPref(key = "PREF_SHOW_NEXT_EVENT", default = true)
+    var showNextEventOnMultipleLines by booleanPref(default = false)
 
     var showDividers by booleanPref(default = true)
 

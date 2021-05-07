@@ -12,6 +12,7 @@ import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.receivers.NotificationListener
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.ignoreExceptions
 import java.lang.Exception
 
 object MediaPlayerHelper {
@@ -69,15 +70,24 @@ object MediaPlayerHelper {
                         isSomeonePlaying = true
                         if (metadata != null) {
                             Preferences.bulk {
-                                mediaPlayerTitle =
-                                    metadata.getText(MediaMetadata.METADATA_KEY_TITLE)?.toString()
-                                        ?: ""
-                                mediaPlayerArtist =
-                                    metadata.getText(MediaMetadata.METADATA_KEY_ARTIST)?.toString()
-                                        ?: ""
-                                mediaPlayerAlbum =
-                                    metadata.getText(MediaMetadata.METADATA_KEY_ALBUM)?.toString()
-                                        ?: ""
+                                ignoreExceptions {
+                                    mediaPlayerTitle =
+                                        metadata.getText(MediaMetadata.METADATA_KEY_TITLE)
+                                            ?.toString()
+                                            ?: ""
+                                }
+                                ignoreExceptions {
+                                    mediaPlayerArtist =
+                                        metadata.getText(MediaMetadata.METADATA_KEY_ARTIST)
+                                            ?.toString()
+                                            ?: ""
+                                }
+                                ignoreExceptions {
+                                    mediaPlayerAlbum =
+                                        metadata.getText(MediaMetadata.METADATA_KEY_ALBUM)
+                                            ?.toString()
+                                            ?: ""
+                                }
                             }
                         }
 

@@ -265,3 +265,11 @@ fun View.setOnSingleClickListener(l: View.OnClickListener) {
 fun View.setOnSingleClickListener(l: (View) -> Unit) {
     setOnClickListener(OnSingleClickListener(l))
 }
+
+fun ignoreExceptions(function: () -> Unit) = run {
+    try {
+        function.invoke()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+}

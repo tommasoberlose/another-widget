@@ -63,6 +63,7 @@ class CalendarFragment : Fragment() {
         binding.showAllDayToggle.setCheckedImmediatelyNoEvent(Preferences.calendarAllDay)
         binding.showOnlyBusyEventsToggle.setCheckedImmediatelyNoEvent(Preferences.showOnlyBusyEvents)
         binding.showDiffTimeToggle.setCheckedImmediatelyNoEvent(Preferences.showDiffTime)
+        binding.showNextEventOnMultipleLinesToggle.setCheckedImmediatelyNoEvent(Preferences.showNextEventOnMultipleLines)
 
         setupListener()
 
@@ -87,6 +88,12 @@ class CalendarFragment : Fragment() {
         viewModel.secondRowInformation.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.secondRowInfoLabel.text = getString(SettingsStringHelper.getSecondRowInfoString(it))
+            }
+        }
+
+        viewModel.showNextEventOnMultipleLines.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                binding.showNextEventOnMultipleLinesLabel.text = if (it) getString(R.string.settings_enabled) else getString(R.string.settings_disabled)
             }
         }
 
@@ -229,6 +236,14 @@ class CalendarFragment : Fragment() {
 
         binding.showDiffTimeToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showDiffTime = isChecked
+        }
+
+        binding.actionShowNextEventOnMultipleLines.setOnClickListener {
+            binding.showNextEventOnMultipleLinesToggle.isChecked = !binding.showNextEventOnMultipleLinesToggle.isChecked
+        }
+
+        binding.showNextEventOnMultipleLinesToggle.setOnCheckedChangeListener { _, isChecked ->
+            Preferences.showNextEventOnMultipleLines = isChecked
         }
 
         binding.actionWidgetUpdateFrequency.setOnClickListener {

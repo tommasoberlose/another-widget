@@ -1,9 +1,19 @@
 package com.tommasoberlose.anotherwidget.helpers
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Color
+import android.util.Log
+import androidx.core.content.ContextCompat
+import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
+import com.tommasoberlose.anotherwidget.utils.isDarkTheme
+import com.tommasoberlose.anotherwidget.utils.toast
 import kotlin.math.roundToInt
+
 
 object ColorHelper {
     fun getFontColor(isDark: Boolean): Int {
@@ -142,6 +152,42 @@ object ColorHelper {
         } catch (iae: IllegalArgumentException) {
             iae.printStackTrace()
             false
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun Context.copyToClipboard(color: Int?, alpha: Int) {
+        if (color == null) return toast(getString(R.string.error_copy_color))
+        with(getSystemService(CLIPBOARD_SERVICE) as ClipboardManager) {
+            try {
+                val colorString = Integer.toHexString(color)
+                val clip = "#%s%s".format(
+                    alpha.toHexValue(),
+                    if (colorString.length > 6) colorString.substring(2) else colorString
+                ).toUpperCase()
+                setPrimaryClip(ClipData.newPlainText(clip, clip))
+                toast(getString(R.string.color_copied))
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                toast(getString(R.string.error_copy_color))
+            }
+        }
+    }
+
+    fun Context.isClipboardColor(): Boolean {
+        with(getSystemService(CLIPBOARD_SERVICE) as ClipboardManager) {
+            return primaryClip?.getItemAt(0)?.text?.toString()?.isColor() ?: false
+        }
+    }
+
+    fun Context.pasteFromClipboard(pasteColor: (color: String, alpha: String) -> Unit) {
+        with(getSystemService(CLIPBOARD_SERVICE) as ClipboardManager) {
+            primaryClip?.let {
+                val item = it.getItemAt(0).text.toString().replace("#", "")
+                val color = if (item.length > 6) item.substring(2) else item
+                val alpha = if (item.length > 6) item.substring(0, 2) else "00"
+                pasteColor("#$color", alpha)
+            }
         }
     }
 }

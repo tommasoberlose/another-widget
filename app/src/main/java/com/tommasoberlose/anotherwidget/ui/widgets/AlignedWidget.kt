@@ -107,12 +107,12 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
                 views.setImageViewBitmap(
                     R.id.weather_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.weatherDateLine, draw = false)
+                    BitmapHelper.getBitmapFromView(bindingView.weatherDateLine, draw = false, width = bindingView.weatherDateLine.width, height = bindingView.weatherDateLine.height)
                 )
 
                 views.setImageViewBitmap(
                     R.id.weather_sub_line_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.weatherSubLine, draw = false)
+                    BitmapHelper.getBitmapFromView(bindingView.weatherSubLine, draw = false, width = bindingView.weatherSubLine.width, height = bindingView.weatherSubLine.height)
                 )
             } else {
                 views.setViewVisibility(R.id.weather_rect, View.GONE)
@@ -123,7 +123,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             // Calendar
             views.setImageViewBitmap(
                 R.id.date_rect,
-                BitmapHelper.getBitmapFromView(bindingView.date, draw = false)
+                BitmapHelper.getBitmapFromView(bindingView.date, draw = false, width = bindingView.date.width, height = bindingView.date.height)
             )
 
             val calPIntent = PendingIntent.getActivity(
@@ -157,7 +157,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     // Action next event
                     views.setImageViewBitmap(
                         R.id.action_next_rect,
-                        BitmapHelper.getBitmapFromView(bindingView.actionNext, draw = false)
+                        BitmapHelper.getBitmapFromView(bindingView.actionNext, draw = false, width = bindingView.actionNext.width, height = bindingView.actionNext.height)
                     )
                     views.setViewVisibility(R.id.action_next_rect, View.VISIBLE)
                     views.setOnClickPendingIntent(
@@ -186,6 +186,10 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
                 views.setOnClickPendingIntent(R.id.next_event_rect, eventIntent)
+                views.setImageViewBitmap(
+                    R.id.next_event_rect,
+                    BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false, width = bindingView.nextEvent.width, height = bindingView.nextEvent.height)
+                )
                 views.setViewVisibility(R.id.next_event_rect, View.VISIBLE)
 
                 // Event time difference
@@ -194,12 +198,18 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         R.id.next_event_difference_time_rect,
                         BitmapHelper.getBitmapFromView(
                             bindingView.nextEventDifferenceTime,
-                            draw = false
+                            draw = false,
+                            width = bindingView.nextEventDifferenceTime.width,
+                            height = bindingView.nextEventDifferenceTime.height
                         )
                     )
 
                     views.setOnClickPendingIntent(R.id.next_event_difference_time_rect, eventIntent)
-                    views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+                    if (!Preferences.showNextEventOnMultipleLines) {
+                        views.setViewVisibility(R.id.next_event_difference_time_rect, View.VISIBLE)
+                    } else {
+                        views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
+                    }
                 } else {
                     views.setViewVisibility(R.id.next_event_difference_time_rect, View.GONE)
                 }
@@ -226,12 +236,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, pIntentDetail)
                 }
-
-                views.setImageViewBitmap(
-                    R.id.next_event_rect,
-                    BitmapHelper.getBitmapFromView(bindingView.nextEvent, draw = false)
-                )
-                views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
 
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
@@ -374,12 +378,23 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
                     views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
                 }
+            } else {
+                views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
+
+                views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
+                views.setViewVisibility(R.id.sub_line_rect, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
+                // Spacing
+                views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
+                views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             }
 
             // Second row
             views.setImageViewBitmap(
                 R.id.sub_line_rect,
-                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false)
+                BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false, width = bindingView.subLine.width, height = bindingView.subLine.height)
             )
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -455,8 +470,16 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
                 bindingView.nextEvent.text = nextEvent.title
 
+                if (Preferences.showNextEventOnMultipleLines) {
+                    bindingView.nextEvent.apply {
+                        isSingleLine = false
+                        maxLines = 3
+                        gravity = if (rightAligned) Gravity.END else Gravity.START
+                    }
+                }
+
                 if (Preferences.showDiffTime && now.timeInMillis < nextEvent.startDate) {
-                    bindingView.nextEventDifferenceTime.text = if (!nextEvent.allDay) {
+                    val diffTime = if (!nextEvent.allDay) {
                         SettingsStringHelper.getDifferenceText(
                             context,
                             now.timeInMillis,
@@ -470,7 +493,14 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             nextEvent.startDate
                         ).toLowerCase(Locale.getDefault())
                     }
-                    bindingView.nextEventDifferenceTime.isVisible = true
+                    bindingView.nextEventDifferenceTime.text = diffTime
+
+                    if (!Preferences.showNextEventOnMultipleLines) {
+                        bindingView.nextEventDifferenceTime.isVisible = true
+                    } else {
+                        bindingView.nextEvent.text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, diffTime)
+                        bindingView.nextEventDifferenceTime.isVisible = false
+                    }
                 } else {
                     bindingView.nextEventDifferenceTime.isVisible = false
                 }
