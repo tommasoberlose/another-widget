@@ -368,4 +368,8 @@
     <string name="smart_content_header">Smart indhold</string>
     <string name="spacing_settings_header">Mellemrum</string>
     <string name="gestures_refresh_widget">Ingen, widget\'en vil blive opdateret</string>
+    <string name="settings_disabled">Deaktiveret</string>
+    <string name="settings_enabled">Aktiveret</string>
+    <string name="color_copied">Farve kopieret til udklipsholder.</string>
+    <string name="error_copy_color">Farven kan ikke kopieres.</string>
 </resources>
