@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Another Widget</string>
-    <string name="add_widget">Tilføj</string>
+    <string name="add_widget">Tilføj Widget</string>
 
     <!-- Display -->
     <string name="settings_general_title">Visning</string>
@@ -22,14 +22,19 @@
     <string name="alpha">Alpha</string>
     <string name="transparent">Gennemsigtig</string>
     <string name="settings_show_dividers_title">Vis tekstdelere</string>
-    <string name="first_row_header">Første række</string>
-    <string name="second_row_header">Anden række</string>
+    <string name="first_row_header">Primær tekst</string>
+    <string name="second_row_header">Sekundær tekst</string>
     <string name="global_style_header">Widget</string>
     <string name="action_capitalize_the_date">Skift mellem stort og småt begyndelsesbogstav</string>
     <string name="settings_date_format_title">Datoformat</string>
     <string name="header_widget_background">Widget baggrund</string>
-    <string name="settings_secondary_row_top_margin_title">Margen</string>
+    <string name="settings_secondary_row_top_margin_title">Rækkeafstand</string>
     <string name="action_custom_font_to_search">Brugerdefineret skrifttype...</string>
+    <string name="font_family_settings_title">Font familie</string>
+    <string name="settings_widget_align_title">Justering</string>
+    <string name="settings_widget_align_left_subtitle">Venstre</string>
+    <string name="settings_widget_align_right_subtitle">Højre</string>
+    <string name="settings_widget_align_center_subtitle">Centrer</string>
 
     <string name="font_100" translatable="false">Thin</string>
     <string name="font_200" translatable="false">Light</string>
@@ -40,6 +45,16 @@
     <string name="font_700" translatable="false">Bold</string>
     <string name="font_800" translatable="false">Black</string>
     <string name="font_900" translatable="false">Heavy</string>
+    <string name="font_italic" translatable="false">Italic</string>
+    <string name="font_100_italic" translatable="false">Thin Italic</string>
+    <string name="font_200_italic" translatable="false">Light Italic</string>
+    <string name="font_300_italic" translatable="false">Book Italic</string>
+    <string name="font_400_italic" translatable="false">Regular Italic</string>
+    <string name="font_500_italic" translatable="false">Medium Italic</string>
+    <string name="font_600_italic" translatable="false">Semi-bold Italic</string>
+    <string name="font_700_italic" translatable="false">Bold Italic</string>
+    <string name="font_800_italic" translatable="false">Black Italic</string>
+    <string name="font_900_italic" translatable="false">Heavy Italic</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Kalender</string>
@@ -63,7 +78,7 @@
     <string name="settings_show_until_subtitle_5">7 dage senere</string>
     <string name="settings_show_until_title">Vis begivenheder mindst</string>
     <string name="day_char">d</string>
-    <string name="settings_calendar_app_title">Standard app til kalender</string>
+    <string name="settings_calendar_app_title">Kalender</string>
     <string name="error_no_calendar">Ingen kalendere fundet.</string>
     <string name="tomorrow">i morgen</string>
     <string name="today">i dag</string>
@@ -93,6 +108,11 @@
     <string name="attendee_status_invited">Begivenhedsinvitationer</string>
     <string name="attendee_status_declined">Afviste begivenheder</string>
 
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+    <string name="calendar_sync_notification_channel_name">Synkroniseringstjeneste for begivenheder</string>
+    <string name="calendar_sync_notification_channel_description">Tjeneste som bruges til at synkronisere kalenderens begivenheder.</string>
+    <string name="calendar_sync_notification_title">Synkroniserer kalender begivenheder…</string>
+
     <!-- Weather -->
     <string name="settings_weather_title">Vejr</string>
     <string name="title_permission_location">Vis vejret</string>
@@ -108,27 +128,19 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 timer</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 timer</string>
     <string name="settings_custom_location_title">Lokation</string>
-    <string name="custom_location_gps">Brug geolocation</string>
+    <string name="custom_location_gps">Brug geolokation</string>
     <string name="show_weather_visible">Vejrinfo er synlig</string>
     <string name="show_weather_not_visible">Vejrinfo er skjult</string>
-    <string name="settings_weather_app_title">Tryk på vejret åbner</string>
+    <string name="settings_weather_app_title">Vejr</string>
     <string name="settings_weather_provider_api_key_title">Vejr API nøgle</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">Vejrudbyderen er konfigureret korrekt</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">Vejrudbyderen skal konfigureres</string>
     <string name="api_key_hint">OpenWeatherMap API nøgle</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Vejr fra Google Awareness er forældet. Der kræves nu en OpenWeatherMap API nøgle for at vise vejret i widget\'en.</string>
-    <string name="api_key_title_1">Opret en OpenWeatherMap konto</string>
-    <string name="api_key_subtitle_1">Opret en gratis konto hos OpenWeatherMap. Det vil kun tage få minutter.</string>
-    <string name="api_key_title_2">Kopier din API nøgle</string>
-    <string name="api_key_subtitle_2">Find menuen API keys i dine kontoindstillinger, og kopier standardnøglen.</string>
-    <string name="api_key_title_3">Indtast nøglen i app\'en</string>
-    <string name="api_key_subtitle_3">Indsæt nøglen i feltet ovenfor og gem ændringen. Så snart nøglen er aktiveret, vil vejret blive synligt.</string>
-    <string name="action_open_provider">Gå til OpenWeatherMap.org</string>
-    <string name="api_key_info_all_set">Der kan gå op til 10 minutter inden din API nøgle er aktiveret. Vejret vil blive opdateret så snart det er tilgængeligt.</string>
+    <string name="weather_warning">Google Awareness API er forældet. Der kræves nu en API nøgle fra en tredjepartsudbyder, for at vise vejret i widget\'en.</string>
     <string name="settings_weather_icon_pack_title">Ikonpakke</string>
     <string name="settings_weather_icon_pack_default">Ikonpakke %d</string>
-    <string name="background_location_warning">Vi indsamler placeringsdata for at opdatere vejrinformationer, selv når app\'en er lukket eller ikke er i brug.\nVi bruger ikke disse data på andre måder.</string>
+    <string name="background_location_warning">Når geolokation er aktiveret, indsamler vi placeringsdata for at opdatere vejrinformationer, selv når app\'en er lukket eller ikke er i brug.\nVi bruger ikke disse data på andre måder.</string>
     <string name="settings_weather_provider_api">Vejrudbyder</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
@@ -152,15 +164,15 @@
     <string name="weather_provider_info_weatherapi_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
     <string name="weather_provider_info_here_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
     <string name="weather_provider_info_accuweather_subtitle">Åbn udbyderens websted, opret en personlig konto og indsæt standardnøglen her.</string>
-    <string name="weather_provider_info_weather_gov_subtitle" />
-    <string name="weather_provider_info_yr_subtitle" />
+    <string name="weather_provider_info_weather_gov_subtitle">\n</string>
+    <string name="weather_provider_info_yr_subtitle">\n</string>
 
     <string name="weather_provider_error_missing_key">Vejrudbyderen du har valgt kræver en API-nøgle.</string>
     <string name="weather_provider_error_wrong_location">Den aktuelle placering understøttes ikke.</string>
     <string name="weather_provider_error_missing_location">Vælg en gyldig placering.</string>
     <string name="weather_provider_error_expired_key">Det ser ud til, at din API-nøgle er udløbet.</string>
-    <string name="weather_provider_error_invalid_key">API-nøgle er ikke gyldig eller endnu ikke aktiveret.</string>
-    <string name="weather_provider_error_misconfigured">Vejrudbyderen er forkert konfigureret.</string>
+    <string name="weather_provider_error_invalid_key">API-nøgle er ugyldig eller ikke aktiveret endnu.</string>
+    <string name="weather_provider_error_misconfigured">Vejrudbyderen er konfigureret forkert.</string>
     <string name="weather_provider_error_connection">Forbindelsesfejl.</string>
     <string name="weather_provider_error_generic">Noget gik galt, tjek vejrudbyderens konfiguration.</string>
     <string name="api_key_required_message">Konto påkrævet</string>
@@ -169,9 +181,15 @@
     <string name="weather_select_a_provider">Vælg en udbyder</string>
     <string name="weather_provider_activity_subtitle">Vælg en vejrudbyder fra listen.\nEnkelte udbydere har brug for en gratis personlig konto,\nmen de er normalt mere nøjagtige.</string>
 
+    <string name="location_access_notification_channel_id" translatable="false">location-access</string>
+    <string name="location_access_notification_channel_name">Opdateringstjeneste til vejret</string>
+    <string name="location_access_notification_channel_description">Tjeneste som bruges til at opdatere vejret, baseret på brugerens nuværende lokation.</string>
+    <string name="location_access_notification_title">Opdaterer vejret…</string>
+    <string name="location_access_notification_subtitle">Vi opdaterer vejret baseret på din nuværnde lokation.</string>
+
     <!-- Clock -->
     <string name="settings_clock_title">Ur</string>
-    <string name="settings_clock_app_title">Tryk på ur åbner</string>
+    <string name="settings_clock_app_title">Ur</string>
     <string name="title_show_clock">Vis uret</string>
     <string name="show_clock_visible">Uret vises</string>
     <string name="show_clock_not_visible">Uret er skjult</string>
@@ -180,47 +198,52 @@
     <string name="settings_clock_bottom_margin_title">Nedre margen på ur</string>
     <string name="settings_clock_bottom_margin_subtitle_none">Ingen</string>
     <string name="settings_clock_bottom_margin_subtitle_small">Lille</string>
-    <string name="settings_clock_bottom_margin_subtitle_medium">Medium</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Mellem</string>
     <string name="settings_clock_bottom_margin_subtitle_large">Stor</string>
-    <string name="clock_warning">Grundet teknologiske begrænsninger har uret ikke den tilpassede skrifttype og tekstskyggerne, som valgt under Typografi sektionen.</string>
+    <string name="clock_warning">Grundet tekniske begrænsninger har uret ikke de tilpassede skrifttyper og skygger, som valgt under Typografi sektionen.</string>
     <string name="settings_clock_text_color_title">Tekstfarve</string>
     <string name="settings_ampm_indicator_title">Vis AM/PM indikator</string>
     <string name="clock_text_header">Tekststil på ur</string>
+    <string name="time_zones_header">Tidszoner</string>
+    <string name="settings_alt_timezone_title">Ekstra ur</string>
+    <string name="no_time_zone_label">Ingen</string>
+    <string name="time_zone_search_error_message">Fejl ved søgning efter tidszonen.</string>
+    <string name="geoname_credit">Tjeneste tilgængelig takket være <a href="http://www.geonames.org/">GeoName</a>.</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Vis næste alarm</string>
     <string name="settings_at_a_glance_title">Overblik</string>
     <string name="settings_show_music_title">Aktuel sang</string>
-    <string name="settings_request_notification_access">Vi har brug for tilladelse til aflæsning af notifikationer, for at vise den aktuelle sang.</string>
+    <string name="settings_request_notification_access">Vi har brug for notifikations-tilladelsen, for at vise den aktuelle sang.</string>
     <string name="settings_request_last_notification_access">Vi har brug for notifikations-tilladelsen, for at tjekke dine seneste notifikationer.</string>
     <string name="settings_request_fitness_access">Vi har brug for et par få tilladelser, til at vise dine daglige skridt fra Google Fit.</string>
     <string name="title_show_glance">Vis overbliks-informationer</string>
     <string name="description_show_glance_visible">Service aktiveret</string>
     <string name="description_show_glance_not_visible">Service deaktiveret</string>
     <string name="settings_sort_glance_providers_title">Datakildeprioritet</string>
-    <string name="settings_sort_glance_providers_subtitle">Skift datakilders prioritet</string>
+    <string name="settings_sort_glance_providers_subtitle">Skift datakilders prioritet ved at sortere listen nedenfor med drag-and-drop ikonerne</string>
     <string name="settings_custom_notes_title">Brugerdefinerede noter</string>
-    <string name="settings_low_battery_level_title">Batteri</string>
     <string name="settings_daily_steps_title">Daglige skridt</string>
-    <string name="battery_low_warning">Lavt batteriniveau</string>
     <string name="daily_steps_counter">%d skridt indtil videre</string>
+    <string name="settings_low_battery_level_title">Batteri</string>
+    <string name="battery_low_warning">Lavt batteriniveau</string>
     <string name="charging">Oplader</string>
-    <string name="charged">Opladet</string>
+    <string name="charged">Fuldt opladet</string>
     <string name="providers">Kilder</string>
-    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
+    <string name="glance_info">Overbliks-informationer vil kun blive vist, når der ikke er nogle begivenheder vist, og kun når et par betingelser er mødt.</string>
     <string name="settings_music_players_filter_title">Musikafspillere</string>
     <string name="settings_music_players_filter_subtitle">Vælg dine relevante musikafspillere</string>
     <string name="settings_show_music_subtitle">Vi benytter musikafspillerens notifikation til at vise den aktuelle sang.</string>
     <string name="settings_low_battery_level_subtitle">Bliv underrettet, når enheden har lavt batteriniveau eller oplader.</string>
     <string name="settings_daily_steps_subtitle">Se dine daglige skridt et kort øjeblik efter, når du er færdig med at gå eller løbe.</string>
-    <string name="settings_show_next_alarm_subtitle">Vis din næste alarm, tjek om din standard ur app er den eneste der angiver alarmer.</string>
+    <string name="settings_show_next_alarm_subtitle">Vis din næste alarm.\nTjek om din standard ur app er den eneste der angiver alarmer.</string>
     <string name="settings_show_next_alarm_app_title">Alarm sat af %s</string>
-    <string name="settings_show_next_alarm_app_subtitle_wrong">Den næste alarm ser ud til at være forkert.</string>
-    <string name="settings_show_next_alarm_app_subtitle_correct">Den næste alarm ser ud til at være korrekt.</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">Den næste alarm ser ud til at være forkert</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">Den næste alarm ser ud til at være korrekt</string>
     <string name="settings_show_notifications_title">Seneste notifikationer</string>
     <string name="settings_show_notifications_subtitle">Få et hurtigt overblik over de seneste notifikationer, som blev vist på din enhed.</string>
-    <string name="settings_show_greetings_title">Hilsener</string>
-    <string name="settings_show_greetings_subtitle">Se en sej sætning, når du mindst venter det.</string>
+    <string name="settings_show_greetings_title">Hilsner</string>
+    <string name="settings_show_greetings_subtitle">Se en sej sætning for at lette din dag, når du mindst venter det.</string>
     <string name="google_fit_account_connected">Konto forbundet</string>
     <string name="google_fit_account_not_connected">Konto ikke forbundet</string>
     <string name="google_fit">Google Fit</string>
@@ -228,6 +251,40 @@
     <string name="action_disconnect">Afbryd</string>
     <string name="applications_filter_title">Applikationer</string>
     <string name="applications_filter_subtitle">Vælg hvilke notifikationer der skal vises</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>Godmorgen!</item>
+        <item>Hav en god dag!</item>
+        <item>Klar til at tage afsted?</item>
+        <item>Vågn op.</item>
+        <item>Glem ikke din morgenmad!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Godaften!</item>
+        <item>Hvordan gik din dag?</item>
+        <item>Har du haft en god dag?</item>
+        <item>Efter indsats kommer komfort.</item>
+        <item>Glem ikke at spise aftensmad!</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Godnat!</item>
+        <item>Sov godt!</item>
+        <item>Søde drømme indtil solstrålerne finder dig!</item>
+        <item>Vi ses i morgen...</item>
+        <item>Bliv ikke oppe for længe!</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Skjul notifikationen efter</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 sekunder</item>
+        <item>1 minut</item>
+        <item>5 minutter</item>
+        <item>10 minutter</item>
+        <item>15 minutter</item>
+        <item>Afvisning</item>
+    </string-array>
+    <string name="settings_show_events_as_glance_provider_title">Begivenheder</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Se et smugkig på dine kalenderbegivenheder, og vis altid den aktuelle dato.</string>
+    <string name="settings_show_events_as_glance_provider_error">Aktiver visningen af begivenhederne i kalenderfanen, og giv den nødvendige tilladelse.</string>
+    <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
     <string name="action_share">Del</string>
@@ -238,7 +295,7 @@
     <string name="action_refresh_widget">Genindlæs widget</string>
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Fejl ved åbning af URL: Link kopieret til udklipsholder.</string>
-    <string name="loading_text">Indlæser data…</string>
+    <string name="loading_text">Indlæser data...</string>
     <string name="error_opening_app">Fejl ved åbning af app.</string>
     <string name="default_name">Standard app</string>
     <string name="action_save">Gem</string>
@@ -260,7 +317,7 @@
     <string name="settings_app_version_title">App version</string>
     <string name="settings_title_show_wallpaper">Vis baggrundsbillede</string>
     <string name="support_refresh_widget_subtitle">Tving en genstart af widget-tjenesten</string>
-    <string name="settings_feedback_subtitle">Dette er et open-source projekt, du er velkommen til at hjælpe.</string>
+    <string name="settings_feedback_subtitle">Du er velkommen til at hjælpe med projektet.</string>
     <string name="settings_feedback_title">Feedback og feature requests</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Xiaomi Enheder</string>
@@ -275,7 +332,7 @@
     <string name="preferences_header">Præferencer</string>
     <string name="settings_privacy_policy_title"><![CDATA[Juridisk og privatliv]]></string>
     <string name="settings_privacy_policy_subtitle">Se appens privatlivspolitik</string>
-    <string name="project_header">Projekt</string>
+    <string name="project_header">Open-source projekt</string>
     <string name="information_header">Information</string>
 
     <!-- Activities -->
@@ -294,4 +351,21 @@
     <string name="nothing">Intet</string>
     <string name="action_dismiss">Afvis</string>
     <string name="action_accept">Accepter</string>
+    <string name="gestures_do_nothing">Ingen</string>
+    <string name="song_info_format_activity_title">Format på sang</string>
+    <string name="song_info_format_activity_subtitle">Skift den synlige sanginformation</string>
+
+    <!-- More -->
+    <string name="look_and_feel_header"><![CDATA[Look & feel]]></string>
+    <string name="typography_settings_title">Typografi</string>
+    <string name="typography_settings_subtitle">Angiv skrifttype, størrelse og farve</string>
+    <string name="layout_settings_title">Layout</string>
+    <string name="gestures_settings_subtitle">Handlinger, adfærd og genveje</string>
+    <string name="gestures_settings_title">Bevægelser</string>
+    <string name="gestures_amp_input_header"><![CDATA[Gestures & input]]></string>
+    <string name="clock_settings_subtitle">Angiv størrelse, farve og tidszoner</string>
+    <string name="layout_settings_subtitle">Widgetafstand og justeringer</string>
+    <string name="smart_content_header">Smart indhold</string>
+    <string name="spacing_settings_header">Mellemrum</string>
+    <string name="gestures_refresh_widget">Ingen, widget\'en vil blive opdateret</string>
 </resources>
