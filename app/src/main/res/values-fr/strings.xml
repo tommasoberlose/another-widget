@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Ajouter</string>
 
     <!-- Display -->
     <string name="settings_general_title">Affichage</string>
+    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Couleur du texte</string>
     <string name="settings_secondary_font_color_title">Couleur du texte</string>
     <string name="settings_background_color_title">Couleur de l\'arrière-plan</string>
@@ -28,6 +30,31 @@
     <string name="header_widget_background">Arrière-plan du widget</string>
     <string name="settings_secondary_row_top_margin_title">Marge intermédiaire</string>
     <string name="action_custom_font_to_search">Police personnalisée...</string>
+    <string name="font_family_settings_title">Famille de polices</string>
+    <string name="settings_widget_align_title">Alignement du widget</string>
+    <string name="settings_widget_align_left_subtitle">Gauche</string>
+    <string name="settings_widget_align_right_subtitle">Droite</string>
+    <string name="settings_widget_align_center_subtitle">Centré</string>
+    
+    <string name="font_100" translatable="false">Thin</string>
+    <string name="font_200" translatable="false">Light</string>
+    <string name="font_300" translatable="false">Book</string>
+    <string name="font_400" translatable="false">Regular</string>
+    <string name="font_500" translatable="false">Medium</string>
+    <string name="font_600" translatable="false">Semi-bold</string>
+    <string name="font_700" translatable="false">Bold</string>
+    <string name="font_800" translatable="false">Black</string>
+    <string name="font_900" translatable="false">Heavy</string>
+    <string name="font_italic" translatable="false">Italic</string>
+    <string name="font_100_italic" translatable="false">Thin Italic</string>
+    <string name="font_200_italic" translatable="false">Light Italic</string>
+    <string name="font_300_italic" translatable="false">Book Italic</string>
+    <string name="font_400_italic" translatable="false">Regular Italic</string>
+    <string name="font_500_italic" translatable="false">Medium Italic</string>
+    <string name="font_600_italic" translatable="false">Semi-bold Italic</string>
+    <string name="font_700_italic" translatable="false">Bold Italic</string>
+    <string name="font_800_italic" translatable="false">Black Italic</string>
+    <string name="font_900_italic" translatable="false">Heavy Italic</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendrier</string>
@@ -52,7 +79,7 @@
     <string name="settings_show_until_title">Afficher les événements au moins</string>
     <string name="day_char">j</string>
     <string name="settings_calendar_app_title">App calendrier par défaut</string>
-    <string name="error_no_calendar">Aucun calendrier trouvé</string>
+    <string name="error_no_calendar">Aucun calendrier trouvé.</string>
     <string name="tomorrow">demain</string>
     <string name="today">aujourd\'hui</string>
     <string name="settings_event_app_title">Taper sur l\'événement ouvre</string>
@@ -66,7 +93,7 @@
     <string name="settings_show_multiple_events_title">Sélecteur d\'évmts multiples</string>
     <string name="soon">bientôt</string>
     <string name="now">maintenant</string>
-    <string name="settings_widget_update_frequency_title">Fréquence de màj du temps restant</string>
+    <string name="settings_widget_update_frequency_title">Fréquence de MàJ du temps restant</string>
     <string name="settings_widget_update_frequency_subtitle">Une fréquence de mise à jour élevée consomme plus de batterie.</string>
     <string name="settings_widget_update_frequency_low">Faible</string>
     <string name="settings_widget_update_frequency_default">Par défaut</string>
@@ -80,17 +107,20 @@
     <string name="attendee_status_accepted">Événements acceptés</string>
     <string name="attendee_status_invited">Invitations à des évmts</string>
     <string name="attendee_status_declined">Événements refusés</string>
-    
+
     <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
     <string name="calendar_sync_notification_channel_name">Service de synchronisation du calendrier</string>
     <string name="calendar_sync_notification_channel_description">Service utilisé pour synchroniser les événements du calendrier.</string>
     <string name="calendar_sync_notification_title">Synchronisation du calendrier...</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">Afficher sur plusieurs lignes</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Météo</string>
     <string name="title_permission_location">Afficher la météo</string>
     <string name="description_permission_location">Accordez l\'accès à votre localisation\npour voir la météo dans votre widget.</string>
     <string name="settings_unit_title">Unité de mesure</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
     <string name="settings_weather_refresh_period_title">Fréquence d\'actualisation</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 minutes</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 heure</string>
@@ -113,7 +143,15 @@
     <string name="settings_weather_icon_pack_default">Pack d\'icônes %d</string>
     <string name="background_location_warning">Lorsque Géolocalisation est sélectionné, nous collectons les données de localisation pour actualiser la météo, même lorsque l\'app est fermée ou non utilisée.\nNous n\'utiliserons pas ces données autrement que mentionné.</string>
     <string name="settings_weather_provider_api">Fournisseur météo</string>
-    
+
+    <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
+    <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">WeatherAPI.com</string>
+    <string name="settings_weather_provider_here" translatable="false">HERE.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">AccuWeather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
+
     <string name="weather_provider_info_open_weather_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
     <string name="weather_provider_info_weatherbit_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
     <string name="weather_provider_info_weatherapi_title">Ce fournisseur météo a besoin d\'une\nclé API pour fonctionner correctement.</string>
@@ -129,7 +167,7 @@
     <string name="weather_provider_info_accuweather_subtitle">Ouvrez le site web du fournisseur, créez un compte et copiez ici la clé par défaut.</string>
     <string name="weather_provider_info_weather_gov_subtitle">\n</string>
     <string name="weather_provider_info_yr_subtitle">\n</string>
-    
+
     <string name="weather_provider_error_missing_key">Le fournisseur météo que vous avez sélectionné nécessite une clé API.</string>
     <string name="weather_provider_error_wrong_location">Localisation actuelle non supportée.</string>
     <string name="weather_provider_error_missing_location">Choisissez une localisation valide.</string>
@@ -145,11 +183,11 @@
     <string name="weather_provider_activity_subtitle">Sélectionnez un fournisseur météo dans la liste.\nCertains fournisseurs ont besoin d\'un\ncompte personnel gratuit pour fonctionner,\nmais ils sont généralement plus précis.</string>
 
     <string name="location_access_notification_channel_id" translatable="false">location-access</string>
-    <string name="location_access_notification_channel_name">Service en arrière-plan</string>
+    <string name="location_access_notification_channel_name">Service d\'actualisation de la météo</string>
     <string name="location_access_notification_channel_description">Service utilisé pour actualiser la météo en fonction de l\'emplacement actuel de l\'utilisateur.</string>
     <string name="location_access_notification_title">Actualisation de la météo...</string>
     <string name="location_access_notification_subtitle">Nous actualisons la météo en fonction de votre emplacement actuel.</string>
-    
+
     <!-- Clock -->
     <string name="settings_clock_title">Horloge</string>
     <string name="settings_clock_app_title">Taper sur l\'horloge ouvre</string>
@@ -167,6 +205,11 @@
     <string name="settings_clock_text_color_title">Couleur du texte</string>
     <string name="settings_ampm_indicator_title">Afficher l\'indicateur AM/PM</string>
     <string name="clock_text_header">Style du texte</string>
+    <string name="time_zones_header">Fuseaux horaires</string>
+    <string name="settings_alt_timezone_title">Horloges multiples</string>
+    <string name="no_time_zone_label">Aucun</string>
+    <string name="time_zone_search_error_message">Erreur de recherche du fuseau horaire.</string>
+    <string name="geoname_credit">Service disponible grâce à <a href="http://www.geonames.org/">GeoNames</a>.</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Prochaine alarme</string>
@@ -186,11 +229,12 @@
     <string name="settings_low_battery_level_title">Batterie</string>
     <string name="battery_low_warning">Batterie faible</string>
     <string name="charging">Batterie en charge</string>
+    <string name="charged">Batterie pleine</string>
     <string name="providers">Fournisseurs</string>
     <string name="glance_info">Les coups d\'œil n\'apparaîtront que si aucun événement n\'est affiché et uniquement lorsque certaines conditions sont vérifiées.</string>
     <string name="settings_music_players_filter_title">Lecteurs de musique</string>
     <string name="settings_music_players_filter_subtitle">Choisir des apps de lecture de musique</string>
-        
+    
     <string name="settings_show_music_subtitle">Nous utilisons la notification des lecteurs de musique pour afficher la chanson en cours de lecture.</string>
     <string name="settings_low_battery_level_subtitle">Soyez averti lorsque la batterie de l\'appareil est faible ou en charge.</string>
     <string name="settings_daily_steps_subtitle">Affiche votre nombre de pas pendant un bref instant après avoir fini une marche ou une course.</string>
@@ -254,6 +298,7 @@
     <string name="action_feedback">Commentaires</string>
     <string name="action_about">À propos</string>
     <string name="action_refresh_widget">Actualiser le widget</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="error_opening_uri">Erreur d\'ouverture de l\'URL : lien copié dans le presse-papiers.</string>
     <string name="loading_text">Chargement des données...</string>
     <string name="error_opening_app">Erreur d\'ouverture de l\'app.</string>
@@ -279,6 +324,7 @@
     <string name="support_refresh_widget_subtitle">Forcer le redémarrage des services du widget</string>
     <string name="settings_feedback_subtitle">N\'hésitez pas à aider notre projet !</string>
     <string name="settings_feedback_title">Commentaires et suggestions</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
     <string name="xiaomi_warning_title">Appareils Xiaomi</string>
     <string name="xiaomi_warning_message">Veuillez activer l\'option \"Afficher des fenêtres pop-up pendant que vous parcourez en arrière-plan\" dans la section \"Autres autorisations\" des paramètres de l\'application.\nSinon, vous ne pourrez ouvrir aucune autre app en tapant sur le widget.</string>
     <string name="action_ignore">IGNORER</string>
@@ -310,7 +356,10 @@
     <string name="nothing">Rien</string>
     <string name="action_dismiss">REFUSER</string>
     <string name="action_accept">ACCEPTER</string>
-    
+    <string name="gestures_do_nothing">Aucune</string>
+    <string name="song_info_format_activity_title">Format des infos sur la musique</string>
+    <string name="song_info_format_activity_subtitle">Modifier les infos visibles sur la musique</string>
+
     <!-- More -->
     <string name="look_and_feel_header"><![CDATA[Apparence du widget]]></string>
     <string name="typography_settings_title">Typographie</string>
@@ -322,6 +371,10 @@
     <string name="clock_settings_subtitle">Définir la taille, la couleur et le fuseau horaire</string>
     <string name="layout_settings_subtitle">Espacement et ajustements du widget</string>
     <string name="smart_content_header">Contenu intelligent</string>
-    <string name="font_family_settings_title">Famille de polices</string>
-    
+    <string name="spacing_settings_header">Espacement</string>
+    <string name="gestures_refresh_widget">Aucune, le widget sera actualisé</string>
+    <string name="settings_disabled">Désactivé</string>
+    <string name="settings_enabled">Activé</string>
+    <string name="color_copied">Couleur copiée dans le presse-papiers.</string>
+    <string name="error_copy_color">La couleur ne peut pas être copiée.</string>
 </resources>
