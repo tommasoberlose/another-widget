@@ -112,6 +112,7 @@
     <string name="calendar_sync_notification_channel_name">Synkroniseringstjeneste for begivenheder</string>
     <string name="calendar_sync_notification_channel_description">Tjeneste som bruges til at synkronisere kalenderens begivenheder.</string>
     <string name="calendar_sync_notification_title">Synkroniserer kalender begivenheder…</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">Vis titel på flere linjer</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Vejr</string>
@@ -356,13 +357,13 @@
     <string name="song_info_format_activity_subtitle">Skift den synlige sanginformation</string>
 
     <!-- More -->
-    <string name="look_and_feel_header"><![CDATA[Look & feel]]></string>
+    <string name="look_and_feel_header"><![CDATA[Udseende & følelse]]></string>
     <string name="typography_settings_title">Typografi</string>
     <string name="typography_settings_subtitle">Angiv skrifttype, størrelse og farve</string>
     <string name="layout_settings_title">Layout</string>
     <string name="gestures_settings_subtitle">Handlinger, adfærd og genveje</string>
-    <string name="gestures_settings_title">Bevægelser</string>
-    <string name="gestures_amp_input_header"><![CDATA[Gestures & input]]></string>
+    <string name="gestures_settings_title">Gestikker</string>
+    <string name="gestures_amp_input_header"><![CDATA[Gestikker & input]]></string>
     <string name="clock_settings_subtitle">Angiv størrelse, farve og tidszoner</string>
     <string name="layout_settings_subtitle">Widgetafstand og justeringer</string>
     <string name="smart_content_header">Smart indhold</string>
