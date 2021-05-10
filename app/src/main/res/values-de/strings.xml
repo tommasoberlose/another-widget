@@ -332,4 +332,8 @@
     <string name="smart_content_header">Smarte Inhalte</string>
     <string name="spacing_settings_header">Abstände</string>
     <string name="gestures_refresh_widget">Keine, das Widget wird aktualisiert.</string>
+    <string name="settings_disabled">Deaktiviert</string>
+    <string name="settings_enabled">Aktiviert</string>
+    <string name="color_copied">Farbe in die Zwischenablage kopiert.</string>
+    <string name="error_copy_color">Die Farbe kann nicht kopiert werden.</string>
 </resources>
