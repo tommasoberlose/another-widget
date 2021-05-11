@@ -373,4 +373,5 @@
     <string name="settings_enabled">Aktiveret</string>
     <string name="color_copied">Farve kopieret til udklipsholder.</string>
     <string name="error_copy_color">Farven kan ikke kopieres.</string>
+    <string name="default_apps_settings_header">Standard apps</string>
 </resources>
