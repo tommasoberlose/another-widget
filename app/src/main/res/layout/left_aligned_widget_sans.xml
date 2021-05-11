@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_vertical|start"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:id="@+id/main_layout"

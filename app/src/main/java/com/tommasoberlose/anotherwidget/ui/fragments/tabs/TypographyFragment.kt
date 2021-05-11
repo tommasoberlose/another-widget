@@ -180,14 +180,15 @@ class TypographyFragment : Fragment() {
         }
 
         binding.actionSecondTextSize.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(requireContext(), header = getString(R.string.title_second_text_size)).setSelectedValue(
-                Preferences.textSecondSize)
-            (40 downTo 10).forEach {
-                dialog.addItem("${it}sp", it.toFloat())
-            }
-            dialog.addOnSelectItemListener { value ->
-                Preferences.textSecondSize = value
-            }.show()
+            BottomSheetPicker(
+                requireContext(),
+                items = (40 downTo 10).map { BottomSheetPicker.MenuItem("${it}sp", it.toFloat()) },
+                getSelected = { Preferences.textSecondSize },
+                header = getString(R.string.title_second_text_size),
+                onItemSelected = {value ->
+                    if (value != null) Preferences.textSecondSize = value
+                }
+            ).show()
         }
 
         binding.actionFontColor.setOnClickListener {
