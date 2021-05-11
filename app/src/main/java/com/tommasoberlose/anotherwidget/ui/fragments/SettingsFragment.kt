@@ -35,6 +35,7 @@ import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.activities.settings.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.ignoreExceptions
 import com.tommasoberlose.anotherwidget.utils.openURI
 import com.tommasoberlose.anotherwidget.utils.setOnSingleClickListener
 import kotlinx.coroutines.Dispatchers
@@ -206,10 +207,14 @@ class SettingsFragment : Fragment() {
                 .rotation((binding.actionRefreshIcon.rotation - binding.actionRefreshIcon.rotation % 360f) + 360f)
                 .withEndAction {
                     viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                        WeatherHelper.updateWeather(requireContext())
-                        CalendarHelper.updateEventList(requireContext())
-                        MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
-                        ActiveNotificationsHelper.clearLastNotification(requireContext())
+                        try {
+                            WeatherHelper.updateWeather(requireContext())
+                            CalendarHelper.updateEventList(requireContext())
+                            MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
+                            ActiveNotificationsHelper.clearLastNotification(requireContext())
+                        } catch (ex: Exception) {
+                            ex.printStackTrace()
+                        }
                     }
                 }
                 .start()

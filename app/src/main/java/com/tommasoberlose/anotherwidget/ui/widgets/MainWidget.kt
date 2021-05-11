@@ -13,6 +13,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.receivers.*
 import com.tommasoberlose.anotherwidget.utils.toPixel
+import java.lang.Exception
 import kotlin.math.min
 
 
@@ -74,7 +75,11 @@ class MainWidget : AppWidgetProvider() {
                     Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(context, rightAligned = true).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
                     else -> StandardWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
                 }
-                if (views != null) appWidgetManager.updateAppWidget(appWidgetId, views)
+                try {
+                    if (views != null) appWidgetManager.updateAppWidget(appWidgetId, views)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
             }
         }
 

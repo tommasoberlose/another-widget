@@ -373,4 +373,5 @@
     <string name="settings_enabled">Enabled</string>
     <string name="color_copied">Color copied into the clipboard.</string>
     <string name="error_copy_color">The color cannot be copied.</string>
+    <string name="default_apps_settings_header">Default apps</string>
 </resources>

@@ -176,7 +176,7 @@ object ColorHelper {
 
     fun Context.isClipboardColor(): Boolean {
         with(getSystemService(CLIPBOARD_SERVICE) as ClipboardManager) {
-            return primaryClip?.getItemAt(0)?.text?.toString()?.isColor() ?: false
+            return try { primaryClip?.getItemAt(0)?.text?.toString()?.isColor() ?: false } catch (ex: Exception) { false }
         }
     }
 
