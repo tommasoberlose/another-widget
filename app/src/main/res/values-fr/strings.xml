@@ -112,7 +112,7 @@
     <string name="calendar_sync_notification_channel_name">Service de synchronisation du calendrier</string>
     <string name="calendar_sync_notification_channel_description">Service utilisé pour synchroniser les événements du calendrier.</string>
     <string name="calendar_sync_notification_title">Synchronisation du calendrier...</string>
-    <string name="settings_show_next_event_on_multiple_lines_title">Afficher sur plusieurs lignes</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">Nom d\'évmt sur plusieurs lignes</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Météo</string>
@@ -368,7 +368,7 @@
     <string name="gestures_settings_subtitle">Actions, comportements et raccourcis</string>
     <string name="gestures_settings_title">Gestes</string>
     <string name="gestures_amp_input_header"><![CDATA[Gestes et saisie]]></string>
-    <string name="clock_settings_subtitle">Définir la taille, la couleur et le fuseau horaire</string>
+    <string name="clock_settings_subtitle">Définir le style et les fuseaux horaires</string>
     <string name="layout_settings_subtitle">Espacement et ajustements du widget</string>
     <string name="smart_content_header">Contenu intelligent</string>
     <string name="spacing_settings_header">Espacement</string>
@@ -377,4 +377,5 @@
     <string name="settings_enabled">Activé</string>
     <string name="color_copied">Couleur copiée dans le presse-papiers.</string>
     <string name="error_copy_color">La couleur ne peut pas être copiée.</string>
+    <string name="default_apps_settings_header">Apps par défaut</string>
 </resources>
