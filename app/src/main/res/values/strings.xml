@@ -31,7 +31,7 @@
     <string name="settings_secondary_row_top_margin_title">Rows spacing</string>
     <string name="action_custom_font_to_search">Custom font…</string>
     <string name="font_family_settings_title">Font family</string>
-    <string name="settings_widget_align_title">Widget align</string>
+    <string name="settings_widget_align_title">Text alignment</string>
     <string name="settings_widget_align_left_subtitle">Left</string>
     <string name="settings_widget_align_right_subtitle">Right</string>
     <string name="settings_widget_align_center_subtitle">Center</string>
