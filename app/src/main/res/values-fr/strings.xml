@@ -375,7 +375,7 @@
     <string name="gestures_refresh_widget">Aucune, le widget sera actualisé</string>
     <string name="settings_disabled">Désactivé</string>
     <string name="settings_enabled">Activé</string>
-    <string name="color_copied">Couleur copiée dans le presse-papiers.</string>
+    <string name="color_copied">Couleur copiée dans\nle presse-papiers.</string>
     <string name="error_copy_color">La couleur ne peut pas être copiée.</string>
     <string name="default_apps_settings_header">Apps par défaut</string>
 </resources>
