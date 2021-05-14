@@ -31,7 +31,7 @@
     <string name="settings_secondary_row_top_margin_title">Rows spacing</string>
     <string name="action_custom_font_to_search">Custom font…</string>
     <string name="font_family_settings_title">Font family</string>
-    <string name="settings_widget_align_title">Widget align</string>
+    <string name="settings_widget_align_title">Widget alignment</string>
     <string name="settings_widget_align_left_subtitle">Left</string>
     <string name="settings_widget_align_right_subtitle">Right</string>
     <string name="settings_widget_align_center_subtitle">Center</string>
@@ -209,7 +209,7 @@
     <string name="settings_alt_timezone_title">Multiple clock</string>
     <string name="no_time_zone_label">None</string>
     <string name="time_zone_search_error_message">Error searching the time zone.</string>
-    <string name="geoname_credit">Service available thanks to <a href="http://www.geonames.org/">GeoName</a>.</string>
+    <string name="geoname_credit">Service available thanks to <a href="http://www.geonames.org/">GeoNames</a>.</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Next clock alarm</string>
