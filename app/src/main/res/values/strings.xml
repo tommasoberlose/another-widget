@@ -195,6 +195,19 @@
     <string name="location_access_notification_title">Updating the weather…</string>
     <string name="location_access_notification_subtitle">We\'re updating the weather based on your current location.</string>
 
+    <string name="weather_label_clear">Clear</string>
+    <string name="weather_label_partly_cloudy">Partly cloudy</string>
+    <string name="weather_label_mostly_cloudy">Mostly cloudy</string>
+    <string name="weather_label_cloudy_weather">Cloudy</string>
+    <string name="weather_label_storm_weather">Storm</string>
+    <string name="weather_label_rainy">Rainy</string>
+    <string name="weather_label_thunder">Thunder</string>
+    <string name="weather_label_snow">Snow</string>
+    <string name="weather_label_haze">Haze</string>
+    <string name="weather_label_windy">Windy</string>
+    <string name="weather_label_rain_snow">Rain and snow</string>
+    <string name="weather_label_unknown">Unknown</string>
+
     <!-- Clock -->
     <string name="settings_clock_title">Clock</string>
     <string name="settings_clock_app_title">Clock</string>
@@ -293,6 +306,9 @@
     <string name="settings_show_events_as_glance_provider_subtitle">View a sneak peek of your calendar events and always show the current date.</string>
     <string name="settings_show_events_as_glance_provider_error">Please enable the show of the events in the calendar tab and grant the required permission.</string>
     <string name="events_glance_provider_format">%1$s %2$s</string>
+    <string name="settings_show_weather_as_glance_provider_title">Weather</string>
+    <string name="settings_show_weather_as_glance_provider_subtitle">View more information about the weather and always show the current date.</string>
+    <string name="settings_show_weather_as_glance_provider_error">Please enable the show of the weather and fix the configuration\'s errors.</string>
 
     <!-- Settings -->
     <string name="action_share">Share</string>

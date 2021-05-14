@@ -153,6 +153,7 @@ object Preferences : KotprefModel() {
     var appNotificationsFilter by stringPref(default = "")
 
     var showEventsAsGlanceProvider by booleanPref(default = false)
+    var showWeatherAsGlanceProvider by booleanPref(default = false)
 
     // Integrations
     var installedIntegrations by intPref(default = 0)

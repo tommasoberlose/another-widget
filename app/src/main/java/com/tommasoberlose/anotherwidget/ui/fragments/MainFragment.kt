@@ -141,10 +141,6 @@ class MainFragment : Fragment() {
             binding.toolbar.cardElevation = if (it > 0) 24f else 0f
         }
 
-        viewModel.clockPreferencesUpdate.observe(viewLifecycleOwner) {
-            onUpdateUiEvent(null)
-        }
-
         viewModel.widgetPreferencesUpdate.observe(viewLifecycleOwner) {
             onUpdateUiEvent(null)
         }
@@ -160,15 +156,21 @@ class MainFragment : Fragment() {
                     val generatedView = MainWidget.getWidgetView(requireContext(), binding.widget.width, typeface)
 
                     if (generatedView != null) {
+                        val view: View = generatedView.apply(requireActivity().applicationContext, binding.widget)
+                        view.measure(0, 0)
+
                         withContext(Dispatchers.Main) {
-                            val view: View = generatedView.apply(requireActivity().applicationContext, binding.widget)
-                            view.measure(0, 0)
-                            binding.widget.removeAllViews()
-                            binding.widget.addView(view)
-                            updatePreviewVisibility(view.measuredHeight)
-                            binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
+                            binding.widgetLoader.animate().scaleX(1f).scaleY(1f).alpha(1f)
                                 .setDuration(200L).start()
-                            binding.widget.animate().alpha(1f).start()
+                            binding.widget.animate().alpha(0f).setDuration(200L).withEndAction {
+                                binding.widget.removeAllViews()
+                                binding.widget.addView(view)
+
+                                updatePreviewVisibility(view.measuredHeight)
+                                binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
+                                    .setDuration(200L).start()
+                                binding.widget.animate().alpha(1f).start()
+                            }.start()
                         }
                     }
                 }
@@ -177,7 +179,7 @@ class MainFragment : Fragment() {
     }
 
     private fun updatePreviewVisibility(widgetHeight: Int) {
-        val newHeight = widgetHeight + 16f.convertDpToPixel(requireContext()).toInt()
+        val newHeight = widgetHeight + 32f.convertDpToPixel(requireContext()).toInt()
         if (binding.preview.layoutParams.height != newHeight) {
             binding.preview.clearAnimation()
             ValueAnimator.ofInt(

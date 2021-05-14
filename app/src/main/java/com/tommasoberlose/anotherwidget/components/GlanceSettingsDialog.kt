@@ -51,6 +51,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.NOTIFICATIONS -> context.getString(R.string.settings_show_notifications_title)
             Constants.GlanceProviderId.GREETINGS -> context.getString(R.string.settings_show_greetings_title)
             Constants.GlanceProviderId.EVENTS -> context.getString(R.string.settings_show_events_as_glance_provider_title)
+            Constants.GlanceProviderId.WEATHER -> context.getString(R.string.settings_show_weather_as_glance_provider_title)
         }
 
         /* SUBTITLE*/
@@ -63,6 +64,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.NOTIFICATIONS -> context.getString(R.string.settings_show_notifications_subtitle)
             Constants.GlanceProviderId.GREETINGS -> context.getString(R.string.settings_show_greetings_subtitle)
             Constants.GlanceProviderId.EVENTS -> context.getString(R.string.settings_show_events_as_glance_provider_subtitle)
+            Constants.GlanceProviderId.WEATHER -> context.getString(R.string.settings_show_weather_as_glance_provider_subtitle)
         }
 
         /* SONG */
@@ -140,6 +142,13 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             checkCalendarConfig()
         }
 
+        /* WEATHER */
+        if (provider == Constants.GlanceProviderId.WEATHER) {
+            binding.header.isVisible = false
+            binding.divider.isVisible = false
+            checkWeatherConfig()
+        }
+
         /* TOGGLE */
         binding.providerSwitch.setCheckedImmediatelyNoEvent(when (provider) {
             Constants.GlanceProviderId.PLAYING_SONG -> Preferences.showMusic
@@ -150,6 +159,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             Constants.GlanceProviderId.NOTIFICATIONS -> Preferences.showNotifications
             Constants.GlanceProviderId.GREETINGS -> Preferences.showGreetings
             Constants.GlanceProviderId.EVENTS -> Preferences.showEventsAsGlanceProvider
+            Constants.GlanceProviderId.WEATHER -> Preferences.showWeatherAsGlanceProvider
         })
 
         var job: Job? = null
@@ -208,6 +218,9 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         Constants.GlanceProviderId.EVENTS -> {
                             Preferences.showEventsAsGlanceProvider = isChecked
                         }
+                        Constants.GlanceProviderId.WEATHER -> {
+                            Preferences.showWeatherAsGlanceProvider = isChecked
+                        }
                         else -> {
                         }
                     }
@@ -246,6 +259,19 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         if (!Preferences.showEvents || !context.checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
             binding.warningContainer.isVisible = true
             binding.warningTitle.text = context.getString(R.string.settings_show_events_as_glance_provider_error)
+            binding.warningContainer.setOnClickListener {
+                dismiss()
+                EventBus.getDefault().post(MainFragment.ChangeTabEvent(1))
+            }
+        } else {
+            binding.warningContainer.isVisible = false
+        }
+    }
+
+    private fun checkWeatherConfig() {
+        if (!Preferences.showWeather || (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-") || Preferences.weatherProviderLocationError != "") {
+            binding.warningContainer.isVisible = true
+            binding.warningTitle.text = context.getString(R.string.settings_show_weather_as_glance_provider_error)
             binding.warningContainer.setOnClickListener {
                 dismiss()
                 EventBus.getDefault().post(MainFragment.ChangeTabEvent(1))

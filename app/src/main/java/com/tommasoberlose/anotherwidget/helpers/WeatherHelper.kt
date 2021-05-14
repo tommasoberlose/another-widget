@@ -313,6 +313,23 @@ object WeatherHelper {
         }
     }
 
+    fun getWeatherLabel(context: Context, icon: String): String {
+        return when (icon) {
+            "01d", "01n" -> context.getString(R.string.weather_label_clear)
+            "02d", "02n" -> context.getString(R.string.weather_label_partly_cloudy)
+            "03d", "03n" -> context.getString(R.string.weather_label_mostly_cloudy)
+            "04d", "04n" -> context.getString(R.string.weather_label_cloudy_weather)
+            "09d", "09n" -> context.getString(R.string.weather_label_storm_weather)
+            "10d", "10n" -> context.getString(R.string.weather_label_rainy)
+            "11d", "11n" -> context.getString(R.string.weather_label_thunder)
+            "13d", "13n" -> context.getString(R.string.weather_label_snow)
+            "50d", "50n", "82d", "82n" -> context.getString(R.string.weather_label_haze)
+            "80d", "80n" -> context.getString(R.string.weather_label_windy)
+            "81d", "81n" -> context.getString(R.string.weather_label_rain_snow)
+            else -> context.getString(R.string.weather_label_unknown)
+        }
+    }
+
     fun getWeatherGovIcon(iconString: String, isDaytime: Boolean): String = when {
         iconString.contains("skc") -> "01"
         iconString.contains("few") -> "02"

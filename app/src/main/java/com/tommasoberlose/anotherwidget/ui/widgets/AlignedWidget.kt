@@ -253,6 +253,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 var showSomething = false
+                var isWeatherShown = false
                 loop@ for (provider: Constants.GlanceProviderId in GlanceProviderHelper.getGlanceProviders(context)) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
@@ -367,13 +368,29 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                                 break@loop
                             }
                         }
+                        Constants.GlanceProviderId.WEATHER -> {
+                            if (Preferences.showWeather && Preferences.weatherIcon != "") {
+                                val i = Intent(context, WidgetClickListenerReceiver::class.java)
+                                i.action = Actions.ACTION_OPEN_WEATHER_INTENT
+                                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
+
+                                views.setOnClickPendingIntent(
+                                    R.id.sub_line_rect,
+                                    weatherPIntent
+                                )
+
+                                showSomething = true
+                                isWeatherShown = true
+                                break@loop
+                            }
+                        }
                     }
                 }
 
 
                 if (showSomething) {
                     views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
-                    views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
+                    views.setViewVisibility(R.id.weather_rect, if (isWeatherShown) View.GONE else View.VISIBLE)
                     views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
 
                     views.setViewVisibility(R.id.calendar_layout_rect, View.GONE)
@@ -412,8 +429,9 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
 
     // Generates the widget bitmap from the view
-    fun generateWidgetView(typeface: Typeface? = null): LeftAlignedWidgetBinding? {
+    private fun generateWidgetView(typeface: Typeface? = null): LeftAlignedWidgetBinding? {
         try {
+            var isWeatherShownAsGlanceProvider = false
             val eventRepository = EventRepository(context)
             val nextEvent = eventRepository.getNextEvent()
             val eventsCount = eventRepository.getEventsCount()
@@ -727,6 +745,33 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                                 break@loop
                             }
                         }
+                        Constants.GlanceProviderId.WEATHER -> {
+                            if (Preferences.showWeatherAsGlanceProvider && Preferences.weatherIcon != "") {
+                                bindingView.subLineText.text = String.format(
+                                    Locale.getDefault(),
+                                    "%d°%s  %s",
+                                    Preferences.weatherTemp.roundToInt(),
+                                    Preferences.weatherRealTempUnit,
+                                    WeatherHelper.getWeatherLabel(context, Preferences.weatherIcon)
+                                )
+                                bindingView.subLineIcon.isVisible = true
+
+                                val icon: String = Preferences.weatherIcon
+                                if (icon == "") {
+                                    bindingView.subLineIcon.isVisible = false
+                                } else {
+                                    bindingView.subLineIcon.setImageResource(WeatherHelper.getWeatherIconResource(context, icon))
+                                    bindingView.subLineIcon.isVisible = true
+                                }
+
+                                bindingView.weatherDateLine.isVisible = false
+                                bindingView.weatherSubLine.isVisible = false
+
+                                showSomething = true
+                                isWeatherShownAsGlanceProvider = true
+                                break@loop
+                            }
+                        }
                     }
                 }
 
@@ -778,16 +823,22 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 it.setTextColor(ColorHelper.getSecondaryFontColor(context.applicationContext.isDarkTheme()))
             }
 
-            if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.rawValue) {
-                listOf<ImageView>(bindingView.subLineIcon, bindingView.subLineIconShadow)
-            } else {
-                listOf<ImageView>(bindingView.subLineIcon, bindingView.weatherSubLineWeatherIcon, bindingView.subLineIconShadow)
-            }.forEach {
-                it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
-                it.alpha =
-                    (if (context.isDarkTheme()) Preferences.textSecondaryAlphaDark.toIntValue()
-                        .toFloat() else Preferences.textSecondaryAlpha.toIntValue()
-                        .toFloat()) / 100
+            if (!isWeatherShownAsGlanceProvider) {
+                if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.rawValue) {
+                    listOf<ImageView>(bindingView.subLineIcon, bindingView.subLineIconShadow)
+                } else {
+                    listOf<ImageView>(
+                        bindingView.subLineIcon,
+                        bindingView.weatherSubLineWeatherIcon,
+                        bindingView.subLineIconShadow
+                    )
+                }.forEach {
+                    it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
+                    it.alpha =
+                        (if (context.isDarkTheme()) Preferences.textSecondaryAlphaDark.toIntValue()
+                            .toFloat() else Preferences.textSecondaryAlpha.toIntValue()
+                            .toFloat()) / 100
+                }
             }
 
             // Text Size

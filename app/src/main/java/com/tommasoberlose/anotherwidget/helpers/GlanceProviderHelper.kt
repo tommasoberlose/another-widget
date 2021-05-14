@@ -90,6 +90,12 @@ object GlanceProviderHelper {
                     R.drawable.round_event_note_24
                 )
             }
+            Constants.GlanceProviderId.WEATHER -> {
+                GlanceProvider(providerId.id,
+                    context.getString(R.string.settings_show_weather_as_glance_provider_title),
+                    R.drawable.round_brightness_5_24
+                )
+            }
         }
     }
 
@@ -108,6 +114,7 @@ object GlanceProviderHelper {
                 (MediaPlayerHelper.isSomeonePlaying(context)) ||
                 (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                 (Preferences.customNotes.isNotEmpty()) ||
+                (Preferences.showWeatherAsGlanceProvider && Preferences.weatherIcon != "") ||
                 (Preferences.showDailySteps && Preferences.googleFitSteps > 0) ||
                 (Preferences.showGreetings && GreetingsHelper.showGreetings()) ||
                         (Preferences.showEventsAsGlanceProvider && Preferences.showEvents && context.checkGrantedPermission(

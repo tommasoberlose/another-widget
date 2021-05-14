@@ -104,7 +104,8 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
 
     // UI
     val fragmentScrollY = MutableLiveData<Int>()
-    val clockPreferencesUpdate = MediatorLiveData<Boolean>().apply {
+    val widgetPreferencesUpdate = MediatorLiveData<Boolean>().apply {
+        addSource(Preferences.asLiveData(Preferences::showClock)) { value = true }
         addSource(Preferences.asLiveData(Preferences::clockTextSize)) { value = true }
         addSource(Preferences.asLiveData(Preferences::clockTextColor)) { value = true }
         addSource(Preferences.asLiveData(Preferences::clockTextAlpha)) { value = true }
@@ -113,8 +114,6 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::showAMPMIndicator)) { value = true }
         addSource(Preferences.asLiveData(Preferences::clockBottomMargin)) { value = true }
         addSource(Preferences.asLiveData(Preferences::altTimezoneLabel)) { value = true }
-    }
-    val widgetPreferencesUpdate = MediatorLiveData<Boolean>().apply {
         addSource(Preferences.asLiveData(Preferences::textGlobalColor)) { value = true }
         addSource(Preferences.asLiveData(Preferences::textGlobalAlpha)) { value = true }
         addSource(Preferences.asLiveData(Preferences::textSecondaryColor)) { value = true }
@@ -175,6 +174,7 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         addSource(Preferences.asLiveData(Preferences::musicPlayersFilter)) { value = true }
         addSource(Preferences.asLiveData(Preferences::appNotificationsFilter)) { value = true }
         addSource(Preferences.asLiveData(Preferences::showEventsAsGlanceProvider)) { value = true }
+        addSource(Preferences.asLiveData(Preferences::showWeatherAsGlanceProvider)) { value = true }
 
         addSource(Preferences.asLiveData(Preferences::installedIntegrations)) { value = true }
     }

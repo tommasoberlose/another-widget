@@ -293,6 +293,25 @@ class GlanceTabFragment : Fragment() {
                             if (!(isVisible && hasError)) View.VISIBLE else View.GONE
                         )
                     }
+                    Constants.GlanceProviderId.WEATHER -> {
+                        isVisible =
+                            Preferences.showWeatherAsGlanceProvider
+                        val hasError = !Preferences.showWeather || (Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-") || Preferences.weatherProviderLocationError != ""
+                        injector.text(
+                            R.id.label,
+                            if (isVisible && !hasError) getString(R.string.settings_visible) else getString(
+                                R.string.settings_not_visible
+                            )
+                        )
+                        injector.visibility(
+                            R.id.error_icon,
+                            if (isVisible && hasError) View.VISIBLE else View.GONE
+                        )
+                        injector.visibility(
+                            R.id.info_icon,
+                            if (!(isVisible && hasError)) View.VISIBLE else View.GONE
+                        )
+                    }
                 }
 
                 injector.alpha(R.id.title, if (isVisible) 1f else .25f)
