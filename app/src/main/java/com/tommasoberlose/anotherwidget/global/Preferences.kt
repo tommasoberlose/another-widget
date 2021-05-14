@@ -84,6 +84,10 @@ object Preferences : KotprefModel() {
 
     var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.rawValue)
 
+    // UI
+    var widgetMargin by floatPref(default = Constants.Dimension.SMALL.rawValue)
+    var widgetPadding by floatPref(default = Constants.Dimension.SMALL.rawValue)
+
     // Clock
     var altTimezoneLabel by stringPref(default = "")
     var altTimezoneId by stringPref(default = "")

@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.viewbinding.ViewBinding
+import android.widget.RemoteViews
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
@@ -83,11 +83,18 @@ class MainWidget : AppWidgetProvider() {
             }
         }
 
-        fun getWidgetView(context: Context, typeface: Typeface?): ViewBinding? {
+        fun getWidgetView(context: Context, width: Int, typeface: Typeface?): RemoteViews? {
             return when (Preferences.widgetAlign) {
-                Constants.WidgetAlign.LEFT.rawValue -> AlignedWidget(context).generateWidgetView(typeface)
-                Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(context, rightAligned = true).generateWidgetView(typeface)
-                else -> StandardWidget(context).generateWidgetView(typeface)
+                Constants.WidgetAlign.LEFT.rawValue -> AlignedWidget(context).generateWidget(
+                    0,
+                    width,
+                    typeface
+                )
+                Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(
+                    context,
+                    rightAligned = true
+                ).generateWidget(0, width, typeface)
+                else -> StandardWidget(context).generateWidget(0, width, typeface)
             }
         }
     }

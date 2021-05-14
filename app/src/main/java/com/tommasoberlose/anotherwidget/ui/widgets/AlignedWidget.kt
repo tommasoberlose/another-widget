@@ -54,6 +54,8 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 "setImageAlpha",
                 ColorHelper.getBackgroundAlpha(context.isDarkTheme())
             )
+            val margin = Preferences.widgetMargin.convertDpToPixel(context).toInt()
+            views.setViewPadding(R.id.widget_shape_background, margin, margin, margin, margin)
             val refreshIntent = PendingIntent.getActivity(
                 context,
                 appWidgetId,
@@ -61,6 +63,10 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
             views.setOnClickPendingIntent(R.id.widget_shape_background, refreshIntent)
+
+            // Padding
+            val padding = (Preferences.widgetPadding.convertDpToPixel(context) + Preferences.widgetMargin.convertDpToPixel(context)).toInt()
+            views.setViewPadding(R.id.main_layout, padding, padding, padding, padding)
         } catch (ex: Exception) {
             ex.printStackTrace()
             CrashlyticsReceiver.sendCrash(context, ex)

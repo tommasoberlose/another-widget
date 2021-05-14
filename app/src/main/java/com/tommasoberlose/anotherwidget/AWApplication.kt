@@ -31,22 +31,5 @@ class AWApplication : Application() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
-
-        calibrateVersions()
-    }
-
-    private fun calibrateVersions() {
-        // 2.0 Tolerance
-        if (Preferences.clockTextSize > 50f) {
-            Preferences.clockTextSize = 32f
-        }
-
-        if (Preferences.textMainSize > 36f) {
-            Preferences.textMainSize = 32f
-        }
-
-        if (Preferences.textSecondSize > 28f) {
-            Preferences.textSecondSize = 24f
-        }
     }
 }

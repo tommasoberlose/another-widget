@@ -56,6 +56,13 @@
     <string name="font_800_italic" translatable="false">Black Italic</string>
     <string name="font_900_italic" translatable="false">Heavy Italic</string>
 
+    <string name="settings_widget_padding_title">Widget padding</string>
+    <string name="settings_widget_margin_title">Widget margin</string>
+    <string name="settings_widget_dim_none">None</string>
+    <string name="settings_widget_dim_small">Small</string>
+    <string name="settings_widget_dim_medium">Medium</string>
+    <string name="settings_widget_dim_large">Large</string>
+
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendar</string>
     <string name="title_permission_calendar">Show your events</string>

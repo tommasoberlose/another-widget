@@ -24,11 +24,13 @@ import android.util.TypedValue
 import android.view.animation.AlphaAnimation
 import android.widget.RelativeLayout
 import androidx.annotation.UiThread
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.core.animation.addListener
 import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.OnSingleClickListener
+import com.tommasoberlose.anotherwidget.global.Preferences
 import java.util.*
 
 
@@ -192,7 +194,7 @@ fun String.isValidEmail(): Boolean
         Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 fun Context.isDarkTheme(): Boolean {
-    return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    return Preferences.darkThemePreference == AppCompatDelegate.MODE_NIGHT_YES || Preferences.darkThemePreference == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM && resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }
 
 fun Activity.isNotificationAccessGranted(): Boolean = Settings.Secure.getString(this.contentResolver,"enabled_notification_listeners").contains(this.packageName)

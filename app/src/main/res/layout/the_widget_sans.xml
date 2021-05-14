@@ -4,7 +4,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
         android:scaleType="fitXY"
         android:id="@+id/widget_shape_background"
         android:src="@drawable/card_background" />
@@ -13,8 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:id="@+id/main_layout"
         android:animateLayoutChanges="true">
         <LinearLayout

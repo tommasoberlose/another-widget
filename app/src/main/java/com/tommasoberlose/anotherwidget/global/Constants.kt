@@ -23,6 +23,13 @@ object Constants {
         LARGE(3)
     }
 
+    enum class Dimension(val rawValue: Float) {
+        NONE(0f),
+        SMALL(8f),
+        MEDIUM(16f),
+        LARGE(24f)
+    }
+
     enum class GlanceProviderId(val id: String) {
         PLAYING_SONG("PLAYING_SONG"),
         NEXT_CLOCK_ALARM("NEXT_CLOCK_ALARM"),

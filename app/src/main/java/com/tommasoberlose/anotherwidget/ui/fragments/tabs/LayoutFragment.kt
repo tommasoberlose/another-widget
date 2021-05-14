@@ -86,6 +86,28 @@ class LayoutFragment : Fragment() {
         viewModel: MainViewModel
     ) {
 
+        viewModel.widgetMargin.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                binding.widgetMarginLabel.text = when (it) {
+                    Constants.Dimension.NONE.rawValue -> getString(R.string.settings_widget_dim_none)
+                    Constants.Dimension.SMALL.rawValue -> getString(R.string.settings_widget_dim_small)
+                    Constants.Dimension.LARGE.rawValue -> getString(R.string.settings_widget_dim_large)
+                    else -> getString(R.string.settings_widget_dim_medium)
+                }
+            }
+        }
+
+        viewModel.widgetPadding.observe(viewLifecycleOwner) {
+            maintainScrollPosition {
+                binding.widgetPaddingLabel.text = when (it) {
+                    Constants.Dimension.NONE.rawValue -> getString(R.string.settings_widget_dim_none)
+                    Constants.Dimension.SMALL.rawValue -> getString(R.string.settings_widget_dim_small)
+                    Constants.Dimension.LARGE.rawValue -> getString(R.string.settings_widget_dim_large)
+                    else -> getString(R.string.settings_widget_dim_medium)
+                }
+            }
+        }
+
         viewModel.secondRowTopMargin.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.secondRowTopMarginLabel.text = when (it) {
@@ -146,6 +168,58 @@ class LayoutFragment : Fragment() {
     }
 
     private fun setupListener() {
+
+        binding.actionWidgetMargin.setOnClickListener {
+            BottomSheetMenu<Float>(
+                requireContext(),
+                header = getString(R.string.settings_widget_margin_title)
+            ).setSelectedValue(Preferences.widgetMargin)
+                .addItem(
+                    getString(R.string.settings_widget_dim_none),
+                    Constants.Dimension.NONE.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_dim_small),
+                    Constants.Dimension.SMALL.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_dim_medium),
+                    Constants.Dimension.MEDIUM.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_dim_large),
+                    Constants.Dimension.LARGE.rawValue
+                )
+                .addOnSelectItemListener { value ->
+                    Preferences.widgetMargin = value
+                }.show()
+        }
+
+        binding.actionWidgetPadding.setOnClickListener {
+            BottomSheetMenu<Float>(
+                requireContext(),
+                header = getString(R.string.settings_widget_padding_title)
+            ).setSelectedValue(Preferences.widgetPadding)
+                .addItem(
+                    getString(R.string.settings_widget_dim_none),
+                    Constants.Dimension.NONE.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_dim_small),
+                    Constants.Dimension.SMALL.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_dim_medium),
+                    Constants.Dimension.MEDIUM.rawValue
+                )
+                .addItem(
+                    getString(R.string.settings_widget_dim_large),
+                    Constants.Dimension.LARGE.rawValue
+                )
+                .addOnSelectItemListener { value ->
+                    Preferences.widgetPadding = value
+                }.show()
+        }
 
         binding.actionSecondRowTopMarginSize.setOnClickListener {
             BottomSheetMenu<Int>(
