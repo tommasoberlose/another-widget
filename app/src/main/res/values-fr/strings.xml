@@ -31,7 +31,7 @@
     <string name="settings_secondary_row_top_margin_title">Marge intermédiaire</string>
     <string name="action_custom_font_to_search">Police personnalisée...</string>
     <string name="font_family_settings_title">Famille de polices</string>
-    <string name="settings_widget_align_title">Alignement du texte</string>
+    <string name="settings_widget_align_title">Alignement du widget</string>
     <string name="settings_widget_align_left_subtitle">Gauche</string>
     <string name="settings_widget_align_right_subtitle">Droite</string>
     <string name="settings_widget_align_center_subtitle">Centré</string>
