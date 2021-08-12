@@ -42,7 +42,27 @@ class LocationService : Service() {
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                LocationServices.getFusedLocationProviderClient(this@LocationService).lastLocation.addOnCompleteListener { task ->
+                if (com.google.android.gms.common.GoogleApiAvailability.getInstance()
+                        .isGooglePlayServicesAvailable(this@LocationService)
+                    == com.google.android.gms.common.ConnectionResult.SUCCESS
+                ) {
+                    LocationServices.getFusedLocationProviderClient(this@LocationService).lastLocation
+                } else {
+                    val lm = getSystemService(LOCATION_SERVICE) as android.location.LocationManager
+                    var location: android.location.Location? = null
+                    for (provider in arrayOf(
+                        "fused",    // LocationManager.FUSED_PROVIDER,
+                        android.location.LocationManager.GPS_PROVIDER,
+                        android.location.LocationManager.NETWORK_PROVIDER,
+                        android.location.LocationManager.PASSIVE_PROVIDER
+                    )) {
+                        if (lm.isProviderEnabled(provider)) {
+                            location = lm.getLastKnownLocation(provider);
+                            if (location != null) break
+                        }
+                    }
+                    com.google.android.gms.tasks.Tasks.forResult(location)
+                }.addOnCompleteListener { task ->
                     val networkApi = WeatherNetworkApi(this@LocationService)
                     if (task.isSuccessful) {
                         val location = task.result
