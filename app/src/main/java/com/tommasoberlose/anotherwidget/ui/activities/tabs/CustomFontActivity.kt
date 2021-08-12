@@ -103,7 +103,20 @@ class CustomFontActivity : AppCompatActivity() {
                         )
 
 
-                        val callback = object : FontsContractCompat.FontRequestCallback() {
+                        class Callback : FontsContractCompat.FontRequestCallback() {
+                            var handler: Handler? = Handler(handlerThread.looper)
+
+                            fun cancel() {
+                                if (handler != null) {
+                                    handler!!.removeCallbacksAndMessages(null)
+                                    handler = null
+                                }
+                            }
+
+                            protected fun finalize() {
+                                cancel()
+                            }
+
                             override fun onTypefaceRetrieved(typeface: Typeface) {
                                 if (it.tag == this) {
                                     it.tag = null
@@ -121,11 +134,13 @@ class CustomFontActivity : AppCompatActivity() {
                             }
                         }
 
-                        it.tag = callback;
+                        (it.tag as Callback?)?.cancel()
+                        val callback = Callback()
+                        it.tag = callback
                         it.typeface = null
                         it.setTextColor(getColor(R.color.colorSecondaryText))
 
-                        val mHandler = Handler(handlerThread.looper)
+                        val mHandler = callback.handler!!
                         FontsContractCompat.requestFont(this, request, callback, mHandler)
                     }
 
