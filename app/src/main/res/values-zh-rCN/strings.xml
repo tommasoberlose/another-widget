@@ -31,6 +31,10 @@
     <string name="settings_secondary_row_top_margin_title">行间距</string>
     <string name="action_custom_font_to_search">自定义字体…</string>
     <string name="font_family_settings_title">字体家族</string>
+    <string name="settings_widget_align_title">微件对齐方式</string>
+    <string name="settings_widget_align_left_subtitle">左对齐</string>
+    <string name="settings_widget_align_right_subtitle">右对齐</string>
+    <string name="settings_widget_align_center_subtitle">居中</string>
     
     <string name="font_100" translatable="false">Thin</string>
     <string name="font_200" translatable="false">Light</string>
@@ -51,7 +55,7 @@
     <string name="font_700_italic" translatable="false">Bold Italic</string>
     <string name="font_800_italic" translatable="false">Black Italic</string>
     <string name="font_900_italic" translatable="false">Heavy Italic</string>
-    
+
     <!-- Calendar -->
     <string name="settings_calendar_title">日历</string>
     <string name="title_permission_calendar">显示你的活动</string>
@@ -73,7 +77,7 @@
     <string name="settings_show_until_subtitle_4">3 天后</string>
     <string name="settings_show_until_subtitle_5">7 天后</string>
     <string name="settings_show_until_title">最晚显示活动</string>
-    <string name="day_char">日</string>
+    <string name="day_char">天</string>
     <string name="settings_calendar_app_title">默认日历应用</string>
     <string name="error_no_calendar">未找到日历。</string>
     <string name="tomorrow">明天</string>
@@ -103,11 +107,12 @@
     <string name="attendee_status_accepted">接受的事件</string>
     <string name="attendee_status_invited">活动邀请</string>
     <string name="attendee_status_declined">拒绝的事件</string>
-	
-	<string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
     <string name="calendar_sync_notification_channel_name">活动同步服务</string>
     <string name="calendar_sync_notification_channel_description">用以同步日历活动的服务。</string>
     <string name="calendar_sync_notification_title">正在同步日历活动……</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">多行显示标题</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">天气</string>
@@ -200,6 +205,11 @@
     <string name="settings_clock_text_color_title">文字颜色</string>
     <string name="settings_ampm_indicator_title">显示 上午/下午 的提示</string>
     <string name="clock_text_header">时钟文字风格</string>
+    <string name="time_zones_header">时区</string>
+    <string name="settings_alt_timezone_title">多时钟</string>
+    <string name="no_time_zone_label">无</string>
+    <string name="time_zone_search_error_message">搜索时区出错。</string>
+    <string name="geoname_credit">感谢 <a href="http://www.geonames.org/">GeoNames</a> 提供服务。</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">下一个闹钟</string>
@@ -222,7 +232,7 @@
     <string name="charged">完全充满</string>
     <string name="providers">来源</string>
     <string name="glance_info">仅在当前没有活动且满足特定条件时才会显示速览。</string>
-   <string name="settings_music_players_filter_title">音乐播放器</string>
+    <string name="settings_music_players_filter_title">音乐播放器</string>
     <string name="settings_music_players_filter_subtitle">选择您常用的音乐播放器</string>
     <string name="settings_show_music_subtitle">我们借助音乐播放器的通知来显示当前正在播放的歌曲。</string>
     <string name="settings_low_battery_level_subtitle">设备电量不足或充电时显示提醒。</string>
@@ -342,11 +352,11 @@
     <string name="nothing">无</string>
     <string name="action_dismiss">拒绝</string>
     <string name="action_accept">接收</string>
-	<string name="gestures_do_nothing">无</string>
+    <string name="gestures_do_nothing">无</string>
     <string name="song_info_format_activity_title">曲目信息格式</string>
     <string name="song_info_format_activity_subtitle">更改曲目的可见信息</string>
-	
-	<!-- More -->
+
+    <!-- More -->
     <string name="look_and_feel_header"><![CDATA[外观与视觉]]></string>
     <string name="typography_settings_title">文本布局</string>
     <string name="typography_settings_subtitle">设置文本字体、大小和颜色</string>
@@ -358,4 +368,10 @@
     <string name="layout_settings_subtitle">微件间距及其它微调</string>
     <string name="smart_content_header">智能内容</string>
     <string name="spacing_settings_header">间距</string>
+    <string name="gestures_refresh_widget">无，刷新微件</string>
+    <string name="settings_disabled">禁用</string>
+    <string name="settings_enabled">启用</string>
+    <string name="color_copied">颜色已复制到剪贴板。</string>
+    <string name="error_copy_color">颜色不能复制。</string>
+    <string name="default_apps_settings_header">默认应用</string>
 </resources>
