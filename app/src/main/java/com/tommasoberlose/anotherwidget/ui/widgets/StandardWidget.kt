@@ -919,14 +919,17 @@ class StandardWidget(val context: Context) {
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
-                val googleSans: Typeface = when (Preferences.customFontVariant) {
-                    "100" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_thin.ttf")
-                    "200" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_light.ttf")
-                    "500" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_medium.ttf")
-                    "700" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_bold.ttf")
-                    "800" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_black.ttf")
-                    else -> Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
-                }
+                val googleSans: Typeface? = androidx.core.content.res.ResourcesCompat.getFont(
+                    context,
+                    when (Preferences.customFontVariant) {
+                        "100" -> R.font.google_sans_thin
+                        "200" -> R.font.google_sans_light
+                        "500" -> R.font.google_sans_medium
+                        "700" -> R.font.google_sans_bold
+                        "800" -> R.font.google_sans_black
+                        else -> R.font.google_sans_regular
+                    }
+                )
 
                 listOf<TextView>(
                     bindingView.date,

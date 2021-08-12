@@ -38,12 +38,15 @@ class CustomFontActivity : AppCompatActivity() {
     private lateinit var adapter: SlimAdapter
     private lateinit var viewModel: CustomFontViewModel
     private lateinit var binding: ActivityCustomFontBinding
+    private lateinit var handlerThread: HandlerThread
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(CustomFontViewModel::class.java)
         binding = ActivityCustomFontBinding.inflate(layoutInflater)
+        handlerThread = HandlerThread("listCustomFonts")
+        handlerThread.start()
 
         binding.listView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(this)
@@ -64,14 +67,17 @@ class CustomFontActivity : AppCompatActivity() {
                 injector
                     .text(R.id.text, item)
                     .with<TextView>(R.id.text) {
-                        val googleSans: Typeface = when (Preferences.customFontVariant) {
-                            "100" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_thin.ttf")
-                            "200" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_light.ttf")
-                            "500" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_medium.ttf")
-                            "700" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_bold.ttf")
-                            "800" -> Typeface.createFromAsset(this.assets, "fonts/google_sans_black.ttf")
-                            else -> Typeface.createFromAsset(this.assets, "fonts/google_sans_regular.ttf")
-                        }
+                        val googleSans: Typeface? = androidx.core.content.res.ResourcesCompat.getFont(
+                            this,
+                            when (Preferences.customFontVariant) {
+                                "100" -> R.font.google_sans_thin
+                                "200" -> R.font.google_sans_light
+                                "500" -> R.font.google_sans_medium
+                                "700" -> R.font.google_sans_bold
+                                "800" -> R.font.google_sans_black
+                                else -> R.font.google_sans_regular
+                            }
+                        )
                         it.typeface = googleSans
                     }
 
@@ -99,30 +105,32 @@ class CustomFontActivity : AppCompatActivity() {
 
                         val callback = object : FontsContractCompat.FontRequestCallback() {
                             override fun onTypefaceRetrieved(typeface: Typeface) {
-                                it.typeface = typeface
-                                it.isVisible = true
-
-                                it.measure(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT
-                                )
+                                if (it.tag == this) {
+                                    it.tag = null
+                                    it.typeface = typeface
+                                    it.setTextColor(getColor(R.color.colorPrimaryText))
+                                }
                             }
 
                             override fun onTypefaceRequestFailed(reason: Int) {
-                                it.isVisible = false
-                                it.layoutParams = it.layoutParams.apply {
-                                    height = 0
+                                if (it.tag == this) {
+                                    it.tag = null
+                                    //it.text = item.fontFamily + " ($reason)"
+                                    it.setTextColor(getColor(R.color.errorColorText))
                                 }
                             }
                         }
 
-                        val handlerThread = HandlerThread(item.fontFamily)
-                        handlerThread.start()
+                        it.tag = callback;
+                        it.typeface = null
+                        it.setTextColor(getColor(R.color.colorSecondaryText))
+
                         val mHandler = Handler(handlerThread.looper)
                         FontsContractCompat.requestFont(this, request, callback, mHandler)
                     }
 
                 injector.clicked(R.id.text) {
+                    if ((it as TextView).typeface == null) return@clicked
                     val dialog = BottomSheetMenu<Int>(this, header = item.fontFamily)
                     if (item.fontVariants.isEmpty()) {
                         dialog.addItem(SettingsStringHelper.getVariantLabel(this, "regular"), -1)
@@ -145,6 +153,12 @@ class CustomFontActivity : AppCompatActivity() {
         binding.search.requestFocus()
 
         setContentView(binding.root)
+    }
+
+    override fun onDestroy() {
+        handlerThread.quit()
+        filterJob?.cancel()
+        super.onDestroy()
     }
 
     private var filterJob: Job? = null
@@ -203,6 +217,13 @@ class CustomFontActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     adapter.updateData(filteredList)
                     binding.loader.visibility = View.INVISIBLE
+                }
+            } else {
+                delay(200)
+                withContext(Dispatchers.Main) {
+                    adapter.updateData(listOf(getString(R.string.custom_font_subtitle_1)).filter {
+                        it.contains(search ?: "", ignoreCase = true)
+                    })
                 }
             }
         }
