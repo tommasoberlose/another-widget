@@ -63,21 +63,23 @@ object WidgetHelper {
                 R.array.com_google_android_gms_fonts_certs
             )
 
+            val handlerThread = HandlerThread("generateView")
             val callback = object : FontsContractCompat.FontRequestCallback() {
                 override fun onTypefaceRetrieved(typeface: Typeface) {
+                    handlerThread.quit()
                     function.invoke(typeface)
                 }
 
                 override fun onTypefaceRequestFailed(reason: Int) {
+                    handlerThread.quit();
                     function.invoke(null)
                 }
             }
 
-            val handlerThread = HandlerThread("generateView")
             handlerThread.start()
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
+            //if (Looper.myLooper() == null) {
+            //    Looper.prepare()
+            //}
 
             Handler(handlerThread.looper).run {
                 FontsContractCompat.requestFont(context, request, callback, this)

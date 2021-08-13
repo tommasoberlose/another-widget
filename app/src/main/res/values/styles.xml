@@ -139,10 +139,10 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
-    <style name="AnotherWidget.Widget.Date" parent="AnotherWidget.Subtitle">
+    <style name="AnotherWidget.Widget.Date" parent="AnotherWidget.Widget.Subtitle">
     </style>
 
-    <style name="AnotherWidget.Widget.Date.Big" parent="AnotherWidget.Title">
+    <style name="AnotherWidget.Widget.Date.Big" parent="AnotherWidget.Widget.Title">
         <item name="android:textSize">22sp</item>
     </style>
 
