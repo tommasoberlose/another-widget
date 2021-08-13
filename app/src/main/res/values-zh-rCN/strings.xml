@@ -30,7 +30,11 @@
     <string name="header_widget_background">微件背景</string>
     <string name="settings_secondary_row_top_margin_title">行间距</string>
     <string name="action_custom_font_to_search">自定义字体…</string>
-    <string name="font_family_settings_title">字体家族</string>
+    <string name="font_family_settings_title">字体族</string>
+    <string name="settings_widget_align_title">微件对齐方式</string>
+    <string name="settings_widget_align_left_subtitle">左对齐</string>
+    <string name="settings_widget_align_right_subtitle">右对齐</string>
+    <string name="settings_widget_align_center_subtitle">居中</string>
     
     <string name="font_100" translatable="false">Thin</string>
     <string name="font_200" translatable="false">Light</string>
@@ -51,7 +55,14 @@
     <string name="font_700_italic" translatable="false">Bold Italic</string>
     <string name="font_800_italic" translatable="false">Black Italic</string>
     <string name="font_900_italic" translatable="false">Heavy Italic</string>
-    
+
+    <string name="settings_widget_padding_title">微件内边距</string>
+    <string name="settings_widget_margin_title">微件外边距</string>
+    <string name="settings_widget_dim_none">无</string>
+    <string name="settings_widget_dim_small">小</string>
+    <string name="settings_widget_dim_medium">中</string>
+    <string name="settings_widget_dim_large">大</string>
+
     <!-- Calendar -->
     <string name="settings_calendar_title">日历</string>
     <string name="title_permission_calendar">显示你的活动</string>
@@ -60,7 +71,7 @@
     <string name="settings_filter_calendar_subtitle">改变日历可见性</string>
     <string name="settings_all_day_title">全天活动</string>
     <string name="main_calendar">日历账户</string>
-    <string name="calendar_settings_list_error">加载日历列表出现错误</string>
+    <string name="calendar_settings_list_error">加载日历列表出现错误。</string>
     <string name="all_day">全天活动</string>
     <string name="show_events_visible">活动可见</string>
     <string name="show_events_not_visible">活动不可见</string>
@@ -73,8 +84,8 @@
     <string name="settings_show_until_subtitle_4">3 天后</string>
     <string name="settings_show_until_subtitle_5">7 天后</string>
     <string name="settings_show_until_title">最晚显示活动</string>
-    <string name="day_char">日</string>
-    <string name="settings_calendar_app_title">默认日历应用</string>
+    <string name="day_char">天</string>
+    <string name="settings_calendar_app_title">日历</string>
     <string name="error_no_calendar">未找到日历。</string>
     <string name="tomorrow">明天</string>
     <string name="today">今天</string>
@@ -82,7 +93,7 @@
     <string name="settings_second_row_info_title">活动信息</string>
     <string name="settings_second_row_info_subtitle_1">活动地址</string>
     <string name="settings_second_row_info_subtitle_0">活动时间</string>
-    <string name="settings_show_diff_time_title">距事件开始剩余时间</string>
+    <string name="settings_show_diff_time_title">距活动开始剩余时间</string>
     <string name="settings_show_declined_events_title">拒绝的活动</string>
     <string name="default_event_app">活动详情</string>
     <string name="default_calendar_app">默认日历应用</string>
@@ -90,28 +101,29 @@
     <string name="soon">不久</string>
     <string name="now">现在</string>
     <string name="settings_widget_update_frequency_title">更新剩余时间的频率</string>
-    <string name="settings_widget_update_frequency_subtitle">更新频率越高耗电量越大</string>
+    <string name="settings_widget_update_frequency_subtitle">更新频率越高耗电量越大。</string>
     <string name="settings_widget_update_frequency_low">低</string>
     <string name="settings_widget_update_frequency_default">默认</string>
     <string name="settings_widget_update_frequency_high">高</string>
     <string name="filters_header">过滤器</string>
     <string name="event_detail_header">活动详情</string>
-    <string name="settings_attendee_status_title">会议状态</string>
-    <string name="settings_attendee_status_subtitle">过滤接受或者拒绝的事件</string>
-    <string name="settings_busy_events_title">相关事件</string>
-    <string name="settings_busy_events_subtitle">仅显示忙碌的事件</string>
-    <string name="attendee_status_accepted">接受的事件</string>
+    <string name="settings_attendee_status_title">与会状态</string>
+    <string name="settings_attendee_status_subtitle">过滤接受或者拒绝的活动</string>
+    <string name="settings_busy_events_title">相关活动</string>
+    <string name="settings_busy_events_subtitle">仅显示忙碌的活动</string>
+    <string name="attendee_status_accepted">接受的活动</string>
     <string name="attendee_status_invited">活动邀请</string>
-    <string name="attendee_status_declined">拒绝的事件</string>
-	
-	<string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+    <string name="attendee_status_declined">拒绝的活动</string>
+
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
     <string name="calendar_sync_notification_channel_name">活动同步服务</string>
     <string name="calendar_sync_notification_channel_description">用以同步日历活动的服务。</string>
     <string name="calendar_sync_notification_title">正在同步日历活动……</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">多行显示标题</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">天气</string>
-    <string name="title_permission_location">显示天气信心</string>
+    <string name="title_permission_location">显示天气信息</string>
     <string name="description_permission_location">授予位置权限\n以在您的微件上查看天气。</string>
     <string name="settings_unit_title">单位</string>
     <string name="fahrenheit" translatable="false">°F - 华氏度</string>
@@ -126,7 +138,7 @@
     <string name="settings_custom_location_title">位置</string>
     <string name="custom_location_gps">地理定位</string>
     <string name="show_weather_visible">天气信息可见</string>
-    <string name="show_weather_not_visible">天气信息已隐藏</string>
+    <string name="show_weather_not_visible">天气信息不可见</string>
     <string name="settings_weather_app_title">天气</string>
     <string name="settings_weather_provider_api_key_title">天气 API 密钥</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">已正确配置天气信息来源。</string>
@@ -173,7 +185,7 @@
     <string name="weather_provider_error_generic">出错了，请检查天气信息来源设置。</string>
     <string name="api_key_required_message">需要账户</string>
     <string name="us_only_message">仅限美国</string>
-    <string name="celsius_only_message">仅米制单位</string>
+    <string name="celsius_only_message">仅公制单位</string>
     <string name="weather_select_a_provider">选择信息来源</string>
     <string name="weather_provider_activity_subtitle">从列表中选择天气信息来源。\n部分来源需要注册免费个人账户，\n但它们通常也更精准。</string>
 
@@ -181,16 +193,29 @@
     <string name="location_access_notification_channel_name">天气更新服务</string>
     <string name="location_access_notification_channel_description">基于用户当前位置更新天气信息。</string>
     <string name="location_access_notification_title">正在更新天气……</string>
-    <string name="location_access_notification_subtitle">我们正在根据您的当前位置更新天气信息</string>
+    <string name="location_access_notification_subtitle">我们正在根据您的当前位置更新天气信息。</string>
+
+    <string name="weather_label_clear">晴</string>
+    <string name="weather_label_partly_cloudy">晴间多云</string>
+    <string name="weather_label_mostly_cloudy">多云</string>
+    <string name="weather_label_cloudy_weather">阴</string>
+    <string name="weather_label_storm_weather">大到暴雨</string>
+    <string name="weather_label_rainy">雨</string>
+    <string name="weather_label_thunder">雷阵雨</string>
+    <string name="weather_label_snow">雪</string>
+    <string name="weather_label_haze">雾霾</string>
+    <string name="weather_label_windy">风</string>
+    <string name="weather_label_rain_snow">雨夹雪</string>
+    <string name="weather_label_unknown">未知</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">时间</string>
-    <string name="settings_clock_app_title">点击时间打开</string>
+    <string name="settings_clock_app_title">时钟</string>
     <string name="title_show_clock">显示时间</string>
-    <string name="show_clock_visible">时间可见性</string>
-    <string name="show_clock_not_visible">隐藏时间</string>
+    <string name="show_clock_visible">时间可见</string>
+    <string name="show_clock_not_visible">时间不可见</string>
     <string name="settings_clock_text_size_title">文字大小</string>
-    <string name="default_clock_app">默认的时钟应用</string>
+    <string name="default_clock_app">默认时钟应用</string>
     <string name="settings_clock_bottom_margin_title">时间底边距</string>
     <string name="settings_clock_bottom_margin_subtitle_none">无</string>
     <string name="settings_clock_bottom_margin_subtitle_small">小</string>
@@ -200,6 +225,11 @@
     <string name="settings_clock_text_color_title">文字颜色</string>
     <string name="settings_ampm_indicator_title">显示 上午/下午 的提示</string>
     <string name="clock_text_header">时钟文字风格</string>
+    <string name="time_zones_header">时区</string>
+    <string name="settings_alt_timezone_title">附加时钟</string>
+    <string name="no_time_zone_label">无</string>
+    <string name="time_zone_search_error_message">搜索时区出错。</string>
+    <string name="geoname_credit">感谢 <a href="http://www.geonames.org/">GeoNames</a> 提供服务。</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">下一个闹钟</string>
@@ -222,7 +252,7 @@
     <string name="charged">完全充满</string>
     <string name="providers">来源</string>
     <string name="glance_info">仅在当前没有活动且满足特定条件时才会显示速览。</string>
-   <string name="settings_music_players_filter_title">音乐播放器</string>
+    <string name="settings_music_players_filter_title">音乐播放器</string>
     <string name="settings_music_players_filter_subtitle">选择您常用的音乐播放器</string>
     <string name="settings_show_music_subtitle">我们借助音乐播放器的通知来显示当前正在播放的歌曲。</string>
     <string name="settings_low_battery_level_subtitle">设备电量不足或充电时显示提醒。</string>
@@ -245,21 +275,21 @@
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
         <item>早上好！</item>
         <item>一日之计在于晨</item>
-        <item>准备好一天的旅程了吗?</item>
+        <item>准备好一天的旅程了吗？</item>
         <item>红日初升，其道大光</item>
         <item>不要忘了吃早餐哦~</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
         <item>晚上好！</item>
-        <item>今天过得怎么样?</item>
-        <item>今天事事都还顺心吗?</item>
+        <item>今天过得怎么样？</item>
+        <item>今天事事都还顺心吗？</item>
         <item>努力才有回报。</item>
         <item>不要忘了吃晚餐哦~</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
-        <item>晚安!</item>
+        <item>晚安！</item>
         <item>睡个好觉！</item>
-        <item>明月松间照，清泉石上流</item>
+        <item>明月松间照，清泉石上流。</item>
         <item>明天见……</item>
         <item>少熬夜！</item>
     </string-array>
@@ -272,10 +302,13 @@
         <item>15 分钟</item>
         <item>手动清除后</item>
     </string-array>
-    <string name="settings_show_events_as_glance_provider_title">事件</string>
+    <string name="settings_show_events_as_glance_provider_title">活动</string>
     <string name="settings_show_events_as_glance_provider_subtitle">查看您的日历活动的速览，并始终显示当前日期。</string>
-    <string name="settings_show_events_as_glance_provider_error">请在日历标签中启用事件显示，并授予所需的权限。</string>
+    <string name="settings_show_events_as_glance_provider_error">请在日历标签中启用活动显示，并授予所需的权限。</string>
     <string name="events_glance_provider_format">%1$s %2$s</string>
+    <string name="settings_show_weather_as_glance_provider_title">天气</string>
+    <string name="settings_show_weather_as_glance_provider_subtitle">查看有关天气的更多信息，并始终显示当前日期。</string>
+    <string name="settings_show_weather_as_glance_provider_error">请启用天气显示，并修复配置错误。</string>
 
     <!-- Settings -->
     <string name="action_share">分享</string>
@@ -342,13 +375,13 @@
     <string name="nothing">无</string>
     <string name="action_dismiss">拒绝</string>
     <string name="action_accept">接收</string>
-	<string name="gestures_do_nothing">无</string>
+    <string name="gestures_do_nothing">无</string>
     <string name="song_info_format_activity_title">曲目信息格式</string>
     <string name="song_info_format_activity_subtitle">更改曲目的可见信息</string>
-	
-	<!-- More -->
+
+    <!-- More -->
     <string name="look_and_feel_header"><![CDATA[外观与视觉]]></string>
-    <string name="typography_settings_title">文本布局</string>
+    <string name="typography_settings_title">文本</string>
     <string name="typography_settings_subtitle">设置文本字体、大小和颜色</string>
     <string name="layout_settings_title">布局</string>
     <string name="gestures_settings_subtitle">动作、行为与快捷方式</string>
@@ -358,4 +391,10 @@
     <string name="layout_settings_subtitle">微件间距及其它微调</string>
     <string name="smart_content_header">智能内容</string>
     <string name="spacing_settings_header">间距</string>
+    <string name="gestures_refresh_widget">无，刷新微件</string>
+    <string name="settings_disabled">禁用</string>
+    <string name="settings_enabled">启用</string>
+    <string name="color_copied">颜色已复制到剪贴板。</string>
+    <string name="error_copy_color">颜色不能复制。</string>
+    <string name="default_apps_settings_header">默认应用</string>
 </resources>
