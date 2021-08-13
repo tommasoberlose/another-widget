@@ -253,11 +253,7 @@ class StandardWidget(val context: Context) {
                     val pIntentDetail = PendingIntent.getActivity(
                         context,
                         widgetID,
-                        IntentHelper.getEventIntent(
-                            context,
-                            nextEvent,
-                            forceEventDetails = true
-                        ),
+                        IntentHelper.getCalendarIntent(context, nextEvent.startDate),
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, pIntentDetail)
@@ -592,18 +588,16 @@ class StandardWidget(val context: Context) {
                         }
 
                     } else {
-                        val flags: Int =
-                            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
                         val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
 
                         bindingView.subLineText.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(
                                 Calendar.DAY_OF_YEAR)) {
-                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                            DateHelper.getDateText(context, start)
                         } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(
                                 Calendar.YEAR) > start.get(Calendar.YEAR)) {
-                            DateUtils.formatDateTime(context, now.timeInMillis, flags)
+                            DateHelper.getDateText(context, now)
                         } else {
-                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                            DateHelper.getDateText(context, start)
                         }
                     }
                 }

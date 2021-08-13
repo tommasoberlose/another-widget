@@ -89,11 +89,11 @@ object IntentHelper {
         }
     }
 
-    fun getCalendarIntent(context: Context): Intent {
+    fun getCalendarIntent(context: Context, time: Long? = null): Intent {
         val calendarUri = CalendarContract.CONTENT_URI
             .buildUpon()
             .appendPath("time")
-            .appendPath(Calendar.getInstance().timeInMillis.toString())
+            .appendPath((time ?: Calendar.getInstance().timeInMillis).toString())
             .build()
         return when (Preferences.calendarAppPackage) {
             DEFAULT_OPTION -> {
@@ -177,7 +177,7 @@ object IntentHelper {
                 }
             }
             false -> {
-                getCalendarIntent(context)
+                getCalendarIntent(context, e.startDate)
             }
         }
     }
