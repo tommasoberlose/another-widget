@@ -98,8 +98,8 @@
     <string name="default_event_app">活动详情</string>
     <string name="default_calendar_app">默认日历应用</string>
     <string name="settings_show_multiple_events_title">多活动切换器</string>
-    <string name="soon">不久</string>
-    <string name="now">现在</string>
+    <string name="soon">即将</string>
+    <string name="now">即刻</string>
     <string name="settings_widget_update_frequency_title">更新剩余时间的频率</string>
     <string name="settings_widget_update_frequency_subtitle">更新频率越高耗电量越大。</string>
     <string name="settings_widget_update_frequency_low">低</string>
@@ -209,21 +209,21 @@
     <string name="weather_label_unknown">未知</string>
 
     <!-- Clock -->
-    <string name="settings_clock_title">时间</string>
+    <string name="settings_clock_title">时钟</string>
     <string name="settings_clock_app_title">时钟</string>
-    <string name="title_show_clock">显示时间</string>
-    <string name="show_clock_visible">时间可见</string>
-    <string name="show_clock_not_visible">时间不可见</string>
+    <string name="title_show_clock">显示时钟</string>
+    <string name="show_clock_visible">时钟可见</string>
+    <string name="show_clock_not_visible">时钟不可见</string>
     <string name="settings_clock_text_size_title">文字大小</string>
     <string name="default_clock_app">默认时钟应用</string>
-    <string name="settings_clock_bottom_margin_title">时间底边距</string>
+    <string name="settings_clock_bottom_margin_title">时钟底边距</string>
     <string name="settings_clock_bottom_margin_subtitle_none">无</string>
     <string name="settings_clock_bottom_margin_subtitle_small">小</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">中</string>
     <string name="settings_clock_bottom_margin_subtitle_large">大</string>
-    <string name="clock_warning">由于技术上的限制，在显示部分设置的字体和文字阴影无法应用到时间上。</string>
+    <string name="clock_warning">由于技术上的限制，在文本部分设置的字体和文字阴影无法应用到时钟上。</string>
     <string name="settings_clock_text_color_title">文字颜色</string>
-    <string name="settings_ampm_indicator_title">显示 上午/下午 的提示</string>
+    <string name="settings_ampm_indicator_title">显示上午/下午</string>
     <string name="clock_text_header">时钟文字风格</string>
     <string name="time_zones_header">时区</string>
     <string name="settings_alt_timezone_title">附加时钟</string>
@@ -374,7 +374,7 @@
     <string name="label_count_installed_integrations">已安装 %d 个集成插件</string>
     <string name="nothing">无</string>
     <string name="action_dismiss">拒绝</string>
-    <string name="action_accept">接收</string>
+    <string name="action_accept">接受</string>
     <string name="gestures_do_nothing">无</string>
     <string name="song_info_format_activity_title">曲目信息格式</string>
     <string name="song_info_format_activity_subtitle">更改曲目的可见信息</string>
