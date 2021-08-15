@@ -88,26 +88,31 @@ class UpdateCalendarService : Service() {
                 } else {
                     try {
                         val provider = CalendarProvider(this@UpdateCalendarService)
-                        val data = provider.getInstances(begin.timeInMillis, limit.timeInMillis)
+                        val data = provider.getInstances(
+                            begin.timeInMillis + begin.timeZone.getOffset(begin.timeInMillis).coerceAtMost(0),
+                            limit.timeInMillis + limit.timeZone.getOffset(limit.timeInMillis).coerceAtLeast(0)
+                        )
                         if (data != null) {
                             val instances = data.list
                             for (instance in instances) {
                                 try {
                                     val e = provider.getEvent(instance.eventId)
-                                    if (e != null && !e.deleted && instance.begin <= limit.timeInMillis && now.timeInMillis < instance.end && !CalendarHelper.getFilteredCalendarIdList()
-                                            .contains(e.calendarId)
-                                    ) {
-                                        if (e.allDay) {
-                                            val start = Calendar.getInstance()
-                                            start.timeInMillis = instance.begin
-                                            val end = Calendar.getInstance()
-                                            end.timeInMillis = instance.end
-                                            instance.begin =
-                                                start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
-                                            instance.end =
-                                                end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
-                                        }
-
+                                    if (e == null || e.deleted || CalendarHelper.getFilteredCalendarIdList().contains(e.calendarId))
+                                        continue
+                                    if (e.allDay) {
+                                        val start = Calendar.getInstance()
+                                        start.timeInMillis = instance.begin
+                                        val end = Calendar.getInstance()
+                                        end.timeInMillis = instance.end
+                                        instance.begin =
+                                            start.timeInMillis - start.timeZone.getOffset(start.timeInMillis)
+                                        instance.end =
+                                            end.timeInMillis - end.timeZone.getOffset(end.timeInMillis)
+                                    }
+                                    if (instance.begin <= limit.timeInMillis && now.timeInMillis < instance.end) {
+                                        /* Following check may result in "fake" all-day events with
+                                         * non-UTC start/end time, and therefore cannot be found by
+                                         * Calendar when tapped to open details.
                                         // Check all day events
                                         val startDate = Calendar.getInstance()
                                         startDate.timeInMillis = instance.begin
@@ -124,6 +129,7 @@ class UpdateCalendarService : Service() {
                                                         && endDate.get(Calendar.MINUTE) == 0
                                                         && endDate.get(Calendar.HOUR_OF_DAY) == 0
                                                 )
+                                        */
 
                                         eventList.add(
                                             Event(
@@ -133,7 +139,7 @@ class UpdateCalendarService : Service() {
                                                 startDate = instance.begin,
                                                 endDate = instance.end,
                                                 calendarID = e.calendarId.toInt(),
-                                                allDay = isAllDay,
+                                                allDay = e.allDay,
                                                 address = e.eventLocation ?: "",
                                                 selfAttendeeStatus = e.selfAttendeeStatus.toInt(),
                                                 availability = e.availability
