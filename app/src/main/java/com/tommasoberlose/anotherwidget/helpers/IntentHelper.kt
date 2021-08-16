@@ -45,14 +45,14 @@ object IntentHelper {
     }
 
     fun getGoogleMapsIntentFromAddress(context: Context, address: String): Intent {
-        val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=$address")
+        val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=${Uri.encode(address)}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.`package` = "com.google.android.apps.maps"
+        //mapIntent.`package` = "com.google.android.apps.maps"
 
         return if (mapIntent.resolveActivity(context.packageManager) != null) {
             mapIntent
         } else {
-            val map = "http://maps.google.co.in/maps?q=$address"
+            val map = "https://www.google.com/maps/search/?api=1&query=${Uri.encode(address)}"
             val i = Intent(Intent.ACTION_VIEW, Uri.parse(map));
             i
         }
