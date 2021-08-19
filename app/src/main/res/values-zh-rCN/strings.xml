@@ -75,14 +75,14 @@
     <string name="all_day">全天活动</string>
     <string name="show_events_visible">活动可见</string>
     <string name="show_events_not_visible">活动不可见</string>
-    <string name="settings_show_until_subtitle_6">30 分钟后</string>
-    <string name="settings_show_until_subtitle_7">1 小时后</string>
-    <string name="settings_show_until_subtitle_0">3 小时后</string>
-    <string name="settings_show_until_subtitle_1">6 小时后</string>
-    <string name="settings_show_until_subtitle_2">12 小时后</string>
-    <string name="settings_show_until_subtitle_3">24 小时后</string>
-    <string name="settings_show_until_subtitle_4">3 天后</string>
-    <string name="settings_show_until_subtitle_5">7 天后</string>
+    <string name="settings_show_until_subtitle_6">30分钟后</string>
+    <string name="settings_show_until_subtitle_7">1小时后</string>
+    <string name="settings_show_until_subtitle_0">3小时后</string>
+    <string name="settings_show_until_subtitle_1">6小时后</string>
+    <string name="settings_show_until_subtitle_2">12小时后</string>
+    <string name="settings_show_until_subtitle_3">24小时后</string>
+    <string name="settings_show_until_subtitle_4">3天后</string>
+    <string name="settings_show_until_subtitle_5">7天后</string>
     <string name="settings_show_until_title">最晚显示活动</string>
     <string name="day_char">天</string>
     <string name="settings_calendar_app_title">日历</string>
@@ -129,25 +129,25 @@
     <string name="fahrenheit" translatable="false">°F - 华氏度</string>
     <string name="celsius" translatable="false">°C - 摄氏度</string>
     <string name="settings_weather_refresh_period_title">刷新频率</string>
-    <string name="settings_weather_refresh_period_subtitle_0">30 分钟</string>
-    <string name="settings_weather_refresh_period_subtitle_1">1 小时</string>
-    <string name="settings_weather_refresh_period_subtitle_2">3 小时</string>
-    <string name="settings_weather_refresh_period_subtitle_3">6 小时</string>
-    <string name="settings_weather_refresh_period_subtitle_4">12 小时</string>
-    <string name="settings_weather_refresh_period_subtitle_5">24 小时</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30分钟</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1小时</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3小时</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6小时</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12小时</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24小时</string>
     <string name="settings_custom_location_title">位置</string>
     <string name="custom_location_gps">地理定位</string>
     <string name="show_weather_visible">天气信息可见</string>
     <string name="show_weather_not_visible">天气信息不可见</string>
     <string name="settings_weather_app_title">天气</string>
-    <string name="settings_weather_provider_api_key_title">天气 API 密钥</string>
+    <string name="settings_weather_provider_api_key_title">天气API密钥</string>
     <string name="settings_weather_provider_api_key_subtitle_all_set">已正确配置天气信息来源。</string>
     <string name="settings_weather_provider_api_key_subtitle_not_set">必须配置天气信息来源。</string>
-    <string name="api_key_hint">OpenWeatherMap API 密钥</string>
+    <string name="api_key_hint">OpenWeatherMap API密钥</string>
     <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Google Awareness API 已被弃用。要在微件上显示天气，您需要从第三方来源获取 API 密钥。</string>
+    <string name="weather_warning">Google Awareness API已被弃用。要在微件上显示天气，您需要从第三方来源获取API密钥。</string>
     <string name="settings_weather_icon_pack_title">天气图标</string>
-    <string name="settings_weather_icon_pack_default">图标包 %d</string>
+    <string name="settings_weather_icon_pack_default">图标包%d</string>
     <string name="background_location_warning">选择地理定位后，即便应用未启动或在后台，我们也会收集您的定位数据来更新天气信息。\n这些数据不会用在其他地方。</string>
     <string name="settings_weather_provider_api">天气信息来源</string>
 
@@ -159,27 +159,27 @@
     <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
     <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
 
-    <string name="weather_provider_info_open_weather_title">需要 API 密钥\n来保证天气信息来源正常工作。</string>
-    <string name="weather_provider_info_weatherbit_title">该天气信息来源需要 API 密钥\n才能正常工作。</string>
-    <string name="weather_provider_info_weatherapi_title">该天气信息来源需要 API 密钥\n才能正常工作。</string>
-    <string name="weather_provider_info_here_title">该天气信息来源需要 API 密钥\n才能正常工作。</string>
-    <string name="weather_provider_info_accuweather_title">该天气信息来源需要 API 密钥\n才能正常工作。</string>
-    <string name="weather_provider_info_weather_gov_title">该天气信息来源\n仅在美国境内有效。</string>
-    <string name="weather_provider_info_yr_title">该天气来源仅支持\n摄氏度单位。</string>
+    <string name="weather_provider_info_open_weather_title">该天气信息来源需要API密钥才能正常工作。</string>
+    <string name="weather_provider_info_weatherbit_title">该天气信息来源需要API密钥才能正常工作。</string>
+    <string name="weather_provider_info_weatherapi_title">该天气信息来源需要API密钥才能正常工作。</string>
+    <string name="weather_provider_info_here_title">该天气信息来源需要API密钥才能正常工作。</string>
+    <string name="weather_provider_info_accuweather_title">该天气信息来源需要API密钥才能正常工作。</string>
+    <string name="weather_provider_info_weather_gov_title">该天气信息来源仅在美国境内有效。</string>
+    <string name="weather_provider_info_yr_title">该天气信息来源仅支持摄氏度单位。</string>
 
-    <string name="weather_provider_info_open_weather_subtitle">前往天气来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
-    <string name="weather_provider_info_weatherbit_subtitle">前往天气来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
-    <string name="weather_provider_info_weatherapi_subtitle">前往天气来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
-    <string name="weather_provider_info_here_subtitle">前往天气来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
-    <string name="weather_provider_info_accuweather_subtitle">前往天气来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
+    <string name="weather_provider_info_open_weather_subtitle">前往天气信息来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
+    <string name="weather_provider_info_weatherbit_subtitle">前往天气信息来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
+    <string name="weather_provider_info_weatherapi_subtitle">前往天气信息来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
+    <string name="weather_provider_info_here_subtitle">前往天气信息来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
+    <string name="weather_provider_info_accuweather_subtitle">前往天气信息来源网站、创建个人账户并将默认密钥复制粘贴到此处。</string>
     <string name="weather_provider_info_weather_gov_subtitle">\n</string>
     <string name="weather_provider_info_yr_subtitle">\n</string>
 
-    <string name="weather_provider_error_missing_key">您选择的天气信息来源需要 API 密钥。</string>
+    <string name="weather_provider_error_missing_key">您选择的天气信息来源需要API密钥。</string>
     <string name="weather_provider_error_wrong_location">不支持当前位置。</string>
     <string name="weather_provider_error_missing_location">请选择一个有效的地址。</string>
-    <string name="weather_provider_error_expired_key">您的 API 密钥似乎已经过期了。</string>
-    <string name="weather_provider_error_invalid_key">API 密钥无效或尚未激活。</string>
+    <string name="weather_provider_error_expired_key">您的API密钥似乎已经过期了。</string>
+    <string name="weather_provider_error_invalid_key">API密钥无效或尚未激活。</string>
     <string name="weather_provider_error_misconfigured">天气信息来源配置错误。</string>
     <string name="weather_provider_error_connection">网络连接错误。</string>
     <string name="weather_provider_error_generic">出错了，请检查天气信息来源设置。</string>
@@ -229,7 +229,7 @@
     <string name="settings_alt_timezone_title">附加时钟</string>
     <string name="no_time_zone_label">无</string>
     <string name="time_zone_search_error_message">搜索时区出错。</string>
-    <string name="geoname_credit">感谢 <a href="http://www.geonames.org/">GeoNames</a> 提供服务。</string>
+    <string name="geoname_credit">感谢<a href="http://www.geonames.org/">GeoNames</a>提供服务。</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">下一个闹钟</string>
@@ -237,7 +237,7 @@
     <string name="settings_show_music_title">正在播放的歌曲</string>
     <string name="settings_request_notification_access">我们需要通知读取权限来获取正在播放的歌曲。</string>
     <string name="settings_request_last_notification_access">我们需要通知读取权限来展示最近通知。</string>
-    <string name="settings_request_fitness_access">我们需要一些权限来从 Google Fit 中获取你的每日步数。</string>
+    <string name="settings_request_fitness_access">我们需要一些权限来从Google健身中获取你的每日步数。</string>
     <string name="title_show_glance">显示速览信息</string>
     <string name="description_show_glance_visible">服务已启用</string>
     <string name="description_show_glance_not_visible">服务已禁用</string>
@@ -245,7 +245,7 @@
     <string name="settings_sort_glance_providers_subtitle">您可以通过拖放图标来调整下方列表的项目顺序，以此更改数据来源优先级。</string>
     <string name="settings_custom_notes_title">自定义提示</string>
     <string name="settings_daily_steps_title">运动健康</string>
-    <string name="daily_steps_counter">目前走了 %d 步</string>
+    <string name="daily_steps_counter">目前走了%d步</string>
     <string name="settings_low_battery_level_title">电量</string>
     <string name="battery_low_warning">电量低</string>
     <string name="charging">正在充电</string>
@@ -258,7 +258,7 @@
     <string name="settings_low_battery_level_subtitle">设备电量不足或充电时显示提醒。</string>
     <string name="settings_daily_steps_subtitle">散步或跑步后，短暂显示您的当日步数。</string>
     <string name="settings_show_next_alarm_subtitle">查看您的下一个闹钟。\n记得检查您的默认闹钟应用是否唯一。</string>
-    <string name="settings_show_next_alarm_app_title">%s 设定的闹钟</string>
+    <string name="settings_show_next_alarm_app_title">%s设定的闹钟</string>
     <string name="settings_show_next_alarm_app_subtitle_wrong">下一个闹钟似乎有点问题</string>
     <string name="settings_show_next_alarm_app_subtitle_correct">下一个闹钟似乎没有问题</string>
     <string name="settings_show_notifications_title">最近通知</string>
@@ -267,7 +267,7 @@
     <string name="settings_show_greetings_subtitle">随机显示一些有趣的提示语，让您的一天更温暖。</string>
     <string name="google_fit_account_connected">账户已连接</string>
     <string name="google_fit_account_not_connected">账户未连接</string>
-    <string name="google_fit">Google 运动与健身</string>
+    <string name="google_fit">Google健身</string>
     <string name="action_connect">连接</string>
     <string name="action_disconnect">断开连接</string>
     <string name="applications_filter_title">应用</string>
@@ -295,11 +295,11 @@
     </string-array>
     <string name="glance_notification_hide_timeout_title">何时隐藏通知</string>
     <string-array name="glance_notifications_timeout">
-        <item>30 秒</item>
-        <item>1 分钟</item>
-        <item>5 分钟</item>
-        <item>10 分钟</item>
-        <item>15 分钟</item>
+        <item>30秒</item>
+        <item>1分钟</item>
+        <item>5分钟</item>
+        <item>10分钟</item>
+        <item>15分钟</item>
         <item>手动清除后</item>
     </string-array>
     <string name="settings_show_events_as_glance_provider_title">活动</string>
@@ -318,7 +318,7 @@
     <string name="action_about">关于</string>
     <string name="action_refresh_widget">刷新微件</string>
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
-    <string name="error_opening_uri">打开 URL 时遭遇出错：链接已复制到剪贴板。</string>
+    <string name="error_opening_uri">打开URL时遭遇出错：链接已复制到剪贴板。</string>
     <string name="loading_text">正在加载数据……</string>
     <string name="error_opening_app">打开应用时出错。</string>
     <string name="default_name">默认应用</string>
@@ -326,7 +326,7 @@
     <string name="settings_visible">可见</string>
     <string name="settings_not_visible">隐藏</string>
     <string name="support_translations_title">帮助改进翻译</string>
-    <string name="support_translations_subtitle">在 GitHub 上提交拉取请求</string>
+    <string name="support_translations_subtitle">在GitHub上提交拉取请求</string>
     <string name="support_website_title">查看我的其他项目</string>
     <string name="support_website_subtitle">同一个开发者，更多的可能性</string>
     <string name="error">糟糕，遇到了一些错误！</string>
@@ -354,7 +354,7 @@
     <string name="provider_header">来源</string>
     <string name="appearance_header">外观</string>
     <string name="preferences_header">偏好</string>
-    <string name="settings_privacy_policy_title"><![CDATA[法务 & 隐私]]></string>
+    <string name="settings_privacy_policy_title"><![CDATA[法务与隐私]]></string>
     <string name="settings_privacy_policy_subtitle">查看应用的隐私策略</string>
     <string name="project_header">开源项目</string>
     <string name="information_header">信息</string>
@@ -371,7 +371,7 @@
     <string name="action_show_widget_preview">显示微件预览</string>
     <string name="support_dev_subtitle">这是一个独立开发者的项目，谢谢您的支持！</string>
     <string name="settings_title_integrations">整合</string>
-    <string name="label_count_installed_integrations">已安装 %d 个集成插件</string>
+    <string name="label_count_installed_integrations">已安装%d个集成插件</string>
     <string name="nothing">无</string>
     <string name="action_dismiss">拒绝</string>
     <string name="action_accept">接受</string>
