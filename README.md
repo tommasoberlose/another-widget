@@ -1,27 +1,40 @@
+# Another Widget 🕰️
 
-<img src="hero.png"/>
+This is an Android app that allows you to create a custom widget how *you* like.
 
-Another Widget
-========
+## Getting Started 🛫
 
-Another Widget intelligently summarizes the information you need most.
-Watch the next events, the weather, and the information you want in an intuitive and elegant way. (Nope, reminders cannot be displayed because it's not allowed.)
+Currently, there is no easy way to use this version of the app. This will change once the changes I have made are stable enough to use.
+In the meantime, if you are familiar with Android Studio, see the [build instructions](#build-instructions-) to build and use the app.
 
-While respecting the design of the application, there is a great opportunity to customize the information displayed and widget components.
-Also, as much as possible, there are always updates and new features in the short run.
+## Current Features 🔆
 
-Help me developing with feedback and support me on how you can.
-<div style="text-align:center"><a href='https://play.google.com/store/apps/details?id=com.tommasoberlose.anotherwidget&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height='100px' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a></div>
+* Removed Firebase and Google Play Services usage 🔥
 
+## Upcoming (hopefully 🤞) Features 📅
 
-Help with translations
--------
+* Review existing features from a FOSS and privacy perspective 🔍
+* Optimize permissions 🎛️
+* Update UI to compensate for missing content ✨
+* Multiple, different widgets? (if it's even possible) 📚
 
-Hey! You could view the file strings.xml ([here](https://github.com/tommasoberlose/another-widget/blob/master/app/src/main/res/values/strings.xml)) that contains the English version of the app strings.
-You have to copy the file, create a copy of it inside the folder values-[LANGUAGE-SUFFIX] with the translated strings and create a pull request to submit your changes.
+## Build Instructions 🧩
 
-License
--------
-Copyright (C) 2017-2020 Tommaso Berlose (http://tommasoberlose.com)
+### Clone the repository
 
-Another Widget binaries and source code can be used according to the [MIT Licence](LICENSE).
+`git clone https://github.com/elliebeph/another-widget.git`
+
+### Download Android Studio
+
+* Go to https://developer.android.com/studio/ and download the latest version of Android Studio suitable for your operating system
+* Run Android Studio and work through the first time install process
+
+### Building in Android Studio
+* In [Android Studio](https://developer.android.com/sdk/index.html), go to File → Open…
+* Select the root directory of the another-widget repository that you `clone`d earlier and click "OK"
+* Wait for gradle to build - a small progress bar should be visible in the bottom right of the window
+* Once the build process has completed, you're environment should be ready
+
+## Shoutouts 📣
+
+* [Tommaso Berlose](https://github.com/tommasoberlose) ~ For creating the [original app](https://github.com/tommasoberlose/another-widget) and making this possible
