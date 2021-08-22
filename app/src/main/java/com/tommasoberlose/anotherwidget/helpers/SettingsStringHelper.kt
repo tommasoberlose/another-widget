@@ -159,8 +159,4 @@ object SettingsStringHelper {
         }
 
     }
-
-    fun getEmojiByUnicode(unicode: Int): String {
-        return String(Character.toChars(unicode))
-    }
 }

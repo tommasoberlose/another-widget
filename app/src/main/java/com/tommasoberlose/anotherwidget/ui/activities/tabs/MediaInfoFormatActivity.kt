@@ -3,7 +3,6 @@ package com.tommasoberlose.anotherwidget.ui.activities.tabs
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,14 +12,8 @@ import com.tommasoberlose.anotherwidget.databinding.ActivityMediaInfoFormatBindi
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.MediaInfoFormatViewModel
-import com.tommasoberlose.anotherwidget.utils.getCapWordString
-import com.tommasoberlose.anotherwidget.utils.openURI
-import com.tommasoberlose.anotherwidget.utils.toast
 import kotlinx.coroutines.*
 import net.idik.lib.slimadapter.SlimAdapter
-import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MediaInfoFormatActivity : AppCompatActivity() {
 

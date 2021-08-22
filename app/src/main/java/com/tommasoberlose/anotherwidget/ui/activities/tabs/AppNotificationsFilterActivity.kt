@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,12 +74,12 @@ class AppNotificationsFilterActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.appList.observe(this, Observer {
+        viewModel.appList.observe(this, {
             updateList(list = it)
             binding.loader.visibility = View.INVISIBLE
         })
 
-        viewModel.searchInput.observe(this, Observer { search ->
+        viewModel.searchInput.observe(this, { search ->
             updateList(search = search)
             binding.clearSearch.isVisible = search.isNotBlank()
         })

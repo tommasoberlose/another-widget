@@ -6,7 +6,6 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -14,12 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.provider.FontRequest
 import androidx.core.provider.FontsContractCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chibatching.kotpref.blockingBulk
-import com.google.gson.Gson
 import com.koolio.library.Font
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
@@ -153,12 +150,12 @@ class CustomFontActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.fontList.observe(this, Observer {
+        viewModel.fontList.observe(this, {
             updateList(list = it)
             binding.loader.visibility = View.INVISIBLE
         })
 
-        viewModel.searchInput.observe(this, Observer { search ->
+        viewModel.searchInput.observe(this, { search ->
             updateList(search = search)
             binding.clearSearch.isVisible = search.isNotBlank()
         })

@@ -28,9 +28,9 @@ class AppNotificationsViewModel(application: Application) : AndroidViewModel(app
             }
 
             val app = application.packageManager.queryIntentActivities(mainIntent, 0)
-            val sortedApp = app.sortedWith(Comparator { app1: ResolveInfo, app2: ResolveInfo ->
+            val sortedApp = app.sortedWith { app1: ResolveInfo, app2: ResolveInfo ->
                 app1.loadLabel(pm).toString().compareTo(app2.loadLabel(pm).toString())
-            })
+            }
             withContext(Dispatchers.Main) {
                 appList.postValue(sortedApp)
             }

@@ -12,9 +12,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RemoteViews
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.tommasoberlose.anotherwidget.R
@@ -57,7 +55,7 @@ class StandardWidget(val context: Context) {
                 context,
                 appWidgetId,
                 IntentHelper.getWidgetUpdateIntent(context),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE
             )
             views.setOnClickPendingIntent(R.id.widget_shape_background, refreshIntent)
         } catch (ex: Exception) {
@@ -97,7 +95,7 @@ class StandardWidget(val context: Context) {
 
                 val i = Intent(context, WidgetClickListenerReceiver::class.java)
                 i.action = Actions.ACTION_OPEN_WEATHER_INTENT
-                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
+                val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, PendingIntent.FLAG_IMMUTABLE)
 
                 views.setOnClickPendingIntent(R.id.weather_rect, weatherPIntent)
                 views.setOnClickPendingIntent(R.id.weather_sub_line_rect, weatherPIntent)
@@ -127,7 +125,7 @@ class StandardWidget(val context: Context) {
                 context,
                 widgetID,
                 IntentHelper.getCalendarIntent(context),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE
             )
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
             views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
@@ -172,7 +170,7 @@ class StandardWidget(val context: Context) {
                                 context,
                                 NewCalendarEventReceiver::class.java
                             ).apply { action = Actions.ACTION_GO_TO_NEXT_EVENT },
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_IMMUTABLE
                         )
                     )
 
@@ -191,7 +189,7 @@ class StandardWidget(val context: Context) {
                                 context,
                                 NewCalendarEventReceiver::class.java
                             ).apply { action = Actions.ACTION_GO_TO_PREVIOUS_EVENT },
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_IMMUTABLE
                         )
                     )
 
@@ -207,7 +205,7 @@ class StandardWidget(val context: Context) {
                     context,
                     widgetID,
                     IntentHelper.getEventIntent(context, nextEvent),
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    PendingIntent.FLAG_IMMUTABLE
                 )
                 views.setOnClickPendingIntent(R.id.next_event_rect, eventIntent)
                 views.setViewVisibility(R.id.next_event_rect, View.VISIBLE)
@@ -240,7 +238,7 @@ class StandardWidget(val context: Context) {
                         context,
                         widgetID,
                         IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, mapIntent)
                 } else {
@@ -252,7 +250,7 @@ class StandardWidget(val context: Context) {
                             nextEvent,
                             forceEventDetails = true
                         ),
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, pIntentDetail)
                 }
@@ -277,7 +275,7 @@ class StandardWidget(val context: Context) {
                                     context,
                                     widgetID,
                                     IntentHelper.getMusicIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_IMMUTABLE
                                 )
                                 views.setOnClickPendingIntent(R.id.sub_line_rect, musicIntent)
                                 showSomething = true
@@ -290,7 +288,7 @@ class StandardWidget(val context: Context) {
                                     context,
                                     widgetID,
                                     IntentHelper.getClockIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_IMMUTABLE
                                 )
                                 views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
                                 showSomething = true
@@ -305,7 +303,7 @@ class StandardWidget(val context: Context) {
                                         context,
                                         widgetID,
                                         IntentHelper.getBatteryIntent(),
-                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                        PendingIntent.FLAG_IMMUTABLE
                                     )
                                     views.setOnClickPendingIntent(R.id.sub_line_rect, batteryIntent)
                                     showSomething = true
@@ -324,7 +322,7 @@ class StandardWidget(val context: Context) {
                                     context,
                                     widgetID,
                                     IntentHelper.getFitIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_IMMUTABLE
                                 )
                                 views.setOnClickPendingIntent(R.id.sub_line_rect, fitIntent)
                                 showSomething = true
@@ -345,7 +343,7 @@ class StandardWidget(val context: Context) {
                                         context,
                                         widgetID,
                                         IntentHelper.getNotificationIntent(context),
-                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                        PendingIntent.FLAG_IMMUTABLE
                                     )
                                     views.setOnClickPendingIntent(
                                         R.id.sub_line_rect,
@@ -373,7 +371,7 @@ class StandardWidget(val context: Context) {
                                         nextEvent,
                                         forceEventDetails = true
                                     ),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_IMMUTABLE
                                 )
                                 views.setOnClickPendingIntent(
                                     R.id.sub_line_rect,
@@ -768,7 +766,7 @@ class StandardWidget(val context: Context) {
 
 
             // Color
-            listOf<TextView>(
+            listOf(
                 bindingView.date,
                 bindingView.weatherDateLineDivider,
                 bindingView.weatherDateLineTemperature,
@@ -779,9 +777,9 @@ class StandardWidget(val context: Context) {
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.rawValue) {
-                listOf<ImageView>(bindingView.actionNext, bindingView.actionPrevious)
+                listOf(bindingView.actionNext, bindingView.actionPrevious)
             } else {
-                listOf<ImageView>(
+                listOf(
                     bindingView.actionNext,
                     bindingView.actionPrevious,
                     bindingView.weatherDateLineWeatherIcon,
@@ -795,14 +793,14 @@ class StandardWidget(val context: Context) {
                         .toFloat()) / 100
             }
 
-            listOf<TextView>(bindingView.subLineText, bindingView.weatherSubLineDivider, bindingView.weatherSubLineTemperature).forEach {
+            listOf(bindingView.subLineText, bindingView.weatherSubLineDivider, bindingView.weatherSubLineTemperature).forEach {
                 it.setTextColor(ColorHelper.getSecondaryFontColor(context.applicationContext.isDarkTheme()))
             }
 
             if (Preferences.weatherIconPack != Constants.WeatherIconPack.MINIMAL.rawValue) {
-                listOf<ImageView>(bindingView.subLineIcon, bindingView.subLineIconShadow)
+                listOf(bindingView.subLineIcon, bindingView.subLineIconShadow)
             } else {
-                listOf<ImageView>(bindingView.subLineIcon, bindingView.weatherSubLineWeatherIcon, bindingView.subLineIconShadow)
+                listOf(bindingView.subLineIcon, bindingView.weatherSubLineWeatherIcon, bindingView.subLineIconShadow)
             }.forEach {
                 it.setColorFilter(ColorHelper.getSecondaryFontColorRgb(context.applicationContext.isDarkTheme()))
                 it.alpha =
@@ -812,7 +810,7 @@ class StandardWidget(val context: Context) {
             }
 
             // Text Size
-            listOf<Pair<TextView, Float>>(
+            listOf(
                 bindingView.date to Preferences.textMainSize,
                 bindingView.weatherDateLineDivider to (Preferences.textMainSize - 2),
                 bindingView.weatherDateLineTemperature to Preferences.textMainSize,
@@ -865,7 +863,7 @@ class StandardWidget(val context: Context) {
                     else -> 0f
                 }
 
-            listOf<TextView>(
+            listOf(
                 bindingView.date,
                 bindingView.weatherDateLineDivider,
                 bindingView.weatherDateLineTemperature,
@@ -921,7 +919,7 @@ class StandardWidget(val context: Context) {
                     else -> Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
                 }
 
-                listOf<TextView>(
+                listOf(
                     bindingView.date,
                     bindingView.weatherDateLineDivider,
                     bindingView.weatherDateLineTemperature,
@@ -934,7 +932,7 @@ class StandardWidget(val context: Context) {
                     it.typeface = googleSans
                 }
             } else if (Preferences.customFont == Constants.CUSTOM_FONT_DOWNLOADED && typeface != null) {
-                listOf<TextView>(
+                listOf(
                     bindingView.date,
                     bindingView.weatherDateLineDivider,
                     bindingView.weatherDateLineTemperature,

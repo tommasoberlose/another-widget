@@ -10,7 +10,6 @@ object Actions {
     const val ACTION_OPEN_WEATHER_INTENT = "com.tommasoberlose.anotherwidget.action.OPEN_WEATHER_INTENT"
     const val ACTION_GO_TO_NEXT_EVENT = "com.tommasoberlose.anotherwidget.action.GO_TO_NEXT_EVENT"
     const val ACTION_GO_TO_PREVIOUS_EVENT = "com.tommasoberlose.anotherwidget.action.GO_TO_PREVIOUS_EVENT"
-    const val ACTION_REPORT_CRASH = "com.tommasoberlose.anotherwidget.action.REPORT_CRASH"
     const val ACTION_CLEAR_NOTIFICATION = "com.tommasoberlose.anotherwidget.action.CLEAR_NOTIFICATION"
     const val ACTION_UPDATE_GREETINGS = "com.tommasoberlose.anotherwidget.action.UPDATE_GREETINGS"
 

@@ -53,16 +53,6 @@ object ApiServices {
         ): NetworkResponse<HashMap<String, Any>, HashMap<String, Any>>
     }
 
-    interface AccuweatherService {
-        @GET("")
-        suspend fun getWeather(
-            @Path("gridId") gridId: String,
-            @Path("gridX") gridX: Int,
-            @Path("gridY") gridY: Int,
-            @Query("units") unit: String
-        ): NetworkResponse<HashMap<String, Any>, HashMap<String, Any>>
-    }
-
     interface YrService {
         @Headers("User-Agent: AnotherWidget")
         @GET("compact.json")

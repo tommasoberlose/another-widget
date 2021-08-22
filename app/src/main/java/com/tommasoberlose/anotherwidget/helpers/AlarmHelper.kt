@@ -42,7 +42,8 @@ object AlarmHelper {
             val intent = Intent(context, UpdatesReceiver::class.java).apply {
                 action = Actions.ACTION_ALARM_UPDATE
             }
-            cancel(PendingIntent.getBroadcast(context, ALARM_UPDATE_ID, intent, 0))
+            cancel(PendingIntent.getBroadcast(context, ALARM_UPDATE_ID, intent,
+                                              PendingIntent.FLAG_IMMUTABLE))
             setExact(
                 AlarmManager.RTC,
                 trigger,
@@ -50,7 +51,7 @@ object AlarmHelper {
                     context,
                     ALARM_UPDATE_ID,
                     intent,
-                    0
+                    PendingIntent.FLAG_IMMUTABLE
                 )
             )
         }

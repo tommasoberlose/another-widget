@@ -7,7 +7,6 @@ import android.util.TypedValue
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import java.util.prefs.Preferences
 import kotlin.math.min
 
 object ImageHelper {

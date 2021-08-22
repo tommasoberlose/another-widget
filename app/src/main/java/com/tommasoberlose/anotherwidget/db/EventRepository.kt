@@ -1,8 +1,6 @@
 package com.tommasoberlose.anotherwidget.db
 
 import android.content.Context
-import android.provider.CalendarContract
-import android.util.Log
 import com.chibatching.kotpref.bulk
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper.applyFilters
@@ -10,10 +8,7 @@ import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import io.realm.Realm
-import io.realm.RealmResults
 import java.util.*
-import kotlin.Comparator
-import kotlin.collections.ArrayList
 
 class EventRepository(val context: Context) {
     private val realm by lazy { Realm.getDefaultInstance() }

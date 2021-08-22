@@ -129,7 +129,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                                         action = Actions.ACTION_TIME_UPDATE
                                         putExtra(EVENT_ID, event.eventID)
                                     },
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_IMMUTABLE
                                 )
                             )
                         } else {
@@ -143,7 +143,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                                         action = Actions.ACTION_TIME_UPDATE
                                         putExtra(EVENT_ID, event.eventID)
                                     },
-                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                    PendingIntent.FLAG_IMMUTABLE
                                 )
                             )
                         }
@@ -160,7 +160,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                                 Intent(context, UpdatesReceiver::class.java).apply {
                                     action = Actions.ACTION_TIME_UPDATE
                                 },
-                                0
+                                PendingIntent.FLAG_IMMUTABLE
                             )
                         )
                     }
@@ -175,7 +175,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                                 action = Actions.ACTION_TIME_UPDATE
                                 putExtra(EVENT_ID, event.eventID)
                             },
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_IMMUTABLE
                         )
                     )
                 }
@@ -186,7 +186,7 @@ class UpdatesReceiver : BroadcastReceiver() {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
                 val eventRepository = EventRepository(context)
                 eventRepository.getFutureEvents().forEach {
-                    cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java), 0))
+                    cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java), PendingIntent.FLAG_IMMUTABLE))
                 }
                 eventRepository.close()
             }

@@ -6,11 +6,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Color
-import android.util.Log
-import androidx.core.content.ContextCompat
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toast
 import kotlin.math.roundToInt
 
@@ -25,14 +22,6 @@ object ColorHelper {
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
-    }
-
-    fun getFontColorAlpha(isDark: Boolean): Int {
-        return try {
-            (if (!isDark) Preferences.textGlobalAlpha else Preferences.textGlobalAlphaDark).toIntValue().toDouble() * 255 / 100
-        } catch (e: Exception) {
-            "FF".toIntValue().toDouble() * 255 / 100
-        }.roundToInt()
     }
 
     fun getFontColorRgb(isDark: Boolean): Int {
@@ -54,14 +43,6 @@ object ColorHelper {
         }
     }
 
-    fun getSecondaryFontColorAlpha(isDark: Boolean): Int {
-        return try {
-            (if (!isDark) Preferences.textSecondaryAlpha else Preferences.textSecondaryAlphaDark).toIntValue().toDouble() * 255 / 100
-        } catch (e: Exception) {
-            "FF".toIntValue().toDouble() * 255 / 100
-        }.roundToInt()
-    }
-
     fun getSecondaryFontColorRgb(isDark: Boolean): Int {
         return try {
             Color.parseColor((if (!isDark) Preferences.textSecondaryColor else Preferences.textSecondaryColorDark))
@@ -79,14 +60,6 @@ object ColorHelper {
         } catch (e: Exception) {
             Color.parseColor("#FFFFFFFF")
         }
-    }
-
-    fun getClockFontColorAlpha(isDark: Boolean): Int {
-        return try {
-            (if (!isDark) Preferences.clockTextAlpha else Preferences.clockTextAlphaDark).toIntValue().toDouble() * 255 / 100
-        } catch (e: Exception) {
-            "FF".toIntValue().toDouble() * 255 / 100
-        }.roundToInt()
     }
 
     fun getClockFontColorRgb(isDark: Boolean): Int {

@@ -1,7 +1,6 @@
 package com.tommasoberlose.anotherwidget.components
 
 import android.content.Context
-import android.view.View
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tommasoberlose.anotherwidget.R

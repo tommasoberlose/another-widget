@@ -1,6 +1,5 @@
 package com.tommasoberlose.anotherwidget.ui.activities.tabs
 
-import android.Manifest
 import android.app.Activity
 import android.location.Address
 import android.location.Geocoder
@@ -9,21 +8,14 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chibatching.kotpref.bulk
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.ActivityTimeZoneSelectorBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.TimeZonesApi
-import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.viewmodels.tabs.TimeZoneSelectorViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.toast
@@ -95,7 +87,7 @@ class TimeZoneSelectorActivity : AppCompatActivity() {
             .attachTo(binding.listView)
 
 
-        viewModel.addresses.observe(this, Observer {
+        viewModel.addresses.observe(this, {
             adapter.updateData(listOf("Default") + it)
         })
 
@@ -113,12 +105,12 @@ class TimeZoneSelectorActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.addresses.observe(this, Observer {
+        viewModel.addresses.observe(this, {
             adapter.updateData(listOf("Default") + it)
             binding.loader.visibility = View.INVISIBLE
         })
 
-        viewModel.locationInput.observe(this, Observer { location ->
+        viewModel.locationInput.observe(this, { location ->
             binding.loader.visibility = View.VISIBLE
             searchJob?.cancel()
             searchJob = lifecycleScope.launch(Dispatchers.IO) {
@@ -130,7 +122,7 @@ class TimeZoneSelectorActivity : AppCompatActivity() {
                     try {
                         coder.getFromLocationName(location, 10) as ArrayList<Address>
                     } catch (ignored: Exception) {
-                        emptyList<Address>()
+                        emptyList()
                     }
                 }
                 withContext(Dispatchers.Main) {

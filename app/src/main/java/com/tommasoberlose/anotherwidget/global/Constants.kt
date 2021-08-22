@@ -34,7 +34,7 @@ object Constants {
         EVENTS("EVENTS");
 
         companion object {
-            private val map = GlanceProviderId.values().associateBy(GlanceProviderId::id)
+            private val map = values().associateBy(GlanceProviderId::id)
             fun from(type: String) = map[type]
         }
     }
@@ -55,7 +55,7 @@ object Constants {
         YR(6);
 
         companion object {
-            private val map = WeatherProvider.values().associateBy(WeatherProvider::rawValue)
+            private val map = values().associateBy(WeatherProvider::rawValue)
             fun fromInt(type: Int) = map[type]
         }
     }

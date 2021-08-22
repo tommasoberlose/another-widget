@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -34,7 +32,6 @@ import com.tommasoberlose.anotherwidget.helpers.ColorHelper.isColorDark
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
-import com.tommasoberlose.anotherwidget.ui.widgets.StandardWidget
 import com.tommasoberlose.anotherwidget.utils.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
@@ -98,7 +95,7 @@ class MainFragment : Fragment() {
         }
 
         binding.actionSettings.setOnSingleClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment,)
+            Navigation.findNavController(it).navigate(R.id.action_appMainFragment_to_appSettingsFragment)
         }
 
         binding.preview.layoutParams = binding.preview.layoutParams.apply {
@@ -173,7 +170,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.widgetPreferencesUpdate.observe(viewLifecycleOwner) {
-            onUpdateUiEvent(null)
+            onUpdateUiEvent()
         }
 
         viewModel.showClock.observe(viewLifecycleOwner) {
@@ -395,10 +392,10 @@ class MainFragment : Fragment() {
     private var delayJob: Job? = null
 
     class UpdateUiMessageEvent
-    class ChangeTabEvent(val page: Int)
+    class ChangeTabEvent
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onUpdateUiEvent(ignore: UpdateUiMessageEvent?) {
+    fun onUpdateUiEvent() {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
             delay(300)

@@ -7,8 +7,6 @@ import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.os.Build
-import android.provider.CalendarContract
-import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 
 class BatteryListenerJob : JobService() {

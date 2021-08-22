@@ -36,15 +36,6 @@ object WidgetHelper {
 
     }
 
-    fun Pair<Int, Int>.reduceDimensionWithMaxWidth(width: Int): Pair<Int, Int> {
-        return if (first < width) {
-            this
-        } else {
-            val factor = width / first
-            width to second * factor
-        }
-    }
-
     fun runWithCustomTypeface(context: Context, function: (typeface: Typeface?) -> Unit) {
         if (Preferences.customFontFile != "") {
             val request = FontRequest(

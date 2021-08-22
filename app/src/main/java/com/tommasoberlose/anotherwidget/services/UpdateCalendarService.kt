@@ -5,7 +5,6 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -206,7 +205,7 @@ class UpdateCalendarService : Service() {
                 .setColor(ContextCompat.getColor(this@UpdateCalendarService, R.color.colorAccent))
 
             // Main intent that open the activity
-            builder.setContentIntent(PendingIntent.getActivity(this@UpdateCalendarService, 0, Intent(this@UpdateCalendarService, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
+            builder.setContentIntent(PendingIntent.getActivity(this@UpdateCalendarService, 0, Intent(this@UpdateCalendarService, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE))
 
             return builder.build()
         }

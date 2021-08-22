@@ -1,6 +1,5 @@
 package com.tommasoberlose.anotherwidget.helpers
 
-import android.Manifest
 import android.content.Context
 import com.chibatching.kotpref.Kotpref
 import com.tommasoberlose.anotherwidget.R
@@ -8,7 +7,6 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 
 
@@ -21,9 +19,9 @@ object WeatherHelper {
     suspend fun updateWeather(context: Context) {
         Kotpref.init(context)
         val networkApi = WeatherNetworkApi(context)
+
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
-        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
         }
     }
 
@@ -95,17 +93,6 @@ object WeatherHelper {
         Constants.WeatherProvider.WEATHER_GOV,
         Constants.WeatherProvider.YR -> false
         else -> true
-    }
-
-    fun getApiKey(provider: Constants.WeatherProvider? = Constants.WeatherProvider.fromInt(Preferences.weatherProvider)!!): String = when (provider) {
-        Constants.WeatherProvider.OPEN_WEATHER -> Preferences.weatherProviderApiOpen
-        Constants.WeatherProvider.WEATHER_BIT -> Preferences.weatherProviderApiWeatherBit
-        Constants.WeatherProvider.WEATHER_API -> Preferences.weatherProviderApiWeatherApi
-        Constants.WeatherProvider.HERE -> Preferences.weatherProviderApiHere
-        Constants.WeatherProvider.ACCUWEATHER -> Preferences.weatherProviderApiAccuweather
-        Constants.WeatherProvider.WEATHER_GOV -> ""
-        Constants.WeatherProvider.YR -> ""
-        else -> ""
     }
 
     fun getWeatherIconResource(context: Context, icon: String, style: Int = Preferences.weatherIconPack): Int {

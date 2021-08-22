@@ -17,9 +17,6 @@ import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.network.repository.*
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -344,7 +341,7 @@ class WeatherNetworkApi(val context: Context) {
         }
     }
 
-    private suspend fun useAccuweatherProvider(context: Context) {
+    private fun useAccuweatherProvider(context: Context) {
         if (Preferences.weatherProviderApiAccuweather != "") {
 //                val repository = AccuweatherRepository()
 

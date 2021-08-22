@@ -2,10 +2,7 @@ package com.tommasoberlose.anotherwidget.components
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
-import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.CustomNotesDialogLayoutBinding
 import com.tommasoberlose.anotherwidget.global.Preferences

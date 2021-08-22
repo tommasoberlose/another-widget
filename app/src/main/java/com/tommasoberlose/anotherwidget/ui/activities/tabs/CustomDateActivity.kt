@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -69,7 +68,7 @@ class CustomDateActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.dateInput.observe(this, Observer { dateFormat ->
+        viewModel.dateInput.observe(this, { dateFormat ->
             formatJob?.cancel()
             formatJob = lifecycleScope.launch(Dispatchers.IO) {
                 withContext(Dispatchers.Main) {
@@ -103,12 +102,12 @@ class CustomDateActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.isDateCapitalize.observe(this, Observer {
+        viewModel.isDateCapitalize.observe(this, {
             viewModel.dateInput.value = viewModel.dateInput.value
             updateCapitalizeUi()
         })
 
-        viewModel.isDateUppercase.observe(this, Observer {
+        viewModel.isDateUppercase.observe(this, {
             viewModel.dateInput.value = viewModel.dateInput.value
             updateCapitalizeUi()
         })

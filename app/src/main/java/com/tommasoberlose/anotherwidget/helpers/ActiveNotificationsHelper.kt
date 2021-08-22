@@ -3,7 +3,6 @@ package com.tommasoberlose.anotherwidget.helpers
 import android.content.ContentResolver
 import android.content.Context
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import com.chibatching.kotpref.Kotpref
 import com.chibatching.kotpref.blockingBulk

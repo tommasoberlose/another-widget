@@ -2,7 +2,6 @@ package com.tommasoberlose.anotherwidget.helpers
 
 import android.Manifest
 import android.content.Context
-import android.util.Log
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.db.EventRepository
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -22,7 +21,7 @@ object GlanceProviderHelper {
             }
             .toTypedArray()
 
-        return ArrayList(providers.filter { enabledProviders.contains(it.id) }.sortedWith(Comparator { p1, p2 ->
+        return ArrayList(providers.filter { enabledProviders.contains(it.id) }.sortedWith { p1, p2 ->
             when {
                 enabledProviders.contains(p1.id) && enabledProviders.contains(p2.id) -> {
                     enabledProviders.indexOf(p1.id).compareTo(enabledProviders.indexOf(p2.id))
@@ -37,10 +36,10 @@ object GlanceProviderHelper {
                     p1.id.compareTo(p2.id)
                 }
             }
-        }) + providers.filter { !enabledProviders.contains(it.id) })
+        } + providers.filter { !enabledProviders.contains(it.id) })
     }
 
-    fun getGlanceProviderById(context: Context, providerId: Constants.GlanceProviderId): GlanceProvider? {
+    fun getGlanceProviderById(context: Context, providerId: Constants.GlanceProviderId): GlanceProvider {
         return when(providerId) {
             Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                GlanceProvider(providerId.id,

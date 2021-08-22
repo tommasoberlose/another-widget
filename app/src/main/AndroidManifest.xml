@@ -35,7 +35,6 @@
         <activity android:name=".ui.activities.tabs.CustomFontActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.CustomLocationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.WeatherProviderActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.settings.SupportDevActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.CustomDateActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.settings.IntegrationsActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.MusicPlayersFilterActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
@@ -108,15 +107,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".receivers.CrashlyticsReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_REPORT_CRASH" />
-            </intent-filter>
-        </receiver>
-
         <service android:name=".services.EventListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service android:name=".services.BatteryListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -140,26 +130,11 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.ActivityDetectionReceiver"
-            android:exported="false"
-            android:permission="com.google.android.gms.permission.ACTIVITY_RECOGNITION">
-            <intent-filter>
-                <action android:name="com.mypackage.ACTION_PROCESS_ACTIVITY_TRANSITIONS" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
         <service
             android:name=".services.UpdateCalendarService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
-        <service
-            android:name=".services.LocationService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="location" />
     </application>
 
     <queries>

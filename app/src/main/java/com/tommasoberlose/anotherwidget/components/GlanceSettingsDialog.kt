@@ -204,7 +204,7 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             binding.warningTitle.text = context.getString(R.string.settings_show_events_as_glance_provider_error)
             binding.warningContainer.setOnClickListener {
                 dismiss()
-                EventBus.getDefault().post(MainFragment.ChangeTabEvent(1))
+                EventBus.getDefault().post(MainFragment.ChangeTabEvent())
             }
         } else {
             binding.warningContainer.isVisible = false

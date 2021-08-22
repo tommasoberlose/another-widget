@@ -5,12 +5,10 @@ import android.app.Activity
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import com.tommasoberlose.anotherwidget.R
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,7 +65,7 @@ class CustomLocationActivity : AppCompatActivity() {
             .attachTo(binding.listView)
 
 
-        viewModel.addresses.observe(this, Observer {
+        viewModel.addresses.observe(this, {
             adapter.updateData(listOf("Default") + it)
         })
 
@@ -85,12 +83,12 @@ class CustomLocationActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.addresses.observe(this, Observer {
+        viewModel.addresses.observe(this, {
             adapter.updateData(listOf("Default") + it)
             binding.loader.visibility = View.INVISIBLE
         })
 
-        viewModel.locationInput.observe(this, Observer { location ->
+        viewModel.locationInput.observe(this, { location ->
             binding.loader.visibility = View.VISIBLE
             searchJob?.cancel()
             searchJob = lifecycleScope.launch(Dispatchers.IO) {
@@ -102,7 +100,7 @@ class CustomLocationActivity : AppCompatActivity() {
                     try {
                         coder.getFromLocationName(location, 10) as ArrayList<Address>
                     } catch (ignored: Exception) {
-                        emptyList<Address>()
+                        emptyList()
                     }
                 }
                 withContext(Dispatchers.Main) {

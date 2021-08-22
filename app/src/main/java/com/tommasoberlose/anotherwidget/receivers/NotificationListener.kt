@@ -7,9 +7,6 @@ import android.media.session.MediaSession
 import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
-import android.widget.Toast
-import com.google.gson.Gson
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -76,7 +73,8 @@ class NotificationListener : NotificationListenerService() {
             val intent = Intent(context, UpdatesReceiver::class.java).apply {
                 action = Actions.ACTION_CLEAR_NOTIFICATION
             }
-            cancel(PendingIntent.getBroadcast(context, 28943, intent, 0))
+            cancel(PendingIntent.getBroadcast(context, 28943, intent,
+                                              PendingIntent.FLAG_IMMUTABLE))
             val timeoutPref = Constants.GlanceNotificationTimer.fromInt(Preferences.hideNotificationAfter)
             if (timeoutPref != Constants.GlanceNotificationTimer.WHEN_DISMISSED) {
                 setExact(
@@ -93,7 +91,7 @@ class NotificationListener : NotificationListenerService() {
                         context,
                         5,
                         intent,
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
             }

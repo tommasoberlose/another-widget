@@ -2,7 +2,6 @@ package com.tommasoberlose.anotherwidget.helpers
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.provider.CalendarContract
 import com.tommasoberlose.anotherwidget.services.EventListenerJob
 import com.tommasoberlose.anotherwidget.models.Event
