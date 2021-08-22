@@ -34,7 +34,7 @@ class CustomFontViewModel(application: Application) : AndroidViewModel(applicati
                     }
                 }
 
-            DownloadableFontList.requestDownloadableFontList(fontListCallback, BuildConfig.GOOGLE_API_KEY)
+            //DownloadableFontList.requestDownloadableFontList(fontListCallback, BuildConfig.GOOGLE_API_KEY)
         }
     }
 }

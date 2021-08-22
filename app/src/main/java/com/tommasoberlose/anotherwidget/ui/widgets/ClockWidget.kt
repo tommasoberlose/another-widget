@@ -3,7 +3,6 @@ package com.tommasoberlose.anotherwidget.ui.widgets
 import android.app.PendingIntent
 import android.content.Context
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
 import android.widget.RemoteViews
 import com.tommasoberlose.anotherwidget.R
@@ -11,7 +10,6 @@ import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper
 import com.tommasoberlose.anotherwidget.helpers.IntentHelper
-import com.tommasoberlose.anotherwidget.receivers.CrashlyticsReceiver
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 import com.tommasoberlose.anotherwidget.utils.toPixel
 
@@ -101,7 +99,6 @@ class ClockWidget(val context: Context) {
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         return views

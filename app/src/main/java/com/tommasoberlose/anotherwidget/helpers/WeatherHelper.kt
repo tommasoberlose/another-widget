@@ -7,7 +7,6 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
-import com.tommasoberlose.anotherwidget.services.LocationService
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
@@ -25,7 +24,6 @@ object WeatherHelper {
         if (Preferences.customLocationAdd != "") {
             networkApi.updateWeather()
         } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            LocationService.requestNewLocation(context)
         }
     }
 

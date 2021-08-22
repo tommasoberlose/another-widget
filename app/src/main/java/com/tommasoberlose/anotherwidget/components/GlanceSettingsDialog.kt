@@ -6,18 +6,9 @@ import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.GlanceProviderSettingsLayoutBinding
 import com.tommasoberlose.anotherwidget.global.Constants
@@ -26,7 +17,6 @@ import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.GreetingsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
-import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.AppNotificationsFilterActivity
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.MediaInfoFormatActivity
 import com.tommasoberlose.anotherwidget.ui.activities.tabs.MusicPlayersFilterActivity
@@ -86,14 +76,6 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             binding.header.text = context.getString(R.string.information_header)
             binding.warningContainer.isVisible = false
             checkNextAlarm()
-        }
-
-        /* GOOGLE STEPS */
-        binding.actionToggleGoogleFit.isVisible = provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS
-        if (provider == Constants.GlanceProviderId.GOOGLE_FIT_STEPS) {
-            binding.warningContainer.isVisible = false
-            checkFitnessPermission()
-            checkGoogleFitConnection()
         }
 
         /* BATTERY INFO */
@@ -178,32 +160,6 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         Constants.GlanceProviderId.GREETINGS -> {
                             Preferences.showGreetings = isChecked
                             GreetingsHelper.toggleGreetings(context)
-                        }
-                        Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-                            if (isChecked) {
-                                val account: GoogleSignInAccount? =
-                                    GoogleSignIn.getLastSignedInAccount(context)
-                                if (!GoogleSignIn.hasPermissions(account,
-                                        ActivityDetectionReceiver.FITNESS_OPTIONS
-                                    )
-                                ) {
-                                    val mGoogleSignInClient =
-                                        GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
-                                            GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(
-                                            ActivityDetectionReceiver.FITNESS_OPTIONS
-                                        ).build())
-                                    context.startActivityForResult(mGoogleSignInClient.signInIntent,
-                                        2)
-                                } else {
-                                    Preferences.showDailySteps = true
-                                }
-                            } else {
-                                Preferences.showDailySteps = false
-                            }
-
-                            binding.warningContainer.isVisible = false
-                            checkFitnessPermission()
-                            checkGoogleFitConnection()
                         }
                         Constants.GlanceProviderId.EVENTS -> {
                             Preferences.showEventsAsGlanceProvider = isChecked
@@ -292,90 +248,5 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
             }
         }
         statusCallback?.invoke()
-    }
-
-    private fun checkFitnessPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(
-                Manifest.permission.ACTIVITY_RECOGNITION)
-        ) {
-            if (Preferences.showDailySteps) {
-                ActivityDetectionReceiver.registerFence(context)
-            } else {
-                ActivityDetectionReceiver.unregisterFence(context)
-            }
-        } else if (Preferences.showDailySteps) {
-            ActivityDetectionReceiver.unregisterFence(context)
-            binding.warningContainer.isVisible = true
-            binding.warningTitle.text = context.getString(R.string.settings_request_fitness_access)
-            binding.warningContainer.setOnClickListener {
-                requireFitnessPermission()
-            }
-        } else {
-            ActivityDetectionReceiver.unregisterFence(context)
-        }
-        statusCallback?.invoke()
-    }
-
-    private fun checkGoogleFitConnection() {
-        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-        if (!GoogleSignIn.hasPermissions(account,
-                ActivityDetectionReceiver.FITNESS_OPTIONS
-            )) {
-            binding.warningContainer.isVisible = true
-            binding.warningTitle.text = context.getString(R.string.settings_request_fitness_access)
-            binding.warningContainer.setOnClickListener {
-                GoogleSignIn.requestPermissions(
-                    context,
-                    1,
-                    account,
-                    ActivityDetectionReceiver.FITNESS_OPTIONS)
-            }
-            binding.actionConnectToGoogleFit.isVisible = true
-            binding.actionDisconnectToGoogleFit.isVisible = false
-            binding.actionConnectToGoogleFit.setOnClickListener {
-                GoogleSignIn.requestPermissions(
-                    context,
-                    1,
-                    account,
-                    ActivityDetectionReceiver.FITNESS_OPTIONS)
-            }
-            binding.actionDisconnectToGoogleFit.setOnClickListener(null)
-            binding.googleFitStatusLabel.text = context.getString(R.string.google_fit_account_not_connected)
-        } else {
-            binding.actionConnectToGoogleFit.isVisible = false
-            binding.actionDisconnectToGoogleFit.isVisible = true
-            binding.actionConnectToGoogleFit.setOnClickListener(null)
-            binding.actionDisconnectToGoogleFit.setOnClickListener {
-                GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
-                    GoogleSignInOptions.DEFAULT_SIGN_IN).addExtension(
-                    ActivityDetectionReceiver.FITNESS_OPTIONS
-                ).build()).signOut().addOnCompleteListener {
-                    show()
-                }
-            }
-            binding.googleFitStatusLabel.text = context.getString(R.string.google_fit_account_connected)
-        }
-    }
-
-    private fun requireFitnessPermission() {
-        Dexter.withContext(context)
-            .withPermissions(
-                "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
-                "android.gms.permission.ACTIVITY_RECOGNITION",
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACTIVITY_RECOGNITION else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
-            ).withListener(object: MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    checkFitnessPermission()
-                }
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    // Remember to invoke this method when the custom rationale is closed
-                    // or just by default if you don't want to use any custom rationale.
-                    token?.continuePermissionRequest()
-                }
-            })
-            .check()
     }
 }

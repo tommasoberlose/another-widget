@@ -8,13 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.transition.TransitionInflater
 import com.google.android.material.transition.MaterialSharedAxis
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -32,10 +29,8 @@ import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.ui.activities.settings.IntegrationsActivity
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
-import com.tommasoberlose.anotherwidget.ui.activities.settings.SupportDevActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import com.tommasoberlose.anotherwidget.utils.ignoreExceptions
 import com.tommasoberlose.anotherwidget.utils.openURI
 import com.tommasoberlose.anotherwidget.utils.setOnSingleClickListener
 import kotlinx.coroutines.Dispatchers
@@ -195,10 +190,6 @@ class SettingsFragment : Fragment() {
 
         binding.actionPrivacyPolicy.setOnClickListener {
             requireActivity().openURI("https://github.com/tommasoberlose/another-widget/blob/master/privacy-policy.md")
-        }
-
-        binding.actionHelpDev.setOnClickListener {
-            startActivity(Intent(requireContext(), SupportDevActivity::class.java))
         }
 
         binding.actionRefreshWidget.setOnClickListener {

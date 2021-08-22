@@ -8,26 +8,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Canvas
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
@@ -41,8 +35,6 @@ import com.tommasoberlose.anotherwidget.helpers.AlarmHelper
 import com.tommasoberlose.anotherwidget.helpers.GlanceProviderHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.models.GlanceProvider
-import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
-import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver.Companion.FITNESS_OPTIONS
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
 import com.tommasoberlose.anotherwidget.utils.*
@@ -237,40 +229,6 @@ class GlanceTabFragment : Fragment() {
                         injector.visibility(R.id.error_icon, View.GONE)
                         injector.visibility(R.id.info_icon, View.VISIBLE)
                         isVisible = Preferences.customNotes != ""
-                    }
-                    Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
-                        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(
-                            context
-                        )
-                        if (GoogleSignIn.hasPermissions(
-                                account,
-                                FITNESS_OPTIONS
-                            ) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || requireActivity().checkGrantedPermission(
-                                Manifest.permission.ACTIVITY_RECOGNITION
-                            ))
-                        ) {
-                            injector.text(
-                                R.id.label,
-                                if (Preferences.showDailySteps) getString(R.string.settings_visible) else getString(
-                                    R.string.settings_not_visible
-                                )
-                            )
-                            injector.visibility(R.id.error_icon, View.GONE)
-                            injector.visibility(R.id.info_icon, View.VISIBLE)
-                            isVisible = Preferences.showDailySteps
-                        } else if (Preferences.showDailySteps) {
-                            ActivityDetectionReceiver.unregisterFence(requireContext())
-                            injector.visibility(R.id.error_icon, View.VISIBLE)
-                            injector.visibility(R.id.info_icon, View.GONE)
-                            injector.text(R.id.label, getString(R.string.settings_not_visible))
-                            isVisible = false
-                        } else {
-                            ActivityDetectionReceiver.unregisterFence(requireContext())
-                            injector.text(R.id.label, getString(R.string.settings_not_visible))
-                            injector.visibility(R.id.error_icon, View.GONE)
-                            injector.visibility(R.id.info_icon, View.VISIBLE)
-                            isVisible = false
-                        }
                     }
                     Constants.GlanceProviderId.EVENTS -> {
                         isVisible =
@@ -469,30 +427,6 @@ class GlanceTabFragment : Fragment() {
                 if (resultCode == Activity.RESULT_OK) {
                     adapter.notifyItemRangeChanged(0, adapter.data.size)
                 } else {
-                    Preferences.showDailySteps = false
-                }
-
-                if (dialog != null) {
-                    dialog?.show()
-                }
-            }
-            2 -> {
-                try {
-                    val account: GoogleSignInAccount? = GoogleSignIn.getSignedInAccountFromIntent(
-                        data
-                    ).getResult(ApiException::class.java)
-                    if (!GoogleSignIn.hasPermissions(account, FITNESS_OPTIONS)) {
-                        GoogleSignIn.requestPermissions(
-                            requireActivity(),
-                            1,
-                            account,
-                            FITNESS_OPTIONS
-                        )
-                    } else {
-                        adapter.notifyItemRangeChanged(0, adapter.data.size)
-                    }
-                } catch (e: ApiException) {
-                    e.printStackTrace()
                     Preferences.showDailySteps = false
                 }
 
