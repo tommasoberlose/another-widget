@@ -221,6 +221,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
     }
     
     private fun checkNextAlarm() {
+        if (!Preferences.showNextAlarm)
+            AlarmHelper.clearTimeout(context)
         with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
             val alarm = nextAlarmClock
             if (alarm != null && alarm.showIntent != null) {

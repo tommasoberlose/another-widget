@@ -44,7 +44,6 @@ object AlarmHelper {
             val intent = Intent(context, UpdatesReceiver::class.java).apply {
                 action = Actions.ACTION_ALARM_UPDATE
             }
-            cancel(PendingIntent.getBroadcast(context, ALARM_UPDATE_ID, intent, 0))
             setExact(
                 AlarmManager.RTC,
                 trigger,
@@ -55,6 +54,15 @@ object AlarmHelper {
                     0
                 )
             )
+        }
+    }
+
+    fun clearTimeout(context: Context) {
+        with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+            val intent = Intent(context, UpdatesReceiver::class.java).apply {
+                action = Actions.ACTION_ALARM_UPDATE
+            }
+            cancel(PendingIntent.getBroadcast(context, ALARM_UPDATE_ID, intent, 0))
         }
     }
 

@@ -135,8 +135,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
             views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
 
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
-
             // Spacing
             views.setViewVisibility(
                 R.id.sub_line_top_margin_small_sans,
@@ -259,16 +257,19 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                val alarmIntent = PendingIntent.getActivity(
-                                    context,
-                                    widgetID,
-                                    IntentHelper.getClockIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                                )
-                                views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
-                                showSomething = true
-                                break@loop
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    val alarmIntent = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getClockIntent(context),
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                    )
+                                    views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
@@ -457,8 +458,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
             bindingView.date.text = DateHelper.getDateText(context, now)
 
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
-
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
                 bindingView.actionNext.isVisible =
@@ -602,16 +601,19 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                bindingView.subLineIcon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_alarm_24
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    bindingView.subLineIcon.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            context,
+                                            R.drawable.round_alarm_24
+                                        )
                                     )
-                                )
-                                bindingView.subLineText.text = AlarmHelper.getNextAlarm(context)
-                                showSomething = true
-                                break@loop
+                                    bindingView.subLineText.text = nextAlarm
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {

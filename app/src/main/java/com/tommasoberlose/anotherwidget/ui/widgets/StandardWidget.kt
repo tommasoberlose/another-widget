@@ -144,8 +144,6 @@ class StandardWidget(val context: Context) {
                 BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false, width = bindingView.subLine.width, height = bindingView.subLine.height)
             )
 
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
-
             // Spacing
             views.setViewVisibility(
                 R.id.sub_line_top_margin_small_sans,
@@ -287,16 +285,19 @@ class StandardWidget(val context: Context) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                val alarmIntent = PendingIntent.getActivity(
-                                    context,
-                                    widgetID,
-                                    IntentHelper.getClockIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                                )
-                                views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
-                                showSomething = true
-                                break@loop
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    val alarmIntent = PendingIntent.getActivity(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getClockIntent(context),
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                    )
+                                    views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
@@ -484,8 +485,6 @@ class StandardWidget(val context: Context) {
 
             bindingView.date.text = DateHelper.getDateText(context, now)
 
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
-
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
                 bindingView.actionNext.isVisible =
@@ -634,16 +633,19 @@ class StandardWidget(val context: Context) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                bindingView.subLineIcon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_alarm_24
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    bindingView.subLineIcon.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            context,
+                                            R.drawable.round_alarm_24
+                                        )
                                     )
-                                )
-                                bindingView.subLineText.text = AlarmHelper.getNextAlarm(context)
-                                showSomething = true
-                                break@loop
+                                    bindingView.subLineText.text = nextAlarm
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
