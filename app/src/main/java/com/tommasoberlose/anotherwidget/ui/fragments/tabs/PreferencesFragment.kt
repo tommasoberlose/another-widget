@@ -23,6 +23,7 @@ import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentPreferencesBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -123,6 +124,7 @@ class PreferencesFragment : Fragment() {
                 requireCalendarPermission()
             } else {
                 Preferences.showEvents = enabled
+                UpdatesReceiver.removeUpdates(requireContext())
             }
         }
 

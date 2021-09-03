@@ -35,8 +35,6 @@ class WeatherReceiver : BroadcastReceiver() {
     companion object {
         private const val MINUTE = 60 * 1000L
         fun setUpdates(context: Context) {
-            removeUpdates(context)
-
             if (Preferences.showWeather) {
                 val interval = MINUTE * when (Preferences.weatherRefreshPeriod) {
                     0 -> 30

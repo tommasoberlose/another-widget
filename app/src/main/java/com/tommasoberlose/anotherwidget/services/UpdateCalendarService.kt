@@ -55,18 +55,20 @@ class UpdateCalendarService : Service() {
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.IO) {
 
+            UpdatesReceiver.removeUpdates(this@UpdateCalendarService)
+
             val eventRepository = EventRepository(this@UpdateCalendarService)
             if (Preferences.showEvents) {
                 val eventList = ArrayList<Event>()
 
+                // fetch all events from now to next ACTION_CALENDAR_UPDATE + limit
                 val now = Calendar.getInstance()
-                val begin = Calendar.getInstance().apply {
+                val limit = Calendar.getInstance().apply {
                     set(Calendar.MILLISECOND, 0)
                     set(Calendar.SECOND, 0)
                     set(Calendar.MINUTE, 0)
                     set(Calendar.HOUR_OF_DAY, 0)
-                }
-                val limit = Calendar.getInstance().apply {
+                    add(Calendar.DATE, 1)
                     when (Preferences.showUntil) {
                         0 -> add(Calendar.HOUR, 3)
                         1 -> add(Calendar.HOUR, 6)
@@ -85,11 +87,13 @@ class UpdateCalendarService : Service() {
                     )
                 ) {
                     eventRepository.resetNextEventData()
+                    eventRepository.clearEvents()
                 } else {
                     try {
                         val provider = CalendarProvider(this@UpdateCalendarService)
+                        // apply time zone offset to correctly fetch all-day events
                         val data = provider.getInstances(
-                            begin.timeInMillis + begin.timeZone.getOffset(begin.timeInMillis).coerceAtMost(0),
+                            now.timeInMillis + now.timeZone.getOffset(now.timeInMillis).coerceAtMost(0),
                             limit.timeInMillis + limit.timeZone.getOffset(limit.timeInMillis).coerceAtLeast(0)
                         )
                         if (data != null) {
@@ -170,13 +174,14 @@ class UpdateCalendarService : Service() {
                 }
             } else {
                 eventRepository.resetNextEventData()
+                eventRepository.clearEvents()
             }
+            eventRepository.close()
 
             UpdatesReceiver.setUpdates(this@UpdateCalendarService)
             MainWidget.updateWidget(this@UpdateCalendarService)
 
             EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
-            eventRepository.close()
 
             stopSelf()
         }
