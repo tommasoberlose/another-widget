@@ -57,7 +57,7 @@ class LocationService : Service() {
                         android.location.LocationManager.PASSIVE_PROVIDER
                     )) {
                         if (lm.isProviderEnabled(provider)) {
-                            location = lm.getLastKnownLocation(provider);
+                            location = lm.getLastKnownLocation(provider)
                             if (location != null) break
                         }
                     }
