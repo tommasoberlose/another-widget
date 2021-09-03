@@ -71,7 +71,7 @@ object WidgetHelper {
                 }
 
                 override fun onTypefaceRequestFailed(reason: Int) {
-                    handlerThread.quit();
+                    handlerThread.quit()
                     function.invoke(null)
                 }
             }

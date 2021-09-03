@@ -53,7 +53,7 @@ object IntentHelper {
             mapIntent
         } else {
             val map = "https://www.google.com/maps/search/?api=1&query=${Uri.encode(address)}"
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse(map));
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(map))
             i
         }
     }

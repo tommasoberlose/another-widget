@@ -99,7 +99,7 @@ class StandardWidget(val context: Context) {
             // Weather
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
                 views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.weather_sub_line, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
 
                 val i = Intent(context, WidgetClickListenerReceiver::class.java)
                 i.action = Actions.ACTION_OPEN_WEATHER_INTENT
@@ -119,7 +119,7 @@ class StandardWidget(val context: Context) {
                 )
             } else {
                 views.setViewVisibility(R.id.weather_rect, View.GONE)
-                views.setViewVisibility(R.id.weather_sub_line, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
             }
 
 
@@ -263,7 +263,7 @@ class StandardWidget(val context: Context) {
                 )
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.weather_sub_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, if (Preferences.showWeather && Preferences.weatherIcon != "") View.VISIBLE else View.GONE)
 
                 views.setViewVisibility(R.id.first_line_rect, View.GONE)
 
@@ -604,7 +604,7 @@ class StandardWidget(val context: Context) {
                 bindingView.dateLayout.isVisible = false
                 bindingView.calendarLayout.isVisible = true
                 bindingView.subLine.isVisible = true
-                bindingView.weatherSubLine.isVisible = true
+                bindingView.weatherSubLine.isVisible = Preferences.showWeather && Preferences.weatherIcon != ""
 
                 bindingView.subLineTopMarginSmall.visibility =
                     if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.rawValue) View.VISIBLE else View.GONE
