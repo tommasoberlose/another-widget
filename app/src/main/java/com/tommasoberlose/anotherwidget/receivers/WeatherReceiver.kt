@@ -22,13 +22,8 @@ class WeatherReceiver : BroadcastReceiver() {
             Intent.ACTION_MY_PACKAGE_REPLACED,
             Intent.ACTION_TIMEZONE_CHANGED,
             Intent.ACTION_LOCALE_CHANGED,
-            Intent.ACTION_TIME_CHANGED -> setUpdates(context)
-
-            Actions.ACTION_WEATHER_UPDATE -> {
-                GlobalScope.launch(Dispatchers.IO) {
-                    WeatherHelper.updateWeather(context)
-                }
-            }
+            Intent.ACTION_TIME_CHANGED,
+            Actions.ACTION_WEATHER_UPDATE -> setUpdates(context)
         }
     }
 
@@ -46,12 +41,14 @@ class WeatherReceiver : BroadcastReceiver() {
                     else -> 60
                 }
                 with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                    setRepeating(
+                    setExact(
                         AlarmManager.RTC,
-                        Calendar.getInstance().timeInMillis,
-                        interval,
+                        System.currentTimeMillis() + interval,
                         PendingIntent.getBroadcast(context, 0, Intent(context, WeatherReceiver::class.java).apply { action = Actions.ACTION_WEATHER_UPDATE }, 0)
                     )
+                }
+                GlobalScope.launch(Dispatchers.IO) {
+                    WeatherHelper.updateWeather(context)
                 }
             }
         }

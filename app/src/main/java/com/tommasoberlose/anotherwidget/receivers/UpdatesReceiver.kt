@@ -65,6 +65,8 @@ class UpdatesReceiver : BroadcastReceiver() {
         const val EVENT_ID = "EVENT_ID"
 
         fun setUpdates(context: Context, eventId: Long? = null) {
+            if (!Preferences.showEvents)
+                return
             val eventRepository = EventRepository(context)
             if (eventId == null) {
                 // schedule ACTION_CALENDAR_UPDATE at midnight (ACTION_DATE_CHANGED no longer works)
@@ -84,7 +86,8 @@ class UpdatesReceiver : BroadcastReceiver() {
                             Intent(context, UpdatesReceiver::class.java).apply {
                                 action = Actions.ACTION_CALENDAR_UPDATE
                             },
-                            0)
+                            0
+                        )
                     )
                 }
 
@@ -149,14 +152,14 @@ class UpdatesReceiver : BroadcastReceiver() {
                         else -> 0
                     }
             }
-            // avoid redundant updates at midnight
-            if (Calendar.getInstance().run {
-                timeInMillis = fireTime
-                get(Calendar.MILLISECOND) == 0 &&
-                get(Calendar.SECOND) == 0 &&
-                get(Calendar.MINUTE) == 0 &&
-                get(Calendar.HOUR_OF_DAY) == 0
-            }) return
+            // no need to schedule updates after the next ACTION_CALENDAR_UPDATE
+            if (Calendar.getInstance().apply {
+                set(Calendar.MILLISECOND, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.HOUR_OF_DAY, 0)
+                add(Calendar.DATE, 1)
+            }.timeInMillis <= fireTime) return
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
                 setExact(
                     AlarmManager.RTC,

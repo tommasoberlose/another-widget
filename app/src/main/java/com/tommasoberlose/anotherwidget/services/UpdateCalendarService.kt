@@ -88,6 +88,7 @@ class UpdateCalendarService : Service() {
                 ) {
                     eventRepository.resetNextEventData()
                     eventRepository.clearEvents()
+                    Preferences.showEvents = false
                 } else {
                     try {
                         val provider = CalendarProvider(this@UpdateCalendarService)

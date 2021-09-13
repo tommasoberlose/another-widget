@@ -135,6 +135,8 @@ class PreferencesFragment : Fragment() {
         binding.showWeatherSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showWeather = enabled
             if (enabled) {
+                Preferences.weatherProviderError = ""
+                Preferences.weatherProviderLocationError = ""
                 WeatherReceiver.setUpdates(requireContext())
             } else {
                 WeatherReceiver.removeUpdates(requireContext())
