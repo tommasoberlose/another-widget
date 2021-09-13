@@ -127,11 +127,11 @@ class WeatherProviderActivity : AppCompatActivity() {
 
     private fun subscribeUi(viewModel: WeatherProviderViewModel) {
         viewModel.weatherProviderError.observe(this) {
-            updateListItem()
+            binding.listView.postDelayed({ updateListItem() }, 300)
         }
 
         viewModel.weatherProviderLocationError.observe(this) {
-            updateListItem()
+            binding.listView.postDelayed({ updateListItem() }, 300)
         }
     }
 

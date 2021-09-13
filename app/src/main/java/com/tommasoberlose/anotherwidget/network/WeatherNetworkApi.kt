@@ -42,6 +42,13 @@ class WeatherNetworkApi(val context: Context) {
                 Constants.WeatherProvider.YR -> useYrProvider(context)
             }
         } else {
+            if (!Preferences.showWeather)
+                Preferences.weatherProviderError = context.getString(R.string.show_weather_not_visible)
+            else {
+                Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_missing_location)
+                Preferences.weatherProviderError = ""
+            }
+
             WeatherHelper.removeWeather(
                 context
             )
