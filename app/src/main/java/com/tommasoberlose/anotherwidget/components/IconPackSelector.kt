@@ -50,6 +50,10 @@ class IconPackSelector(context: Context, private val header: String? = null) : B
             binding.menu.addView(itemBinding.root)
         }
         setContentView(binding.root)
+        behavior.run {
+            skipCollapsed = true
+            state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        }
         super.show()
     }
 }
