@@ -54,7 +54,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 "setImageAlpha",
                 ColorHelper.getBackgroundAlpha(context.isDarkTheme())
             )
-            val refreshIntent = PendingIntent.getActivity(
+            val refreshIntent = IntentHelper.getPendingIntent(
                 context,
                 appWidgetId,
                 IntentHelper.getWidgetUpdateIntent(context),
@@ -126,7 +126,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 BitmapHelper.getBitmapFromView(bindingView.date, draw = false, width = bindingView.date.width, height = bindingView.date.height)
             )
 
-            val calPIntent = PendingIntent.getActivity(
+            val calPIntent = IntentHelper.getPendingIntent(
                 context,
                 widgetID,
                 IntentHelper.getCalendarIntent(context),
@@ -177,7 +177,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 }
 
                 // Event intent
-                val eventIntent = PendingIntent.getActivity(
+                val eventIntent = IntentHelper.getPendingIntent(
                     context,
                     widgetID,
                     IntentHelper.getEventIntent(context, nextEvent),
@@ -214,7 +214,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
                 // Event information
                 if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    val mapIntent = PendingIntent.getActivity(
+                    val mapIntent = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
                         IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
@@ -222,7 +222,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, mapIntent)
                 } else {
-                    val pIntentDetail = PendingIntent.getActivity(
+                    val pIntentDetail = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
                         IntentHelper.getCalendarIntent(context, nextEvent.startDate),
@@ -245,7 +245,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
-                                val musicIntent = PendingIntent.getActivity(
+                                val musicIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getMusicIntent(context),
@@ -260,7 +260,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             if (Preferences.showNextAlarm) {
                                 val nextAlarm = AlarmHelper.getNextAlarm(context)
                                 if (nextAlarm != "") {
-                                    val alarmIntent = PendingIntent.getActivity(
+                                    val alarmIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getClockIntent(context),
@@ -276,7 +276,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             if (Preferences.showBatteryCharging) {
                                 BatteryHelper.updateBatteryInfo(context)
                                 if (Preferences.isCharging || Preferences.isBatteryLevelLow) {
-                                    val batteryIntent = PendingIntent.getActivity(
+                                    val batteryIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getBatteryIntent(),
@@ -295,7 +295,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                val fitIntent = PendingIntent.getActivity(
+                                val fitIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getFitIntent(context),
@@ -316,7 +316,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                                             remotePackageContext,
                                             Preferences.lastNotificationIcon)
                                     }
-                                    val notificationIntent = PendingIntent.getActivity(
+                                    val notificationIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getNotificationIntent(context),
@@ -340,7 +340,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         Constants.GlanceProviderId.EVENTS -> {
                             if (Preferences.showEventsAsGlanceProvider&& Preferences.showEvents && context.checkGrantedPermission(
                                     Manifest.permission.READ_CALENDAR) && nextEvent != null) {
-                                val pIntentDetail = PendingIntent.getActivity(
+                                val pIntentDetail = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getEventIntent(

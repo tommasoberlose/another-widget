@@ -57,7 +57,7 @@ class StandardWidget(val context: Context) {
                 "setImageAlpha",
                 ColorHelper.getBackgroundAlpha(context.isDarkTheme())
             )
-            val refreshIntent = PendingIntent.getActivity(
+            val refreshIntent = IntentHelper.getPendingIntent(
                 context,
                 appWidgetId,
                 IntentHelper.getWidgetUpdateIntent(context),
@@ -129,7 +129,7 @@ class StandardWidget(val context: Context) {
                 BitmapHelper.getBitmapFromView(bindingView.date, draw = false, width = bindingView.date.width, height = bindingView.date.height)
             )
 
-            val calPIntent = PendingIntent.getActivity(
+            val calPIntent = IntentHelper.getPendingIntent(
                 context,
                 widgetID,
                 IntentHelper.getCalendarIntent(context),
@@ -207,7 +207,7 @@ class StandardWidget(val context: Context) {
                 }
 
                 // Event intent
-                val eventIntent = PendingIntent.getActivity(
+                val eventIntent = IntentHelper.getPendingIntent(
                     context,
                     widgetID,
                     IntentHelper.getEventIntent(context, nextEvent),
@@ -240,7 +240,7 @@ class StandardWidget(val context: Context) {
 
                 // Event information
                 if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    val mapIntent = PendingIntent.getActivity(
+                    val mapIntent = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
                         IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
@@ -248,7 +248,7 @@ class StandardWidget(val context: Context) {
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, mapIntent)
                 } else {
-                    val pIntentDetail = PendingIntent.getActivity(
+                    val pIntentDetail = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
                         IntentHelper.getCalendarIntent(context, nextEvent.startDate),
@@ -273,7 +273,7 @@ class StandardWidget(val context: Context) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
-                                val musicIntent = PendingIntent.getActivity(
+                                val musicIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getMusicIntent(context),
@@ -288,7 +288,7 @@ class StandardWidget(val context: Context) {
                             if (Preferences.showNextAlarm) {
                                 val nextAlarm = AlarmHelper.getNextAlarm(context)
                                 if (nextAlarm != "") {
-                                    val alarmIntent = PendingIntent.getActivity(
+                                    val alarmIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getClockIntent(context),
@@ -304,7 +304,7 @@ class StandardWidget(val context: Context) {
                             if (Preferences.showBatteryCharging) {
                                 BatteryHelper.updateBatteryInfo(context)
                                 if (Preferences.isCharging || Preferences.isBatteryLevelLow) {
-                                    val batteryIntent = PendingIntent.getActivity(
+                                    val batteryIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getBatteryIntent(),
@@ -323,7 +323,7 @@ class StandardWidget(val context: Context) {
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                val fitIntent = PendingIntent.getActivity(
+                                val fitIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getFitIntent(context),
@@ -344,7 +344,7 @@ class StandardWidget(val context: Context) {
                                             remotePackageContext,
                                             Preferences.lastNotificationIcon)
                                     }
-                                    val notificationIntent = PendingIntent.getActivity(
+                                    val notificationIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getNotificationIntent(context),
@@ -368,7 +368,7 @@ class StandardWidget(val context: Context) {
                         Constants.GlanceProviderId.EVENTS -> {
                             if (Preferences.showEventsAsGlanceProvider&& Preferences.showEvents && context.checkGrantedPermission(
                                     Manifest.permission.READ_CALENDAR) && nextEvent != null) {
-                                val pIntentDetail = PendingIntent.getActivity(
+                                val pIntentDetail = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getEventIntent(
