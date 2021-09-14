@@ -38,6 +38,7 @@ class UpdatesReceiver : BroadcastReceiver() {
             "com.sec.android.widgetapp.APPWIDGET_RESIZE",
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
             Actions.ACTION_ALARM_UPDATE,
+            Actions.ACTION_UPDATE_GREETINGS,
             Actions.ACTION_TIME_UPDATE -> {
                 MainWidget.updateWidget(context)
                 if (intent.hasExtra(EVENT_ID)) {
@@ -47,9 +48,6 @@ class UpdatesReceiver : BroadcastReceiver() {
 
             Actions.ACTION_CLEAR_NOTIFICATION -> {
                 ActiveNotificationsHelper.clearLastNotification(context)
-                MainWidget.updateWidget(context)
-            }
-            Actions.ACTION_UPDATE_GREETINGS -> {
                 MainWidget.updateWidget(context)
             }
 
@@ -67,9 +65,31 @@ class UpdatesReceiver : BroadcastReceiver() {
         const val EVENT_ID = "EVENT_ID"
 
         fun setUpdates(context: Context, eventId: Long? = null) {
+            if (!Preferences.showEvents)
+                return
             val eventRepository = EventRepository(context)
             if (eventId == null) {
-                removeUpdates(context)
+                // schedule ACTION_CALENDAR_UPDATE at midnight (ACTION_DATE_CHANGED no longer works)
+                with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+                    setExact(
+                        AlarmManager.RTC,
+                        Calendar.getInstance().apply {
+                            set(Calendar.MILLISECOND, 0)
+                            set(Calendar.SECOND, 0)
+                            set(Calendar.MINUTE, 0)
+                            set(Calendar.HOUR_OF_DAY, 0)
+                            add(Calendar.DATE, 1)
+                        }.timeInMillis,
+                        PendingIntent.getBroadcast(
+                            context,
+                            0,
+                            Intent(context, UpdatesReceiver::class.java).apply {
+                                action = Actions.ACTION_CALENDAR_UPDATE
+                            },
+                            0
+                        )
+                    )
+                }
 
                 eventRepository.getFutureEvents().forEach { event ->
                     setEventUpdate(context, event)
@@ -84,109 +104,90 @@ class UpdatesReceiver : BroadcastReceiver() {
         }
 
         private fun setEventUpdate(context: Context, event: Event) {
-            with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                val now = Calendar.getInstance().apply {
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                }
-                val diff = Period(now.timeInMillis, event.startDate)
-                val limit = when (Preferences.showUntil) {
-                    0 -> 1000 * 60 * 60 * 3
-                    1 -> 1000 * 60 * 60 * 6
-                    2 -> 1000 * 60 * 60 * 12
-                    3 -> 1000 * 60 * 60 * 24
-                    4 -> 1000 * 60 * 60 * 24 * 3
-                    5 -> 1000 * 60 * 60 * 24 * 7
-                    6 -> 1000 * 60 * 30
-                    7 -> 1000 * 60 * 60
-                    else -> 1000 * 60 * 60 * 6
-                }
-                if (event.startDate <= limit) {
-                    if (event.startDate > now.timeInMillis) {
-                        // Update the widget every hour till the event
-                        if (diff.hours == 0) {
-                            var minutes = 0
-                            when (Preferences.widgetUpdateFrequency) {
-                                Constants.WidgetUpdateFrequency.DEFAULT.rawValue -> {
-                                    minutes = when {
-                                        diff.minutes > 50 -> 50
-                                        diff.minutes > 30 -> 30
-                                        diff.minutes > 15 -> 15
-                                        else -> 0
-                                    }
-                                }
-                                Constants.WidgetUpdateFrequency.HIGH.rawValue -> {
-                                    minutes = diff.minutes - (diff.minutes % 5)
-                                }
+            val now = Calendar.getInstance().apply {
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            val diff = Period(now.timeInMillis, event.startDate, org.joda.time.PeriodType.time())
+            val limit = when (Preferences.showUntil) {
+                0 -> 1000 * 60 * 60 * 3
+                1 -> 1000 * 60 * 60 * 6
+                2 -> 1000 * 60 * 60 * 12
+                3 -> 1000 * 60 * 60 * 24
+                4 -> 1000 * 60 * 60 * 24 * 3
+                5 -> 1000 * 60 * 60 * 24 * 7
+                6 -> 1000 * 60 * 30
+                7 -> 1000 * 60 * 60
+                else -> 1000 * 60 * 60 * 6
+            }
+            val fireTime = when {
+                event.startDate <= now.timeInMillis
+                    -> event.endDate
+                event.startDate > now.timeInMillis + limit
+                    -> event.startDate - limit
+                !Preferences.showDiffTime
+                    -> return
+                event.allDay
+                    -> event.startDate
+                diff.hours > 12
+                    -> event.startDate - 12 * 1000 * 60 * 60 + 1000 * 60
+                diff.hours > 0
+                    -> event.startDate - diff.hours * 1000 * 60 * 60 + 1000 * 60
+                else
+                    -> event.startDate - 1000 * 60 * when (Preferences.widgetUpdateFrequency) {
+                        Constants.WidgetUpdateFrequency.DEFAULT.rawValue -> {
+                            when {
+                                diff.minutes >= 45 -> 44
+                                diff.minutes >= 30 -> 29
+                                diff.minutes >= 15 -> 14
+                                else -> 0
                             }
-                            setExact(
-                                AlarmManager.RTC,
-                                if (event.startDate - minutes * 1000 * 60 > (now.timeInMillis + 120 * 1000)) event.startDate - 60 * 1000 * minutes else now.timeInMillis + 120000,
-                                PendingIntent.getBroadcast(
-                                    context,
-                                    event.eventID.toInt(),
-                                    Intent(context, UpdatesReceiver::class.java).apply {
-                                        action = Actions.ACTION_TIME_UPDATE
-                                        putExtra(EVENT_ID, event.eventID)
-                                    },
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                                )
-                            )
-                        } else {
-                            setExact(
-                                AlarmManager.RTC,
-                                event.startDate - diff.hours * 1000 * 60 * 60 + if (diff.minutes > 30) (-30) else (+30),
-                                PendingIntent.getBroadcast(
-                                    context,
-                                    event.eventID.toInt(),
-                                    Intent(context, UpdatesReceiver::class.java).apply {
-                                        action = Actions.ACTION_TIME_UPDATE
-                                        putExtra(EVENT_ID, event.eventID)
-                                    },
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                                )
-                            )
                         }
-                    } else {
-                        // Update the widget one second after the event is finished
-                        val fireTime =
-                            if (event.endDate > now.timeInMillis + 120 * 1000) event.endDate else now.timeInMillis + 120000
-                        setExact(
-                            AlarmManager.RTC,
-                            fireTime,
-                            PendingIntent.getBroadcast(
-                                context,
-                                event.eventID.toInt(),
-                                Intent(context, UpdatesReceiver::class.java).apply {
-                                    action = Actions.ACTION_TIME_UPDATE
-                                },
-                                0
-                            )
-                        )
+                        Constants.WidgetUpdateFrequency.HIGH.rawValue -> {
+                            when {
+                                diff.minutes >= 5 -> diff.minutes - diff.minutes % 5 - 1
+                                else -> 0
+                            }
+                        }
+                        else -> 0
                     }
-                } else {
-                    setExact(
-                        AlarmManager.RTC,
-                        if (event.startDate - limit > now.timeInMillis + 120 * 1000) event.startDate - limit else now.timeInMillis + 120000,
-                        PendingIntent.getBroadcast(
-                            context,
-                            event.eventID.toInt(),
-                            Intent(context, UpdatesReceiver::class.java).apply {
-                                action = Actions.ACTION_TIME_UPDATE
+            }
+            // no need to schedule updates after the next ACTION_CALENDAR_UPDATE
+            if (Calendar.getInstance().apply {
+                set(Calendar.MILLISECOND, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.HOUR_OF_DAY, 0)
+                add(Calendar.DATE, 1)
+            }.timeInMillis <= fireTime) return
+            with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+                setExact(
+                    AlarmManager.RTC,
+                    fireTime.coerceAtLeast(now.timeInMillis + 1000 * 60),
+                    PendingIntent.getBroadcast(
+                        context,
+                        event.eventID.toInt(),
+                        Intent(context, UpdatesReceiver::class.java).apply {
+                            action = Actions.ACTION_TIME_UPDATE
+                            if (event.startDate > now.timeInMillis)
                                 putExtra(EVENT_ID, event.eventID)
-                            },
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                        )
+                        },
+                        PendingIntent.FLAG_UPDATE_CURRENT
                     )
-                }
+                )
             }
         }
 
         fun removeUpdates(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+                cancel(PendingIntent.getBroadcast(context, 0, Intent(context, UpdatesReceiver::class.java).apply {
+                    action = Actions.ACTION_CALENDAR_UPDATE
+                }, 0))
                 val eventRepository = EventRepository(context)
                 eventRepository.getFutureEvents().forEach {
-                    cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java), 0))
+                    cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java).apply {
+                        action = Actions.ACTION_TIME_UPDATE
+                    }, 0))
                 }
                 eventRepository.close()
             }

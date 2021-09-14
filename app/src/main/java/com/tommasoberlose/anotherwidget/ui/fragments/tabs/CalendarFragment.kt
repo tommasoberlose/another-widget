@@ -182,7 +182,7 @@ class CalendarFragment : Fragment() {
 
         binding.showAllDayToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.calendarAllDay = isChecked
-            MainWidget.updateWidget(requireContext())
+            updateCalendar()
         }
 
         binding.actionChangeAttendeeFilter.setOnClickListener {
@@ -227,7 +227,7 @@ class CalendarFragment : Fragment() {
 
         binding.showOnlyBusyEventsToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showOnlyBusyEvents = isChecked
-            MainWidget.updateWidget(requireContext())
+            updateCalendar()
         }
 
         binding.actionShowDiffTime.setOnClickListener {
@@ -254,6 +254,7 @@ class CalendarFragment : Fragment() {
                     .addItem(getString(R.string.settings_widget_update_frequency_low), Constants.WidgetUpdateFrequency.LOW.rawValue)
                     .addOnSelectItemListener { value ->
                         Preferences.widgetUpdateFrequency = value
+                        updateCalendar()
                     }.show()
             }
         }
