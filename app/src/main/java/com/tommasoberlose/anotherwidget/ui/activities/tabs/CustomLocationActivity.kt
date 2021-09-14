@@ -46,11 +46,16 @@ class CustomLocationActivity : AppCompatActivity() {
         adapter = SlimAdapter.create()
         adapter
             .register<String>(R.layout.custom_location_item) { _, injector ->
-                injector
-                    .text(R.id.text, getString(R.string.custom_location_gps))
-                    .clicked(R.id.text) {
-                        requirePermission()
+                injector.text(R.id.text, getString(R.string.custom_location_gps))
+                injector.clicked(R.id.text) {
+                    Preferences.bulk {
+                        remove(Preferences::customLocationLat)
+                        remove(Preferences::customLocationLon)
+                        remove(Preferences::customLocationAdd)
                     }
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
             .register<Address>(R.layout.custom_location_item) { item, injector ->
                 injector.text(R.id.text, item.getAddressLine(0) ?: "")
@@ -59,9 +64,9 @@ class CustomLocationActivity : AppCompatActivity() {
                         customLocationLat = item.latitude.toString()
                         customLocationLon = item.longitude.toString()
                         customLocationAdd = item.getAddressLine(0) ?: ""
-                        setResult(Activity.RESULT_OK)
-                        finish()
                     }
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
             }
             .attachTo(binding.listView)
@@ -113,36 +118,6 @@ class CustomLocationActivity : AppCompatActivity() {
             }
             binding.clearSearch.isVisible = location.isNotBlank()
         })
-    }
-
-    private fun requirePermission() {
-        Dexter.withContext(this)
-            .withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ).withListener(object: MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    report?.let {
-                        if (report.areAllPermissionsGranted()){
-                            Preferences.bulk {
-                                remove(Preferences::customLocationLat)
-                                remove(Preferences::customLocationLon)
-                                remove(Preferences::customLocationAdd)
-                            }
-                            setResult(Activity.RESULT_OK)
-                            finish()
-                        }
-                    }
-                }
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    // Remember to invoke this method when the custom rationale is closed
-                    // or just by default if you don't want to use any custom rationale.
-                    token?.continuePermissionRequest()
-                }
-            })
-            .check()
     }
 
     private fun setupListener() {

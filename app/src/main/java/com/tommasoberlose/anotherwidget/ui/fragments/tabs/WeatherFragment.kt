@@ -91,16 +91,17 @@ class WeatherFragment : Fragment() {
         viewModel.weatherProvider.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.labelWeatherProvider.text = WeatherHelper.getProviderName(requireContext(), Constants.WeatherProvider.fromInt(it)!!)
-                checkWeatherProviderConfig()
             }
         }
 
         viewModel.weatherProviderError.observe(viewLifecycleOwner) {
             checkWeatherProviderConfig()
+            checkLocationPermission()
         }
 
         viewModel.weatherProviderLocationError.observe(viewLifecycleOwner) {
             checkWeatherProviderConfig()
+            checkLocationPermission()
         }
 
         viewModel.customLocationAdd.observe(viewLifecycleOwner) {
@@ -108,6 +109,7 @@ class WeatherFragment : Fragment() {
                 binding.labelCustomLocation.text =
                     if (it == "") getString(R.string.custom_location_gps) else it
             }
+            checkWeatherProviderConfig()
             checkLocationPermission()
         }
 
@@ -116,43 +118,50 @@ class WeatherFragment : Fragment() {
                 binding.tempUnit.text =
                     if (it == "F") getString(R.string.fahrenheit) else getString(R.string.celsius)
             }
-            checkLocationPermission()
         }
 
         viewModel.weatherRefreshPeriod.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.labelWeatherRefreshPeriod.text = getString(SettingsStringHelper.getRefreshPeriodString(it))
             }
-            checkLocationPermission()
         }
 
         viewModel.weatherIconPack.observe(viewLifecycleOwner) {
             maintainScrollPosition {
                 binding.labelWeatherIconPack.text = getString(R.string.settings_weather_icon_pack_default).format((it + 1))
             }
-            checkLocationPermission()
         }
     }
 
     private fun checkLocationPermission() {
-        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R ||
+             requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
+        ) {
             binding.locationPermissionAlert.isVisible = false
-            WeatherReceiver.setUpdates(requireContext())
-        } else if (Preferences.showWeather && Preferences.customLocationAdd == "") {
+        } else if (Preferences.customLocationAdd == "") {
             binding.locationPermissionAlert.isVisible = true
             binding.locationPermissionAlert.setOnClickListener {
                 requirePermission()
             }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R &&
+                requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            ) {
+                val text = getString(R.string.action_grant_permission) + " - " +
+                        requireContext().packageManager.backgroundPermissionOptionLabel
+                binding.locationPermissionAlert.text = text
+            }
+            binding.weatherProviderLocationError.isVisible = false
         } else {
             binding.locationPermissionAlert.isVisible = false
         }
     }
 
     private fun checkWeatherProviderConfig() {
-        binding.weatherProviderError.isVisible = Preferences.showWeather && Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-"
+        binding.weatherProviderError.isVisible = Preferences.weatherProviderError != "" && Preferences.weatherProviderError != "-"
         binding.weatherProviderError.text = Preferences.weatherProviderError
 
-        binding.weatherProviderLocationError.isVisible = Preferences.showWeather && Preferences.weatherProviderLocationError != ""
+        binding.weatherProviderLocationError.isVisible = Preferences.weatherProviderLocationError != ""
         binding.weatherProviderLocationError.text = Preferences.weatherProviderLocationError
     }
 
@@ -177,11 +186,11 @@ class WeatherFragment : Fragment() {
                 .addItem(getString(R.string.celsius), "C")
                 .addOnSelectItemListener { value ->
                     if (value != Preferences.weatherTempUnit) {
+                        Preferences.weatherTempUnit = value
                         viewLifecycleOwner.lifecycleScope.launch {
                             WeatherHelper.updateWeather(requireContext())
                         }
                     }
-                    Preferences.weatherTempUnit = value
                 }.show()
         }
 
@@ -193,7 +202,10 @@ class WeatherFragment : Fragment() {
             }
             dialog
                 .addOnSelectItemListener { value ->
-                    Preferences.weatherRefreshPeriod = value
+                    if (value != Preferences.weatherRefreshPeriod) {
+                        Preferences.weatherRefreshPeriod = value
+                        WeatherReceiver.setUpdates(requireContext())
+                    }
                 }.show()
         }
 
@@ -206,12 +218,12 @@ class WeatherFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Constants.RESULT_CODE_CUSTOM_LOCATION -> {
-                    WeatherReceiver.setUpdates(requireContext())
-                    checkLocationPermission()
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        WeatherHelper.updateWeather(requireContext())
+                    }
                 }
-                RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
-                    checkLocationPermission()
-                }
+                //RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
+                //}
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -220,12 +232,19 @@ class WeatherFragment : Fragment() {
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R &&
+                    requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION))
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                else
+                    Manifest.permission.ACCESS_FINE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
-                        if (report.areAllPermissionsGranted()){
+                        if (report.areAllPermissionsGranted()) {
                             checkLocationPermission()
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                WeatherHelper.updateWeather(requireContext())
+                            }
                         }
                     }
                 }

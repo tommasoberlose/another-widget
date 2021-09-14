@@ -21,11 +21,20 @@ object WeatherHelper {
 
     suspend fun updateWeather(context: Context) {
         Kotpref.init(context)
-        val networkApi = WeatherNetworkApi(context)
         if (Preferences.customLocationAdd != "") {
-            networkApi.updateWeather()
-        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            WeatherNetworkApi(context).updateWeather()
+        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R  ||
+             context.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
+        ) {
             LocationService.requestNewLocation(context)
+        } else {
+            Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_missing_location)
+            Preferences.weatherProviderError = ""
+            removeWeather(context)
+            org.greenrobot.eventbus.EventBus.getDefault().post(
+                com.tommasoberlose.anotherwidget.ui.fragments.MainFragment.UpdateUiMessageEvent()
+            )
         }
     }
 
