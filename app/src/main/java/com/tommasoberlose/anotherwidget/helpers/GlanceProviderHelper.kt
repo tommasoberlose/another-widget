@@ -114,11 +114,11 @@ object GlanceProviderHelper {
                 (MediaPlayerHelper.isSomeonePlaying(context)) ||
                 (Preferences.showBatteryCharging && Preferences.isCharging || Preferences.isBatteryLevelLow) ||
                 (Preferences.customNotes.isNotEmpty()) ||
-                (Preferences.showWeatherAsGlanceProvider && Preferences.weatherIcon != "") ||
+                (Preferences.showWeatherAsGlanceProvider && Preferences.showWeather && Preferences.weatherIcon != "") ||
                 (Preferences.showDailySteps && Preferences.googleFitSteps > 0) ||
                 (Preferences.showGreetings && GreetingsHelper.showGreetings()) ||
-                        (Preferences.showEventsAsGlanceProvider && Preferences.showEvents && context.checkGrantedPermission(
-                            Manifest.permission.READ_CALENDAR) && eventRepository.getNextEvent() != null)
+                (Preferences.showEventsAsGlanceProvider && Preferences.showEvents && context.checkGrantedPermission(
+                    Manifest.permission.READ_CALENDAR) && eventRepository.getNextEvent() != null)
             )
         eventRepository.close()
         return showGlance

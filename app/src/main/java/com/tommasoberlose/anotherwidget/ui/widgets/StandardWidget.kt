@@ -394,7 +394,7 @@ class StandardWidget(val context: Context) {
                             }
                         }
                         Constants.GlanceProviderId.WEATHER -> {
-                            if (Preferences.showWeather && Preferences.weatherIcon != "") {
+                            if (Preferences.showWeatherAsGlanceProvider && Preferences.showWeather && Preferences.weatherIcon != "") {
                                 val i = Intent(context, WidgetClickListenerReceiver::class.java)
                                 i.action = Actions.ACTION_OPEN_WEATHER_INTENT
                                 val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
@@ -774,7 +774,7 @@ class StandardWidget(val context: Context) {
                             }
                         }
                         Constants.GlanceProviderId.WEATHER -> {
-                            if (Preferences.showWeatherAsGlanceProvider && Preferences.weatherIcon != "") {
+                            if (Preferences.showWeatherAsGlanceProvider && Preferences.showWeather && Preferences.weatherIcon != "") {
                                 bindingView.subLineText.text = String.format(
                                     Locale.getDefault(),
                                     "%d°%s  %s",
