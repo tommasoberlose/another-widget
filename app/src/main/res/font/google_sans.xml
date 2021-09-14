@@ -11,6 +11,14 @@
         app:font="@font/google_sans_italic" />
     <font
         app:fontStyle="normal"
+        app:fontWeight="100"
+        app:font="@font/google_sans_thin" />
+    <font
+        app:fontStyle="italic"
+        app:fontWeight="100"
+        app:font="@font/google_sans_thin_italic" />
+    <font
+        app:fontStyle="normal"
         app:fontWeight="200"
         app:font="@font/google_sans_light" />
     <font
@@ -19,34 +27,26 @@
         app:font="@font/google_sans_light_italic" />
     <font
         app:fontStyle="normal"
-        app:fontWeight="300"
-        app:font="@font/google_sans_thin" />
-    <font
-        app:fontStyle="italic"
-        app:fontWeight="300"
-        app:font="@font/google_sans_thin_italic" />
-    <font
-        app:fontStyle="normal"
-        app:fontWeight="700"
+        app:fontWeight="500"
         app:font="@font/google_sans_medium" />
     <font
         app:fontStyle="italic"
-        app:fontWeight="700"
+        app:fontWeight="500"
         app:font="@font/google_sans_medium_italic" />
     <font
         app:fontStyle="normal"
-        app:fontWeight="800"
+        app:fontWeight="700"
         app:font="@font/google_sans_bold" />
     <font
         app:fontStyle="italic"
-        app:fontWeight="800"
+        app:fontWeight="700"
         app:font="@font/google_sans_bold_italic" />
     <font
         app:fontStyle="normal"
-        app:fontWeight="900"
+        app:fontWeight="800"
         app:font="@font/google_sans_black" />
     <font
         app:fontStyle="italic"
-        app:fontWeight="900"
+        app:fontWeight="800"
         app:font="@font/google_sans_black_italic" />
 </font-family>

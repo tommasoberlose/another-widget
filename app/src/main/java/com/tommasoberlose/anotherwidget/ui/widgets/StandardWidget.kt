@@ -59,7 +59,7 @@ class StandardWidget(val context: Context) {
             )
             val margin = Preferences.widgetMargin.convertDpToPixel(context).toInt()
             views.setViewPadding(R.id.widget_shape_background, margin, margin, margin, margin)
-            val refreshIntent = PendingIntent.getActivity(
+            val refreshIntent = IntentHelper.getPendingIntent(
                 context,
                 appWidgetId,
                 IntentHelper.getWidgetUpdateIntent(context),
@@ -105,7 +105,7 @@ class StandardWidget(val context: Context) {
             // Weather
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
                 views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.weather_sub_line, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
 
                 val i = Intent(context, WidgetClickListenerReceiver::class.java)
                 i.action = Actions.ACTION_OPEN_WEATHER_INTENT
@@ -125,7 +125,7 @@ class StandardWidget(val context: Context) {
                 )
             } else {
                 views.setViewVisibility(R.id.weather_rect, View.GONE)
-                views.setViewVisibility(R.id.weather_sub_line, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
             }
 
 
@@ -135,7 +135,7 @@ class StandardWidget(val context: Context) {
                 BitmapHelper.getBitmapFromView(bindingView.date, draw = false, width = bindingView.date.width, height = bindingView.date.height)
             )
 
-            val calPIntent = PendingIntent.getActivity(
+            val calPIntent = IntentHelper.getPendingIntent(
                 context,
                 widgetID,
                 IntentHelper.getCalendarIntent(context),
@@ -149,8 +149,6 @@ class StandardWidget(val context: Context) {
                 R.id.sub_line_rect,
                 BitmapHelper.getBitmapFromView(bindingView.subLine, draw = false, width = bindingView.subLine.width, height = bindingView.subLine.height)
             )
-
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
 
             // Spacing
             views.setViewVisibility(
@@ -215,7 +213,7 @@ class StandardWidget(val context: Context) {
                 }
 
                 // Event intent
-                val eventIntent = PendingIntent.getActivity(
+                val eventIntent = IntentHelper.getPendingIntent(
                     context,
                     widgetID,
                     IntentHelper.getEventIntent(context, nextEvent),
@@ -248,7 +246,7 @@ class StandardWidget(val context: Context) {
 
                 // Event information
                 if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    val mapIntent = PendingIntent.getActivity(
+                    val mapIntent = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
                         IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
@@ -256,14 +254,10 @@ class StandardWidget(val context: Context) {
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, mapIntent)
                 } else {
-                    val pIntentDetail = PendingIntent.getActivity(
+                    val pIntentDetail = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
-                        IntentHelper.getEventIntent(
-                            context,
-                            nextEvent,
-                            forceEventDetails = true
-                        ),
+                        IntentHelper.getCalendarIntent(context, nextEvent.startDate),
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, pIntentDetail)
@@ -275,7 +269,7 @@ class StandardWidget(val context: Context) {
                 )
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.weather_sub_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, if (Preferences.showWeather && Preferences.weatherIcon != "") View.VISIBLE else View.GONE)
 
                 views.setViewVisibility(R.id.first_line_rect, View.GONE)
 
@@ -286,7 +280,7 @@ class StandardWidget(val context: Context) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
-                                val musicIntent = PendingIntent.getActivity(
+                                val musicIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getMusicIntent(context),
@@ -298,23 +292,26 @@ class StandardWidget(val context: Context) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                val alarmIntent = PendingIntent.getActivity(
-                                    context,
-                                    widgetID,
-                                    IntentHelper.getClockIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                                )
-                                views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
-                                showSomething = true
-                                break@loop
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    val alarmIntent = IntentHelper.getPendingIntent(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getClockIntent(context),
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                    )
+                                    views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                             if (Preferences.showBatteryCharging) {
                                 BatteryHelper.updateBatteryInfo(context)
                                 if (Preferences.isCharging || Preferences.isBatteryLevelLow) {
-                                    val batteryIntent = PendingIntent.getActivity(
+                                    val batteryIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getBatteryIntent(),
@@ -333,7 +330,7 @@ class StandardWidget(val context: Context) {
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                val fitIntent = PendingIntent.getActivity(
+                                val fitIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getFitIntent(context),
@@ -354,7 +351,7 @@ class StandardWidget(val context: Context) {
                                             remotePackageContext,
                                             Preferences.lastNotificationIcon)
                                     }
-                                    val notificationIntent = PendingIntent.getActivity(
+                                    val notificationIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getNotificationIntent(context),
@@ -378,7 +375,7 @@ class StandardWidget(val context: Context) {
                         Constants.GlanceProviderId.EVENTS -> {
                             if (Preferences.showEventsAsGlanceProvider&& Preferences.showEvents && context.checkGrantedPermission(
                                     Manifest.permission.READ_CALENDAR) && nextEvent != null) {
-                                val pIntentDetail = PendingIntent.getActivity(
+                                val pIntentDetail = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getEventIntent(
@@ -512,8 +509,6 @@ class StandardWidget(val context: Context) {
 
             bindingView.date.text = DateHelper.getDateText(context, now)
 
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
-
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
                 bindingView.actionNext.isVisible =
@@ -616,18 +611,16 @@ class StandardWidget(val context: Context) {
                         }
 
                     } else {
-                        val flags: Int =
-                            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
                         val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
 
                         bindingView.subLineText.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(
                                 Calendar.DAY_OF_YEAR)) {
-                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                            DateHelper.getDateText(context, start)
                         } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(
                                 Calendar.YEAR) > start.get(Calendar.YEAR)) {
-                            DateUtils.formatDateTime(context, now.timeInMillis, flags)
+                            DateHelper.getDateText(context, now)
                         } else {
-                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                            DateHelper.getDateText(context, start)
                         }
                     }
                 }
@@ -635,7 +628,7 @@ class StandardWidget(val context: Context) {
                 bindingView.dateLayout.isVisible = false
                 bindingView.calendarLayout.isVisible = true
                 bindingView.subLine.isVisible = true
-                bindingView.weatherSubLine.isVisible = true
+                bindingView.weatherSubLine.isVisible = Preferences.showWeather && Preferences.weatherIcon != ""
 
                 bindingView.subLineTopMarginSmall.visibility =
                     if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.rawValue) View.VISIBLE else View.GONE
@@ -664,16 +657,19 @@ class StandardWidget(val context: Context) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                bindingView.subLineIcon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_alarm_24
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    bindingView.subLineIcon.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            context,
+                                            R.drawable.round_alarm_24
+                                        )
                                     )
-                                )
-                                bindingView.subLineText.text = AlarmHelper.getNextAlarm(context)
-                                showSomething = true
-                                break@loop
+                                    bindingView.subLineText.text = nextAlarm
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
@@ -976,14 +972,17 @@ class StandardWidget(val context: Context) {
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
-                val googleSans: Typeface = when (Preferences.customFontVariant) {
-                    "100" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_thin.ttf")
-                    "200" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_light.ttf")
-                    "500" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_medium.ttf")
-                    "700" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_bold.ttf")
-                    "800" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_black.ttf")
-                    else -> Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
-                }
+                val googleSans: Typeface? = androidx.core.content.res.ResourcesCompat.getFont(
+                    context,
+                    when (Preferences.customFontVariant) {
+                        "100" -> R.font.google_sans_thin
+                        "200" -> R.font.google_sans_light
+                        "500" -> R.font.google_sans_medium
+                        "700" -> R.font.google_sans_bold
+                        "800" -> R.font.google_sans_black
+                        else -> R.font.google_sans_regular
+                    }
+                )
 
                 listOf<TextView>(
                     bindingView.date,

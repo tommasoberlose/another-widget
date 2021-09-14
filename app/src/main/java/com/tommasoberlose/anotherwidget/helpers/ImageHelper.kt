@@ -73,6 +73,9 @@ object ImageHelper {
 
         allocationIn.destroy()
         allocationOut.destroy()
+        colorMatrixScript.destroy()
+        blurScript.destroy()
+        //rs.destroy()
 
         return bitmap
     }

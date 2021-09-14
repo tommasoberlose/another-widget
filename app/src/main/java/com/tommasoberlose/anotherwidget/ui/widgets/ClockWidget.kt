@@ -39,7 +39,7 @@ class ClockWidget(val context: Context) {
                     TypedValue.COMPLEX_UNIT_SP,
                     Preferences.clockTextSize.toPixel(context) / 5 * 2
                 )
-                val clockPIntent = PendingIntent.getActivity(
+                val clockPIntent = IntentHelper.getPendingIntent(
                     context,
                     widgetID,
                     IntentHelper.getClockIntent(context),

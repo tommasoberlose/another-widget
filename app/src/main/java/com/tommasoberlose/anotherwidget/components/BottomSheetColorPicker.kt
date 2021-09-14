@@ -143,7 +143,6 @@ class BottomSheetColorPicker(
             withContext(Dispatchers.Main) {
                 binding.loader.isVisible = false
                 binding.listContainer.addView(listBinding.root)
-                this@BottomSheetColorPicker.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 binding.listContainer.isVisible = true
 
                 val idx = colors.toList().indexOf(getSelected?.invoke())
@@ -152,6 +151,10 @@ class BottomSheetColorPicker(
         })
 
         setContentView(binding.root)
+        behavior.run {
+            skipCollapsed = true
+            state = BottomSheetBehavior.STATE_EXPANDED
+        }
         super.show()
     }
 
