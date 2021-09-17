@@ -93,9 +93,9 @@ object Preferences : KotprefModel() {
     var altTimezoneId by stringPref(default = "")
 
     // Global
-    var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 26f)
-    var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 18f)
-    var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 26f)
+    var textMainSize by floatPref(key = "PREF_TEXT_MAIN_SIZE", default = 24f)
+    var textSecondSize by floatPref(key = "PREF_TEXT_SECOND_SIZE", default = 16f)
+    var clockTextSize by floatPref(key = "PREF_TEXT_CLOCK_SIZE", default = 72f)
     var clockBottomMargin by intPref(default = Constants.ClockBottomMargin.MEDIUM.rawValue)
     var secondRowTopMargin by intPref(default = Constants.SecondRowTopMargin.NONE.rawValue)
     var showClock by booleanPref(key = "PREF_SHOW_CLOCK", default = false)

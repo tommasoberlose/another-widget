@@ -317,6 +317,17 @@ class TypographyFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == android.app.Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCode.CUSTOM_FONT_CHOOSER_REQUEST_CODE.code -> {
+                    com.tommasoberlose.anotherwidget.ui.widgets.MainWidget.updateWidget(requireContext())
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun maintainScrollPosition(callback: () -> Unit) {
         binding.scrollView.isScrollable = false
         callback.invoke()

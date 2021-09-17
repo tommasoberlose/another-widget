@@ -25,8 +25,15 @@ object WidgetHelper {
     ) {
 
         fun getWidgetsSize(widgetId: Int): Pair<Int, Int> {
-            val width = getWidgetWidth(widgetId)
-            val height = getWidgetHeight(widgetId)
+            val portrait = context.resources.configuration.orientation == ORIENTATION_PORTRAIT
+            val width = getWidgetSizeInDp(
+                widgetId,
+                if (portrait) AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH else AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
+            )
+            val height = getWidgetSizeInDp(
+                widgetId,
+                if (portrait) AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT else AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT
+            )
             val widthInPx = context.dip(width)
             val heightInPx = context.dip(height)
             FirebaseCrashlytics.getInstance().setCustomKey("widthInPx", widthInPx)

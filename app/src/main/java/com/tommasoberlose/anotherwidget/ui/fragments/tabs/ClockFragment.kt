@@ -146,7 +146,7 @@ class ClockFragment : Fragment() {
         binding.actionClockTextSize.setOnClickListener {
             BottomSheetPicker(
                 requireContext(),
-                items = (46 downTo 12).map { BottomSheetPicker.MenuItem("${it}sp", it.toFloat()) },
+                items = (120 downTo 30).filter { it % 2 == 0 }.map { BottomSheetPicker.MenuItem("${it}sp", it.toFloat()) },
                 getSelected = { Preferences.clockTextSize },
                 header = getString(R.string.settings_clock_text_size_title),
                 onItemSelected = {value ->

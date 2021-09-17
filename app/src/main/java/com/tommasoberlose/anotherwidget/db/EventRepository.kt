@@ -106,6 +106,9 @@ class EventRepository(val context: Context) {
             resetNextEventData()
         }
         MainWidget.updateWidget(context)
+        org.greenrobot.eventbus.EventBus.getDefault().post(
+            com.tommasoberlose.anotherwidget.ui.fragments.MainFragment.UpdateUiMessageEvent()
+        )
     }
 
     fun goToPreviousEvent() {
@@ -121,6 +124,9 @@ class EventRepository(val context: Context) {
             resetNextEventData()
         }
         MainWidget.updateWidget(context)
+        org.greenrobot.eventbus.EventBus.getDefault().post(
+            com.tommasoberlose.anotherwidget.ui.fragments.MainFragment.UpdateUiMessageEvent()
+        )
     }
 
     fun getFutureEvents(): List<Event> {

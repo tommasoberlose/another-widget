@@ -82,9 +82,10 @@ class StandardWidget(val context: Context) {
         try {
             val generatedBinding = generateWidgetView(typeface) ?: return null
 
+            val width = w - (Preferences.widgetPadding.convertDpToPixel(context) + Preferences.widgetMargin.convertDpToPixel(context)).toInt() * 2
             views.setImageViewBitmap(
                 R.id.bitmap_container,
-                BitmapHelper.getBitmapFromView(generatedBinding.root, width = w)
+                BitmapHelper.getBitmapFromView(generatedBinding.root, width)
             )
             views = updateGridView(generatedBinding, views, appWidgetId)
         } catch (ex: Exception) {
@@ -325,6 +326,7 @@ class StandardWidget(val context: Context) {
                         }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {
                             if (Preferences.customNotes.isNotEmpty()) {
+                                showSomething = true
                                 break@loop
                             }
                         }
@@ -874,33 +876,37 @@ class StandardWidget(val context: Context) {
             // Text Size
             listOf<Pair<TextView, Float>>(
                 bindingView.date to Preferences.textMainSize,
-                bindingView.weatherDateLineDivider to (Preferences.textMainSize - 2),
+                bindingView.weatherDateLineDivider to (Preferences.textMainSize * 0.9f),
                 bindingView.weatherDateLineTemperature to Preferences.textMainSize,
                 bindingView.nextEvent to Preferences.textMainSize,
                 bindingView.nextEventDifferenceTime to Preferences.textMainSize,
                 bindingView.subLineText to Preferences.textSecondSize,
-                bindingView.weatherSubLineDivider to (Preferences.textSecondSize - 2),
+                bindingView.weatherSubLineDivider to (Preferences.textSecondSize * 0.9f),
                 bindingView.weatherSubLineTemperature to Preferences.textSecondSize,
             ).forEach {
                 it.first.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.second)
+                if (!it.first.includeFontPadding && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P)
+                    it.first.isFallbackLineSpacing = false
             }
 
             // Icons scale
-            bindingView.subLineIcon.scaleX = Preferences.textSecondSize / 18f
-            bindingView.subLineIcon.scaleY = Preferences.textSecondSize / 18f
-
-            bindingView.weatherSubLineWeatherIcon.scaleX = Preferences.textSecondSize / 18f
-            bindingView.weatherSubLineWeatherIcon.scaleY = Preferences.textSecondSize / 18f
-
-            bindingView.weatherDateLineWeatherIcon.scaleX = Preferences.textMainSize / 18f
-            bindingView.weatherDateLineWeatherIcon.scaleY = Preferences.textMainSize / 18f
-
-            bindingView.actionNext.scaleX = Preferences.textMainSize / 28f
-            bindingView.actionNext.scaleY = Preferences.textMainSize / 28f
-
-            bindingView.actionPrevious.scaleX = Preferences.textMainSize / 28f
-            bindingView.actionPrevious.scaleY = Preferences.textMainSize / 28f
-
+            listOf(
+                bindingView.subLineIcon to Preferences.textSecondSize / 16f,
+                bindingView.subLineIconShadow to Preferences.textSecondSize / 16f,
+                bindingView.weatherSubLineWeatherIcon to Preferences.textSecondSize / 16f,
+                bindingView.weatherDateLineWeatherIcon to Preferences.textMainSize / 24f,
+                bindingView.actionNext to Preferences.textMainSize / 24f,
+                bindingView.actionNextShadow to Preferences.textMainSize / 24f,
+                bindingView.actionPrevious to Preferences.textMainSize / 24f,
+                bindingView.actionPreviousShadow to Preferences.textMainSize / 24f
+            ).forEach {
+                if (it.first.tag == null)
+                    it.first.tag = it.first.layoutParams.height
+                it.first.layoutParams = it.first.layoutParams.apply {
+                    height = ((it.first.tag as Int) * it.second).roundToInt()
+                    width = height
+                }
+            }
 
             // Shadows
             val shadowRadius =
@@ -949,7 +955,7 @@ class StandardWidget(val context: Context) {
                     it.second.isVisible = it.first.isVisible
                     it.second.scaleX = it.first.scaleX
                     it.second.scaleY = it.first.scaleY
-                    it.second.applyShadow(it.first)
+                    it.second.applyShadow(it.first, 0.7f)
                 }
             }
 
@@ -1013,10 +1019,7 @@ class StandardWidget(val context: Context) {
 
             // Dividers
             arrayOf(bindingView.weatherDateLineDivider, bindingView.weatherSubLineDivider).forEach {
-                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.INVISIBLE
-                it.layoutParams = (it.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                    this.marginEnd = if (Preferences.showDividers) 8f.convertDpToPixel(context).toInt() else 0
-                }
+                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.GONE
             }
 
 

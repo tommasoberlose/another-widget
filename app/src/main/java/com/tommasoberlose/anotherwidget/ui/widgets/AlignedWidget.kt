@@ -79,9 +79,10 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
         try {
             val generatedBinding = generateWidgetView(typeface) ?: return null
 
+            val width = w - (Preferences.widgetPadding.convertDpToPixel(context) + Preferences.widgetMargin.convertDpToPixel(context)).toInt() * 2
             views.setImageViewBitmap(
                 R.id.bitmap_container,
-                BitmapHelper.getBitmapFromView(generatedBinding.root, width = w)
+                BitmapHelper.getBitmapFromView(generatedBinding.root, width)
             )
             views = updateGridView(generatedBinding, views, appWidgetId)
         } catch (ex: Exception) {
@@ -241,10 +242,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.weather_sub_line_rect, if (Preferences.showWeather && Preferences.weatherIcon != "") View.VISIBLE else View.GONE)
                 views.setViewVisibility(R.id.first_line_rect, View.GONE)
-
-                views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
-                views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
-                views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 var showSomething = false
                 var isWeatherShown = false
@@ -297,6 +294,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {
                             if (Preferences.customNotes.isNotEmpty()) {
+                                showSomething = true
                                 break@loop
                             }
                         }
@@ -601,9 +599,12 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 bindingView.subLine.isVisible = true
                 bindingView.weatherSubLine.isVisible = Preferences.showWeather && Preferences.weatherIcon != ""
 
-                bindingView.subLineTopMarginSmall.visibility = View.GONE
-                bindingView.subLineTopMarginMedium.visibility = View.GONE
-                bindingView.subLineTopMarginLarge.visibility = View.GONE
+                bindingView.subLineTopMarginSmall.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.rawValue) View.VISIBLE else View.GONE
+                bindingView.subLineTopMarginMedium.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.rawValue) View.VISIBLE else View.GONE
+                bindingView.subLineTopMarginLarge.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.rawValue) View.VISIBLE else View.GONE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 bindingView.subLineIcon.isVisible = true
                 var showSomething = false
@@ -844,24 +845,30 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 bindingView.nextEvent to Preferences.textMainSize,
                 bindingView.nextEventDifferenceTime to Preferences.textMainSize,
                 bindingView.subLineText to Preferences.textSecondSize,
-                bindingView.weatherSubLineDivider to (Preferences.textSecondSize - 2),
+                bindingView.weatherSubLineDivider to (Preferences.textSecondSize * 0.9f),
                 bindingView.weatherSubLineTemperature to Preferences.textSecondSize,
             ).forEach {
                 it.first.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.second)
+                if (!it.first.includeFontPadding && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P)
+                    it.first.isFallbackLineSpacing = false
             }
 
             // Icons scale
-            bindingView.subLineIcon.scaleX = Preferences.textSecondSize / 18f
-            bindingView.subLineIcon.scaleY = Preferences.textSecondSize / 18f
-
-            bindingView.weatherSubLineWeatherIcon.scaleX = Preferences.textSecondSize / 18f
-            bindingView.weatherSubLineWeatherIcon.scaleY = Preferences.textSecondSize / 18f
-
-            bindingView.weatherDateLineWeatherIcon.scaleX = ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 20f
-            bindingView.weatherDateLineWeatherIcon.scaleY = ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 20f
-
-            bindingView.actionNext.scaleX = Preferences.textMainSize / 28f
-            bindingView.actionNext.scaleY = Preferences.textMainSize / 28f
+            listOf(
+                bindingView.subLineIcon to Preferences.textSecondSize / 16f,
+                bindingView.subLineIconShadow to Preferences.textSecondSize / 16f,
+                bindingView.weatherSubLineWeatherIcon to Preferences.textSecondSize / 16f,
+                bindingView.weatherDateLineWeatherIcon to ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 24f,
+                bindingView.actionNext to Preferences.textMainSize / 24f,
+                bindingView.actionNextShadow to Preferences.textMainSize / 24f
+            ).forEach {
+                if (it.first.tag == null)
+                    it.first.tag = it.first.layoutParams.height
+                it.first.layoutParams = it.first.layoutParams.apply {
+                    height = ((it.first.tag as Int) * it.second).roundToInt()
+                    width = height
+                }
+            }
 
 
             // Shadows
@@ -910,7 +917,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     it.second.isVisible = it.first.isVisible
                     it.second.scaleX = it.first.scaleX
                     it.second.scaleY = it.first.scaleY
-                    it.second.applyShadow(it.first)
+                    it.second.applyShadow(it.first, 0.7f)
                 }
             }
 
@@ -968,10 +975,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
             // Dividers
             arrayOf(bindingView.weatherSubLineDivider).forEach {
-                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.INVISIBLE
-                it.layoutParams = (it.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                    this.marginEnd = if (Preferences.showDividers) 8f.convertDpToPixel(context).toInt() else 0
-                }
+                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.GONE
             }
 
             // Right Aligned
@@ -981,8 +985,11 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 }
                 bindingView.mainContent.gravity = Gravity.END
                 bindingView.dateLayout.gravity = Gravity.END
+                bindingView.date.gravity = Gravity.END
                 bindingView.calendarLayout.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                bindingView.nextEvent.gravity = Gravity.END
                 bindingView.subLineContainer.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                bindingView.subLineText.gravity = Gravity.END
             }
 
             return bindingView

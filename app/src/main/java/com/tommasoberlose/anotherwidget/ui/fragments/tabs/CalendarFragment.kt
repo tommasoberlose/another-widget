@@ -236,6 +236,7 @@ class CalendarFragment : Fragment() {
 
         binding.showDiffTimeToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showDiffTime = isChecked
+            updateCalendar()
         }
 
         binding.actionShowNextEventOnMultipleLines.setOnClickListener {
