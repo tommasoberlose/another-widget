@@ -95,7 +95,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                     setEventUpdate(context, event)
                 }
             } else {
-                val event = eventRepository.getEventByEventId(eventId)
+                val event = eventRepository.getEventById(eventId)
                 if (event != null) {
                     setEventUpdate(context, event)
                 }
@@ -166,11 +166,11 @@ class UpdatesReceiver : BroadcastReceiver() {
                     fireTime.coerceAtLeast(now.timeInMillis + 1000 * 60),
                     PendingIntent.getBroadcast(
                         context,
-                        event.eventID.toInt(),
+                        event.id.toInt(),
                         Intent(context, UpdatesReceiver::class.java).apply {
                             action = Actions.ACTION_TIME_UPDATE
                             if (event.startDate > now.timeInMillis)
-                                putExtra(EVENT_ID, event.eventID)
+                                putExtra(EVENT_ID, event.id)
                         },
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )
@@ -185,7 +185,7 @@ class UpdatesReceiver : BroadcastReceiver() {
                 }, 0))
                 val eventRepository = EventRepository(context)
                 eventRepository.getFutureEvents().forEach {
-                    cancel(PendingIntent.getBroadcast(context, it.eventID.toInt(), Intent(context, UpdatesReceiver::class.java).apply {
+                    cancel(PendingIntent.getBroadcast(context, it.id.toInt(), Intent(context, UpdatesReceiver::class.java).apply {
                         action = Actions.ACTION_TIME_UPDATE
                     }, 0))
                 }

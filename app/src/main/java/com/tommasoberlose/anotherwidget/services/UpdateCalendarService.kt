@@ -143,7 +143,7 @@ class UpdateCalendarService : Service() {
                                                 title = e.title ?: "",
                                                 startDate = instance.begin,
                                                 endDate = instance.end,
-                                                calendarID = e.calendarId.toInt(),
+                                                calendarID = e.calendarId,
                                                 allDay = e.allDay,
                                                 address = e.eventLocation ?: "",
                                                 selfAttendeeStatus = e.selfAttendeeStatus.toInt(),
