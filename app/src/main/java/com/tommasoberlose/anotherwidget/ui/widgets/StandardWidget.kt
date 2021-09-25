@@ -912,24 +912,24 @@ class StandardWidget(val context: Context) {
             val shadowRadius =
                 when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                     0 -> 0f
-                    1 -> 5f
-                    2 -> 5f
-                    else -> 5f
-                }
+                    1 -> 2f
+                    2 -> 3f
+                    else -> 2f
+                }.toPixel(context)
             val shadowColor =
                 when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                     0 -> Color.TRANSPARENT
-                    1 -> R.color.black_50
+                    1 -> Color.DKGRAY
                     2 -> Color.BLACK
-                    else -> R.color.black_50
+                    else -> Color.DKGRAY
                 }
-            val shadowDy =
+            val shadowOffset =
                 when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                     0 -> 0f
                     1 -> 0f
-                    2 -> 1f
+                    2 -> 0.5f
                     else -> 0f
-                }
+                }.toPixel(context)
 
             listOf<TextView>(
                 bindingView.date,
@@ -941,7 +941,7 @@ class StandardWidget(val context: Context) {
                 bindingView.weatherSubLineDivider,
                 bindingView.weatherSubLineTemperature,
             ).forEach {
-                it.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+                it.setShadowLayer(shadowRadius, shadowOffset, shadowOffset, shadowColor)
             }
 
             // Icons shadow
@@ -955,7 +955,7 @@ class StandardWidget(val context: Context) {
                     it.second.isVisible = it.first.isVisible
                     it.second.scaleX = it.first.scaleX
                     it.second.scaleY = it.first.scaleY
-                    it.second.applyShadow(it.first, 0.7f)
+                    it.second.applyShadow(it.first, 0.8f)
                 }
             }
 

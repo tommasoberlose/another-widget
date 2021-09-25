@@ -86,6 +86,7 @@ class MainFragment : Fragment() {
             binding.actionSettings.isClickable = !show
             binding.actionSettings.isFocusable = !show
             binding.fragmentTitle.text = if (show) destination.label.toString() else getString(R.string.app_name)
+            binding.toolbar.cardElevation = 0f
         }
 
         binding.actionSettings.setOnSingleClickListener {
@@ -98,6 +99,10 @@ class MainFragment : Fragment() {
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
+        viewModel.showPreview.observe(viewLifecycleOwner) {
+            binding.preview.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
         viewModel.showWallpaper.observe(viewLifecycleOwner) {
             if (it) {
                 val wallpaper = requireActivity().getCurrentWallpaper()
@@ -138,7 +143,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
-            binding.toolbar.cardElevation = if (it > 0) 24f else 0f
+            binding.toolbar.cardElevation = if (it > 0) 32f else 0f
         }
 
         viewModel.widgetPreferencesUpdate.observe(viewLifecycleOwner) {

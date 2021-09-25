@@ -17,7 +17,7 @@ object ImageHelper {
             0 -> 0f * factor
             1 -> 8f * factor
             2 -> 16f * factor
-            else -> 0f * factor
+            else -> 8f * factor
         }, resources.displayMetrics)
 
         if (originalView.drawable != null && originalView.drawable.intrinsicWidth > 0 && originalView.drawable.intrinsicHeight > 0) {
@@ -58,7 +58,7 @@ object ImageHelper {
                 0 -> 0f * factor
                 1 -> 0.8f * factor
                 2 -> 1f * factor
-                else -> 0f
+                else -> 0.8f * factor
             }))
 
         colorMatrixScript.setColorMatrix(matrix)
