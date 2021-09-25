@@ -395,7 +395,7 @@ class WeatherNetworkApi(val context: Context) {
                     val pp = response.body["properties"] as LinkedTreeMap<*, *>
                     val data = pp["timeseries"] as List<LinkedTreeMap<String, Any>>?
                     data?.let {
-                        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply { timeZone = TimeZone.getTimeZone("UTC") }
                         for (item in data) {
                             val time = Calendar.getInstance().apply { time = format.parse(item["time"] as String)!! }
                             val now = Calendar.getInstance()
@@ -411,7 +411,7 @@ class WeatherNetworkApi(val context: Context) {
                                 val iconCode = summary["symbol_code"] as String
 
                                 Preferences.weatherTemp = temp.toFloat()
-                                Preferences.weatherIcon = WeatherHelper.getYRIcon(iconCode, now.get(Calendar.HOUR_OF_DAY) >= 22 || now.get(Calendar.HOUR_OF_DAY) <= 8)
+                                Preferences.weatherIcon = WeatherHelper.getYRIcon(iconCode)
                                 Preferences.weatherTempUnit = "C"
                                 Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
                                 MainWidget.updateWidget(context)
