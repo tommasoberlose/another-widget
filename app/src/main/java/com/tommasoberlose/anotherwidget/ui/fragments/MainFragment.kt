@@ -223,7 +223,7 @@ class MainFragment : Fragment() {
     class ChangeTabEvent(val page: Int)
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onUpdateUiEvent(ignore: UpdateUiMessageEvent?) {
+    fun onUpdateUiEvent(@Suppress("UNUSED_PARAMETER") ignore: UpdateUiMessageEvent?) {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
             delay(300)
@@ -234,7 +234,7 @@ class MainFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onChangeTabEvent(ignore: ChangeTabEvent) {
+    fun onChangeTabEvent(@Suppress("UNUSED_PARAMETER") ignore: ChangeTabEvent) {
         val navHost = childFragmentManager.findFragmentById(R.id.settings_fragment) as? NavHostFragment?
         navHost?.navController?.navigateUp()
     }
