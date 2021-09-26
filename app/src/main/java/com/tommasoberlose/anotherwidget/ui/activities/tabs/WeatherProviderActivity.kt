@@ -115,8 +115,6 @@ class WeatherProviderActivity : AppCompatActivity() {
 
         adapter.updateData(
             Constants.WeatherProvider.values().asList()
-                .filter { it != Constants.WeatherProvider.HERE }
-                .filter { it != Constants.WeatherProvider.ACCUWEATHER }
         )
 
         setupListener()
@@ -165,7 +163,7 @@ class WeatherProviderActivity : AppCompatActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(ignore: MainFragment.UpdateUiMessageEvent?) {
+    fun onMessageEvent(@Suppress("UNUSED_PARAMETER") ignore: MainFragment.UpdateUiMessageEvent?) {
         binding.loader.isVisible = Preferences.weatherProviderError == "-"
         if (Preferences.weatherProviderError == "" && Preferences.weatherProviderLocationError == "") {
             Snackbar.make(binding.listView, getString(R.string.settings_weather_provider_api_key_subtitle_all_set), Snackbar.LENGTH_LONG).show()

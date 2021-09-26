@@ -121,25 +121,34 @@ class WeatherNetworkApi(val context: Context) {
                                 val props =
                                     weatherResponse.body["properties"] as LinkedTreeMap<*, *>
                                 val periods = props["periods"] as List<*>
-                                val now = periods[0] as LinkedTreeMap<*, *>
+                                @android.annotation.SuppressLint("SimpleDateFormat")
+                                val format = SimpleDateFormat(
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+                                        "yyyy-MM-dd'T'HH:mm:ssXXX"
+                                    else
+                                        "yyyy-MM-dd'T'HH:mm:ssZ"
+                                )
+                                for (period in periods) {
+                                    val now = period as LinkedTreeMap<*, *>
+                                    val endTime = format.parse(now["endTime"] as String)!!
+                                    if (endTime.time > System.currentTimeMillis()) {
+                                        val temp = now["temperature"] as Double
+                                        val fullIcon = now["icon"] as String
+                                        val isDaytime = now["isDaytime"] as Boolean
 
-                                val temp = now["temperature"] as Double
-                                val fullIcon = now["icon"] as String
-                                val isDaytime = now["isDaytime"] as Boolean
+                                        Preferences.weatherTemp = temp.toFloat()
+                                        Preferences.weatherIcon = WeatherHelper.getWeatherGovIcon(fullIcon, isDaytime)
+                                        Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                                        MainWidget.updateWidget(context)
 
-                                Preferences.weatherTemp = temp.toFloat()
-                                Preferences.weatherIcon = WeatherHelper.getWeatherGovIcon(fullIcon, isDaytime)
-                                Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
-
-                                Preferences.weatherProviderError = ""
-                                Preferences.weatherProviderLocationError = ""
-
-                                MainWidget.updateWidget(context)
+                                        Preferences.weatherProviderError = ""
+                                        Preferences.weatherProviderLocationError = ""
+                                        break
+                                    }
+                                }
                             } catch (ex: Exception) {
                                 Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
                                 Preferences.weatherProviderLocationError = ""
-                            } finally {
-                                EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                             }
                         }
                         else -> {
@@ -155,14 +164,16 @@ class WeatherNetworkApi(val context: Context) {
                 }
             }
             is NetworkResponse.ServerError -> {
-                if (pointsResponse.body?.containsKey("status") == true && (pointsResponse.body?.get("status") as Double).toInt() == 404) {
-                    Preferences.weatherProviderError = ""
-                    Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_wrong_location)
-                } else {
-                    Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
-                    Preferences.weatherProviderLocationError = ""
+                when (pointsResponse.code) {
+                    404 -> {
+                        Preferences.weatherProviderError = ""
+                        Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_wrong_location)
+                    }
+                    else -> {
+                        Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
+                        Preferences.weatherProviderLocationError = ""
+                    }
                 }
-
                 WeatherHelper.removeWeather(
                     context
                 )
@@ -183,7 +194,18 @@ class WeatherNetworkApi(val context: Context) {
             when (val response = repository.getWeather()) {
                 is NetworkResponse.Success -> {
                     try {
-                        Log.d("ciao - here", response.body.toString())
+                        val observations = response.body["observations"] as LinkedTreeMap<*, *>
+                        val location = (observations["location"] as List<*>).first() as LinkedTreeMap<*, *>
+                        val observation = (location["observation"] as List<*>).first() as LinkedTreeMap<*, *>
+                        val iconName = observation["iconName"] as String
+                        val daylight = observation["daylight"] as String
+                        val temperature = observation["temperature"] as String
+
+                        Preferences.weatherTemp = temperature.toFloat()
+                        Preferences.weatherIcon = repository.getWeatherIcon(iconName, daylight != "N")
+                        Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                        MainWidget.updateWidget(context)
+
                         Preferences.weatherProviderError = ""
                         Preferences.weatherProviderLocationError = ""
                     } catch(ex: Exception) {
@@ -194,8 +216,16 @@ class WeatherNetworkApi(val context: Context) {
                     }
                 }
                 is NetworkResponse.ServerError -> {
-                    Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
-                    Preferences.weatherProviderLocationError = ""
+                    when (response.code) {
+                        401 -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_invalid_key)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                        else -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                    }
                     WeatherHelper.removeWeather(
                         context
                     )
@@ -225,10 +255,10 @@ class WeatherNetworkApi(val context: Context) {
             when (val response = repository.getWeather()) {
                 is NetworkResponse.Success -> {
                     try {
-                        val data = response.body["data"] as List<LinkedTreeMap<String, Any>>?
-                        data?.first()?.let {
+                        val data = response.body["data"] as List<*>?
+                        data?.first()?.let { it as LinkedTreeMap<*, *>
                             val temp = it["temp"] as Double
-                            val weatherInfo = it["weather"] as LinkedTreeMap<String, Any>
+                            val weatherInfo = it["weather"] as LinkedTreeMap<*, *>
                             val iconCode = weatherInfo["icon"] as String
 
                             Preferences.weatherTemp = temp.toFloat()
@@ -238,8 +268,6 @@ class WeatherNetworkApi(val context: Context) {
 
                             Preferences.weatherProviderError = ""
                             Preferences.weatherProviderLocationError = ""
-
-                            EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                         }
                     } catch(ex: Exception) {
                         Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
@@ -288,12 +316,12 @@ class WeatherNetworkApi(val context: Context) {
             when (val response = repository.getWeather()) {
                 is NetworkResponse.Success -> {
                     try {
-                        val current = response.body["current"] as LinkedTreeMap<String, Any>?
+                        val current = response.body["current"] as LinkedTreeMap<*, *>?
                         current?.let {
                             val tempC = current["temp_c"] as Double
                             val tempF = current["temp_f"] as Double
                             val isDay = current["is_day"] as Double
-                            val condition = current["condition"] as LinkedTreeMap<String, Any>
+                            val condition = current["condition"] as LinkedTreeMap<*, *>
                             val iconCode = condition["code"] as Double
 
                             Preferences.weatherTemp = if (Preferences.weatherTempUnit == "F") tempF.toFloat() else tempC.toFloat()
@@ -303,8 +331,6 @@ class WeatherNetworkApi(val context: Context) {
 
                             Preferences.weatherProviderError = ""
                             Preferences.weatherProviderLocationError = ""
-
-                            EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                         }
                     } catch(ex: Exception) {
                         Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
@@ -353,28 +379,74 @@ class WeatherNetworkApi(val context: Context) {
 
     private suspend fun useAccuweatherProvider(context: Context) {
         if (Preferences.weatherProviderApiAccuweather != "") {
-//                val repository = AccuweatherRepository()
+            val repository = AccuweatherRepository()
 
-    //            when (val response = repository.getWeather()) {
-    //                is NetworkResponse.Success -> {
-    //                    try {
-    //                        Log.d("ciao", response.body.toString())
-    //                    } catch(ex: Exception) {
-    //
-//                Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_missing_key)
-//                Preferences.weatherProviderLocationError = ""
-    //                    }
-    //                }
-    //                is NetworkResponse.ServerError -> {
-    //                    WeatherHelper.removeWeather(
-    //                        context
-    //                    )
-    //                }
-//                Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_missing_key)
-//                Preferences.weatherProviderLocationError = ""
-    //            EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
-    //            }
+            when (val locationResponse = repository.getLocation()) {
+                is NetworkResponse.Success -> {
+                    try {
+                        val key = locationResponse.body["Key"] as String
 
+                        when (val weatherResponse = repository.getWeather(key)) {
+                            is NetworkResponse.Success -> {
+                                try {
+                                    weatherResponse.body.first().let {
+                                        val temp = it["Temperature"] as LinkedTreeMap<*, *>
+                                        val tempC = (temp["Metric"] as LinkedTreeMap<*, *>)["Value"] as Double
+                                        val tempF = (temp["Imperial"] as LinkedTreeMap<*, *>)["Value"] as Double
+                                        val isDay = it["IsDayTime"] as Boolean
+                                        val icon = it["WeatherIcon"] as Double
+
+                                        Preferences.weatherTemp = if (Preferences.weatherTempUnit == "F") tempF.toFloat() else tempC.toFloat()
+                                        Preferences.weatherIcon = repository.getWeatherIcon(icon.toInt(), isDay)
+                                        Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                                        MainWidget.updateWidget(context)
+                                    }
+
+                                    Preferences.weatherProviderError = ""
+                                    Preferences.weatherProviderLocationError = ""
+                                } catch (ex: Exception) {
+                                    Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
+                                    Preferences.weatherProviderLocationError = ""
+                                }
+                            }
+                            else -> {
+                                Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_connection)
+                                Preferences.weatherProviderLocationError = ""
+                            }
+                        }
+                    } catch(ex: Exception) {
+                        Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
+                        Preferences.weatherProviderLocationError = ""
+                    } finally {
+                        EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+                    }
+                }
+                is NetworkResponse.ServerError -> {
+                    when (locationResponse.code) {
+                        401 -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_invalid_key)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                        503 -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_expired_key)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                        else -> {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                    }
+                    WeatherHelper.removeWeather(
+                        context
+                    )
+                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+                }
+                else -> {
+                    Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_connection)
+                    Preferences.weatherProviderLocationError = ""
+                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
+                }
+            }
         } else {
             Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_missing_key)
             Preferences.weatherProviderLocationError = ""
@@ -393,38 +465,27 @@ class WeatherNetworkApi(val context: Context) {
             is NetworkResponse.Success -> {
                 try {
                     val pp = response.body["properties"] as LinkedTreeMap<*, *>
-                    val data = pp["timeseries"] as List<LinkedTreeMap<String, Any>>?
-                    data?.let {
-                        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply { timeZone = TimeZone.getTimeZone("UTC") }
-                        for (item in data) {
-                            val time = Calendar.getInstance().apply { time = format.parse(item["time"] as String)!! }
-                            val now = Calendar.getInstance()
-                            if (time.timeInMillis >= now.timeInMillis) {
-                                val dd = item["data"] as LinkedTreeMap<*, *>
-                                val instant = dd["instant"] as LinkedTreeMap<*, *>
-                                val next = dd["next_1_hours"] as LinkedTreeMap<*, *>
+                    val data = pp["timeseries"] as List<*>?
+                    data?.first()?.let { it as LinkedTreeMap<*, *>
+                        val dd = it["data"] as LinkedTreeMap<*, *>
+                        val instant = dd["instant"] as LinkedTreeMap<*, *>
+                        val next = dd["next_1_hours"] as LinkedTreeMap<*, *>
 
-                                val details = instant["details"] as LinkedTreeMap<*, *>
-                                val temp = details["air_temperature"] as Double
+                        val details = instant["details"] as LinkedTreeMap<*, *>
+                        val temp = details["air_temperature"] as Double
 
-                                val summary = next["summary"] as LinkedTreeMap<*, *>
-                                val iconCode = summary["symbol_code"] as String
+                        val summary = next["summary"] as LinkedTreeMap<*, *>
+                        val iconCode = summary["symbol_code"] as String
 
-                                Preferences.weatherTemp = temp.toFloat()
-                                Preferences.weatherIcon = WeatherHelper.getYRIcon(iconCode)
-                                Preferences.weatherTempUnit = "C"
-                                Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
-                                MainWidget.updateWidget(context)
+                        Preferences.weatherTemp = temp.toFloat()
+                        Preferences.weatherIcon = WeatherHelper.getYRIcon(iconCode)
+                        Preferences.weatherTempUnit = "C"
+                        Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                        MainWidget.updateWidget(context)
 
-                                Preferences.weatherProviderError = ""
-                                Preferences.weatherProviderLocationError = ""
-                                break
-                            }
-                        }
+                        Preferences.weatherProviderError = ""
+                        Preferences.weatherProviderLocationError = ""
                     }
-
-
-
                 } catch(ex: Exception) {
                     ex.printStackTrace()
                     Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
