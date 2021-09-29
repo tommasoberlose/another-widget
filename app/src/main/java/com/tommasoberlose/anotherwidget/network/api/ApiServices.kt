@@ -13,7 +13,7 @@ object ApiServices {
         ): NetworkResponse<HashMap<String, Any>, HashMap<String, Any>>
 
         @Headers("User-Agent: (Another Widget, tommaso.berlose@gmail.com)")
-        @GET("gridpoints/{gridId}/{gridX},{gridY}/forecast")
+        @GET("gridpoints/{gridId}/{gridX},{gridY}/forecast/hourly")
         suspend fun getWeather(
             @Path("gridId") gridId: String,
             @Path("gridX") gridX: Int,
@@ -54,13 +54,17 @@ object ApiServices {
     }
 
     interface AccuweatherService {
-        @GET("")
-        suspend fun getWeather(
-            @Path("gridId") gridId: String,
-            @Path("gridX") gridX: Int,
-            @Path("gridY") gridY: Int,
-            @Query("units") unit: String
+        @GET("locations/v1/cities/geoposition/search")
+        suspend fun getLocation(
+            @Query("apikey") apikey: String,
+            @Query("q") location: String
         ): NetworkResponse<HashMap<String, Any>, HashMap<String, Any>>
+
+        @GET("currentconditions/v1/{locationKey}")
+        suspend fun getWeather(
+            @Path("locationKey") locationKey: String,
+            @Query("apikey") apikey: String
+        ): NetworkResponse<List<HashMap<String, Any>>, HashMap<String, Any>>
     }
 
     interface YrService {

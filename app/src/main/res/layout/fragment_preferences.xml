@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:paddingBottom="32dp"
+            android:paddingBottom="48dp"
             android:orientation="vertical">
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"

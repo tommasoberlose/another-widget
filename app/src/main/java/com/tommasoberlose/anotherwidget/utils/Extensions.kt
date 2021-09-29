@@ -37,7 +37,7 @@ import java.util.*
 fun PackageManager.missingSystemFeature(name: String): Boolean = !hasSystemFeature(name)
 
 fun Context.toast(message: String, long: Boolean = false) {
-    val toast = Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
+    val toast = Toast.makeText(applicationContext, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
 //    toast.setGravity(Gravity.CENTER, 0, 0)
     toast.show()
 }

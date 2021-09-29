@@ -30,14 +30,14 @@ class ClockWidget(val context: Context) {
                 views.setTextViewTextSize(
                     R.id.time,
                     TypedValue.COMPLEX_UNIT_SP,
-                    Preferences.clockTextSize.toPixel(context)
+                    Preferences.clockTextSize
                 )
                 views.setTextViewTextSize(
                     R.id.time_am_pm,
                     TypedValue.COMPLEX_UNIT_SP,
-                    Preferences.clockTextSize.toPixel(context) / 5 * 2
+                    Preferences.clockTextSize / 5 * 2
                 )
-                val clockPIntent = PendingIntent.getActivity(
+                val clockPIntent = IntentHelper.getPendingIntent(
                     context,
                     widgetID,
                     IntentHelper.getClockIntent(context),
@@ -78,18 +78,28 @@ class ClockWidget(val context: Context) {
                     views.setTextViewTextSize(
                         R.id.alt_timezone_time,
                         TypedValue.COMPLEX_UNIT_SP,
-                        Preferences.clockTextSize.toPixel(context) / 3
+                        Preferences.clockTextSize / 3
                     )
                     views.setTextViewTextSize(
                         R.id.alt_timezone_time_am_pm,
                         TypedValue.COMPLEX_UNIT_SP,
-                        (Preferences.clockTextSize.toPixel(context) / 3) / 5 * 2
+                        (Preferences.clockTextSize / 3) / 5 * 2
                     )
                     views.setTextViewTextSize(
                         R.id.alt_timezone_label,
                         TypedValue.COMPLEX_UNIT_SP,
-                        (Preferences.clockTextSize.toPixel(context) / 3) / 5 * 2
+                        (Preferences.clockTextSize / 3) / 5 * 2
                     )
+
+                    val padding = (TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_SP,
+                        Preferences.clockTextSize,
+                        context.resources.displayMetrics
+                    ) * 0.2).toInt()
+                    if (Preferences.widgetAlign == Constants.WidgetAlign.RIGHT.rawValue)
+                        views.setViewPadding(R.id.timezones_container, 0, padding, padding, 0)
+                    else
+                        views.setViewPadding(R.id.timezones_container, padding, padding, 0,0)
 
                     views.setOnClickPendingIntent(R.id.timezones_container, clockPIntent)
                     views.setViewVisibility(R.id.timezones_container, View.VISIBLE)

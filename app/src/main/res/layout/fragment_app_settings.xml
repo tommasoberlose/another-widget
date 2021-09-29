@@ -511,7 +511,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="24dp"
                         android:paddingRight="24dp"
-                        android:paddingBottom="32dp"
+                        android:paddingBottom="12dp"
                         android:duplicateParentState="true"
                         android:textSize="14sp"
                         android:textColor="@color/colorSecondaryText"

@@ -230,10 +230,16 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         }
 
         setContentView(binding.root)
+        behavior.run {
+            skipCollapsed = true
+            state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        }
         super.show()
     }
     
     private fun checkNextAlarm() {
+        if (!Preferences.showNextAlarm)
+            AlarmHelper.clearTimeout(context)
         with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
             val alarm = nextAlarmClock
             if (alarm != null && alarm.showIntent != null) {

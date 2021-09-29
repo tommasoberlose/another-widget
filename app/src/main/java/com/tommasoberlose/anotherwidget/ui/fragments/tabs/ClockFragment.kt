@@ -17,7 +17,7 @@ import com.chibatching.kotpref.bulk
 import com.google.android.material.transition.MaterialSharedAxis
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.components.BottomSheetColorPicker
-import com.tommasoberlose.anotherwidget.components.BottomSheetMenu
+import com.tommasoberlose.anotherwidget.components.BottomSheetPicker
 import com.tommasoberlose.anotherwidget.databinding.FragmentTabClockBinding
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
@@ -144,16 +144,15 @@ class ClockFragment : Fragment() {
     private fun setupListener() {
 
         binding.actionClockTextSize.setOnClickListener {
-            val dialog = BottomSheetMenu<Float>(
+            BottomSheetPicker(
                 requireContext(),
-                header = getString(R.string.settings_clock_text_size_title)
-            ).setSelectedValue(Preferences.clockTextSize)
-            (46 downTo 12).filter { it % 2 == 0 }.forEach {
-                dialog.addItem("${it}sp", it.toFloat())
-            }
-            dialog.addOnSelectItemListener { value ->
-                Preferences.clockTextSize = value
-            }.show()
+                items = (120 downTo 30).filter { it % 2 == 0 }.map { BottomSheetPicker.MenuItem("${it}sp", it.toFloat()) },
+                getSelected = { Preferences.clockTextSize },
+                header = getString(R.string.settings_clock_text_size_title),
+                onItemSelected = {value ->
+                    if (value != null) Preferences.clockTextSize = value
+                }
+            ).show()
         }
 
         binding.actionAltTimezoneClock.setOnClickListener {

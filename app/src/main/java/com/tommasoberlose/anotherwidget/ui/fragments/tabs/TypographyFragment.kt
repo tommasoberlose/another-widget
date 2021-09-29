@@ -276,7 +276,7 @@ class TypographyFragment : Fragment() {
                         Intent(requireContext(), CustomFontActivity::class.java),
                         RequestCode.CUSTOM_FONT_CHOOSER_REQUEST_CODE.code
                     )
-                } else if (value != Constants.CUSTOM_FONT_DOWNLOADED) {
+                } else if (value != Preferences.customFont) {
                     Preferences.bulk {
                         customFont = value
                         customFontFile = ""
@@ -315,6 +315,17 @@ class TypographyFragment : Fragment() {
                 }
             }.show()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == android.app.Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCode.CUSTOM_FONT_CHOOSER_REQUEST_CODE.code -> {
+                    com.tommasoberlose.anotherwidget.ui.widgets.MainWidget.updateWidget(requireContext())
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

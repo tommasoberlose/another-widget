@@ -15,7 +15,7 @@
         android:id="@+id/main_layout"
         android:animateLayoutChanges="true">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="10000dp"
             android:layout_height="wrap_content"
             android:id="@+id/time_container"
             android:layoutDirection="locale"
@@ -48,9 +48,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/timezones_container"
                 android:visibility="gone"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginTop="18dp"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -117,16 +114,16 @@
             android:orientation="horizontal"
             android:id="@+id/clock_bottom_margin_large" />
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="10000dp"
             android:layout_height="wrap_content"
             android:id="@+id/content">
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitStart"
+                    android:scaleType="matrix"
                     android:id="@+id/bitmap_container"/>
             </RelativeLayout>
             <LinearLayout
@@ -141,7 +138,6 @@
                     android:background="@color/errorColorText"
                     android:layoutDirection="locale"
                     android:visibility="gone"
-                    android:layout_marginBottom="4dp"
                     android:id="@+id/first_line_rect">
                     <ImageView
                         android:layout_width="wrap_content"
@@ -163,9 +159,8 @@
                     android:id="@+id/calendar_layout_rect"
                     android:orientation="horizontal">
                     <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:background="@color/colorAccent"
                         android:id="@+id/next_event_rect" />
                     <ImageView
@@ -204,24 +199,26 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorNightDark"
                     android:orientation="horizontal"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     android:layoutDirection="locale"
                     android:gravity="center_vertical">
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:background="@color/colorAccent"
                             android:id="@+id/sub_line_rect" />
                     </LinearLayout>
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center">
                         <ImageView
                             android:layout_width="wrap_content"

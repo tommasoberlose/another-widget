@@ -87,6 +87,7 @@ class MainFragment : Fragment() {
             binding.actionSettings.isClickable = !show
             binding.actionSettings.isFocusable = !show
             binding.fragmentTitle.text = if (show) destination.label.toString() else getString(R.string.app_name)
+            binding.toolbar.cardElevation = 0f
         }
 
         binding.actionSettings.setOnSingleClickListener {
@@ -99,6 +100,10 @@ class MainFragment : Fragment() {
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
+        viewModel.showPreview.observe(viewLifecycleOwner) {
+            binding.preview.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
         viewModel.showWallpaper.observe(viewLifecycleOwner) {
             if (it) {
                 val wallpaper = requireActivity().getCurrentWallpaper()
@@ -139,7 +144,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.fragmentScrollY.observe(viewLifecycleOwner) {
-            binding.toolbar.cardElevation = if (it > 0) 24f else 0f
+            binding.toolbar.cardElevation = if (it > 0) 32f else 0f
         }
 
         viewModel.showPreview.observe(viewLifecycleOwner) {
@@ -158,13 +163,17 @@ class MainFragment : Fragment() {
             WidgetHelper.runWithCustomTypeface(requireContext()) { typeface ->
                 uiJob?.cancel()
                 uiJob = lifecycleScope.launch(Dispatchers.IO) {
-                    val generatedView = MainWidget.getWidgetView(requireContext(), binding.widget.width, typeface)
+                    val generatedView = MainWidget.getWidgetView(
+                        requireContext(),
+                        binding.widget.width - binding.widget.paddingStart - binding.widget.paddingEnd,
+                        typeface
+                    )
 
                     if (generatedView != null) {
-                        val view: View = generatedView.apply(requireActivity().applicationContext, binding.widget)
-                        view.measure(0, 0)
-
                         withContext(Dispatchers.Main) {
+                            val view: View = generatedView.apply(requireActivity().applicationContext, binding.widget)
+                            view.measure(0, 0)
+
                             binding.widgetLoader.animate().alpha(0f).setDuration(200L).start()
                             binding.widget.animate().alpha(0f).setDuration(200L).withEndAction {
                                 updatePreviewVisibility(view.measuredHeight)
@@ -218,7 +227,7 @@ class MainFragment : Fragment() {
     class ChangeTabEvent(val page: Int)
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onUpdateUiEvent(ignore: UpdateUiMessageEvent?) {
+    fun onUpdateUiEvent(@Suppress("UNUSED_PARAMETER") ignore: UpdateUiMessageEvent?) {
         delayJob?.cancel()
         delayJob = lifecycleScope.launch(Dispatchers.IO) {
             delay(300)
@@ -229,7 +238,7 @@ class MainFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onChangeTabEvent(ignore: ChangeTabEvent) {
+    fun onChangeTabEvent(@Suppress("UNUSED_PARAMETER") ignore: ChangeTabEvent) {
         val navHost = childFragmentManager.findFragmentById(R.id.settings_fragment) as? NavHostFragment?
         navHost?.navController?.navigateUp()
     }

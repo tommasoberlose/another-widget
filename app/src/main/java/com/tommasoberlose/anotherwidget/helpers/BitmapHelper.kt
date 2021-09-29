@@ -44,8 +44,8 @@ object BitmapHelper {
             FirebaseCrashlytics.getInstance().setCustomKey("HEIGHT SPEC", measuredHeight)
             FirebaseCrashlytics.getInstance().setCustomKey("VIEW measuredWidth", view.measuredWidth)
             FirebaseCrashlytics.getInstance().setCustomKey("VIEW measuredHeight", view.measuredHeight)
-            FirebaseCrashlytics.getInstance().setCustomKey("WIDGET final width", measuredWidth)
-            FirebaseCrashlytics.getInstance().setCustomKey("WIDGET final height", view.measuredHeight)
+            FirebaseCrashlytics.getInstance().setCustomKey("WIDGET final width", widgetWidth)
+            FirebaseCrashlytics.getInstance().setCustomKey("WIDGET final height", widgetHeight)
         }
 
         return try {
@@ -58,7 +58,7 @@ object BitmapHelper {
                 //Bind a canvas to it
                 val canvas = Canvas(btm)
                 // draw the view on the canvas
-                view.layout(0, 0, measuredWidth, measuredHeight)
+                view.layout(0, 0, widgetWidth, widgetHeight)
                 view.draw(canvas)
                 //return the bitmap
             }

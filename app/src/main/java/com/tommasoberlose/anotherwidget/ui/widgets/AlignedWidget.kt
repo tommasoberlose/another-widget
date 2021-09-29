@@ -29,6 +29,7 @@ import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
+import com.tommasoberlose.anotherwidget.utils.toPixel
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -53,7 +54,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             )
             val margin = Preferences.widgetMargin.convertDpToPixel(context).toInt()
             views.setViewPadding(R.id.widget_shape_background, margin, margin, margin, margin)
-            val refreshIntent = PendingIntent.getActivity(
+            val refreshIntent = IntentHelper.getPendingIntent(
                 context,
                 appWidgetId,
                 IntentHelper.getWidgetUpdateIntent(context),
@@ -75,9 +76,10 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
         try {
             val generatedBinding = generateWidgetView(typeface) ?: return null
 
+            val width = w - (Preferences.widgetPadding.convertDpToPixel(context) + Preferences.widgetMargin.convertDpToPixel(context)).toInt() * 2
             views.setImageViewBitmap(
                 R.id.bitmap_container,
-                BitmapHelper.getBitmapFromView(generatedBinding.root, width = w)
+                BitmapHelper.getBitmapFromView(generatedBinding.root, width)
             )
             views = updateGridView(generatedBinding, views, appWidgetId)
         } catch (ex: Exception) {
@@ -97,7 +99,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             // Weather
             if (Preferences.showWeather && Preferences.weatherIcon != "") {
                 views.setViewVisibility(R.id.weather_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.weather_sub_line, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
 
                 val i = Intent(context, WidgetClickListenerReceiver::class.java)
                 i.action = Actions.ACTION_OPEN_WEATHER_INTENT
@@ -117,7 +119,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 )
             } else {
                 views.setViewVisibility(R.id.weather_rect, View.GONE)
-                views.setViewVisibility(R.id.weather_sub_line, View.GONE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, View.GONE)
             }
 
 
@@ -127,7 +129,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 BitmapHelper.getBitmapFromView(bindingView.date, draw = false, width = bindingView.date.width, height = bindingView.date.height)
             )
 
-            val calPIntent = PendingIntent.getActivity(
+            val calPIntent = IntentHelper.getPendingIntent(
                 context,
                 widgetID,
                 IntentHelper.getCalendarIntent(context),
@@ -135,8 +137,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             )
             views.setOnClickPendingIntent(R.id.date_rect, calPIntent)
             views.setViewVisibility(R.id.first_line_rect, View.VISIBLE)
-
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
 
             // Spacing
             views.setViewVisibility(
@@ -180,7 +180,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 }
 
                 // Event intent
-                val eventIntent = PendingIntent.getActivity(
+                val eventIntent = IntentHelper.getPendingIntent(
                     context,
                     widgetID,
                     IntentHelper.getEventIntent(context, nextEvent),
@@ -217,7 +217,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
                 // Event information
                 if (nextEvent.address != "" && Preferences.secondRowInformation == 1) {
-                    val mapIntent = PendingIntent.getActivity(
+                    val mapIntent = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
                         IntentHelper.getGoogleMapsIntentFromAddress(context, nextEvent.address),
@@ -225,14 +225,10 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, mapIntent)
                 } else {
-                    val pIntentDetail = PendingIntent.getActivity(
+                    val pIntentDetail = IntentHelper.getPendingIntent(
                         context,
                         widgetID,
-                        IntentHelper.getEventIntent(
-                            context,
-                            nextEvent,
-                            forceEventDetails = true
-                        ),
+                        IntentHelper.getCalendarIntent(context, nextEvent.startDate),
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )
                     views.setOnClickPendingIntent(R.id.sub_line_rect, pIntentDetail)
@@ -240,12 +236,8 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
                 views.setViewVisibility(R.id.calendar_layout_rect, View.VISIBLE)
                 views.setViewVisibility(R.id.sub_line_rect, View.VISIBLE)
-                views.setViewVisibility(R.id.weather_sub_line_rect, View.VISIBLE)
+                views.setViewVisibility(R.id.weather_sub_line_rect, if (Preferences.showWeather && Preferences.weatherIcon != "") View.VISIBLE else View.GONE)
                 views.setViewVisibility(R.id.first_line_rect, View.GONE)
-
-                views.setViewVisibility(R.id.sub_line_top_margin_small_sans, View.GONE)
-                views.setViewVisibility(R.id.sub_line_top_margin_medium_sans, View.GONE)
-                views.setViewVisibility(R.id.sub_line_top_margin_large_sans, View.GONE)
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 var showSomething = false
                 var isWeatherShown = false
@@ -253,7 +245,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     when (provider) {
                         Constants.GlanceProviderId.PLAYING_SONG -> {
                             if (MediaPlayerHelper.isSomeonePlaying(context)) {
-                                val musicIntent = PendingIntent.getActivity(
+                                val musicIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getMusicIntent(context),
@@ -265,23 +257,26 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                val alarmIntent = PendingIntent.getActivity(
-                                    context,
-                                    widgetID,
-                                    IntentHelper.getClockIntent(context),
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                                )
-                                views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
-                                showSomething = true
-                                break@loop
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    val alarmIntent = IntentHelper.getPendingIntent(
+                                        context,
+                                        widgetID,
+                                        IntentHelper.getClockIntent(context),
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                    )
+                                    views.setOnClickPendingIntent(R.id.sub_line_rect, alarmIntent)
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                             if (Preferences.showBatteryCharging) {
                                 BatteryHelper.updateBatteryInfo(context)
                                 if (Preferences.isCharging || Preferences.isBatteryLevelLow) {
-                                    val batteryIntent = PendingIntent.getActivity(
+                                    val batteryIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getBatteryIntent(),
@@ -295,12 +290,13 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         }
                         Constants.GlanceProviderId.CUSTOM_INFO -> {
                             if (Preferences.customNotes.isNotEmpty()) {
+                                showSomething = true
                                 break@loop
                             }
                         }
                         Constants.GlanceProviderId.GOOGLE_FIT_STEPS -> {
                             if (Preferences.showDailySteps && Preferences.googleFitSteps > 0) {
-                                val fitIntent = PendingIntent.getActivity(
+                                val fitIntent = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getFitIntent(context),
@@ -321,7 +317,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                                             remotePackageContext,
                                             Preferences.lastNotificationIcon)
                                     }
-                                    val notificationIntent = PendingIntent.getActivity(
+                                    val notificationIntent = IntentHelper.getPendingIntent(
                                         context,
                                         widgetID,
                                         IntentHelper.getNotificationIntent(context),
@@ -345,7 +341,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         Constants.GlanceProviderId.EVENTS -> {
                             if (Preferences.showEventsAsGlanceProvider&& Preferences.showEvents && context.checkGrantedPermission(
                                     Manifest.permission.READ_CALENDAR) && nextEvent != null) {
-                                val pIntentDetail = PendingIntent.getActivity(
+                                val pIntentDetail = IntentHelper.getPendingIntent(
                                     context,
                                     widgetID,
                                     IntentHelper.getEventIntent(
@@ -364,7 +360,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             }
                         }
                         Constants.GlanceProviderId.WEATHER -> {
-                            if (Preferences.showWeather && Preferences.weatherIcon != "") {
+                            if (Preferences.showWeatherAsGlanceProvider && Preferences.showWeather && Preferences.weatherIcon != "") {
                                 val i = Intent(context, WidgetClickListenerReceiver::class.java)
                                 i.action = Actions.ACTION_OPEN_WEATHER_INTENT
                                 val weatherPIntent = PendingIntent.getBroadcast(context, widgetID, i, 0)
@@ -479,8 +475,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
             bindingView.date.text = DateHelper.getDateText(context, now)
 
-            val nextAlarm = AlarmHelper.getNextAlarm(context)
-
             if (Preferences.showEvents && context.checkGrantedPermission(Manifest.permission.READ_CALENDAR) && nextEvent != null && !Preferences.showEventsAsGlanceProvider) {
                 // Multiple counter
                 bindingView.actionNext.isVisible =
@@ -581,18 +575,16 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                         }
 
                     } else {
-                        val flags: Int =
-                            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
                         val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
 
                         bindingView.subLineText.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(
                                 Calendar.DAY_OF_YEAR)) {
-                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                            DateHelper.getDateText(context, start)
                         } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(
                                 Calendar.YEAR) > start.get(Calendar.YEAR)) {
-                            DateUtils.formatDateTime(context, now.timeInMillis, flags)
+                            DateHelper.getDateText(context, now)
                         } else {
-                            DateUtils.formatDateTime(context, nextEvent.startDate, flags)
+                            DateHelper.getDateText(context, start)
                         }
                     }
                 }
@@ -600,11 +592,14 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 bindingView.dateLayout.isVisible = false
                 bindingView.calendarLayout.isVisible = true
                 bindingView.subLine.isVisible = true
-                bindingView.weatherSubLine.isVisible = true
+                bindingView.weatherSubLine.isVisible = Preferences.showWeather && Preferences.weatherIcon != ""
 
-                bindingView.subLineTopMarginSmall.visibility = View.GONE
-                bindingView.subLineTopMarginMedium.visibility = View.GONE
-                bindingView.subLineTopMarginLarge.visibility = View.GONE
+                bindingView.subLineTopMarginSmall.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.SMALL.rawValue) View.VISIBLE else View.GONE
+                bindingView.subLineTopMarginMedium.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.MEDIUM.rawValue) View.VISIBLE else View.GONE
+                bindingView.subLineTopMarginLarge.visibility =
+                    if (Preferences.secondRowTopMargin == Constants.SecondRowTopMargin.LARGE.rawValue) View.VISIBLE else View.GONE
             } else if (GlanceProviderHelper.showGlanceProviders(context)) {
                 bindingView.subLineIcon.isVisible = true
                 var showSomething = false
@@ -626,16 +621,19 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             }
                         }
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
-                            if (Preferences.showNextAlarm && nextAlarm != "") {
-                                bindingView.subLineIcon.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        context,
-                                        R.drawable.round_alarm_24
+                            if (Preferences.showNextAlarm) {
+                                val nextAlarm = AlarmHelper.getNextAlarm(context)
+                                if (nextAlarm != "") {
+                                    bindingView.subLineIcon.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            context,
+                                            R.drawable.round_alarm_24
+                                        )
                                     )
-                                )
-                                bindingView.subLineText.text = AlarmHelper.getNextAlarm(context)
-                                showSomething = true
-                                break@loop
+                                    bindingView.subLineText.text = nextAlarm
+                                    showSomething = true
+                                    break@loop
+                                }
                             }
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
@@ -740,7 +738,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             }
                         }
                         Constants.GlanceProviderId.WEATHER -> {
-                            if (Preferences.showWeatherAsGlanceProvider && Preferences.weatherIcon != "") {
+                            if (Preferences.showWeatherAsGlanceProvider && Preferences.showWeather && Preferences.weatherIcon != "") {
                                 bindingView.subLineText.text = String.format(
                                     Locale.getDefault(),
                                     "%d°%s  %s",
@@ -842,48 +840,54 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 bindingView.nextEvent to Preferences.textMainSize,
                 bindingView.nextEventDifferenceTime to Preferences.textMainSize,
                 bindingView.subLineText to Preferences.textSecondSize,
-                bindingView.weatherSubLineDivider to (Preferences.textSecondSize - 2),
+                bindingView.weatherSubLineDivider to (Preferences.textSecondSize * 0.9f),
                 bindingView.weatherSubLineTemperature to Preferences.textSecondSize,
             ).forEach {
                 it.first.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.second)
+                if (!it.first.includeFontPadding && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P)
+                    it.first.isFallbackLineSpacing = false
             }
 
             // Icons scale
-            bindingView.subLineIcon.scaleX = Preferences.textSecondSize / 18f
-            bindingView.subLineIcon.scaleY = Preferences.textSecondSize / 18f
-
-            bindingView.weatherSubLineWeatherIcon.scaleX = Preferences.textSecondSize / 18f
-            bindingView.weatherSubLineWeatherIcon.scaleY = Preferences.textSecondSize / 18f
-
-            bindingView.weatherDateLineWeatherIcon.scaleX = ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 20f
-            bindingView.weatherDateLineWeatherIcon.scaleY = ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 20f
-
-            bindingView.actionNext.scaleX = Preferences.textMainSize / 28f
-            bindingView.actionNext.scaleY = Preferences.textMainSize / 28f
+            listOf(
+                bindingView.subLineIcon to Preferences.textSecondSize / 16f,
+                bindingView.subLineIconShadow to Preferences.textSecondSize / 16f,
+                bindingView.weatherSubLineWeatherIcon to Preferences.textSecondSize / 16f,
+                bindingView.weatherDateLineWeatherIcon to ((Preferences.textMainSize + Preferences.textSecondSize) / 2) / 24f,
+                bindingView.actionNext to Preferences.textMainSize / 24f,
+                bindingView.actionNextShadow to Preferences.textMainSize / 24f
+            ).forEach {
+                if (it.first.tag == null)
+                    it.first.tag = it.first.layoutParams.height
+                it.first.layoutParams = it.first.layoutParams.apply {
+                    height = ((it.first.tag as Int) * it.second).roundToInt()
+                    width = height
+                }
+            }
 
 
             // Shadows
             val shadowRadius =
                 when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                     0 -> 0f
-                    1 -> 5f
-                    2 -> 5f
-                    else -> 5f
-                }
+                    1 -> 2f
+                    2 -> 3f
+                    else -> 2f
+                }.toPixel(context)
             val shadowColor =
                 when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                     0 -> Color.TRANSPARENT
-                    1 -> R.color.black_50
+                    1 -> Color.DKGRAY
                     2 -> Color.BLACK
-                    else -> R.color.black_50
+                    else -> Color.DKGRAY
                 }
-            val shadowDy =
+            val shadowOffset =
                 when (if (context.isDarkTheme()) Preferences.textShadowDark else Preferences.textShadow) {
                     0 -> 0f
                     1 -> 0f
-                    2 -> 1f
+                    2 -> 0.5f
                     else -> 0f
-                }
+                }.toPixel(context)
 
             listOf<TextView>(
                 bindingView.date,
@@ -894,7 +898,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 bindingView.weatherSubLineDivider,
                 bindingView.weatherSubLineTemperature,
             ).forEach {
-                it.setShadowLayer(shadowRadius, 0f, shadowDy, shadowColor)
+                it.setShadowLayer(shadowRadius, shadowOffset, shadowOffset, shadowColor)
             }
 
             // Icons shadow
@@ -908,7 +912,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     it.second.isVisible = it.first.isVisible
                     it.second.scaleX = it.first.scaleX
                     it.second.scaleY = it.first.scaleY
-                    it.second.applyShadow(it.first)
+                    it.second.applyShadow(it.first, 0.8f)
                 }
             }
 
@@ -927,14 +931,17 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
             // Custom Font
             if (Preferences.customFont == Constants.CUSTOM_FONT_GOOGLE_SANS) {
-                val googleSans: Typeface = when (Preferences.customFontVariant) {
-                    "100" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_thin.ttf")
-                    "200" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_light.ttf")
-                    "500" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_medium.ttf")
-                    "700" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_bold.ttf")
-                    "800" -> Typeface.createFromAsset(context.assets, "fonts/google_sans_black.ttf")
-                    else -> Typeface.createFromAsset(context.assets, "fonts/google_sans_regular.ttf")
-                }
+                val googleSans: Typeface? = androidx.core.content.res.ResourcesCompat.getFont(
+                    context,
+                    when (Preferences.customFontVariant) {
+                        "100" -> R.font.google_sans_thin
+                        "200" -> R.font.google_sans_light
+                        "500" -> R.font.google_sans_medium
+                        "700" -> R.font.google_sans_bold
+                        "800" -> R.font.google_sans_black
+                        else -> R.font.google_sans_regular
+                    }
+                )
 
                 listOf<TextView>(
                     bindingView.date,
@@ -963,10 +970,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
 
             // Dividers
             arrayOf(bindingView.weatherSubLineDivider).forEach {
-                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.INVISIBLE
-                it.layoutParams = (it.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                    this.marginEnd = if (Preferences.showDividers) 8f.convertDpToPixel(context).toInt() else 0
-                }
+                it.visibility = if (Preferences.showDividers) View.VISIBLE else View.GONE
             }
 
             // Right Aligned
@@ -976,8 +980,11 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                 }
                 bindingView.mainContent.gravity = Gravity.END
                 bindingView.dateLayout.gravity = Gravity.END
+                bindingView.date.gravity = Gravity.END
                 bindingView.calendarLayout.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                bindingView.nextEvent.gravity = Gravity.END
                 bindingView.subLineContainer.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                bindingView.subLineText.gravity = Gravity.END
             }
 
             return bindingView

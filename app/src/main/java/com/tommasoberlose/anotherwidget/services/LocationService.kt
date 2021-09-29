@@ -18,6 +18,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
+import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import java.lang.Exception
@@ -37,12 +38,31 @@ class LocationService : Service() {
         startForeground(LOCATION_ACCESS_NOTIFICATION_ID, getLocationAccessNotification())
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.IO) {
-            if (ActivityCompat.checkSelfPermission(
-                    this@LocationService,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+            if (checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R ||
+                 checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
             ) {
-                LocationServices.getFusedLocationProviderClient(this@LocationService).lastLocation.addOnCompleteListener { task ->
+                if (com.google.android.gms.common.GoogleApiAvailability.getInstance()
+                        .isGooglePlayServicesAvailable(this@LocationService)
+                    == com.google.android.gms.common.ConnectionResult.SUCCESS
+                ) {
+                    LocationServices.getFusedLocationProviderClient(this@LocationService).lastLocation
+                } else {
+                    val lm = getSystemService(LOCATION_SERVICE) as android.location.LocationManager
+                    var location: android.location.Location? = null
+                    for (provider in arrayOf(
+                        "fused",    // LocationManager.FUSED_PROVIDER,
+                        android.location.LocationManager.GPS_PROVIDER,
+                        android.location.LocationManager.NETWORK_PROVIDER,
+                        android.location.LocationManager.PASSIVE_PROVIDER
+                    )) {
+                        if (lm.isProviderEnabled(provider)) {
+                            location = lm.getLastKnownLocation(provider)
+                            if (location != null) break
+                        }
+                    }
+                    com.google.android.gms.tasks.Tasks.forResult(location)
+                }.addOnCompleteListener { task ->
                     val networkApi = WeatherNetworkApi(this@LocationService)
                     if (task.isSuccessful) {
                         val location = task.result
@@ -116,7 +136,7 @@ class LocationService : Service() {
                 .setColor(ContextCompat.getColor(this@LocationService, R.color.colorAccent))
 
             // Main intent that open the activity
-            builder.setContentIntent(PendingIntent.getActivity(this@LocationService, 0, Intent(this@LocationService, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
+            builder.setContentIntent(PendingIntent.getActivity(this@LocationService, 0, Intent(this@LocationService, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE))
 
             return builder.build()
         }

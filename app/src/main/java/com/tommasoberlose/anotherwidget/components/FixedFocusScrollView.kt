@@ -18,7 +18,7 @@ class FixedFocusScrollView @JvmOverloads constructor(
     var isScrollable = true
 
     override fun scrollTo(x: Int, y: Int) {
-        if (isScrollable) {
+        if (isScrollable || !isLaidOut) {
             super.scrollTo(x, y)
         }
     }
