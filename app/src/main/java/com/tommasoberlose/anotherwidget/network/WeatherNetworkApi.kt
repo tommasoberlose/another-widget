@@ -404,7 +404,7 @@ class WeatherNetworkApi(val context: Context) {
                                 val iconCode = summary["symbol_code"] as String
 
                                 Preferences.weatherTemp = temp.toFloat()
-                                Preferences.weatherIcon = WeatherHelper.getYRIcon(iconCode, now.get(Calendar.HOUR_OF_DAY) >= 22 || now.get(Calendar.HOUR_OF_DAY) <= 8)
+                                Preferences.weatherIcon = WeatherHelper.getYRIcon(iconCode, !(now.get(Calendar.HOUR_OF_DAY) >= 22 || now.get(Calendar.HOUR_OF_DAY) <= 8))
                                 Preferences.weatherTempUnit = "C"
                                 Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
                                 MainWidget.updateWidget(context)

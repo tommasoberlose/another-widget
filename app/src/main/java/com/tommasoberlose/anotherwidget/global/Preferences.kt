@@ -85,7 +85,7 @@ object Preferences : KotprefModel() {
     var weatherIconPack by intPref(default = Constants.WeatherIconPack.DEFAULT.rawValue)
 
     // UI
-    var widgetMargin by floatPref(default = Constants.Dimension.SMALL.rawValue)
+    var widgetMargin by floatPref(default = Constants.Dimension.NONE.rawValue)
     var widgetPadding by floatPref(default = Constants.Dimension.SMALL.rawValue)
 
     // Clock

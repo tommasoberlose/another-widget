@@ -24,13 +24,14 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main" android:screenOrientation="portrait">
+        <activity android:name=".ui.activities.SplashActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme.Main" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.MainActivity" android:launchMode="singleInstance" android:theme="@style/AppTheme" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.ChooseApplicationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.CustomFontActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.tabs.CustomLocationActivity" android:launchMode="singleInstance" android:screenOrientation="portrait" />
@@ -102,18 +103,9 @@
         <receiver
             android:name=".receivers.WidgetClickListenerReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_OPEN_WEATHER_INTENT" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".receivers.CrashlyticsReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.tommasoberlose.anotherwidget.action.ACTION_REPORT_CRASH" />
             </intent-filter>
         </receiver>
 
@@ -141,7 +133,7 @@
         </receiver>
 
         <receiver android:name=".receivers.ActivityDetectionReceiver"
-            android:exported="false"
+            android:exported="true"
             android:permission="com.google.android.gms.permission.ACTIVITY_RECOGNITION">
             <intent-filter>
                 <action android:name="com.mypackage.ACTION_PROCESS_ACTIVITY_TRANSITIONS" />
@@ -153,12 +145,12 @@
         <service
             android:name=".services.UpdateCalendarService"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="dataSync" />
         <service
             android:name=".services.LocationService"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="location" />
     </application>
 

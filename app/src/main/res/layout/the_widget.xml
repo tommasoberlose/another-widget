@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:clipChildren="false"
     android:clipToPadding="false"
@@ -206,12 +207,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone"
-                android:layout_marginStart="4dp"
                 android:id="@+id/weather_sub_line">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:id="@+id/weather_sub_line_divider"
                     android:text="@string/divider"
                     android:includeFontPadding="false"
@@ -221,7 +222,7 @@
                     android:layout_height="20dp"
                     android:id="@+id/weather_sub_line_weather_icon"
                     android:layout_marginStart="4dp"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="4dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

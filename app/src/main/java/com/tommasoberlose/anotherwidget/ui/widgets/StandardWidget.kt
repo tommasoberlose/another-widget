@@ -2,13 +2,11 @@ package com.tommasoberlose.anotherwidget.ui.widgets
 
 import android.Manifest
 import android.app.PendingIntent
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.format.DateUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -28,13 +26,11 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.helpers.ImageHelper.applyShadow
-import com.tommasoberlose.anotherwidget.receivers.CrashlyticsReceiver
 import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
 import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
-import com.tommasoberlose.anotherwidget.utils.toPixel
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -72,7 +68,6 @@ class StandardWidget(val context: Context) {
             views.setViewPadding(R.id.main_layout, padding, padding, padding, padding)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         // Clock
@@ -89,7 +84,6 @@ class StandardWidget(val context: Context) {
             views = updateGridView(generatedBinding, views, appWidgetId)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         return views
@@ -447,7 +441,6 @@ class StandardWidget(val context: Context) {
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         return views
@@ -1025,7 +1018,6 @@ class StandardWidget(val context: Context) {
 
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
             return null
         }
     }

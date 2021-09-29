@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.format.DateUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updateMargins
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.databinding.LeftAlignedWidgetBinding
 import com.tommasoberlose.anotherwidget.db.EventRepository
@@ -26,7 +24,6 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.helpers.ColorHelper.toIntValue
 import com.tommasoberlose.anotherwidget.helpers.ImageHelper.applyShadow
-import com.tommasoberlose.anotherwidget.receivers.CrashlyticsReceiver
 import com.tommasoberlose.anotherwidget.receivers.NewCalendarEventReceiver
 import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
@@ -69,7 +66,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             views.setViewPadding(R.id.main_layout, padding, padding, padding, padding)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         // Clock
@@ -86,7 +82,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             views = updateGridView(generatedBinding, views, appWidgetId)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         return views
@@ -421,7 +416,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             )
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
         }
 
         return views
@@ -989,7 +983,6 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
             return bindingView
         } catch (ex: Exception) {
             ex.printStackTrace()
-            CrashlyticsReceiver.sendCrash(context, ex)
             return null
         }
     }
