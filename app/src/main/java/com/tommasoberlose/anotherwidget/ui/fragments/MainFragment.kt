@@ -100,10 +100,6 @@ class MainFragment : Fragment() {
     }
 
     private fun subscribeUi(viewModel: MainViewModel) {
-        viewModel.showPreview.observe(viewLifecycleOwner) {
-            binding.preview.visibility = if (it) View.VISIBLE else View.GONE
-        }
-
         viewModel.showWallpaper.observe(viewLifecycleOwner) {
             if (it) {
                 val wallpaper = requireActivity().getCurrentWallpaper()

@@ -31,6 +31,7 @@ import com.tommasoberlose.anotherwidget.receivers.WidgetClickListenerReceiver
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.convertDpToPixel
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
+import com.tommasoberlose.anotherwidget.utils.toPixel
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
