@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RemoteViews
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -146,6 +147,10 @@ class MainFragment : Fragment() {
             binding.toolbar.cardElevation = if (it > 0) 32f else 0f
         }
 
+        viewModel.showPreview.observe(viewLifecycleOwner) {
+            binding.preview.isVisible = it
+        }
+
         viewModel.widgetPreferencesUpdate.observe(viewLifecycleOwner) {
             onUpdateUiEvent(null)
         }
@@ -169,16 +174,13 @@ class MainFragment : Fragment() {
                             val view: View = generatedView.apply(requireActivity().applicationContext, binding.widget)
                             view.measure(0, 0)
 
-                            binding.widgetLoader.animate().scaleX(1f).scaleY(1f).alpha(1f)
-                                .setDuration(200L).start()
+                            binding.widgetLoader.animate().alpha(0f).setDuration(200L).start()
                             binding.widget.animate().alpha(0f).setDuration(200L).withEndAction {
+                                updatePreviewVisibility(view.measuredHeight)
                                 binding.widget.removeAllViews()
                                 binding.widget.addView(view)
 
-                                updatePreviewVisibility(view.measuredHeight)
-                                binding.widgetLoader.animate().scaleX(0f).scaleY(0f).alpha(0f)
-                                    .setDuration(200L).start()
-                                binding.widget.animate().alpha(1f).start()
+                                binding.widget.animate().setStartDelay(300L).alpha(1f).start()
                             }.start()
                         }
                     }
@@ -188,28 +190,30 @@ class MainFragment : Fragment() {
     }
 
     private fun updatePreviewVisibility(widgetHeight: Int) {
-        val newHeight = widgetHeight + 32f.convertDpToPixel(requireContext()).toInt()
-        if (binding.preview.layoutParams.height != newHeight) {
-            binding.preview.clearAnimation()
-            ValueAnimator.ofInt(
-                binding.preview.height,
-                newHeight
-            ).apply {
-                duration = 500L
-                addUpdateListener {
-                    val animatedValue = animatedValue as Int
-                    val layoutParams = binding.preview.layoutParams
-                    layoutParams.height = animatedValue
-                    binding.preview.layoutParams = layoutParams
-                }
-            }.start()
+        if (isAdded) {
+            val newHeight = widgetHeight + 32f.convertDpToPixel(requireContext()).toInt()
+            if (binding.preview.layoutParams.height != newHeight) {
+                binding.preview.clearAnimation()
+                ValueAnimator.ofInt(
+                    binding.preview.height,
+                    newHeight
+                ).apply {
+                    duration = 300L
+                    addUpdateListener {
+                        val animatedValue = animatedValue as Int
+                        val layoutParams = binding.preview.layoutParams
+                        layoutParams.height = animatedValue
+                        binding.preview.layoutParams = layoutParams
+                    }
+                }.start()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         EventBus.getDefault().register(this)
-        updateUI()
+//        updateUI()
     }
 
     override fun onPause() {

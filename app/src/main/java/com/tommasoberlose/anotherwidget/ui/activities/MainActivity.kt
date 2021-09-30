@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim)
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding = ActivityMainBinding.inflate(layoutInflater)

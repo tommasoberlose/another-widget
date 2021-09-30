@@ -19,6 +19,7 @@
     <color name="colorPrimaryDark">#F8F8F8</color>
     <color name="colorAccent">#0092ca</color>
     <color name="colorAccent_op10">#1A1089FF</color>
+    <color name="colorAccent_op20">#331089FF</color>
     <color name="colorAccent_op30">#4D1089FF</color>
     <color name="colorTitle">#1089FF</color>
     <color name="black_op10">#1A000000</color>
