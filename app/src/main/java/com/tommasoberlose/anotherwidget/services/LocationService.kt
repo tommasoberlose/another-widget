@@ -18,7 +18,6 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import java.lang.Exception
@@ -38,9 +37,10 @@ class LocationService : Service() {
         startForeground(LOCATION_ACCESS_NOTIFICATION_ID, getLocationAccessNotification())
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.IO) {
-            if (checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R ||
-                 checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
+            if (ActivityCompat.checkSelfPermission(
+                    this@LocationService,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 if (com.google.android.gms.common.GoogleApiAvailability.getInstance()
                         .isGooglePlayServicesAvailable(this@LocationService)

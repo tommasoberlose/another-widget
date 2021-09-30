@@ -134,22 +134,12 @@ class WeatherFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R ||
-             requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
-        ) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             binding.locationPermissionAlert.isVisible = false
         } else if (Preferences.customLocationAdd == "") {
             binding.locationPermissionAlert.isVisible = true
             binding.locationPermissionAlert.setOnClickListener {
                 requirePermission()
-            }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R &&
-                requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-            ) {
-                val text = getString(R.string.action_grant_permission) + " - " +
-                        requireContext().packageManager.backgroundPermissionOptionLabel
-                binding.locationPermissionAlert.text = text
             }
             binding.weatherProviderLocationError.isVisible = false
         } else {
@@ -232,11 +222,7 @@ class WeatherFragment : Fragment() {
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R &&
-                    requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION))
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                else
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {

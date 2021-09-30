@@ -23,10 +23,7 @@ object WeatherHelper {
         Kotpref.init(context)
         if (Preferences.customLocationAdd != "") {
             WeatherNetworkApi(context).updateWeather()
-        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R  ||
-             context.checkGrantedPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
-        ) {
+        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             LocationService.requestNewLocation(context)
         } else {
             Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_missing_location)
