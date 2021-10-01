@@ -32,23 +32,16 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             val result = ActivityTransitionResult.extractResult(intent)!!
             val lastEvent = result.transitionEvents.last()
 
-            if (lastEvent.activityType == DetectedActivity.WALKING || lastEvent.activityType == DetectedActivity.RUNNING && lastEvent.transitionType == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
+            if ((lastEvent.activityType == DetectedActivity.WALKING || lastEvent.activityType == DetectedActivity.RUNNING) && lastEvent.transitionType == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
                 requestDailySteps(context)
             }
         } else {
-            if (intent.action == Intent.ACTION_BOOT_COMPLETED || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED && Preferences.showDailySteps && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION)) {
+            if ((intent.action == Intent.ACTION_BOOT_COMPLETED || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) && Preferences.showDailySteps && (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || context.checkGrantedPermission(Manifest.permission.ACTIVITY_RECOGNITION))) {
                 resetDailySteps(context)
                 registerFence(context)
             } else {
                 resetDailySteps(context)
             }
-        }
-    }
-
-    private fun resetDailySteps(context: Context) {
-        Kotpref.init(context)
-        Preferences.blockingBulk {
-            remove(Preferences::googleFitSteps)
         }
     }
 
@@ -119,6 +112,9 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                     ).cancel()
                 }
             }
+
+            resetDailySteps(context)
+            clearTimeout(context)
         }
 
         fun requestDailySteps(context: Context) {
@@ -162,12 +158,31 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
             }
         }
 
+        private fun resetDailySteps(context: Context) {
+            Kotpref.init(context)
+            Preferences.blockingBulk {
+                remove(Preferences::googleFitSteps)
+            }
+        }
+
         private fun setTimeout(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                cancel(PendingIntent.getBroadcast(context, 5, Intent(context, ActivityDetectionReceiver::class.java), 0))
                 setExact(
                     AlarmManager.RTC,
                     Calendar.getInstance().timeInMillis + 5 * 60 * 1000,
+                    PendingIntent.getBroadcast(
+                        context,
+                        5,
+                        Intent(context, ActivityDetectionReceiver::class.java),
+                        0
+                    )
+                )
+            }
+        }
+
+        private fun clearTimeout(context: Context) {
+            with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+                cancel(
                     PendingIntent.getBroadcast(
                         context,
                         5,

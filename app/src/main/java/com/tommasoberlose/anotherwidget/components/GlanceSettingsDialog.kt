@@ -177,6 +177,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                             Preferences.showNextAlarm = isChecked
                             checkNextAlarm()
+                            if (!isChecked)
+                                AlarmHelper.clearTimeout(context)
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                             Preferences.showBatteryCharging = isChecked
@@ -184,6 +186,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         Constants.GlanceProviderId.NOTIFICATIONS -> {
                             Preferences.showNotifications = isChecked
                             checkLastNotificationsPermission()
+                            if (!isChecked)
+                                ActiveNotificationsHelper.clearLastNotification(context)
                         }
                         Constants.GlanceProviderId.GREETINGS -> {
                             Preferences.showGreetings = isChecked
@@ -238,8 +242,6 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
     }
     
     private fun checkNextAlarm() {
-        if (!Preferences.showNextAlarm)
-            AlarmHelper.clearTimeout(context)
         with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
             val alarm = nextAlarmClock
             if (alarm != null && alarm.showIntent != null) {

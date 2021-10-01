@@ -27,11 +27,15 @@ class UpdatesReceiver : BroadcastReceiver() {
             Intent.ACTION_MY_PACKAGE_REPLACED,
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
-            Intent.ACTION_LOCALE_CHANGED,
+            Intent.ACTION_LOCALE_CHANGED -> {
+                CalendarHelper.updateEventList(context)
+                MediaPlayerHelper.updatePlayingMediaInfo(context)
+                ActiveNotificationsHelper.clearLastNotification(context)
+                GreetingsHelper.toggleGreetings(context)
+            }
+
             Intent.ACTION_DATE_CHANGED,
             Actions.ACTION_CALENDAR_UPDATE -> {
-                ActiveNotificationsHelper.clearLastNotification(context)
-                MediaPlayerHelper.updatePlayingMediaInfo(context)
                 CalendarHelper.updateEventList(context)
             }
 
@@ -48,7 +52,6 @@ class UpdatesReceiver : BroadcastReceiver() {
 
             Actions.ACTION_CLEAR_NOTIFICATION -> {
                 ActiveNotificationsHelper.clearLastNotification(context)
-                MainWidget.updateWidget(context)
             }
 
             Actions.ACTION_REFRESH -> {
