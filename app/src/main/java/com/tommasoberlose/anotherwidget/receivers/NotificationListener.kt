@@ -16,6 +16,7 @@ import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.ActiveNotificationsHelper
 import com.tommasoberlose.anotherwidget.helpers.MediaPlayerHelper
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
+import com.tommasoberlose.anotherwidget.utils.setExactIfCanSchedule
 import java.lang.Exception
 import java.util.*
 
@@ -83,7 +84,7 @@ class NotificationListener : NotificationListenerService() {
             }
             val timeoutPref = Constants.GlanceNotificationTimer.fromInt(Preferences.hideNotificationAfter)
             if (timeoutPref != Constants.GlanceNotificationTimer.WHEN_DISMISSED) {
-                setExact(
+                setExactIfCanSchedule(
                     AlarmManager.RTC,
                     Calendar.getInstance().timeInMillis + when (timeoutPref) {
                         Constants.GlanceNotificationTimer.HALF_MINUTE -> 30 * 1000
@@ -97,7 +98,7 @@ class NotificationListener : NotificationListenerService() {
                         context,
                         5,
                         intent,
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
             }
@@ -110,7 +111,7 @@ class NotificationListener : NotificationListenerService() {
                 val intent = Intent(context, UpdatesReceiver::class.java).apply {
                     action = Actions.ACTION_CLEAR_NOTIFICATION
                 }
-                cancel(PendingIntent.getBroadcast(context, 5, intent, 0))
+                cancel(PendingIntent.getBroadcast(context, 5, intent, PendingIntent.FLAG_IMMUTABLE))
             }
         }
     }

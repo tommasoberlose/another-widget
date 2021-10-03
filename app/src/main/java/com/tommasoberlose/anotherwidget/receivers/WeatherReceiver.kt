@@ -7,11 +7,11 @@ import android.content.Context
 import android.content.Intent
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
+import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class WeatherReceiver : BroadcastReceiver() {
@@ -22,16 +22,18 @@ class WeatherReceiver : BroadcastReceiver() {
             Intent.ACTION_MY_PACKAGE_REPLACED,
             Intent.ACTION_TIMEZONE_CHANGED,
             Intent.ACTION_LOCALE_CHANGED,
-            Intent.ACTION_TIME_CHANGED,
-            Actions.ACTION_WEATHER_UPDATE -> setUpdates(context)
+            Intent.ACTION_TIME_CHANGED -> setUpdates(context)
+
+            Actions.ACTION_WEATHER_UPDATE -> {
+                WeatherWorker.enqueue(context)
+            }
         }
     }
 
     companion object {
-        private const val MINUTE = 60 * 1000L
         fun setUpdates(context: Context) {
             if (Preferences.showWeather) {
-                val interval = MINUTE * when (Preferences.weatherRefreshPeriod) {
+                val interval = when (Preferences.weatherRefreshPeriod) {
                     0 -> 30
                     1 -> 60
                     2 -> 60L * 3
@@ -40,40 +42,12 @@ class WeatherReceiver : BroadcastReceiver() {
                     5 -> 60L * 24
                     else -> 60
                 }
-                with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                    setExact(
-                        AlarmManager.RTC,
-                        System.currentTimeMillis() + interval,
-                        PendingIntent.getBroadcast(context, 0, Intent(context, WeatherReceiver::class.java).apply { action = Actions.ACTION_WEATHER_UPDATE }, 0)
-                    )
-                }
-                GlobalScope.launch(Dispatchers.IO) {
-                    WeatherHelper.updateWeather(context)
-                }
-            }
-        }
-
-        fun setOneTimeUpdate(context: Context) {
-            if (Preferences.showWeather) {
-                listOf(10, 20, 30).forEach {
-                    with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                        setExactAndAllowWhileIdle(
-                            AlarmManager.RTC,
-                            it * MINUTE,
-                            PendingIntent.getBroadcast(context, it, Intent(context, WeatherReceiver::class.java).apply { action = Actions.ACTION_WEATHER_UPDATE }, 0)
-                        )
-                    }
-                }
+                WeatherWorker.enqueue(context, interval, TimeUnit.MINUTES)
             }
         }
 
         fun removeUpdates(context: Context) {
-            with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                cancel(PendingIntent.getBroadcast(context, 0, Intent(context, WeatherReceiver::class.java).apply { action = Actions.ACTION_WEATHER_UPDATE }, 0))
-                listOf(10, 20, 30).forEach {
-                    cancel(PendingIntent.getBroadcast(context, it, Intent(context, WeatherReceiver::class.java).apply { action = Actions.ACTION_WEATHER_UPDATE }, 0))
-                }
-            }
+            WeatherWorker.cancel(context)
         }
     }
 }

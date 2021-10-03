@@ -32,7 +32,7 @@ object IntentHelper {
         return if (intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK == Intent.FLAG_ACTIVITY_NEW_TASK)
             PendingIntent.getActivity(context, requestCode, intent, flags)
         else
-            PendingIntent.getBroadcast(context, requestCode, intent, 0)
+            PendingIntent.getBroadcast(context, requestCode, intent, flags)
     }
 
     fun getWidgetUpdateIntent(context: Context): Intent {

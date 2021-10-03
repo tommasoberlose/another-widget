@@ -134,7 +134,7 @@ class WeatherFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (requireActivity().checkGrantedPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
             binding.locationPermissionAlert.isVisible = false
         } else if (Preferences.customLocationAdd == "") {
             binding.locationPermissionAlert.isVisible = true
@@ -177,9 +177,7 @@ class WeatherFragment : Fragment() {
                 .addOnSelectItemListener { value ->
                     if (value != Preferences.weatherTempUnit) {
                         Preferences.weatherTempUnit = value
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            WeatherHelper.updateWeather(requireContext())
-                        }
+                        WeatherHelper.updateWeather(requireContext())
                     }
                 }.show()
         }
@@ -208,9 +206,7 @@ class WeatherFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Constants.RESULT_CODE_CUSTOM_LOCATION -> {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        WeatherHelper.updateWeather(requireContext())
-                    }
+                    WeatherHelper.updateWeather(requireContext())
                 }
                 //RequestCode.WEATHER_PROVIDER_REQUEST_CODE.code -> {
                 //}
@@ -222,15 +218,14 @@ class WeatherFragment : Fragment() {
     private fun requirePermission() {
         Dexter.withContext(requireContext())
             .withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
-                        if (report.areAllPermissionsGranted()) {
+                        if (report.grantedPermissionResponses.isNotEmpty()) {
                             checkLocationPermission()
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                WeatherHelper.updateWeather(requireContext())
-                            }
+                            WeatherHelper.updateWeather(requireContext())
                         }
                     }
                 }

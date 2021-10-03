@@ -41,7 +41,7 @@ class ClockWidget(val context: Context) {
                     context,
                     widgetID,
                     IntentHelper.getClockIntent(context),
-                    0
+                    PendingIntent.FLAG_IMMUTABLE
                 )
                 views.setOnClickPendingIntent(R.id.time, clockPIntent)
                 views.setOnClickPendingIntent(R.id.time_am_pm, clockPIntent)

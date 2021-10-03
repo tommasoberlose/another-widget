@@ -214,6 +214,14 @@ fun Context.checkGrantedPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 }
 
+fun android.app.AlarmManager.setExactIfCanSchedule(type: Int, triggerAtMillis: Long, operation: android.app.PendingIntent) {
+    // uncomment the following check after bumping compileSdkVersion/targetSdkVersion to 31
+    //if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S || canScheduleExactAlarms())
+        setExact(type, triggerAtMillis, operation)
+    //else
+    //    set(type, triggerAtMillis, operation)
+}
+
 fun Context.getCurrentWallpaper(): Drawable? = try {
     WallpaperManager.getInstance(this).drawable
 } catch (e: Exception) {

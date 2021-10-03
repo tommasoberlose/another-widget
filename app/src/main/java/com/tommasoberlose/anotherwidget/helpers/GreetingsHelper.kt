@@ -37,7 +37,7 @@ object GreetingsHelper {
                         Intent(context, UpdatesReceiver::class.java).apply {
                             action = Actions.ACTION_UPDATE_GREETINGS
                         },
-                        0)
+                        PendingIntent.FLAG_IMMUTABLE)
                 )
 
                 setRepeating(
@@ -51,7 +51,7 @@ object GreetingsHelper {
                         Intent(context, UpdatesReceiver::class.java).apply {
                             action = Actions.ACTION_UPDATE_GREETINGS
                         },
-                        0)
+                        PendingIntent.FLAG_IMMUTABLE)
                 )
 
                 setRepeating(
@@ -65,7 +65,7 @@ object GreetingsHelper {
                         Intent(context, UpdatesReceiver::class.java).apply {
                             action = Actions.ACTION_UPDATE_GREETINGS
                         },
-                        0)
+                        PendingIntent.FLAG_IMMUTABLE)
                 )
 
                 setRepeating(
@@ -79,14 +79,14 @@ object GreetingsHelper {
                         Intent(context, UpdatesReceiver::class.java).apply {
                             action = Actions.ACTION_UPDATE_GREETINGS
                         },
-                        0)
+                        PendingIntent.FLAG_IMMUTABLE)
                 )
             } else {
                 listOf(MORNING_TIME, MORNING_TIME_END, EVENING_TIME, NIGHT_TIME).forEach {
                     cancel(PendingIntent.getBroadcast(context, it, Intent(context,
                         UpdatesReceiver::class.java).apply {
                         action = Actions.ACTION_UPDATE_GREETINGS
-                    }, 0))
+                    }, PendingIntent.FLAG_IMMUTABLE))
                 }
             }
         }

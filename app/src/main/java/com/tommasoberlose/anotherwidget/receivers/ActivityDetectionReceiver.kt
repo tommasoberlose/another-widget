@@ -21,6 +21,7 @@ import com.google.android.gms.location.*
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
+import com.tommasoberlose.anotherwidget.utils.setExactIfCanSchedule
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -79,7 +80,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                             context,
                             2,
                             Intent(context, ActivityDetectionReceiver::class.java),
-                            0
+                            PendingIntent.FLAG_IMMUTABLE
                         )
                     )
 
@@ -98,7 +99,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                         context,
                         2,
                         Intent(context, ActivityDetectionReceiver::class.java),
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 
@@ -108,7 +109,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                         context,
                         2,
                         Intent(context, ActivityDetectionReceiver::class.java),
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     ).cancel()
                 }
             }
@@ -167,14 +168,14 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
 
         private fun setTimeout(context: Context) {
             with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
-                setExact(
+                setExactIfCanSchedule(
                     AlarmManager.RTC,
                     Calendar.getInstance().timeInMillis + 5 * 60 * 1000,
                     PendingIntent.getBroadcast(
                         context,
                         5,
                         Intent(context, ActivityDetectionReceiver::class.java),
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
             }
@@ -187,7 +188,7 @@ class ActivityDetectionReceiver : BroadcastReceiver() {
                         context,
                         5,
                         Intent(context, ActivityDetectionReceiver::class.java),
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
             }

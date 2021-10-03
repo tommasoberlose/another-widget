@@ -7,7 +7,7 @@ import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Constants
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
-import com.tommasoberlose.anotherwidget.services.LocationService
+import com.tommasoberlose.anotherwidget.services.WeatherWorker
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import com.tommasoberlose.anotherwidget.utils.isDarkTheme
@@ -19,20 +19,8 @@ import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 
 object WeatherHelper {
 
-    suspend fun updateWeather(context: Context) {
-        Kotpref.init(context)
-        if (Preferences.customLocationAdd != "") {
-            WeatherNetworkApi(context).updateWeather()
-        } else if (context.checkGrantedPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            LocationService.requestNewLocation(context)
-        } else {
-            Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_missing_location)
-            Preferences.weatherProviderError = ""
-            removeWeather(context)
-            org.greenrobot.eventbus.EventBus.getDefault().post(
-                com.tommasoberlose.anotherwidget.ui.fragments.MainFragment.UpdateUiMessageEvent()
-            )
-        }
+    fun updateWeather(context: Context) {
+        WeatherWorker.enqueue(context)
     }
 
     fun removeWeather(context: Context) {

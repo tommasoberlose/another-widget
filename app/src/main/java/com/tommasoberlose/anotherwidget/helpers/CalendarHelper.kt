@@ -7,7 +7,7 @@ import android.provider.CalendarContract
 import com.tommasoberlose.anotherwidget.services.EventListenerJob
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.services.UpdateCalendarService
+import com.tommasoberlose.anotherwidget.services.UpdateCalendarWorker
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
 import me.everything.providers.android.calendar.CalendarProvider
 import java.util.*
@@ -19,7 +19,7 @@ import kotlin.collections.ArrayList
 
 object CalendarHelper {
     fun updateEventList(context: Context) {
-        UpdateCalendarService.enqueueWork(context)
+        UpdateCalendarWorker.enqueue(context)
     }
 
     fun getCalendarList(context: Context): List<me.everything.providers.android.calendar.Calendar> {
