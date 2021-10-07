@@ -141,7 +141,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         if (Preferences.showEvents && !checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
             Preferences.showEvents = false
-            com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver.removeUpdates(this)
         }
     }
 

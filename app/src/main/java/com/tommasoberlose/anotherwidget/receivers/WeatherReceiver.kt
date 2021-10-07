@@ -42,12 +42,12 @@ class WeatherReceiver : BroadcastReceiver() {
                     5 -> 60L * 24
                     else -> 60
                 }
-                WeatherWorker.enqueue(context, interval, TimeUnit.MINUTES)
+                WeatherWorker.enqueuePeriodic(context, interval, TimeUnit.MINUTES)
             }
         }
 
         fun removeUpdates(context: Context) {
-            WeatherWorker.cancel(context)
+            WeatherWorker.cancelPeriodic(context)
         }
     }
 }

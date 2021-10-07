@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
-import com.tommasoberlose.anotherwidget.services.EventListenerJob
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.services.UpdateCalendarWorker
@@ -50,11 +49,11 @@ object CalendarHelper {
     }
 
     fun setEventUpdatesAndroidN(context: Context) {
-        EventListenerJob.schedule(context)
+        UpdateCalendarWorker.enqueueTrigger(context)
     }
 
     fun removeEventUpdatesAndroidN(context: Context) {
-        EventListenerJob.remove(context)
+        UpdateCalendarWorker.cancelTrigger(context)
     }
 
     fun List<Event>.applyFilters() : List<Event> {

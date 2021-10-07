@@ -34,25 +34,26 @@ class MainWidget : AppWidgetProvider() {
         CalendarHelper.updateEventList(context)
         WeatherReceiver.setUpdates(context)
         MediaPlayerHelper.updatePlayingMediaInfo(context)
-
-        if (Preferences.showEvents) {
-            CalendarHelper.setEventUpdatesAndroidN(context)
-        } else {
-            CalendarHelper.removeEventUpdatesAndroidN(context)
-        }
     }
 
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
+            CalendarHelper.removeEventUpdatesAndroidN(context)
             UpdatesReceiver.removeUpdates(context)
             WeatherReceiver.removeUpdates(context)
         }
     }
 
     companion object {
+        private val handler by lazy { android.os.Handler(android.os.Looper.getMainLooper()) }
 
         fun updateWidget(context: Context) {
-            context.sendBroadcast(IntentHelper.getWidgetUpdateIntent(context))
+            handler.run {
+                removeCallbacksAndMessages(null)
+                postDelayed ({
+                    context.sendBroadcast(IntentHelper.getWidgetUpdateIntent(context))
+                }, 100)
+            }
         }
 
         fun getWidgetCount(context: Context): Int {

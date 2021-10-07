@@ -324,7 +324,9 @@ object WeatherHelper {
         }
     }
 
-    fun getWeatherGovIcon(iconString: String, isDaytime: Boolean): String = when (iconString.substringBefore('?').substringAfterLast('/')) {
+    fun getWeatherGovIcon(iconString: String, isDaytime: Boolean): String = when (
+        iconString.substringBefore('?').substringAfterLast('/').substringBefore(',')
+    ) {
         "skc" -> "01"
         "few" -> "02"
         "sct" -> "02"

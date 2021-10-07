@@ -221,11 +221,32 @@ class WeatherFragment : Fragment() {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ).withListener(object: MultiplePermissionsListener {
+                private var shouldShowRationale = false
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
                         if (report.grantedPermissionResponses.isNotEmpty()) {
                             checkLocationPermission()
                             WeatherHelper.updateWeather(requireContext())
+                        }
+                        else if (!shouldShowRationale && report.isAnyPermissionPermanentlyDenied) {
+                            MaterialBottomSheetDialog(
+                                requireContext(),
+                                getString(R.string.title_permission_location),
+                                getString(R.string.description_permission_location)
+                            ).setNegativeButton(getString(R.string.action_ignore))
+                            .setPositiveButton(getString(R.string.action_grant_permission)) {
+                                startActivity(
+                                    Intent(
+                                        android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                                    ).apply {
+                                        data = android.net.Uri.fromParts(
+                                            "package",
+                                            requireContext().packageName,
+                                            null
+                                        )
+                                    }
+                                )
+                            }.show()
                         }
                     }
                 }
@@ -233,12 +254,19 @@ class WeatherFragment : Fragment() {
                     permissions: MutableList<PermissionRequest>?,
                     token: PermissionToken?
                 ) {
+                    shouldShowRationale = true
                     // Remember to invoke this method when the custom rationale is closed
                     // or just by default if you don't want to use any custom rationale.
                     token?.continuePermissionRequest()
                 }
             })
             .check()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkWeatherProviderConfig()
+        checkLocationPermission()
     }
 
     private fun maintainScrollPosition(callback: () -> Unit) {

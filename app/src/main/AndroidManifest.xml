@@ -108,10 +108,6 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.EventListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service android:name=".services.BatteryListenerJob" android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service android:name=".receivers.NotificationListener" android:exported="true"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>

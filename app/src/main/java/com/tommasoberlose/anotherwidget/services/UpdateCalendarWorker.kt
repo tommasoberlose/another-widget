@@ -2,6 +2,9 @@ package com.tommasoberlose.anotherwidget.services
 
 import android.Manifest
 import android.content.Context
+import android.os.Build
+import android.provider.CalendarContract
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -17,12 +20,12 @@ import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.everything.providers.android.calendar.CalendarProvider
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class UpdateCalendarWorker(private val context: Context, params: WorkerParameters) :
     CoroutineWorker(context, params) {
@@ -36,7 +39,6 @@ class UpdateCalendarWorker(private val context: Context, params: WorkerParameter
                 if (!context.checkGrantedPermission(Manifest.permission.READ_CALENDAR)) {
                     eventRepository.resetNextEventData()
                     eventRepository.clearEvents()
-                    Preferences.showEvents = false
                 } else {
                     // fetch all events from now to next ACTION_CALENDAR_UPDATE + limit
                     val now = Calendar.getInstance()
@@ -139,6 +141,7 @@ class UpdateCalendarWorker(private val context: Context, params: WorkerParameter
                     } catch (ignored: java.lang.Exception) {
                     }
                 }
+                enqueueTrigger(context)
             } else {
                 eventRepository.resetNextEventData()
                 eventRepository.clearEvents()
@@ -156,11 +159,34 @@ class UpdateCalendarWorker(private val context: Context, params: WorkerParameter
 
     companion object {
         fun enqueue(context: Context) {
-            WorkManager.getInstance(context.applicationContext).enqueueUniqueWork(
-                "UpdateCalendarWorker",
-                ExistingWorkPolicy.REPLACE,
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "updateEventList",
+                ExistingWorkPolicy.KEEP,
                 OneTimeWorkRequestBuilder<UpdateCalendarWorker>().build()
             )
+        }
+
+        fun enqueueTrigger(context: Context) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                WorkManager.getInstance(context).enqueueUniqueWork(
+                    "updateEventListByTrigger",
+                    ExistingWorkPolicy.KEEP,
+                    OneTimeWorkRequestBuilder<UpdateCalendarWorker>().setConstraints(
+                        Constraints.Builder().addContentUriTrigger(
+                            CalendarContract.CONTENT_URI,
+                            true
+                        ).build()
+                    ).build()
+                )
+            }
+        }
+
+        fun cancelTrigger(context: Context) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                WorkManager.getInstance(context).cancelUniqueWork(
+                    "updateEventListByTrigger"
+                )
+            }
         }
     }
 }

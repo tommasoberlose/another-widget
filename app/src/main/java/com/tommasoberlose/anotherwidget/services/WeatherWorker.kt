@@ -14,19 +14,18 @@ import androidx.work.WorkerParameters
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Tasks
 import com.tommasoberlose.anotherwidget.R
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.network.WeatherNetworkApi
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 
 class WeatherWorker(private val context: Context, params: WorkerParameters) :
     CoroutineWorker(context, params) {
@@ -42,7 +41,11 @@ class WeatherWorker(private val context: Context, params: WorkerParameters) :
                 if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context)
                     == ConnectionResult.SUCCESS
                 ) {
-                    LocationServices.getFusedLocationProviderClient(context).lastLocation
+                    suspendCancellableCoroutine { continuation ->
+                        LocationServices.getFusedLocationProviderClient(context).lastLocation.addOnCompleteListener {
+                            continuation.resume(if (it.isSuccessful) it.result else null)
+                        }
+                    }
                 } else {
                     val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                     var location: Location? = null
@@ -54,21 +57,15 @@ class WeatherWorker(private val context: Context, params: WorkerParameters) :
                                 location = it
                         }
                     }
-                    Tasks.forResult(location)
-                }.addOnCompleteListener { task ->
-                    val networkApi = WeatherNetworkApi(context)
-                    if (task.isSuccessful) {
-                        val location = task.result
-                        if (location != null) {
-                            Preferences.customLocationLat = location.latitude.toString()
-                            Preferences.customLocationLon = location.longitude.toString()
-                        }
+                    location
+                }.let { location ->
+                    if (location != null) {
+                        Preferences.customLocationLat = location.latitude.toString()
+                        Preferences.customLocationLon = location.longitude.toString()
                     }
-
-                    CoroutineScope(Dispatchers.IO).launch {
-                        networkApi.updateWeather()
+                    withContext(Dispatchers.IO) {
+                        WeatherNetworkApi(context).updateWeather()
                     }
-                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                 }
             }
             else -> {
@@ -83,24 +80,24 @@ class WeatherWorker(private val context: Context, params: WorkerParameters) :
 
     companion object {
         fun enqueue(context: Context) {
-            WorkManager.getInstance(context.applicationContext).enqueueUniqueWork(
-                "OneTimeWeatherWorker",
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "updateWeather",
                 ExistingWorkPolicy.REPLACE,
                 OneTimeWorkRequestBuilder<WeatherWorker>().build()
             )
         }
 
-        fun enqueue(context: Context, interval: Long, unit: TimeUnit) {
-            WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
-                "WeatherWorker",
+        fun enqueuePeriodic(context: Context, interval: Long, unit: TimeUnit) {
+            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                "updateWeatherPeriodically",
                 ExistingPeriodicWorkPolicy.REPLACE,
                 PeriodicWorkRequestBuilder<WeatherWorker>(interval, unit).build()
             )
         }
 
-        fun cancel(context: Context) {
-            WorkManager.getInstance(context.applicationContext).cancelUniqueWork(
-                "WeatherWorker"
+        fun cancelPeriodic(context: Context) {
+            WorkManager.getInstance(context).cancelUniqueWork(
+                "updateWeatherPeriodically"
             )
         }
     }
