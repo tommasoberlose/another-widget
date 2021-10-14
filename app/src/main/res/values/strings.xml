@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Another Widget</string>
-    <string name="add_widget">Add Widget</string>
+    <string name="add_widget">Tambah Widget</string>
 
     <!-- Display -->
-    <string name="settings_general_title">Display</string>
+    <string name="settings_general_title">Tampilan</string>
     <string name="divider" translatable="false">|</string>
-    <string name="settings_font_color_title">Text color</string>
-    <string name="settings_secondary_font_color_title">Text color</string>
-    <string name="settings_background_color_title">Background color</string>
-    <string name="title_main_text_size">Text size</string>
-    <string name="title_second_text_size">Text size</string>
-    <string name="title_text_shadow">Text shadow</string>
-    <string name="settings_text_shadow_subtitle_none">None</string>
-    <string name="settings_text_shadow_subtitle_low">Low</string>
-    <string name="settings_text_shadow_subtitle_high">High</string>
-    <string name="settings_custom_font_title">Widget font</string>
-    <string name="custom_font_subtitle_0">Device font</string>
+    <string name="settings_font_color_title">Warna teks</string>
+    <string name="settings_secondary_font_color_title">Warna teks</string>
+    <string name="settings_background_color_title">Warna latar belakang</string>
+    <string name="title_main_text_size">Ukuran teks</string>
+    <string name="title_second_text_size">Ukuran teks</string>
+    <string name="title_text_shadow">Bayangan teks</string>
+    <string name="settings_text_shadow_subtitle_none">Tidak ada</string>
+    <string name="settings_text_shadow_subtitle_low">Rendah</string>
+    <string name="settings_text_shadow_subtitle_high">Tinggi</string>
+    <string name="settings_custom_font_title">Font widget</string>
+    <string name="custom_font_subtitle_0">Font perangkat</string>
     <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Custom date format</string>
-    <string name="alpha">Alpha</string>
-    <string name="transparent">Transparent</string>
-    <string name="settings_show_dividers_title">Text separators</string>
-    <string name="first_row_header">Primary Text</string>
-    <string name="second_row_header">Secondary Text</string>
+    <string name="alpha">Intensitas</string>
+    <string name="transparent">Transparan</string>
+    <string name="settings_show_dividers_title">Pemisah teks</string>
+    <string name="first_row_header">Teks Utama</string>
+    <string name="second_row_header">Teks Kedua</string>
     <string name="global_style_header">Widget</string>
-    <string name="action_capitalize_the_date">Capitalize the date</string>
-    <string name="settings_date_format_title">Date format</string>
-    <string name="header_widget_background">Widget background</string>
-    <string name="settings_secondary_row_top_margin_title">Rows spacing</string>
-    <string name="action_custom_font_to_search">Custom font…</string>
-    <string name="font_family_settings_title">Font family</string>
-    <string name="settings_widget_align_title">Widget alignment</string>
-    <string name="settings_widget_align_left_subtitle">Left</string>
-    <string name="settings_widget_align_right_subtitle">Right</string>
-    <string name="settings_widget_align_center_subtitle">Center</string>
+    <string name="action_capitalize_the_date">Kapitalisasi tanggal</string>
+    <string name="settings_date_format_title">Format tanggal</string>
+    <string name="header_widget_background">Latar belakang widget</string>
+    <string name="settings_secondary_row_top_margin_title">Jarak baris</string>
+    <string name="action_custom_font_to_search">Font Kustom…</string>
+    <string name="font_family_settings_title">Keluarga font</string>
+    <string name="settings_widget_align_title">Perataan widget</string>
+    <string name="settings_widget_align_left_subtitle">Kiri</string>
+    <string name="settings_widget_align_right_subtitle">Kanan</string>
+    <string name="settings_widget_align_center_subtitle">Tengah</string>
     
     <string name="font_100" translatable="false">Thin</string>
     <string name="font_200" translatable="false">Light</string>
@@ -57,92 +57,92 @@
     <string name="font_900_italic" translatable="false">Heavy Italic</string>
 
     <!-- Calendar -->
-    <string name="settings_calendar_title">Calendar</string>
-    <string name="title_permission_calendar">Show your events</string>
-    <string name="description_permission_calendar">Grant access to your calendar\nto view events in your widget.</string>
-    <string name="settings_filter_calendar_title">Filter events</string>
-    <string name="settings_filter_calendar_subtitle">Change calendar visibility</string>
-    <string name="settings_all_day_title">All day events</string>
-    <string name="main_calendar">Account calendar</string>
-    <string name="calendar_settings_list_error">Error loading the calendar list.</string>
-    <string name="all_day">All day event</string>
-    <string name="show_events_visible">Events are visible</string>
-    <string name="show_events_not_visible">Events are hidden</string>
-    <string name="settings_show_until_subtitle_6">30 minutes later</string>
-    <string name="settings_show_until_subtitle_7">1 hour later</string>
-    <string name="settings_show_until_subtitle_0">3 hours later</string>
-    <string name="settings_show_until_subtitle_1">6 hours later</string>
-    <string name="settings_show_until_subtitle_2">12 hours later</string>
-    <string name="settings_show_until_subtitle_3">24 hours later</string>
-    <string name="settings_show_until_subtitle_4">3 days later</string>
-    <string name="settings_show_until_subtitle_5">7 days later</string>
-    <string name="settings_show_until_title">Show events at least</string>
-    <string name="day_char">d</string>
-    <string name="settings_calendar_app_title">Calendar</string>
-    <string name="error_no_calendar">No calendars found.</string>
-    <string name="tomorrow">tomorrow</string>
-    <string name="today">today</string>
-    <string name="settings_event_app_title">Tap on event opens</string>
-    <string name="settings_second_row_info_title">Event info</string>
-    <string name="settings_second_row_info_subtitle_1">Event address</string>
-    <string name="settings_second_row_info_subtitle_0">Event time</string>
-    <string name="settings_show_diff_time_title">Time until the event</string>
-    <string name="settings_show_declined_events_title">Declined events</string>
-    <string name="default_event_app">Event details</string>
-    <string name="default_calendar_app">Default calendar app</string>
-    <string name="settings_show_multiple_events_title">Multiple events switcher</string>
-    <string name="soon">soon</string>
-    <string name="now">now</string>
-    <string name="settings_widget_update_frequency_title">Time until event update frequency</string>
-    <string name="settings_widget_update_frequency_subtitle">High frequency causes more battery consumption.</string>
-    <string name="settings_widget_update_frequency_low">Low</string>
-    <string name="settings_widget_update_frequency_default">Default</string>
-    <string name="settings_widget_update_frequency_high">High</string>
-    <string name="filters_header">Filters</string>
-    <string name="event_detail_header">Event detail</string>
-    <string name="settings_attendee_status_title">Attendee status</string>
-    <string name="settings_attendee_status_subtitle">Filter accepted or declined events</string>
-    <string name="settings_busy_events_title">Relevant events</string>
-    <string name="settings_busy_events_subtitle">Show only events that keep busy</string>
-    <string name="attendee_status_accepted">Accepted events</string>
-    <string name="attendee_status_invited">Events invitations</string>
-    <string name="attendee_status_declined">Declined events</string>
+    <string name="settings_calendar_title">Kalender</string>
+    <string name="title_permission_calendar">Tampilkan acara Anda</string>
+    <string name="description_permission_calendar">Berikan akses ke kalender Anda.\ntuk melihat acara di widget Anda.</string>
+    <string name="settings_filter_calendar_title">Filter acara</string>
+    <string name="settings_filter_calendar_subtitle">Ubah visibilitas kalender</string>
+    <string name="settings_all_day_title">Acara sepanjang hari</string>
+    <string name="main_calendar">Akun kalender</string>
+    <string name="calendar_settings_list_error">Terjadi kesalahan saat memuat daftar kalender.</string>
+    <string name="all_day">Acara sepanjang hari</string>
+    <string name="show_events_visible">Acara terlihat</string>
+    <string name="show_events_not_visible">Acara disembunyikan</string>
+    <string name="settings_show_until_subtitle_6">30 menit kemudian</string>
+    <string name="settings_show_until_subtitle_7">1 jam kemudian</string>
+    <string name="settings_show_until_subtitle_0">3 jam kemudian</string>
+    <string name="settings_show_until_subtitle_1">6 jam kemudian</string>
+    <string name="settings_show_until_subtitle_2">12 jam kemudian</string>
+    <string name="settings_show_until_subtitle_3">24 jam kemudian</string>
+    <string name="settings_show_until_subtitle_4">3 hari kemudian</string>
+    <string name="settings_show_until_subtitle_5">7 hari kemudian</string>
+    <string name="settings_show_until_title">Tampilkan acara setidaknya</string>
+    <string name="day_char">h</string>
+    <string name="settings_calendar_app_title">Kalender</string>
+    <string name="error_no_calendar">Tidak ada kalender yang ditemukan.</string>
+    <string name="tomorrow">besok</string>
+    <string name="today">hari ini</string>
+    <string name="settings_event_app_title">Tap pada acara untuk membuka</string>
+    <string name="settings_second_row_info_title">Info acara</string>
+    <string name="settings_second_row_info_subtitle_1">Alamat acara</string>
+    <string name="settings_second_row_info_subtitle_0">Waktu acara</string>
+    <string name="settings_show_diff_time_title">Waktu sampai acara</string>
+    <string name="settings_show_declined_events_title">Acara yang ditolak</string>
+    <string name="default_event_app">Detail acara</string>
+    <string name="default_calendar_app">Aplikasi kalender bawaan</string>
+    <string name="settings_show_multiple_events_title">Pengalih beberapa acara</string>
+    <string name="soon">segera</string>
+    <string name="now">sekarang</string>
+    <string name="settings_widget_update_frequency_title">Waktu hingga frekuensi pembaruan acara</string>
+    <string name="settings_widget_update_frequency_subtitle">Frekuensi tinggi menyebabkan lebih banyak konsumsi baterai.</string>
+    <string name="settings_widget_update_frequency_low">Rendah</string>
+    <string name="settings_widget_update_frequency_default">Bawaan</string>
+    <string name="settings_widget_update_frequency_high">Tinggi</string>
+    <string name="filters_header">Filter</string>
+    <string name="event_detail_header">Detail acara</string>
+    <string name="settings_attendee_status_title">Status peserta</string>
+    <string name="settings_attendee_status_subtitle">Filter acara yang diterima atau ditolak</string>
+    <string name="settings_busy_events_title">Acara yang relevan</string>
+    <string name="settings_busy_events_subtitle">Tampilkan hanya acara yang membuat sibuk</string>
+    <string name="attendee_status_accepted">Acara yang diterima</string>
+    <string name="attendee_status_invited">Undangan acara</string>
+    <string name="attendee_status_declined">Acara yang ditolak</string>
 
     <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
-    <string name="calendar_sync_notification_channel_name">Events sync service</string>
-    <string name="calendar_sync_notification_channel_description">Service used to synchronize the calendar events.</string>
-    <string name="calendar_sync_notification_title">Syncing calendar events…</string>
-    <string name="settings_show_next_event_on_multiple_lines_title">Show title on multiple lines</string>
+    <string name="calendar_sync_notification_channel_name">Layanan sinkronisasi acara</string>
+    <string name="calendar_sync_notification_channel_description">Layanan yang digunakan untuk menyinkronkan acara kalender.</string>
+    <string name="calendar_sync_notification_title">Menyinkronkan acara kalender…</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">Tampilkan judul di beberapa baris</string>
 
     <!-- Weather -->
-    <string name="settings_weather_title">Weather</string>
-    <string name="title_permission_location">Show the weather</string>
-    <string name="description_permission_location">Grant access to your location\nto view weather in your widget.</string>
-    <string name="settings_unit_title">Unit of measure</string>
+    <string name="settings_weather_title">Cuaca</string>
+    <string name="title_permission_location">Tunjukkan cuaca</string>
+    <string name="description_permission_location">Berikan akses ke lokasi Anda untuk melihat cuaca di widget Anda.</string>
+    <string name="settings_unit_title">Unit pengukuran</string>
     <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
     <string name="celsius" translatable="false">°C - Celsius</string>
-    <string name="settings_weather_refresh_period_title">Refresh frequency</string>
-    <string name="settings_weather_refresh_period_subtitle_0">30 minutes</string>
-    <string name="settings_weather_refresh_period_subtitle_1">1 hour</string>
-    <string name="settings_weather_refresh_period_subtitle_2">3 hours</string>
-    <string name="settings_weather_refresh_period_subtitle_3">6 hours</string>
-    <string name="settings_weather_refresh_period_subtitle_4">12 hours</string>
-    <string name="settings_weather_refresh_period_subtitle_5">24 hours</string>
-    <string name="settings_custom_location_title">Location</string>
-    <string name="custom_location_gps">Geolocation</string>
-    <string name="show_weather_visible">Weather info is visible</string>
-    <string name="show_weather_not_visible">Weather info is hidden</string>
-    <string name="settings_weather_app_title">Weather</string>
-    <string name="settings_weather_provider_api_key_title">Weather API key</string>
-    <string name="settings_weather_provider_api_key_subtitle_all_set">The weather provider is configured correctly.</string>
-    <string name="settings_weather_provider_api_key_subtitle_not_set">The weather provider must be configured.</string>
-    <string name="api_key_hint">OpenWeatherMap API Key</string>
-    <string name="default_weather_app">Google Weather</string>
-    <string name="weather_warning">Google Awareness API is now deprecated. It is now required to have an API key from a third-party provider to show weather in the widget.</string>
-    <string name="settings_weather_icon_pack_title">Icon pack</string>
-    <string name="settings_weather_icon_pack_default">Icon pack %d</string>
-    <string name="background_location_warning">When Geolocation is selected, we collect location data to update the weather information even when the app is closed or not in use.\nWe will not use these data otherwise.</string>
-    <string name="settings_weather_provider_api">Weather provider</string>
+    <string name="settings_weather_refresh_period_title">Frekuensi penyegaran</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30 menit</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1 jam</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3 jam</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6 jam</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12 jam</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24 jam</string>
+    <string name="settings_custom_location_title">Lokasi</string>
+    <string name="custom_location_gps">Geolokasi</string>
+    <string name="show_weather_visible">Info cuaca terlihat</string>
+    <string name="show_weather_not_visible">Info cuaca tersembunyi</string>
+    <string name="settings_weather_app_title">Cuaca</string>
+    <string name="settings_weather_provider_api_key_title">Kunci API cuaca/string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Penyedia cuaca dikonfigurasi dengan benar.</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Penyedia cuaca harus dikonfigurasi.</string>
+    <string name="api_key_hint">Kunci API OpenWeatherMap</string>
+    <string name="default_weather_app">Google Cuaca</string>
+    <string name="weather_warning">Google Awareness API sekarang tidak digunakan lagi. Sekarang diperlukan kunci API dari penyedia pihak ketiga untuk menampilkan cuaca di widget.</string>
+    <string name="settings_weather_icon_pack_title">Paket ikon</string>
+    <string name="settings_weather_icon_pack_default">Paket ikon %d</string>
+    <string name="background_location_warning">Saat Geolokasi dipilih, kami mengumpulkan data lokasi untuk memperbarui informasi cuaca bahkan saat aplikasi ditutup atau tidak digunakan.\nKami tidak akan menggunakan data ini jika tidak.</string>
+    <string name="settings_weather_provider_api">Penyedia cuaca</string>
 
     <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
     <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
@@ -152,226 +152,226 @@
     <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
     <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
 
-    <string name="weather_provider_info_open_weather_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_weatherbit_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_weatherapi_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_here_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_accuweather_title">This weather provider needs\nan API key to work correctly.</string>
-    <string name="weather_provider_info_weather_gov_title">This weather provider only works\nfor locations inside the USA.</string>
-    <string name="weather_provider_info_yr_title">This weather provider only allows\nCelsius temperature unit.</string>
+    <string name="weather_provider_info_open_weather_title">Penyedia cuaca ini memerlukan\nkunci API agar berfungsi dengan benar.</string>
+    <string name="weather_provider_info_weatherbit_title">Penyedia cuaca ini memerlukan\nkunci API agar berfungsi dengan benar.</string>
+    <string name="weather_provider_info_weatherapi_title">Penyedia cuaca ini memerlukan\nkunci API agar berfungsi dengan benar.</string>
+    <string name="weather_provider_info_here_title">Penyedia cuaca ini memerlukan\nkunci API agar berfungsi dengan benar.</string>
+    <string name="weather_provider_info_accuweather_title">Penyedia cuaca ini memerlukan\nkunci API agar berfungsi dengan benar.</string>
+    <string name="weather_provider_info_weather_gov_title">Penyedia cuaca ini hanya berfungsi\nuntuk lokasi di dalam AS.</string>
+    <string name="weather_provider_info_yr_title">Penyedia cuaca ini hanya mengizinkan\nsatuan suhu Celcius.</string>
 
-    <string name="weather_provider_info_open_weather_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
-    <string name="weather_provider_info_weatherbit_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
-    <string name="weather_provider_info_weatherapi_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
-    <string name="weather_provider_info_here_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
-    <string name="weather_provider_info_accuweather_subtitle">Open the provider website, create a personal account and copy the default key here.</string>
+    <string name="weather_provider_info_open_weather_subtitle">Buka situs web penyedia, buat akun pribadi dan salin kunci default di sini.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Buka situs web penyedia, buat akun pribadi dan salin kunci default di sini.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Buka situs web penyedia, buat akun pribadi dan salin kunci default di sini.</string>
+    <string name="weather_provider_info_here_subtitle">Buka situs web penyedia, buat akun pribadi dan salin kunci default di sini.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Buka situs web penyedia, buat akun pribadi dan salin kunci default di sini.</string>
     <string name="weather_provider_info_weather_gov_subtitle">\n</string>
     <string name="weather_provider_info_yr_subtitle">\n</string>
 
-    <string name="weather_provider_error_missing_key">The weather provider that you\'ve selected requires an API key.</string>
-    <string name="weather_provider_error_wrong_location">The current location is not supported.</string>
-    <string name="weather_provider_error_missing_location">Please select a valid location.</string>
-    <string name="weather_provider_error_expired_key">It seems that your API key has expired.</string>
-    <string name="weather_provider_error_invalid_key">API key not valid, or not yet activated.</string>
+    <string name="weather_provider_error_missing_key">Penyedia cuaca yang Anda pilih memerlukan kunci API.</string>
+    <string name="weather_provider_error_wrong_location">Lokasi saat ini tidak didukung.</string>
+    <string name="weather_provider_error_missing_location">Pilih lokasi yang valid.</string>
+    <string name="weather_provider_error_expired_key">Tampaknya kunci API Anda telah kedaluwarsa.</string>
+    <string name="weather_provider_error_invalid_key">Kunci API tidak valid, atau belum diaktifkan.</string>
     <string name="weather_provider_error_misconfigured">The weather provider is wrongly configured.</string>
-    <string name="weather_provider_error_connection">Connection error.</string>
-    <string name="weather_provider_error_generic">Something went wrong, check the weather provider config.</string>
-    <string name="api_key_required_message">Account required</string>
-    <string name="us_only_message">USA Only</string>
-    <string name="celsius_only_message">Metric Unit Only</string>
-    <string name="weather_select_a_provider">Select a provider</string>
-    <string name="weather_provider_activity_subtitle">Select a weather provider from the list.\nA few providers need a free personal account,\nbut they are usually more accurate.</string>
+    <string name="weather_provider_error_connection">Koneksi error.</string>
+    <string name="weather_provider_error_generic">Ada yang tidak beres, periksa konfigurasi penyedia cuaca.</string>
+    <string name="api_key_required_message">Diperlukan akun</string>
+    <string name="us_only_message">Hanya AS</string>
+    <string name="celsius_only_message">Unit Metrik Saja</string>
+    <string name="weather_select_a_provider">Pilih penyedia</string>
+    <string name="weather_provider_activity_subtitle">Pilih penyedia cuaca dari daftar.\nBeberapa penyedia memerlukan akun pribadi gratis,\ntetapi biasanya lebih akurat.</string>
 
     <string name="location_access_notification_channel_id" translatable="false">location-access</string>
-    <string name="location_access_notification_channel_name">Weather update service</string>
-    <string name="location_access_notification_channel_description">Service used to update the weather based on the current location of the user.</string>
-    <string name="location_access_notification_title">Updating the weather…</string>
-    <string name="location_access_notification_subtitle">We\'re updating the weather based on your current location.</string>
+    <string name="location_access_notification_channel_name">Layanan pembaruan cuaca</string>
+    <string name="location_access_notification_channel_description">Layanan yang digunakan untuk memperbarui cuaca berdasarkan lokasi pengguna saat ini.</string>
+    <string name="location_access_notification_title">Memperbarui cuaca…</string>
+    <string name="location_access_notification_subtitle">Kami memperbarui cuaca berdasarkan lokasi Anda saat ini.</string>
 
     <!-- Clock -->
-    <string name="settings_clock_title">Clock</string>
-    <string name="settings_clock_app_title">Clock</string>
-    <string name="title_show_clock">Show Clock</string>
-    <string name="show_clock_visible">Clock is visible</string>
-    <string name="show_clock_not_visible">Clock is hidden</string>
-    <string name="settings_clock_text_size_title">Text size</string>
-    <string name="default_clock_app">Default clock app</string>
-    <string name="settings_clock_bottom_margin_title">Clock bottom margin</string>
-    <string name="settings_clock_bottom_margin_subtitle_none">None</string>
-    <string name="settings_clock_bottom_margin_subtitle_small">Small</string>
-    <string name="settings_clock_bottom_margin_subtitle_medium">Medium</string>
-    <string name="settings_clock_bottom_margin_subtitle_large">Large</string>
-    <string name="clock_warning">Due to technological limitations, the clock won\'t have the custom font and the text shadows selected in the typography section.</string>
-    <string name="settings_clock_text_color_title">Text color</string>
-    <string name="settings_ampm_indicator_title">Show AM/PM indicator</string>
-    <string name="clock_text_header">Clock text style</string>
-    <string name="time_zones_header">Time Zones</string>
-    <string name="settings_alt_timezone_title">Multiple clock</string>
-    <string name="no_time_zone_label">None</string>
-    <string name="time_zone_search_error_message">Error searching the time zone.</string>
-    <string name="geoname_credit">Service available thanks to <a href="http://www.geonames.org/">GeoNames</a>.</string>
+    <string name="settings_clock_title">Jam</string>
+    <string name="settings_clock_app_title">Jam</string>
+    <string name="title_show_clock">Tunjukkan Jam</string>
+    <string name="show_clock_visible">Jam terlihat</string>
+    <string name="show_clock_not_visible">Jam tersembunyi</string>
+    <string name="settings_clock_text_size_title">Ukuran teks</string>
+    <string name="default_clock_app">Aplikasi jam bawaan</string>
+    <string name="settings_clock_bottom_margin_title">Margin bawah jam</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Tidak ada</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Kecil</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Sedang</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Besar</string>
+    <string name="clock_warning">Karena keterbatasan teknologi, jam tidak akan memiliki font khusus dan bayangan teks yang dipilih di bagian tipografi.</string>
+    <string name="settings_clock_text_color_title">Warna teks</string>
+    <string name="settings_ampm_indicator_title">Tunjukkan indikator AM/PM</string>
+    <string name="clock_text_header">Gaya teks jam</string>
+    <string name="time_zones_header">Zona waktu<string>
+    <string name="settings_alt_timezone_title">Beberapa jam</string>
+    <string name="no_time_zone_label">Tidak ada</string>
+    <string name="time_zone_search_error_message">Terjadi kesalahan saat menelusuri zona waktu.</string>
+    <string name="geoname_credit">Layanan tersedia berkat <a href="http://www.geonames.org/">GeoNames</a>.</string>
 
     <!-- Glance -->
-    <string name="settings_show_next_alarm_title">Next clock alarm</string>
-    <string name="settings_at_a_glance_title">At a glance</string>
-    <string name="settings_show_music_title">Current playing song</string>
-    <string name="settings_request_notification_access">We need the notification access permission to check the current playing song.</string>
-    <string name="settings_request_last_notification_access">We need the notification access permission to check your last notifications.</string>
-    <string name="settings_request_fitness_access">We need a few permissions to get your daily steps from Google Fit.</string>
-    <string name="title_show_glance">Show at a glance info</string>
-    <string name="description_show_glance_visible">Service enabled</string>
-    <string name="description_show_glance_not_visible">Service disabled</string>
-    <string name="settings_sort_glance_providers_title">Data source priority</string>
-    <string name="settings_sort_glance_providers_subtitle">Change the data provider priority by sorting the list below with the drag-and-drop icons.</string>
-    <string name="settings_custom_notes_title">Custom notes</string>
-    <string name="settings_daily_steps_title">Fitness</string>
-    <string name="daily_steps_counter">%d steps so far</string>
-    <string name="settings_low_battery_level_title">Battery</string>
-    <string name="battery_low_warning">Low battery level</string>
-    <string name="charging">Charging</string>
-    <string name="charged">Fully charged</string>
-    <string name="providers">Providers</string>
-    <string name="glance_info">Glance info will show up only when there are no events displayed and only when a few conditions are verified.</string>
-    <string name="settings_music_players_filter_title">Music Players</string>
-    <string name="settings_music_players_filter_subtitle">Choose your relevant music players</string>
-    <string name="settings_show_music_subtitle">We use the music players\' notification to show the current playing song.</string>
-    <string name="settings_low_battery_level_subtitle">Get advised when the device has the battery low or is charging.</string>
-    <string name="settings_daily_steps_subtitle">View your daily steps for a brief moment after finishing a walk or a run.</string>
-    <string name="settings_show_next_alarm_subtitle">View your next clock alarm.\nCheck if your default clock app is the only one setting alarms.</string>
-    <string name="settings_show_next_alarm_app_title">Alarm set by %s</string>
-    <string name="settings_show_next_alarm_app_subtitle_wrong">The next alarm clock seems to be wrong</string>
-    <string name="settings_show_next_alarm_app_subtitle_correct">The next alarm clock seems to be correct</string>
-    <string name="settings_show_notifications_title">Latest notifications</string>
-    <string name="settings_show_notifications_subtitle">Check out the latest notifications that showed up on your device.</string>
-    <string name="settings_show_greetings_title">Greetings</string>
-    <string name="settings_show_greetings_subtitle">View some cool phrase to lighten your day when you don\'t expect it.</string>
-    <string name="google_fit_account_connected">Account linked</string>
-    <string name="google_fit_account_not_connected">Account not linked</string>
+    <string name="settings_show_next_alarm_title">Jam alarm berikutnya</string>
+    <string name="settings_at_a_glance_title">Sekilas</string>
+    <string name="settings_show_music_title">Lagu yang sedang diputar</string>
+    <string name="settings_request_notification_access">Kami memerlukan izin akses notifikasi untuk memeriksa lagu yang sedang diputar.</string>
+    <string name="settings_request_last_notification_access">Kami memerlukan izin akses notifikasi untuk memeriksa notif terakhir Anda.</string>
+    <string name="settings_request_fitness_access">Kami memerlukan beberapa izin untuk mendapatkan langkah harian Anda dari Google Fit.</string>
+    <string name="title_show_glance">Tampilkan info sekilas</string>
+    <string name="description_show_glance_visible">Layanan diaktifkan</string>
+    <string name="description_show_glance_not_visible">Layanan dimatikan</string>
+    <string name="settings_sort_glance_providers_title">Prioritas sumber data</string>
+    <string name="settings_sort_glance_providers_subtitle">Ubah prioritas penyedia data dengan mengurutkan daftar di bawah ini dengan ikon seret dan lepas.</string>
+    <string name="settings_custom_notes_title">Catatan khusus</string>
+    <string name="settings_daily_steps_title">Kebugaran</string>
+    <string name="daily_steps_counter">%d langkah sejauh ini</string>
+    <string name="settings_low_battery_level_title">Baterai</string>
+    <string name="battery_low_warning">Tingkat baterai rendah</string>
+    <string name="charging">Mengisi</string>
+    <string name="charged">Terisi penuh</string>
+    <string name="providers">Penyedia</string>
+    <string name="glance_info">Info sekilas akan muncul hanya ketika tidak ada acara yang ditampilkan dan hanya ketika beberapa kondisi diverifikasi.</string>
+    <string name="settings_music_players_filter_title">Pemutar Musik</string>
+    <string name="settings_music_players_filter_subtitle">Pilih pemutar musik Anda yang relevan</string>
+    <string name="settings_show_music_subtitle">Kami menggunakan notifikasi pemutar musik untuk menampilkan lagu yang sedang diputar.</string>
+    <string name="settings_low_battery_level_subtitle">Dapatkan saran saat perangkat memiliki baterai rendah atau sedang diisi.</string>
+    <string name="settings_daily_steps_subtitle">Lihat langkah harian Anda sejenak setelah selesai berjalan atau berlari.</string>
+    <string name="settings_show_next_alarm_subtitle">Lihat jam alarm Anda berikutnya.\nPeriksa apakah aplikasi jam default Anda adalah satu-satunya yang mengatur alarm.</string>
+    <string name="settings_show_next_alarm_app_title">Alarm disetel oleh %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">Jam alarm berikutnya tampaknya salah</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">Jam alarm berikutnya tampaknya benar</string>
+    <string name="settings_show_notifications_title">Notifikasi terakhir</string>
+    <string name="settings_show_notifications_subtitle">Lihat notifikasi terbaru yang muncul di perangkat Anda.</string>
+    <string name="settings_show_greetings_title">Salam</string>
+    <string name="settings_show_greetings_subtitle">Lihat beberapa kata keren untuk meringankan hari Anda ketika Anda tidak mengharapkannya.</string>
+    <string name="google_fit_account_connected">Akun tertaut</string>
+    <string name="google_fit_account_not_connected">Akun tidak tertaut</string>
     <string name="google_fit">Google Fit</string>
-    <string name="action_connect">Connect</string>
-    <string name="action_disconnect">Disconnect</string>
-    <string name="applications_filter_title">Applications</string>
-    <string name="applications_filter_subtitle">Choose which notifications to view</string>
+    <string name="action_connect">Sambung</string>
+    <string name="action_disconnect">Memutuskan</string>
+    <string name="applications_filter_title">Aplikasi</string>
+    <string name="applications_filter_subtitle">Pilih notifikasi mana yang akan dilihat</string>
     <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
-        <item>Good morning!</item>
-        <item>Have a good day!</item>
-        <item>Ready to go?</item>
-        <item>Rise and shine.</item>
-        <item>Don\'t forget your breakfast!</item>
+        <item>Selamat pagi!</item>
+        <item>Semoga harimu menyenangkan!</item>
+        <item>Siap untuk berangkat?</item>
+        <item>Bangkit dan bersinar</item>
+        <item>Jangan lupa sarapan!</item>
     </string-array>
     <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
-        <item>Good evening!</item>
-        <item>How did your day go?</item>
-        <item>Did you have a nice day?</item>
-        <item>After effort comes comfort.</item>
-        <item>Don\'t forget to have dinner!</item>
+        <item>Selamat malam!</item>
+        <item>Bagaimana harimu?</item>
+        <item>Apakah harimu menyenangkan?</item>
+        <item>Setelah usaha datang kenyamanan.</item>
+        <item>Jangan lupa makan malam!</item>
     </string-array>
     <string-array name="night_greetings" tools:ignore="InconsistentArrays">
-        <item>Good night!</item>
-        <item>Sleep well!</item>
-        <item>Sweet dreams till sunbeams find you!</item>
-        <item>See you tomorrow...</item>
-        <item>Don\'t stay up too late!</item>
+        <item>Selamat tidur!</item>
+        <item>Tidur nyenyak!</item>
+        <item>Mimpi indah sampai matahari menemukanmu!</item>
+        <item>Sampai jumpa besok...</item>
+        <item>Jangan begadang!</item>
     </string-array>
-    <string name="glance_notification_hide_timeout_title">Hide the notification after</string>
+    <string name="glance_notification_hide_timeout_title">Sembunyikan notifikasi setelah</string>
     <string-array name="glance_notifications_timeout">
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>15 minutes</item>
-        <item>Dismissal</item>
+        <item>30 detik</item>
+        <item>1 menit</item>
+        <item>5 menit</item>
+        <item>10 menit</item>
+        <item>15 menit</item>
+        <item>Berhenti</item>
     </string-array>
-    <string name="settings_show_events_as_glance_provider_title">Events</string>
-    <string name="settings_show_events_as_glance_provider_subtitle">View a sneak peek of your calendar events and always show the current date.</string>
-    <string name="settings_show_events_as_glance_provider_error">Please enable the show of the events in the calendar tab and grant the required permission.</string>
+    <string name="settings_show_events_as_glance_provider_title">Acara</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Lihat cuplikan acara kalender Anda dan selalu tampilkan tanggal saat ini.</string>
+    <string name="settings_show_events_as_glance_provider_error">Harap aktifkan pertunjukan acara di tab kalender dan berikan izin yang diperlukan.</string>
     <string name="events_glance_provider_format">%1$s %2$s</string>
 
     <!-- Settings -->
-    <string name="action_share">Share</string>
-    <string name="action_rate">Rate app</string>
-    <string name="action_support">Support me</string>
-    <string name="action_feedback">Feedback</string>
-    <string name="action_about">About</string>
-    <string name="action_refresh_widget">Refresh widget</string>
+    <string name="action_share">Bagikan</string>
+    <string name="action_rate">Beri peringkat aplikasi</string>
+    <string name="action_support">Dukung saya</string>
+    <string name="action_feedback">Masukan</string>
+    <string name="action_about">Tentang</string>
+    <string name="action_refresh_widget">Segarkan widget</string>
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
-    <string name="error_opening_uri">Error opening URL: Link copied to clipboard.</string>
-    <string name="loading_text">Loading Data...</string>
-    <string name="error_opening_app">Error opening app.</string>
-    <string name="default_name">Default app</string>
-    <string name="action_save">Save</string>
-    <string name="settings_visible">Visible</string>
-    <string name="settings_not_visible">Hidden</string>
-    <string name="support_translations_title">Help with translations</string>
-    <string name="support_translations_subtitle">Open a pull request on GitHub</string>
-    <string name="support_website_title">Check my other projects</string>
-    <string name="support_website_subtitle">Same developer, many possibilities</string>
-    <string name="error">Ooops, something went wrong!</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="support_main_subtitle">Devs always need a lot of coffee</string>
-    <string name="settings_subtitle_dark_theme_light">Light</string>
-    <string name="settings_subtitle_dark_theme_dark">Dark</string>
-    <string name="settings_subtitle_dark_theme_by_battery_saver">Set by battery saver</string>
-    <string name="settings_subtitle_dark_theme_follow_system">Follow the system theme</string>
-    <string name="settings_subtitle_dark_theme_default">Default</string>
-    <string name="search">Search</string>
-    <string name="settings_app_version_title">App version</string>
-    <string name="settings_title_show_wallpaper">Show wallpaper</string>
-    <string name="support_refresh_widget_subtitle">Force the restart of the widget service</string>
-    <string name="settings_feedback_subtitle">Feel free to help our project!</string>
-    <string name="settings_feedback_title">Feedback and feature requests</string>
+    <string name="error_opening_uri">Kesalahan membuka URL: Tautan disalin ke papan klip.</string>
+    <string name="loading_text">Memuat Data...</string>
+    <string name="error_opening_app">Kesalahan saat membuka aplikasi.</string>
+    <string name="default_name">Aplikasi bawaan</string>
+    <string name="action_save">Simpan</string>
+    <string name="settings_visible">Terlihat</string>
+    <string name="settings_not_visible">Tersembunyi</string>
+    <string name="support_translations_title">Bantu terjemahkan</string>
+    <string name="support_translations_subtitle">Buka pull request pada GitHub</string>
+    <string name="support_website_title">Periksa proyek saya yang lain</string>
+    <string name="support_website_subtitle">Pengembang yang sama, banyak kemungkinan</string>
+    <string name="error">Ooops, ada yang salah!</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="support_main_subtitle">Pengembang selalu membutuhkan banyak minum kopi</string>
+    <string name="settings_subtitle_dark_theme_light">Terang</string>
+    <string name="settings_subtitle_dark_theme_dark">Gelap</string>
+    <string name="settings_subtitle_dark_theme_by_battery_saver">Diatur oleh penghemat baterai</string>
+    <string name="settings_subtitle_dark_theme_follow_system">Ikuti tema sistem</string>
+    <string name="settings_subtitle_dark_theme_default">Bawaan</string>
+    <string name="search">Cari</string>
+    <string name="settings_app_version_title">Versi aplikasi</string>
+    <string name="settings_title_show_wallpaper">Tunjukkan wallpaper</string>
+    <string name="support_refresh_widget_subtitle">Paksa mulai ulang layanan widget</string>
+    <string name="settings_feedback_subtitle">Jangan sungkan untuk membantu proyek kami!</string>
+    <string name="settings_feedback_title">Umpan balik dan sarankan fitur</string>
     <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
-    <string name="xiaomi_warning_title">Xiaomi Devices</string>
-    <string name="xiaomi_warning_message">Enable the permission to display pop-up windows when running in the background inside the "Other permission" section of the app settings. Otherwise, you will not able to open any applications tapping on the widget.</string>
-    <string name="action_ignore">Ignore</string>
-    <string name="action_grant_permission">Grant permission</string>
-    <string name="settings_title">Settings</string>
-    <string name="style_header">Style</string>
-    <string name="actions_header">Actions</string>
-    <string name="provider_header">Provider</string>
-    <string name="appearance_header">Appearance</string>
-    <string name="preferences_header">Preferences</string>
+    <string name="xiaomi_warning_title">Perangkat xiaomi</string>
+    <string name="xiaomi_warning_message">Aktifkan izin untuk menampilkan jendela sembul saat berjalan di latar belakang di dalam bagian "Izin lain" pada pengaturan aplikasi. Jika tidak, Anda tidak akan dapat membuka aplikasi apa pun yang mengetuk widget.</string>
+    <string name="action_ignore">Abaikan</string>
+    <string name="action_grant_permission">Berikan izin</string>
+    <string name="settings_title">Pengaturan</string>
+    <string name="style_header">Gaya</string>
+    <string name="actions_header">Tindakan</string>
+    <string name="provider_header">Penyedia</string>
+    <string name="appearance_header">Tampilan</string>
+    <string name="preferences_header">Preferensi</string>
     <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
-    <string name="settings_privacy_policy_subtitle">View the privacy policy of the app</string>
-    <string name="project_header">Open-source project</string>
-    <string name="information_header">Information</string>
+    <string name="settings_privacy_policy_subtitle">Lihat kebijakan privasi aplikasi</string>
+    <string name="project_header">Proyek sumber terbuka</string>
+    <string name="information_header">Informasi</string>
 
     <!-- Activities -->
-    <string name="action_choose_application">Choose application</string>
-    <string name="support_main_title">Support the developer</string>
-    <string name="thanks">Thanks for supporting me!</string>
-    <string name="donation_coffee">An italian coffee</string>
-    <string name="donation_donuts">Some glazed donuts</string>
-    <string name="donation_dinner">An expensive dinner</string>
-    <string name="donation_breakfast">An english breakfast</string>
-    <string name="donation_lunch">A quick lunch</string>
-    <string name="action_show_widget_preview">Show widget preview</string>
-    <string name="support_dev_subtitle">This is a single developer project,\nso thank you for the support!</string>
-    <string name="settings_title_integrations">Integrations</string>
-    <string name="label_count_installed_integrations">%d installed integrations</string>
-    <string name="nothing">Nothing</string>
-    <string name="action_dismiss">Dismiss</string>
-    <string name="action_accept">Accept</string>
-    <string name="gestures_do_nothing">None</string>
-    <string name="song_info_format_activity_title">Song info format</string>
-    <string name="song_info_format_activity_subtitle">Change the visible song info</string>
+    <string name="action_choose_application">Pilih aplikasi</string>
+    <string name="support_main_title">Dukung pengembang</string>
+    <string name="thanks">Terima kasih telah mendukung saya!</string>
+    <string name="donation_coffee">Kopi Italia</string>
+    <string name="donation_donuts">Beberapa donat berlapis</string>
+    <string name="donation_dinner">Makan malam yang mahal</string>
+    <string name="donation_breakfast">Sarapan ala Inggris</string>
+    <string name="donation_lunch">Makan siang cepat</string>
+    <string name="action_show_widget_preview">Tampilkan pratinjau widget</string>
+    <string name="support_dev_subtitle">Ini adalah proyek pengembang tunggal,\njadi terima kasih atas dukungannya!</string>
+    <string name="settings_title_integrations">Integrasi</string>
+    <string name="label_count_installed_integrations">%d integrasi yang diinstal</string>
+    <string name="nothing">Tidak sama sekali</string>
+    <string name="action_dismiss">Tolak</string>
+    <string name="action_accept">Terima</string>
+    <string name="gestures_do_nothing">Tidak ada</string>
+    <string name="song_info_format_activity_title">Info format lagu</string>
+    <string name="song_info_format_activity_subtitle">Ubah info lagu yang terlihat</string>
 
     <!-- More -->
     <string name="look_and_feel_header"><![CDATA[Look & feel]]></string>
-    <string name="typography_settings_title">Typography</string>
-    <string name="typography_settings_subtitle">Set text font, size and color</string>
-    <string name="layout_settings_title">Layout</string>
-    <string name="gestures_settings_subtitle">Actions, behaviour and shortcuts</string>
-    <string name="gestures_settings_title">Gestures</string>
+    <string name="typography_settings_title">Tiopgrafi</string>
+    <string name="typography_settings_subtitle">Atur font tex, ukuran, dan warna</string>
+    <string name="layout_settings_title">Tata letak</string>
+    <string name="gestures_settings_subtitle">Tindakan, perilaku, dan jalan pintas</string>
+    <string name="gestures_settings_title">Gestur</string>
     <string name="gestures_amp_input_header"><![CDATA[Gestures & input]]></string>
-    <string name="clock_settings_subtitle">Set size, color and time zones</string>
-    <string name="layout_settings_subtitle">Widget spacing and tweaks</string>
-    <string name="smart_content_header">Smart content</string>
-    <string name="spacing_settings_header">Spacing</string>
-    <string name="gestures_refresh_widget">None, the widget will be refreshed</string>
-    <string name="settings_disabled">Disabled</string>
-    <string name="settings_enabled">Enabled</string>
-    <string name="color_copied">Color copied into the clipboard.</string>
-    <string name="error_copy_color">The color cannot be copied.</string>
-    <string name="default_apps_settings_header">Default apps</string>
+    <string name="clock_settings_subtitle">Atur ukuran, warna dan zona waktu</string>
+    <string name="layout_settings_subtitle">Jarak widget dan penyesuaian</string>
+    <string name="smart_content_header">Konten cerdas</string>
+    <string name="spacing_settings_header">Jarak</string>
+    <string name="gestures_refresh_widget">Tidak ada, widget akan disegarkan</string>
+    <string name="settings_disabled">Dimatikan</string>
+    <string name="settings_enabled">Diaktifkan</string>
+    <string name="color_copied">Warna disalin ke clipboard.</string>
+    <string name="error_copy_color">Warna tidak dapat disalin.</string>
+    <string name="default_apps_settings_header">Aplikasi bawaan</string>
 </resources>
