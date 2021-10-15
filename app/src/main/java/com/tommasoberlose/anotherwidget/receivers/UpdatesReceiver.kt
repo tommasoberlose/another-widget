@@ -13,11 +13,8 @@ import com.tommasoberlose.anotherwidget.helpers.*
 import com.tommasoberlose.anotherwidget.models.Event
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
 import com.tommasoberlose.anotherwidget.utils.setExactIfCanSchedule
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.joda.time.Period
 import java.util.*
+import org.joda.time.Period
 
 
 class UpdatesReceiver : BroadcastReceiver() {
@@ -40,15 +37,18 @@ class UpdatesReceiver : BroadcastReceiver() {
                 CalendarHelper.updateEventList(context)
             }
 
-            "com.sec.android.widgetapp.APPWIDGET_RESIZE",
-            AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
-            Actions.ACTION_ALARM_UPDATE,
-            Actions.ACTION_UPDATE_GREETINGS,
             Actions.ACTION_TIME_UPDATE -> {
                 MainWidget.updateWidget(context)
                 if (intent.hasExtra(EVENT_ID)) {
                     setUpdates(context, intent.getLongExtra(EVENT_ID, -1))
                 }
+            }
+
+            "com.sec.android.widgetapp.APPWIDGET_RESIZE",
+            AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
+            Actions.ACTION_ALARM_UPDATE,
+            Actions.ACTION_UPDATE_GREETINGS -> {
+                MainWidget.updateWidget(context)
             }
 
             Actions.ACTION_CLEAR_NOTIFICATION -> {

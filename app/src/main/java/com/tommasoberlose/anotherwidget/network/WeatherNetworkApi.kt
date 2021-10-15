@@ -17,13 +17,11 @@ import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.network.repository.*
 import com.tommasoberlose.anotherwidget.ui.fragments.MainFragment
 import com.tommasoberlose.anotherwidget.ui.widgets.MainWidget
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.util.*
+import kotlin.coroutines.resume
+import kotlinx.coroutines.suspendCancellableCoroutine
+import org.greenrobot.eventbus.EventBus
 
 class WeatherNetworkApi(val context: Context) {
     suspend fun updateWeather() {
@@ -31,7 +29,7 @@ class WeatherNetworkApi(val context: Context) {
         Preferences.weatherProviderError = "-"
         Preferences.weatherProviderLocationError = ""
 
-        if (Preferences.showWeather && Preferences.customLocationLat != "" && Preferences.customLocationLon != "") {
+        if (Preferences.customLocationLat != "" && Preferences.customLocationLon != "") {
             when (Constants.WeatherProvider.fromInt(Preferences.weatherProvider)) {
                 Constants.WeatherProvider.OPEN_WEATHER -> useOpenWeatherMap(context)
                 Constants.WeatherProvider.WEATHER_GOV -> useWeatherGov(context)
@@ -42,46 +40,67 @@ class WeatherNetworkApi(val context: Context) {
                 Constants.WeatherProvider.YR -> useYrProvider(context)
             }
         } else {
-            if (!Preferences.showWeather)
-                Preferences.weatherProviderError = context.getString(R.string.show_weather_not_visible)
-            else {
-                Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_missing_location)
-                Preferences.weatherProviderError = ""
-            }
+            Preferences.weatherProviderLocationError = context.getString(R.string.weather_provider_error_missing_location)
+            Preferences.weatherProviderError = ""
 
             WeatherHelper.removeWeather(
                 context
             )
-
             EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
         }
     }
 
-    private fun useOpenWeatherMap(context: Context) {
+    private suspend fun useOpenWeatherMap(context: Context) {
         if (Preferences.weatherProviderApiOpen != "") {
             val helper = OpenWeatherMapHelper(Preferences.weatherProviderApiOpen)
             helper.setUnits(if (Preferences.weatherTempUnit == "F") Units.IMPERIAL else Units.METRIC)
-            helper.getCurrentWeatherByGeoCoordinates(Preferences.customLocationLat.toDouble(), Preferences.customLocationLon.toDouble(), object :
-                CurrentWeatherCallback {
-                override fun onSuccess(currentWeather: CurrentWeather?) {
-                    currentWeather?.let {
-                        Preferences.weatherTemp = currentWeather.main.temp.toFloat()
-                        Preferences.weatherIcon = currentWeather.weather[0].icon
-                        Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
-                        MainWidget.updateWidget(context)
+            when (val response = suspendCancellableCoroutine<Any?> { continuation ->
+                helper.getCurrentWeatherByGeoCoordinates(Preferences.customLocationLat.toDouble(), Preferences.customLocationLon.toDouble(), object :
+                    CurrentWeatherCallback {
+                    override fun onSuccess(currentWeather: CurrentWeather?) {
+                        continuation.resume(currentWeather)
                     }
+
+                    override fun onFailure(throwable: Throwable?) {
+                        continuation.resume(throwable)
+                    }
+                })
+            }) {
+                is CurrentWeather -> {
+                    Preferences.weatherTemp = response.main.temp.toFloat()
+                    Preferences.weatherIcon = response.weather[0].icon
+                    Preferences.weatherRealTempUnit = Preferences.weatherTempUnit
+                    MainWidget.updateWidget(context)
 
                     Preferences.weatherProviderError = ""
                     Preferences.weatherProviderLocationError = ""
-                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                 }
-
-                override fun onFailure(throwable: Throwable?) {
+                is Throwable -> {
+                    if (response.javaClass == Throwable::class.java) {
+                        // server error, see [OpenWeatherMapHelper.handleCurrentWeatherResponse]
+                        if (response.message?.startsWith("UnAuthorized") == true) {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_invalid_key)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                        else {
+                            Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
+                            Preferences.weatherProviderLocationError = ""
+                        }
+                        WeatherHelper.removeWeather(
+                            context
+                        )
+                    }
+                    else {
+                        Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_connection)
+                        Preferences.weatherProviderLocationError = ""
+                    }
+                }
+                else -> {
                     Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_generic)
                     Preferences.weatherProviderLocationError = ""
-                    EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
                 }
-            })
+            }
+            EventBus.getDefault().post(MainFragment.UpdateUiMessageEvent())
         } else {
             Preferences.weatherProviderError = context.getString(R.string.weather_provider_error_missing_key)
             Preferences.weatherProviderLocationError = ""

@@ -23,6 +23,7 @@ import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentPreferencesBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
@@ -137,7 +138,7 @@ class PreferencesFragment : Fragment() {
             if (enabled) {
                 Preferences.weatherProviderError = ""
                 Preferences.weatherProviderLocationError = ""
-                WeatherReceiver.setUpdates(requireContext())
+                WeatherHelper.updateWeather(requireContext())
             } else {
                 WeatherReceiver.removeUpdates(requireContext())
             }

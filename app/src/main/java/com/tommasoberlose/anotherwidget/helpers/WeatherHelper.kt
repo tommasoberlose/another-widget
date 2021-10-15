@@ -19,8 +19,15 @@ import com.tommasoberlose.anotherwidget.utils.isDarkTheme
 
 object WeatherHelper {
 
-    fun updateWeather(context: Context) {
-        WeatherWorker.enqueue(context)
+    fun updateWeather(context: Context, force: Boolean = false) {
+        if (Preferences.showWeather || force)
+            WeatherWorker.enqueue(context, replace = force)
+        else {
+            removeWeather(context)
+            org.greenrobot.eventbus.EventBus.getDefault().post(
+                com.tommasoberlose.anotherwidget.ui.fragments.MainFragment.UpdateUiMessageEvent()
+            )
+        }
     }
 
     fun removeWeather(context: Context) {

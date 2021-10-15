@@ -57,7 +57,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         updateListItem()
                         binding.loader.isVisible = true
 
-                        WeatherHelper.updateWeather(this@WeatherProviderActivity)
+                        WeatherHelper.updateWeather(this@WeatherProviderActivity, true)
                     }
                     .clicked(R.id.radioButton) {
                         if (Preferences.weatherProvider != provider.rawValue) {
@@ -70,7 +70,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         updateListItem()
                         binding.loader.isVisible = true
 
-                        WeatherHelper.updateWeather(this@WeatherProviderActivity)
+                        WeatherHelper.updateWeather(this@WeatherProviderActivity, true)
                     }
                     .checked(R.id.radioButton, provider.rawValue == Preferences.weatherProvider)
                     .with<TextView>(R.id.text2) {
@@ -89,7 +89,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                     .clicked(R.id.action_configure) {
                         BottomSheetWeatherProviderSettings(this) {
                             binding.loader.isVisible = true
-                            WeatherHelper.updateWeather(this@WeatherProviderActivity)
+                            WeatherHelper.updateWeather(this@WeatherProviderActivity, true)
                         }.show()
                     }
                     .visibility(R.id.action_configure, if (/*WeatherHelper.isKeyRequired(provider) && */provider.rawValue == Preferences.weatherProvider) View.VISIBLE else View.GONE)

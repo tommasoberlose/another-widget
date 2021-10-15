@@ -32,7 +32,7 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         CalendarHelper.updateEventList(context)
-        WeatherReceiver.setUpdates(context)
+        WeatherHelper.updateWeather(context)
         MediaPlayerHelper.updatePlayingMediaInfo(context)
     }
 

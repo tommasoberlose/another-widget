@@ -156,7 +156,6 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
 
         addSource(Preferences.asLiveData(Preferences::showWeather)) { value = true }
         addSource(Preferences.asLiveData(Preferences::weatherProvider)) { value = true }
-        addSource(Preferences.asLiveData(Preferences::weatherTempUnit)) { value = true }
         addSource(Preferences.asLiveData(Preferences::weatherIconPack)) { value = true }
         addSource(Preferences.asLiveData(Preferences::customLocationLat)) { value = true }
         addSource(Preferences.asLiveData(Preferences::customLocationLon)) { value = true }
