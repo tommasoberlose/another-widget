@@ -496,8 +496,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                             context,
                             now.timeInMillis,
                             nextEvent.startDate
-                        )
-                            .toLowerCase(Locale.getDefault())
+                        ).toLowerCase(Locale.getDefault())
                     } else {
                         SettingsStringHelper.getAllDayEventDifferenceText(
                             context,
@@ -577,11 +576,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                     } else {
                         val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
 
-                        bindingView.subLineText.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(
-                                Calendar.DAY_OF_YEAR)) {
-                            DateHelper.getDateText(context, start)
-                        } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(
-                                Calendar.YEAR) > start.get(Calendar.YEAR)) {
+                        bindingView.subLineText.text = if (now.after(start)) {
                             DateHelper.getDateText(context, now)
                         } else {
                             DateHelper.getDateText(context, start)
@@ -716,8 +711,7 @@ class AlignedWidget(val context: Context, val rightAligned: Boolean = false) {
                                             context,
                                             now.timeInMillis,
                                             nextEvent.startDate
-                                        )
-                                            .toLowerCase(Locale.getDefault())
+                                        ).toLowerCase(Locale.getDefault())
                                     } else {
                                         SettingsStringHelper.getAllDayEventDifferenceText(
                                             context,

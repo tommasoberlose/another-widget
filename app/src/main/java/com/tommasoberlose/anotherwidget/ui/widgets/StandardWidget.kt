@@ -528,8 +528,7 @@ class StandardWidget(val context: Context) {
                             context,
                             now.timeInMillis,
                             nextEvent.startDate
-                        )
-                            .toLowerCase(Locale.getDefault())
+                        ).toLowerCase(Locale.getDefault())
                     } else {
                         SettingsStringHelper.getAllDayEventDifferenceText(
                             context,
@@ -609,11 +608,7 @@ class StandardWidget(val context: Context) {
                     } else {
                         val start = Calendar.getInstance().apply { timeInMillis = nextEvent.startDate }
 
-                        bindingView.subLineText.text = if (now.get(Calendar.DAY_OF_YEAR) == start.get(
-                                Calendar.DAY_OF_YEAR)) {
-                            DateHelper.getDateText(context, start)
-                        } else if (now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR) || now.get(
-                                Calendar.YEAR) > start.get(Calendar.YEAR)) {
+                        bindingView.subLineText.text = if (now.after(start)) {
                             DateHelper.getDateText(context, now)
                         } else {
                             DateHelper.getDateText(context, start)
@@ -748,8 +743,7 @@ class StandardWidget(val context: Context) {
                                             context,
                                             now.timeInMillis,
                                             nextEvent.startDate
-                                        )
-                                            .toLowerCase(Locale.getDefault())
+                                        ).toLowerCase(Locale.getDefault())
                                     } else {
                                         SettingsStringHelper.getAllDayEventDifferenceText(
                                             context,
