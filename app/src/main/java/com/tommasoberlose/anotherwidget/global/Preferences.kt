@@ -23,12 +23,6 @@ object Preferences : KotprefModel() {
     var calendarFilter by stringPref(key = "PREF_CALENDAR_FILTER", default = "")
 
     var nextEventId by longPref(key = "PREF_NEXT_EVENT_ID", default = -1)
-    var nextEventName by stringPref(key = "PREF_NEXT_EVENT_NAME")
-    var nextEventStartDate by longPref(key = "PREF_NEXT_EVENT_START_DATE")
-    var nextEventAllDay by booleanPref(key = "PREF_NEXT_EVENT_ALL_DAY")
-    var nextEventLocation by stringPref(key = "PREF_NEXT_EVENT_LOCATION")
-    var nextEventEndDate by longPref(key = "PREF_NEXT_EVENT_END_DATE")
-    var nextEventCalendarId by intPref(key = "PREF_NEXT_EVENT_CALENDAR_ID")
     var customLocationLat by stringPref(key = "PREF_CUSTOM_LOCATION_LAT", default = "")
     var customLocationLon by stringPref(key = "PREF_CUSTOM_LOCATION_LON", default = "")
     var customLocationAdd by stringPref(key = "PREF_CUSTOM_LOCATION_ADD", default = "")

@@ -131,8 +131,8 @@ class UpdateCalendarWorker(context: Context, params: WorkerParameters) : Worker(
                         eventRepository.resetNextEventData()
                         eventRepository.clearEvents()
                     } else {
-                        eventRepository.saveEvents(sortedEvents)
-                        eventRepository.saveNextEventData(filteredEventList.first())
+                        eventRepository.saveEvents(filteredEventList)
+                        //eventRepository.saveNextEventData(filteredEventList.first())
                     }
                 } catch (ignored: java.lang.Exception) {
                 }
