@@ -221,6 +221,12 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         }
                         Constants.GlanceProviderId.EVENTS -> {
                             Preferences.showEventsAsGlanceProvider = isChecked
+                            if (isChecked) {
+                                com.tommasoberlose.anotherwidget.db.EventRepository(context).run {
+                                    resetNextEventData()
+                                    close()
+                                }
+                            }
                         }
                         Constants.GlanceProviderId.WEATHER -> {
                             Preferences.showWeatherAsGlanceProvider = isChecked

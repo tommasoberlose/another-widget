@@ -66,11 +66,11 @@ class UpdateCalendarWorker(context: Context, params: WorkerParameters) : Worker(
                         limit.timeInMillis + limit.timeZone.getOffset(limit.timeInMillis).coerceAtLeast(0)
                     )
                     if (data != null) {
-                        val instances = data.list
-                        for (instance in instances) {
+                        val filteredCalendarIdList = CalendarHelper.getFilteredCalendarIdList()
+                        for (instance in data.list) {
                             try {
                                 val e = provider.getEvent(instance.eventId)
-                                if (e == null || e.deleted || CalendarHelper.getFilteredCalendarIdList().contains(e.calendarId))
+                                if (e == null || e.deleted || filteredCalendarIdList.contains(e.calendarId))
                                     continue
                                 if (e.allDay) {
                                     val start = Calendar.getInstance()
@@ -131,8 +131,12 @@ class UpdateCalendarWorker(context: Context, params: WorkerParameters) : Worker(
                         eventRepository.resetNextEventData()
                         eventRepository.clearEvents()
                     } else {
+                        val first = filteredEventList.first()
+                        if (Preferences.nextEventId != first.id && (
+                            //Preferences.showWeatherAsGlanceProvider || !Preferences.showNextEvent ||
+                            eventRepository.getEventById(first.id)?.startDate != first.startDate))
+                            eventRepository.saveNextEventData(first)
                         eventRepository.saveEvents(filteredEventList)
-                        //eventRepository.saveNextEventData(filteredEventList.first())
                     }
                 } catch (ignored: java.lang.Exception) {
                 }

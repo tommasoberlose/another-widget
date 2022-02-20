@@ -144,6 +144,12 @@ class GesturesFragment : Fragment() {
 
         binding.showMultipleEventsToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showNextEvent = isChecked
+            if (!isChecked) {
+                com.tommasoberlose.anotherwidget.db.EventRepository(requireContext()).run {
+                    resetNextEventData()
+                    close()
+                }
+            }
         }
 
         binding.actionOpenEventDetails.setOnClickListener {

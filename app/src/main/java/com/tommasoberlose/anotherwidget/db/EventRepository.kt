@@ -27,7 +27,7 @@ class EventRepository(val context: Context) {
         db.runInTransaction{
             db.dao().run {
                 deleteAll()
-                insertAll(eventList)
+                insert(eventList)
             }
         }
     }
@@ -119,7 +119,7 @@ class EventRepository(val context: Context) {
     }
 
     fun getFutureEvents(): List<Event> {
-        return db.dao().findFuture(Calendar.getInstance().timeInMillis).sortEvents()
+        return db.dao().find(Calendar.getInstance().timeInMillis).sortEvents()
     }
 
     private fun getEvents(): List<Event> {
@@ -141,7 +141,7 @@ class EventRepository(val context: Context) {
         return db.dao().find(now, limit.timeInMillis).sortEvents()
     }
 
-    fun getEventsCount(): Int = db.dao().countAll()
+    fun getEventsCount(): Int = getEvents().size
 
     fun close() {
         // db.close()
@@ -150,19 +150,16 @@ class EventRepository(val context: Context) {
     @Dao
     interface EventDao {
         @Query("SELECT * FROM events WHERE id = :id LIMIT 1")
-        fun findById(id: Long) : Event?
+        fun findById(id: Long): Event?
 
         @Query("SELECT * FROM events WHERE end_date > :from")
-        fun findFuture(from: Long) : List<Event>
+        fun find(from: Long): List<Event>
 
         @Query("SELECT * FROM events WHERE end_date > :from AND start_date <= :to")
-        fun find(from: Long, to: Long) : List<Event>
-
-        @Query("SELECT count(*) FROM events")
-        fun countAll() : Int
+        fun find(from: Long, to: Long): List<Event>
 
         @Insert
-        fun insertAll(events: List<Event>)
+        fun insert(events: List<Event>)
 
         @Query("DELETE FROM events")
         fun deleteAll()
