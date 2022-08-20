@@ -15,8 +15,8 @@
     <string name="settings_text_shadow_subtitle_none">Ninguna</string>
     <string name="settings_text_shadow_subtitle_low">Poca</string>
     <string name="settings_text_shadow_subtitle_high">Mucha</string>
-    <string name="settings_custom_font_title">Fuente del widget</string>
-    <string name="custom_font_subtitle_0">Fuente del dispositivo</string>
+    <string name="settings_custom_font_title">Tipografía del widget</string>
+    <string name="custom_font_subtitle_0">Tipografía del dispositivo</string>
     <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Formato de fecha personalizado</string>
     <string name="alpha">Alfa</string>
@@ -29,28 +29,28 @@
     <string name="settings_date_format_title">Formato de fecha</string>
     <string name="header_widget_background">Fondo del Widget</string>
     <string name="settings_secondary_row_top_margin_title">Margen</string>
-    <string name="action_custom_font_to_search">Fuente personalizada...</string>
+    <string name="action_custom_font_to_search">Tipografía personalizada...</string>
     
-    <string name="font_100" translatable="false">Thin</string>
-    <string name="font_200" translatable="false">Light</string>
-    <string name="font_300" translatable="false">Book</string>
+    <string name="font_100" translatable="false">Estrecho</string>
+    <string name="font_200" translatable="false">ligero</string>
+    <string name="font_300" translatable="false">Libro</string>
     <string name="font_400" translatable="false">Regular</string>
-    <string name="font_500" translatable="false">Medium</string>
-    <string name="font_600" translatable="false">Semi-bold</string>
-    <string name="font_700" translatable="false">Bold</string>
-    <string name="font_800" translatable="false">Black</string>
-    <string name="font_900" translatable="false">Heavy</string>
+    <string name="font_500" translatable="false">Mediana</string>
+    <string name="font_600" translatable="false">Semi-grueso</string>
+    <string name="font_700" translatable="false">Grueso</string>
+    <string name="font_800" translatable="false">Negra</string>
+    <string name="font_900" translatable="false">Pesada</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Calendario</string>
     <string name="title_permission_calendar">Mostrar tus eventos</string>
-    <string name="description_permission_calendar">Permite acceso a tu calendario\npara ver los eventos en tu widget.</string>
+    <string name="description_permission_calendar">Permite acceso a tu calendario\para ver los eventos en tu widget.</string>
     <string name="settings_filter_calendar_title">Filtro de eventos</string>
     <string name="settings_filter_calendar_subtitle">Cambiar visibilidad del calendario</string>
     <string name="settings_all_day_title">Eventos de día completo</string>
     <string name="main_calendar">Cuenta del calendario</string>
-    <string name="calendar_settings_list_error">Error cargando la lista del calendario</string>
-    <string name="all_day">Evento de día completo</string>
+    <string name="calendar_settings_list_error">Error al cargar la lista del calendario</string>
+    <string name="all_day">Evento de todo el día</string>
     <string name="show_events_visible">Los eventos están visibles</string>
     <string name="show_events_not_visible">Los eventos están ocultos</string>
     <string name="settings_show_until_subtitle_6">30 minutos después</string>
@@ -301,7 +301,7 @@
     <string name="preferences_header">Preferencias</string>
     <string name="settings_privacy_policy_title"><![CDATA[Legal & Privacy]]></string>
     <string name="settings_privacy_policy_subtitle">Ver las polítcas de privacidad de la app</string>
-    <string name="project_header">Proyecti de Código Abierto</string>
+    <string name="project_header">Projecto de Código Abierto</string>
     <string name="information_header">Información</string>
 
     <!-- Activities -->
@@ -309,15 +309,16 @@
     <string name="support_main_title">Apoya al desarrollador</string>
     <string name="thanks">Gracias por apoyarme!</string>
     <string name="donation_coffee">Un café italiano</string>
-    <string name="donation_donuts">Unas donas glaceadas</string>
+    <string name="donation_donuts">Unos donuts glaseados</string>
     <string name="donation_dinner">Una cena cara</string>
     <string name="donation_breakfast">Un desayuno británico</string>
     <string name="donation_lunch">Un almuerzo rápido</string>
     <string name="action_show_widget_preview">Mostrar vista previa del widget</string>
-    <string name="support_dev_subtitle">Este es un proyecto de un único desarrollador,\nasí que gracias por el apoyo!</string>
+    <string name="support_dev_subtitle">Este es un proyecto de un único desarrollador\así que gracias por el apoyo!</string>
     <string name="settings_title_integrations">Integraciones</string>
-    <string name="label_count_installed_integrations">%d integraciones instaladas</string>
+    <string name="label_count_installed_integrations"> integraciones instaladas</string>
     <string name="nothing">Nada</string>
     <string name="action_dismiss">Descartar</string>
     <string name="action_accept">Aceptar</string>
 </resources>
+
