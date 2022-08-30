@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">Another Widget</string>
+    <string name="app_name" translatable="false">Kolejny Widget</string>
     <string name="add_widget">Dodaj Widget</string>
 
     <!-- Display -->
@@ -11,7 +11,7 @@
     <string name="settings_background_color_title">Kolor tła</string>
     <string name="title_main_text_size">Rozmiar tekstu</string>
     <string name="title_second_text_size">Rozmiar tekstu</string>
-    <string name="title_text_shadow">Cirń tekstu</string>
+    <string name="title_text_shadow">Cień tekstu</string>
     <string name="settings_text_shadow_subtitle_none">Brak</string>
     <string name="settings_text_shadow_subtitle_low">Mały</string>
     <string name="settings_text_shadow_subtitle_high">Duży</string>
