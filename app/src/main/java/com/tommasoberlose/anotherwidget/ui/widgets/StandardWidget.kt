@@ -541,7 +541,18 @@ class StandardWidget(val context: Context) {
                     if (!Preferences.showNextEventOnMultipleLines) {
                         bindingView.nextEventDifferenceTime.isVisible = true
                     } else {
-                        bindingView.nextEvent.text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, diffTime)
+                        val text = context.getString(R.string.events_glance_provider_format).format(nextEvent.title, diffTime)
+                        if (text.endsWith(diffTime)) {
+                            bindingView.nextEvent.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+                                (v as TextView).layout?.run {
+                                    val diff = diffTime.trimStart();
+                                    val diffStart = text.length - diff.length
+                                    if (getLineStart(lineCount - 1) > diffStart)
+                                        v.text = (text.substring(0, diffStart).trimEnd() + '\n' + diff)
+                                }
+                            }
+                        }
+                        bindingView.nextEvent.text = text
                         bindingView.nextEventDifferenceTime.isVisible = false
                     }
                 } else {
