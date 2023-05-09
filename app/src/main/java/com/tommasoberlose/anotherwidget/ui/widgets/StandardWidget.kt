@@ -545,7 +545,7 @@ class StandardWidget(val context: Context) {
                         if (text.endsWith(diffTime)) {
                             bindingView.nextEvent.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
                                 (v as TextView).layout?.run {
-                                    val diff = diffTime.trimStart();
+                                    val diff = diffTime.trimStart()
                                     val diffStart = text.length - diff.length
                                     if (getLineStart(lineCount - 1) > diffStart)
                                         v.text = (text.substring(0, diffStart).trimEnd() + '\n' + diff)
@@ -582,38 +582,55 @@ class StandardWidget(val context: Context) {
                             DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
                                 .format(nextEvent.endDate)
 
-                        var dayDiff =
-                            TimeUnit.MILLISECONDS.toDays(nextEvent.endDate - nextEvent.startDate)
+                        val today = Calendar.getInstance().apply {
+                            set(Calendar.MILLISECOND, 0)
+                            set(Calendar.SECOND, 0)
+                            set(Calendar.MINUTE, 0)
+                            set(Calendar.HOUR_OF_DAY, 0)
+                        }.timeInMillis
 
-                        val startCal = Calendar.getInstance()
-                        startCal.timeInMillis = nextEvent.startDate
-
-                        val endCal = Calendar.getInstance()
-                        endCal.timeInMillis = nextEvent.endDate
-
-                        if (startCal.get(Calendar.HOUR_OF_DAY) > endCal.get(Calendar.HOUR_OF_DAY)) {
-                            dayDiff++
-                        } else if (startCal.get(Calendar.HOUR_OF_DAY) == endCal.get(Calendar.HOUR_OF_DAY) && startCal.get(
-                                Calendar.MINUTE
-                            ) > endCal.get(Calendar.MINUTE)
-                        ) {
-                            dayDiff++
-                        }
-                        var multipleDay = ""
-                        if (dayDiff > 0) {
-                            multipleDay = String.format(
-                                " (+%s%s)",
-                                dayDiff,
+                        val startDayDiff = if (nextEvent.startDate < today || !Preferences.showDiffTime) {
+                            (nextEvent.startDate - today).let {
+                                TimeUnit.MILLISECONDS.toDays(it) - (if (it < 0) 1 else 0)
+                            }
+                        } else 0
+                        val startDay = if (startDayDiff != 0L) {
+                            String.format(
+                                " (%+d%s)",
+                                startDayDiff,
                                 context.getString(R.string.day_char)
                             )
+                        } else ""
+
+                        val endDayDiff = if (nextEvent.startDate < today || !Preferences.showDiffTime) {
+                            (nextEvent.endDate - today).let {
+                                TimeUnit.MILLISECONDS.toDays(it) - (if (it < 0) 1 else 0)
+                            }
+                        } else {
+                            (nextEvent.endDate - Calendar.getInstance().apply {
+                                timeInMillis = nextEvent.startDate
+                                set(Calendar.MILLISECOND, 0)
+                                set(Calendar.SECOND, 0)
+                                set(Calendar.MINUTE, 0)
+                                set(Calendar.HOUR_OF_DAY, 0)
+                            }.timeInMillis).let {
+                                TimeUnit.MILLISECONDS.toDays(it) - (if (it < 0) 1 else 0)
+                            }
                         }
+                        val endDay = if (endDayDiff != 0L) {
+                            String.format(
+                                " (%+d%s)",
+                                endDayDiff,
+                                context.getString(R.string.day_char)
+                            )
+                        } else ""
 
                         if (nextEvent.startDate != nextEvent.endDate) {
                             bindingView.subLineText.text =
-                                String.format("%s - %s%s", startHour, endHour, multipleDay)
+                                String.format("%s%s - %s%s", startHour, startDay, endHour, endDay)
                         } else {
                             bindingView.subLineText.text =
-                                String.format("%s", startHour)
+                                String.format("%s%s", startHour, startDay)
                         }
 
                     } else {
