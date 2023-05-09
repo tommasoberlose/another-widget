@@ -206,15 +206,13 @@ class SettingsFragment : Fragment() {
                 .animate()
                 .rotation((binding.actionRefreshIcon.rotation - binding.actionRefreshIcon.rotation % 360f) + 360f)
                 .withEndAction {
-                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                        try {
-                            WeatherHelper.updateWeather(requireContext())
-                            CalendarHelper.updateEventList(requireContext())
-                            MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
-                            ActiveNotificationsHelper.clearLastNotification(requireContext())
-                        } catch (ex: Exception) {
-                            ex.printStackTrace()
-                        }
+                    try {
+                        WeatherHelper.updateWeather(requireContext())
+                        CalendarHelper.updateEventList(requireContext())
+                        MediaPlayerHelper.updatePlayingMediaInfo(requireContext())
+                        ActiveNotificationsHelper.clearLastNotification(requireContext())
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
                     }
                 }
                 .start()

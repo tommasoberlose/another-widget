@@ -7,8 +7,6 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'realm-android'
-
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
 def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
@@ -86,6 +84,10 @@ dependencies {
 
     // EventBus
     implementation 'org.greenrobot:eventbus:3.2.0'
+
+    // Room
+    implementation "androidx.room:room-runtime:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'

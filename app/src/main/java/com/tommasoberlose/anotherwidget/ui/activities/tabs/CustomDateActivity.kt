@@ -169,6 +169,7 @@ class CustomDateActivity : AppCompatActivity() {
             isDateCapitalize = viewModel.isDateCapitalize.value ?: true
             isDateUppercase = viewModel.isDateUppercase.value ?: false
         }
+        com.tommasoberlose.anotherwidget.ui.widgets.MainWidget.updateWidget(this)
         super.onBackPressed()
     }
 

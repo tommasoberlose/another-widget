@@ -26,5 +26,9 @@ class CustomNotesDialog(context: Context, callback: (() -> Unit)?) : BottomSheet
         binding.notes.requestFocus()
 
         setContentView(binding.root)
+        behavior.run {
+            skipCollapsed = true
+            state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 }

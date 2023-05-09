@@ -24,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:paddingBottom="8dp"
             android:orientation="vertical"
             android:layoutDirection="locale"
             android:id="@+id/date_layout">
@@ -32,6 +31,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start"
                 android:lines="1"
                 android:textColor="@color/colorPrimary"
                 android:maxLines="1"
@@ -46,15 +46,14 @@
                 android:visibility="gone"
                 android:id="@+id/weather_date_line">
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:id="@+id/weather_date_line_weather_icon"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="4dp"/>
+                    android:layout_marginStart="4dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Widget.Date.Big"
+                    style="@style/AnotherWidget.Widget.Title"
                     android:maxLines="1"
                     android:includeFontPadding="false"
                     android:id="@+id/weather_date_line_temperature"/>
@@ -87,6 +86,7 @@
                     android:id="@+id/next_event_difference_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:includeFontPadding="false"
                     style="@style/AnotherWidget.Widget.Title" />
             </LinearLayout>
@@ -140,28 +140,31 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:gravity="center_vertical"
                 android:id="@+id/sub_line"
                 android:visibility="gone"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:cropToPadding="false"
-                    android:clipChildren="false"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="4dp">
+                    android:clipToPadding="false"
+                    android:clipChildren="false">
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:cropToPadding="false"
+                        android:clipToPadding="false"
                         android:clipChildren="false"
+                        android:layout_marginEnd="6dp"
                         android:id="@+id/sub_line_icon_shadow"
                         android:src="@drawable/round_today_24"/>
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:cropToPadding="false"
+                        android:clipToPadding="false"
                         android:clipChildren="false"
+                        android:layout_marginEnd="6dp"
                         android:id="@+id/sub_line_icon"
                         android:src="@drawable/round_today_24"/>
                 </RelativeLayout>
@@ -169,7 +172,9 @@
                     android:id="@+id/sub_line_text"
                     android:layout_width="wrap_content"
                     android:gravity="start"
-                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     style="@style/AnotherWidget.Widget.Subtitle" />
@@ -178,14 +183,15 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 android:gravity="center"
                 android:visibility="gone"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="2dp"
                 android:id="@+id/weather_sub_line">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="4dp"
                     android:id="@+id/weather_sub_line_divider"
                     android:text="@string/divider"
@@ -195,12 +201,12 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:id="@+id/weather_sub_line_weather_icon"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginEnd="4dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/AnotherWidget.Widget.Date.Big"
+                    style="@style/AnotherWidget.Widget.Subtitle"
                     android:maxLines="1"
                     android:includeFontPadding="false"
                     android:id="@+id/weather_sub_line_temperature"/>

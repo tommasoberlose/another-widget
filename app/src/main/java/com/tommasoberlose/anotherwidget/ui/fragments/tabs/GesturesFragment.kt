@@ -102,15 +102,7 @@ class GesturesFragment : Fragment() {
                     it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
                     it == IntentHelper.REFRESH_WIDGET_OPTION -> getString(R.string.gestures_refresh_widget)
                     it != IntentHelper.DEFAULT_OPTION -> it
-                    else -> {
-                        if (IntentHelper.getCalendarIntent(requireContext()).isDefaultSet(requireContext())) {
-                            getString(
-                                R.string.default_calendar_app
-                            )
-                        } else {
-                            getString(R.string.gestures_do_nothing)
-                        }
-                    }
+                    else -> getString(R.string.default_calendar_app)
                 }
             }
         }
@@ -127,15 +119,7 @@ class GesturesFragment : Fragment() {
                     it == IntentHelper.DO_NOTHING_OPTION -> getString(R.string.gestures_do_nothing)
                     it == IntentHelper.REFRESH_WIDGET_OPTION -> getString(R.string.gestures_refresh_widget)
                     it != IntentHelper.DEFAULT_OPTION -> it
-                    else -> {
-                        if (IntentHelper.getClockIntent(requireContext()).isDefaultSet(requireContext())) {
-                            getString(
-                                R.string.default_clock_app
-                            )
-                        } else {
-                            getString(R.string.gestures_do_nothing)
-                        }
-                    }
+                    else -> getString(R.string.default_clock_app)
                 }
             }
         }
@@ -160,6 +144,12 @@ class GesturesFragment : Fragment() {
 
         binding.showMultipleEventsToggle.setOnCheckedChangeListener { _, isChecked ->
             Preferences.showNextEvent = isChecked
+            if (!isChecked) {
+                com.tommasoberlose.anotherwidget.db.EventRepository(requireContext()).run {
+                    resetNextEventData()
+                    close()
+                }
+            }
         }
 
         binding.actionOpenEventDetails.setOnClickListener {
@@ -173,9 +163,12 @@ class GesturesFragment : Fragment() {
         }
 
         binding.actionCalendarApp.setOnClickListener {
-            startActivityForResult(Intent(requireContext(), ChooseApplicationActivity::class.java).apply {
-                putExtra(Constants.RESULT_APP_PACKAGE, Preferences.calendarAppPackage)
-            }, RequestCode.CALENDAR_APP_REQUEST_CODE.code)
+            startActivityForResult(
+                Intent(requireContext(), ChooseApplicationActivity::class.java).apply {
+                    putExtra(Constants.RESULT_APP_PACKAGE, Preferences.calendarAppPackage)
+                },
+                RequestCode.CALENDAR_APP_REQUEST_CODE.code
+            )
         }
 
         binding.actionClockApp.setOnClickListener {

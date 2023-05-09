@@ -9,6 +9,7 @@ import android.util.Log
 import com.tommasoberlose.anotherwidget.global.Actions
 import com.tommasoberlose.anotherwidget.receivers.ActivityDetectionReceiver
 import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
+import com.tommasoberlose.anotherwidget.utils.setExactIfCanSchedule
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,17 +45,25 @@ object AlarmHelper {
             val intent = Intent(context, UpdatesReceiver::class.java).apply {
                 action = Actions.ACTION_ALARM_UPDATE
             }
-            cancel(PendingIntent.getBroadcast(context, ALARM_UPDATE_ID, intent, 0))
-            setExact(
+            setExactIfCanSchedule(
                 AlarmManager.RTC,
                 trigger,
                 PendingIntent.getBroadcast(
                     context,
                     ALARM_UPDATE_ID,
                     intent,
-                    0
+                    PendingIntent.FLAG_IMMUTABLE
                 )
             )
+        }
+    }
+
+    fun clearTimeout(context: Context) {
+        with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+            val intent = Intent(context, UpdatesReceiver::class.java).apply {
+                action = Actions.ACTION_ALARM_UPDATE
+            }
+            cancel(PendingIntent.getBroadcast(context, ALARM_UPDATE_ID, intent, PendingIntent.FLAG_IMMUTABLE))
         }
     }
 

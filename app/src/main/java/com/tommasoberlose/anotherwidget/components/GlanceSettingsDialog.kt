@@ -177,6 +177,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         Constants.GlanceProviderId.NEXT_CLOCK_ALARM -> {
                             Preferences.showNextAlarm = isChecked
                             checkNextAlarm()
+                            if (!isChecked)
+                                AlarmHelper.clearTimeout(context)
                         }
                         Constants.GlanceProviderId.BATTERY_LEVEL_LOW -> {
                             Preferences.showBatteryCharging = isChecked
@@ -184,6 +186,8 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         Constants.GlanceProviderId.NOTIFICATIONS -> {
                             Preferences.showNotifications = isChecked
                             checkLastNotificationsPermission()
+                            if (!isChecked)
+                                ActiveNotificationsHelper.clearLastNotification(context)
                         }
                         Constants.GlanceProviderId.GREETINGS -> {
                             Preferences.showGreetings = isChecked
@@ -217,6 +221,12 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
                         }
                         Constants.GlanceProviderId.EVENTS -> {
                             Preferences.showEventsAsGlanceProvider = isChecked
+                            if (isChecked) {
+                                com.tommasoberlose.anotherwidget.db.EventRepository(context).run {
+                                    resetNextEventData()
+                                    close()
+                                }
+                            }
                         }
                         Constants.GlanceProviderId.WEATHER -> {
                             Preferences.showWeatherAsGlanceProvider = isChecked
@@ -230,6 +240,10 @@ class GlanceSettingsDialog(val context: Activity, val provider: Constants.Glance
         }
 
         setContentView(binding.root)
+        behavior.run {
+            skipCollapsed = true
+            state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        }
         super.show()
     }
     

@@ -61,5 +61,9 @@ class BottomSheetWeatherProviderSettings(context: Context, callback: () -> Unit)
         }
 
         setContentView(binding.root)
+        behavior.run {
+            skipCollapsed = true
+            state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 }

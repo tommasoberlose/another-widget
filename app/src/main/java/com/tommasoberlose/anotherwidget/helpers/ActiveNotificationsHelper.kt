@@ -25,6 +25,7 @@ object ActiveNotificationsHelper {
             remove(Preferences::lastNotificationIcon)
         }
         MainWidget.updateWidget(context)
+        NotificationListener.clearTimeout(context)
     }
 
     fun checkNotificationAccess(context: Context): Boolean {

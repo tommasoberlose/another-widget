@@ -32,27 +32,28 @@ class MainWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         CalendarHelper.updateEventList(context)
-        WeatherReceiver.setUpdates(context)
+        WeatherHelper.updateWeather(context)
         MediaPlayerHelper.updatePlayingMediaInfo(context)
-
-        if (Preferences.showEvents) {
-            CalendarHelper.setEventUpdatesAndroidN(context)
-        } else {
-            CalendarHelper.removeEventUpdatesAndroidN(context)
-        }
     }
 
     override fun onDisabled(context: Context) {
         if (getWidgetCount(context) == 0) {
+            CalendarHelper.removeEventUpdatesAndroidN(context)
             UpdatesReceiver.removeUpdates(context)
             WeatherReceiver.removeUpdates(context)
         }
     }
 
     companion object {
+        private val handler by lazy { android.os.Handler(android.os.Looper.getMainLooper()) }
 
         fun updateWidget(context: Context) {
-            context.sendBroadcast(IntentHelper.getWidgetUpdateIntent(context))
+            handler.run {
+                removeCallbacksAndMessages(null)
+                postDelayed ({
+                    context.sendBroadcast(IntentHelper.getWidgetUpdateIntent(context))
+                }, 100)
+            }
         }
 
         fun getWidgetCount(context: Context): Int {
@@ -63,17 +64,13 @@ class MainWidget : AppWidgetProvider() {
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
-            val displayMetrics = Resources.getSystem().displayMetrics
-            val width = displayMetrics.widthPixels
-            val height = displayMetrics.heightPixels
-
             val dimensions = WidgetHelper.WidgetSizeProvider(context, appWidgetManager).getWidgetsSize(appWidgetId)
 
             WidgetHelper.runWithCustomTypeface(context) {
                 val views = when (Preferences.widgetAlign) {
-                    Constants.WidgetAlign.LEFT.rawValue -> AlignedWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
-                    Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(context, rightAligned = true).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
-                    else -> StandardWidget(context).generateWidget(appWidgetId, min(dimensions.first - 8.toPixel(context), min(width, height) - 16.toPixel(context)), it)
+                    Constants.WidgetAlign.LEFT.rawValue -> AlignedWidget(context).generateWidget(appWidgetId, dimensions.first, it)
+                    Constants.WidgetAlign.RIGHT.rawValue -> AlignedWidget(context, rightAligned = true).generateWidget(appWidgetId, dimensions.first, it)
+                    else -> StandardWidget(context).generateWidget(appWidgetId, dimensions.first, it)
                 }
                 try {
                     if (views != null) appWidgetManager.updateAppWidget(appWidgetId, views)

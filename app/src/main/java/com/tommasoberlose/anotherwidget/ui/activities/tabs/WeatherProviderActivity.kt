@@ -57,9 +57,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         updateListItem()
                         binding.loader.isVisible = true
 
-                        lifecycleScope.launch {
-                            WeatherHelper.updateWeather(this@WeatherProviderActivity)
-                        }
+                        WeatherHelper.updateWeather(this@WeatherProviderActivity, true)
                     }
                     .clicked(R.id.radioButton) {
                         if (Preferences.weatherProvider != provider.rawValue) {
@@ -72,9 +70,7 @@ class WeatherProviderActivity : AppCompatActivity() {
                         updateListItem()
                         binding.loader.isVisible = true
 
-                        lifecycleScope.launch {
-                            WeatherHelper.updateWeather(this@WeatherProviderActivity)
-                        }
+                        WeatherHelper.updateWeather(this@WeatherProviderActivity, true)
                     }
                     .checked(R.id.radioButton, provider.rawValue == Preferences.weatherProvider)
                     .with<TextView>(R.id.text2) {
@@ -92,10 +88,8 @@ class WeatherProviderActivity : AppCompatActivity() {
                     }
                     .clicked(R.id.action_configure) {
                         BottomSheetWeatherProviderSettings(this) {
-                            lifecycleScope.launch {
-                                binding.loader.isVisible = true
-                                WeatherHelper.updateWeather(this@WeatherProviderActivity)
-                            }
+                            binding.loader.isVisible = true
+                            WeatherHelper.updateWeather(this@WeatherProviderActivity, true)
                         }.show()
                     }
                     .visibility(R.id.action_configure, if (/*WeatherHelper.isKeyRequired(provider) && */provider.rawValue == Preferences.weatherProvider) View.VISIBLE else View.GONE)
@@ -115,8 +109,6 @@ class WeatherProviderActivity : AppCompatActivity() {
 
         adapter.updateData(
             Constants.WeatherProvider.values().asList()
-                .filter { it != Constants.WeatherProvider.HERE }
-                .filter { it != Constants.WeatherProvider.ACCUWEATHER }
         )
 
         setupListener()
@@ -127,11 +119,11 @@ class WeatherProviderActivity : AppCompatActivity() {
 
     private fun subscribeUi(viewModel: WeatherProviderViewModel) {
         viewModel.weatherProviderError.observe(this) {
-            updateListItem()
+            binding.listView.postDelayed({ updateListItem() }, 300)
         }
 
         viewModel.weatherProviderLocationError.observe(this) {
-            updateListItem()
+            binding.listView.postDelayed({ updateListItem() }, 300)
         }
     }
 
@@ -165,7 +157,7 @@ class WeatherProviderActivity : AppCompatActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(ignore: MainFragment.UpdateUiMessageEvent?) {
+    fun onMessageEvent(@Suppress("UNUSED_PARAMETER") ignore: MainFragment.UpdateUiMessageEvent?) {
         binding.loader.isVisible = Preferences.weatherProviderError == "-"
         if (Preferences.weatherProviderError == "" && Preferences.weatherProviderLocationError == "") {
             Snackbar.make(binding.listView, getString(R.string.settings_weather_provider_api_key_subtitle_all_set), Snackbar.LENGTH_LONG).show()

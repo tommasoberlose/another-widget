@@ -23,6 +23,8 @@ import com.tommasoberlose.anotherwidget.components.MaterialBottomSheetDialog
 import com.tommasoberlose.anotherwidget.databinding.FragmentPreferencesBinding
 import com.tommasoberlose.anotherwidget.global.Preferences
 import com.tommasoberlose.anotherwidget.helpers.CalendarHelper
+import com.tommasoberlose.anotherwidget.helpers.WeatherHelper
+import com.tommasoberlose.anotherwidget.receivers.UpdatesReceiver
 import com.tommasoberlose.anotherwidget.receivers.WeatherReceiver
 import com.tommasoberlose.anotherwidget.ui.activities.MainActivity
 import com.tommasoberlose.anotherwidget.ui.viewmodels.MainViewModel
@@ -87,6 +89,7 @@ class PreferencesFragment : Fragment() {
                     CalendarHelper.setEventUpdatesAndroidN(requireContext())
                 } else {
                     CalendarHelper.removeEventUpdatesAndroidN(requireContext())
+                    UpdatesReceiver.removeUpdates(requireContext())
                 }
             }
         }
@@ -133,7 +136,9 @@ class PreferencesFragment : Fragment() {
         binding.showWeatherSwitch.setOnCheckedChangeListener { _, enabled: Boolean ->
             Preferences.showWeather = enabled
             if (enabled) {
-                WeatherReceiver.setUpdates(requireContext())
+                Preferences.weatherProviderError = ""
+                Preferences.weatherProviderLocationError = ""
+                WeatherHelper.updateWeather(requireContext())
             } else {
                 WeatherReceiver.removeUpdates(requireContext())
             }
@@ -161,6 +166,7 @@ class PreferencesFragment : Fragment() {
             .withPermissions(
                 Manifest.permission.READ_CALENDAR
             ).withListener(object: MultiplePermissionsListener {
+                private var shouldShowRationale = false
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
                         val granted = report.areAllPermissionsGranted()
@@ -168,12 +174,33 @@ class PreferencesFragment : Fragment() {
                         if (granted) {
                             CalendarHelper.updateEventList(requireContext())
                         }
+                        else if (!shouldShowRationale && report.isAnyPermissionPermanentlyDenied) {
+                            MaterialBottomSheetDialog(
+                                requireContext(),
+                                getString(R.string.title_permission_calendar),
+                                getString(R.string.description_permission_calendar)
+                            ).setNegativeButton(getString(R.string.action_ignore))
+                            .setPositiveButton(getString(R.string.action_grant_permission)) {
+                                startActivity(
+                                    android.content.Intent(
+                                        android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                                    ).apply {
+                                        data = android.net.Uri.fromParts(
+                                            "package",
+                                            requireContext().packageName,
+                                            null
+                                        )
+                                    }
+                                )
+                            }.show()
+                        }
                     }
                 }
                 override fun onPermissionRationaleShouldBeShown(
                     permissions: MutableList<PermissionRequest>?,
                     token: PermissionToken?
                 ) {
+                    shouldShowRationale = true
                     // Remember to invoke this method when the custom rationale is closed
                     // or just by default if you don't want to use any custom rationale.
                     token?.continuePermissionRequest()

@@ -26,9 +26,7 @@ class TimeZonesApi(val context: Context) {
         when (val response = repository.getTimeZone(lat, long)) {
             is NetworkResponse.Success -> {
                 try {
-                    Log.d("ciao", response.body.toString())
                     id = response.body["timezoneId"] as String
-
                 } catch(ex: Exception) {
                     ex.printStackTrace()
                 }

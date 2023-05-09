@@ -37,7 +37,7 @@ import java.util.*
 fun PackageManager.missingSystemFeature(name: String): Boolean = !hasSystemFeature(name)
 
 fun Context.toast(message: String, long: Boolean = false) {
-    val toast = Toast.makeText(this, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
+    val toast = Toast.makeText(applicationContext, message, if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
 //    toast.setGravity(Gravity.CENTER, 0, 0)
     toast.show()
 }
@@ -212,6 +212,14 @@ fun Float.convertSpToPixels(context: Context): Float {
 
 fun Context.checkGrantedPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+}
+
+fun android.app.AlarmManager.setExactIfCanSchedule(type: Int, triggerAtMillis: Long, operation: android.app.PendingIntent) {
+    // uncomment the following check after bumping compileSdkVersion/targetSdkVersion to 31
+    //if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S || canScheduleExactAlarms())
+        setExact(type, triggerAtMillis, operation)
+    //else
+    //    set(type, triggerAtMillis, operation)
 }
 
 fun Context.getCurrentWallpaper(): Drawable? = try {

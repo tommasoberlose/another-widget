@@ -7,10 +7,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.chibatching.kotpref.Kotpref
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.tommasoberlose.anotherwidget.global.Preferences
-import com.tommasoberlose.anotherwidget.utils.checkGrantedPermission
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import net.danlew.android.joda.JodaTimeAndroid
 
 class AWApplication : Application() {
     override fun onCreate() {
@@ -24,12 +20,5 @@ class AWApplication : Application() {
 
         // Dark theme
         AppCompatDelegate.setDefaultNightMode(Preferences.darkThemePreference)
-
-        // Realm
-        Realm.init(this)
-        val config = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
-            .build()
-        Realm.setDefaultConfiguration(config)
     }
 }

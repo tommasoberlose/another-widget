@@ -1,5 +1,6 @@
 package com.tommasoberlose.anotherwidget.helpers
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.ContentUris
@@ -27,6 +28,13 @@ object IntentHelper {
     const val DO_NOTHING_OPTION = "DO_NOTHING"
     const val REFRESH_WIDGET_OPTION = "REFRESH_WIDGET"
 
+    fun getPendingIntent(context: Context, requestCode: Int, intent: Intent, flags: Int): PendingIntent {
+        return if (intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK == Intent.FLAG_ACTIVITY_NEW_TASK)
+            PendingIntent.getActivity(context, requestCode, intent, flags)
+        else
+            PendingIntent.getBroadcast(context, requestCode, intent, flags)
+    }
+
     fun getWidgetUpdateIntent(context: Context): Intent {
         val widgetManager = AppWidgetManager.getInstance(context)
         val widgetComponent = ComponentName(context, MainWidget::class.java)
@@ -40,21 +48,19 @@ object IntentHelper {
     private fun getWidgetRefreshIntent(context: Context): Intent {
         return Intent(context, UpdatesReceiver::class.java).apply {
             action = Actions.ACTION_REFRESH
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
 
     fun getGoogleMapsIntentFromAddress(context: Context, address: String): Intent {
-        val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=$address")
+        val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=${Uri.encode(address)}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.`package` = "com.google.android.apps.maps"
+        //mapIntent.`package` = "com.google.android.apps.maps"
 
         return if (mapIntent.resolveActivity(context.packageManager) != null) {
-            mapIntent
+            mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         } else {
-            val map = "http://maps.google.co.in/maps?q=$address"
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse(map));
-            i
+            val map = "https://www.google.com/maps/search/?api=1&query=${Uri.encode(address)}"
+            Intent(Intent.ACTION_VIEW, Uri.parse(map)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
 
@@ -62,7 +68,6 @@ object IntentHelper {
         return when (Preferences.weatherAppPackage) {
             DEFAULT_OPTION -> {
                 Intent(Intent.ACTION_VIEW).apply {
-                    addCategory(Intent.CATEGORY_DEFAULT)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     data = Uri.parse("dynact://velour/weather/ProxyActivity")
                     component = ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velour.DynamicActivityTrampoline")
@@ -89,15 +94,16 @@ object IntentHelper {
         }
     }
 
-    fun getCalendarIntent(context: Context): Intent {
+    fun getCalendarIntent(context: Context, time: Long? = null): Intent {
         val calendarUri = CalendarContract.CONTENT_URI
             .buildUpon()
             .appendPath("time")
-            .appendPath(Calendar.getInstance().timeInMillis.toString())
+            .appendPath((time ?: Calendar.getInstance().timeInMillis).toString())
             .build()
         return when (Preferences.calendarAppPackage) {
             DEFAULT_OPTION -> {
                 Intent(Intent.ACTION_VIEW).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     data = calendarUri
                 }
             }
@@ -111,6 +117,8 @@ object IntentHelper {
                 val pm: PackageManager = context.packageManager
                 try {
                     pm.getLaunchIntentForPackage(Preferences.calendarAppPackage)!!.apply {
+                        addCategory(Intent.CATEGORY_LAUNCHER)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         action = Intent.ACTION_VIEW
                         data = calendarUri
                     }
@@ -177,7 +185,7 @@ object IntentHelper {
                 }
             }
             false -> {
-                getCalendarIntent(context)
+                getCalendarIntent(context, e.startDate)
             }
         }
     }
@@ -209,7 +217,7 @@ object IntentHelper {
     }
 
     fun getBatteryIntent(): Intent {
-        return Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
+        return Intent(Intent.ACTION_POWER_USAGE_SUMMARY).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     fun getMusicIntent(context: Context): Intent {
@@ -222,6 +230,7 @@ object IntentHelper {
                 try {
                     pm.getLaunchIntentForPackage(Preferences.mediaPlayerPackage)!!.apply {
                         addCategory(Intent.CATEGORY_LAUNCHER)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                 } catch (e: Exception) {
                     Intent()
@@ -235,6 +244,7 @@ object IntentHelper {
         return try {
             pm.getLaunchIntentForPackage("com.google.android.apps.fitness")!!.apply {
                 addCategory(Intent.CATEGORY_LAUNCHER)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
         } catch (e: Exception) {
             Intent()
@@ -246,6 +256,7 @@ object IntentHelper {
         return try {
             pm.getLaunchIntentForPackage(Preferences.lastNotificationPackage)!!.apply {
                 addCategory(Intent.CATEGORY_LAUNCHER)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
         } catch (e: Exception) {
             Intent()

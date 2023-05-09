@@ -25,8 +25,15 @@ object WidgetHelper {
     ) {
 
         fun getWidgetsSize(widgetId: Int): Pair<Int, Int> {
-            val width = getWidgetWidth(widgetId)
-            val height = getWidgetHeight(widgetId)
+            val portrait = context.resources.configuration.orientation == ORIENTATION_PORTRAIT
+            val width = getWidgetSizeInDp(
+                widgetId,
+                if (portrait) AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH else AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
+            )
+            val height = getWidgetSizeInDp(
+                widgetId,
+                if (portrait) AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT else AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT
+            )
             val widthInPx = context.dip(width)
             val heightInPx = context.dip(height)
             FirebaseCrashlytics.getInstance().setCustomKey("widthInPx", widthInPx)
@@ -63,21 +70,23 @@ object WidgetHelper {
                 R.array.com_google_android_gms_fonts_certs
             )
 
+            val handlerThread = HandlerThread("generateView")
             val callback = object : FontsContractCompat.FontRequestCallback() {
                 override fun onTypefaceRetrieved(typeface: Typeface) {
+                    handlerThread.quit()
                     function.invoke(typeface)
                 }
 
                 override fun onTypefaceRequestFailed(reason: Int) {
+                    handlerThread.quit()
                     function.invoke(null)
                 }
             }
 
-            val handlerThread = HandlerThread("generateView")
             handlerThread.start()
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
+            //if (Looper.myLooper() == null) {
+            //    Looper.prepare()
+            //}
 
             Handler(handlerThread.looper).run {
                 FontsContractCompat.requestFont(context, request, callback, this)
