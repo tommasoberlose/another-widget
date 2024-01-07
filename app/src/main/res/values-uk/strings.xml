@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Another Widget</string>
+    <string name="add_widget">Додати віджет</string>
+
+    <!-- Display -->
+    <string name="settings_general_title">Зовнішній вигляд</string>
+    <string name="divider" translatable="false">|</string>
+    <string name="settings_font_color_title">Колір тексту</string>
+    <string name="settings_secondary_font_color_title">Колір тексту</string>
+    <string name="settings_background_color_title">Колір фону</string>
+    <string name="title_main_text_size">Розмір тексту</string>
+    <string name="title_second_text_size">Розмір тексту</string>
+    <string name="title_text_shadow">Тінь тексту</string>
+    <string name="settings_text_shadow_subtitle_none">Немає</string>
+    <string name="settings_text_shadow_subtitle_low">Слабка</string>
+    <string name="settings_text_shadow_subtitle_high">Сильна</string>
+    <string name="settings_custom_font_title">Шрифт віджету</string>
+    <string name="custom_font_subtitle_0">Шрифт пристрою</string>
+    <string name="custom_font_subtitle_1">Google Sans</string>
+    <string name="custom_date_format">Користувацький формат дати</string>
+    <string name="alpha">Непрозорість</string>
+    <string name="transparent">Прозорий</string>
+    <string name="settings_show_dividers_title">Роздільники тексту</string>
+    <string name="first_row_header">Основний текст</string>
+    <string name="second_row_header">Додатковий текст</string>
+    <string name="global_style_header">Віджет</string>
+    <string name="action_capitalize_the_date">Дата великими літерами</string>
+    <string name="settings_date_format_title">Формат дати</string>
+    <string name="header_widget_background">Фон віджета</string>
+    <string name="settings_secondary_row_top_margin_title">Міжрядковий інтервал</string>
+    <string name="action_custom_font_to_search">Користувацький шрифт…</string>
+    <string name="font_family_settings_title">Сімейство шрифтів</string>
+    <string name="settings_widget_align_title">Вирівнювання віджета</string>
+    <string name="settings_widget_align_left_subtitle">За лівим краєм</string>
+    <string name="settings_widget_align_right_subtitle">За правим краєм</string>
+    <string name="settings_widget_align_center_subtitle">По центру</string>
+    
+    <string name="font_100" translatable="false">Thin</string>
+    <string name="font_200" translatable="false">Light</string>
+    <string name="font_300" translatable="false">Book</string>
+    <string name="font_400" translatable="false">Regular</string>
+    <string name="font_500" translatable="false">Medium</string>
+    <string name="font_600" translatable="false">Semi-bold</string>
+    <string name="font_700" translatable="false">Bold</string>
+    <string name="font_800" translatable="false">Black</string>
+    <string name="font_900" translatable="false">Heavy</string>
+    <string name="font_italic" translatable="false">Italic</string>
+    <string name="font_100_italic" translatable="false">Thin Italic</string>
+    <string name="font_200_italic" translatable="false">Light Italic</string>
+    <string name="font_300_italic" translatable="false">Book Italic</string>
+    <string name="font_400_italic" translatable="false">Regular Italic</string>
+    <string name="font_500_italic" translatable="false">Medium Italic</string>
+    <string name="font_600_italic" translatable="false">Semi-bold Italic</string>
+    <string name="font_700_italic" translatable="false">Bold Italic</string>
+    <string name="font_800_italic" translatable="false">Black Italic</string>
+    <string name="font_900_italic" translatable="false">Heavy Italic</string>
+
+    <!-- Calendar -->
+    <string name="settings_calendar_title">Календар</string>
+    <string name="title_permission_calendar">Показувати події</string>
+    <string name="description_permission_calendar">Надайте доступ до календаря\nдля перегляду подій у віджеті.</string>
+    <string name="settings_filter_calendar_title">Фільтр подій</string>
+    <string name="settings_filter_calendar_subtitle">Вибрати календар для показу</string>
+    <string name="settings_all_day_title">Події на весь день</string>
+    <string name="main_calendar">Обліковий запис календаря</string>
+    <string name="calendar_settings_list_error">Помилка завантаження списку календарів.</string>
+    <string name="all_day">Подія на весь день</string>
+    <string name="show_events_visible">Показати події</string>
+    <string name="show_events_not_visible">Приховати події</string>
+    <string name="settings_show_until_subtitle_6">30 хвилин після</string>
+    <string name="settings_show_until_subtitle_7">1 годину після</string>
+    <string name="settings_show_until_subtitle_0">3 години після</string>
+    <string name="settings_show_until_subtitle_1">6 годин після</string>
+    <string name="settings_show_until_subtitle_2">12 годин після</string>
+    <string name="settings_show_until_subtitle_3">24 години після</string>
+    <string name="settings_show_until_subtitle_4">3 дні після</string>
+    <string name="settings_show_until_subtitle_5">7 днів після</string>
+    <string name="settings_show_until_title">Показувати події</string>
+    <string name="day_char">д</string>
+    <string name="settings_calendar_app_title">Календар</string>
+    <string name="error_no_calendar">Календар не знайдено.</string>
+    <string name="tomorrow">завтра</string>
+    <string name="today">сьогодні</string>
+    <string name="settings_event_app_title">Натисканням на подію відкривати</string>
+    <string name="settings_second_row_info_title">Інформація про подію</string>
+    <string name="settings_second_row_info_subtitle_1">Адреса події</string>
+    <string name="settings_second_row_info_subtitle_0">Час події</string>
+    <string name="settings_show_diff_time_title">Залишилося часу до події</string>
+    <string name="settings_show_declined_events_title">Відхилені події</string>
+    <string name="default_event_app">Деталі події</string>
+    <string name="default_calendar_app">Застосунок календаря за замовчуванням</string>
+    <string name="settings_show_multiple_events_title">Перемикач для кількох подій</string>
+    <string name="soon">скоро</string>
+    <string name="now">зараз</string>
+    <string name="settings_widget_update_frequency_title">Частота оновлення подій</string>
+    <string name="settings_widget_update_frequency_subtitle">Висока частота оновлення споживає більше заряду акумулятора.</string>
+    <string name="settings_widget_update_frequency_low">Низька</string>
+    <string name="settings_widget_update_frequency_default">За замовчуванням</string>
+    <string name="settings_widget_update_frequency_high">Висока</string>
+    <string name="filters_header">Фільтри</string>
+    <string name="event_detail_header">Деталі події</string>
+    <string name="settings_attendee_status_title">Статус участі</string>
+    <string name="settings_attendee_status_subtitle">Фільтр прийнятих або відхилених подій</string>
+    <string name="settings_busy_events_title">Супутні події</string>
+    <string name="settings_busy_events_subtitle">Показувати лише зайняті події</string>
+    <string name="attendee_status_accepted">Прийняті події</string>
+    <string name="attendee_status_invited">Запрошення на події</string>
+    <string name="attendee_status_declined">Відхилені події</string>
+
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+    <string name="calendar_sync_notification_channel_name">Сервіс синхронізації подій</string>
+    <string name="calendar_sync_notification_channel_description">Сервіс, що використовується для синхронізації подій календаря.</string>
+    <string name="calendar_sync_notification_title">Синхронізація подій календаря…</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">Показати заголовок у декілька рядків</string>
+
+    <!-- Weather -->
+    <string name="settings_weather_title">Погода</string>
+    <string name="title_permission_location">Показувати погоду</string>
+    <string name="description_permission_location">Надайте доступ до місцезнаходженняn\nдля показу погоди у віджеті.</string>
+    <string name="settings_unit_title">Одиниця температури</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
+    <string name="settings_weather_refresh_period_title">Частота оновлення</string>
+    <string name="settings_weather_refresh_period_subtitle_0">30 хвилин</string>
+    <string name="settings_weather_refresh_period_subtitle_1">1 година</string>
+    <string name="settings_weather_refresh_period_subtitle_2">3 години</string>
+    <string name="settings_weather_refresh_period_subtitle_3">6 годин</string>
+    <string name="settings_weather_refresh_period_subtitle_4">12 годин</string>
+    <string name="settings_weather_refresh_period_subtitle_5">24 години</string>
+    <string name="settings_custom_location_title">Місцезнаходження</string>
+    <string name="custom_location_gps">Використовувати геолокацію</string>
+    <string name="show_weather_visible">Показати погоду</string>
+    <string name="show_weather_not_visible">Приховати погоду</string>
+    <string name="settings_weather_app_title">Погода</string>
+    <string name="settings_weather_provider_api_key_title">Ключ API постачальника даних</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Постачальника даних налаштовано вірно</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Постачальника даних не налаштовано</string>
+    <string name="api_key_hint">Ключ API OpenWeatherMap</string>
+    <string name="default_weather_app">Google Погода</string>
+    <string name="weather_warning">Google Awareness API більше не підтримується. Для відображення погоди у віджеті потрібен ключ API від стороннього постачальника.</string>
+    <string name="settings_weather_icon_pack_title">Пакет іконок</string>
+    <string name="settings_weather_icon_pack_default">Пакет іконок %d</string>
+    <string name="background_location_warning">Якщо вибрано геолокацію, ми збираємо дані про місцезнаходження, щоб оновлювати інформацію про погоду, навіть коли програма закрита або не використовується.\nМи не використовуватимемо ці дані інакшим чином.</string>
+    <string name="settings_weather_provider_api">Постачальник даних</string>
+
+    <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
+    <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">WeatherAPI.com</string>
+    <string name="settings_weather_provider_here" translatable="false">HERE.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">AccuWeather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
+
+    <string name="weather_provider_info_open_weather_title">Цьому постачальнику даних про погоду потрібен\nключ API для правильної роботи.</string>
+    <string name="weather_provider_info_weatherbit_title">Цьому постачальнику даних про погоду потрібен\nключ API для правильної роботи.</string>
+    <string name="weather_provider_info_weatherapi_title">Цьому постачальнику даних про погоду потрібен\nключ API для правильної роботи.</string>
+    <string name="weather_provider_info_here_title">Цьому постачальнику даних про погоду потрібен\nключ API для правильної роботи.</string>
+    <string name="weather_provider_info_accuweather_title">Цьому постачальнику даних про погоду потрібен\nключ API для правильної роботи.</string>
+    <string name="weather_provider_info_weather_gov_title">Цей постачальник даних про погоду працює\nтільки для США.</string>
+    <string name="weather_provider_info_yr_title">Цей постачальник даних про погоду використовує\nтільки градуси Цельсія.</string>
+
+    <string name="weather_provider_info_open_weather_subtitle">Відкрийте сайт постачальника даних про погоду, створіть обліковий запис і скопіюйте ключ сюди.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Відкрийте сайт постачальника даних про погоду, створіть обліковий запис і скопіюйте ключ сюди.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Відкрийте сайт постачальника даних про погоду, створіть обліковий запис і скопіюйте ключ сюди.</string>
+    <string name="weather_provider_info_here_subtitle">Відкрийте сайт постачальника даних про погоду, створіть обліковий запис і скопіюйте ключ сюди.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Відкрийте сайт постачальника даних про погоду, створіть обліковий запис і скопіюйте ключ сюди.</string>
+    <string name="weather_provider_info_weather_gov_subtitle">\n</string>
+    <string name="weather_provider_info_yr_subtitle">\n</string>
+
+    <string name="weather_provider_error_missing_key">Для вибраного постачальника даних про погоду потрібен ключ API.</string>
+    <string name="weather_provider_error_wrong_location">Поточне місцезнаходження не підтримується.</string>
+    <string name="weather_provider_error_missing_location">Виберіть правильне місцезнаходження.</string>
+    <string name="weather_provider_error_expired_key">Схоже, термін дії ключа API закінчився.</string>
+    <string name="weather_provider_error_invalid_key">Ключ API недійсний або ще не активований.</string>
+    <string name="weather_provider_error_misconfigured">Постачальника даних про погоду неправильно налаштовано.</string>
+    <string name="weather_provider_error_connection">Помилка з\'єднання.</string>
+    <string name="weather_provider_error_generic">Щось пішло не так. Перевірте налаштування постачальника даних про погоду.</string>
+    <string name="api_key_required_message">Потрібен обліковий запис</string>
+    <string name="us_only_message">Тільки США</string>
+    <string name="celsius_only_message">Тільки метричні одиниці</string>
+    <string name="weather_select_a_provider">Виберіть постачальника даних</string>
+    <string name="weather_provider_activity_subtitle">Виберіть постачальника даних про погоду зі списку.\nДеяким потрібен безкоштовний обліковий запис,\nале зазвичай вони точніші.</string>
+
+    <string name="location_access_notification_channel_id" translatable="false">location-access</string>
+    <string name="location_access_notification_channel_name">Сервіс оновлення даних про погоду</string>
+    <string name="location_access_notification_channel_description">Сервіс, який використовується для оновлення даних про погоду на основі місцезнаходження користувача.</string>
+    <string name="location_access_notification_title">Оновлення даних про погоду…</string>
+    <string name="location_access_notification_subtitle">Оновлюємо дані про погоду на основі вашого місцезнаходження.</string>
+
+    <!-- Clock -->
+    <string name="settings_clock_title">Годинник</string>
+    <string name="settings_clock_app_title">Годинник</string>
+    <string name="title_show_clock">Показувати годинник</string>
+    <string name="show_clock_visible">Показати годинник</string>
+    <string name="show_clock_not_visible">Приховати годинник</string>
+    <string name="settings_clock_text_size_title">Розмір тексту</string>
+    <string name="default_clock_app">Застосунок годинника за замовчуванням</string>
+    <string name="settings_clock_bottom_margin_title">Нижній відступ годинника</string>
+    <string name="settings_clock_bottom_margin_subtitle_none">Немає</string>
+    <string name="settings_clock_bottom_margin_subtitle_small">Маленький</string>
+    <string name="settings_clock_bottom_margin_subtitle_medium">Середній</string>
+    <string name="settings_clock_bottom_margin_subtitle_large">Великий</string>
+    <string name="clock_warning">У зв\'язку з технічними обмеженнями годинник не може використовувати нестандартні шрифти та тіні.</string>
+    <string name="settings_clock_text_color_title">Колір тексту</string>
+    <string name="settings_ampm_indicator_title">Показувати AM/PM індикатор</string>
+    <string name="clock_text_header">Стиль тексту годинника</string>
+    <string name="time_zones_header">Часові зони</string>
+    <string name="settings_alt_timezone_title">Кілька годинників</string>
+    <string name="no_time_zone_label">Немає</string>
+    <string name="time_zone_search_error_message">Помилка пошуку часового поясу.</string>
+    <string name="geoname_credit">Сервіс доступний завдяки <a href="http://www.geonames.org/">GeoNames</a>.</string>
+
+    <!-- Glance -->
+    <string name="settings_show_next_alarm_title">Наступний будильник</string>
+    <string name="settings_at_a_glance_title">At a Glance</string>
+    <string name="settings_show_music_title">Поточна пісня</string>
+    <string name="settings_request_notification_access">Потрібен дозвіл на доступ до сповіщень, щоб показати інформацію про поточну пісню.</string>
+    <string name="settings_request_last_notification_access">Потрібен дозвіл на доступ до сповіщень, щоб показати ваші останні сповіщення.</string>
+    <string name="settings_request_fitness_access">Потрібні декілька дозволів, щоб показати кількість кроків за день з Google Фітнес.</string>
+    <string name="title_show_glance">Показ інформації At a Glance</string>
+    <string name="description_show_glance_visible">Сервіс увімкнено</string>
+    <string name="description_show_glance_not_visible">Сервіс вимкнено</string>
+    <string name="settings_sort_glance_providers_title">Пріоритет показу</string>
+    <string name="settings_sort_glance_providers_subtitle">Змініть пріоритет показу за допомогою перетягування.</string>
+    <string name="settings_custom_notes_title">Нотатки</string>
+    <string name="settings_daily_steps_title">Фітнес</string>
+    <string name="daily_steps_counter">%d кроків</string>
+    <string name="settings_low_battery_level_title">Акумулятор</string>
+    <string name="battery_low_warning">Низький рівень заряду акумулятора</string>
+    <string name="charging">Заряджається</string>
+    <string name="charged">Повністю заряджений</string>
+    <string name="providers">Джерела інформації</string>
+    <string name="glance_info">Інформація At a Glance буде показана лише в тому випадку, якщо немає інших подій і виконано кілька умов.</string>
+    <string name="settings_music_players_filter_title">Музичні програвачі</string>
+    <string name="settings_music_players_filter_subtitle">Виберіть музичний програвач</string>
+    <string name="settings_show_music_subtitle">Ми використовуємо сповіщення музичного програвача, щоб показати поточну пісню.</string>
+    <string name="settings_low_battery_level_subtitle">Отримуйте сповіщення, коли пристрій має низький рівень заряду акумулятора або заряджається.</string>
+    <string name="settings_daily_steps_subtitle">Перегляньте кількість кроків за день після прогулянки або бігу.</string>
+    <string name="settings_show_next_alarm_subtitle">Перегляньте наступний будильник.\nПеревірте, чи встановлено будильник лише у застосунку годинника за замовчуванням.</string>
+    <string name="settings_show_next_alarm_app_title">Будильник встановлено на %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">Наступний будильник, здається, недійсний</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">Наступний будильник, здається, дійсний</string>
+    <string name="settings_show_notifications_title">Останні сповіщення</string>
+    <string name="settings_show_notifications_subtitle">Перегляньте останні сповіщення.</string>
+    <string name="settings_show_greetings_title">Привітання</string>
+    <string name="settings_show_greetings_subtitle">Отримуйте привітання, які зроблять ваш день приємнішим, навіть коли ви цього не очікуєте.</string>
+    <string name="google_fit_account_connected">Обліковий запис підключено</string>
+    <string name="google_fit_account_not_connected">Обліковий запис не підключено</string>
+    <string name="google_fit">Google Фітнес</string>
+    <string name="action_connect">Підключити</string>
+    <string name="action_disconnect">Відключити</string>
+    <string name="applications_filter_title">Застосунки</string>
+    <string name="applications_filter_subtitle">Виберіть сповіщення для показу</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>Добрий ранок!</item>
+        <item>Гарного дня!</item>
+        <item>Готові вирушати?</item>
+        <item>Прокиньтесь і співайте.</item>
+        <item>Не забудьте поснідати!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Добрий вечір!</item>
+        <item>Як пройшов день?</item>
+        <item>Добре провели день?</item>
+        <item>Без зусиль немає перемог.</item>
+        <item>Не забудьте повечеряти!</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Добраніч!</item>
+        <item>Солодких снів!</item>
+        <item>Спіть спокійно, доки сонце не розвіє тіні ночі!</item>
+        <item>Побачимось завтра...</item>
+        <item>Не засиджуйтесь допізна!</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Приховати сповіщення після</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 секунд</item>
+        <item>1 хвилини</item>
+        <item>5 хвилин</item>
+        <item>10 хвилин</item>
+        <item>15 хвилин</item>
+        <item>Не приховувати</item>
+    </string-array>
+    <string name="settings_show_events_as_glance_provider_title">Події</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Попередній перегляд подій і показ поточної дати.</string>
+    <string name="settings_show_events_as_glance_provider_error">Увімкніть показ подій календаря та надайте необхідні дозволи.</string>
+    <string name="events_glance_provider_format">%1$s %2$s</string>
+
+    <!-- Settings -->
+    <string name="action_share">Поділитися</string>
+    <string name="action_rate">Оцінити застосунок</string>
+    <string name="action_support">Підтримайте мене</string>
+    <string name="action_feedback">Зворотній зв\'язок</string>
+    <string name="action_about">Про застосунок</string>
+    <string name="action_refresh_widget">Оновити віджет</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
+    <string name="error_opening_uri">Помилка відкриття URL: Посилання скопійовано в буфер обміну.</string>
+    <string name="loading_text">Завантаження даних...</string>
+    <string name="error_opening_app">Помилка відкриття застосунку.</string>
+    <string name="default_name">Застосунок за замовчуванням</string>
+    <string name="action_save">Зберегти</string>
+    <string name="settings_visible">Показується</string>
+    <string name="settings_not_visible">Приховано</string>
+    <string name="support_translations_title">Допомогти з перекладом</string>
+    <string name="support_translations_subtitle">Відкрити GitHub</string>
+    <string name="support_website_title">Ознайомитися з іншими проектами</string>
+    <string name="support_website_subtitle">Той же розробник, безліч можливостей</string>
+    <string name="error">Ой, щось пішло не так!</string>
+    <string name="settings_theme_title">Тема</string>
+    <string name="support_main_subtitle">Розробникам завжди потрібно багато кави</string>
+    <string name="settings_subtitle_dark_theme_light">Світла</string>
+    <string name="settings_subtitle_dark_theme_dark">Темна</string>
+    <string name="settings_subtitle_dark_theme_by_battery_saver">Згідно режиму енергозбереження</string>
+    <string name="settings_subtitle_dark_theme_follow_system">Дотримуватися системної теми</string>
+    <string name="settings_subtitle_dark_theme_default">За замовчуванням</string>
+    <string name="search">Пошук</string>
+    <string name="settings_app_version_title">Версія застосунку</string>
+    <string name="settings_title_show_wallpaper">Показувати шпалери</string>
+    <string name="support_refresh_widget_subtitle">Примусово перезавантажити віджет</string>
+    <string name="settings_feedback_subtitle">Будь ласка, допоможіть нам з нашим проектом!</string>
+    <string name="settings_feedback_title">Відгуки та ідеї щодо нових функцій</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
+    <string name="xiaomi_warning_title">Пристрої Xiaomi</string>
+    <string name="xiaomi_warning_message">Надайте дозвіл для показу спливаючих вікон під час роботи у фоновому режимі в розділі "Інші дозволи" системних налаштувань програми. Інакше ви не зможете відкривати застосунки натисканням на віджет.</string>
+    <string name="action_ignore">Ігнорувати</string>
+    <string name="action_grant_permission">Надати дозвіл</string>
+    <string name="settings_title">Налаштування</string>
+    <string name="style_header">Стиль</string>
+    <string name="actions_header">Дії</string>
+    <string name="provider_header">Постачальник</string>
+    <string name="appearance_header">Зовнішній вигляд</string>
+    <string name="preferences_header">Уподобання</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Юридична інформація та конфіденційність]]></string>
+    <string name="settings_privacy_policy_subtitle">Перегляньте політику конфіденційності застосунку</string>
+    <string name="project_header">Проект з відкритим кодом</string>
+    <string name="information_header">Інформація</string>
+
+    <!-- Activities -->
+    <string name="action_choose_application">Виберіть застосунок</string>
+    <string name="support_main_title">Підтримати розробника</string>
+    <string name="thanks">Дякую за вашу підтримку!</string>
+    <string name="donation_coffee">Італійська кава</string>
+    <string name="donation_donuts">Кілька пончиків в глазурі</string>
+    <string name="donation_dinner">Дорога вечеря</string>
+    <string name="donation_breakfast">Англійський сніданок</string>
+    <string name="donation_lunch">Обід на швидку руку</string>
+    <string name="action_show_widget_preview">Показати попередній перегляд віджета</string>
+    <string name="support_dev_subtitle">Цей проект розробляє одна людина,\nдякую за підтримку!</string>
+    <string name="settings_title_integrations">Інтеграції</string>
+    <string name="label_count_installed_integrations">%d встановлені інтеграції</string>
+    <string name="nothing">Нічого</string>
+    <string name="action_dismiss">Відхилити</string>
+    <string name="action_accept">Прийняти</string>
+    <string name="gestures_do_nothing">Нічого</string>
+    <string name="song_info_format_activity_title">Формат інформації про пісню</string>
+    <string name="song_info_format_activity_subtitle">Змінити видиму інформацію про пісню</string>
+
+    <!-- More -->
+    <string name="look_and_feel_header"><![CDATA[Вигляд і поведінка]]></string>
+    <string name="typography_settings_title">Типографіка</string>
+    <string name="typography_settings_subtitle">Змінити шрифт, розмір і колір тексту</string>
+    <string name="layout_settings_title">Макет</string>
+    <string name="gestures_settings_subtitle">Дії, поведінка та ярлики</string>
+    <string name="gestures_settings_title">Жести</string>
+    <string name="gestures_amp_input_header"><![CDATA[Жести та введення]]></string>
+    <string name="clock_settings_subtitle">Встановити розмір, колір і часовий пояс</string>
+    <string name="layout_settings_subtitle">Розташування та налаштування віджету</string>
+    <string name="smart_content_header">Розумний контент</string>
+    <string name="spacing_settings_header">Інтервал</string>
+    <string name="gestures_refresh_widget">Ні, віджет буде оновлено</string>
+    <string name="settings_disabled">Вимкнено</string>
+    <string name="settings_enabled">Увімкнено</string>
+    <string name="color_copied">Колір скопійовано в буфер обміну.</string>
+    <string name="error_copy_color">Неможливо скопіювати колір.</string>
+    <string name="default_apps_settings_header">Застосунки за замовчуванням</string>
+</resources>
