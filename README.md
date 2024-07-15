@@ -1,6 +1,18 @@
 
 <img src="hero.png"/>
 
+## It’s time to say goodbye
+
+I'd like to thank everyone who's downloaded, used, and contributed to Another Widget! I've truly appreciated the love and support this project has received.
+
+This repository will be archived. This means the code will remain available for reference, but there won't be any further development or official support.
+
+Thanks again for being part of the Another Widget community!
+
+With gratitude,  
+Tommaso Berlose - The Another Widget Developer
+
+
 Another Widget
 ========
 
