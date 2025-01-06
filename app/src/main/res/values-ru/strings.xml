@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Another Widget</string>
     <string name="add_widget">Добавить виджет</string>
 
     <!-- Display -->
-    <string name="settings_general_title">Внешний вид</string>
+    <string name="settings_general_title">Отображение</string>
+    <string name="divider" translatable="false">|</string>
     <string name="settings_font_color_title">Цвет текста</string>
     <string name="settings_secondary_font_color_title">Цвет текста</string>
     <string name="settings_background_color_title">Цвет фона</string>
@@ -14,69 +16,119 @@
     <string name="settings_text_shadow_subtitle_low">Слабая</string>
     <string name="settings_text_shadow_subtitle_high">Сильная</string>
     <string name="settings_custom_font_title">Шрифт виджета</string>
-    <string name="custom_font_subtitle_0">Шрифт устройства</string>
+    <string name="custom_font_subtitle_0">Системный</string>
     <string name="custom_font_subtitle_1">Google Sans</string>
     <string name="custom_date_format">Настраиваемый формат даты</string>
     <string name="alpha">Непрозрачность</string>
     <string name="transparent">Прозрачный</string>
-    <string name="settings_show_dividers_title">Добавлять разделители</string>
+    <string name="settings_show_dividers_title">Разделители текста</string>
     <string name="first_row_header">Первая строка</string>
     <string name="second_row_header">Вторая строка</string>
     <string name="global_style_header">Виджет</string>
     <string name="action_capitalize_the_date">Дата заглавными буквами</string>
     <string name="settings_date_format_title">Формат даты</string>
+    <string name="header_widget_background">Фон виджета</string>
+    <string name="settings_secondary_row_top_margin_title">Между строк</string>
+    <string name="action_custom_font_to_search">Выбрать другой…</string>
+    <string name="font_family_settings_title">Шрифт</string>
+    <string name="settings_widget_align_title">Выравнивание виджета</string>
+    <string name="settings_widget_align_left_subtitle">По левому краю</string>
+    <string name="settings_widget_align_right_subtitle">По правому краю</string>
+    <string name="settings_widget_align_center_subtitle">По центру</string>
+    
+    <string name="font_100" translatable="false">Thin</string>
+    <string name="font_200" translatable="false">Light</string>
+    <string name="font_300" translatable="false">Book</string>
+    <string name="font_400" translatable="false">Regular</string>
+    <string name="font_500" translatable="false">Medium</string>
+    <string name="font_600" translatable="false">Semi-bold</string>
+    <string name="font_700" translatable="false">Bold</string>
+    <string name="font_800" translatable="false">Black</string>
+    <string name="font_900" translatable="false">Heavy</string>
+    <string name="font_italic" translatable="false">Italic</string>
+    <string name="font_100_italic" translatable="false">Thin Italic</string>
+    <string name="font_200_italic" translatable="false">Light Italic</string>
+    <string name="font_300_italic" translatable="false">Book Italic</string>
+    <string name="font_400_italic" translatable="false">Regular Italic</string>
+    <string name="font_500_italic" translatable="false">Medium Italic</string>
+    <string name="font_600_italic" translatable="false">Semi-bold Italic</string>
+    <string name="font_700_italic" translatable="false">Bold Italic</string>
+    <string name="font_800_italic" translatable="false">Black Italic</string>
+    <string name="font_900_italic" translatable="false">Heavy Italic</string>
+
+    <string name="settings_widget_padding_title">Наполнение виджета</string>
+    <string name="settings_widget_margin_title">Поля виджета</string>
+    <string name="settings_widget_dim_none">Без затемнения</string>
+    <string name="settings_widget_dim_small">Маленькое</string>
+    <string name="settings_widget_dim_medium">Среднее</string>
+    <string name="settings_widget_dim_large">Большое</string>
 
     <!-- Calendar -->
     <string name="settings_calendar_title">Календарь</string>
-    <string name="title_permission_calendar">Показывать события</string>
-    <string name="description_permission_calendar">Предоставить доступ к календарю\nдля отображения событий в виджете.</string>
-    <string name="settings_filter_calendar_title">Фильтрация событий</string>
-    <string name="settings_filter_calendar_subtitle">Выбрать календари для отображения</string>
-    <string name="settings_all_day_title">События на весь день</string>
+    <string name="title_permission_calendar">Показывать мероприятия</string>
+    <string name="description_permission_calendar">Разрешите доступ к календарю\nдля показа мероприятий в виджете.</string>
+    <string name="settings_filter_calendar_title">Фильтрация мероприятия</string>
+    <string name="settings_filter_calendar_subtitle">Из каких календарей брать данные</string>
+    <string name="settings_all_day_title">Мероприятия на весь день</string>
     <string name="main_calendar">Календарь аккаунта</string>
-    <string name="calendar_settings_list_error">Ошибка загрузки списка календарей</string>
+    <string name="calendar_settings_list_error">Не удалось загрузить список календарей.</string>
     <string name="all_day">Событие на весь день</string>
-    <string name="show_events_visible">Показать события</string>
-    <string name="show_events_not_visible">Скрыть события</string>
-    <string name="settings_show_until_subtitle_6">30 минут после</string>
-    <string name="settings_show_until_subtitle_7">1 час после</string>
-    <string name="settings_show_until_subtitle_0">3 часа после</string>
-    <string name="settings_show_until_subtitle_1">6 часов после</string>
-    <string name="settings_show_until_subtitle_2">12 часов после</string>
-    <string name="settings_show_until_subtitle_3">24 часа после</string>
-    <string name="settings_show_until_subtitle_4">3 дня после</string>
-    <string name="settings_show_until_subtitle_5">7 дней после</string>
-    <string name="settings_show_until_title">Показывать события</string>
-    <string name="day_char">д</string>
-    <string name="settings_calendar_app_title">Стандартное приложение календаря</string>
-    <string name="error_no_calendar">Календарь не найден.</string>
+    <string name="show_events_visible">Мероприятия отобразятся</string>
+    <string name="show_events_not_visible">Мероприятия скрыты</string>
+    <string name="settings_show_until_subtitle_6">За 30 минут до начала</string>
+    <string name="settings_show_until_subtitle_7">За 1 час до начала</string>
+    <string name="settings_show_until_subtitle_0">За 3 часа до начала</string>
+    <string name="settings_show_until_subtitle_1">За 6 часов до начала</string>
+    <string name="settings_show_until_subtitle_2">За 12 часов до начала</string>
+    <string name="settings_show_until_subtitle_3">За 24 часа до начала</string>
+    <string name="settings_show_until_subtitle_4">За 3 дня до начала</string>
+    <string name="settings_show_until_subtitle_5">За 7 дней до начала</string>
+    <string name="settings_show_until_title">Оповещать о мероприятии</string>
+    <string name="day_char">дн.</string>
+    <string name="settings_calendar_app_title">Календарь</string>
+    <string name="error_no_calendar">Нет календарей.</string>
     <string name="tomorrow">завтра</string>
     <string name="today">сегодня</string>
-    <string name="settings_event_app_title">По нажатию на событие открывать</string>
-    <string name="settings_second_row_info_title">Информация о событии</string>
-    <string name="settings_second_row_info_subtitle_1">Адрес события</string>
-    <string name="settings_second_row_info_subtitle_0">Время события</string>
-    <string name="settings_show_diff_time_title">Осталось времени до события</string>
-    <string name="settings_show_declined_events_title">Отклонённые события</string>
-    <string name="default_event_app">Детали события</string>
-    <string name="default_calendar_app">Стандартное приложение календаря</string>
-    <string name="settings_show_multiple_events_title">Переключение между событиями</string>
+    <string name="settings_event_app_title">Нажатие на мероприятие откроет</string>
+    <string name="settings_second_row_info_title">Дополн. информация</string>
+    <string name="settings_second_row_info_subtitle_1">Место проведения</string>
+    <string name="settings_second_row_info_subtitle_0">Время проведения</string>
+    <string name="settings_show_diff_time_title">Оставшееся время до начала</string>
+    <string name="settings_show_declined_events_title">Отклонённые мероприятия</string>
+    <string name="default_event_app">Сведения о мероприятии</string>
+    <string name="default_calendar_app">Приложение календаря по умолчанию</string>
+    <string name="settings_show_multiple_events_title">Переключатель мероприятий</string>
     <string name="soon">скоро</string>
     <string name="now">сейчас</string>
-    <string name="settings_widget_update_frequency_title">Частота обновления оставшегося времени</string>
-    <string name="settings_widget_update_frequency_subtitle">Высокая частота обновления может сказаться на времени автономной работы</string>
+    <string name="settings_widget_update_frequency_title">Обновлять оставшееся время</string>
+    <string name="settings_widget_update_frequency_subtitle">Частые обновления сильнее разряжают батарею.</string>
     <string name="settings_widget_update_frequency_low">Редко</string>
-    <string name="settings_widget_update_frequency_default">По умолчанию</string>
+    <string name="settings_widget_update_frequency_default">Как обычно</string>
     <string name="settings_widget_update_frequency_high">Часто</string>
     <string name="filters_header">Фильтры</string>
-    <string name="event_detail_header">Детали события</string>
+    <string name="event_detail_header">Подробности</string>
+    <string name="settings_attendee_status_title">Считать посещенными</string>
+    <string name="settings_attendee_status_subtitle">Игнорировать принятые или отклонённые мероприятия</string>
+    <string name="settings_busy_events_title">Значимые мероприятия</string>
+    <string name="settings_busy_events_subtitle">Вывод только долгосрочных мероприятий</string>
+    <string name="attendee_status_accepted">Принятые мероприятия</string>
+    <string name="attendee_status_invited">Приглашения на мероприятия</string>
+    <string name="attendee_status_declined">Отклонённые мероприятия</string>
+
+    <string name="calendar_sync_notification_channel_id" translatable="false">calendar-sync</string>
+    <string name="calendar_sync_notification_channel_name">Служба синхронизации мероприятий</string>
+    <string name="calendar_sync_notification_channel_description">Чем подгружать мероприятия</string>
+    <string name="calendar_sync_notification_title">Синхронизация с календарем…</string>
+    <string name="settings_show_next_event_on_multiple_lines_title">Название в несколько строчек</string>
 
     <!-- Weather -->
     <string name="settings_weather_title">Погода</string>
     <string name="title_permission_location">Показывать погоду</string>
-    <string name="description_permission_location">Предоставить доступ к местоположению\nдля отображения погоды в виджете.</string>
+    <string name="description_permission_location">Разрешите доступ к местоположению\nдля показа погоды в виджете.</string>
     <string name="settings_unit_title">Единица измерения</string>
-    <string name="settings_weather_refresh_period_title">Частота обновления</string>
+    <string name="fahrenheit" translatable="false">°F - Fahrenheit</string>
+    <string name="celsius" translatable="false">°C - Celsius</string>
+    <string name="settings_weather_refresh_period_title">Обновлять каждые</string>
     <string name="settings_weather_refresh_period_subtitle_0">30 минут</string>
     <string name="settings_weather_refresh_period_subtitle_1">1 час</string>
     <string name="settings_weather_refresh_period_subtitle_2">3 часа</string>
@@ -84,120 +136,265 @@
     <string name="settings_weather_refresh_period_subtitle_4">12 часов</string>
     <string name="settings_weather_refresh_period_subtitle_5">24 часа</string>
     <string name="settings_custom_location_title">Местоположение</string>
-    <string name="custom_location_gps">Использовать геолокацию</string>
-    <string name="show_weather_visible">Показать погоду</string>
-    <string name="show_weather_not_visible">Скрыть погоду</string>
-    <string name="settings_weather_app_title">По нажатию на погоду открывать</string>
-    <string name="settings_weather_provider_api_key_title">Ключ для API погоды</string>
-    <string name="settings_weather_provider_api_key_subtitle_all_set">Источник данных погоды указан верно</string>
-    <string name="settings_weather_provider_api_key_subtitle_not_set">Источник данных погоды не настроен</string>
-    <string name="api_key_hint">Ключ API OpenWeather</string>
+    <string name="custom_location_gps">Автоматически (геолокация)</string>
+    <string name="show_weather_visible">Погода отображается</string>
+    <string name="show_weather_not_visible">Погода скрыта</string>
+    <string name="settings_weather_app_title">Нажатие на погоду открывает</string>
+    <string name="settings_weather_provider_api_key_title">API-ключ погодной службы</string>
+    <string name="settings_weather_provider_api_key_subtitle_all_set">Погодная служба указана верно.</string>
+    <string name="settings_weather_provider_api_key_subtitle_not_set">Сперва настройте погодную службу.</string>
+    <string name="api_key_hint">API-ключ OpenWeatherMap</string>
     <string name="default_weather_app">Google Погода</string>
-    <string name="weather_warning">Погода Google Awareness устарела. Для отображения погоды в виджете требуется API ключ OpenWeather.</string>
-    <string name="api_key_title_1">Создайте аккаунт OpenWeather</string>
-    <string name="api_key_subtitle_1">Создайте бесплатный аккаунт  OpenWeather. Это займёт не более нескольких минут.</string>
-    <string name="api_key_title_2">Скопируйте ключ API</string>
-    <string name="api_key_subtitle_2">Найдие меню с ключами API в настройках аккаунта и скопируйте ключ.</string>
-    <string name="api_key_title_3">Введите ключ в приложении</string>
-    <string name="api_key_subtitle_3">Вставьте ключ в поле выше и сохраните. Как только ключ будет активирован, погода начнёт отображаться.</string>
-    <string name="action_open_provider">Перейти на OpenWeatherMap.com</string>
-    <string name="api_key_info_all_set">Активация ключа может занять до десяти минут. Погода обновится как только появится возможность.</string>
-    <string name="settings_weather_icon_pack_title">Набор иконок</string>
-    <string name="settings_weather_icon_pack_default">Набор иконок %d</string>
+    <string name="weather_warning">Google Awareness API больше не используется. Для показа погоды в виджете теперь нужен API-ключ сторонней погодной службы.</string>
+    <string name="settings_weather_icon_pack_title">Набор значков</string>
+    <string name="settings_weather_icon_pack_default">Набор значков %d</string>
+    <string name="background_location_warning">Когда задействована геолокация, мы собираем данные о местоположении, чтобы обновлять сведения о погоде, даже если приложение закрыто или неактивно.\nМы не используем эти данные для чего-либо ещё.</string>
+    <string name="settings_weather_provider_api">Погодная службаr</string>
+
+    <string name="settings_weather_provider_open_weather" translatable="false">OpenWeatherMap.org</string>
+    <string name="settings_weather_provider_weatherbit" translatable="false">Weatherbit.io</string>
+    <string name="settings_weather_provider_weather_api" translatable="false">WeatherAPI.com</string>
+    <string name="settings_weather_provider_here" translatable="false">HERE.com</string>
+    <string name="settings_weather_provider_accuweather" translatable="false">AccuWeather.com</string>
+    <string name="settings_weather_provider_weather_gov" translatable="false">Weather.gov (USA)\nby National Weather Services</string>
+    <string name="settings_weather_provider_yr" translatable="false">YR.no/Met.no\nby Meteorologisk Institutt</string>
+
+    <string name="weather_provider_info_open_weather_title">Этой погодной службе нужен\nAPI-ключ для корректной работы.</string>
+    <string name="weather_provider_info_weatherbit_title">Этой погодной службе нужен\nAPI-ключ для корректной работы.</string>
+    <string name="weather_provider_info_weatherapi_title">Этой погодной службе нужен\nAPI-ключ для корректной работы.</string>
+    <string name="weather_provider_info_here_title">Этой погодной службе нужен\nAPI-ключ для корректной работы.</string>
+    <string name="weather_provider_info_accuweather_title">Этой погодной службе нужен\nAPI-ключ для корректной работы.</string>
+    <string name="weather_provider_info_weather_gov_title">Эта погодная служба работает только\nна территории США.</string>
+    <string name="weather_provider_info_yr_title">Эта погодная служба показывает\nтемпературу только по Цельсию.</string>
+
+    <string name="weather_provider_info_open_weather_subtitle">Перейдите на сайт погодной службы, создайте учетную запись и скопируйте стандартный ключ сюда.</string>
+    <string name="weather_provider_info_weatherbit_subtitle">Перейдите на сайт погодной службы, создайте учетную запись и скопируйте стандартный ключ сюда.</string>
+    <string name="weather_provider_info_weatherapi_subtitle">Перейдите на сайт погодной службы, создайте учетную запись и скопируйте стандартный ключ сюда.</string>
+    <string name="weather_provider_info_here_subtitle">Перейдите на сайт погодной службы, создайте учетную запись и скопируйте стандартный ключ сюда.</string>
+    <string name="weather_provider_info_accuweather_subtitle">Перейдите на сайт погодной службы, создайте учетную запись и скопируйте стандартный ключ сюда.</string>
+    <string name="weather_provider_info_weather_gov_subtitle">\n</string>
+    <string name="weather_provider_info_yr_subtitle">\n</string>
+
+    <string name="weather_provider_error_missing_key">Для работы выбранной погодной службы укажите API-ключ.</string>
+    <string name="weather_provider_error_wrong_location">По данному месту не выдается информация.</string>
+    <string name="weather_provider_error_missing_location">Укажите верное местоположение.</string>
+    <string name="weather_provider_error_expired_key">Похоже, что срок действия вашего API-ключа истек.</string>
+    <string name="weather_provider_error_invalid_key">API-ключ недействителен или еще не активирован.</string>
+    <string name="weather_provider_error_misconfigured">Погодная служба настроена неправильно.</string>
+    <string name="weather_provider_error_connection">Ошибка подключения.</string>
+    <string name="weather_provider_error_generic">Произошла ошибка, проверьте параметры погодной службы.</string>
+    <string name="api_key_required_message">Требуется учетная запись</string>
+    <string name="us_only_message">В пределах США</string>
+    <string name="celsius_only_message">Метрические единицы измерения</string>
+    <string name="weather_select_a_provider">Выберите погодную службу</string>
+    <string name="weather_provider_activity_subtitle">Выберите погодную службу из списка.\nНекоторым службам требуется бесплатная регистрация,\nно, как правило, они более точны.</string>
+
+    <string name="location_access_notification_channel_id" translatable="false">location-access</string>
+    <string name="location_access_notification_channel_name">Служба обновления погоды</string>
+    <string name="location_access_notification_channel_description">Уточняет метеоусловия, исходя из текущего местоположения пользователя.</string>
+    <string name="location_access_notification_title">Обновление погоды…</string>
+    <string name="location_access_notification_subtitle">Уточняются метеоусловия по вашему текущему местоположению.</string>
+
+    <string name="weather_label_clear">Ясно</string>
+    <string name="weather_label_partly_cloudy">Малооблачно</string>
+    <string name="weather_label_mostly_cloudy">Облачно с проясн.</string>
+    <string name="weather_label_cloudy_weather">Пасмурно</string>
+    <string name="weather_label_storm_weather">Буря</string>
+    <string name="weather_label_rainy">Дождь</string>
+    <string name="weather_label_thunder">Грозы</string>
+    <string name="weather_label_snow">Снег</string>
+    <string name="weather_label_haze">Туман</string>
+    <string name="weather_label_windy">Ветрено</string>
+    <string name="weather_label_rain_snow">Дождь со снегом</string>
+    <string name="weather_label_unknown">Нет данных</string>
 
     <!-- Clock -->
     <string name="settings_clock_title">Часы</string>
-    <string name="settings_clock_app_title">По нажатию на часы открывать</string>
-    <string name="title_show_clock">Отображать часы</string>
-    <string name="show_clock_visible">Часы отображаются</string>
-    <string name="show_clock_not_visible">Часы не отображаются</string>
+    <string name="settings_clock_app_title">Нажатие на время открывает</string>
+    <string name="title_show_clock">Отображать время</string>
+    <string name="show_clock_visible">Время отображается</string>
+    <string name="show_clock_not_visible">Время скрыто</string>
     <string name="settings_clock_text_size_title">Размер текста</string>
-    <string name="default_clock_app">Стандартное приложение часов</string>
-    <string name="settings_clock_bottom_margin_title">Нижний отступ часов</string>
+    <string name="default_clock_app">Приложение часов по умолчанию</string>
+    <string name="settings_clock_bottom_margin_title">Снизу от часов</string>
     <string name="settings_clock_bottom_margin_subtitle_none">Нет</string>
     <string name="settings_clock_bottom_margin_subtitle_small">Маленький</string>
     <string name="settings_clock_bottom_margin_subtitle_medium">Средний</string>
     <string name="settings_clock_bottom_margin_subtitle_large">Большой</string>
-    <string name="clock_warning">В связи с техническими ограничениями часы не могут использовать нестандартные шрифты и тени.</string>
+    <string name="clock_warning">В силу технических ограничений к часам не применяются тени и нестандартные шрифты из первого раздела настроек.</string>
     <string name="settings_clock_text_color_title">Цвет текста</string>
-    <string name="settings_ampm_indicator_title">Показывать AM/PM индикатор</string>
+    <string name="settings_ampm_indicator_title">Показывать индикатор AM/PM</string>
     <string name="clock_text_header">Стиль текста часов</string>
+    <string name="time_zones_header">Часовые пояса</string>
+    <string name="settings_alt_timezone_title">Несколько часов</string>
+    <string name="no_time_zone_label">Не использовать</string>
+    <string name="time_zone_search_error_message">Ошибка при поиске часового пояса.</string>
+    <string name="geoname_credit">Функция доступна благодаря сервису <a href="http://www.geonames.org/">GeoNames</a>.</string>
 
     <!-- Glance -->
     <string name="settings_show_next_alarm_title">Следующий будильник</string>
-    <string name="next_alarm_warning">Проверьте следующий будильник.\nОн был установлен %s</string>
-    <string name="settings_at_a_glance_title">Glance</string>
-    <string name="settings_show_music_title">Текущая песня</string>
-    <string name="settings_request_notification_access">Нам необходим доступ к уведомлениям для отображения информации песни.</string>
-    <string name="settings_request_fitness_access">Нам нужно несколько разрешений для отображения шагов за этот день из Google Fit.</string>
-    <string name="title_show_glance">Отображение дополнительной информации</string>
-    <string name="description_show_glance_visible">Сервис включён</string>
-    <string name="description_show_glance_not_visible">Сервис отключён</string>
-    <string name="settings_sort_glance_providers_title">Приоритет источников данных</string>
-    <string name="settings_sort_glance_providers_subtitle">Изменить важность источников данных</string>
-    <string name="settings_custom_notes_title">Настраиваемые заметки</string>
-    <string name="settings_low_battery_level_title">Уровень заряда аккумулятора</string>
-    <string name="settings_daily_steps_title">Шаги за сегодня</string>
-    <string name="battery_low_warning">Низкий уровень заряда аккумулятора</string>
-    <string name="daily_steps_counter">%d шагов</string>
+    <string name="settings_at_a_glance_title">Самое главное</string>
+    <string name="settings_show_music_title">Какая песня сейчас играет</string>
+    <string name="settings_request_notification_access">Необходим доступ к уведомлениям для уточнения воспроизводимой песни.</string>
+    <string name="settings_request_last_notification_access">Необходим доступ к уведомлениям для проверки последних уведомлений.</string>
+    <string name="settings_request_fitness_access">Необходимо несколько разрешений для вывода шагов за сегодня из Google Fit.</string>
+    <string name="title_show_glance">Показывать Самое главное</string>
+    <string name="description_show_glance_visible">Служба включена</string>
+    <string name="description_show_glance_not_visible">Служба отключена</string>
+    <string name="settings_sort_glance_providers_title">Приоритет данных</string>
+    <string name="settings_sort_glance_providers_subtitle">Измените первоочередность информации, отсортировав список ниже посредством перетаскивания иконок.</string>
+    <string name="settings_custom_notes_title">Свой текст</string>
+    <string name="settings_daily_steps_title">Пройденные шаги</string>
+    <string name="daily_steps_counter">Шагов: %d</string>
+    <string name="settings_low_battery_level_title">Уровень заряда батареи</string>
+    <string name="battery_low_warning">Низкий уровень заряда батареи</string>
     <string name="charging">Зарядка</string>
+    <string name="charged">Полностью заряжен</string>
     <string name="providers">Что показывать?</string>
-    <string name="glance_info">Информация Glance будет показана только в том случае, если нет событий для отображения.</string>
+    <string name="glance_info">Информация (Самое важное) отразится только в случае, если нет выводимых мероприятий и выполнняются некоторые условия.</string>
+    <string name="settings_music_players_filter_title">Музыкальные плееры</string>
+    <string name="settings_music_players_filter_subtitle">Выбрать часто используемые проигрыватели</string>
+    <string name="settings_show_music_subtitle">Мы извлекаем информацию из уведомлений музыкальных плееров.</string>
+    <string name="settings_low_battery_level_subtitle">Информировать, когда батарея почти разряжена или устройство на зарядке.</string>
+    <string name="settings_daily_steps_subtitle">Увидеть свои шаги за день по завершении прогулки или пробежки.</string>
+    <string name="settings_show_next_alarm_subtitle">Покажет, во сколько зазвонит ближайший будильник.\nУбедитесь, что заводите будильники только в приложении по умолчанию.</string>
+    <string name="settings_show_next_alarm_app_title">Будильник заведен в приложении %s</string>
+    <string name="settings_show_next_alarm_app_subtitle_wrong">Похоже, что будильник настроен неправильно</string>
+    <string name="settings_show_next_alarm_app_subtitle_correct">Похоже, что будильник настроен корректно</string>
+    <string name="settings_show_notifications_title">Последние уведомления</string>
+    <string name="settings_show_notifications_subtitle">Ознакомьтесь с самыми свежими уведомлениями, что пришли на ваше устройство.</string>
+    <string name="settings_show_greetings_title">Приветствия и напутствия</string>
+    <string name="settings_show_greetings_subtitle">Получать неожиданно для себя какую-нибудь клевую фразу в течение дня.</string>
+    <string name="google_fit_account_connected">Учетная запись привязана</string>
+    <string name="google_fit_account_not_connected">Учетная запись не привязана</string>
+    <string name="google_fit">Google Fit</string>
+    <string name="action_connect">Подключиться</string>
+    <string name="action_disconnect">Отключиться</string>
+    <string name="applications_filter_title">Приложения</string>
+    <string name="applications_filter_subtitle">Выберите, какие уведомления получать</string>
+    <string-array name="morning_greetings" tools:ignore="InconsistentArrays">
+        <item>С добрым утром!</item>
+        <item>Хорошего дня!</item>
+        <item>Готовы блистать?</item>
+        <item>Проснитесь и пойте.</item>
+        <item>Не забудьте про завтрак!</item>
+    </string-array>
+    <string-array name="evening_greetings" tools:ignore="InconsistentArrays">
+        <item>Добрый вечер!</item>
+        <item>Как прошел день?</item>
+        <item>Хорошо провели день?</item>
+        <item>День вечеру не указчик.</item>
+        <item>Не забудьте поужинать!</item>
+    </string-array>
+    <string-array name="night_greetings" tools:ignore="InconsistentArrays">
+        <item>Спокойной ночи!</item>
+        <item>Желаю хорошо выспаться!</item>
+        <item>Приятных снов и нежность солнечных лучей!</item>
+        <item>Увидимся завтра...</item>
+        <item>Не засиживайтесь допоздна!</item>
+    </string-array>
+    <string name="glance_notification_hide_timeout_title">Скрывать уведомление через</string>
+    <string-array name="glance_notifications_timeout">
+        <item>30 секунд</item>
+        <item>1 минуты</item>
+        <item>5 минут</item>
+        <item>10 минут</item>
+        <item>15 минут</item>
+        <item>Пока сам не уберу</item>
+    </string-array>
+    <string name="settings_show_events_as_glance_provider_title">Мероприятия</string>
+    <string name="settings_show_events_as_glance_provider_subtitle">Упомянуть день и название ближайших мероприятий в календаре.</string>
+    <string name="settings_show_events_as_glance_provider_error">Сперва включите показ мероприятий во вкладке Календарь и предоставьте нужные разрешения.</string>
+    <string name="events_glance_provider_format">%2$s %1$s</string>
+    <string name="settings_show_weather_as_glance_provider_title">Погода</string>
+    <string name="settings_show_weather_as_glance_provider_subtitle">Получать подробные сведения о метеоусловиях.</string>
+    <string name="settings_show_weather_as_glance_provider_error">Сперва включите показ погоды и перепроверьте конфигурацию.</string>
 
     <!-- Settings -->
     <string name="action_share">Поделиться</string>
     <string name="action_rate">Оценить приложение</string>
-    <string name="action_support">Поддержите меня</string>
+    <string name="action_support">Поддержать меня</string>
     <string name="action_feedback">Обратная связь</string>
     <string name="action_about">О разработчике</string>
     <string name="action_refresh_widget">Обновить виджет</string>
-    <string name="error_opening_uri">Ошибка открытия URL: Ссылка скопирована в буфер обмена.</string>
+    <string name="toolbar_transition_name" translatable="false">toolbar</string>
+    <string name="error_opening_uri">Не удалось открыть URL: ссылка скопирована в буфер обмена.</string>
     <string name="loading_text">Загрузка данных…</string>
-    <string name="error_opening_app">Ошибка открытия приложения.</string>
+    <string name="error_opening_app">Ошибка при запуске приложения.</string>
     <string name="default_name">Приложение по умолчанию</string>
     <string name="action_save">Сохранить</string>
-    <string name="settings_visible">Отображается</string>
-    <string name="settings_not_visible">Не отображается</string>
+    <string name="settings_visible">Показывать</string>
+    <string name="settings_not_visible">Не показывать</string>
     <string name="support_translations_title">Помочь с переводом</string>
-    <string name="support_translations_subtitle">Открыть GitHub</string>
-    <string name="support_website_title">Ознакомиться с моими другими проектами</string>
-    <string name="support_website_subtitle">Тот же разработчик, множество возможностей</string>
-    <string name="error">Упс, что-то пошло не так!</string>
+    <string name="support_translations_subtitle">Создать свой pull request на GitHub</string>
+    <string name="support_website_title">Ознакомиться с другими проектами автора</string>
+    <string name="support_website_subtitle">Тот же разработчик, но сколько возможностей</string>
+    <string name="error">Ой, что-то пошло не так!</string>
     <string name="settings_theme_title">Тема</string>
-    <string name="support_main_subtitle">Кофе — это топливо разработчиков</string>
+    <string name="support_main_subtitle">Разрабы ни дня не могут обойтись без кофе</string>
     <string name="settings_subtitle_dark_theme_light">Светлая</string>
     <string name="settings_subtitle_dark_theme_dark">Тёмная</string>
     <string name="settings_subtitle_dark_theme_by_battery_saver">Установлено энергосбережением</string>
-    <string name="settings_subtitle_dark_theme_follow_system">Использовать системную тему системной теме</string>
+    <string name="settings_subtitle_dark_theme_follow_system">Как в системе</string>
     <string name="settings_subtitle_dark_theme_default">По умолчанию</string>
     <string name="search">Поиск</string>
     <string name="settings_app_version_title">Версия приложения</string>
-    <string name="settings_title_show_wallpaper">Показывать обои</string>
-    <string name="support_refresh_widget_subtitle">Принудительно перезагрузить виджет</string>
-    <string name="settings_feedback_subtitle">Это проект с открытым исходным кодом, не ограничивайте себя, если хотите помочь.</string>
-    <string name="settings_feedback_title">Отзывы и запрос функций</string>
-    <string name="xiaomi_warning_title">Устройства Xiaomi</string>
-    <string name="xiaomi_warning_message">Предоставьте разрешение для отображения всплывающих уведомлений в фоновом режиме в разделе "Прочие разрешения" настроек. Иначе вы не сможете открывать приложения по нажатию на виджет.</string>
+    <string name="settings_title_show_wallpaper">Обои в качестве фона</string>
+    <string name="support_refresh_widget_subtitle">Принудительно перезапустить службу виджета</string>
+    <string name="settings_feedback_subtitle">Не стесняйтесь участвовать в развитии нашего проекта!</string>
+    <string name="settings_feedback_title">Отзывы и запросы функций</string>
+    <string name="xiaomi_manufacturer" translatable="false">xiaomi</string>
+    <string name="xiaomi_warning_title">Внимание пользователям Xiaomi</string>
+    <string name="xiaomi_warning_message">В системных настройках необходимо выдать разрешение на показ всплывающих уведомлений в фоновом режиме (раздел "Прочие разрешения"). Без этого не получится открывать никакие приложения по нажатию на виджет.</string>
     <string name="action_ignore">Проигнорировать</string>
-    <string name="action_grant_permission">Предоставьте разрешения</string>
+    <string name="action_grant_permission">Выдать разрешение</string>
     <string name="settings_title">Настройки</string>
     <string name="style_header">Стиль</string>
     <string name="actions_header">Действия</string>
-    <string name="provider_header">Настроить</string>
-    <string name="appearance_header">Появление</string>
-    <string name="preferences_header">Настройки</string>
+    <string name="provider_header">Службы</string>
+    <string name="appearance_header">Внешний вид</string>
+    <string name="preferences_header">Предпочтения</string>
+    <string name="settings_privacy_policy_title"><![CDATA[Политика конфиденциальности]]></string>
+    <string name="settings_privacy_policy_subtitle">Ознакомиться с порядком защиты персональных данных приложением</string>
+    <string name="project_header">Проект с открытым исходным кодом</string>
+    <string name="information_header">Информация</string>
 
     <!-- Activities -->
-    <string name="action_choose_application">Выберите приложение</string>
+    <string name="action_choose_application">Выбрать приложение</string>
     <string name="support_main_title">Поддержать разработчика</string>
-    <string name="thanks">Спасибо, что поддерживаете меня!</string>
-    <string name="donation_coffee">Капучино</string>
-    <string name="donation_donuts">Пара глазированных пончиков</string>
-    <string name="donation_dinner">Ужин в Ginza Project</string>
-    <string name="donation_breakfast">Скромный завтрак</string>
-    <string name="donation_lunch">Хороший обед</string>
-    <string name="action_show_widget_preview">Показать превью виджета</string>
-    <string name="support_dev_subtitle">Этот проект разрабатывает один человек,\nспасибо за поддержку</string>
+    <string name="thanks">Спасибо, что поддержали меня!</string>
+    <string name="donation_coffee">Чашечка капучино</string>
+    <string name="donation_donuts">Пара пончиков с глазурью</string>
+    <string name="donation_dinner">Ужин в приличном ресторане</string>
+    <string name="donation_breakfast">Английский завтрак</string>
+    <string name="donation_lunch">Сытный обед</string>
+    <string name="action_show_widget_preview">Предпросмотр виджета</string>
+    <string name="support_dev_subtitle">Этот проект делается в одиночку,\nтак что признателен вам за поддержку!</string>
     <string name="settings_title_integrations">Интеграции</string>
-    <string name="label_count_installed_integrations">%d установленные интеграции</string>
+    <string name="label_count_installed_integrations">Установленных интеграций: %d</string>
+    <string name="nothing">Ничего</string>
+    <string name="action_dismiss">Закрыть</string>
+    <string name="action_accept">Принять</string>
+    <string name="gestures_do_nothing">Ничего не делать</string>
+    <string name="song_info_format_activity_title">Формат информации о песне</string>
+    <string name="song_info_format_activity_subtitle">Какая информация должна отображаться</string>
+
+    <!-- More -->
+    <string name="look_and_feel_header"><![CDATA[Внешний вид]]></string>
+    <string name="typography_settings_title">Типографика</string>
+    <string name="typography_settings_subtitle">Выбор шрифта, размера и цвета надписей</string>
+    <string name="layout_settings_title">Разметка</string>
+    <string name="gestures_settings_subtitle">Действия и ярлыки</string>
+    <string name="gestures_settings_title">Жесты</string>
+    <string name="gestures_amp_input_header"><![CDATA[Жесты и нажатия]]></string>
+    <string name="clock_settings_subtitle">Выбор часового пояса, размера и цвета</string>
+    <string name="layout_settings_subtitle">Отступы и надстройки виджета</string>
+    <string name="smart_content_header">Умные подсказки</string>
+    <string name="spacing_settings_header">Отступы</string>
+    <string name="gestures_refresh_widget">Нет, виджет будет обновлен</string>
+    <string name="settings_disabled">Отключено</string>
+    <string name="settings_enabled">Включено</string>
+    <string name="color_copied">Цвет скопирован в буфер обмена.</string>
+    <string name="error_copy_color">Невозможно скопировать цвет.</string>
+    <string name="default_apps_settings_header">Стандартные приложения</string>
 </resources>
